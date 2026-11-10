@@ -61,7 +61,7 @@ function snapshot(root: Element, refs: Map<string, Element>, prefix: string): N 
     if (tag === "details") n.open = (el as HTMLDetailsElement).open;
     let i = 0;
     for (const c of el.childNodes) {
-      if (c.nodeType === 3) { const t = c.textContent ?? ""; if (t.trim()) n.kids.push({ key: `${k}/t${i++}`, tag: "#text", cls: [], id: "", kids: [], attr: {}, ds: {}, text: t.replace(/\s+/g, " ").replace(/\s*[—–]\s*/g, "، ") }); }
+      if (c.nodeType === 3) { const t = c.textContent ?? ""; if (t.trim()) n.kids.push({ key: `${k}/t${i++}`, tag: "#text", cls: [], id: "", kids: [], attr: {}, ds: {}, text: t.replace(/\s+/g, " ").replace(/\s*[—–]\s*/g, "، ").replace(/\s+·\s+/g, "، ") }); }
       else if (c.nodeType === 1) { const child = walk(c as Element, `${k}/${i++}`); if (child) n.kids.push(child); }
     }
     return n;

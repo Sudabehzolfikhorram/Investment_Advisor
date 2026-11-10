@@ -85,7 +85,7 @@ export function SavedCriteriaMenu({ onSave, saved }: { onSave: () => void; saved
         <DropdownMenuLabel className="text-xs text-muted-foreground">برگردید به جست‌وجوهایی که ذخیره کرده‌اید</DropdownMenuLabel>
         {list.map((p) => (
           <DropdownMenuItem key={p.id} onSelect={() => { applyProfile(p.id); toast(`«${p.name}» باز شد.`); }} className="flex items-center justify-between gap-3 rounded-xl py-2.5">
-            <span className="min-w-0"><span className="block truncate text-sm font-bold text-ink">{p.name}</span><span className="block truncate text-[11px] text-muted-foreground">{routes.find((r) => r.id === p.criteria.route)?.name} · {faNumber(stats[p.id]?.total ?? 0)} پروژه</span></span>
+            <span className="min-w-0"><span className="block truncate text-sm font-bold text-ink">{p.name}</span><span className="block truncate text-[11px] text-muted-foreground">{routes.find((r) => r.id === p.criteria.route)?.name}، {faNumber(stats[p.id]?.total ?? 0)} پروژه</span></span>
             {(stats[p.id]?.fresh ?? 0) > 0 && <Badge className="shrink-0 px-2 text-[11px] font-extrabold">{faNumber(stats[p.id].fresh)} تازه</Badge>}
           </DropdownMenuItem>
         ))}

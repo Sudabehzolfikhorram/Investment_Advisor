@@ -7,7 +7,7 @@ import { ArrowDown2, ArrowLeft, ArrowRight, Maximize4, TickCircle } from "@/comp
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { provinceBox, provincePaths } from "@/data/iran-map";
+import { provinceArea, provinceBox, provinceLabel, provincePaths } from "@/data/iran-map";
 import { provincePhotos } from "@/data/province-photos";
 import { loadCounties, useCounties } from "@/lib/use-counties";
 import { provinces } from "@/data/provinces";
@@ -51,7 +51,8 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
   const focus = value.length === 1 && !wide ? value[0] : null;
   const [hover, setHover] = useState<string | null>(null);
   const inRoute = focus ? city.cities[focus] ?? {} : {};
-  const focusCounties = useCounties(focus);
+  const { counties: focusCounties, outline } = useCounties(focus);
+  const focusPath = focus ? outline || provincePaths[focus] : "";
   // زوم: استان انتخاب‌شده تقریباً همه قاب نقشه را پر می‌کند
   const box = focus ? provinceBox[focus] : null;
   const k = box ? Math.min(16, 0.86 * Math.min(W / (box[2] - box[0]), (H - 44) / (box[3] - box[1]))) : 1;
@@ -60,8 +61,9 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
   const tip = hover && !focus ? hover : null;
   // عکس استان‌ها و مرز شهرستان‌ها از قبل بارگذاری می‌شوند تا هنگام انتخاب یا هاور مکثی نباشد
   useEffect(() => {
-    const t = window.setTimeout(() => { for (const p of Object.values(provincePhotos)) { const i = new window.Image(); i.src = withBase(p.src); } loadCounties(); }, 300);
+    const t = window.setTimeout(() => { for (const p of Object.values(provincePhotos)) { const i = new window.Image(); i.src = withBase(p.src); } for (const p of value) loadCounties(p); }, 300);
     return () => window.clearTimeout(t);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const hasCities = focusCounties.some((c) => c.cities.some((x) => inRoute[x]));
 
@@ -74,7 +76,7 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
               const on = value.includes(p), count = city.counts[p] ?? 0, dim = !!focus && p !== focus;
               return (
                 <path key={p} d={provincePaths[p]} role="button" aria-pressed={on} aria-label={`استان ${p}${count ? `، ${count} پروژه` : ""}`}
-                  onClick={() => !focus && toggle(p)} onMouseEnter={() => setHover(p)}
+                  onClick={() => !focus && toggle(p)} onMouseEnter={() => { setHover(p); loadCounties(p); }}
                   strokeWidth={(on ? 1.1 : 0.55) / k} strokeLinejoin="round"
                   className={cn("transition-[fill,stroke,opacity] duration-500", !focus && "cursor-pointer", on ? (focus ? "fill-primary/10 stroke-primary" : "fill-primary/15 stroke-primary") : dim ? "pointer-events-none fill-muted/60 stroke-ink/15 opacity-0" : count ? "fill-white stroke-ink/30 hover:fill-primary/10 hover:stroke-primary" : "fill-white stroke-ink/30 hover:fill-primary/10 hover:stroke-primary")} />
               );
@@ -88,25 +90,29 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
                 </g>
               ); })}
             {value.map((p) => <path key={p} d={provincePaths[p]} fill="none" strokeWidth={1.2 / k} strokeLinejoin="round" className="pointer-events-none stroke-primary" />)}
-            {!focus && provinces.filter((p) => value.includes(p) || (city.counts[p] ?? 0) > 0).map((p) => { const b = provinceBox[p]; const on = value.includes(p);
-              return (b[2] - b[0] > 16 || on) && <text key={p} x={(b[0] + b[2]) / 2} y={(b[1] + b[3]) / 2 + 2} textAnchor="middle" strokeWidth="2.2" strokeLinejoin="round" className={cn("pointer-events-none text-[6.5px] font-extrabold [paint-order:stroke] stroke-white", on ? "fill-primary" : "fill-ink/70")}>{p}</text>; })}
-            {/* نمای استان: شهرستان‌ها با خط از هم جدا شده‌اند؛ شهرهای دارای پروژه قابل انتخاب‌اند */}
+            {/* نام همه استان‌ها؛ اندازه نام با وسعت استان تنظیم می‌شود */}
+            {!focus && provinces.map((p) => { const [x, y] = provinceLabel[p]; const on = value.includes(p); const fs = Math.max(3.6, Math.min(6.2, Math.sqrt(provinceArea[p]) * 0.2));
+              return <text key={p} x={x} y={y + fs * 0.35} textAnchor="middle" style={{ fontSize: fs }} strokeWidth={fs * 0.32} strokeLinejoin="round" className={cn("pointer-events-none font-extrabold [paint-order:stroke] stroke-white", on ? "fill-deep" : "fill-ink/75")}>{p}</text>; })}
+            {/* نمای استان: همه شهرستان‌ها با خط و نام؛ شهرستان‌هایی که پروژه دارند قابل انتخاب‌اند */}
             {focus && focusCounties.length > 0 && (
               <g style={{ animation: "fade-in 0.5s 0.35s ease-out both" }}>
-                <clipPath id="clip-focus"><path d={provincePaths[focus]} /></clipPath>
+                <clipPath id="clip-focus"><path d={focusPath} /></clipPath>
+                <path d={focusPath} strokeWidth={0} className="fill-white" />
                 <g clipPath="url(#clip-focus)">
-                  {focusCounties.map((c, i) => {
+                  {focusCounties.map((c) => {
                     const names = c.cities.filter((x) => inRoute[x]); const on = names.some((x) => city.value.includes(x));
                     return names.length ? (
-                      <path key={i} d={c.d} role="button" aria-pressed={on} aria-label={names.join("، ")} strokeWidth={(on ? 1.6 : 0.9) / k} strokeLinejoin="round"
+                      <path key={c.name} d={c.d} role="button" aria-pressed={on} aria-label={`شهرستان ${c.name}، ${names.join("، ")}`} strokeWidth={(on ? 1.6 : 1) / k} strokeLinejoin="round"
                         onClick={() => city.set(on ? city.value.filter((x) => !names.includes(x)) : [...city.value, ...names.filter((x) => !city.value.includes(x))])}
-                        className={cn("cursor-pointer transition-colors duration-300", on ? "fill-primary/45 stroke-primary" : "fill-white stroke-primary/60 hover:fill-primary/25")} />
-                    ) : <path key={i} d={c.d} strokeWidth={0.7 / k} strokeLinejoin="round" className="fill-primary/[0.07] stroke-primary/35" />;
+                        className={cn("cursor-pointer transition-colors duration-300", on ? "fill-primary/40 stroke-primary" : "fill-primary/[0.12] stroke-primary hover:fill-primary/25")} />
+                    ) : <path key={c.name} d={c.d} strokeWidth={0.6 / k} strokeLinejoin="round" className="fill-white stroke-ink/25" />;
                   })}
                 </g>
-                <path d={provincePaths[focus]} fill="none" strokeWidth={1.6 / k} strokeLinejoin="round" className="pointer-events-none stroke-primary" />
-                {focusCounties.map((c, i) => { const names = c.cities.filter((x) => inRoute[x]); if (!names.length) return null; const on = names.some((x) => city.value.includes(x));
-                  return <text key={i} x={c.c[0]} y={c.c[1] + 3 / k} textAnchor="middle" style={{ fontSize: 9.5 / k }} strokeWidth={2.6 / k} strokeLinejoin="round" className={cn("pointer-events-none font-extrabold [paint-order:stroke] stroke-white", on ? "fill-deep" : "fill-ink")}>{names.map((x) => `${x} (${faNumber(inRoute[x])})`).join("، ")}</text>; })}
+                <path d={focusPath} fill="none" strokeWidth={1.6 / k} strokeLinejoin="round" className="pointer-events-none stroke-primary" />
+                {focusCounties.map((c) => { const names = c.cities.filter((x) => inRoute[x]); const on = names.some((x) => city.value.includes(x));
+                  const px = Math.sqrt(c.a) * k; const fs = names.length ? Math.max(8, Math.min(11, px * 0.22)) : Math.max(5.5, Math.min(8.5, px * 0.2));
+                  return <text key={c.name} x={c.c[0]} y={c.c[1] + (fs * 0.35) / k} textAnchor="middle" style={{ fontSize: fs / k }} strokeWidth={(fs * 0.3) / k} strokeLinejoin="round"
+                    className={cn("pointer-events-none [paint-order:stroke] stroke-white", names.length ? (on ? "fill-deep font-black" : "fill-ink font-extrabold") : "fill-ink/55 font-semibold")}>{names.length ? `${c.name} (${faNumber(names.reduce((n, x) => n + inRoute[x], 0))})` : c.name}</text>; })}
               </g>
             )}
           </g>
@@ -115,7 +121,7 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
           <span className="pointer-events-none absolute bottom-3 right-3 flex items-center gap-2.5 rounded-2xl bg-ink p-1.5 pl-4 text-white shadow-xl">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             {provincePhotos[tip] && <img src={withBase(provincePhotos[tip].src)} alt="" className="size-11 rounded-xl object-cover" />}
-            <span className={cn("text-xs font-extrabold leading-5", !provincePhotos[tip] && "py-1.5 pr-2.5")}>{tip}<span className="block text-[11px] font-semibold text-white/65">{provincePhotos[tip] ? `${provincePhotos[tip].place} · ` : ""}{city.counts[tip] ? `${faNumber(city.counts[tip])} پروژه` : "بدون پروژه در این مسیر"}</span></span>
+            <span className={cn("text-xs font-extrabold leading-5", !provincePhotos[tip] && "py-1.5 pr-2.5")}>{tip}<span className="block text-[11px] font-semibold text-white/65">{provincePhotos[tip]?.place}<span className="block text-white/85">{city.counts[tip] ? `${faNumber(city.counts[tip])} پروژه` : "بدون پروژه در این مسیر"}</span></span></span>
           </span>
         )}
         {focus && (
