@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ArrowDown2 } from "@/components/iconsax";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { engineFrame } from "@/lib/engine-src";
@@ -44,7 +46,7 @@ function snapshot(root: Element, refs: Map<string, Element>, prefix: string): N 
     const k = el.id ? `${prefix}#${el.id}` : key;
     refs.set(k, el);
     const attr: Record<string, string> = {};
-    for (const a of ["type", "placeholder", "min", "max", "step", "href", "aria-current", "aria-pressed", "aria-selected", "accept", "colspan", "inputmode", "maxlength", "rows"]) { const v = el.getAttribute(a); if (v != null) attr[a] = v; }
+    for (const a of ["required", "type", "placeholder", "min", "max", "step", "href", "aria-current", "aria-pressed", "aria-selected", "accept", "colspan", "inputmode", "maxlength", "rows"]) { const v = el.getAttribute(a); if (v != null) attr[a] = v; }
     if (/teal|primary/.test(h.style?.borderColor ?? "")) attr["aria-current"] = "step";
     const n: N = { key: k, tag, cls, id: el.id, kids: [], attr, ds };
     if (tag === "select") {
@@ -70,6 +72,15 @@ function snapshot(root: Element, refs: Map<string, Element>, prefix: string): N 
 const textOf = (n: N): string => (n.tag === "#text" ? n.text ?? "" : n.kids.map(textOf).join(""));
 const has = (n: N, c: string) => n.cls.includes(c);
 const find = (n: N, pred: (x: N) => boolean): N | undefined => { if (pred(n)) return n; for (const k of n.kids) { const r = find(k, pred); if (r) return r; } };
+const controlsIn = (n: N): N[] => (isControl(n) ? [n] : n.kids.flatMap(controlsIn));
+const isCheck = (n: N) => n.tag === "label" && (() => { const c = controlsIn(n); return c.length === 1 && (c[0].attr.type === "checkbox" || c[0].attr.type === "radio"); })();
+/** برچسب فیلد: واژه «اختیاری» و ستاره متن برداشته می‌شود و ضروری بودن جدا برمی‌گردد */
+function fieldLabel(raw: string, c: N) {
+  const optional = /اختیاری/.test(raw) || /اختیاری|خالی بگذارید/.test(c.attr.placeholder ?? "");
+  const text = raw.replace(/[\s،,(]*اختیاری\)?/g, "").replace(/\s*\*\s*/g, "").trim();
+  const required = !optional && (c.attr.required != null || /\*/.test(raw) || (c.tag === "select" && !c.attr.multiple && !!c.options?.some((o) => !o.value)));
+  return { text, required };
+}
 const isControl = (n: N) => n.tag === "input" || n.tag === "select" || n.tag === "textarea";
 const clean = (s: string) => s.replace(/^\s*[←→↓↑]\s*/u, "").replace(/\s*[←→↓↑×]\s*$/u, "").replace(/\s*[—–]\s*/g, "، ").trim();
 
@@ -144,7 +155,14 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
       onChange={(e) => fire(n.key, "input", (el) => { el.value = e.target.value; })} onBlur={() => fire(n.key, "change")} className={cn("h-12 rounded-2xl bg-white px-4 text-sm font-bold shadow-none placeholder:font-normal", (type === "number" || type === "tel") && "text-right")} />;
   };
 
-  const kids = (n: N) => n.kids.map((k) => render(k));
+  // سه گزینه تیک‌زدنی یا بیشتر کنار هم، به‌جای فهرست باز در یک دراپ‌داون چندانتخابی می‌آیند
+  const kids = (n: N) => {
+    const checks = n.kids.filter(isCheck);
+    if (checks.length < 3) return n.kids.map((k) => render(k));
+    const first = n.kids.indexOf(checks[0]);
+    return n.kids.map((k, i) => i === first ? <MultiDrop key={`${n.key}/multi`} items={checks.map((l) => { const c = controlsIn(l)[0]; const strong = find(l, (x) => x.tag === "strong"); const small = find(l, (x) => x.tag === "small");
+      return { key: c.key, checked: !!c.checked, disabled: !!c.disabled, title: clean(strong ? textOf(strong) : textOf(l)), hint: small ? clean(textOf(small)) : undefined }; })} onToggle={(key) => fire(key, "click")} /> : isCheck(k) ? null : render(k));
+  };
   const inline = (n: N): React.ReactNode => n.kids.map((k) =>
     k.tag === "#text" ? <Fragment key={k.key}>{k.text}</Fragment>
     : k.tag === "strong" || k.tag === "b" ? <strong key={k.key} className="font-extrabold text-ink">{inline(k)}</strong>
@@ -195,7 +213,7 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
       }
       case "label": {
         const c = find(n, isControl);
-        if (c && (c.attr.type === "checkbox" || c.attr.type === "radio")) {
+        if (c && controlsIn(n).length === 1 && (c.attr.type === "checkbox" || c.attr.type === "radio")) {
           const rest = n.kids.filter((k) => k !== c);
           return (
             <label key={n.key} className={cn("flex cursor-pointer items-start gap-3 rounded-2xl border bg-white p-3.5 transition-colors", c.checked ? "border-primary bg-primary/[0.05] ring-1 ring-primary" : "border-border hover:border-primary/40", has(n, "full") && "col-span-full")}>
@@ -203,12 +221,16 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
               <span className="min-w-0 text-sm font-bold leading-6 text-ink [&_strong]:block">{rest.map((r) => r.tag === "#text" ? <Fragment key={r.key}>{r.text}</Fragment> : <Fragment key={r.key}>{inline({ ...r, kids: r.kids.length ? r.kids : [r] })}</Fragment>)}</span>
             </label>);
         }
+        if (c && controlsIn(n).length > 1) {
+          const lab = n.kids.find((k) => (k.tag === "span" || k.tag === "legend" || k.tag === "#text") && !find(k, isControl));
+          return <div key={n.key} className="col-span-full flex min-w-0 flex-col gap-2">{lab && <span className="text-[13px] font-bold text-ink">{clean(textOf(lab))}</span>}{kids({ ...n, kids: n.kids.filter((k) => k !== lab) })}</div>;
+        }
         if (c) {
-          const lab = n.kids.find((k) => k.tag === "span" || k.tag === "#text");
-          const labText = lab ? clean(textOf(lab)) : "";
+          const lab = n.kids.find((k) => (k.tag === "span" || k.tag === "#text" || k.tag === "label" || k.tag === "strong") && !find(k, isControl) && textOf(k).trim());
+          const { text: labText, required } = fieldLabel(lab ? clean(textOf(lab)) : "", c);
           return (
             <div key={n.key} className={cn("flex min-w-0 flex-col gap-2", (has(n, "full") || c.tag === "textarea") && "col-span-full")}>
-              <span className="text-[13px] font-bold text-ink">{labText}</span>
+              <span className="text-[13px] font-bold text-ink">{labText}{required && <span className="mr-1 text-destructive" aria-label="ضروری">*</span>}</span>
               {control(c, labText)}
               {n.kids.filter((k) => k !== lab && k !== c).map((k) => k.tag === "small" || k.tag === "#text" ? <small key={k.key} className="text-xs leading-6 text-muted-foreground">{clean(textOf(k))}</small> : render(k))}
             </div>);
@@ -238,8 +260,9 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
         const grid = has(n, "form-grid") || has(n, "fi-grid") || has(n, "lp-service-grid") || has(n, "ma-checks") || has(n, "fi-checks") || has(n, "ext-evidence") || has(n, "ext-mini-grid") || has(n, "fi-families") || has(n, "fi-three-parts") || (fields >= 2 && fields >= n.kids.length - 1);
         const cards = has(n, "ext-card-grid") || has(n, "fi-provider-grid") || has(n, "cards") || has(n, "ext-source-list");
         const card = has(n, "ext-card") || has(n, "fi-provider") || has(n, "fi-case") || has(n, "ext-source") || has(n, "lp-service-output") || has(n, "dialog-section") || has(n, "lp-package") || has(n, "fi-definition") || has(n, "vivid-idea-result") || has(n, "compare-scroll");
-        return <div key={n.key} className={cn(
-          has(n, "ext-actions") || has(n, "lp-order-actions") || has(n, "ma-context-links") || has(n, "fi-library-filter") || has(n, "ma-source-links") ? "flex flex-wrap items-center gap-2.5" : grid ? cn("grid grid-cols-2 gap-4", (has(n, "fi-families") || has(n, "fi-three-parts")) && "grid-cols-3") : cards ? "grid grid-cols-2 gap-4" : "flex min-w-0 flex-col gap-4",
+        const multi = n.kids.filter(isCheck).length >= 3;
+        return <div key={n.key} className={cn(multi && "col-span-full",
+          has(n, "ext-actions") || has(n, "lp-order-actions") || has(n, "ma-context-links") || has(n, "fi-library-filter") || has(n, "ma-source-links") ? "flex flex-wrap items-center gap-2.5" : grid && !multi ? cn("grid grid-cols-2 gap-4", (has(n, "fi-families") || has(n, "fi-three-parts")) && "grid-cols-3") : cards ? "grid grid-cols-2 gap-4" : "flex min-w-0 flex-col gap-4",
           card && "rounded-3xl border border-border bg-white p-5", has(n, "full") && "col-span-full", has(n, "ext-actions") && "pt-1", has(n, "lp-services") && "col-span-full")}>{kids(n)}</div>;
       }
       default: return n.kids.length ? <div key={n.key} className="flex flex-col gap-3">{kids(n)}</div> : null;
@@ -288,5 +311,30 @@ function FileField({ accept, label, onFiles }: { accept?: string; label?: string
       <Button type="button" variant="outline" onClick={() => ref.current?.click()} className="h-10 gap-2 rounded-full bg-white px-4 text-[13px] font-extrabold shadow-none hover:border-primary hover:text-primary"><DocumentDownload size={17} variant="Bulk" className="rotate-180" />انتخاب فایل</Button>
       <span className="min-w-0 truncate text-[13px] font-semibold text-muted-foreground" dir="auto">{names.length ? names.join("، ") : "فایلی انتخاب نشده است"}</span>
     </div>
+  );
+}
+
+function MultiDrop({ items, onToggle }: { items: { key: string; checked: boolean; disabled: boolean; title: string; hint?: string }[]; onToggle: (key: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const on = items.filter((i) => i.checked);
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button type="button" variant="outline" role="combobox" aria-expanded={open} className="h-auto min-h-12 w-full justify-between gap-3 whitespace-normal rounded-2xl bg-white px-4 py-2 text-right shadow-none hover:bg-white">
+          <span className={cn("flex min-w-0 flex-wrap gap-1.5 text-sm", on.length ? "font-bold text-ink" : "font-semibold text-muted-foreground")}>
+            {on.length ? on.map((i) => <span key={i.key} className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[12px] font-extrabold text-primary">{i.title}</span>) : "انتخاب کنید"}
+          </span>
+          <span className="flex shrink-0 items-center gap-2 text-xs font-bold text-muted-foreground">{on.length > 0 && `${faNumber(on.length)} از ${faNumber(items.length)}`}<ArrowDown2 size={16} className={cn("transition-transform", open && "rotate-180")} /></span>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent align="start" className="thin-scroll max-h-80 w-(--radix-popover-trigger-width) overflow-y-auto rounded-2xl p-1.5">
+        {items.map((i) => (
+          <label key={i.key} className={cn("flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-primary/5", i.checked && "bg-primary/[0.06]")}>
+            <Checkbox checked={i.checked} disabled={i.disabled} onCheckedChange={() => onToggle(i.key)} className="mt-0.5 size-5 rounded-md border-ink/25 bg-white" />
+            <span className="min-w-0"><span className="block text-sm font-bold leading-6 text-ink">{i.title}</span>{i.hint && <span className="block text-xs leading-5 text-muted-foreground">{i.hint}</span>}</span>
+          </label>
+        ))}
+      </PopoverContent>
+    </Popover>
   );
 }

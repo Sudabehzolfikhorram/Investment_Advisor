@@ -36,7 +36,7 @@ function Chapter({ n, title, note, children }: { n: number; title: string; note?
     <Reveal className="relative">
       <div className="mb-5 flex items-center gap-3">
         <span className="grid size-9 place-items-center rounded-full bg-ink text-sm font-black text-white">{faNumber(n)}</span>
-        <h2 className="text-2xl font-black text-ink">{title}</h2>
+        <h2 className="text-xl font-black text-ink">{title}</h2>
         <span className="h-px flex-1 bg-gradient-to-l from-border to-transparent" />
         {note && <span className="text-xs font-semibold text-muted-foreground">{note}</span>}
       </div>
@@ -51,7 +51,7 @@ function Tile({ I, label, value, sub }: { I: Icon; label: string; value: string;
       <span className="grid size-10 place-items-center rounded-xl bg-primary/10 text-primary"><I size={20} variant="Bulk" /></span>
       <span>
         <span className="block text-xs font-semibold text-muted-foreground">{label}</span>
-        <span className="mt-1 block text-2xl font-black leading-8 text-ink">{value}</span>
+        <span className="mt-1 block text-xl font-black leading-8 text-ink">{value}</span>
         {sub && <span className="block text-[11px] font-semibold text-muted-foreground">{sub}</span>}
       </span>
     </Card>
@@ -111,7 +111,7 @@ function Milestones({ o }: { o: Opportunity }) {
           <li key={m.label} className="relative px-1 text-center">
             {i > 0 && <span aria-hidden className="absolute left-1/2 top-[7px] w-full border-t-2 border-dotted border-ink/20" />}
             <span className={cn("relative z-10 mx-auto block size-4 rounded-full ring-4 ring-white", i === 0 ? "bg-ink" : m.label.includes("بدبینانه") ? "bg-sand" : "bg-primary")} />
-            <span className="mt-3 block text-lg font-black text-ink">{m.value}</span>
+            <span className="mt-3 block text-base font-black text-ink">{m.value}</span>
             <span className="mt-0.5 block text-xs font-semibold leading-5 text-muted-foreground">{m.label}</span>
           </li>
         ))}
@@ -209,12 +209,12 @@ function Contact({ l }: { l: Listing }) {
         <>
           <p className="flex items-center gap-2 text-xs font-bold text-white/70"><NodeMark />گام بعدی: با کارشناس پروژه صحبت کنید</p>
           <div className="mt-4 flex items-center gap-3">
-            <span className="grid size-14 place-items-center rounded-2xl bg-white/10 text-xl font-black">{expert.name.trim()[0]}</span>
-            <span><span className="block text-lg font-extrabold">{expert.name}</span><span className="block text-xs text-white/65">کارشناس همین پروژه</span></span>
+            <span className="grid size-14 place-items-center rounded-2xl bg-white/10 text-lg font-black">{expert.name.trim()[0]}</span>
+            <span><span className="block text-base font-extrabold">{expert.name}</span><span className="block text-xs text-white/65">کارشناس همین پروژه</span></span>
           </div>
           <div className="mt-5 flex h-14 items-center gap-1 rounded-full bg-white p-1.5 text-ink">
             <Button asChild variant="plain" size="auto" className="size-11 shrink-0 rounded-full bg-primary text-white hover:bg-deep"><a href={`tel:${expert.mobile}`} aria-label="تماس با کارشناس"><Call size={19} variant="Bold" /></a></Button>
-            <span dir="ltr" className="flex-1 select-all text-center text-lg font-black tracking-wide">{formatMobile(expert.mobile)}</span>
+            <span dir="ltr" className="flex-1 select-all text-center text-base font-black tracking-wide">{formatMobile(expert.mobile)}</span>
             <Button variant="plain" size="auto" type="button" onClick={copy} aria-label="کپی شماره" title="کپی شماره" className={cn("size-11 shrink-0 rounded-full hover:bg-muted", copied ? "text-primary" : "text-ink/55 hover:text-primary")}>{copied ? <CopySuccess size={20} variant="Bold" /> : <Copy size={20} />}</Button>
           </div>
         </>
@@ -223,7 +223,7 @@ function Contact({ l }: { l: Listing }) {
           <p className="flex items-center gap-2 text-xs font-bold text-white/70"><NodeMark />گام بعدی: راهنمای اقدام را بگیرید</p>
           <div className="mt-4 flex items-center gap-3">
             <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/10"><DocumentDownload size={26} variant="Bulk" /></span>
-            <span><span className="block text-lg font-extrabold">راهنمای اقدام</span><span className="block text-xs leading-5 text-white/65">مراحل، مدارک و نکته‌های این پروژه در یک فایل</span></span>
+            <span><span className="block text-base font-extrabold">راهنمای اقدام</span><span className="block text-xs leading-5 text-white/65">مراحل، مدارک و نکته‌های این پروژه در یک فایل</span></span>
           </div>
           <Button asChild variant="plain" size="auto" className="mt-5 h-14 w-full justify-between rounded-full bg-white pl-1.5 pr-6 text-base font-extrabold text-ink hover:bg-white/90">
             <Link href={`/guide/${l.id}`}>دیدن راهنما<span className="grid size-11 place-items-center rounded-full bg-primary text-white"><ArrowLeft size={18} /></span></Link>
@@ -275,7 +275,7 @@ export function Detail({ id }: { id: string }) {
                 {l.tags.map((t) => <Badge key={t} variant="outline" className="border-white/30 bg-black/25 px-3.5 py-1.5 font-bold text-white">{t}</Badge>)}
                 {o && <Badge className="bg-white px-3.5 py-1.5 font-extrabold text-ink">{o.stage}</Badge>}
               </div>
-              <h1 className="mt-4 max-w-4xl text-5xl font-black leading-[1.3] text-balance">{l.title}</h1>
+              <h1 className="mt-4 max-w-4xl text-4xl font-black leading-[1.3] text-balance">{l.title}</h1>
               <p className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm font-semibold text-white/85">
                 {l.city && <span className="flex items-center gap-1.5"><Location size={17} variant="Bold" />{l.province}، {l.city}{sale?.neighborhood ? `، ${sale.neighborhood}` : ""}</span>}
                 {o && <span>مدل همکاری: {o.model}</span>}
@@ -290,7 +290,7 @@ export function Detail({ id }: { id: string }) {
             <div className="grid grid-cols-4 gap-3">{tiles.map((t) => <Tile key={t.label} {...t} />)}</div>
 
             {o && group && subtype && (
-              <p className="border-r-2 border-primary pr-5 text-xl font-semibold leading-[2.6rem] text-ink/85">
+              <p className="border-r-2 border-primary pr-5 text-lg font-semibold leading-9 text-ink/85">
                 این پروژه در گروه <b className="text-primary">{group.name}</b> و از نوع <b className="text-primary">{subtype.name}</b> است؛ با مدل «{o.model}» در {o.city} و در وضعیت «{o.stage}».
               </p>
             )}
@@ -306,7 +306,7 @@ export function Detail({ id }: { id: string }) {
               <Chapter n={++n} title="ریسک و نکته‌های مهم">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="surface rounded-[1.75rem] p-6">
-                    <div className="flex items-center justify-between"><h3 className="text-sm font-extrabold text-ink">سطح ریسک</h3><span className="text-lg font-black text-ink">{riskLabel[o.risk] ?? o.risk}</span></div>
+                    <div className="flex items-center justify-between"><h3 className="text-sm font-extrabold text-ink">سطح ریسک</h3><span className="text-base font-black text-ink">{riskLabel[o.risk] ?? o.risk}</span></div>
                     <div className="mt-4"><RiskMeter risk={o.risk} /></div>
                     <p className="mt-5 flex items-center gap-2 border-t border-dashed border-border pt-4 text-sm font-bold text-ink/80"><ShieldSearch size={18} variant="Bulk" className="text-primary" />وضعیت حقوقی: {legalLabel[o.legalStatus] ?? o.legalStatus}</p>
                   </div>
@@ -352,7 +352,7 @@ export function Detail({ id }: { id: string }) {
                 </Chapter>
                 <Chapter n={++n} title="دریافت سود و خروج">
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="surface rounded-[1.75rem] p-6"><h3 className="text-sm font-extrabold text-primary">پرداخت سود</h3><p className="mt-2 text-2xl font-black text-ink">{payoutLabel[fund.payout] ?? fund.payout}</p><p className="mt-1 text-sm text-muted-foreground">مدت: {fund.durationMonths != null ? `${faNumber(fund.durationMonths)} ماه` : NA}</p>
+                    <div className="surface rounded-[1.75rem] p-6"><h3 className="text-sm font-extrabold text-primary">پرداخت سود</h3><p className="mt-2 text-xl font-black text-ink">{payoutLabel[fund.payout] ?? fund.payout}</p><p className="mt-1 text-sm text-muted-foreground">مدت: {fund.durationMonths != null ? `${faNumber(fund.durationMonths)} ماه` : NA}</p>
                       <div className="mt-5"><RiskMeter risk={fund.risk} /></div></div>
                     <div className="rounded-[1.75rem] bg-sand/15 p-6 ring-1 ring-sand/40"><span className="grid size-11 place-items-center rounded-2xl bg-sand/70 text-ink"><Warning2 size={22} variant="Bulk" /></span><h3 className="mt-3 text-sm font-extrabold text-ink">شرایط خروج</h3><p className="mt-2 text-[15px] font-semibold leading-8 text-ink/85">{fund.exit || NA}</p></div>
                   </div>
@@ -379,7 +379,7 @@ export function Detail({ id }: { id: string }) {
 
         {similar.length > 0 && (
           <section className="mt-24">
-            <h2 className="mb-6 flex items-center gap-3 text-2xl font-black text-ink"><NodeMark className="text-primary" />پروژه‌های مشابه</h2>
+            <h2 className="mb-6 flex items-center gap-3 text-xl font-black text-ink"><NodeMark className="text-primary" />پروژه‌های مشابه</h2>
             <div className="grid grid-cols-3 gap-5">{similar.map((s, i) => <ListingCard key={s.id} listing={s} index={i} />)}</div>
           </section>
         )}

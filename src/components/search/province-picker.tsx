@@ -1,5 +1,5 @@
 "use client";
-// انتخاب محدوده روی نقشه نقطه‌ای ایران.
+// انتخاب محدوده روی نقشه ایران با مرز استان‌ها.
 // نمای اول استان‌ها را نشان می‌دهد. با انتخاب فقط یک استان، نقشه روی همان استان زوم می‌کند تا شهرهایش انتخاب شوند.
 // با بیش از یک استان، نقشه در نمای کل می‌ماند و شهرها از فهرست دومرحله‌ای (CityPicker) انتخاب می‌شوند.
 import { useEffect, useMemo, useState } from "react";
@@ -7,8 +7,9 @@ import { ArrowDown2, ArrowLeft, ArrowRight, Maximize4, TickCircle } from "@/comp
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { iranDots, project, provinceBox, provinceDots, provincePaths } from "@/data/iran-map";
-import { cityCoords } from "@/data/opportunities";
+import { provinceBox, provincePaths } from "@/data/iran-map";
+import { provincePhotos } from "@/data/province-photos";
+import { loadCounties, useCounties } from "@/lib/use-counties";
 import { provinces } from "@/data/provinces";
 import { withBase } from "@/lib/image-loader";
 import { listings } from "@/lib/listings";
@@ -18,7 +19,6 @@ import type { RouteId } from "@/types";
 import { cn, faNumber } from "@/lib/utils";
 import { ComboList } from "./controls";
 
-const dotsPath = iranDots.map(([x, y]) => `M${x - 1.05} ${y}a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0`).join("");
 const W = 360, H = 330;
 
 /** شهرهای دارای پروژه در هر استان برای یک مسیر */
@@ -50,16 +50,20 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
   const toggle = (p: string) => change(value.includes(p) ? value.filter((x) => x !== p) : [...value, p]);
   const focus = value.length === 1 && !wide ? value[0] : null;
   const [hover, setHover] = useState<string | null>(null);
-  const focusCities = focus ? Object.entries(city.cities[focus] ?? {}).filter(([c]) => cityCoords[c]).map(([c, n]) => ({ c, n, ...project(cityCoords[c][0], cityCoords[c][1]) })) : [];
-  // زوم: کادر استان انتخاب‌شده با کمی حاشیه در قاب نقشه جا می‌گیرد
+  const inRoute = focus ? city.cities[focus] ?? {} : {};
+  const focusCounties = useCounties(focus);
+  // زوم: استان انتخاب‌شده تقریباً همه قاب نقشه را پر می‌کند
   const box = focus ? provinceBox[focus] : null;
-  const k = box ? Math.min(6, 0.72 * Math.min(W / (box[2] - box[0]), H / (box[3] - box[1]))) : 1;
-  const cx = box ? (box[0] + box[2]) / 2 : W / 2, cy = box ? (box[1] + box[3]) / 2 : H / 2;
+  const k = box ? Math.min(16, 0.86 * Math.min(W / (box[2] - box[0]), (H - 44) / (box[3] - box[1]))) : 1;
+  const cx = box ? (box[0] + box[2]) / 2 : W / 2, cy = box ? (box[1] + box[3]) / 2 - 22 / k : H / 2;
   const options = useMemo(() => [...provinces].sort((a, b) => (city.counts[b] ?? 0) - (city.counts[a] ?? 0)).map((p) => ({ value: p, label: city.counts[p] ? `${p} (${faNumber(city.counts[p])})` : p })), [city.counts]);
   const tip = hover && !focus ? hover : null;
-  const focusDots = useMemo(() => (focus ? (provinceDots[focus] ?? []).map(([x, y]) => `M${x - 0.5} ${y}a0.5 0.5 0 1 0 1 0a0.5 0.5 0 1 0 -1 0`).join("") : ""), [focus]);
-  // عکس استان‌ها از قبل بارگذاری می‌شود تا هنگام انتخاب یا هاور مکثی نباشد
-  useEffect(() => { for (const src of new Set(Object.values(city.photo))) { const i = new window.Image(); i.src = withBase(src); } }, [city.photo]);
+  // عکس استان‌ها و مرز شهرستان‌ها از قبل بارگذاری می‌شوند تا هنگام انتخاب یا هاور مکثی نباشد
+  useEffect(() => {
+    const t = window.setTimeout(() => { for (const p of Object.values(provincePhotos)) { const i = new window.Image(); i.src = withBase(p.src); } loadCounties(); }, 300);
+    return () => window.clearTimeout(t);
+  }, []);
+  const hasCities = focusCounties.some((c) => c.cities.some((x) => inRoute[x]));
 
   return (
     <div className={cn("grid grid-cols-[1.25fr_1fr] items-center gap-5", className)}>
@@ -72,44 +76,51 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
                 <path key={p} d={provincePaths[p]} role="button" aria-pressed={on} aria-label={`استان ${p}${count ? `، ${count} پروژه` : ""}`}
                   onClick={() => !focus && toggle(p)} onMouseEnter={() => setHover(p)}
                   strokeWidth={(on ? 1.1 : 0.55) / k} strokeLinejoin="round"
-                  className={cn("transition-[fill,stroke,opacity] duration-500", !focus && "cursor-pointer", on ? "fill-primary/15 stroke-primary" : dim ? "pointer-events-none fill-muted/60 stroke-ink/15 opacity-0" : count ? "fill-white stroke-ink/30 hover:fill-primary/10 hover:stroke-primary" : "fill-white stroke-ink/30 hover:fill-primary/10 hover:stroke-primary")} />
+                  className={cn("transition-[fill,stroke,opacity] duration-500", !focus && "cursor-pointer", on ? (focus ? "fill-primary/10 stroke-primary" : "fill-primary/15 stroke-primary") : dim ? "pointer-events-none fill-muted/60 stroke-ink/15 opacity-0" : count ? "fill-white stroke-ink/30 hover:fill-primary/10 hover:stroke-primary" : "fill-white stroke-ink/30 hover:fill-primary/10 hover:stroke-primary")} />
               );
             })}
-            {/* استان انتخاب‌شده یا زیر نشانگر با عکس یکی از پروژه‌های همان استان پر می‌شود */}
-            {!focus && [...new Set([...value, ...(hover ? [hover] : [])])].filter((p) => city.photo[p]).map((p) => { const b = provinceBox[p]; const id = `clip-${(provinces as readonly string[]).indexOf(p)}`;
+            {/* استان انتخاب‌شده یا زیر نشانگر با عکس شاخص همان استان پر می‌شود */}
+            {!focus && [...new Set([...value, ...(hover ? [hover] : [])])].filter((p) => provincePhotos[p]).map((p) => { const b = provinceBox[p]; const id = `clip-${(provinces as readonly string[]).indexOf(p)}`;
               return (
                 <g key={p} className="pointer-events-none" style={{ animation: "fade-in 0.35s ease-out both" }}>
                   <clipPath id={id}><path d={provincePaths[p]} /></clipPath>
-                  <image href={withBase(city.photo[p])} x={b[0]} y={b[1]} width={b[2] - b[0]} height={b[3] - b[1]} preserveAspectRatio="xMidYMid slice" clipPath={`url(#${id})`} />
+                  <image href={withBase(provincePhotos[p].src)} x={b[0]} y={b[1]} width={b[2] - b[0]} height={b[3] - b[1]} preserveAspectRatio="xMidYMid slice" clipPath={`url(#${id})`} />
                 </g>
               ); })}
-            <path d={focus ? focusDots : dotsPath} className="pointer-events-none fill-ink/[0.09]" />
             {value.map((p) => <path key={p} d={provincePaths[p]} fill="none" strokeWidth={1.2 / k} strokeLinejoin="round" className="pointer-events-none stroke-primary" />)}
             {!focus && provinces.filter((p) => value.includes(p) || (city.counts[p] ?? 0) > 0).map((p) => { const b = provinceBox[p]; const on = value.includes(p);
               return (b[2] - b[0] > 16 || on) && <text key={p} x={(b[0] + b[2]) / 2} y={(b[1] + b[3]) / 2 + 2} textAnchor="middle" strokeWidth="2.2" strokeLinejoin="round" className={cn("pointer-events-none text-[6.5px] font-extrabold [paint-order:stroke] stroke-white", on ? "fill-primary" : "fill-ink/70")}>{p}</text>; })}
-            {focusCities.map((c) => {
-              const on = city.value.includes(c.c);
-              return (
-                <g key={c.c} onClick={() => city.toggle(c.c)} className="group cursor-pointer" role="button" aria-pressed={on} aria-label={`${c.c}، ${c.n} پروژه`}>
-                  {on && <circle cx={c.x} cy={c.y} r={11 / k} className="fill-primary/20 stroke-primary" strokeWidth={1 / k} />}
-                  <circle cx={c.x} cy={c.y} r={6 / k} className={cn("stroke-white transition-colors group-hover:fill-primary", on ? "fill-primary" : "fill-ink/60")} strokeWidth={1.5 / k} />
-                  <circle cx={c.x} cy={c.y} r={18 / k} fill="transparent" />
-                  <text x={c.x} y={c.y - 14 / k} textAnchor="middle" style={{ fontSize: 12 / k }} className={cn("pointer-events-none font-extrabold [paint-order:stroke] stroke-white", on ? "fill-primary" : "fill-ink")} strokeWidth={3 / k} strokeLinejoin="round">{c.c} · {faNumber(c.n)}</text>
+            {/* نمای استان: شهرستان‌ها با خط از هم جدا شده‌اند؛ شهرهای دارای پروژه قابل انتخاب‌اند */}
+            {focus && focusCounties.length > 0 && (
+              <g style={{ animation: "fade-in 0.5s 0.35s ease-out both" }}>
+                <clipPath id="clip-focus"><path d={provincePaths[focus]} /></clipPath>
+                <g clipPath="url(#clip-focus)">
+                  {focusCounties.map((c, i) => {
+                    const names = c.cities.filter((x) => inRoute[x]); const on = names.some((x) => city.value.includes(x));
+                    return names.length ? (
+                      <path key={i} d={c.d} role="button" aria-pressed={on} aria-label={names.join("، ")} strokeWidth={(on ? 1.6 : 0.9) / k} strokeLinejoin="round"
+                        onClick={() => city.set(on ? city.value.filter((x) => !names.includes(x)) : [...city.value, ...names.filter((x) => !city.value.includes(x))])}
+                        className={cn("cursor-pointer transition-colors duration-300", on ? "fill-primary/45 stroke-primary" : "fill-white stroke-primary/60 hover:fill-primary/25")} />
+                    ) : <path key={i} d={c.d} strokeWidth={0.7 / k} strokeLinejoin="round" className="fill-primary/[0.07] stroke-primary/35" />;
+                  })}
                 </g>
-              );
-            })}
+                <path d={provincePaths[focus]} fill="none" strokeWidth={1.6 / k} strokeLinejoin="round" className="pointer-events-none stroke-primary" />
+                {focusCounties.map((c, i) => { const names = c.cities.filter((x) => inRoute[x]); if (!names.length) return null; const on = names.some((x) => city.value.includes(x));
+                  return <text key={i} x={c.c[0]} y={c.c[1] + 3 / k} textAnchor="middle" style={{ fontSize: 9.5 / k }} strokeWidth={2.6 / k} strokeLinejoin="round" className={cn("pointer-events-none font-extrabold [paint-order:stroke] stroke-white", on ? "fill-deep" : "fill-ink")}>{names.map((x) => `${x} (${faNumber(inRoute[x])})`).join("، ")}</text>; })}
+              </g>
+            )}
           </g>
         </svg>
         {tip && (
           <span className="pointer-events-none absolute bottom-3 right-3 flex items-center gap-2.5 rounded-2xl bg-ink p-1.5 pl-4 text-white shadow-xl">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            {city.photo[tip] && <img src={withBase(city.photo[tip])} alt="" className="size-11 rounded-xl object-cover" />}
-            <span className={cn("text-xs font-extrabold leading-5", !city.photo[tip] && "py-1.5 pr-2.5")}>{tip}<span className="block text-[11px] font-semibold text-white/65">{city.counts[tip] ? `${faNumber(city.counts[tip])} پروژه` : "بدون پروژه در این مسیر"}</span></span>
+            {provincePhotos[tip] && <img src={withBase(provincePhotos[tip].src)} alt="" className="size-11 rounded-xl object-cover" />}
+            <span className={cn("text-xs font-extrabold leading-5", !provincePhotos[tip] && "py-1.5 pr-2.5")}>{tip}<span className="block text-[11px] font-semibold text-white/65">{provincePhotos[tip] ? `${provincePhotos[tip].place} · ` : ""}{city.counts[tip] ? `${faNumber(city.counts[tip])} پروژه` : "بدون پروژه در این مسیر"}</span></span>
           </span>
         )}
         {focus && (
           <div className="absolute inset-x-3 top-3 flex items-center justify-between gap-2">
-            <span className="rounded-full bg-deep px-3.5 py-1.5 text-xs font-extrabold text-white">{focusCities.length ? `شهرهای استان ${focus}` : `در استان ${focus} در این مسیر پروژه‌ای نیست`}</span>
+            <span className="rounded-full bg-deep px-3.5 py-1.5 text-xs font-extrabold text-white">{hasCities || !focusCounties.length ? `شهرهای استان ${focus}` : `در استان ${focus} در این مسیر پروژه‌ای نیست`}</span>
             <Button type="button" variant="outline" size="xs" onClick={() => setWide(true)} className="rounded-full bg-white font-bold"><Maximize4 size={14} />نقشه کل ایران</Button>
           </div>
         )}

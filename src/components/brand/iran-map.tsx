@@ -1,17 +1,15 @@
 "use client";
 import { memo } from "react";
-import { iranDots, iranPath, project, provinceBox, provinceDots, provincePaths } from "@/data/iran-map";
+import { iranPath, project, provinceBox, provincePaths } from "@/data/iran-map";
+import { useCounties } from "@/lib/use-counties";
 import { cityCoords } from "@/data/opportunities";
 import { cn, faNumber } from "@/lib/utils";
 
 export interface MapPoint { city: string; province: string; count: number }
 
-// همه نقطه‌های نقشه در یک path رسم می‌شوند (به‌جای حدود هزار دایره جدا) تا رندر سبک بماند.
-const dotsPath = iranDots.map(([x, y]) => `M${x - 1.05} ${y}a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0`).join("");
-
 export const cityXY = (city: string) => (cityCoords[city] ? project(cityCoords[city][0], cityCoords[city][1]) : null);
 
-/** نقشه نقطه‌ای ایران با نود شهرها. با onToggle انتخاب‌گر استان می‌شود. */
+/** نقشه ایران با مرز استان‌ها و نود شهرها. با onToggle انتخاب‌گر استان می‌شود. */
 export const IranMap = memo(function IranMap({
   points, active = [], onToggle, className, labels = true, links = true, pulse = true, children,
 }: { points: MapPoint[]; active?: string[]; onToggle?: (province: string) => void; className?: string; labels?: boolean; links?: boolean; pulse?: boolean; children?: React.ReactNode }) {
@@ -20,8 +18,7 @@ export const IranMap = memo(function IranMap({
   const max = Math.max(1, ...pts.map((p) => p.count));
   return (
     <svg viewBox="0 0 360 330" className={cn("h-auto w-full overflow-visible", className)} role="img" aria-label="نقشه ایران و شهرهای دارای پروژه">
-      <path d={iranPath} className="fill-primary/[0.025] stroke-ink/10" strokeWidth="0.5" strokeLinejoin="round" />
-      <path d={dotsPath} className="fill-ink/[0.13]" />
+      <path d={iranPath} className="fill-primary/[0.03] stroke-ink/20" strokeWidth="0.5" strokeLinejoin="round" />
       {links && hub && pts.length > 1 && (
         <g fill="none" className="stroke-primary/25" strokeWidth="0.6">
           {pts.filter((p) => p !== hub).map((p) => {
@@ -52,25 +49,23 @@ export const IranMap = memo(function IranMap({
   );
 });
 
-const dotAt = ([x, y]: [number, number], r = 1.05) => `M${x - r} ${y}a${r} ${r} 0 1 0 ${r * 2} 0a${r} ${r} 0 1 0 ${-r * 2} 0`;
-
-/** نقشه محل پروژه: نمای نزدیک روی استان؛ خود استان رنگ می‌شود و شهر با نود توپر مشخص است. */
+/** نقشه محل پروژه: کل استان در قاب کوچک؛ شهرستانِ شهر پروژه با رنگ اصلیِ کم‌رنگ پر می‌شود. */
 export function LocationMap({ city, province, className }: { city: string; province: string; className?: string }) {
-  const b = provinceBox[province]; const cc = cityXY(city);
+  const b = provinceBox[province]; const all = useCounties(province);
   if (!b) return null;
-  const pad = 14, bw = b[2] - b[0] + pad * 2, bh = b[3] - b[1] + pad * 2;
+  const county = all.find((c) => c.cities.includes(city)); const cc = county ? { x: county.c[0], y: county.c[1] } : cityXY(city);
+  const pad = Math.max(b[2] - b[0], b[3] - b[1]) * 0.05, bw = b[2] - b[0] + pad * 2, bh = b[3] - b[1] + pad * 2;
   const w = Math.max(bw, bh * 2), h = w / 2; const mx = (b[0] + b[2]) / 2, my = (b[1] + b[3]) / 2; const u = w / 176;
   return (
-    <svg viewBox={`${mx - w / 2} ${my - h / 2} ${w} ${h}`} preserveAspectRatio="xMidYMid slice" className={cn("block w-full bg-muted/60", className)} role="img" aria-label={`محل پروژه: ${city}، استان ${province}`}>
-      <path d={iranPath} className="fill-white stroke-ink/20" strokeWidth={0.5 * u} strokeLinejoin="round" />
-      <path d={provincePaths[province]} className="fill-primary/20 stroke-primary" strokeWidth={1 * u} strokeLinejoin="round" />
-      <path d={(provinceDots[province] ?? []).map((d) => dotAt(d, 1.2)).join("")} className="fill-primary/50" />
-      {cc && <>
-        <circle cx={cc.x} cy={cc.y} r={3.2 * u} className="fill-primary" style={{ transformOrigin: `${cc.x}px ${cc.y}px`, animation: "pulse-node 2.8s ease-out infinite" }} />
-        <circle cx={cc.x} cy={cc.y} r={3.4 * u} className="fill-primary stroke-white" strokeWidth={1.2 * u} />
-        <rect x={cc.x - (city.length * 1.9 + 4) * u} y={cc.y + 5.5 * u} width={(city.length * 3.8 + 8) * u} height={9 * u} rx={4.5 * u} className="fill-ink" />
-        <text x={cc.x} y={cc.y + 12 * u} textAnchor="middle" style={{ fontSize: 5.5 * u }} className="fill-white font-extrabold">{city}</text>
-      </>}
+    <svg viewBox={`${mx - w / 2} ${my - h / 2} ${w} ${h}`} preserveAspectRatio="xMidYMid meet" className={cn("block w-full bg-muted/40", className)} role="img" aria-label={`محل پروژه: ${city}، استان ${province}`}>
+      <clipPath id={`loc-${b.join("-")}`}><path d={provincePaths[province]} /></clipPath>
+      <path d={provincePaths[province]} className="fill-white" />
+      <g clipPath={`url(#loc-${b.join("-")})`}>
+        {all.map((c, i) => <path key={i} d={c.d} strokeWidth={0.45 * u} strokeLinejoin="round" className={c === county ? "fill-primary/30 stroke-primary" : "fill-white stroke-ink/20"} />)}
+      </g>
+      <path d={provincePaths[province]} fill="none" strokeWidth={0.9 * u} strokeLinejoin="round" className="stroke-primary" />
+      {county && <path d={county.d} fill="none" strokeWidth={0.9 * u} strokeLinejoin="round" clipPath={`url(#loc-${b.join("-")})`} className="stroke-primary" />}
+      {cc && <text x={cc.x} y={cc.y + 2 * u} textAnchor="middle" style={{ fontSize: 5.2 * u }} strokeWidth={1.8 * u} strokeLinejoin="round" className="fill-deep font-extrabold [paint-order:stroke] stroke-white">{city}</text>}
     </svg>
   );
 }
