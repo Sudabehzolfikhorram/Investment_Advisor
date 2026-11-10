@@ -13,6 +13,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), viteSingleFile()],
   resolve: {
     alias: [
+      { find: "@/lib/engine-src", replacement: r("shims/engine-src.ts") },
       { find: "@/lib/image-loader", replacement: r("shims/assets.ts") },
       { find: "next/link", replacement: r("shims/link.tsx") },
       { find: "next/image", replacement: r("shims/image.tsx") },

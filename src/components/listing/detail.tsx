@@ -24,7 +24,8 @@ import { factGroups, type FactGroup } from "@/lib/facts";
 import { projectGroups } from "@/data/taxonomy";
 import { advisories } from "@/data/advisories";
 import { useStore } from "@/lib/store";
-import type { Advisory, Fund, Listing, Opportunity, SaleItem } from "@/types";
+import type { Advisory, Fund, Listing, Opportunity, RouteId, SaleItem } from "@/types";
+import { routeSteps } from "@/data/routes";
 import { cn, faNumber, formatMobile, incomeLabel, legalLabel, riskLabel } from "@/lib/utils";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -242,7 +243,8 @@ export function Detail({ id }: { id: string }) {
   const group = projectGroups.find((g) => g.id === l.group);
   const subtype = group?.subtypes.find((s) => s.id === l.subtype);
   const advisory = o ? advisories[o.subtype] : undefined;
-  const similar = listings.filter((x) => x.id !== l.id && x.kind === l.kind && (l.kind !== "project" || x.group === l.group)).slice(0, 3);
+  const similar = listings.filter((x) => x.id !== l.id && x.kind === l.kind && (l.kind !== "project" || x.group === l.group))
+    .sort((a, b) => Math.abs((a.amount ?? 1e9) - (l.amount ?? 0)) - Math.abs((b.amount ?? 1e9) - (l.amount ?? 0))).slice(0, 3);
   let n = 0;
 
   const tiles: { I: Icon; label: string; value: string; sub?: string }[] = o
@@ -322,6 +324,8 @@ export function Detail({ id }: { id: string }) {
             )}
 
             {o && advisory && <Chapter n={++n} title="پرسش‌هایی که باید پاسخشان را آماده کنید" note={subtype?.name}><AdvisoryBlock a={advisory} /></Chapter>}
+
+            {!o && routeSteps[l.routes[0] as RouteId] && <Chapter n={++n} title="از این‌جا به بعد"><Steps steps={routeSteps[l.routes[0] as RouteId]} /></Chapter>}
 
             {o && o.steps.length > 0 && (
               <Chapter n={++n} title="از این‌جا به بعد">

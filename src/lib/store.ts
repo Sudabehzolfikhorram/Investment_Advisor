@@ -15,6 +15,10 @@ interface State {
   criteria: SearchCriteria;
   /** آیا کاربر گام «اطلاعات پایه» را در صفحه پروژه‌ها گذرانده است */
   started: boolean;
+  /** پروژه‌های انتخاب‌شده برای مقایسه (حداکثر سه) */
+  compare: string[];
+  toggleCompare: (id: string) => void;
+  clearCompare: () => void;
   setStarted: (v: boolean) => void;
   /** شروع تازه از یک دسته اصلی یا گروه؛ گام اطلاعات پایه دوباره نمایش داده می‌شود */
   begin: (c: Partial<SearchCriteria>) => void;
@@ -37,7 +41,9 @@ interface State {
 export const useStore = create<State>()(
   persist(
     (set, get) => ({
-      user: null, saved: [], profiles: [], criteria: emptyCriteria, started: false, loginOpen: false, pending: null,
+      user: null, saved: [], profiles: [], criteria: emptyCriteria, started: false, loginOpen: false, pending: null, compare: [],
+      toggleCompare: (id) => set((s) => ({ compare: s.compare.includes(id) ? s.compare.filter((x) => x !== id) : s.compare.length >= 3 ? s.compare : [...s.compare, id] })),
+      clearCompare: () => set({ compare: [] }),
       setStarted: (started) => set({ started }),
       begin: (c) => set({ criteria: { ...emptyCriteria, ...c }, started: false }),
       applyProfile: (id) => set((s) => { const p = s.profiles.find((x) => x.id === id); return p ? { criteria: p.criteria, started: true, profiles: s.profiles.map((x) => (x.id === id ? { ...x, lastSeenAt: "2026-11-10" } : x)) } : {}; }),

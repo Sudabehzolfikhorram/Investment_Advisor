@@ -2,6 +2,8 @@
 // برای پروژه‌هایی است که کارشناس اختصاصی ندارند (مطابق نسخه مرجع که خروجی راهنما را HTML می‌دهد).
 import { advisories } from "@/data/advisories";
 import { site } from "@/data/site";
+import { routeSteps } from "@/data/routes";
+import type { RouteId } from "@/types";
 import { factGroups } from "./facts";
 import type { Listing, Opportunity } from "@/types";
 import { faNumber } from "./utils";
@@ -76,7 +78,10 @@ export function guideHtml(l: Listing, ctx: GuideContext = {}): string {
     if (o.caution || checks.length) parts.push(sec("پیش از اقدام بدانید", `${o.caution ? `<div class="note">${esc(o.caution)}</div>` : ""}${checks.length ? `<ul class="check">${checks.map((c) => `<li><label><input type="checkbox" data-k="${esc(c)}"${ctx.checked?.includes(c) ? " checked" : ""}><i></i>${esc(c)}</label></li>`).join("")}</ul>` : ""}`));
     if (adv?.questions.length) parts.push(sec("پرسش‌هایی که باید پاسخشان را آماده کنید", `${adv.context ? `<p style="margin:0 0 8px;color:#667473">${esc(adv.context)}</p>` : ""}${adv.questions.map((q) => { const a = ctx.answers?.[q.id]; const opt = q.options.find((x) => x.value === a);
       return `<div class="q"><p>${esc(q.label)}</p>${opt ? `<div class="ans"><b>پاسخ شما:</b> ${esc(opt.label)}</div>${q.actions[a!] ? `<small>${esc(q.actions[a!])}</small>` : ""}` : `<small>${q.options.map((x) => esc(x.label)).join(" · ")}</small>`}</div>`; }).join("")}`));
-    if (o.steps.length) parts.push(sec("گام‌های اقدام", `<ol class="steps">${o.steps.map((s) => `<li><label><input type="checkbox" data-k="${esc(s)}"${ctx.checked?.includes(s) ? " checked" : ""}><span>${esc(s)}</span><em></em></label></li>`).join("")}</ol>`));
+  }
+  {
+    const steps = o?.steps.length ? o.steps : routeSteps[l.routes[0] as RouteId] ?? [];
+    if (steps.length) parts.push(sec("گام‌های اقدام", `<ol class="steps">${steps.map((s) => `<li><label><input type="checkbox" data-k="${esc(s)}"${ctx.checked?.includes(s) ? " checked" : ""}><span>${esc(s)}</span><em></em></label></li>`).join("")}</ol>`));
   }
 
   return `<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>راهنمای اقدام | ${esc(l.title)}</title><style>${css}</style></head><body><div class="sheet"><header><div class="brand"><span>${site.name}</span>${mark}</div><p class="kicker">راهنمای اقدام</p><h1>${esc(l.title)}</h1><div class="meta">${[l.city ? `${l.province}، ${l.city}` : "", ...l.tags, l.id].filter(Boolean).map((t) => `<span class="pill">${esc(t as string)}</span>`).join("")}</div></header><main>${parts.join("")}</main><footer>این راهنما برای آماده شدن پیش از اقدام است و تعهد پرداخت یا تضمین سود نیست.</footer></div></body></html>`;

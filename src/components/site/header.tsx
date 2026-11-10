@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArchiveTick, Login, Logout, MagicStar, ProfileCircle } from "@/components/iconsax";
+import { ArchiveTick, Element3, Login, Logout, MagicStar, ProfileCircle } from "@/components/iconsax";
 import { Logo } from "@/components/brand/algo-pattern";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -10,6 +10,7 @@ import { cn, faDigits, faNumber } from "@/lib/utils";
 
 const links = [
   { href: "/opportunities", label: "پروژه‌ها" },
+  { href: "/tools", label: "خدمات", icon: Element3 },
   { href: "/assistant", label: "دستیار", icon: MagicStar },
   { href: "/saved", label: "ذخیره‌شده‌ها", icon: ArchiveTick },
 ];

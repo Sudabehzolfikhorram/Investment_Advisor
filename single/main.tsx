@@ -9,6 +9,8 @@ import { Assistant } from "@/components/assistant/assistant";
 import { Saved } from "@/components/saved/saved";
 import { listingById } from "@/lib/listings";
 import { GuideView } from "@/components/guide/guide-view";
+import { ToolsIndex, ToolView } from "@/components/tools/tools";
+import { toolById } from "@/data/tools";
 import { usePathname } from "./shims/navigation";
 
 function App() {
@@ -18,6 +20,9 @@ function App() {
   const gid = path.startsWith("/guide/") ? decodeURIComponent(path.slice(7).replace(/\/$/, "")) : null;
   if (gid && listingById(gid)) return <GuideView key={gid} id={gid} />;
   if (id && listingById(id)) return <Detail key={id} id={id} />;
+  const tid = path.startsWith("/tools/") ? path.slice(7).replace(/\/$/, "") : null;
+  if (tid && toolById(tid)) return <ToolView key={tid} id={tid} />;
+  if (path.startsWith("/tools")) return <ToolsIndex />;
   if (path.startsWith("/opportunities")) return <Results />;
   if (path.startsWith("/assistant")) return <Assistant />;
   if (path.startsWith("/saved")) return <Saved />;
