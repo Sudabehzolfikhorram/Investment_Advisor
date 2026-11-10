@@ -3,10 +3,8 @@
 // مطابق نسخه مرجع، فایل با اطلاعات خود کاربر پر می‌شود: شرایط جست‌وجو، پاسخ پرسش‌های تخصصی، نوع پیگیری و تیک گام‌ها.
 import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
-import { ArrowRight, DocumentDownload, Edit2, Printer } from "@/components/iconsax";
+import { ArrowRight, DocumentDownload, Edit2, Printer, TickCircle } from "@/components/iconsax";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import { Header, Footer } from "@/components/site/header";
 import { NodeMark } from "@/components/brand/algo-pattern";
 import { Dropdown } from "@/components/search/controls";
@@ -45,12 +43,15 @@ export function GuideView({ id }: { id: string }) {
       }
     }
     if (o) for (const [k, v] of Object.entries(criteria.filters)) { const [a, st, qid] = k.split(":"); if (a === "adv" && st === o.subtype) answers[qid] = String(v); }
-    return { mine, answers, kind, checked: o?.steps.length && checked.length ? checked : undefined };
+    return { mine, answers, kind, checked };
   }, [hydrated, criteria, kind, checked, l, o]);
 
   const html = useMemo(() => guideHtml(l, ctx), [l, ctx]);
+  // تیک‌ها داخل خود سند زده می‌شوند؛ پیش از هر بازسازی یا دانلود از سند خوانده می‌شوند تا از بین نروند
+  const ticks = () => Array.from(frame.current?.contentDocument?.querySelectorAll<HTMLInputElement>("input[data-k]:checked") ?? []).map((i) => i.dataset.k!);
+  const changeKind = (v: string | undefined) => { setChecked(ticks()); setKind(v); };
   const download = () => {
-    const url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
+    const url = URL.createObjectURL(new Blob([guideHtml(l, { ...ctx, checked: ticks() })], { type: "text/html;charset=utf-8" }));
     const a = document.createElement("a"); a.href = url; a.download = `guide-${l.id}.html`; a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
@@ -82,20 +83,9 @@ export function GuideView({ id }: { id: string }) {
               </div>
               <div>
                 <p className="mb-2 text-[13px] font-bold text-ink/80">نوع پیگیری</p>
-                <Dropdown options={followUpKinds} value={kind} onChange={setKind} />
+                <Dropdown options={followUpKinds} value={kind} onChange={changeKind} />
               </div>
-              {o && o.steps.length > 0 && (
-                <div>
-                  <p className="mb-2 text-[13px] font-bold text-ink/80">کدام گام‌ها را بررسی کرده‌اید؟</p>
-                  <div className="space-y-2.5">
-                    {o.steps.map((s) => (
-                      <Label key={s} className="flex cursor-pointer items-start gap-2.5 text-[13px] font-semibold leading-6 text-ink/85">
-                        <Checkbox checked={checked.includes(s)} onCheckedChange={(c) => setChecked(c ? [...checked, s] : checked.filter((x) => x !== s))} className="mt-1" />{s}
-                      </Label>
-                    ))}
-                  </div>
-                </div>
-              )}
+              <p className="flex items-start gap-2 rounded-2xl bg-primary/[0.07] p-3.5 text-xs font-semibold leading-6 text-ink/80"><TickCircle size={17} variant="Bold" className="mt-0.5 shrink-0 text-primary" />موارد «پیش از اقدام» و «گام‌های اقدام» را در خود راهنما تیک بزنید؛ تیک‌ها در فایل دانلودی و چاپ می‌مانند.</p>
               <div className="rounded-2xl bg-muted p-3.5 text-xs font-semibold leading-6 text-ink/75">
                 {filled > 0
                   ? <>{faNumber(filled)} مورد از شرایط و پاسخ‌های شما در بخش «شرایط شما» و پرسش‌ها آمده است.</>

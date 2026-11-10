@@ -27,13 +27,20 @@ h2 b{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;ba
 .flow .card p{margin:0;font-weight:700;line-height:1.9}
 .note{padding:16px 20px;border-radius:18px;background:#faf5ea;border:1px solid #ecdcb9;font-weight:700}
 ul.check{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-ul.check li{position:relative;padding:10px 40px 10px 14px;border:1px solid #e4e9e8;border-radius:14px;font-size:13.5px;font-weight:600;line-height:1.9}
-ul.check li:before{content:"";position:absolute;right:14px;top:15px;width:15px;height:15px;border:2px solid #0f766e;border-radius:5px}
-ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}ol.steps li{counter-increment:s;position:relative;padding:12px 56px 12px 16px;margin-bottom:10px;border:1px solid #e4e9e8;border-radius:16px;font-weight:700}
+input[type=checkbox]{position:absolute;opacity:0;pointer-events:none}label{cursor:pointer}
+ul.check li{border:1px solid #e4e9e8;border-radius:14px;font-size:13.5px;font-weight:600;line-height:1.9;transition:.2s}ul.check li:hover,ol.steps li:hover{border-color:#0f766e}
+ul.check label{display:flex;align-items:flex-start;gap:10px;padding:10px 14px}
+ul.check i{flex:none;margin-top:5px;width:17px;height:17px;border:2px solid #0f766e;border-radius:5px;background:#fff center/11px no-repeat}
+ul.check li:has(input:checked){border-color:#0f766e;background:#f3f9f8}
+ul.check li:has(input:checked) i{background-color:#0f766e;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6.5l2.3 2.3 4.7-5.3'/%3E%3C/svg%3E")}
+label:has(input:focus-visible){outline:2px solid #0f766e;outline-offset:2px;border-radius:14px}
+ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}ol.steps li{counter-increment:s;position:relative;margin-bottom:10px;border:1px solid #e4e9e8;border-radius:16px;font-weight:700;transition:.2s}
+ol.steps label{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 56px 12px 14px}
 ol.steps li:before{content:counter(s,persian);position:absolute;right:14px;top:11px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#e7f1f0;color:#0f766e;font-weight:900}
 .mine{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;border:1px solid #e4e9e8;border-radius:18px;padding:10px 18px;background:#f7faf9}.mine .row{border-top:0;border-bottom:1px solid #eaf0ee;padding:8px 0}
 .ans{margin-top:4px;display:inline-block;padding:2px 14px;border-radius:99px;background:#e7f1f0;color:#0b1f1d;font-size:13.5px;font-weight:700}.ans b{color:#0f766e}
-ol.steps li em{float:left;font-style:normal;font-size:12px;font-weight:800;padding:2px 12px;border-radius:99px;background:#f2f4f4;color:#667473}ol.steps li.done{border-color:#0f766e;background:#f3f9f8}ol.steps li.done em{background:#0f766e;color:#fff}
+ol.steps em{flex:none;font-style:normal;font-size:12px;font-weight:800;padding:2px 12px;border-radius:99px;background:#f2f4f4;color:#667473;white-space:nowrap}ol.steps em:after{content:"بررسی نشده"}
+ol.steps li:has(input:checked){border-color:#0f766e;background:#f3f9f8}ol.steps li:has(input:checked) em{background:#0f766e;color:#fff}ol.steps li:has(input:checked) em:after{content:"بررسی شد"}
 .q{padding:10px 0;border-top:1px solid #f2f4f4}.q:first-child{border:0}.q p{margin:0;font-weight:800}.q small{display:block;color:#667473;font-size:12.5px}
 footer{padding:20px 44px;background:#f7f9f9;border-top:1px solid #e4e9e8;font-size:12.5px;color:#667473}
 @media print{body{background:#fff}.sheet{margin:0;border:0;border-radius:0;max-width:none}section{break-inside:avoid}}
@@ -65,11 +72,11 @@ export function guideHtml(l: Listing, ctx: GuideContext = {}): string {
   if (o) {
     const flow = [["پول از کجا می‌آید", o.finance], ["چطور برمی‌گردد", o.repay], ["مالکیت و سهم", o.ownership]].filter((x) => x[1]) as [string, string][];
     if (flow.length) parts.push(sec("مسیر پول", `<div class="flow" style="grid-template-columns:${flow.map(() => "1fr").join(" auto ")}">${flow.map(([t, d], i) => `${i ? '<div class="arrow">←</div>' : ""}<div class="card"><h3>${t}</h3><p>${esc(d)}</p></div>`).join("")}</div>`));
-    const checks = [...(o.checks ?? []), ...(adv?.baseChecks ?? [])];
-    if (o.caution || checks.length) parts.push(sec("پیش از اقدام بدانید", `${o.caution ? `<div class="note">${esc(o.caution)}</div>` : ""}${checks.length ? `<ul class="check">${checks.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>` : ""}`));
+    const checks = [...new Set([...(o.checks ?? []), ...(adv?.baseChecks ?? [])])];
+    if (o.caution || checks.length) parts.push(sec("پیش از اقدام بدانید", `${o.caution ? `<div class="note">${esc(o.caution)}</div>` : ""}${checks.length ? `<ul class="check">${checks.map((c) => `<li><label><input type="checkbox" data-k="${esc(c)}"${ctx.checked?.includes(c) ? " checked" : ""}><i></i>${esc(c)}</label></li>`).join("")}</ul>` : ""}`));
     if (adv?.questions.length) parts.push(sec("پرسش‌هایی که باید پاسخشان را آماده کنید", `${adv.context ? `<p style="margin:0 0 8px;color:#667473">${esc(adv.context)}</p>` : ""}${adv.questions.map((q) => { const a = ctx.answers?.[q.id]; const opt = q.options.find((x) => x.value === a);
       return `<div class="q"><p>${esc(q.label)}</p>${opt ? `<div class="ans"><b>پاسخ شما:</b> ${esc(opt.label)}</div>${q.actions[a!] ? `<small>${esc(q.actions[a!])}</small>` : ""}` : `<small>${q.options.map((x) => esc(x.label)).join(" · ")}</small>`}</div>`; }).join("")}`));
-    if (o.steps.length) parts.push(sec("گام‌های اقدام", `<ol class="steps">${o.steps.map((s) => { const done = ctx.checked?.includes(s); return `<li${done ? ' class="done"' : ""}>${esc(s)}${ctx.checked ? `<em>${done ? "بررسی شده" : "نیازمند بررسی"}</em>` : ""}</li>`; }).join("")}</ol>`));
+    if (o.steps.length) parts.push(sec("گام‌های اقدام", `<ol class="steps">${o.steps.map((s) => `<li><label><input type="checkbox" data-k="${esc(s)}"${ctx.checked?.includes(s) ? " checked" : ""}><span>${esc(s)}</span><em></em></label></li>`).join("")}</ol>`));
   }
 
   return `<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>راهنمای اقدام | ${esc(l.title)}</title><style>${css}</style></head><body><div class="sheet"><header><div class="brand"><span>${site.name}</span>${mark}</div><p class="kicker">راهنمای اقدام</p><h1>${esc(l.title)}</h1><div class="meta">${[l.city ? `${l.province}، ${l.city}` : "", ...l.tags, l.id].filter(Boolean).map((t) => `<span class="pill">${esc(t as string)}</span>`).join("")}</div></header><main>${parts.join("")}</main><footer>این راهنما برای آماده شدن پیش از اقدام است و تعهد پرداخت یا تضمین سود نیست.</footer></div></body></html>`;

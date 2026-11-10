@@ -1,8 +1,7 @@
 "use client";
 import { memo } from "react";
-import { iranDots, iranPath, project } from "@/data/iran-map";
+import { iranDots, iranPath, project, provinceBox, provinceDots, provincePaths } from "@/data/iran-map";
 import { cityCoords } from "@/data/opportunities";
-import { provinceCoords } from "@/data/provinces";
 import { cn, faNumber } from "@/lib/utils";
 
 export interface MapPoint { city: string; province: string; count: number }
@@ -21,7 +20,7 @@ export const IranMap = memo(function IranMap({
   const max = Math.max(1, ...pts.map((p) => p.count));
   return (
     <svg viewBox="0 0 360 330" className={cn("h-auto w-full overflow-visible", className)} role="img" aria-label="نقشه ایران و شهرهای دارای پروژه">
-      <path d={iranPath} className="fill-primary/[0.025] stroke-ink/10" strokeWidth="0.6" />
+      <path d={iranPath} className="fill-primary/[0.025] stroke-ink/10" strokeWidth="0.5" strokeLinejoin="round" />
       <path d={dotsPath} className="fill-ink/[0.13]" />
       {links && hub && pts.length > 1 && (
         <g fill="none" className="stroke-primary/25" strokeWidth="0.6">
@@ -55,25 +54,23 @@ export const IranMap = memo(function IranMap({
 
 const dotAt = ([x, y]: [number, number], r = 1.05) => `M${x - r} ${y}a${r} ${r} 0 1 0 ${r * 2} 0a${r} ${r} 0 1 0 ${-r * 2} 0`;
 
-/** نقشه محل پروژه: نمای نزدیک روی استان؛ محدوده استان با نقطه‌های رنگی پر می‌شود و شهر با نود توپر مشخص است. */
+/** نقشه محل پروژه: نمای نزدیک روی استان؛ خود استان رنگ می‌شود و شهر با نود توپر مشخص است. */
 export function LocationMap({ city, province, className }: { city: string; province: string; className?: string }) {
-  const pc = provinceCoords[province] ? project(provinceCoords[province][0], provinceCoords[province][1]) : null;
-  const cc = cityXY(city) ?? pc;
-  if (!cc) return null;
-  const center = pc ?? cc; const R = 19; const w = 176, h = 88;
-  const mx = (center.x + cc.x) / 2, my = (center.y + cc.y) / 2;
-  const inside = iranDots.filter(([x, y]) => Math.hypot(x - center.x, y - center.y) <= R);
+  const b = provinceBox[province]; const cc = cityXY(city);
+  if (!b) return null;
+  const pad = 14, bw = b[2] - b[0] + pad * 2, bh = b[3] - b[1] + pad * 2;
+  const w = Math.max(bw, bh * 2), h = w / 2; const mx = (b[0] + b[2]) / 2, my = (b[1] + b[3]) / 2; const u = w / 176;
   return (
     <svg viewBox={`${mx - w / 2} ${my - h / 2} ${w} ${h}`} preserveAspectRatio="xMidYMid slice" className={cn("block w-full bg-muted/60", className)} role="img" aria-label={`محل پروژه: ${city}، استان ${province}`}>
-      <path d={iranPath} className="fill-white stroke-ink/15" strokeWidth="0.5" />
-      <path d={dotsPath} className="fill-ink/[0.12]" />
-      <circle cx={center.x} cy={center.y} r={R + 2} className="fill-primary/[0.12]" />
-      <path d={inside.map((d) => dotAt(d, 1.5)).join("")} className="fill-primary/70" />
-      <text x={center.x} y={center.y - R - 3} textAnchor="middle" className="fill-primary text-[5px] font-extrabold">استان {province}</text>
-      <circle cx={cc.x} cy={cc.y} r="3.2" className="fill-primary" style={{ transformOrigin: `${cc.x}px ${cc.y}px`, animation: "pulse-node 2.8s ease-out infinite" }} />
-      <circle cx={cc.x} cy={cc.y} r="3.4" className="fill-primary stroke-white" strokeWidth="1.2" />
-      <rect x={cc.x - city.length * 1.9 - 4} y={cc.y + 5.5} width={city.length * 3.8 + 8} height="9" rx="4.5" className="fill-ink" />
-      <text x={cc.x} y={cc.y + 12} textAnchor="middle" className="fill-white text-[5.5px] font-extrabold">{city}</text>
+      <path d={iranPath} className="fill-white stroke-ink/20" strokeWidth={0.5 * u} strokeLinejoin="round" />
+      <path d={provincePaths[province]} className="fill-primary/20 stroke-primary" strokeWidth={1 * u} strokeLinejoin="round" />
+      <path d={(provinceDots[province] ?? []).map((d) => dotAt(d, 1.2)).join("")} className="fill-primary/50" />
+      {cc && <>
+        <circle cx={cc.x} cy={cc.y} r={3.2 * u} className="fill-primary" style={{ transformOrigin: `${cc.x}px ${cc.y}px`, animation: "pulse-node 2.8s ease-out infinite" }} />
+        <circle cx={cc.x} cy={cc.y} r={3.4 * u} className="fill-primary stroke-white" strokeWidth={1.2 * u} />
+        <rect x={cc.x - (city.length * 1.9 + 4) * u} y={cc.y + 5.5 * u} width={(city.length * 3.8 + 8) * u} height={9 * u} rx={4.5 * u} className="fill-ink" />
+        <text x={cc.x} y={cc.y + 12 * u} textAnchor="middle" style={{ fontSize: 5.5 * u }} className="fill-white font-extrabold">{city}</text>
+      </>}
     </svg>
   );
 }

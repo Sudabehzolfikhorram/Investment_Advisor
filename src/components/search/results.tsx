@@ -1,9 +1,9 @@
 "use client";
 // صفحه پروژه‌ها: اول «اطلاعات پایه» (دسته اصلی، محدوده، بودجه) پرسیده می‌شود و بعد نتایج می‌آید.
 // در نتایج: دسته‌های اصلی (تک‌انتخابی) و فیلترهای اصلی بالای صفحه، فیلتر پیشرفته کنار نتایج.
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowDown2, ArrowLeft, Category2, CloseCircle, Location, Save2, SearchNormal1, Sort, WalletMoney } from "@/components/iconsax";
+import { ArrowDown2, ArrowLeft, ArrowRight, Category2, CloseCircle, Location, Save2, SearchNormal1, Sort, WalletMoney } from "@/components/iconsax";
 import { Header, Footer } from "@/components/site/header";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { ListingCard } from "@/components/listing/listing-card";
@@ -108,10 +108,10 @@ function Intake({ count }: { count: number }) {
         </Step>
 
         <div className="flex items-center gap-4 border-t border-border pt-7">
-          <Button variant="plain" size="auto" onClick={() => { setStarted(true); window.scrollTo({ top: 0 }); }} className="group h-14 gap-3 rounded-full bg-primary pl-2 pr-7 text-base font-extrabold text-white shadow-[0_18px_40px_-20px_var(--primary)] hover:bg-deep">
+          <Button variant="plain" size="auto" onClick={() => { setStarted(true); requestAnimationFrame(() => window.scrollTo({ top: 0 })); }} className="group h-14 gap-3 rounded-full bg-primary pl-2 pr-7 text-base font-extrabold text-white shadow-[0_18px_40px_-20px_var(--primary)] hover:bg-deep">
             دیدن {faNumber(count)} پروژه<span className="grid size-10 place-items-center rounded-full bg-white/15 transition-transform group-hover:-translate-x-1"><ArrowLeft size={18} /></span>
           </Button>
-          <Button variant="ghost" onClick={() => { setCriteria({ provinces: [], amount: null }); setStarted(true); window.scrollTo({ top: 0 }); }} className="h-12 rounded-full px-5 font-bold text-ink/70">بعداً مشخص می‌کنم</Button>
+          <Button variant="ghost" onClick={() => { setCriteria({ provinces: [], amount: null }); setStarted(true); requestAnimationFrame(() => window.scrollTo({ top: 0 })); }} className="h-12 rounded-full px-5 font-bold text-ink/70">بعداً مشخص می‌کنم</Button>
         </div>
       </Card>
     </motion.div>
@@ -195,6 +195,44 @@ function ActiveChips({ chips }: { chips: CriteriaChip[] }) {
   );
 }
 
+/** تب مسیرها: یک ردیف با اسکرول افقی؛ چرخ ماوس، کشیدن و دکمه‌های کناری همه کار می‌کنند */
+function RouteTabs({ routeCounts, active, onChange }: { routeCounts: Record<string, number>; active: RouteId; onChange: (r: RouteId) => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [edge, setEdge] = useState({ start: false, end: false });
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    // در RTL مقدار scrollLeft صفر یا منفی است
+    const update = () => { const x = Math.abs(el.scrollLeft), max = el.scrollWidth - el.clientWidth; setEdge({ start: x > 4, end: x < max - 4 }); };
+    const wheel = (e: WheelEvent) => { if (el.scrollWidth <= el.clientWidth || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; e.preventDefault(); el.scrollLeft -= e.deltaY; };
+    update(); el.addEventListener("scroll", update, { passive: true }); el.addEventListener("wheel", wheel, { passive: false }); window.addEventListener("resize", update);
+    return () => { el.removeEventListener("scroll", update); el.removeEventListener("wheel", wheel); window.removeEventListener("resize", update); };
+  }, []);
+  // تب فعال اگر بیرون از دید باشد فقط افقی به داخل می‌آید (بدون جابه‌جایی عمودی صفحه)
+  useEffect(() => {
+    const el = ref.current, t = el?.querySelector<HTMLElement>('[aria-selected="true"]'); if (!el || !t) return;
+    const a = t.getBoundingClientRect(), b = el.getBoundingClientRect();
+    if (a.left < b.left + 48) el.scrollBy({ left: a.left - b.left - 60, behavior: "smooth" }); else if (a.right > b.right - 48) el.scrollBy({ left: a.right - b.right + 60, behavior: "smooth" });
+  }, [active]);
+  const move = (dir: 1 | -1) => ref.current?.scrollBy({ left: dir * -320, behavior: "smooth" });
+  const arrow = "absolute top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full border border-border bg-white text-ink shadow-md hover:border-primary hover:text-primary";
+  return (
+    <div className="relative">
+      <div ref={ref} role="tablist" aria-label="مسیر ورود" className="no-scrollbar -mx-2 flex gap-2 overflow-x-auto px-2 py-2">
+        {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === active;
+          return (
+            <Button key={r.id} role="tab" aria-selected={on} type="button" variant="plain" size="auto" onClick={() => onChange(r.id)}
+              className={cn("h-11 flex-none gap-2 whitespace-nowrap rounded-full border px-4 text-[13px] transition-all", on ? "border-primary bg-primary font-extrabold text-white shadow-[0_10px_24px_-12px_var(--primary)]" : "border-border bg-white font-bold text-ink/70 hover:border-primary/40 hover:text-primary")}>
+              <I size={17} variant="Bulk" className="shrink-0" />{r.name}
+              <span className={cn("rounded-full px-1.5 text-[11px] font-bold", on ? "bg-white/20 text-white" : "bg-muted text-ink/60")}>{faNumber(routeCounts[r.id])}</span>
+            </Button>
+          ); })}
+      </div>
+      {edge.start && <><span className="pointer-events-none absolute inset-y-0 -right-2 w-20 bg-gradient-to-l from-background to-transparent" /><Button type="button" variant="plain" size="auto" aria-label="مسیرهای قبلی" onClick={() => move(-1)} className={cn(arrow, "-right-1")}><ArrowRight size={17} /></Button></>}
+      {edge.end && <><span className="pointer-events-none absolute inset-y-0 -left-2 w-20 bg-gradient-to-r from-background to-transparent" /><Button type="button" variant="plain" size="auto" aria-label="مسیرهای بعدی" onClick={() => move(1)} className={cn(arrow, "-left-1")}><ArrowLeft size={17} /></Button></>}
+    </div>
+  );
+}
+
 export function Results() {
   const hydrated = useHydrated();
   const { criteria, started, profiles } = useStore();
@@ -237,16 +275,7 @@ export function Results() {
         {!hydrated ? null : !started ? <Intake count={suitable} /> : (
           <>
             {/* مسیرها: تک‌انتخابی، یک ردیف با اسکرول افقی */}
-            <div role="tablist" aria-label="مسیر ورود" className="no-scrollbar -mx-2 flex gap-2 overflow-x-auto px-2 py-2">
-              {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === criteria.route;
-                return (
-                  <Button key={r.id} role="tab" aria-selected={on} type="button" variant="plain" size="auto" onClick={() => changeRoute(r.id)}
-                    className={cn("h-11 flex-none gap-2 whitespace-nowrap rounded-full border px-4 text-[13px] transition-all", on ? "border-primary bg-primary font-extrabold text-white shadow-[0_10px_24px_-12px_var(--primary)]" : "border-border bg-white font-bold text-ink/70 hover:border-primary/40 hover:text-primary")}>
-                    <I size={17} variant="Bulk" className="shrink-0" />{r.name}
-                    <span className={cn("rounded-full px-1.5 text-[11px] font-bold", on ? "bg-white/20 text-white" : "bg-muted text-ink/60")}>{faNumber(routeCounts[r.id])}</span>
-                  </Button>
-                ); })}
-            </div>
+            <RouteTabs routeCounts={routeCounts} active={criteria.route} onChange={changeRoute} />
 
             <div className="relative z-30 mt-4 flex items-center gap-3">
               <div className="min-w-0 flex-1"><FilterBar /></div>
