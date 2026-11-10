@@ -1,4 +1,3 @@
-// اسکلت صفحه «ذخیره‌شده‌ها» — دیزاین در مرحله بعد.
-export default function Page() {
-  return <main className="p-8"><h1 className="text-xl font-bold">ذخیره‌شده‌ها</h1></main>;
-}
+import { Saved } from "@/components/saved/saved";
+export const metadata = { title: "ذخیره‌شده‌ها | سرمایه‌نما" };
+export default function SavedPage() { return <Saved />; }

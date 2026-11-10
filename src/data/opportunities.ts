@@ -1,5 +1,5 @@
 // داده نمونه و کاملاً فرضی، منتقل‌شده از نسخه HTML مرجع. مبالغ به میلیارد تومان.
-// expert و guideFileUrl در داده واقعی پر می‌شوند (هر پروژه یکی از این دو را دارد).
+// نام کارشناس‌ها شخصیت‌های فرضی نسخه مرجع‌اند؛ شماره‌ها نمونه‌اند.
 import type { Opportunity, Fund, SaleItem } from "@/types";
 
 export const opportunities: Opportunity[] = [
@@ -9,12 +9,14 @@ export const opportunities: Opportunity[] = [
     "title": "توسعه مجموعه مسکونی",
     "group": "building",
     "subtype": "residential",
+    "image": "/images/types/residential.webp",
     "province": "فارس",
     "city": "شیراز",
     "routes": [
       "investor"
     ],
     "stage": "آماده بررسی توسعه",
+    "phase": "new",
     "model": "مشارکت در ساخت",
     "minCapital": 15,
     "paybackYears": 5,
@@ -35,9 +37,17 @@ export const opportunities: Opportunity[] = [
       "بررسی شرایط فراخوان و احراز توان مالی",
       "طراحی سهم‌ها، تعهدات ساخت و تضمین‌های قرارداد"
     ],
-    "expert": null,
+    "metric": {
+      "label": "زیربنای مسکونی",
+      "unit": "مترمربع",
+      "value": 18000
+    },
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-01"
+    "publishedAt": "2026-11-01"
   },
   {
     "id": "DEMO-02",
@@ -45,12 +55,14 @@ export const opportunities: Opportunity[] = [
     "title": "احداث نیروگاه خورشیدی",
     "group": "energy",
     "subtype": "renewable",
+    "image": "/images/types/renewable.webp",
     "province": "یزد",
     "city": "یزد",
     "routes": [
       "investor"
     ],
     "stage": "احداث جدید",
+    "phase": "new",
     "model": "BOO — ساخت، مالکیت و بهره‌برداری",
     "minCapital": 25,
     "paybackYears": 7,
@@ -71,22 +83,32 @@ export const opportunities: Opportunity[] = [
       "بررسی هزینه، ارز تجهیزات و سناریوهای درآمد",
       "احراز توان شریک و تأمین‌کننده مالی؛ سپس قرارداد"
     ],
-    "expert": null,
+    "metric": {
+      "label": "توان نامی",
+      "unit": "مگاوات",
+      "value": 50
+    },
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-01"
+    "publishedAt": "2026-10-11"
   },
   {
     "id": "DEMO-03",
     "kind": "project",
     "title": "خرید ساختمان انبار موجود",
     "group": "industry",
-    "subtype": "warehouse",
+    "subtype": "warehouse-cold",
+    "image": "/images/types/warehouse.webp",
     "province": "اصفهان",
     "city": "اصفهان",
     "routes": [
       "buyer"
     ],
     "stage": "دارایی موجود",
+    "phase": "existing",
     "model": "خرید قطعی دارایی",
     "minCapital": 20,
     "paybackYears": null,
@@ -107,9 +129,17 @@ export const opportunities: Opportunity[] = [
       "ارزیابی مستقل قیمت و منابع پرداخت",
       "طی مزایده یا مسیر مجاز عرضه و انتقال رسمی"
     ],
-    "expert": null,
+    "metric": {
+      "label": "زیربنای لجستیکی",
+      "unit": "مترمربع",
+      "value": 35000
+    },
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-01"
+    "publishedAt": "2026-10-12"
   },
   {
     "id": "DEMO-04",
@@ -117,12 +147,15 @@ export const opportunities: Opportunity[] = [
     "title": "احیای بنای تاریخی خدماتی",
     "group": "heritage",
     "subtype": "historichouse",
+    "image": "/images/types/historichouse.webp",
     "province": "اصفهان",
     "city": "کاشان",
     "routes": [
-      "investor"
+      "investor",
+      "heritage"
     ],
     "stage": "نیازمند احیا",
+    "phase": "existing",
     "model": "ROT — احیا، بهره‌برداری و انتقال",
     "minCapital": 8,
     "paybackYears": 6,
@@ -143,22 +176,32 @@ export const opportunities: Opportunity[] = [
       "بررسی تقاضا و دوره بهره‌برداری",
       "شرکت در مسیر انتخاب بهره‌بردار و تنظیم قرارداد"
     ],
-    "expert": null,
+    "metric": {
+      "label": "زیربنای بنای تاریخی",
+      "unit": "مترمربع",
+      "value": 1800
+    },
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-01"
+    "publishedAt": "2026-11-04"
   },
   {
     "id": "DEMO-05",
     "kind": "project",
     "title": "راهبری تصفیه‌خانه موجود",
     "group": "water",
-    "subtype": "wastewater",
+    "subtype": "treatment",
+    "image": "/images/types/wastewater.webp",
     "province": "تهران",
     "city": "ری",
     "routes": [
       "operator"
     ],
     "stage": "آماده بهره‌برداری",
+    "phase": "existing",
     "model": "O&M — بهره‌برداری و نگهداری",
     "minCapital": null,
     "paybackYears": null,
@@ -179,9 +222,14 @@ export const opportunities: Opportunity[] = [
       "ارائه برنامه نگهداری و پیشنهاد مالی",
       "قرارداد سطح خدمت، تحویل تأسیسات و پایش عملکرد"
     ],
+    "metric": {
+      "label": "ظرفیت تصفیه روزانه",
+      "unit": "مترمکعب",
+      "value": 30000
+    },
     "expert": null,
-    "guideFileUrl": null,
-    "publishedAt": "2026-10-01"
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-10-14"
   },
   {
     "id": "DEMO-06",
@@ -189,12 +237,14 @@ export const opportunities: Opportunity[] = [
     "title": "اجرای بخش عمرانی مسیر دسترسی",
     "group": "transport",
     "subtype": "roads",
+    "image": "/images/types/roads.webp",
     "province": "البرز",
     "city": "کرج",
     "routes": [
       "contractor"
     ],
     "stage": "اجرای عمرانی",
+    "phase": "new",
     "model": "اجرای دولتی با پیمانکار",
     "minCapital": null,
     "paybackYears": null,
@@ -215,9 +265,17 @@ export const opportunities: Opportunity[] = [
       "ارائه پیشنهاد طبق اسناد رقابتی",
       "انعقاد پیمان، تجهیز و دریافت مطالبات طبق قرارداد"
     ],
-    "expert": null,
+    "metric": {
+      "label": "طول مسیر",
+      "unit": "کیلومتر",
+      "value": 45
+    },
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-01"
+    "publishedAt": "2026-10-15"
   },
   {
     "id": "DEMO-07",
@@ -225,12 +283,14 @@ export const opportunities: Opportunity[] = [
     "title": "ساخت ساختمان عمومی با اجاره",
     "group": "building",
     "subtype": "medical",
+    "image": "/images/types/medical.webp",
     "province": "البرز",
     "city": "کرج",
     "routes": [
       "investor"
     ],
     "stage": "احداث جدید",
+    "phase": "new",
     "model": "BLT — ساخت، اجاره و انتقال",
     "minCapital": 60,
     "paybackYears": 9,
@@ -251,9 +311,17 @@ export const opportunities: Opportunity[] = [
       "امکان‌سنجی ساخت و مدل مالی",
       "انتخاب طرف و قرارداد ساخت، اجاره و انتقال"
     ],
-    "expert": null,
+    "metric": {
+      "label": "ظرفیت درمان",
+      "unit": "تخت",
+      "value": 150
+    },
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-01"
+    "publishedAt": "2026-11-07"
   },
   {
     "id": "DEMO-08",
@@ -261,12 +329,14 @@ export const opportunities: Opportunity[] = [
     "title": "توسعه مجموعه خدماتی مشترک",
     "group": "land",
     "subtype": "mixeduse",
+    "image": "/images/types/lhhousing.webp",
     "province": "تهران",
     "city": "تهران",
     "routes": [
       "investor"
     ],
     "stage": "توسعه دارایی موجود",
+    "phase": "existing",
     "model": "JV — شرکت مشترک پروژه",
     "minCapital": 12,
     "paybackYears": 4,
@@ -287,9 +357,13 @@ export const opportunities: Opportunity[] = [
       "توافق درباره سهم و رأی و تقسیم عایدی",
       "طی انتخاب شریک، ثبت حقوق و انعقاد قرارداد"
     ],
-    "expert": null,
+    "metric": null,
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-01"
+    "publishedAt": "2026-10-17"
   },
   {
     "id": "DEMO-10",
@@ -297,12 +371,14 @@ export const opportunities: Opportunity[] = [
     "title": "توسعه مسکن اجاره‌ای",
     "group": "building",
     "subtype": "residential",
+    "image": "/images/types/residential.webp",
     "province": "تهران",
     "city": "تهران",
     "routes": [
       "investor"
     ],
-    "stage": "new",
+    "stage": "احداث جدید",
+    "phase": "new",
     "model": "مشارکت در توسعه و نگهداری مسکن اجاره‌ای",
     "minCapital": 22,
     "paybackYears": 9,
@@ -318,9 +394,17 @@ export const opportunities: Opportunity[] = [
     "ownership": null,
     "caution": "نرخ اشغال، تعدیل اجاره و حق خروج از مشارکت بررسی شود.",
     "steps": [],
-    "expert": null,
+    "metric": {
+      "label": "زیربنای مسکونی",
+      "unit": "مترمربع",
+      "value": 18000
+    },
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-15"
+    "publishedAt": "2026-10-18"
   },
   {
     "id": "DEMO-11",
@@ -328,12 +412,14 @@ export const opportunities: Opportunity[] = [
     "title": "ساختمان اداری برای خریدار خدمت عمومی",
     "group": "building",
     "subtype": "office",
+    "image": "/images/types/office.webp",
     "province": "تهران",
     "city": "تهران",
     "routes": [
       "investor"
     ],
-    "stage": "new",
+    "stage": "احداث جدید",
+    "phase": "new",
     "model": "BLT — ساخت، اجاره و انتقال؛ قابل مطالعه",
     "minCapital": 28,
     "paybackYears": 8,
@@ -349,9 +435,14 @@ export const opportunities: Opportunity[] = [
     "ownership": null,
     "caution": "اختیار قانونی تعهد بلندمدت و توان پرداخت دستگاه هنوز احراز نشده است.",
     "steps": [],
+    "metric": {
+      "label": "زیربنای اداری",
+      "unit": "مترمربع",
+      "value": 12000
+    },
     "expert": null,
-    "guideFileUrl": null,
-    "publishedAt": "2026-10-15"
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-11-02"
   },
   {
     "id": "DEMO-12",
@@ -359,12 +450,14 @@ export const opportunities: Opportunity[] = [
     "title": "مشارکت در مجموعه تجاری محلی",
     "group": "building",
     "subtype": "commercial",
+    "image": "/images/types/commercial.webp",
     "province": "فارس",
     "city": "شیراز",
     "routes": [
       "investor"
     ],
-    "stage": "new",
+    "stage": "احداث جدید",
+    "phase": "new",
     "model": "BOT — ساخت، بهره‌برداری و انتقال؛ قابل مطالعه",
     "minCapital": 18,
     "paybackYears": 7,
@@ -380,9 +473,17 @@ export const opportunities: Opportunity[] = [
     "ownership": null,
     "caution": "مدت بهره‌برداری، فضای خالی و اختیار واگذاری منافع بررسی شود.",
     "steps": [],
-    "expert": null,
+    "metric": {
+      "label": "فضای تجاری",
+      "unit": "مترمربع",
+      "value": 16000
+    },
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-15"
+    "publishedAt": "2026-10-20"
   },
   {
     "id": "DEMO-13",
@@ -390,12 +491,14 @@ export const opportunities: Opportunity[] = [
     "title": "بازسازی و تجهیز مجموعه اقامتی",
     "group": "building",
     "subtype": "hospitality",
+    "image": "/images/types/hospitality.webp",
     "province": "اصفهان",
     "city": "اصفهان",
     "routes": [
       "investor"
     ],
-    "stage": "existing",
+    "stage": "دارایی موجود",
+    "phase": "existing",
     "model": "ROT — بازسازی، بهره‌برداری و انتقال؛ قابل مطالعه",
     "minCapital": 16,
     "paybackYears": 8,
@@ -411,9 +514,17 @@ export const opportunities: Opportunity[] = [
     "ownership": null,
     "caution": "این نمونه بنای ثبت‌شده تاریخی فرض نشده؛ مجوزها و بازار باید بررسی شوند.",
     "steps": [],
-    "expert": null,
+    "metric": {
+      "label": "ظرفیت اقامت",
+      "unit": "اتاق",
+      "value": 120
+    },
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-15"
+    "publishedAt": "2026-10-21"
   },
   {
     "id": "DEMO-14",
@@ -421,12 +532,14 @@ export const opportunities: Opportunity[] = [
     "title": "تأمین ساختمان آموزشی و نگهداری آن",
     "group": "building",
     "subtype": "education",
+    "image": "/images/types/education.webp",
     "province": "البرز",
     "city": "کرج",
     "routes": [
       "investor"
     ],
-    "stage": "new",
+    "stage": "احداث جدید",
+    "phase": "new",
     "model": "DBFO — طراحی، ساخت، تأمین مالی و بهره‌برداری تأسیساتی؛ قابل مطالعه",
     "minCapital": 20,
     "paybackYears": 9,
@@ -442,9 +555,17 @@ export const opportunities: Opportunity[] = [
     "ownership": null,
     "caution": "اداره آموزشی و مجوز آن از خدمت تأسیساتی تفکیک شود؛ اختیار قرارداد هنوز احراز نشده است.",
     "steps": [],
-    "expert": null,
+    "metric": {
+      "label": "ظرفیت آموزش",
+      "unit": "نفر",
+      "value": 600
+    },
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-15"
+    "publishedAt": "2026-11-05"
   },
   {
     "id": "DEMO-15",
@@ -452,12 +573,14 @@ export const opportunities: Opportunity[] = [
     "title": "مرکز فرهنگی با خرید خدمت قراردادی",
     "group": "building",
     "subtype": "cultural",
+    "image": "/images/types/cultural.webp",
     "province": "تهران",
     "city": "تهران",
     "routes": [
       "investor"
     ],
-    "stage": "new",
+    "stage": "احداث جدید",
+    "phase": "new",
     "model": "مشارکت ساخت و تأمین خدمت؛ ساختار نهایی نیازمند بررسی",
     "minCapital": 14,
     "paybackYears": 10,
@@ -473,9 +596,14 @@ export const opportunities: Opportunity[] = [
     "ownership": null,
     "caution": "بدون خریدار خدمت معتبر، بازگشت ارقام این سناریو قابل اتکا نیست.",
     "steps": [],
+    "metric": {
+      "label": "فضای فرهنگی",
+      "unit": "مترمربع",
+      "value": 6500
+    },
     "expert": null,
-    "guideFileUrl": null,
-    "publishedAt": "2026-10-15"
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-10-23"
   },
   {
     "id": "DEMO-16",
@@ -483,12 +611,14 @@ export const opportunities: Opportunity[] = [
     "title": "ساخت و بهره‌برداری مجموعه ورزشی محلی",
     "group": "building",
     "subtype": "sports",
+    "image": "/images/types/sports.webp",
     "province": "فارس",
     "city": "شیراز",
     "routes": [
       "investor"
     ],
-    "stage": "new",
+    "stage": "احداث جدید",
+    "phase": "new",
     "model": "BOT — ساخت، بهره‌برداری و انتقال؛ قابل مطالعه",
     "minCapital": 12,
     "paybackYears": 7,
@@ -504,9 +634,17 @@ export const opportunities: Opportunity[] = [
     "ownership": null,
     "caution": "ظرفیت جذب استفاده‌کننده و هزینه انرژی و نگهداری بررسی شود.",
     "steps": [],
-    "expert": null,
+    "metric": {
+      "label": "ظرفیت تماشاگر",
+      "unit": "صندلی",
+      "value": 5000
+    },
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-15"
+    "publishedAt": "2026-10-24"
   },
   {
     "id": "DEMO-17",
@@ -514,12 +652,14 @@ export const opportunities: Opportunity[] = [
     "title": "تکمیل ساختمان اداری برای بازار اجاره",
     "group": "building",
     "subtype": "office",
+    "image": "/images/types/office.webp",
     "province": "اصفهان",
     "city": "اصفهان",
     "routes": [
       "investor"
     ],
-    "stage": "unfinished",
+    "stage": "نیمه‌تمام",
+    "phase": "unfinished",
     "model": "JV — مشارکت در تکمیل و بهره‌برداری",
     "minCapital": 15,
     "paybackYears": 7,
@@ -535,9 +675,17 @@ export const opportunities: Opportunity[] = [
     "ownership": null,
     "caution": "هزینه رفع نواقص، سند و کاربری، حاکمیت مشارکت و مستأجر بررسی شود.",
     "steps": [],
-    "expert": null,
+    "metric": {
+      "label": "زیربنای اداری",
+      "unit": "مترمربع",
+      "value": 12000
+    },
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-15"
+    "publishedAt": "2026-11-08"
   }
 ];
 
@@ -841,3 +989,7693 @@ export const saleItems: SaleItem[] = [
     "neighborhood": null
   }
 ];
+
+
+// نمونه‌های تولیدشده برای هر نوع پروژه (همان منطق نسخه مرجع: سه نمونه برای هر نوع).
+export const generatedOpportunities: Opportunity[] = [
+ {
+  "id": "PL-ROADS-01",
+  "kind": "project",
+  "title": "احداث راه‌سازی و بزرگراه — قم",
+  "group": "transport",
+  "subtype": "roads",
+  "image": "/images/types/roads.webp",
+  "province": "قم",
+  "city": "قم",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 1400,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در راه و بزرگراه، ترافیک به‌تنهایی درآمد نیست؛ حق اخذ عوارض و منبع جبران هزینه باید مشخص باشد.",
+  "checks": [
+   "تعیین محدوده راه، تملک اراضی و هزینه جابه‌جایی تأسیسات",
+   "تخصیص ریسک ترافیک، تعمیرات اساسی و تحویل راه"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول مسیر",
+   "unit": "کیلومتر",
+   "value": 45
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-01"
+ },
+ {
+  "id": "PL-ROADS-02",
+  "kind": "project",
+  "title": "تکمیل راه‌سازی و بزرگراه — اراک",
+  "group": "transport",
+  "subtype": "roads",
+  "image": "/images/types/roads.webp",
+  "province": "مرکزی",
+  "city": "اراک",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 1000,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در راه و بزرگراه، ترافیک به‌تنهایی درآمد نیست؛ حق اخذ عوارض و منبع جبران هزینه باید مشخص باشد.",
+  "checks": [
+   "تعیین محدوده راه، تملک اراضی و هزینه جابه‌جایی تأسیسات",
+   "تخصیص ریسک ترافیک، تعمیرات اساسی و تحویل راه"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول مسیر",
+   "unit": "کیلومتر",
+   "value": 34
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-11"
+ },
+ {
+  "id": "PL-ROADS-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی راه‌سازی و بزرگراه — تبریز",
+  "group": "transport",
+  "subtype": "roads",
+  "image": "/images/types/roads.webp",
+  "province": "آذربایجان شرقی",
+  "city": "تبریز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 700,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در راه و بزرگراه، ترافیک به‌تنهایی درآمد نیست؛ حق اخذ عوارض و منبع جبران هزینه باید مشخص باشد.",
+  "checks": [
+   "تعیین محدوده راه، تملک اراضی و هزینه جابه‌جایی تأسیسات",
+   "تخصیص ریسک ترافیک، تعمیرات اساسی و تحویل راه"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول مسیر",
+   "unit": "کیلومتر",
+   "value": 59
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-12"
+ },
+ {
+  "id": "PL-BRIDGE-01",
+  "kind": "project",
+  "title": "احداث پل و تقاطع غیرهم‌سطح — قم",
+  "group": "transport",
+  "subtype": "bridge-tunnel",
+  "image": "/images/types/bridge.webp",
+  "province": "قم",
+  "city": "قم",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 420,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پل و تقاطع، امکان دریافت مستقیم هزینه از استفاده‌کننده باید از ابتدا روشن شود.",
+  "checks": [
+   "تفکیک هزینه ساخت از نگهداری و بازرسی سازه",
+   "بررسی نیاز به مسدودسازی مسیر و تعهدات ایمنی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول پل",
+   "unit": "متر",
+   "value": 800
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-13"
+ },
+ {
+  "id": "PL-BRIDGE-02",
+  "kind": "project",
+  "title": "تکمیل پل و تقاطع غیرهم‌سطح — اراک",
+  "group": "transport",
+  "subtype": "bridge-tunnel",
+  "image": "/images/types/bridge.webp",
+  "province": "مرکزی",
+  "city": "اراک",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 300,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پل و تقاطع، امکان دریافت مستقیم هزینه از استفاده‌کننده باید از ابتدا روشن شود.",
+  "checks": [
+   "تفکیک هزینه ساخت از نگهداری و بازرسی سازه",
+   "بررسی نیاز به مسدودسازی مسیر و تعهدات ایمنی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول پل",
+   "unit": "متر",
+   "value": 600
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-14"
+ },
+ {
+  "id": "PL-BRIDGE-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی پل و تقاطع غیرهم‌سطح — تبریز",
+  "group": "transport",
+  "subtype": "bridge-tunnel",
+  "image": "/images/types/bridge.webp",
+  "province": "آذربایجان شرقی",
+  "city": "تبریز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 210,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پل و تقاطع، امکان دریافت مستقیم هزینه از استفاده‌کننده باید از ابتدا روشن شود.",
+  "checks": [
+   "تفکیک هزینه ساخت از نگهداری و بازرسی سازه",
+   "بررسی نیاز به مسدودسازی مسیر و تعهدات ایمنی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول پل",
+   "unit": "متر",
+   "value": 1040
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-06"
+ },
+ {
+  "id": "PL-TUNNEL-01",
+  "kind": "project",
+  "title": "احداث تونل — قم",
+  "group": "transport",
+  "subtype": "bridge-tunnel",
+  "image": "/images/types/tunnel.webp",
+  "province": "قم",
+  "city": "قم",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 1120,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در تونل، هزینه ایمنی و نگهداری و ریسک زمین باید همراه با درآمد عبور بررسی شود.",
+  "checks": [
+   "تعیین مسئولیت ریسک شرایط پیش‌بینی‌نشده زمین",
+   "بررسی مجوز، مسیر و نیاز به اتصال به راه موجود"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول تونل",
+   "unit": "متر",
+   "value": 2200
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-16"
+ },
+ {
+  "id": "PL-TUNNEL-02",
+  "kind": "project",
+  "title": "تکمیل تونل — اراک",
+  "group": "transport",
+  "subtype": "bridge-tunnel",
+  "image": "/images/types/tunnel.webp",
+  "province": "مرکزی",
+  "city": "اراک",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 800,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در تونل، هزینه ایمنی و نگهداری و ریسک زمین باید همراه با درآمد عبور بررسی شود.",
+  "checks": [
+   "تعیین مسئولیت ریسک شرایط پیش‌بینی‌نشده زمین",
+   "بررسی مجوز، مسیر و نیاز به اتصال به راه موجود"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول تونل",
+   "unit": "متر",
+   "value": 1650
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-17"
+ },
+ {
+  "id": "PL-TUNNEL-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی تونل — تبریز",
+  "group": "transport",
+  "subtype": "bridge-tunnel",
+  "image": "/images/types/tunnel.webp",
+  "province": "آذربایجان شرقی",
+  "city": "تبریز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 560,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در تونل، هزینه ایمنی و نگهداری و ریسک زمین باید همراه با درآمد عبور بررسی شود.",
+  "checks": [
+   "تعیین مسئولیت ریسک شرایط پیش‌بینی‌نشده زمین",
+   "بررسی مجوز، مسیر و نیاز به اتصال به راه موجود"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول تونل",
+   "unit": "متر",
+   "value": 2860
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-18"
+ },
+ {
+  "id": "PL-RAIL-01",
+  "kind": "project",
+  "title": "احداث راه‌آهن — قم",
+  "group": "transport",
+  "subtype": "rail-metro",
+  "image": "/images/types/rail.webp",
+  "province": "قم",
+  "city": "قم",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 2800,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در راه‌آهن، احداث خط، تأمین ناوگان و بهره‌برداری باید از هم تفکیک شوند.",
+  "checks": [
+   "بررسی تقاضای بار / مسافر و قراردادهای استفاده",
+   "تعیین هزینه نگهداری خط و تأسیسات و حدود اختیار بهره‌بردار"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول خط",
+   "unit": "کیلومتر",
+   "value": 65
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-19"
+ },
+ {
+  "id": "PL-RAIL-02",
+  "kind": "project",
+  "title": "تکمیل راه‌آهن — اراک",
+  "group": "transport",
+  "subtype": "rail-metro",
+  "image": "/images/types/rail.webp",
+  "province": "مرکزی",
+  "city": "اراک",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 2000,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در راه‌آهن، احداث خط، تأمین ناوگان و بهره‌برداری باید از هم تفکیک شوند.",
+  "checks": [
+   "بررسی تقاضای بار / مسافر و قراردادهای استفاده",
+   "تعیین هزینه نگهداری خط و تأسیسات و حدود اختیار بهره‌بردار"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول خط",
+   "unit": "کیلومتر",
+   "value": 49
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-11-02"
+ },
+ {
+  "id": "PL-RAIL-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی راه‌آهن — تبریز",
+  "group": "transport",
+  "subtype": "rail-metro",
+  "image": "/images/types/rail.webp",
+  "province": "آذربایجان شرقی",
+  "city": "تبریز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 1400,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در راه‌آهن، احداث خط، تأمین ناوگان و بهره‌برداری باید از هم تفکیک شوند.",
+  "checks": [
+   "بررسی تقاضای بار / مسافر و قراردادهای استفاده",
+   "تعیین هزینه نگهداری خط و تأسیسات و حدود اختیار بهره‌بردار"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول خط",
+   "unit": "کیلومتر",
+   "value": 85
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-21"
+ },
+ {
+  "id": "PL-METRO-01",
+  "kind": "project",
+  "title": "احداث مترو و قطار شهری — تهران",
+  "group": "transport",
+  "subtype": "rail-metro",
+  "image": "/images/types/metro.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 3500,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در مترو، درآمد بلیت و پرداخت دستگاه عمومی دو منبع متفاوت‌اند و باید جدا مدل شوند.",
+  "checks": [
+   "تعیین حدود مسئولیت خدمات مسافری و نگهداری",
+   "بررسی تأمین کسری درآمد و اختیار تعهد پرداخت عمومی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول مسیر شهری",
+   "unit": "کیلومتر",
+   "value": 12
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-22"
+ },
+ {
+  "id": "PL-METRO-02",
+  "kind": "project",
+  "title": "تکمیل مترو و قطار شهری — مشهد",
+  "group": "transport",
+  "subtype": "rail-metro",
+  "image": "/images/types/metro.webp",
+  "province": "خراسان رضوی",
+  "city": "مشهد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 2500,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در مترو، درآمد بلیت و پرداخت دستگاه عمومی دو منبع متفاوت‌اند و باید جدا مدل شوند.",
+  "checks": [
+   "تعیین حدود مسئولیت خدمات مسافری و نگهداری",
+   "بررسی تأمین کسری درآمد و اختیار تعهد پرداخت عمومی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول مسیر شهری",
+   "unit": "کیلومتر",
+   "value": 9
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-23"
+ },
+ {
+  "id": "PL-METRO-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی مترو و قطار شهری — شیراز",
+  "group": "transport",
+  "subtype": "rail-metro",
+  "image": "/images/types/metro.webp",
+  "province": "فارس",
+  "city": "شیراز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 1750,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در مترو، درآمد بلیت و پرداخت دستگاه عمومی دو منبع متفاوت‌اند و باید جدا مدل شوند.",
+  "checks": [
+   "تعیین حدود مسئولیت خدمات مسافری و نگهداری",
+   "بررسی تأمین کسری درآمد و اختیار تعهد پرداخت عمومی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول مسیر شهری",
+   "unit": "کیلومتر",
+   "value": 16
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-24"
+ },
+ {
+  "id": "PL-AIRPORT-01",
+  "kind": "project",
+  "title": "احداث فرودگاه — شیراز",
+  "group": "transport",
+  "subtype": "airport",
+  "image": "/images/types/airport.webp",
+  "province": "فارس",
+  "city": "شیراز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 2100,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در فرودگاه، خدمات هوانوردی از فعالیت‌های تجاری و اجاره فضاها جدا بررسی می‌شود.",
+  "checks": [
+   "احراز اختیار واگذاری خدمت و تعرفه‌های مربوط",
+   "تعیین محدوده سرمایه‌گذاری و الزامات امنیت و ایمنی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت سالانه",
+   "unit": "مسافر",
+   "value": 750000
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-07"
+ },
+ {
+  "id": "PL-AIRPORT-02",
+  "kind": "project",
+  "title": "تکمیل فرودگاه — تبریز",
+  "group": "transport",
+  "subtype": "airport",
+  "image": "/images/types/airport.webp",
+  "province": "آذربایجان شرقی",
+  "city": "تبریز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 1500,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در فرودگاه، خدمات هوانوردی از فعالیت‌های تجاری و اجاره فضاها جدا بررسی می‌شود.",
+  "checks": [
+   "احراز اختیار واگذاری خدمت و تعرفه‌های مربوط",
+   "تعیین محدوده سرمایه‌گذاری و الزامات امنیت و ایمنی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت سالانه",
+   "unit": "مسافر",
+   "value": 562500
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-26"
+ },
+ {
+  "id": "PL-AIRPORT-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی فرودگاه — مشهد",
+  "group": "transport",
+  "subtype": "airport",
+  "image": "/images/types/airport.webp",
+  "province": "خراسان رضوی",
+  "city": "مشهد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 1050,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در فرودگاه، خدمات هوانوردی از فعالیت‌های تجاری و اجاره فضاها جدا بررسی می‌شود.",
+  "checks": [
+   "احراز اختیار واگذاری خدمت و تعرفه‌های مربوط",
+   "تعیین محدوده سرمایه‌گذاری و الزامات امنیت و ایمنی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت سالانه",
+   "unit": "مسافر",
+   "value": 975000
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-27"
+ },
+ {
+  "id": "PL-PORT-01",
+  "kind": "project",
+  "title": "احداث بندر و اسکله — بندرعباس",
+  "group": "transport",
+  "subtype": "port",
+  "image": "/images/types/port.webp",
+  "province": "هرمزگان",
+  "city": "بندرعباس",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 1680,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بندر و اسکله، نوع محموله، اتصال پسکرانه و حق بهره‌برداری تعیین‌کننده است.",
+  "checks": [
+   "بررسی مطالعات دریایی، رسوب و لایروبی",
+   "تعیین حق بهره‌برداری، تعرفه و هزینه نگهداری اسکله"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت سالانه تخلیه و بارگیری",
+   "unit": "تن",
+   "value": 2000000
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-28"
+ },
+ {
+  "id": "PL-PORT-02",
+  "kind": "project",
+  "title": "تکمیل بندر و اسکله — بوشهر",
+  "group": "transport",
+  "subtype": "port",
+  "image": "/images/types/port.webp",
+  "province": "بوشهر",
+  "city": "بوشهر",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 1200,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بندر و اسکله، نوع محموله، اتصال پسکرانه و حق بهره‌برداری تعیین‌کننده است.",
+  "checks": [
+   "بررسی مطالعات دریایی، رسوب و لایروبی",
+   "تعیین حق بهره‌برداری، تعرفه و هزینه نگهداری اسکله"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت سالانه تخلیه و بارگیری",
+   "unit": "تن",
+   "value": 1500000
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-10"
+ },
+ {
+  "id": "PL-PORT-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی بندر و اسکله — چابهار",
+  "group": "transport",
+  "subtype": "port",
+  "image": "/images/types/port.webp",
+  "province": "سیستان و بلوچستان",
+  "city": "چابهار",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 840,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بندر و اسکله، نوع محموله، اتصال پسکرانه و حق بهره‌برداری تعیین‌کننده است.",
+  "checks": [
+   "بررسی مطالعات دریایی، رسوب و لایروبی",
+   "تعیین حق بهره‌برداری، تعرفه و هزینه نگهداری اسکله"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت سالانه تخلیه و بارگیری",
+   "unit": "تن",
+   "value": 2600000
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-03"
+ },
+ {
+  "id": "PL-TERMINAL-01",
+  "kind": "project",
+  "title": "احداث پایانه‌های مسافری و باری — قم",
+  "group": "transport",
+  "subtype": "terminal-parking",
+  "image": "/images/types/terminal.webp",
+  "province": "قم",
+  "city": "قم",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 210,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پایانه، اجاره فضا از ارائه خدمت به ناوگان و بار باید تفکیک شود.",
+  "checks": [
+   "بررسی دسترسی و تداخل ترافیکی پیرامون",
+   "تفکیک مجوز بهره‌برداری از حق تصرف و ساخت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت روزانه",
+   "unit": "مسافر",
+   "value": 6500
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-12"
+ },
+ {
+  "id": "PL-TERMINAL-02",
+  "kind": "project",
+  "title": "تکمیل پایانه‌های مسافری و باری — اراک",
+  "group": "transport",
+  "subtype": "terminal-parking",
+  "image": "/images/types/terminal.webp",
+  "province": "مرکزی",
+  "city": "اراک",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 150,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پایانه، اجاره فضا از ارائه خدمت به ناوگان و بار باید تفکیک شود.",
+  "checks": [
+   "بررسی دسترسی و تداخل ترافیکی پیرامون",
+   "تفکیک مجوز بهره‌برداری از حق تصرف و ساخت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت روزانه",
+   "unit": "مسافر",
+   "value": 4875
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-13"
+ },
+ {
+  "id": "PL-TERMINAL-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی پایانه‌های مسافری و باری — تبریز",
+  "group": "transport",
+  "subtype": "terminal-parking",
+  "image": "/images/types/terminal.webp",
+  "province": "آذربایجان شرقی",
+  "city": "تبریز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 105,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پایانه، اجاره فضا از ارائه خدمت به ناوگان و بار باید تفکیک شود.",
+  "checks": [
+   "بررسی دسترسی و تداخل ترافیکی پیرامون",
+   "تفکیک مجوز بهره‌برداری از حق تصرف و ساخت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت روزانه",
+   "unit": "مسافر",
+   "value": 8450
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-14"
+ },
+ {
+  "id": "PL-PARKING-01",
+  "kind": "project",
+  "title": "احداث پارکینگ عمومی — قم",
+  "group": "transport",
+  "subtype": "terminal-parking",
+  "image": "/images/types/parking.webp",
+  "province": "قم",
+  "city": "قم",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 84,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "برای پارکینگ، تقاضای همان محدوده و امکان وصول تعرفه از تعداد جای پارک مهم‌تر است.",
+  "checks": [
+   "احراز حق بهره‌برداری و تعرفه مجاز",
+   "برآورد هزینه نیروی انسانی و ایمنی و نگهداری"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت پارک",
+   "unit": "خودرو",
+   "value": 550
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-15"
+ },
+ {
+  "id": "PL-PARKING-02",
+  "kind": "project",
+  "title": "تکمیل پارکینگ عمومی — اراک",
+  "group": "transport",
+  "subtype": "terminal-parking",
+  "image": "/images/types/parking.webp",
+  "province": "مرکزی",
+  "city": "اراک",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 60,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "برای پارکینگ، تقاضای همان محدوده و امکان وصول تعرفه از تعداد جای پارک مهم‌تر است.",
+  "checks": [
+   "احراز حق بهره‌برداری و تعرفه مجاز",
+   "برآورد هزینه نیروی انسانی و ایمنی و نگهداری"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت پارک",
+   "unit": "خودرو",
+   "value": 413
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-08"
+ },
+ {
+  "id": "PL-PARKING-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی پارکینگ عمومی — تبریز",
+  "group": "transport",
+  "subtype": "terminal-parking",
+  "image": "/images/types/parking.webp",
+  "province": "آذربایجان شرقی",
+  "city": "تبریز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 42,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "برای پارکینگ، تقاضای همان محدوده و امکان وصول تعرفه از تعداد جای پارک مهم‌تر است.",
+  "checks": [
+   "احراز حق بهره‌برداری و تعرفه مجاز",
+   "برآورد هزینه نیروی انسانی و ایمنی و نگهداری"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت پارک",
+   "unit": "خودرو",
+   "value": 715
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-17"
+ },
+ {
+  "id": "PL-DAM-01",
+  "kind": "project",
+  "title": "احداث سد و مخزن ذخیره آب — اهواز",
+  "group": "water",
+  "subtype": "dam",
+  "image": "/images/types/dam.webp",
+  "province": "خوزستان",
+  "city": "اهواز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 4200,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در سد، هدف تأمین آب، کنترل سیلاب و تولید انرژی نباید یک منبع درآمد فرض شود.",
+  "checks": [
+   "بررسی مجوزها، اراضی مخزن و اثرات محیط‌زیست",
+   "کنترل هزینه ایمنی، رسوب و نگهداری بلندمدت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "حجم مخزن",
+   "unit": "میلیون مترمکعب",
+   "value": 70
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-18"
+ },
+ {
+  "id": "PL-DAM-02",
+  "kind": "project",
+  "title": "تکمیل سد و مخزن ذخیره آب — خرم‌آباد",
+  "group": "water",
+  "subtype": "dam",
+  "image": "/images/types/dam.webp",
+  "province": "لرستان",
+  "city": "خرم‌آباد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 3000,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در سد، هدف تأمین آب، کنترل سیلاب و تولید انرژی نباید یک منبع درآمد فرض شود.",
+  "checks": [
+   "بررسی مجوزها، اراضی مخزن و اثرات محیط‌زیست",
+   "کنترل هزینه ایمنی، رسوب و نگهداری بلندمدت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "حجم مخزن",
+   "unit": "میلیون مترمکعب",
+   "value": 53
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-19"
+ },
+ {
+  "id": "PL-DAM-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی سد و مخزن ذخیره آب — رشت",
+  "group": "water",
+  "subtype": "dam",
+  "image": "/images/types/dam.webp",
+  "province": "گیلان",
+  "city": "رشت",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 2100,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در سد، هدف تأمین آب، کنترل سیلاب و تولید انرژی نباید یک منبع درآمد فرض شود.",
+  "checks": [
+   "بررسی مجوزها، اراضی مخزن و اثرات محیط‌زیست",
+   "کنترل هزینه ایمنی، رسوب و نگهداری بلندمدت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "حجم مخزن",
+   "unit": "میلیون مترمکعب",
+   "value": 91
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-20"
+ },
+ {
+  "id": "PL-WATERNETWORK-01",
+  "kind": "project",
+  "title": "احداث شبکه انتقال و توزیع آب — اهواز",
+  "group": "water",
+  "subtype": "networks",
+  "image": "/images/types/waternetwork.webp",
+  "province": "خوزستان",
+  "city": "اهواز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 350,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شبکه آب، خرید عمده خدمت و درآمد فروش خرد، ریسک وصول متفاوت دارند.",
+  "checks": [
+   "بررسی حق عبور و تأسیسات معارض",
+   "تعیین تلفات مجاز، کیفیت خدمت و هزینه انرژی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول شبکه",
+   "unit": "کیلومتر",
+   "value": 80
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-04"
+ },
+ {
+  "id": "PL-WATERNETWORK-02",
+  "kind": "project",
+  "title": "تکمیل شبکه انتقال و توزیع آب — خرم‌آباد",
+  "group": "water",
+  "subtype": "networks",
+  "image": "/images/types/waternetwork.webp",
+  "province": "لرستان",
+  "city": "خرم‌آباد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 250,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شبکه آب، خرید عمده خدمت و درآمد فروش خرد، ریسک وصول متفاوت دارند.",
+  "checks": [
+   "بررسی حق عبور و تأسیسات معارض",
+   "تعیین تلفات مجاز، کیفیت خدمت و هزینه انرژی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول شبکه",
+   "unit": "کیلومتر",
+   "value": 60
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-22"
+ },
+ {
+  "id": "PL-WATERNETWORK-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی شبکه انتقال و توزیع آب — رشت",
+  "group": "water",
+  "subtype": "networks",
+  "image": "/images/types/waternetwork.webp",
+  "province": "گیلان",
+  "city": "رشت",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 175,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شبکه آب، خرید عمده خدمت و درآمد فروش خرد، ریسک وصول متفاوت دارند.",
+  "checks": [
+   "بررسی حق عبور و تأسیسات معارض",
+   "تعیین تلفات مجاز، کیفیت خدمت و هزینه انرژی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول شبکه",
+   "unit": "کیلومتر",
+   "value": 104
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-23"
+ },
+ {
+  "id": "PL-WATERTREATMENT-01",
+  "kind": "project",
+  "title": "احداث تصفیه‌خانه آب — اهواز",
+  "group": "water",
+  "subtype": "treatment",
+  "image": "/images/types/watertreatment.webp",
+  "province": "خوزستان",
+  "city": "اهواز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 252,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در تصفیه آب، کیفیت ورودی و تعهد خرید آب تصفیه‌شده مبنای طراحی و بازپرداخت است.",
+  "checks": [
+   "بررسی مجوز برداشت و دفع پسماند تصفیه",
+   "تفکیک ساخت و بهره‌برداری و ریسک تغییر کیفیت ورودی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت تصفیه روزانه",
+   "unit": "مترمکعب",
+   "value": 45000
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-24"
+ },
+ {
+  "id": "PL-WATERTREATMENT-02",
+  "kind": "project",
+  "title": "تکمیل تصفیه‌خانه آب — خرم‌آباد",
+  "group": "water",
+  "subtype": "treatment",
+  "image": "/images/types/watertreatment.webp",
+  "province": "لرستان",
+  "city": "خرم‌آباد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 180,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در تصفیه آب، کیفیت ورودی و تعهد خرید آب تصفیه‌شده مبنای طراحی و بازپرداخت است.",
+  "checks": [
+   "بررسی مجوز برداشت و دفع پسماند تصفیه",
+   "تفکیک ساخت و بهره‌برداری و ریسک تغییر کیفیت ورودی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت تصفیه روزانه",
+   "unit": "مترمکعب",
+   "value": 33750
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-25"
+ },
+ {
+  "id": "PL-WATERTREATMENT-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی تصفیه‌خانه آب — رشت",
+  "group": "water",
+  "subtype": "treatment",
+  "image": "/images/types/watertreatment.webp",
+  "province": "گیلان",
+  "city": "رشت",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 126,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در تصفیه آب، کیفیت ورودی و تعهد خرید آب تصفیه‌شده مبنای طراحی و بازپرداخت است.",
+  "checks": [
+   "بررسی مجوز برداشت و دفع پسماند تصفیه",
+   "تفکیک ساخت و بهره‌برداری و ریسک تغییر کیفیت ورودی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت تصفیه روزانه",
+   "unit": "مترمکعب",
+   "value": 58500
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-09"
+ },
+ {
+  "id": "PL-SEWERNETWORK-01",
+  "kind": "project",
+  "title": "احداث شبکه جمع‌آوری فاضلاب — اهواز",
+  "group": "water",
+  "subtype": "networks",
+  "image": "/images/types/sewernetwork.webp",
+  "province": "خوزستان",
+  "city": "اهواز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 280,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شبکه فاضلاب، اتصال مشترکین و آمادگی تصفیه‌خانه مقصد باید هم‌زمان بررسی شوند.",
+  "checks": [
+   "بررسی حق عبور، تداخل تأسیسات و آب‌های نفوذی",
+   "تعیین مسئولیت بهره‌برداری و گرفتگی و نشت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول شبکه جمع‌آوری",
+   "unit": "کیلومتر",
+   "value": 55
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-27"
+ },
+ {
+  "id": "PL-SEWERNETWORK-02",
+  "kind": "project",
+  "title": "تکمیل شبکه جمع‌آوری فاضلاب — خرم‌آباد",
+  "group": "water",
+  "subtype": "networks",
+  "image": "/images/types/sewernetwork.webp",
+  "province": "لرستان",
+  "city": "خرم‌آباد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 200,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شبکه فاضلاب، اتصال مشترکین و آمادگی تصفیه‌خانه مقصد باید هم‌زمان بررسی شوند.",
+  "checks": [
+   "بررسی حق عبور، تداخل تأسیسات و آب‌های نفوذی",
+   "تعیین مسئولیت بهره‌برداری و گرفتگی و نشت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول شبکه جمع‌آوری",
+   "unit": "کیلومتر",
+   "value": 41
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-28"
+ },
+ {
+  "id": "PL-SEWERNETWORK-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی شبکه جمع‌آوری فاضلاب — رشت",
+  "group": "water",
+  "subtype": "networks",
+  "image": "/images/types/sewernetwork.webp",
+  "province": "گیلان",
+  "city": "رشت",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 140,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شبکه فاضلاب، اتصال مشترکین و آمادگی تصفیه‌خانه مقصد باید هم‌زمان بررسی شوند.",
+  "checks": [
+   "بررسی حق عبور، تداخل تأسیسات و آب‌های نفوذی",
+   "تعیین مسئولیت بهره‌برداری و گرفتگی و نشت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول شبکه جمع‌آوری",
+   "unit": "کیلومتر",
+   "value": 72
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-10"
+ },
+ {
+  "id": "PL-WASTEWATER-01",
+  "kind": "project",
+  "title": "احداث تصفیه‌خانه فاضلاب — اهواز",
+  "group": "water",
+  "subtype": "treatment",
+  "image": "/images/types/wastewater.webp",
+  "province": "خوزستان",
+  "city": "اهواز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 308,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در تصفیه فاضلاب، حق‌الزحمه تصفیه و فروش پساب دو جریان درآمد جدا هستند.",
+  "checks": [
+   "بررسی الزامات دفع لجن و پایش خروجی",
+   "تعیین ریسک تغییر ورودی و استاندارد خروجی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت تصفیه روزانه",
+   "unit": "مترمکعب",
+   "value": 30000
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-11"
+ },
+ {
+  "id": "PL-WASTEWATER-02",
+  "kind": "project",
+  "title": "تکمیل تصفیه‌خانه فاضلاب — خرم‌آباد",
+  "group": "water",
+  "subtype": "treatment",
+  "image": "/images/types/wastewater.webp",
+  "province": "لرستان",
+  "city": "خرم‌آباد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 220,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در تصفیه فاضلاب، حق‌الزحمه تصفیه و فروش پساب دو جریان درآمد جدا هستند.",
+  "checks": [
+   "بررسی الزامات دفع لجن و پایش خروجی",
+   "تعیین ریسک تغییر ورودی و استاندارد خروجی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت تصفیه روزانه",
+   "unit": "مترمکعب",
+   "value": 22500
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-05"
+ },
+ {
+  "id": "PL-WASTEWATER-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی تصفیه‌خانه فاضلاب — رشت",
+  "group": "water",
+  "subtype": "treatment",
+  "image": "/images/types/wastewater.webp",
+  "province": "گیلان",
+  "city": "رشت",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 154,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در تصفیه فاضلاب، حق‌الزحمه تصفیه و فروش پساب دو جریان درآمد جدا هستند.",
+  "checks": [
+   "بررسی الزامات دفع لجن و پایش خروجی",
+   "تعیین ریسک تغییر ورودی و استاندارد خروجی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت تصفیه روزانه",
+   "unit": "مترمکعب",
+   "value": 39000
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-13"
+ },
+ {
+  "id": "PL-IRRIGATIONCANAL-01",
+  "kind": "project",
+  "title": "احداث کانال‌های آبیاری و زهکشی — اهواز",
+  "group": "water",
+  "subtype": "irrigation-flood",
+  "image": "/images/types/irrigationcanal.webp",
+  "province": "خوزستان",
+  "city": "اهواز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 168,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در کانال آبیاری، تخصیص آب و بهره‌برداران نهایی پیش‌نیاز برآورد درآمد خدمت است.",
+  "checks": [
+   "بررسی تملک و حق عبور و راندمان شبکه",
+   "تعیین هزینه لایروبی، تعمیر و خسارت قطع آب"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول کانال",
+   "unit": "کیلومتر",
+   "value": 28
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-14"
+ },
+ {
+  "id": "PL-IRRIGATIONCANAL-02",
+  "kind": "project",
+  "title": "تکمیل کانال‌های آبیاری و زهکشی — خرم‌آباد",
+  "group": "water",
+  "subtype": "irrigation-flood",
+  "image": "/images/types/irrigationcanal.webp",
+  "province": "لرستان",
+  "city": "خرم‌آباد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 120,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در کانال آبیاری، تخصیص آب و بهره‌برداران نهایی پیش‌نیاز برآورد درآمد خدمت است.",
+  "checks": [
+   "بررسی تملک و حق عبور و راندمان شبکه",
+   "تعیین هزینه لایروبی، تعمیر و خسارت قطع آب"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول کانال",
+   "unit": "کیلومتر",
+   "value": 21
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-15"
+ },
+ {
+  "id": "PL-IRRIGATIONCANAL-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی کانال‌های آبیاری و زهکشی — رشت",
+  "group": "water",
+  "subtype": "irrigation-flood",
+  "image": "/images/types/irrigationcanal.webp",
+  "province": "گیلان",
+  "city": "رشت",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 84,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در کانال آبیاری، تخصیص آب و بهره‌برداران نهایی پیش‌نیاز برآورد درآمد خدمت است.",
+  "checks": [
+   "بررسی تملک و حق عبور و راندمان شبکه",
+   "تعیین هزینه لایروبی، تعمیر و خسارت قطع آب"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول کانال",
+   "unit": "کیلومتر",
+   "value": 36
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-16"
+ },
+ {
+  "id": "PL-FLOOD-01",
+  "kind": "project",
+  "title": "احداث سازه‌های کنترل سیلاب و آبخیزداری — اهواز",
+  "group": "water",
+  "subtype": "irrigation-flood",
+  "image": "/images/types/flood.webp",
+  "province": "خوزستان",
+  "city": "اهواز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 140,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در کنترل سیلاب، منفعت اجتماعی معمولاً به معنی درآمد مستقیم سرمایه‌گذار نیست.",
+  "checks": [
+   "تعیین شاخص عملکرد حفاظت و حدود مسئولیت خسارت",
+   "بررسی مجوز بستر و حریم و اثرات محیطی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "حجم کنترل سیلاب",
+   "unit": "میلیون مترمکعب",
+   "value": 6
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-11-01"
+ },
+ {
+  "id": "PL-FLOOD-02",
+  "kind": "project",
+  "title": "تکمیل سازه‌های کنترل سیلاب و آبخیزداری — خرم‌آباد",
+  "group": "water",
+  "subtype": "irrigation-flood",
+  "image": "/images/types/flood.webp",
+  "province": "لرستان",
+  "city": "خرم‌آباد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 100,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در کنترل سیلاب، منفعت اجتماعی معمولاً به معنی درآمد مستقیم سرمایه‌گذار نیست.",
+  "checks": [
+   "تعیین شاخص عملکرد حفاظت و حدود مسئولیت خسارت",
+   "بررسی مجوز بستر و حریم و اثرات محیطی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "حجم کنترل سیلاب",
+   "unit": "میلیون مترمکعب",
+   "value": 5
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-18"
+ },
+ {
+  "id": "PL-FLOOD-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی سازه‌های کنترل سیلاب و آبخیزداری — رشت",
+  "group": "water",
+  "subtype": "irrigation-flood",
+  "image": "/images/types/flood.webp",
+  "province": "گیلان",
+  "city": "رشت",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 70,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در کنترل سیلاب، منفعت اجتماعی معمولاً به معنی درآمد مستقیم سرمایه‌گذار نیست.",
+  "checks": [
+   "تعیین شاخص عملکرد حفاظت و حدود مسئولیت خسارت",
+   "بررسی مجوز بستر و حریم و اثرات محیطی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "حجم کنترل سیلاب",
+   "unit": "میلیون مترمکعب",
+   "value": 8
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-19"
+ },
+ {
+  "id": "PL-POWERPLANT-01",
+  "kind": "project",
+  "title": "احداث نیروگاه — یزد",
+  "group": "energy",
+  "subtype": "powerplant",
+  "image": "/images/types/powerplant.webp",
+  "province": "یزد",
+  "city": "یزد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 2100,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در نیروگاه، سوخت، اتصال و قرارداد فروش باید با فناوری تولید سازگار باشند.",
+  "checks": [
+   "بررسی قرارداد فروش و اعتبار خریدار و وصول",
+   "کنترل هزینه ارزی تجهیزات و تعمیرات اساسی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "توان نامی",
+   "unit": "مگاوات",
+   "value": 200
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-20"
+ },
+ {
+  "id": "PL-POWERPLANT-02",
+  "kind": "project",
+  "title": "تکمیل نیروگاه — کرمان",
+  "group": "energy",
+  "subtype": "powerplant",
+  "image": "/images/types/powerplant.webp",
+  "province": "کرمان",
+  "city": "کرمان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 1500,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در نیروگاه، سوخت، اتصال و قرارداد فروش باید با فناوری تولید سازگار باشند.",
+  "checks": [
+   "بررسی قرارداد فروش و اعتبار خریدار و وصول",
+   "کنترل هزینه ارزی تجهیزات و تعمیرات اساسی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "توان نامی",
+   "unit": "مگاوات",
+   "value": 150
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-21"
+ },
+ {
+  "id": "PL-POWERPLANT-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی نیروگاه — بیرجند",
+  "group": "energy",
+  "subtype": "powerplant",
+  "image": "/images/types/powerplant.webp",
+  "province": "خراسان جنوبی",
+  "city": "بیرجند",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 1050,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در نیروگاه، سوخت، اتصال و قرارداد فروش باید با فناوری تولید سازگار باشند.",
+  "checks": [
+   "بررسی قرارداد فروش و اعتبار خریدار و وصول",
+   "کنترل هزینه ارزی تجهیزات و تعمیرات اساسی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "توان نامی",
+   "unit": "مگاوات",
+   "value": 260
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-06"
+ },
+ {
+  "id": "PL-POWERGRID-01",
+  "kind": "project",
+  "title": "احداث خطوط انتقال و پست برق — یزد",
+  "group": "energy",
+  "subtype": "powergrid",
+  "image": "/images/types/powergrid.webp",
+  "province": "یزد",
+  "city": "یزد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 560,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در خط و پست برق، حق دریافت درآمد انتقال باید از صرف ساخت تأسیسات جدا شود.",
+  "checks": [
+   "تعیین سطح قابلیت اطمینان، تلفات و مسئولیت قطعی",
+   "بررسی مسئولیت نگهداری و تعویض تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت پست",
+   "unit": "مگاولت‌آمپر",
+   "value": 160
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-23"
+ },
+ {
+  "id": "PL-POWERGRID-02",
+  "kind": "project",
+  "title": "تکمیل خطوط انتقال و پست برق — کرمان",
+  "group": "energy",
+  "subtype": "powergrid",
+  "image": "/images/types/powergrid.webp",
+  "province": "کرمان",
+  "city": "کرمان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 400,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در خط و پست برق، حق دریافت درآمد انتقال باید از صرف ساخت تأسیسات جدا شود.",
+  "checks": [
+   "تعیین سطح قابلیت اطمینان، تلفات و مسئولیت قطعی",
+   "بررسی مسئولیت نگهداری و تعویض تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت پست",
+   "unit": "مگاولت‌آمپر",
+   "value": 120
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-24"
+ },
+ {
+  "id": "PL-POWERGRID-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی خطوط انتقال و پست برق — بیرجند",
+  "group": "energy",
+  "subtype": "powergrid",
+  "image": "/images/types/powergrid.webp",
+  "province": "خراسان جنوبی",
+  "city": "بیرجند",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 280,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در خط و پست برق، حق دریافت درآمد انتقال باید از صرف ساخت تأسیسات جدا شود.",
+  "checks": [
+   "تعیین سطح قابلیت اطمینان، تلفات و مسئولیت قطعی",
+   "بررسی مسئولیت نگهداری و تعویض تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت پست",
+   "unit": "مگاولت‌آمپر",
+   "value": 208
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-25"
+ },
+ {
+  "id": "PL-GAS-01",
+  "kind": "project",
+  "title": "احداث شبکه گازرسانی — یزد",
+  "group": "energy",
+  "subtype": "gas-pipeline",
+  "image": "/images/types/gas.webp",
+  "province": "یزد",
+  "city": "یزد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 420,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در گازرسانی، تأمین گاز و وصول هزینه خدمت باید روشن و از هم تفکیک شوند.",
+  "checks": [
+   "کنترل الزامات ایمنی، حریم و حق عبور",
+   "تعیین هزینه امداد، نشت‌یابی و نگهداری"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول شبکه گاز",
+   "unit": "کیلومتر",
+   "value": 60
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-26"
+ },
+ {
+  "id": "PL-GAS-02",
+  "kind": "project",
+  "title": "تکمیل شبکه گازرسانی — کرمان",
+  "group": "energy",
+  "subtype": "gas-pipeline",
+  "image": "/images/types/gas.webp",
+  "province": "کرمان",
+  "city": "کرمان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 300,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در گازرسانی، تأمین گاز و وصول هزینه خدمت باید روشن و از هم تفکیک شوند.",
+  "checks": [
+   "کنترل الزامات ایمنی، حریم و حق عبور",
+   "تعیین هزینه امداد، نشت‌یابی و نگهداری"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول شبکه گاز",
+   "unit": "کیلومتر",
+   "value": 45
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-02"
+ },
+ {
+  "id": "PL-GAS-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی شبکه گازرسانی — بیرجند",
+  "group": "energy",
+  "subtype": "gas-pipeline",
+  "image": "/images/types/gas.webp",
+  "province": "خراسان جنوبی",
+  "city": "بیرجند",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 210,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در گازرسانی، تأمین گاز و وصول هزینه خدمت باید روشن و از هم تفکیک شوند.",
+  "checks": [
+   "کنترل الزامات ایمنی، حریم و حق عبور",
+   "تعیین هزینه امداد، نشت‌یابی و نگهداری"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول شبکه گاز",
+   "unit": "کیلومتر",
+   "value": 78
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-28"
+ },
+ {
+  "id": "PL-PIPELINE-01",
+  "kind": "project",
+  "title": "احداث خطوط انتقال نفت و گاز — یزد",
+  "group": "energy",
+  "subtype": "gas-pipeline",
+  "image": "/images/types/pipeline.webp",
+  "province": "یزد",
+  "city": "یزد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 2520,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در خطوط نفت و گاز، تعهد حمل و حجم واقعی عبوری تعیین‌کننده درآمد است.",
+  "checks": [
+   "بررسی حریم، مسیر و ریسک تملک",
+   "برآورد خوردگی، پایش نشتی و تعمیرات بلندمدت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول خط انتقال",
+   "unit": "کیلومتر",
+   "value": 140
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-10"
+ },
+ {
+  "id": "PL-PIPELINE-02",
+  "kind": "project",
+  "title": "تکمیل خطوط انتقال نفت و گاز — کرمان",
+  "group": "energy",
+  "subtype": "gas-pipeline",
+  "image": "/images/types/pipeline.webp",
+  "province": "کرمان",
+  "city": "کرمان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 1800,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در خطوط نفت و گاز، تعهد حمل و حجم واقعی عبوری تعیین‌کننده درآمد است.",
+  "checks": [
+   "بررسی حریم، مسیر و ریسک تملک",
+   "برآورد خوردگی، پایش نشتی و تعمیرات بلندمدت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول خط انتقال",
+   "unit": "کیلومتر",
+   "value": 105
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-11"
+ },
+ {
+  "id": "PL-PIPELINE-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی خطوط انتقال نفت و گاز — بیرجند",
+  "group": "energy",
+  "subtype": "gas-pipeline",
+  "image": "/images/types/pipeline.webp",
+  "province": "خراسان جنوبی",
+  "city": "بیرجند",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 1260,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در خطوط نفت و گاز، تعهد حمل و حجم واقعی عبوری تعیین‌کننده درآمد است.",
+  "checks": [
+   "بررسی حریم، مسیر و ریسک تملک",
+   "برآورد خوردگی، پایش نشتی و تعمیرات بلندمدت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول خط انتقال",
+   "unit": "کیلومتر",
+   "value": 182
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-12"
+ },
+ {
+  "id": "PL-RENEWABLE-01",
+  "kind": "project",
+  "title": "احداث تأسیسات انرژی خورشیدی و بادی — یزد",
+  "group": "energy",
+  "subtype": "renewable",
+  "image": "/images/types/renewable.webp",
+  "province": "یزد",
+  "city": "یزد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 112,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در انرژی تجدیدپذیر، منبع طبیعی، ظرفیت اتصال و شیوه فروش باید هم‌زمان بررسی شوند.",
+  "checks": [
+   "بررسی قرارداد فروش و اعتبار خریدار",
+   "برآورد ارز تجهیزات، افت عملکرد و جایگزینی قطعات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "توان نامی",
+   "unit": "مگاوات",
+   "value": 50
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-07"
+ },
+ {
+  "id": "PL-RENEWABLE-02",
+  "kind": "project",
+  "title": "تکمیل تأسیسات انرژی خورشیدی و بادی — کرمان",
+  "group": "energy",
+  "subtype": "renewable",
+  "image": "/images/types/renewable.webp",
+  "province": "کرمان",
+  "city": "کرمان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 80,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در انرژی تجدیدپذیر، منبع طبیعی، ظرفیت اتصال و شیوه فروش باید هم‌زمان بررسی شوند.",
+  "checks": [
+   "بررسی قرارداد فروش و اعتبار خریدار",
+   "برآورد ارز تجهیزات، افت عملکرد و جایگزینی قطعات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "توان نامی",
+   "unit": "مگاوات",
+   "value": 38
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-14"
+ },
+ {
+  "id": "PL-RENEWABLE-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی تأسیسات انرژی خورشیدی و بادی — بیرجند",
+  "group": "energy",
+  "subtype": "renewable",
+  "image": "/images/types/renewable.webp",
+  "province": "خراسان جنوبی",
+  "city": "بیرجند",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 56,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در انرژی تجدیدپذیر، منبع طبیعی، ظرفیت اتصال و شیوه فروش باید هم‌زمان بررسی شوند.",
+  "checks": [
+   "بررسی قرارداد فروش و اعتبار خریدار",
+   "برآورد ارز تجهیزات، افت عملکرد و جایگزینی قطعات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "توان نامی",
+   "unit": "مگاوات",
+   "value": 65
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-15"
+ },
+ {
+  "id": "PL-HVAC-01",
+  "kind": "project",
+  "title": "احداث شبکه‌های گرمایش و سرمایش مرکزی — یزد",
+  "group": "energy",
+  "subtype": "hvac",
+  "image": "/images/types/hvac.webp",
+  "province": "یزد",
+  "city": "یزد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 210,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در سرمایش و گرمایش مرکزی، قرارداد مشترکین و هزینه انرژی بر بازپرداخت اثر مستقیم دارند.",
+  "checks": [
+   "تعیین شاخص آسایش و قابلیت دسترسی خدمت",
+   "برآورد نگهداری موتورخانه و هزینه جایگزینی تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "توان حرارتی",
+   "unit": "مگاوات",
+   "value": 25
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-16"
+ },
+ {
+  "id": "PL-HVAC-02",
+  "kind": "project",
+  "title": "تکمیل شبکه‌های گرمایش و سرمایش مرکزی — کرمان",
+  "group": "energy",
+  "subtype": "hvac",
+  "image": "/images/types/hvac.webp",
+  "province": "کرمان",
+  "city": "کرمان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 150,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در سرمایش و گرمایش مرکزی، قرارداد مشترکین و هزینه انرژی بر بازپرداخت اثر مستقیم دارند.",
+  "checks": [
+   "تعیین شاخص آسایش و قابلیت دسترسی خدمت",
+   "برآورد نگهداری موتورخانه و هزینه جایگزینی تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "توان حرارتی",
+   "unit": "مگاوات",
+   "value": 19
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-17"
+ },
+ {
+  "id": "PL-HVAC-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی شبکه‌های گرمایش و سرمایش مرکزی — بیرجند",
+  "group": "energy",
+  "subtype": "hvac",
+  "image": "/images/types/hvac.webp",
+  "province": "خراسان جنوبی",
+  "city": "بیرجند",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 105,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در سرمایش و گرمایش مرکزی، قرارداد مشترکین و هزینه انرژی بر بازپرداخت اثر مستقیم دارند.",
+  "checks": [
+   "تعیین شاخص آسایش و قابلیت دسترسی خدمت",
+   "برآورد نگهداری موتورخانه و هزینه جایگزینی تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "توان حرارتی",
+   "unit": "مگاوات",
+   "value": 33
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-03"
+ },
+ {
+  "id": "PL-EV-01",
+  "kind": "project",
+  "title": "احداث زیرساخت‌های شارژ خودروهای برقی — یزد",
+  "group": "energy",
+  "subtype": "ev",
+  "image": "/images/types/ev.webp",
+  "province": "یزد",
+  "city": "یزد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 28,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شارژ برقی، تعداد خودرو و الگوی توقف محل اهمیت بیشتری از تعداد شارژر دارد.",
+  "checks": [
+   "بررسی تعرفه، مالکیت محل و مدت حق استفاده",
+   "کنترل خرابی، خدمات پس از فروش و ارتقای تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد نقاط شارژ",
+   "unit": "نقطه",
+   "value": 40
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-19"
+ },
+ {
+  "id": "PL-EV-02",
+  "kind": "project",
+  "title": "تکمیل زیرساخت‌های شارژ خودروهای برقی — کرمان",
+  "group": "energy",
+  "subtype": "ev",
+  "image": "/images/types/ev.webp",
+  "province": "کرمان",
+  "city": "کرمان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 20,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شارژ برقی، تعداد خودرو و الگوی توقف محل اهمیت بیشتری از تعداد شارژر دارد.",
+  "checks": [
+   "بررسی تعرفه، مالکیت محل و مدت حق استفاده",
+   "کنترل خرابی، خدمات پس از فروش و ارتقای تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد نقاط شارژ",
+   "unit": "نقطه",
+   "value": 30
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-20"
+ },
+ {
+  "id": "PL-EV-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی زیرساخت‌های شارژ خودروهای برقی — بیرجند",
+  "group": "energy",
+  "subtype": "ev",
+  "image": "/images/types/ev.webp",
+  "province": "خراسان جنوبی",
+  "city": "بیرجند",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 14,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شارژ برقی، تعداد خودرو و الگوی توقف محل اهمیت بیشتری از تعداد شارژر دارد.",
+  "checks": [
+   "بررسی تعرفه، مالکیت محل و مدت حق استفاده",
+   "کنترل خرابی، خدمات پس از فروش و ارتقای تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد نقاط شارژ",
+   "unit": "نقطه",
+   "value": 52
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-21"
+ },
+ {
+  "id": "PL-FACTORY-01",
+  "kind": "project",
+  "title": "احداث کارخانه و واحد تولیدی — بندرعباس",
+  "group": "industry",
+  "subtype": "factory-workshop",
+  "image": "/images/types/factory.webp",
+  "province": "هرمزگان",
+  "city": "بندرعباس",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 420,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در واحد تولیدی، فروش محصول، تأمین مواد و سرمایه در گردش باید جدا از ساخت کارخانه بررسی شود.",
+  "checks": [
+   "بررسی مجوز و کاربری صنعتی و الزامات محیط‌زیست",
+   "تفکیک سرمایه ثابت از موجودی مواد و مطالبات فروش"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت تولید سالانه",
+   "unit": "تن",
+   "value": 80000
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-22"
+ },
+ {
+  "id": "PL-FACTORY-02",
+  "kind": "project",
+  "title": "تکمیل کارخانه و واحد تولیدی — آبادان",
+  "group": "industry",
+  "subtype": "factory-workshop",
+  "image": "/images/types/factory.webp",
+  "province": "خوزستان",
+  "city": "آبادان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 300,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در واحد تولیدی، فروش محصول، تأمین مواد و سرمایه در گردش باید جدا از ساخت کارخانه بررسی شود.",
+  "checks": [
+   "بررسی مجوز و کاربری صنعتی و الزامات محیط‌زیست",
+   "تفکیک سرمایه ثابت از موجودی مواد و مطالبات فروش"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت تولید سالانه",
+   "unit": "تن",
+   "value": 60000
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-08"
+ },
+ {
+  "id": "PL-FACTORY-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی کارخانه و واحد تولیدی — عسلویه",
+  "group": "industry",
+  "subtype": "factory-workshop",
+  "image": "/images/types/factory.webp",
+  "province": "بوشهر",
+  "city": "عسلویه",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 210,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در واحد تولیدی، فروش محصول، تأمین مواد و سرمایه در گردش باید جدا از ساخت کارخانه بررسی شود.",
+  "checks": [
+   "بررسی مجوز و کاربری صنعتی و الزامات محیط‌زیست",
+   "تفکیک سرمایه ثابت از موجودی مواد و مطالبات فروش"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت تولید سالانه",
+   "unit": "تن",
+   "value": 104000
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-24"
+ },
+ {
+  "id": "PL-WAREHOUSE-01",
+  "kind": "project",
+  "title": "احداث انبار و مرکز لجستیک — بندرعباس",
+  "group": "industry",
+  "subtype": "warehouse-cold",
+  "image": "/images/types/warehouse.webp",
+  "province": "هرمزگان",
+  "city": "بندرعباس",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 126,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در انبار و لجستیک، مشتری پایه و ترکیب درآمد انبارش و خدمات باید مشخص شود.",
+  "checks": [
+   "بررسی دسترسی حمل، کاربری و ایمنی و آتش‌نشانی",
+   "برآورد تجهیزات جابه‌جایی و سرمایه در گردش"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "زیربنای لجستیکی",
+   "unit": "مترمربع",
+   "value": 35000
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-25"
+ },
+ {
+  "id": "PL-WAREHOUSE-02",
+  "kind": "project",
+  "title": "تکمیل انبار و مرکز لجستیک — آبادان",
+  "group": "industry",
+  "subtype": "warehouse-cold",
+  "image": "/images/types/warehouse.webp",
+  "province": "خوزستان",
+  "city": "آبادان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 90,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در انبار و لجستیک، مشتری پایه و ترکیب درآمد انبارش و خدمات باید مشخص شود.",
+  "checks": [
+   "بررسی دسترسی حمل، کاربری و ایمنی و آتش‌نشانی",
+   "برآورد تجهیزات جابه‌جایی و سرمایه در گردش"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "زیربنای لجستیکی",
+   "unit": "مترمربع",
+   "value": 26250
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-26"
+ },
+ {
+  "id": "PL-WAREHOUSE-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی انبار و مرکز لجستیک — عسلویه",
+  "group": "industry",
+  "subtype": "warehouse-cold",
+  "image": "/images/types/warehouse.webp",
+  "province": "بوشهر",
+  "city": "عسلویه",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 63,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در انبار و لجستیک، مشتری پایه و ترکیب درآمد انبارش و خدمات باید مشخص شود.",
+  "checks": [
+   "بررسی دسترسی حمل، کاربری و ایمنی و آتش‌نشانی",
+   "برآورد تجهیزات جابه‌جایی و سرمایه در گردش"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "زیربنای لجستیکی",
+   "unit": "مترمربع",
+   "value": 45500
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-27"
+ },
+ {
+  "id": "PL-REFINERY-01",
+  "kind": "project",
+  "title": "احداث پالایشگاه نفت — آبادان",
+  "group": "industry",
+  "subtype": "refinery",
+  "image": "/images/types/refinery.webp",
+  "province": "خوزستان",
+  "city": "آبادان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 5600,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پالایشگاه و پتروشیمی، حق دسترسی پایدار به خوراک و بازار محصول پیش‌شرط مدل مالی است.",
+  "checks": [
+   "بررسی مجوزهای صنعتی، محیطی و ایمنی فرایند",
+   "آزمون حساسیت حاشیه سود به قیمت خوراک و محصول"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت فرآورش روزانه",
+   "unit": "بشکه",
+   "value": 60000
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-04"
+ },
+ {
+  "id": "PL-REFINERY-02",
+  "kind": "project",
+  "title": "تکمیل پالایشگاه نفت — بندرعباس",
+  "group": "industry",
+  "subtype": "refinery",
+  "image": "/images/types/refinery.webp",
+  "province": "هرمزگان",
+  "city": "بندرعباس",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 4000,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پالایشگاه و پتروشیمی، حق دسترسی پایدار به خوراک و بازار محصول پیش‌شرط مدل مالی است.",
+  "checks": [
+   "بررسی مجوزهای صنعتی، محیطی و ایمنی فرایند",
+   "آزمون حساسیت حاشیه سود به قیمت خوراک و محصول"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت فرآورش روزانه",
+   "unit": "بشکه",
+   "value": 45000
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-10"
+ },
+ {
+  "id": "PL-REFINERY-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی پالایشگاه نفت — عسلویه",
+  "group": "industry",
+  "subtype": "refinery",
+  "image": "/images/types/refinery.webp",
+  "province": "بوشهر",
+  "city": "عسلویه",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 2800,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پالایشگاه و پتروشیمی، حق دسترسی پایدار به خوراک و بازار محصول پیش‌شرط مدل مالی است.",
+  "checks": [
+   "بررسی مجوزهای صنعتی، محیطی و ایمنی فرایند",
+   "آزمون حساسیت حاشیه سود به قیمت خوراک و محصول"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت فرآورش روزانه",
+   "unit": "بشکه",
+   "value": 78000
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-11"
+ },
+ {
+  "id": "PL-INDUSTRIALPARK-01",
+  "kind": "project",
+  "title": "احداث شهرک صنعتی — بندرعباس",
+  "group": "industry",
+  "subtype": "industrialpark",
+  "image": "/images/types/industrialpark.webp",
+  "province": "هرمزگان",
+  "city": "بندرعباس",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 700,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شهرک صنعتی، درآمد واگذاری حق یا اجاره قطعه با ارائه خدمات زیرساختی متفاوت است.",
+  "checks": [
+   "تفکیک هزینه آماده‌سازی از نگهداری مشترک",
+   "تعیین مسئولیت تأمین زیرساخت بیرون محدوده"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت محدوده صنعتی",
+   "unit": "هکتار",
+   "value": 150
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-12"
+ },
+ {
+  "id": "PL-INDUSTRIALPARK-02",
+  "kind": "project",
+  "title": "تکمیل شهرک صنعتی — آبادان",
+  "group": "industry",
+  "subtype": "industrialpark",
+  "image": "/images/types/industrialpark.webp",
+  "province": "خوزستان",
+  "city": "آبادان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 500,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شهرک صنعتی، درآمد واگذاری حق یا اجاره قطعه با ارائه خدمات زیرساختی متفاوت است.",
+  "checks": [
+   "تفکیک هزینه آماده‌سازی از نگهداری مشترک",
+   "تعیین مسئولیت تأمین زیرساخت بیرون محدوده"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت محدوده صنعتی",
+   "unit": "هکتار",
+   "value": 113
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-13"
+ },
+ {
+  "id": "PL-INDUSTRIALPARK-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی شهرک صنعتی — عسلویه",
+  "group": "industry",
+  "subtype": "industrialpark",
+  "image": "/images/types/industrialpark.webp",
+  "province": "بوشهر",
+  "city": "عسلویه",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 350,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شهرک صنعتی، درآمد واگذاری حق یا اجاره قطعه با ارائه خدمات زیرساختی متفاوت است.",
+  "checks": [
+   "تفکیک هزینه آماده‌سازی از نگهداری مشترک",
+   "تعیین مسئولیت تأمین زیرساخت بیرون محدوده"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت محدوده صنعتی",
+   "unit": "هکتار",
+   "value": 195
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-11-09"
+ },
+ {
+  "id": "PL-COLDSTORE-01",
+  "kind": "project",
+  "title": "احداث سیلو و سردخانه — بندرعباس",
+  "group": "industry",
+  "subtype": "warehouse-cold",
+  "image": "/images/types/coldstore.webp",
+  "province": "هرمزگان",
+  "city": "بندرعباس",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 140,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در سیلو و سردخانه، فصل استفاده، نوع محصول و مصرف انرژی بر نقدینگی اثر دارد.",
+  "checks": [
+   "برآورد هزینه انرژی و بیمه کالای امانی",
+   "تعیین استاندارد تحویل و مسئولیت افت و فساد"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت ذخیره‌سازی",
+   "unit": "تن",
+   "value": 25000
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-15"
+ },
+ {
+  "id": "PL-COLDSTORE-02",
+  "kind": "project",
+  "title": "تکمیل سیلو و سردخانه — آبادان",
+  "group": "industry",
+  "subtype": "warehouse-cold",
+  "image": "/images/types/coldstore.webp",
+  "province": "خوزستان",
+  "city": "آبادان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 100,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در سیلو و سردخانه، فصل استفاده، نوع محصول و مصرف انرژی بر نقدینگی اثر دارد.",
+  "checks": [
+   "برآورد هزینه انرژی و بیمه کالای امانی",
+   "تعیین استاندارد تحویل و مسئولیت افت و فساد"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت ذخیره‌سازی",
+   "unit": "تن",
+   "value": 18750
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-16"
+ },
+ {
+  "id": "PL-COLDSTORE-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی سیلو و سردخانه — عسلویه",
+  "group": "industry",
+  "subtype": "warehouse-cold",
+  "image": "/images/types/coldstore.webp",
+  "province": "بوشهر",
+  "city": "عسلویه",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 70,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در سیلو و سردخانه، فصل استفاده، نوع محصول و مصرف انرژی بر نقدینگی اثر دارد.",
+  "checks": [
+   "برآورد هزینه انرژی و بیمه کالای امانی",
+   "تعیین استاندارد تحویل و مسئولیت افت و فساد"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت ذخیره‌سازی",
+   "unit": "تن",
+   "value": 32500
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-17"
+ },
+ {
+  "id": "PL-WORKSHOP-01",
+  "kind": "project",
+  "title": "احداث کارگاه‌ها و مجموعه‌های تولیدی — بندرعباس",
+  "group": "industry",
+  "subtype": "factory-workshop",
+  "image": "/images/types/workshop.webp",
+  "province": "هرمزگان",
+  "city": "بندرعباس",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 35,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در کارگاه، تولید برای بازار و تولید سفارشی، نیاز به سرمایه در گردش متفاوت دارند.",
+  "checks": [
+   "بررسی مجوز فعالیت و ایمنی محیط کار",
+   "برآورد هزینه تعمیر، ضایعات و خواب مواد"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "فضای کارگاهی",
+   "unit": "مترمربع",
+   "value": 7500
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-18"
+ },
+ {
+  "id": "PL-WORKSHOP-02",
+  "kind": "project",
+  "title": "تکمیل کارگاه‌ها و مجموعه‌های تولیدی — آبادان",
+  "group": "industry",
+  "subtype": "factory-workshop",
+  "image": "/images/types/workshop.webp",
+  "province": "خوزستان",
+  "city": "آبادان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 25,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در کارگاه، تولید برای بازار و تولید سفارشی، نیاز به سرمایه در گردش متفاوت دارند.",
+  "checks": [
+   "بررسی مجوز فعالیت و ایمنی محیط کار",
+   "برآورد هزینه تعمیر، ضایعات و خواب مواد"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "فضای کارگاهی",
+   "unit": "مترمربع",
+   "value": 5625
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-05"
+ },
+ {
+  "id": "PL-WORKSHOP-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی کارگاه‌ها و مجموعه‌های تولیدی — عسلویه",
+  "group": "industry",
+  "subtype": "factory-workshop",
+  "image": "/images/types/workshop.webp",
+  "province": "بوشهر",
+  "city": "عسلویه",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 18,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در کارگاه، تولید برای بازار و تولید سفارشی، نیاز به سرمایه در گردش متفاوت دارند.",
+  "checks": [
+   "بررسی مجوز فعالیت و ایمنی محیط کار",
+   "برآورد هزینه تعمیر، ضایعات و خواب مواد"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "فضای کارگاهی",
+   "unit": "مترمربع",
+   "value": 9750
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-20"
+ },
+ {
+  "id": "PL-MINERAL-01",
+  "kind": "project",
+  "title": "احداث تأسیسات فرآوری مواد معدنی — بندرعباس",
+  "group": "industry",
+  "subtype": "mineral",
+  "image": "/images/types/mineral.webp",
+  "province": "هرمزگان",
+  "city": "بندرعباس",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 560,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در فرآوری معدنی، منبع ماده معدنی و بازیابی واقعی، مبنای برآورد محصول است.",
+  "checks": [
+   "تفکیک حق معدن از مجوز واحد فرآوری",
+   "کنترل هزینه حمل، آب و انرژی و الزامات محیطی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت فرآوری سالانه",
+   "unit": "تن",
+   "value": 450000
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-21"
+ },
+ {
+  "id": "PL-MINERAL-02",
+  "kind": "project",
+  "title": "تکمیل تأسیسات فرآوری مواد معدنی — آبادان",
+  "group": "industry",
+  "subtype": "mineral",
+  "image": "/images/types/mineral.webp",
+  "province": "خوزستان",
+  "city": "آبادان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 400,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در فرآوری معدنی، منبع ماده معدنی و بازیابی واقعی، مبنای برآورد محصول است.",
+  "checks": [
+   "تفکیک حق معدن از مجوز واحد فرآوری",
+   "کنترل هزینه حمل، آب و انرژی و الزامات محیطی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت فرآوری سالانه",
+   "unit": "تن",
+   "value": 337500
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-22"
+ },
+ {
+  "id": "PL-MINERAL-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی تأسیسات فرآوری مواد معدنی — عسلویه",
+  "group": "industry",
+  "subtype": "mineral",
+  "image": "/images/types/mineral.webp",
+  "province": "بوشهر",
+  "city": "عسلویه",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 280,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در فرآوری معدنی، منبع ماده معدنی و بازیابی واقعی، مبنای برآورد محصول است.",
+  "checks": [
+   "تفکیک حق معدن از مجوز واحد فرآوری",
+   "کنترل هزینه حمل، آب و انرژی و الزامات محیطی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت فرآوری سالانه",
+   "unit": "تن",
+   "value": 585000
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-23"
+ },
+ {
+  "id": "PL-STREETS-01",
+  "kind": "project",
+  "title": "احداث سامان‌دهی و بهسازی معابر — تهران",
+  "group": "urban",
+  "subtype": "streets",
+  "image": "/images/types/streets.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 112,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بهسازی معابر، منفعت عمومی به معنی درآمد فروش نیست؛ متولی پرداخت باید مشخص باشد.",
+  "checks": [
+   "بررسی معارضین تأسیساتی و دسترسی کسب‌وکارها",
+   "تعیین شاخص قابل سنجش کیفیت و زمان رفع نقص"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول معابر",
+   "unit": "کیلومتر",
+   "value": 12
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-01"
+ },
+ {
+  "id": "PL-STREETS-02",
+  "kind": "project",
+  "title": "تکمیل سامان‌دهی و بهسازی معابر — ساری",
+  "group": "urban",
+  "subtype": "streets",
+  "image": "/images/types/streets.webp",
+  "province": "مازندران",
+  "city": "ساری",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 80,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بهسازی معابر، منفعت عمومی به معنی درآمد فروش نیست؛ متولی پرداخت باید مشخص باشد.",
+  "checks": [
+   "بررسی معارضین تأسیساتی و دسترسی کسب‌وکارها",
+   "تعیین شاخص قابل سنجش کیفیت و زمان رفع نقص"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول معابر",
+   "unit": "کیلومتر",
+   "value": 9
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-25"
+ },
+ {
+  "id": "PL-STREETS-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی سامان‌دهی و بهسازی معابر — مشهد",
+  "group": "urban",
+  "subtype": "streets",
+  "image": "/images/types/streets.webp",
+  "province": "خراسان رضوی",
+  "city": "مشهد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 56,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بهسازی معابر، منفعت عمومی به معنی درآمد فروش نیست؛ متولی پرداخت باید مشخص باشد.",
+  "checks": [
+   "بررسی معارضین تأسیساتی و دسترسی کسب‌وکارها",
+   "تعیین شاخص قابل سنجش کیفیت و زمان رفع نقص"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول معابر",
+   "unit": "کیلومتر",
+   "value": 16
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-26"
+ },
+ {
+  "id": "PL-PARKS-01",
+  "kind": "project",
+  "title": "احداث فضای سبز و بوستان — تهران",
+  "group": "urban",
+  "subtype": "parks",
+  "image": "/images/types/parks.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 70,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بوستان، درآمد فعالیت مجاز باید از هزینه خدمت عمومی و نگهداری جدا شود.",
+  "checks": [
+   "حفظ دسترسی عمومی و تعیین حد مسئولیت بهره‌بردار",
+   "تفکیک فضای خدمات عمومی از امتیاز فعالیت درآمدزا"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت فضای سبز",
+   "unit": "هکتار",
+   "value": 25
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-27"
+ },
+ {
+  "id": "PL-PARKS-02",
+  "kind": "project",
+  "title": "تکمیل فضای سبز و بوستان — ساری",
+  "group": "urban",
+  "subtype": "parks",
+  "image": "/images/types/parks.webp",
+  "province": "مازندران",
+  "city": "ساری",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 50,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بوستان، درآمد فعالیت مجاز باید از هزینه خدمت عمومی و نگهداری جدا شود.",
+  "checks": [
+   "حفظ دسترسی عمومی و تعیین حد مسئولیت بهره‌بردار",
+   "تفکیک فضای خدمات عمومی از امتیاز فعالیت درآمدزا"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت فضای سبز",
+   "unit": "هکتار",
+   "value": 19
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-28"
+ },
+ {
+  "id": "PL-PARKS-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی فضای سبز و بوستان — مشهد",
+  "group": "urban",
+  "subtype": "parks",
+  "image": "/images/types/parks.webp",
+  "province": "خراسان رضوی",
+  "city": "مشهد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 35,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بوستان، درآمد فعالیت مجاز باید از هزینه خدمت عمومی و نگهداری جدا شود.",
+  "checks": [
+   "حفظ دسترسی عمومی و تعیین حد مسئولیت بهره‌بردار",
+   "تفکیک فضای خدمات عمومی از امتیاز فعالیت درآمدزا"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت فضای سبز",
+   "unit": "هکتار",
+   "value": 33
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-06"
+ },
+ {
+  "id": "PL-FURNITURE-01",
+  "kind": "project",
+  "title": "احداث مبلمان شهری — تهران",
+  "group": "urban",
+  "subtype": "streets",
+  "image": "/images/types/furniture.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 21,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در مبلمان شهری، فروش یا نصب تجهیزات، با بهره‌برداری از امتیاز تبلیغاتی یکسان نیست.",
+  "checks": [
+   "تعیین شاخص سلامت و زمان رفع خرابی",
+   "بررسی خسارت، بیمه و امکان جابه‌جایی تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد نقاط تجهیز",
+   "unit": "نقطه",
+   "value": 180
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-11"
+ },
+ {
+  "id": "PL-FURNITURE-02",
+  "kind": "project",
+  "title": "تکمیل مبلمان شهری — ساری",
+  "group": "urban",
+  "subtype": "streets",
+  "image": "/images/types/furniture.webp",
+  "province": "مازندران",
+  "city": "ساری",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 15,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در مبلمان شهری، فروش یا نصب تجهیزات، با بهره‌برداری از امتیاز تبلیغاتی یکسان نیست.",
+  "checks": [
+   "تعیین شاخص سلامت و زمان رفع خرابی",
+   "بررسی خسارت، بیمه و امکان جابه‌جایی تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد نقاط تجهیز",
+   "unit": "نقطه",
+   "value": 135
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-12"
+ },
+ {
+  "id": "PL-FURNITURE-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی مبلمان شهری — مشهد",
+  "group": "urban",
+  "subtype": "streets",
+  "image": "/images/types/furniture.webp",
+  "province": "خراسان رضوی",
+  "city": "مشهد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 11,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در مبلمان شهری، فروش یا نصب تجهیزات، با بهره‌برداری از امتیاز تبلیغاتی یکسان نیست.",
+  "checks": [
+   "تعیین شاخص سلامت و زمان رفع خرابی",
+   "بررسی خسارت، بیمه و امکان جابه‌جایی تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد نقاط تجهیز",
+   "unit": "نقطه",
+   "value": 234
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-13"
+ },
+ {
+  "id": "PL-WASTE-01",
+  "kind": "project",
+  "title": "احداث مدیریت و دفع پسماند — تهران",
+  "group": "urban",
+  "subtype": "waste",
+  "image": "/images/types/waste.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 280,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پسماند، حق‌الزحمه خدمت و فروش مواد بازیافتی باید جداگانه و محتاطانه برآورد شوند.",
+  "checks": [
+   "بررسی مجوزها، محل و پذیرش محیطی",
+   "کنترل هزینه دفع نهایی و ریسک نوسان قیمت بازیافت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت پذیرش روزانه",
+   "unit": "تن",
+   "value": 350
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-14"
+ },
+ {
+  "id": "PL-WASTE-02",
+  "kind": "project",
+  "title": "تکمیل مدیریت و دفع پسماند — ساری",
+  "group": "urban",
+  "subtype": "waste",
+  "image": "/images/types/waste.webp",
+  "province": "مازندران",
+  "city": "ساری",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 200,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پسماند، حق‌الزحمه خدمت و فروش مواد بازیافتی باید جداگانه و محتاطانه برآورد شوند.",
+  "checks": [
+   "بررسی مجوزها، محل و پذیرش محیطی",
+   "کنترل هزینه دفع نهایی و ریسک نوسان قیمت بازیافت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت پذیرش روزانه",
+   "unit": "تن",
+   "value": 263
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-02"
+ },
+ {
+  "id": "PL-WASTE-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی مدیریت و دفع پسماند — مشهد",
+  "group": "urban",
+  "subtype": "waste",
+  "image": "/images/types/waste.webp",
+  "province": "خراسان رضوی",
+  "city": "مشهد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 140,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پسماند، حق‌الزحمه خدمت و فروش مواد بازیافتی باید جداگانه و محتاطانه برآورد شوند.",
+  "checks": [
+   "بررسی مجوزها، محل و پذیرش محیطی",
+   "کنترل هزینه دفع نهایی و ریسک نوسان قیمت بازیافت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت پذیرش روزانه",
+   "unit": "تن",
+   "value": 455
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-16"
+ },
+ {
+  "id": "PL-CEMETERY-01",
+  "kind": "project",
+  "title": "احداث آرامستان — تهران",
+  "group": "urban",
+  "subtype": "cemetery",
+  "image": "/images/types/cemetery.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 98,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در آرامستان، خدمت عمومی، تعرفه و حقوق واگذاری باید روشن و از مالکیت زمین جدا شوند.",
+  "checks": [
+   "بررسی ظرفیت و خدمات جانبی و دسترسی",
+   "عدم فرض انتقال مالکیت زمین از محل حق استفاده خدمت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت محدوده",
+   "unit": "هکتار",
+   "value": 18
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-17"
+ },
+ {
+  "id": "PL-CEMETERY-02",
+  "kind": "project",
+  "title": "تکمیل آرامستان — ساری",
+  "group": "urban",
+  "subtype": "cemetery",
+  "image": "/images/types/cemetery.webp",
+  "province": "مازندران",
+  "city": "ساری",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 70,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در آرامستان، خدمت عمومی، تعرفه و حقوق واگذاری باید روشن و از مالکیت زمین جدا شوند.",
+  "checks": [
+   "بررسی ظرفیت و خدمات جانبی و دسترسی",
+   "عدم فرض انتقال مالکیت زمین از محل حق استفاده خدمت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت محدوده",
+   "unit": "هکتار",
+   "value": 14
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-18"
+ },
+ {
+  "id": "PL-CEMETERY-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی آرامستان — مشهد",
+  "group": "urban",
+  "subtype": "cemetery",
+  "image": "/images/types/cemetery.webp",
+  "province": "خراسان رضوی",
+  "city": "مشهد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 49,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در آرامستان، خدمت عمومی، تعرفه و حقوق واگذاری باید روشن و از مالکیت زمین جدا شوند.",
+  "checks": [
+   "بررسی ظرفیت و خدمات جانبی و دسترسی",
+   "عدم فرض انتقال مالکیت زمین از محل حق استفاده خدمت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت محدوده",
+   "unit": "هکتار",
+   "value": 23
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-19"
+ },
+ {
+  "id": "PL-FIRE-01",
+  "kind": "project",
+  "title": "احداث آتش‌نشانی و مراکز امدادی — تهران",
+  "group": "urban",
+  "subtype": "fire",
+  "image": "/images/types/fire.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 84,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در آتش‌نشانی، تأمین ساختمان و تجهیزات را باید از مسئولیت ارائه خدمت امدادی تفکیک کرد.",
+  "checks": [
+   "بررسی مجوز، استاندارد ایمنی و مسئولیت حوادث",
+   "برآورد هزینه آماده‌باش و جایگزینی تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد جایگاه خودرو",
+   "unit": "جایگاه",
+   "value": 6
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-07"
+ },
+ {
+  "id": "PL-FIRE-02",
+  "kind": "project",
+  "title": "تکمیل آتش‌نشانی و مراکز امدادی — ساری",
+  "group": "urban",
+  "subtype": "fire",
+  "image": "/images/types/fire.webp",
+  "province": "مازندران",
+  "city": "ساری",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 60,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در آتش‌نشانی، تأمین ساختمان و تجهیزات را باید از مسئولیت ارائه خدمت امدادی تفکیک کرد.",
+  "checks": [
+   "بررسی مجوز، استاندارد ایمنی و مسئولیت حوادث",
+   "برآورد هزینه آماده‌باش و جایگزینی تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد جایگاه خودرو",
+   "unit": "جایگاه",
+   "value": 5
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-21"
+ },
+ {
+  "id": "PL-FIRE-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی آتش‌نشانی و مراکز امدادی — مشهد",
+  "group": "urban",
+  "subtype": "fire",
+  "image": "/images/types/fire.webp",
+  "province": "خراسان رضوی",
+  "city": "مشهد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 42,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در آتش‌نشانی، تأمین ساختمان و تجهیزات را باید از مسئولیت ارائه خدمت امدادی تفکیک کرد.",
+  "checks": [
+   "بررسی مجوز، استاندارد ایمنی و مسئولیت حوادث",
+   "برآورد هزینه آماده‌باش و جایگزینی تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد جایگاه خودرو",
+   "unit": "جایگاه",
+   "value": 8
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-22"
+ },
+ {
+  "id": "PL-LIGHTING-01",
+  "kind": "project",
+  "title": "احداث روشنایی شهری — تهران",
+  "group": "urban",
+  "subtype": "streets",
+  "image": "/images/types/lighting.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 56,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در روشنایی، صرفه‌جویی انرژی فقط با خط مبنا و روش تسویه قابل اتکا قابل استفاده است.",
+  "checks": [
+   "کنترل شدت روشنایی، ایمنی و دوره خرابی",
+   "تعیین مالکیت تجهیزات و هزینه تعویض و نگهداری"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد پایه روشنایی",
+   "unit": "پایه",
+   "value": 450
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-23"
+ },
+ {
+  "id": "PL-LIGHTING-02",
+  "kind": "project",
+  "title": "تکمیل روشنایی شهری — ساری",
+  "group": "urban",
+  "subtype": "streets",
+  "image": "/images/types/lighting.webp",
+  "province": "مازندران",
+  "city": "ساری",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 40,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در روشنایی، صرفه‌جویی انرژی فقط با خط مبنا و روش تسویه قابل اتکا قابل استفاده است.",
+  "checks": [
+   "کنترل شدت روشنایی، ایمنی و دوره خرابی",
+   "تعیین مالکیت تجهیزات و هزینه تعویض و نگهداری"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد پایه روشنایی",
+   "unit": "پایه",
+   "value": 338
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-24"
+ },
+ {
+  "id": "PL-LIGHTING-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی روشنایی شهری — مشهد",
+  "group": "urban",
+  "subtype": "streets",
+  "image": "/images/types/lighting.webp",
+  "province": "خراسان رضوی",
+  "city": "مشهد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 28,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در روشنایی، صرفه‌جویی انرژی فقط با خط مبنا و روش تسویه قابل اتکا قابل استفاده است.",
+  "checks": [
+   "کنترل شدت روشنایی، ایمنی و دوره خرابی",
+   "تعیین مالکیت تجهیزات و هزینه تعویض و نگهداری"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد پایه روشنایی",
+   "unit": "پایه",
+   "value": 585
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-03"
+ },
+ {
+  "id": "PL-REGENERATION-01",
+  "kind": "project",
+  "title": "احداث بازآفرینی بافت فرسوده — تهران",
+  "group": "urban",
+  "subtype": "regeneration",
+  "image": "/images/types/regeneration.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 350,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بافت فرسوده، توافق مالکان، حقوق ساکنان و کاربری مصوب، پیش‌نیاز مشارکت است.",
+  "checks": [
+   "برآورد هزینه آزادسازی، تخریب و زیرساخت",
+   "تفکیک سهم عمومی و سهم درآمدزا و زمان اجرای مرحله‌ای"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت محدوده بازآفرینی",
+   "unit": "هکتار",
+   "value": 12
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-26"
+ },
+ {
+  "id": "PL-REGENERATION-02",
+  "kind": "project",
+  "title": "تکمیل بازآفرینی بافت فرسوده — ساری",
+  "group": "urban",
+  "subtype": "regeneration",
+  "image": "/images/types/regeneration.webp",
+  "province": "مازندران",
+  "city": "ساری",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 250,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بافت فرسوده، توافق مالکان، حقوق ساکنان و کاربری مصوب، پیش‌نیاز مشارکت است.",
+  "checks": [
+   "برآورد هزینه آزادسازی، تخریب و زیرساخت",
+   "تفکیک سهم عمومی و سهم درآمدزا و زمان اجرای مرحله‌ای"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت محدوده بازآفرینی",
+   "unit": "هکتار",
+   "value": 9
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-27"
+ },
+ {
+  "id": "PL-REGENERATION-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی بازآفرینی بافت فرسوده — مشهد",
+  "group": "urban",
+  "subtype": "regeneration",
+  "image": "/images/types/regeneration.webp",
+  "province": "خراسان رضوی",
+  "city": "مشهد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 175,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بافت فرسوده، توافق مالکان، حقوق ساکنان و کاربری مصوب، پیش‌نیاز مشارکت است.",
+  "checks": [
+   "برآورد هزینه آزادسازی، تخریب و زیرساخت",
+   "تفکیک سهم عمومی و سهم درآمدزا و زمان اجرای مرحله‌ای"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت محدوده بازآفرینی",
+   "unit": "هکتار",
+   "value": 16
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-28"
+ },
+ {
+  "id": "PL-FIBER-01",
+  "kind": "project",
+  "title": "احداث شبکه فیبر نوری — تهران",
+  "group": "digital",
+  "subtype": "fiber-telecom",
+  "image": "/images/types/fiber.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 126,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در فیبر نوری، حق عبور و مشتریان متصل‌شونده، از ظرفیت نصب‌شده مهم‌ترند.",
+  "checks": [
+   "احراز مجوز و حدود فعالیت ارتباطی",
+   "برآورد تجهیزات فعال، نگهداری و ارتقای شبکه"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول مسیر فیبر",
+   "unit": "کیلومتر",
+   "value": 120
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-10"
+ },
+ {
+  "id": "PL-FIBER-02",
+  "kind": "project",
+  "title": "تکمیل شبکه فیبر نوری — اصفهان",
+  "group": "digital",
+  "subtype": "fiber-telecom",
+  "image": "/images/types/fiber.webp",
+  "province": "اصفهان",
+  "city": "اصفهان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 90,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در فیبر نوری، حق عبور و مشتریان متصل‌شونده، از ظرفیت نصب‌شده مهم‌ترند.",
+  "checks": [
+   "احراز مجوز و حدود فعالیت ارتباطی",
+   "برآورد تجهیزات فعال، نگهداری و ارتقای شبکه"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول مسیر فیبر",
+   "unit": "کیلومتر",
+   "value": 90
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-11-08"
+ },
+ {
+  "id": "PL-FIBER-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی شبکه فیبر نوری — تبریز",
+  "group": "digital",
+  "subtype": "fiber-telecom",
+  "image": "/images/types/fiber.webp",
+  "province": "آذربایجان شرقی",
+  "city": "تبریز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 63,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در فیبر نوری، حق عبور و مشتریان متصل‌شونده، از ظرفیت نصب‌شده مهم‌ترند.",
+  "checks": [
+   "احراز مجوز و حدود فعالیت ارتباطی",
+   "برآورد تجهیزات فعال، نگهداری و ارتقای شبکه"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول مسیر فیبر",
+   "unit": "کیلومتر",
+   "value": 156
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-12"
+ },
+ {
+  "id": "PL-TELECOM-01",
+  "kind": "project",
+  "title": "احداث دکل و سایت مخابراتی — تهران",
+  "group": "digital",
+  "subtype": "fiber-telecom",
+  "image": "/images/types/telecom.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 35,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در سایت مخابراتی، قرارداد اپراتور و مدت استفاده از محل، جریان درآمد را تعیین می‌کند.",
+  "checks": [
+   "کنترل مجوز نصب و حقوق محل و همجواری",
+   "تعیین هزینه انرژی، حفاظت و نگهداری"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد سایت مخابراتی",
+   "unit": "سایت",
+   "value": 18
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-13"
+ },
+ {
+  "id": "PL-TELECOM-02",
+  "kind": "project",
+  "title": "تکمیل دکل و سایت مخابراتی — اصفهان",
+  "group": "digital",
+  "subtype": "fiber-telecom",
+  "image": "/images/types/telecom.webp",
+  "province": "اصفهان",
+  "city": "اصفهان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 25,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در سایت مخابراتی، قرارداد اپراتور و مدت استفاده از محل، جریان درآمد را تعیین می‌کند.",
+  "checks": [
+   "کنترل مجوز نصب و حقوق محل و همجواری",
+   "تعیین هزینه انرژی، حفاظت و نگهداری"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد سایت مخابراتی",
+   "unit": "سایت",
+   "value": 14
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-14"
+ },
+ {
+  "id": "PL-TELECOM-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی دکل و سایت مخابراتی — تبریز",
+  "group": "digital",
+  "subtype": "fiber-telecom",
+  "image": "/images/types/telecom.webp",
+  "province": "آذربایجان شرقی",
+  "city": "تبریز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 18,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در سایت مخابراتی، قرارداد اپراتور و مدت استفاده از محل، جریان درآمد را تعیین می‌کند.",
+  "checks": [
+   "کنترل مجوز نصب و حقوق محل و همجواری",
+   "تعیین هزینه انرژی، حفاظت و نگهداری"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد سایت مخابراتی",
+   "unit": "سایت",
+   "value": 23
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-15"
+ },
+ {
+  "id": "PL-DATACENTER-01",
+  "kind": "project",
+  "title": "احداث مرکز داده — تهران",
+  "group": "digital",
+  "subtype": "datacenter",
+  "image": "/images/types/datacenter.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 490,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در مرکز داده، ظرفیت فروختنی به برق پایدار، اتصال و تعهد سطح خدمت وابسته است.",
+  "checks": [
+   "بررسی امنیت، الزامات داده و سطح خدمت",
+   "آزمون تقاضا و هزینه نوسازی سریع تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت برق فناوری اطلاعات",
+   "unit": "مگاوات",
+   "value": 4
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-04"
+ },
+ {
+  "id": "PL-DATACENTER-02",
+  "kind": "project",
+  "title": "تکمیل مرکز داده — اصفهان",
+  "group": "digital",
+  "subtype": "datacenter",
+  "image": "/images/types/datacenter.webp",
+  "province": "اصفهان",
+  "city": "اصفهان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 350,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در مرکز داده، ظرفیت فروختنی به برق پایدار، اتصال و تعهد سطح خدمت وابسته است.",
+  "checks": [
+   "بررسی امنیت، الزامات داده و سطح خدمت",
+   "آزمون تقاضا و هزینه نوسازی سریع تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت برق فناوری اطلاعات",
+   "unit": "مگاوات",
+   "value": 3
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-17"
+ },
+ {
+  "id": "PL-DATACENTER-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی مرکز داده — تبریز",
+  "group": "digital",
+  "subtype": "datacenter",
+  "image": "/images/types/datacenter.webp",
+  "province": "آذربایجان شرقی",
+  "city": "تبریز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 245,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در مرکز داده، ظرفیت فروختنی به برق پایدار، اتصال و تعهد سطح خدمت وابسته است.",
+  "checks": [
+   "بررسی امنیت، الزامات داده و سطح خدمت",
+   "آزمون تقاضا و هزینه نوسازی سریع تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت برق فناوری اطلاعات",
+   "unit": "مگاوات",
+   "value": 5
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-18"
+ },
+ {
+  "id": "PL-SMARTCITY-01",
+  "kind": "project",
+  "title": "احداث زیرساخت شهر هوشمند — تهران",
+  "group": "digital",
+  "subtype": "smart",
+  "image": "/images/types/smartcity.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 112,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شهر هوشمند، مالکیت داده و خریدار خدمت باید روشن باشد؛ داده به‌تنهایی منبع درآمد فرض نمی‌شود.",
+  "checks": [
+   "تعریف خروجی قابل سنجش و پذیرش خدمت",
+   "تعیین بودجه پشتیبانی و ارتقا و جلوگیری از وابستگی تأمین‌کننده"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد نقاط پایش",
+   "unit": "نقطه",
+   "value": 220
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-19"
+ },
+ {
+  "id": "PL-SMARTCITY-02",
+  "kind": "project",
+  "title": "تکمیل زیرساخت شهر هوشمند — اصفهان",
+  "group": "digital",
+  "subtype": "smart",
+  "image": "/images/types/smartcity.webp",
+  "province": "اصفهان",
+  "city": "اصفهان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 80,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شهر هوشمند، مالکیت داده و خریدار خدمت باید روشن باشد؛ داده به‌تنهایی منبع درآمد فرض نمی‌شود.",
+  "checks": [
+   "تعریف خروجی قابل سنجش و پذیرش خدمت",
+   "تعیین بودجه پشتیبانی و ارتقا و جلوگیری از وابستگی تأمین‌کننده"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد نقاط پایش",
+   "unit": "نقطه",
+   "value": 165
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-20"
+ },
+ {
+  "id": "PL-SMARTCITY-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی زیرساخت شهر هوشمند — تبریز",
+  "group": "digital",
+  "subtype": "smart",
+  "image": "/images/types/smartcity.webp",
+  "province": "آذربایجان شرقی",
+  "city": "تبریز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 56,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شهر هوشمند، مالکیت داده و خریدار خدمت باید روشن باشد؛ داده به‌تنهایی منبع درآمد فرض نمی‌شود.",
+  "checks": [
+   "تعریف خروجی قابل سنجش و پذیرش خدمت",
+   "تعیین بودجه پشتیبانی و ارتقا و جلوگیری از وابستگی تأمین‌کننده"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد نقاط پایش",
+   "unit": "نقطه",
+   "value": 286
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-09"
+ },
+ {
+  "id": "PL-CONTROL-01",
+  "kind": "project",
+  "title": "احداث شبکه‌های ارتباطی و کنترل هوشمند — تهران",
+  "group": "digital",
+  "subtype": "smart",
+  "image": "/images/types/control.webp",
+  "province": "تهران",
+  "city": "تهران",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 84,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شبکه‌های کنترل، مسئولیت تصمیم کنترلی و تداوم خدمت از تأمین تجهیزات جداست.",
+  "checks": [
+   "تعیین سطح خدمت، مسئولیت فرمان و ثبت رویداد",
+   "برآورد چرخه ارتقا و سازگاری تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد ایستگاه متصل",
+   "unit": "ایستگاه",
+   "value": 35
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-22"
+ },
+ {
+  "id": "PL-CONTROL-02",
+  "kind": "project",
+  "title": "تکمیل شبکه‌های ارتباطی و کنترل هوشمند — اصفهان",
+  "group": "digital",
+  "subtype": "smart",
+  "image": "/images/types/control.webp",
+  "province": "اصفهان",
+  "city": "اصفهان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 60,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شبکه‌های کنترل، مسئولیت تصمیم کنترلی و تداوم خدمت از تأمین تجهیزات جداست.",
+  "checks": [
+   "تعیین سطح خدمت، مسئولیت فرمان و ثبت رویداد",
+   "برآورد چرخه ارتقا و سازگاری تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد ایستگاه متصل",
+   "unit": "ایستگاه",
+   "value": 26
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-23"
+ },
+ {
+  "id": "PL-CONTROL-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی شبکه‌های ارتباطی و کنترل هوشمند — تبریز",
+  "group": "digital",
+  "subtype": "smart",
+  "image": "/images/types/control.webp",
+  "province": "آذربایجان شرقی",
+  "city": "تبریز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در شرکت پروژه",
+  "minCapital": null,
+  "budget": 42,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تأمین مالی قراردادی با منبع بازپرداخت روشن؛ نیازمند بررسی طرح",
+  "repay": "",
+  "ownership": null,
+  "caution": "در شبکه‌های کنترل، مسئولیت تصمیم کنترلی و تداوم خدمت از تأمین تجهیزات جداست.",
+  "checks": [
+   "تعیین سطح خدمت، مسئولیت فرمان و ثبت رویداد",
+   "برآورد چرخه ارتقا و سازگاری تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "تعداد ایستگاه متصل",
+   "unit": "ایستگاه",
+   "value": 46
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-24"
+ },
+ {
+  "id": "PL-PRESSURE-01",
+  "kind": "project",
+  "title": "احداث شبکه آبیاری تحت فشار — شیراز",
+  "group": "agriculture",
+  "subtype": "pressure",
+  "image": "/images/types/pressure.webp",
+  "province": "فارس",
+  "city": "شیراز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 49,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در آبیاری تحت فشار، صرفه‌جویی آب الزاماً درآمد نقدی سرمایه‌گذار نیست.",
+  "checks": [
+   "ثبت خط مبنای آب و هزینه و روش اندازه‌گیری منفعت",
+   "برآورد انرژی پمپ و تعویض و گرفتگی تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح آبیاری",
+   "unit": "هکتار",
+   "value": 450
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-25"
+ },
+ {
+  "id": "PL-PRESSURE-02",
+  "kind": "project",
+  "title": "تکمیل شبکه آبیاری تحت فشار — رشت",
+  "group": "agriculture",
+  "subtype": "pressure",
+  "image": "/images/types/pressure.webp",
+  "province": "گیلان",
+  "city": "رشت",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 35,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در آبیاری تحت فشار، صرفه‌جویی آب الزاماً درآمد نقدی سرمایه‌گذار نیست.",
+  "checks": [
+   "ثبت خط مبنای آب و هزینه و روش اندازه‌گیری منفعت",
+   "برآورد انرژی پمپ و تعویض و گرفتگی تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح آبیاری",
+   "unit": "هکتار",
+   "value": 338
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-05"
+ },
+ {
+  "id": "PL-PRESSURE-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی شبکه آبیاری تحت فشار — کرمان",
+  "group": "agriculture",
+  "subtype": "pressure",
+  "image": "/images/types/pressure.webp",
+  "province": "کرمان",
+  "city": "کرمان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 25,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در آبیاری تحت فشار، صرفه‌جویی آب الزاماً درآمد نقدی سرمایه‌گذار نیست.",
+  "checks": [
+   "ثبت خط مبنای آب و هزینه و روش اندازه‌گیری منفعت",
+   "برآورد انرژی پمپ و تعویض و گرفتگی تجهیزات"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح آبیاری",
+   "unit": "هکتار",
+   "value": 585
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-27"
+ },
+ {
+  "id": "PL-GREENHOUSE-01",
+  "kind": "project",
+  "title": "احداث گلخانه و مجتمع کشاورزی — شیراز",
+  "group": "agriculture",
+  "subtype": "greenhouse",
+  "image": "/images/types/greenhouse.webp",
+  "province": "فارس",
+  "city": "شیراز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 63,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در گلخانه، بازار محصول و هزینه انرژی و آب باید با فصل تولید هماهنگ باشد.",
+  "checks": [
+   "بررسی مجوز و کاربری و فناوری کشت",
+   "تفکیک هزینه سازه از نهاده و سرمایه هر دوره تولید"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح گلخانه",
+   "unit": "هکتار",
+   "value": 15
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-28"
+ },
+ {
+  "id": "PL-GREENHOUSE-02",
+  "kind": "project",
+  "title": "تکمیل گلخانه و مجتمع کشاورزی — رشت",
+  "group": "agriculture",
+  "subtype": "greenhouse",
+  "image": "/images/types/greenhouse.webp",
+  "province": "گیلان",
+  "city": "رشت",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 45,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در گلخانه، بازار محصول و هزینه انرژی و آب باید با فصل تولید هماهنگ باشد.",
+  "checks": [
+   "بررسی مجوز و کاربری و فناوری کشت",
+   "تفکیک هزینه سازه از نهاده و سرمایه هر دوره تولید"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح گلخانه",
+   "unit": "هکتار",
+   "value": 11
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-10"
+ },
+ {
+  "id": "PL-GREENHOUSE-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی گلخانه و مجتمع کشاورزی — کرمان",
+  "group": "agriculture",
+  "subtype": "greenhouse",
+  "image": "/images/types/greenhouse.webp",
+  "province": "کرمان",
+  "city": "کرمان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 31,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در گلخانه، بازار محصول و هزینه انرژی و آب باید با فصل تولید هماهنگ باشد.",
+  "checks": [
+   "بررسی مجوز و کاربری و فناوری کشت",
+   "تفکیک هزینه سازه از نهاده و سرمایه هر دوره تولید"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح گلخانه",
+   "unit": "هکتار",
+   "value": 20
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-11"
+ },
+ {
+  "id": "PL-LIVESTOCK-01",
+  "kind": "project",
+  "title": "احداث دامداری و دامپروری — شیراز",
+  "group": "agriculture",
+  "subtype": "livestock-fish",
+  "image": "/images/types/livestock.webp",
+  "province": "فارس",
+  "city": "شیراز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 98,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در دامپروری، هزینه خوراک و بهداشت و چرخه تولید بر نیاز نقدینگی اثر مستقیم دارند.",
+  "checks": [
+   "بررسی مجوز، آب و دفع پسماند و فاصله‌های مجاز",
+   "آزمون حساسیت درآمد به تلفات و قیمت خوراک"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت نگهداری",
+   "unit": "رأس",
+   "value": 1200
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-01"
+ },
+ {
+  "id": "PL-LIVESTOCK-02",
+  "kind": "project",
+  "title": "تکمیل دامداری و دامپروری — رشت",
+  "group": "agriculture",
+  "subtype": "livestock-fish",
+  "image": "/images/types/livestock.webp",
+  "province": "گیلان",
+  "city": "رشت",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 70,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در دامپروری، هزینه خوراک و بهداشت و چرخه تولید بر نیاز نقدینگی اثر مستقیم دارند.",
+  "checks": [
+   "بررسی مجوز، آب و دفع پسماند و فاصله‌های مجاز",
+   "آزمون حساسیت درآمد به تلفات و قیمت خوراک"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت نگهداری",
+   "unit": "رأس",
+   "value": 900
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-13"
+ },
+ {
+  "id": "PL-LIVESTOCK-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی دامداری و دامپروری — کرمان",
+  "group": "agriculture",
+  "subtype": "livestock-fish",
+  "image": "/images/types/livestock.webp",
+  "province": "کرمان",
+  "city": "کرمان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 49,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در دامپروری، هزینه خوراک و بهداشت و چرخه تولید بر نیاز نقدینگی اثر مستقیم دارند.",
+  "checks": [
+   "بررسی مجوز، آب و دفع پسماند و فاصله‌های مجاز",
+   "آزمون حساسیت درآمد به تلفات و قیمت خوراک"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت نگهداری",
+   "unit": "رأس",
+   "value": 1560
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-14"
+ },
+ {
+  "id": "PL-FISH-01",
+  "kind": "project",
+  "title": "احداث شیلات و آبزی‌پروری — بوشهر",
+  "group": "agriculture",
+  "subtype": "livestock-fish",
+  "image": "/images/types/fish.webp",
+  "province": "بوشهر",
+  "city": "بوشهر",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 77,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در آبزی‌پروری، منبع آب و محدودیت محیطی و تلفات، ظرفیت تولید قابل فروش را تعیین می‌کنند.",
+  "checks": [
+   "بررسی مجوز منبع آب و دفع پساب",
+   "تفکیک سرمایه تأسیسات از سرمایه هر دوره پرورش"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت تولید سالانه",
+   "unit": "تن",
+   "value": 1800
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-15"
+ },
+ {
+  "id": "PL-FISH-02",
+  "kind": "project",
+  "title": "تکمیل شیلات و آبزی‌پروری — بندرعباس",
+  "group": "agriculture",
+  "subtype": "livestock-fish",
+  "image": "/images/types/fish.webp",
+  "province": "هرمزگان",
+  "city": "بندرعباس",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 55,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در آبزی‌پروری، منبع آب و محدودیت محیطی و تلفات، ظرفیت تولید قابل فروش را تعیین می‌کنند.",
+  "checks": [
+   "بررسی مجوز منبع آب و دفع پساب",
+   "تفکیک سرمایه تأسیسات از سرمایه هر دوره پرورش"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت تولید سالانه",
+   "unit": "تن",
+   "value": 1350
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-16"
+ },
+ {
+  "id": "PL-FISH-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی شیلات و آبزی‌پروری — رشت",
+  "group": "agriculture",
+  "subtype": "livestock-fish",
+  "image": "/images/types/fish.webp",
+  "province": "گیلان",
+  "city": "رشت",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 39,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در آبزی‌پروری، منبع آب و محدودیت محیطی و تلفات، ظرفیت تولید قابل فروش را تعیین می‌کنند.",
+  "checks": [
+   "بررسی مجوز منبع آب و دفع پساب",
+   "تفکیک سرمایه تأسیسات از سرمایه هر دوره پرورش"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "ظرفیت تولید سالانه",
+   "unit": "تن",
+   "value": 2340
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-06"
+ },
+ {
+  "id": "PL-RURALROAD-01",
+  "kind": "project",
+  "title": "احداث راه‌های روستایی و کشاورزی — شیراز",
+  "group": "agriculture",
+  "subtype": "ruralroad",
+  "image": "/images/types/ruralroad.webp",
+  "province": "فارس",
+  "city": "شیراز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 56,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "راه روستایی معمولاً خدمت عمومی است؛ درآمد فروش محصول کشاورز، درآمد خود راه نیست.",
+  "checks": [
+   "برآورد نگهداری فصلی و خسارت سیلاب",
+   "تعیین متولی و منبع پرداخت خدمت عمومی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول مسیر",
+   "unit": "کیلومتر",
+   "value": 32
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-18"
+ },
+ {
+  "id": "PL-RURALROAD-02",
+  "kind": "project",
+  "title": "تکمیل راه‌های روستایی و کشاورزی — رشت",
+  "group": "agriculture",
+  "subtype": "ruralroad",
+  "image": "/images/types/ruralroad.webp",
+  "province": "گیلان",
+  "city": "رشت",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 40,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "راه روستایی معمولاً خدمت عمومی است؛ درآمد فروش محصول کشاورز، درآمد خود راه نیست.",
+  "checks": [
+   "برآورد نگهداری فصلی و خسارت سیلاب",
+   "تعیین متولی و منبع پرداخت خدمت عمومی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول مسیر",
+   "unit": "کیلومتر",
+   "value": 24
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-19"
+ },
+ {
+  "id": "PL-RURALROAD-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی راه‌های روستایی و کشاورزی — کرمان",
+  "group": "agriculture",
+  "subtype": "ruralroad",
+  "image": "/images/types/ruralroad.webp",
+  "province": "کرمان",
+  "city": "کرمان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 28,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "راه روستایی معمولاً خدمت عمومی است؛ درآمد فروش محصول کشاورز، درآمد خود راه نیست.",
+  "checks": [
+   "برآورد نگهداری فصلی و خسارت سیلاب",
+   "تعیین متولی و منبع پرداخت خدمت عمومی"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "طول مسیر",
+   "unit": "کیلومتر",
+   "value": 42
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-20"
+ },
+ {
+  "id": "PL-NATURAL-01",
+  "kind": "project",
+  "title": "احداث تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی — شیراز",
+  "group": "agriculture",
+  "subtype": "natural",
+  "image": "/images/types/natural.webp",
+  "province": "فارس",
+  "city": "شیراز",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 42,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در حفاظت منابع طبیعی، معیار اثرگذاری محیطی باید از بازگشت مالی جدا باشد.",
+  "checks": [
+   "سنجش نتیجه با شاخص محیطی و دوره پایش",
+   "عدم فرض درآمد کربن یا واگذاری زمین بدون حق و قرارداد احرازشده"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح احیا و حفاظت",
+   "unit": "هکتار",
+   "value": 600
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-21"
+ },
+ {
+  "id": "PL-NATURAL-02",
+  "kind": "project",
+  "title": "تکمیل تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی — رشت",
+  "group": "agriculture",
+  "subtype": "natural",
+  "image": "/images/types/natural.webp",
+  "province": "گیلان",
+  "city": "رشت",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 30,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در حفاظت منابع طبیعی، معیار اثرگذاری محیطی باید از بازگشت مالی جدا باشد.",
+  "checks": [
+   "سنجش نتیجه با شاخص محیطی و دوره پایش",
+   "عدم فرض درآمد کربن یا واگذاری زمین بدون حق و قرارداد احرازشده"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح احیا و حفاظت",
+   "unit": "هکتار",
+   "value": 450
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-02"
+ },
+ {
+  "id": "PL-NATURAL-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی — کرمان",
+  "group": "agriculture",
+  "subtype": "natural",
+  "image": "/images/types/natural.webp",
+  "province": "کرمان",
+  "city": "کرمان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 21,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در حفاظت منابع طبیعی، معیار اثرگذاری محیطی باید از بازگشت مالی جدا باشد.",
+  "checks": [
+   "سنجش نتیجه با شاخص محیطی و دوره پایش",
+   "عدم فرض درآمد کربن یا واگذاری زمین بدون حق و قرارداد احرازشده"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح احیا و حفاظت",
+   "unit": "هکتار",
+   "value": 780
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-23"
+ },
+ {
+  "id": "PL-RESTORATION-01",
+  "kind": "project",
+  "title": "احداث مرمت بناهای تاریخی — یزد",
+  "group": "heritage",
+  "subtype": "restoration",
+  "image": "/images/types/restoration.webp",
+  "province": "یزد",
+  "city": "یزد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 28,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در مرمت بنا، طرح حفاظت و مجوز مداخله بر هر برنامه درآمدی تقدم دارد.",
+  "checks": [
+   "احراز مالکیت و اختیار اعطای حق بهره‌برداری",
+   "تعیین تعهد حفاظت، بیمه و روش تحویل پس از مرمت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "زیربنای مرمت",
+   "unit": "مترمربع",
+   "value": 2500
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-24"
+ },
+ {
+  "id": "PL-RESTORATION-02",
+  "kind": "project",
+  "title": "تکمیل مرمت بناهای تاریخی — کاشان",
+  "group": "heritage",
+  "subtype": "restoration",
+  "image": "/images/types/restoration.webp",
+  "province": "اصفهان",
+  "city": "کاشان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 20,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در مرمت بنا، طرح حفاظت و مجوز مداخله بر هر برنامه درآمدی تقدم دارد.",
+  "checks": [
+   "احراز مالکیت و اختیار اعطای حق بهره‌برداری",
+   "تعیین تعهد حفاظت، بیمه و روش تحویل پس از مرمت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "زیربنای مرمت",
+   "unit": "مترمربع",
+   "value": 1875
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-25"
+ },
+ {
+  "id": "PL-RESTORATION-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی مرمت بناهای تاریخی — اصفهان",
+  "group": "heritage",
+  "subtype": "restoration",
+  "image": "/images/types/restoration.webp",
+  "province": "اصفهان",
+  "city": "اصفهان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 14,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در مرمت بنا، طرح حفاظت و مجوز مداخله بر هر برنامه درآمدی تقدم دارد.",
+  "checks": [
+   "احراز مالکیت و اختیار اعطای حق بهره‌برداری",
+   "تعیین تعهد حفاظت، بیمه و روش تحویل پس از مرمت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "زیربنای مرمت",
+   "unit": "مترمربع",
+   "value": 3250
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-26"
+ },
+ {
+  "id": "PL-HISTORICHOUSE-01",
+  "kind": "project",
+  "title": "احداث احیای خانه‌های ارزشمند — یزد",
+  "group": "heritage",
+  "subtype": "historichouse",
+  "image": "/images/types/historichouse.webp",
+  "province": "یزد",
+  "city": "یزد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 21,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در خانه ارزشمند، کاربری سازگار و هزینه نگهداری باید در کنار طرح مرمت دیده شود.",
+  "checks": [
+   "بررسی ارزش تاریخی، آسیب و حدود مداخله",
+   "تعیین حق بهره‌برداری مدت‌دار بدون فرض فروش بنا"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "زیربنای بنای تاریخی",
+   "unit": "مترمربع",
+   "value": 1800
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-11-07"
+ },
+ {
+  "id": "PL-HISTORICHOUSE-02",
+  "kind": "project",
+  "title": "تکمیل احیای خانه‌های ارزشمند — کاشان",
+  "group": "heritage",
+  "subtype": "historichouse",
+  "image": "/images/types/historichouse.webp",
+  "province": "اصفهان",
+  "city": "کاشان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 15,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در خانه ارزشمند، کاربری سازگار و هزینه نگهداری باید در کنار طرح مرمت دیده شود.",
+  "checks": [
+   "بررسی ارزش تاریخی، آسیب و حدود مداخله",
+   "تعیین حق بهره‌برداری مدت‌دار بدون فرض فروش بنا"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "زیربنای بنای تاریخی",
+   "unit": "مترمربع",
+   "value": 1350
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-28"
+ },
+ {
+  "id": "PL-HISTORICHOUSE-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی احیای خانه‌های ارزشمند — اصفهان",
+  "group": "heritage",
+  "subtype": "historichouse",
+  "image": "/images/types/historichouse.webp",
+  "province": "اصفهان",
+  "city": "اصفهان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 11,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در خانه ارزشمند، کاربری سازگار و هزینه نگهداری باید در کنار طرح مرمت دیده شود.",
+  "checks": [
+   "بررسی ارزش تاریخی، آسیب و حدود مداخله",
+   "تعیین حق بهره‌برداری مدت‌دار بدون فرض فروش بنا"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "زیربنای بنای تاریخی",
+   "unit": "مترمربع",
+   "value": 2340
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-10"
+ },
+ {
+  "id": "PL-HISTORICFABRIC-01",
+  "kind": "project",
+  "title": "احداث بازآفرینی بافت تاریخی — یزد",
+  "group": "heritage",
+  "subtype": "historicfabric",
+  "image": "/images/types/historicfabric.webp",
+  "province": "یزد",
+  "city": "یزد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 168,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بافت تاریخی، پروژه تک‌بنا از مداخله در حقوق ساکنان و شبکه فضاهای عمومی جدا نیست.",
+  "checks": [
+   "تفکیک خدمات عمومی از قطعات یا فعالیت درآمدزا",
+   "برآورد اجرای مرحله‌ای، زیرساخت و حفظ هویت بافت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت بافت تاریخی",
+   "unit": "هکتار",
+   "value": 6
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-11"
+ },
+ {
+  "id": "PL-HISTORICFABRIC-02",
+  "kind": "project",
+  "title": "تکمیل بازآفرینی بافت تاریخی — کاشان",
+  "group": "heritage",
+  "subtype": "historicfabric",
+  "image": "/images/types/historicfabric.webp",
+  "province": "اصفهان",
+  "city": "کاشان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 120,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بافت تاریخی، پروژه تک‌بنا از مداخله در حقوق ساکنان و شبکه فضاهای عمومی جدا نیست.",
+  "checks": [
+   "تفکیک خدمات عمومی از قطعات یا فعالیت درآمدزا",
+   "برآورد اجرای مرحله‌ای، زیرساخت و حفظ هویت بافت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت بافت تاریخی",
+   "unit": "هکتار",
+   "value": 5
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-12"
+ },
+ {
+  "id": "PL-HISTORICFABRIC-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی بازآفرینی بافت تاریخی — اصفهان",
+  "group": "heritage",
+  "subtype": "historicfabric",
+  "image": "/images/types/historicfabric.webp",
+  "province": "اصفهان",
+  "city": "اصفهان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 84,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در بافت تاریخی، پروژه تک‌بنا از مداخله در حقوق ساکنان و شبکه فضاهای عمومی جدا نیست.",
+  "checks": [
+   "تفکیک خدمات عمومی از قطعات یا فعالیت درآمدزا",
+   "برآورد اجرای مرحله‌ای، زیرساخت و حفظ هویت بافت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "مساحت بافت تاریخی",
+   "unit": "هکتار",
+   "value": 8
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-03"
+ },
+ {
+  "id": "PL-ADAPTIVE-01",
+  "kind": "project",
+  "title": "احداث تغییر کاربری بناهای تاریخی — یزد",
+  "group": "heritage",
+  "subtype": "historichouse",
+  "image": "/images/types/adaptive.webp",
+  "province": "یزد",
+  "city": "یزد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 35,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در تغییر کاربری تاریخی، جذابیت بازار به‌تنهایی مجوز تغییر بنا یا کاربری نیست.",
+  "checks": [
+   "مطالعه ظرفیت باربری و ایمنی و دسترسی",
+   "تعیین مسئول حفاظت و هزینه نگهداری بلندمدت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "فضای قابل احیا",
+   "unit": "مترمربع",
+   "value": 2200
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-14"
+ },
+ {
+  "id": "PL-ADAPTIVE-02",
+  "kind": "project",
+  "title": "تکمیل تغییر کاربری بناهای تاریخی — کاشان",
+  "group": "heritage",
+  "subtype": "historichouse",
+  "image": "/images/types/adaptive.webp",
+  "province": "اصفهان",
+  "city": "کاشان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 25,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در تغییر کاربری تاریخی، جذابیت بازار به‌تنهایی مجوز تغییر بنا یا کاربری نیست.",
+  "checks": [
+   "مطالعه ظرفیت باربری و ایمنی و دسترسی",
+   "تعیین مسئول حفاظت و هزینه نگهداری بلندمدت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "فضای قابل احیا",
+   "unit": "مترمربع",
+   "value": 1650
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-15"
+ },
+ {
+  "id": "PL-ADAPTIVE-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی تغییر کاربری بناهای تاریخی — اصفهان",
+  "group": "heritage",
+  "subtype": "historichouse",
+  "image": "/images/types/adaptive.webp",
+  "province": "اصفهان",
+  "city": "اصفهان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 18,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در تغییر کاربری تاریخی، جذابیت بازار به‌تنهایی مجوز تغییر بنا یا کاربری نیست.",
+  "checks": [
+   "مطالعه ظرفیت باربری و ایمنی و دسترسی",
+   "تعیین مسئول حفاظت و هزینه نگهداری بلندمدت"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "فضای قابل احیا",
+   "unit": "مترمربع",
+   "value": 2860
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-16"
+ },
+ {
+  "id": "PL-PROTECTION-01",
+  "kind": "project",
+  "title": "احداث مقاوم‌سازی و حفاظت اضطراری آثار — یزد",
+  "group": "heritage",
+  "subtype": "restoration",
+  "image": "/images/types/protection.webp",
+  "province": "یزد",
+  "city": "یزد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 11,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در حفاظت اضطراری، اولویت رفع خطر و جلوگیری از آسیب است؛ درآمد آینده نباید شرط اقدام ضروری فرض شود.",
+  "checks": [
+   "تفکیک بودجه حفاظت فوری از برنامه مرمت و بهره‌برداری",
+   "ثبت وضعیت پیش از مداخله و کنترل آسیب ثانویه"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح مداخله حفاظتی",
+   "unit": "مترمربع",
+   "value": 1400
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-17"
+ },
+ {
+  "id": "PL-PROTECTION-02",
+  "kind": "project",
+  "title": "تکمیل مقاوم‌سازی و حفاظت اضطراری آثار — کاشان",
+  "group": "heritage",
+  "subtype": "restoration",
+  "image": "/images/types/protection.webp",
+  "province": "اصفهان",
+  "city": "کاشان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 8,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در حفاظت اضطراری، اولویت رفع خطر و جلوگیری از آسیب است؛ درآمد آینده نباید شرط اقدام ضروری فرض شود.",
+  "checks": [
+   "تفکیک بودجه حفاظت فوری از برنامه مرمت و بهره‌برداری",
+   "ثبت وضعیت پیش از مداخله و کنترل آسیب ثانویه"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح مداخله حفاظتی",
+   "unit": "مترمربع",
+   "value": 1050
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-11-08"
+ },
+ {
+  "id": "PL-PROTECTION-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی مقاوم‌سازی و حفاظت اضطراری آثار — اصفهان",
+  "group": "heritage",
+  "subtype": "restoration",
+  "image": "/images/types/protection.webp",
+  "province": "اصفهان",
+  "city": "اصفهان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 6,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در حفاظت اضطراری، اولویت رفع خطر و جلوگیری از آسیب است؛ درآمد آینده نباید شرط اقدام ضروری فرض شود.",
+  "checks": [
+   "تفکیک بودجه حفاظت فوری از برنامه مرمت و بهره‌برداری",
+   "ثبت وضعیت پیش از مداخله و کنترل آسیب ثانویه"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح مداخله حفاظتی",
+   "unit": "مترمربع",
+   "value": 1820
+  },
+  "expert": {
+   "name": "کیان رادمنش",
+   "mobile": "09120000303"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-19"
+ },
+ {
+  "id": "PL-TOURISM-01",
+  "kind": "project",
+  "title": "احداث توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی — یزد",
+  "group": "heritage",
+  "subtype": "tourism",
+  "image": "/images/types/tourism.webp",
+  "province": "یزد",
+  "city": "یزد",
+  "routes": [
+   "investor"
+  ],
+  "stage": "احداث / ایجاد ظرفیت",
+  "phase": "new",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 49,
+  "executionMonths": 36,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پیرامون آثار، درآمد خدمات گردشگری نباید با حق دخل‌وتصرف در اثر تاریخی یکی فرض شود.",
+  "checks": [
+   "بررسی فصل بازدید و ظرفیت پذیرش اثر",
+   "تعیین حق ارائه خدمت بدون فرض انتقال حقوق اثر"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح خدمات گردشگری",
+   "unit": "مترمربع",
+   "value": 4500
+  },
+  "expert": {
+   "name": "آرمان نیک‌روش",
+   "mobile": "09120000101"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-20"
+ },
+ {
+  "id": "PL-TOURISM-02",
+  "kind": "project",
+  "title": "تکمیل توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی — کاشان",
+  "group": "heritage",
+  "subtype": "tourism",
+  "image": "/images/types/tourism.webp",
+  "province": "اصفهان",
+  "city": "کاشان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "تکمیل طرح نیمه‌تمام",
+  "phase": "unfinished",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 35,
+  "executionMonths": 24,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پیرامون آثار، درآمد خدمات گردشگری نباید با حق دخل‌وتصرف در اثر تاریخی یکی فرض شود.",
+  "checks": [
+   "بررسی فصل بازدید و ظرفیت پذیرش اثر",
+   "تعیین حق ارائه خدمت بدون فرض انتقال حقوق اثر"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح خدمات گردشگری",
+   "unit": "مترمربع",
+   "value": 3375
+  },
+  "expert": {
+   "name": "نرگس مهرآیین",
+   "mobile": "09120000202"
+  },
+  "guideFileUrl": null,
+  "publishedAt": "2026-10-21"
+ },
+ {
+  "id": "PL-TOURISM-03",
+  "kind": "project",
+  "title": "توسعه و بهسازی توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی — اصفهان",
+  "group": "heritage",
+  "subtype": "tourism",
+  "image": "/images/types/tourism.webp",
+  "province": "اصفهان",
+  "city": "اصفهان",
+  "routes": [
+   "investor"
+  ],
+  "stage": "توسعه و بهسازی دارایی موجود",
+  "phase": "existing",
+  "model": "مشارکت در توسعه، تکمیل یا بهره‌برداری",
+  "minCapital": null,
+  "budget": 25,
+  "executionMonths": 18,
+  "paybackYears": null,
+  "paybackDownsideYears": null,
+  "lockupMonths": null,
+  "firstIncomeMonths": null,
+  "income": "any",
+  "durationYears": null,
+  "risk": "unknown",
+  "legalStatus": "review",
+  "finance": "تعیین مدل تأمین مالی پس از بررسی درآمد، مجوز و آورده‌ها",
+  "repay": "",
+  "ownership": null,
+  "caution": "در پیرامون آثار، درآمد خدمات گردشگری نباید با حق دخل‌وتصرف در اثر تاریخی یکی فرض شود.",
+  "checks": [
+   "بررسی فصل بازدید و ظرفیت پذیرش اثر",
+   "تعیین حق ارائه خدمت بدون فرض انتقال حقوق اثر"
+  ],
+  "steps": [],
+  "metric": {
+   "label": "سطح خدمات گردشگری",
+   "unit": "مترمربع",
+   "value": 5850
+  },
+  "expert": null,
+  "guideFileUrl": "/guides/sample-guide.pdf",
+  "publishedAt": "2026-10-22"
+ }
+];
+
+export const cityCoords: Record<string, [number, number]> = {"تهران":[35.6892,51.389],"اصفهان":[32.6546,51.668],"شیراز":[29.5918,52.5837],"یزد":[31.8974,54.3569],"کاشان":[33.985,51.409],"کرج":[35.84,50.939],"قم":[34.6416,50.8746],"اراک":[34.0917,49.6892],"تبریز":[38.0801,46.2919],"مشهد":[36.2605,59.6168],"بندرعباس":[27.1832,56.2666],"بوشهر":[28.9234,50.8203],"چابهار":[25.2919,60.643],"اهواز":[31.3183,48.6706],"خرم‌آباد":[33.4878,48.3558],"رشت":[37.2808,49.5832],"کرمان":[30.2839,57.0834],"بیرجند":[32.8649,59.2262],"آبادان":[30.3473,48.2934],"عسلویه":[27.4761,52.6074],"ساری":[36.5633,53.0601]};

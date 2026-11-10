@@ -42,10 +42,9 @@ export const advancedFields: FieldDef[] = [
   // ——— ریسک
   { id: "risk", label: "ریسک‌پذیری", control: "segmented", options: risk, placement: "advanced", section: "risk", routes: ["investor", "heritage", "fund"] },
   { id: "bankGuarantee", label: "تضمین بانکی", control: "chips", options: o(["principal", "اصل سرمایه"], ["both", "اصل و سود"], ["no", "لازم نیست"], ["undecided", "نمی‌دانم"]), placement: "advanced", section: "risk", routes: ["fund"] },
-  { id: "showExcluded", label: "نمایش گزینه‌های نامتناسب با دلیل", control: "switch", placement: "advanced", section: "risk" },
 
   // ——— پروژه
-  { id: "subtypes", label: "نوع دقیق پروژه", control: "multi-chips", placement: "advanced", section: "project", hint: "زیردسته‌های گروه‌های انتخاب‌شده" },
+  { id: "subtypes", label: "نوع دقیق پروژه", control: "multi-chips", placement: "advanced", section: "project", routes: ["investor", "heritage", "contractor", "operator"], hint: "زیردسته‌های گروه‌های انتخاب‌شده" },
   { id: "phase", label: "مرحله پروژه", control: "multi-chips", options: o(["new", "احداث جدید"], ["unfinished", "نیمه‌تمام"], ["existing", "موجود"]), placement: "advanced", section: "project", routes: ["investor", "heritage", "contractor", "operator"] },
   { id: "owner", label: "صاحب پروژه", control: "segmented", options: o(["any", "هر دو"], ["public", "عمومی یا دولتی"], ["private", "خصوصی"]), placement: "advanced", section: "project", routes: ["investor", "heritage"] },
   { id: "participation", label: "نقش شما در مشارکت", control: "chips", options: o(["finance", "فقط سرمایه"], ["develop", "با مدیریت ساخت"], ["operate", "با بهره‌برداری"]), placement: "advanced", section: "project", routes: ["investor", "heritage"] },
@@ -57,8 +56,8 @@ export const advancedFields: FieldDef[] = [
   { id: "right", label: "نوع حق مورد انتقال", control: "chips", options: rights, placement: "advanced", section: "project", routes: ["buyer", "lessee"] },
   { id: "occupied", label: "ملک دارای متصرف یا مستأجر", control: "segmented", options: accept, placement: "advanced", section: "project", routes: ["buyer", "lessee"] },
   { id: "thirdPartyRights", label: "وجود سرقفلی یا حق کسب شخص ثالث", control: "segmented", options: accept, placement: "advanced", section: "project", routes: ["buyer", "lessee"] },
-  { id: "leaseType", label: "نوع اجاره", control: "chips", placement: "advanced", section: "project", routes: ["lessee"] },
-  { id: "renewal", label: "شرط تمدید", control: "chips", placement: "advanced", section: "project", routes: ["lessee"] },
+  { id: "leaseType", label: "نوع اجاره", control: "chips", options: o(["any", "فرقی ندارد"], ["one", "کوتاه‌مدت (تا یک سال)"], ["medium", "بلندمدت"], ["rent_to_own", "اجاره به شرط تملیک"]), placement: "advanced", section: "project", routes: ["lessee"] },
+  { id: "renewal", label: "شرط تمدید", control: "chips", options: o(["unknown", "نیازمند مذاکره"], ["defined", "شرط تمدید روشن باشد"], ["none", "شرط نیست"]), placement: "advanced", section: "project", routes: ["lessee"], showWhen: { field: "leaseType", in: ["one"] } },
   { id: "heritageReturn", label: "مدل بازگشت هزینه مرمت", control: "chips", options: o(["lease", "اجاره مدت‌دار"], ["offset", "جبران از اجاره‌بها"], ["fee", "دریافت مبلغ قرارداد"], ["mixed", "ترکیبی"]), placement: "advanced", section: "project", routes: ["heritage"] },
   { id: "heritageUse", label: "کاربری پس از مرمت", control: "chips", options: o(["any", "فرقی ندارد"], ["boutique", "بوتیک‌هتل"], ["cafe", "کافه"], ["restaurant", "رستوران"], ["culture", "فرهنگی و هنری"], ["office", "اداری"]), placement: "advanced", section: "project", routes: ["heritage"] },
   { id: "charityType", label: "نوع پروژه", control: "multi-chips", placement: "advanced", section: "project", routes: ["charity"], hint: "گزینه‌ها از routeSubcategories.charity" },

@@ -1,607 +1,761 @@
-// گروه‌ها و زیردسته‌های پروژه — استخراج‌شده از نسخه HTML مرجع.
-// name = نام کوتاه نمایشی، fullName = نام کامل نسخه مرجع.
+// گروه‌ها و زیردسته‌های پروژه — از نسخه HTML مرجع، با ادغام موارد هم‌پوشان.
+// sources = شناسه زیردسته‌های اصلی که در این مورد ادغام شده‌اند؛ includes = نام کامل آن‌ها (هیچ موردی حذف نشده).
 import type { ProjectGroup } from "@/types";
 
 export const projectGroups: ProjectGroup[] = [
   {
     "id": "building",
     "name": "ساختمان",
-    "fullName": "پروژه‌های ساختمانی",
+    "fullNames": [
+      "پروژه‌های ساختمانی"
+    ],
+    "icon": "Buildings",
+    "image": "/images/types/residential.webp",
     "subtypes": [
       {
         "id": "residential",
         "name": "مسکونی",
-        "fullName": "مسکونی",
-        "examples": "آپارتمان، مجتمع مسکونی، شهرک و ویلا",
-        "metric": "زیربنای مسکونی",
-        "unit": "مترمربع"
+        "sources": [
+          "residential"
+        ],
+        "includes": [
+          "مسکونی — آپارتمان، مجتمع مسکونی، شهرک و ویلا"
+        ],
+        "image": "/images/types/residential.webp"
       },
       {
         "id": "office",
         "name": "اداری",
-        "fullName": "اداری",
-        "examples": "ساختمان اداری، مجتمع دولتی و دفتر کار",
-        "metric": "زیربنای اداری",
-        "unit": "مترمربع"
+        "sources": [
+          "office"
+        ],
+        "includes": [
+          "اداری — ساختمان اداری، مجتمع دولتی و دفتر کار"
+        ],
+        "image": "/images/types/office.webp"
       },
       {
         "id": "commercial",
         "name": "تجاری",
-        "fullName": "تجاری",
-        "examples": "مرکز خرید، بازار، فروشگاه و مجتمع تجاری",
-        "metric": "فضای تجاری",
-        "unit": "مترمربع"
+        "sources": [
+          "commercial"
+        ],
+        "includes": [
+          "تجاری — مرکز خرید، بازار، فروشگاه و مجتمع تجاری"
+        ],
+        "image": "/images/types/commercial.webp"
       },
       {
         "id": "hospitality",
         "name": "هتل و گردشگری",
-        "fullName": "اقامتی و گردشگری",
-        "examples": "هتل، اقامتگاه، مجتمع تفریحی و بوم‌گردی",
-        "metric": "ظرفیت اقامت",
-        "unit": "اتاق"
+        "sources": [
+          "hospitality"
+        ],
+        "includes": [
+          "اقامتی و گردشگری — هتل، اقامتگاه، مجتمع تفریحی و بوم‌گردی"
+        ],
+        "image": "/images/types/hospitality.webp"
       },
       {
         "id": "education",
         "name": "آموزشی",
-        "fullName": "آموزشی",
-        "examples": "مدرسه، دانشگاه و مرکز آموزشی",
-        "metric": "ظرفیت آموزش",
-        "unit": "نفر"
+        "sources": [
+          "education"
+        ],
+        "includes": [
+          "آموزشی — مدرسه، دانشگاه و مرکز آموزشی"
+        ],
+        "image": "/images/types/education.webp"
       },
       {
         "id": "medical",
         "name": "درمانی",
-        "fullName": "درمانی",
-        "examples": "بیمارستان، درمانگاه و مرکز بهداشت",
-        "metric": "ظرفیت درمان",
-        "unit": "تخت"
+        "sources": [
+          "medical"
+        ],
+        "includes": [
+          "درمانی — بیمارستان، درمانگاه و مرکز بهداشت"
+        ],
+        "image": "/images/types/medical.webp"
       },
       {
         "id": "cultural",
         "name": "فرهنگی و مذهبی",
-        "fullName": "فرهنگی و مذهبی",
-        "examples": "کتابخانه، موزه، فرهنگ‌سرا و مسجد",
-        "metric": "فضای فرهنگی",
-        "unit": "مترمربع"
+        "sources": [
+          "cultural"
+        ],
+        "includes": [
+          "فرهنگی و مذهبی — کتابخانه، موزه، فرهنگ‌سرا و مسجد"
+        ],
+        "image": "/images/types/cultural.webp"
       },
       {
         "id": "sports",
         "name": "ورزشی",
-        "fullName": "ورزشی",
-        "examples": "ورزشگاه، سالن ورزشی و مجموعه تفریحی",
-        "metric": "ظرفیت تماشاگر",
-        "unit": "صندلی"
+        "sources": [
+          "sports"
+        ],
+        "includes": [
+          "ورزشی — ورزشگاه، سالن ورزشی و مجموعه تفریحی"
+        ],
+        "image": "/images/types/sports.webp"
       }
     ]
   },
   {
     "id": "transport",
     "name": "حمل‌ونقل",
-    "fullName": "پروژه‌های حمل‌ونقل",
+    "fullNames": [
+      "پروژه‌های حمل‌ونقل"
+    ],
+    "icon": "Routing",
+    "image": "/images/types/metro.webp",
     "subtypes": [
       {
         "id": "roads",
         "name": "راه و بزرگراه",
-        "fullName": "راه‌سازی و بزرگراه",
-        "metric": "طول مسیر",
-        "unit": "کیلومتر"
+        "sources": [
+          "roads"
+        ],
+        "includes": [
+          "راه‌سازی و بزرگراه"
+        ],
+        "image": "/images/types/roads.webp"
       },
       {
-        "id": "bridge",
-        "name": "پل و تقاطع",
-        "fullName": "پل و تقاطع غیرهم‌سطح",
-        "metric": "طول پل",
-        "unit": "متر"
+        "id": "bridge-tunnel",
+        "name": "پل و تونل",
+        "sources": [
+          "bridge",
+          "tunnel"
+        ],
+        "includes": [
+          "پل و تقاطع غیرهم‌سطح",
+          "تونل"
+        ],
+        "image": "/images/types/bridge.webp"
       },
       {
-        "id": "tunnel",
-        "name": "تونل",
-        "fullName": "تونل",
-        "metric": "طول تونل",
-        "unit": "متر"
-      },
-      {
-        "id": "rail",
-        "name": "راه‌آهن",
-        "fullName": "راه‌آهن",
-        "metric": "طول خط",
-        "unit": "کیلومتر"
-      },
-      {
-        "id": "metro",
-        "name": "مترو",
-        "fullName": "مترو و قطار شهری",
-        "metric": "طول مسیر شهری",
-        "unit": "کیلومتر"
+        "id": "rail-metro",
+        "name": "راه‌آهن و مترو",
+        "sources": [
+          "rail",
+          "metro"
+        ],
+        "includes": [
+          "راه‌آهن",
+          "مترو و قطار شهری"
+        ],
+        "image": "/images/types/rail.webp"
       },
       {
         "id": "airport",
         "name": "فرودگاه",
-        "fullName": "فرودگاه",
-        "metric": "ظرفیت سالانه",
-        "unit": "مسافر"
+        "sources": [
+          "airport"
+        ],
+        "includes": [
+          "فرودگاه"
+        ],
+        "image": "/images/types/airport.webp"
       },
       {
         "id": "port",
-        "name": "بندر",
-        "fullName": "بندر و اسکله",
-        "metric": "ظرفیت سالانه تخلیه و بارگیری",
-        "unit": "تن"
+        "name": "بندر و اسکله",
+        "sources": [
+          "port"
+        ],
+        "includes": [
+          "بندر و اسکله"
+        ],
+        "image": "/images/types/port.webp"
       },
       {
-        "id": "terminal",
-        "name": "پایانه",
-        "fullName": "پایانه‌های مسافری و باری",
-        "metric": "ظرفیت روزانه",
-        "unit": "مسافر"
-      },
-      {
-        "id": "parking",
-        "name": "پارکینگ",
-        "fullName": "پارکینگ عمومی",
-        "metric": "ظرفیت پارک",
-        "unit": "خودرو"
+        "id": "terminal-parking",
+        "name": "پایانه و پارکینگ",
+        "sources": [
+          "terminal",
+          "parking"
+        ],
+        "includes": [
+          "پایانه‌های مسافری و باری",
+          "پارکینگ عمومی"
+        ],
+        "image": "/images/types/terminal.webp"
       }
     ]
   },
   {
     "id": "water",
     "name": "آب و فاضلاب",
-    "fullName": "پروژه‌های آب و فاضلاب",
+    "fullNames": [
+      "پروژه‌های آب و فاضلاب"
+    ],
+    "icon": "Drop",
+    "image": "/images/types/dam.webp",
     "subtypes": [
       {
         "id": "dam",
-        "name": "سد",
-        "fullName": "سد و مخزن ذخیره آب",
-        "metric": "حجم مخزن",
-        "unit": "میلیون مترمکعب"
+        "name": "سد و مخزن",
+        "sources": [
+          "dam"
+        ],
+        "includes": [
+          "سد و مخزن ذخیره آب"
+        ],
+        "image": "/images/types/dam.webp"
       },
       {
-        "id": "waternetwork",
-        "name": "شبکه آب",
-        "fullName": "شبکه انتقال و توزیع آب",
-        "metric": "طول شبکه",
-        "unit": "کیلومتر"
+        "id": "networks",
+        "name": "شبکه آب و فاضلاب",
+        "sources": [
+          "waternetwork",
+          "sewernetwork"
+        ],
+        "includes": [
+          "شبکه انتقال و توزیع آب",
+          "شبکه جمع‌آوری فاضلاب"
+        ],
+        "image": "/images/types/waternetwork.webp"
       },
       {
-        "id": "watertreatment",
-        "name": "تصفیه‌خانه آب",
-        "fullName": "تصفیه‌خانه آب",
-        "metric": "ظرفیت تصفیه روزانه",
-        "unit": "مترمکعب"
+        "id": "treatment",
+        "name": "تصفیه‌خانه آب و فاضلاب",
+        "sources": [
+          "watertreatment",
+          "wastewater"
+        ],
+        "includes": [
+          "تصفیه‌خانه آب",
+          "تصفیه‌خانه فاضلاب"
+        ],
+        "image": "/images/types/watertreatment.webp"
       },
       {
-        "id": "sewernetwork",
-        "name": "شبکه فاضلاب",
-        "fullName": "شبکه جمع‌آوری فاضلاب",
-        "metric": "طول شبکه جمع‌آوری",
-        "unit": "کیلومتر"
-      },
-      {
-        "id": "wastewater",
-        "name": "تصفیه فاضلاب",
-        "fullName": "تصفیه‌خانه فاضلاب",
-        "metric": "ظرفیت تصفیه روزانه",
-        "unit": "مترمکعب"
-      },
-      {
-        "id": "irrigationcanal",
-        "name": "آبیاری و زهکشی",
-        "fullName": "کانال‌های آبیاری و زهکشی",
-        "metric": "طول کانال",
-        "unit": "کیلومتر"
-      },
-      {
-        "id": "flood",
-        "name": "کنترل سیلاب",
-        "fullName": "سازه‌های کنترل سیلاب و آبخیزداری",
-        "metric": "حجم کنترل سیلاب",
-        "unit": "میلیون مترمکعب"
+        "id": "irrigation-flood",
+        "name": "آبیاری، زهکشی و سیلاب",
+        "sources": [
+          "irrigationcanal",
+          "flood"
+        ],
+        "includes": [
+          "کانال‌های آبیاری و زهکشی",
+          "سازه‌های کنترل سیلاب و آبخیزداری"
+        ],
+        "image": "/images/types/irrigationcanal.webp"
       }
     ]
   },
   {
     "id": "energy",
     "name": "انرژی",
-    "fullName": "پروژه‌های انرژی و تأسیسات",
+    "fullNames": [
+      "پروژه‌های انرژی و تأسیسات"
+    ],
+    "icon": "Flash",
+    "image": "/images/types/powerplant.webp",
     "subtypes": [
       {
         "id": "powerplant",
         "name": "نیروگاه",
-        "fullName": "نیروگاه",
-        "metric": "توان نامی",
-        "unit": "مگاوات"
-      },
-      {
-        "id": "powergrid",
-        "name": "انتقال برق",
-        "fullName": "خطوط انتقال و پست برق",
-        "metric": "ظرفیت پست",
-        "unit": "مگاولت‌آمپر"
-      },
-      {
-        "id": "gas",
-        "name": "گازرسانی",
-        "fullName": "شبکه گازرسانی",
-        "metric": "طول شبکه گاز",
-        "unit": "کیلومتر"
-      },
-      {
-        "id": "pipeline",
-        "name": "خطوط نفت و گاز",
-        "fullName": "خطوط انتقال نفت و گاز",
-        "metric": "طول خط انتقال",
-        "unit": "کیلومتر"
+        "sources": [
+          "powerplant"
+        ],
+        "includes": [
+          "نیروگاه"
+        ],
+        "image": "/images/types/powerplant.webp"
       },
       {
         "id": "renewable",
         "name": "خورشیدی و بادی",
-        "fullName": "تأسیسات انرژی خورشیدی و بادی",
-        "metric": "توان نامی",
-        "unit": "مگاوات"
+        "sources": [
+          "renewable"
+        ],
+        "includes": [
+          "تأسیسات انرژی خورشیدی و بادی"
+        ],
+        "image": "/images/types/renewable.webp"
+      },
+      {
+        "id": "powergrid",
+        "name": "انتقال و پست برق",
+        "sources": [
+          "powergrid"
+        ],
+        "includes": [
+          "خطوط انتقال و پست برق"
+        ],
+        "image": "/images/types/powergrid.webp"
+      },
+      {
+        "id": "gas-pipeline",
+        "name": "گازرسانی و خطوط نفت و گاز",
+        "sources": [
+          "gas",
+          "pipeline"
+        ],
+        "includes": [
+          "شبکه گازرسانی",
+          "خطوط انتقال نفت و گاز"
+        ],
+        "image": "/images/types/gas.webp"
       },
       {
         "id": "hvac",
         "name": "گرمایش و سرمایش مرکزی",
-        "fullName": "شبکه‌های گرمایش و سرمایش مرکزی",
-        "metric": "توان حرارتی",
-        "unit": "مگاوات"
+        "sources": [
+          "hvac"
+        ],
+        "includes": [
+          "شبکه‌های گرمایش و سرمایش مرکزی"
+        ],
+        "image": "/images/types/hvac.webp"
       },
       {
         "id": "ev",
         "name": "شارژ خودرو برقی",
-        "fullName": "زیرساخت‌های شارژ خودروهای برقی",
-        "metric": "تعداد نقاط شارژ",
-        "unit": "نقطه"
+        "sources": [
+          "ev"
+        ],
+        "includes": [
+          "زیرساخت‌های شارژ خودروهای برقی"
+        ],
+        "image": "/images/types/ev.webp"
       }
     ]
   },
   {
     "id": "industry",
     "name": "صنعت و لجستیک",
-    "fullName": "پروژه‌های صنعتی",
+    "fullNames": [
+      "پروژه‌های صنعتی"
+    ],
+    "icon": "Box",
+    "image": "/images/types/factory.webp",
     "subtypes": [
       {
-        "id": "factory",
-        "name": "کارخانه",
-        "fullName": "کارخانه و واحد تولیدی",
-        "metric": "ظرفیت تولید سالانه",
-        "unit": "تن"
+        "id": "factory-workshop",
+        "name": "کارخانه و کارگاه تولیدی",
+        "sources": [
+          "factory",
+          "workshop"
+        ],
+        "includes": [
+          "کارخانه و واحد تولیدی",
+          "کارگاه‌ها و مجموعه‌های تولیدی"
+        ],
+        "image": "/images/types/factory.webp"
       },
       {
-        "id": "warehouse",
-        "name": "انبار و لجستیک",
-        "fullName": "انبار و مرکز لجستیک",
-        "metric": "زیربنای لجستیکی",
-        "unit": "مترمربع"
+        "id": "warehouse-cold",
+        "name": "انبار، سیلو و سردخانه",
+        "sources": [
+          "warehouse",
+          "coldstore"
+        ],
+        "includes": [
+          "انبار و مرکز لجستیک",
+          "سیلو و سردخانه"
+        ],
+        "image": "/images/types/warehouse.webp"
       },
       {
         "id": "refinery",
         "name": "پالایشگاه و پتروشیمی",
-        "fullName": "پالایشگاه و پتروشیمی",
-        "metric": "ظرفیت فرآورش روزانه",
-        "unit": "بشکه"
+        "sources": [
+          "refinery"
+        ],
+        "includes": [
+          "پالایشگاه و پتروشیمی"
+        ],
+        "image": "/images/types/refinery.webp"
       },
       {
         "id": "industrialpark",
         "name": "شهرک صنعتی",
-        "fullName": "شهرک صنعتی",
-        "metric": "مساحت محدوده صنعتی",
-        "unit": "هکتار"
-      },
-      {
-        "id": "coldstore",
-        "name": "سیلو و سردخانه",
-        "fullName": "سیلو و سردخانه",
-        "metric": "ظرفیت ذخیره‌سازی",
-        "unit": "تن"
-      },
-      {
-        "id": "workshop",
-        "name": "کارگاه تولیدی",
-        "fullName": "کارگاه‌ها و مجموعه‌های تولیدی",
-        "metric": "فضای کارگاهی",
-        "unit": "مترمربع"
+        "sources": [
+          "industrialpark"
+        ],
+        "includes": [
+          "شهرک صنعتی"
+        ],
+        "image": "/images/types/industrialpark.webp"
       },
       {
         "id": "mineral",
-        "name": "فرآوری معدنی",
-        "fullName": "تأسیسات فرآوری مواد معدنی",
-        "metric": "ظرفیت فرآوری سالانه",
-        "unit": "تن"
+        "name": "فرآوری مواد معدنی",
+        "sources": [
+          "mineral"
+        ],
+        "includes": [
+          "تأسیسات فرآوری مواد معدنی"
+        ],
+        "image": "/images/types/mineral.webp"
       }
     ]
   },
   {
     "id": "urban",
     "name": "شهری و خدمات عمومی",
-    "fullName": "پروژه‌های شهری و خدمات عمومی",
+    "fullNames": [
+      "پروژه‌های شهری و خدمات عمومی"
+    ],
+    "icon": "Tree",
+    "image": "/images/types/parks.webp",
     "subtypes": [
       {
         "id": "streets",
-        "name": "بهسازی معابر",
-        "fullName": "سامان‌دهی و بهسازی معابر",
-        "metric": "طول معابر",
-        "unit": "کیلومتر"
+        "name": "معابر، مبلمان و روشنایی شهری",
+        "sources": [
+          "streets",
+          "furniture",
+          "lighting"
+        ],
+        "includes": [
+          "سامان‌دهی و بهسازی معابر",
+          "مبلمان شهری",
+          "روشنایی شهری"
+        ],
+        "image": "/images/types/streets.webp"
       },
       {
         "id": "parks",
-        "name": "فضای سبز",
-        "fullName": "فضای سبز و بوستان",
-        "metric": "مساحت فضای سبز",
-        "unit": "هکتار"
-      },
-      {
-        "id": "furniture",
-        "name": "مبلمان شهری",
-        "fullName": "مبلمان شهری",
-        "metric": "تعداد نقاط تجهیز",
-        "unit": "نقطه"
+        "name": "فضای سبز و بوستان",
+        "sources": [
+          "parks"
+        ],
+        "includes": [
+          "فضای سبز و بوستان"
+        ],
+        "image": "/images/types/parks.webp"
       },
       {
         "id": "waste",
-        "name": "پسماند",
-        "fullName": "مدیریت و دفع پسماند",
-        "metric": "ظرفیت پذیرش روزانه",
-        "unit": "تن"
+        "name": "مدیریت پسماند",
+        "sources": [
+          "waste"
+        ],
+        "includes": [
+          "مدیریت و دفع پسماند"
+        ],
+        "image": "/images/types/waste.webp"
       },
       {
         "id": "cemetery",
         "name": "آرامستان",
-        "fullName": "آرامستان",
-        "metric": "مساحت محدوده",
-        "unit": "هکتار"
+        "sources": [
+          "cemetery"
+        ],
+        "includes": [
+          "آرامستان"
+        ],
+        "image": "/images/types/cemetery.webp"
       },
       {
         "id": "fire",
         "name": "آتش‌نشانی و امداد",
-        "fullName": "آتش‌نشانی و مراکز امدادی",
-        "metric": "تعداد جایگاه خودرو",
-        "unit": "جایگاه"
-      },
-      {
-        "id": "lighting",
-        "name": "روشنایی شهری",
-        "fullName": "روشنایی شهری",
-        "metric": "تعداد پایه روشنایی",
-        "unit": "پایه"
+        "sources": [
+          "fire"
+        ],
+        "includes": [
+          "آتش‌نشانی و مراکز امدادی"
+        ],
+        "image": "/images/types/fire.webp"
       },
       {
         "id": "regeneration",
         "name": "بازآفرینی بافت فرسوده",
-        "fullName": "بازآفرینی بافت فرسوده",
-        "metric": "مساحت محدوده بازآفرینی",
-        "unit": "هکتار"
+        "sources": [
+          "regeneration"
+        ],
+        "includes": [
+          "بازآفرینی بافت فرسوده"
+        ],
+        "image": "/images/types/regeneration.webp"
       }
     ]
   },
   {
     "id": "digital",
     "name": "ارتباطات و دیجیتال",
-    "fullName": "پروژه‌های مخابراتی و زیرساخت دیجیتال",
+    "fullNames": [
+      "پروژه‌های مخابراتی و زیرساخت دیجیتال"
+    ],
+    "icon": "Cpu",
+    "image": "/images/types/fiber.webp",
     "subtypes": [
       {
-        "id": "fiber",
-        "name": "فیبر نوری",
-        "fullName": "شبکه فیبر نوری",
-        "metric": "طول مسیر فیبر",
-        "unit": "کیلومتر"
-      },
-      {
-        "id": "telecom",
-        "name": "دکل مخابراتی",
-        "fullName": "دکل و سایت مخابراتی",
-        "metric": "تعداد سایت مخابراتی",
-        "unit": "سایت"
+        "id": "fiber-telecom",
+        "name": "فیبر نوری و دکل مخابراتی",
+        "sources": [
+          "fiber",
+          "telecom"
+        ],
+        "includes": [
+          "شبکه فیبر نوری",
+          "دکل و سایت مخابراتی"
+        ],
+        "image": "/images/types/fiber.webp"
       },
       {
         "id": "datacenter",
         "name": "مرکز داده",
-        "fullName": "مرکز داده",
-        "metric": "ظرفیت برق فناوری اطلاعات",
-        "unit": "مگاوات"
+        "sources": [
+          "datacenter"
+        ],
+        "includes": [
+          "مرکز داده"
+        ],
+        "image": "/images/types/datacenter.webp"
       },
       {
-        "id": "smartcity",
-        "name": "شهر هوشمند",
-        "fullName": "زیرساخت شهر هوشمند",
-        "metric": "تعداد نقاط پایش",
-        "unit": "نقطه"
-      },
-      {
-        "id": "control",
-        "name": "شبکه کنترل هوشمند",
-        "fullName": "شبکه‌های ارتباطی و کنترل هوشمند",
-        "metric": "تعداد ایستگاه متصل",
-        "unit": "ایستگاه"
+        "id": "smart",
+        "name": "شهر هوشمند و کنترل هوشمند",
+        "sources": [
+          "smartcity",
+          "control"
+        ],
+        "includes": [
+          "زیرساخت شهر هوشمند",
+          "شبکه‌های ارتباطی و کنترل هوشمند"
+        ],
+        "image": "/images/types/smartcity.webp"
       }
     ]
   },
   {
     "id": "agriculture",
     "name": "کشاورزی و منابع طبیعی",
-    "fullName": "پروژه‌های کشاورزی و منابع طبیعی",
+    "fullNames": [
+      "پروژه‌های کشاورزی و منابع طبیعی"
+    ],
+    "icon": "Sun1",
+    "image": "/images/types/greenhouse.webp",
     "subtypes": [
       {
         "id": "pressure",
         "name": "آبیاری تحت فشار",
-        "fullName": "شبکه آبیاری تحت فشار",
-        "metric": "سطح آبیاری",
-        "unit": "هکتار"
+        "sources": [
+          "pressure"
+        ],
+        "includes": [
+          "شبکه آبیاری تحت فشار"
+        ],
+        "image": "/images/types/pressure.webp"
       },
       {
         "id": "greenhouse",
-        "name": "گلخانه",
-        "fullName": "گلخانه و مجتمع کشاورزی",
-        "metric": "سطح گلخانه",
-        "unit": "هکتار"
+        "name": "گلخانه و مجتمع کشاورزی",
+        "sources": [
+          "greenhouse"
+        ],
+        "includes": [
+          "گلخانه و مجتمع کشاورزی"
+        ],
+        "image": "/images/types/greenhouse.webp"
       },
       {
-        "id": "livestock",
-        "name": "دامپروری",
-        "fullName": "دامداری و دامپروری",
-        "metric": "ظرفیت نگهداری",
-        "unit": "رأس"
-      },
-      {
-        "id": "fish",
-        "name": "شیلات",
-        "fullName": "شیلات و آبزی‌پروری",
-        "metric": "ظرفیت تولید سالانه",
-        "unit": "تن"
+        "id": "livestock-fish",
+        "name": "دامپروری و آبزی‌پروری",
+        "sources": [
+          "livestock",
+          "fish"
+        ],
+        "includes": [
+          "دامداری و دامپروری",
+          "شیلات و آبزی‌پروری"
+        ],
+        "image": "/images/types/livestock.webp"
       },
       {
         "id": "ruralroad",
         "name": "راه روستایی",
-        "fullName": "راه‌های روستایی و کشاورزی",
-        "metric": "طول مسیر",
-        "unit": "کیلومتر"
+        "sources": [
+          "ruralroad"
+        ],
+        "includes": [
+          "راه‌های روستایی و کشاورزی"
+        ],
+        "image": "/images/types/ruralroad.webp"
       },
       {
         "id": "natural",
         "name": "حفاظت منابع طبیعی",
-        "fullName": "تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی",
-        "metric": "سطح احیا و حفاظت",
-        "unit": "هکتار"
+        "sources": [
+          "natural"
+        ],
+        "includes": [
+          "تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی"
+        ],
+        "image": "/images/types/natural.webp"
       }
     ]
   },
   {
     "id": "heritage",
     "name": "میراث فرهنگی",
-    "fullName": "پروژه‌های مرمت و میراث فرهنگی",
+    "fullNames": [
+      "پروژه‌های مرمت و میراث فرهنگی"
+    ],
+    "icon": "Courthouse",
+    "image": "/images/types/restoration.webp",
     "subtypes": [
       {
         "id": "restoration",
-        "name": "مرمت بنا",
-        "fullName": "مرمت بناهای تاریخی",
-        "metric": "زیربنای مرمت",
-        "unit": "مترمربع"
+        "name": "مرمت و حفاظت بنا",
+        "sources": [
+          "restoration",
+          "protection"
+        ],
+        "includes": [
+          "مرمت بناهای تاریخی",
+          "مقاوم‌سازی و حفاظت اضطراری آثار"
+        ],
+        "image": "/images/types/restoration.webp"
       },
       {
         "id": "historichouse",
-        "name": "احیای خانه تاریخی",
-        "fullName": "احیای خانه‌های ارزشمند",
-        "metric": "زیربنای بنای تاریخی",
-        "unit": "مترمربع"
+        "name": "احیا و تغییر کاربری بنای تاریخی",
+        "sources": [
+          "historichouse",
+          "adaptive"
+        ],
+        "includes": [
+          "احیای خانه‌های ارزشمند",
+          "تغییر کاربری بناهای تاریخی"
+        ],
+        "image": "/images/types/historichouse.webp"
       },
       {
         "id": "historicfabric",
         "name": "بازآفرینی بافت تاریخی",
-        "fullName": "بازآفرینی بافت تاریخی",
-        "metric": "مساحت بافت تاریخی",
-        "unit": "هکتار"
-      },
-      {
-        "id": "adaptive",
-        "name": "تغییر کاربری بنای تاریخی",
-        "fullName": "تغییر کاربری بناهای تاریخی",
-        "metric": "فضای قابل احیا",
-        "unit": "مترمربع"
-      },
-      {
-        "id": "protection",
-        "name": "حفاظت اضطراری",
-        "fullName": "مقاوم‌سازی و حفاظت اضطراری آثار",
-        "metric": "سطح مداخله حفاظتی",
-        "unit": "مترمربع"
+        "sources": [
+          "historicfabric"
+        ],
+        "includes": [
+          "بازآفرینی بافت تاریخی"
+        ],
+        "image": "/images/types/historicfabric.webp"
       },
       {
         "id": "tourism",
-        "name": "گردشگری میراث",
-        "fullName": "توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی",
-        "metric": "سطح خدمات گردشگری",
-        "unit": "مترمربع"
+        "name": "گردشگری پیرامون آثار",
+        "sources": [
+          "tourism"
+        ],
+        "includes": [
+          "توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی"
+        ],
+        "image": "/images/types/tourism.webp"
       }
     ]
   },
   {
     "id": "land",
-    "name": "توسعه زمین و املاک",
-    "fullName": "پروژه‌های توسعه زمین و املاک",
+    "name": "زمین و مسکن",
+    "fullNames": [
+      "پروژه‌های توسعه زمین و املاک",
+      "آماده‌سازی زمین و توسعه مسکن"
+    ],
+    "icon": "Map1",
+    "image": "/images/types/lhintegrated.webp",
     "subtypes": [
       {
+        "id": "study",
+        "name": "مطالعات و طراحی",
+        "sources": [
+          "lhstudy"
+        ],
+        "includes": [
+          "مطالعات و طراحی آماده‌سازی اراضی"
+        ],
+        "image": "/images/types/lhstudy.webp"
+      },
+      {
+        "id": "preparation",
+        "name": "آماده‌سازی و زیرساخت زمین",
+        "sources": [
+          "lhearth",
+          "lhroads",
+          "lhwater",
+          "lhenergy",
+          "lhintegrated"
+        ],
+        "includes": [
+          "تسطیح و عملیات خاکی اراضی",
+          "معابر و دسترسی‌های داخلی",
+          "شبکه آب، فاضلاب و آب‌های سطحی",
+          "شبکه برق، گاز و روشنایی",
+          "آماده‌سازی یکپارچه اراضی مسکونی"
+        ],
+        "image": "/images/types/lhearth.webp"
+      },
+      {
         "id": "subdivision",
-        "name": "تفکیک زمین",
-        "fullName": "آماده‌سازی و تفکیک زمین"
+        "name": "تفکیک و قطعه‌بندی",
+        "sources": [
+          "subdivision",
+          "lhplots"
+        ],
+        "includes": [
+          "آماده‌سازی و تفکیک زمین",
+          "قطعه‌بندی و تحویل زمین آماده ساخت"
+        ],
+        "image": "/images/types/lhplots.webp"
       },
       {
         "id": "township",
-        "name": "شهرک‌سازی",
-        "fullName": "شهرک‌سازی"
+        "name": "شهرک‌سازی و توسعه اراضی",
+        "sources": [
+          "township",
+          "newland"
+        ],
+        "includes": [
+          "شهرک‌سازی",
+          "توسعه اراضی جدید"
+        ],
+        "image": "/images/types/lhintegrated.webp"
       },
       {
-        "id": "newland",
-        "name": "توسعه اراضی",
-        "fullName": "توسعه اراضی جدید"
+        "id": "landhousing",
+        "name": "توسعه زمین و ساخت مسکن",
+        "sources": [
+          "lhhousing",
+          "lhcompletion"
+        ],
+        "includes": [
+          "توسعه یکپارچه زمین و ساخت مسکن",
+          "تکمیل آماده‌سازی و رفع موانع تحویل مسکن"
+        ],
+        "image": "/images/types/lhhousing.webp"
       },
       {
-        "id": "consolidation",
-        "name": "نوسازی و تجمیع",
-        "fullName": "نوسازی و تجمیع املاک"
-      },
-      {
-        "id": "redevelop",
-        "name": "تغییر کاربری و توسعه مجدد",
-        "fullName": "تغییر کاربری و توسعه مجدد ملک"
+        "id": "renewal",
+        "name": "نوسازی و توسعه مجدد",
+        "sources": [
+          "consolidation",
+          "redevelop"
+        ],
+        "includes": [
+          "نوسازی و تجمیع املاک",
+          "تغییر کاربری و توسعه مجدد ملک"
+        ],
+        "image": "/images/types/regeneration.webp"
       },
       {
         "id": "mixeduse",
         "name": "مجتمع چندمنظوره",
-        "fullName": "مجتمع‌های چندمنظوره مسکونی، تجاری و اداری"
-      }
-    ]
-  },
-  {
-    "id": "landhousing",
-    "name": "آماده‌سازی زمین و مسکن",
-    "fullName": "آماده‌سازی زمین و توسعه مسکن",
-    "subtypes": [
-      {
-        "id": "lh-1",
-        "name": "مطالعات و طراحی",
-        "fullName": "مطالعات و طراحی آماده‌سازی اراضی"
-      },
-      {
-        "id": "lh-2",
-        "name": "عملیات خاکی",
-        "fullName": "تسطیح و عملیات خاکی اراضی"
-      },
-      {
-        "id": "lh-3",
-        "name": "معابر داخلی",
-        "fullName": "معابر و دسترسی‌های داخلی"
-      },
-      {
-        "id": "lh-4",
-        "name": "شبکه آب و فاضلاب",
-        "fullName": "شبکه آب، فاضلاب و آب‌های سطحی"
-      },
-      {
-        "id": "lh-5",
-        "name": "برق، گاز و روشنایی",
-        "fullName": "شبکه برق، گاز و روشنایی"
-      },
-      {
-        "id": "lh-6",
-        "name": "قطعه‌بندی و تحویل",
-        "fullName": "قطعه‌بندی و تحویل زمین آماده ساخت"
-      },
-      {
-        "id": "lh-7",
-        "name": "آماده‌سازی یکپارچه",
-        "fullName": "آماده‌سازی یکپارچه اراضی مسکونی"
-      },
-      {
-        "id": "lh-8",
-        "name": "توسعه زمین و مسکن",
-        "fullName": "توسعه یکپارچه زمین و ساخت مسکن"
-      },
-      {
-        "id": "lh-9",
-        "name": "رفع موانع تحویل",
-        "fullName": "تکمیل آماده‌سازی و رفع موانع تحویل مسکن"
+        "sources": [
+          "mixeduse"
+        ],
+        "includes": [
+          "مجتمع‌های چندمنظوره مسکونی، تجاری و اداری"
+        ],
+        "image": "/images/types/commercial.webp"
       }
     ]
   }
 ];
+
+export const subtypeBySource: Record<string, { group: string; subtype: string }> = {"residential":{"group":"building","subtype":"residential"},"office":{"group":"building","subtype":"office"},"commercial":{"group":"building","subtype":"commercial"},"hospitality":{"group":"building","subtype":"hospitality"},"education":{"group":"building","subtype":"education"},"medical":{"group":"building","subtype":"medical"},"cultural":{"group":"building","subtype":"cultural"},"sports":{"group":"building","subtype":"sports"},"roads":{"group":"transport","subtype":"roads"},"bridge":{"group":"transport","subtype":"bridge-tunnel"},"tunnel":{"group":"transport","subtype":"bridge-tunnel"},"rail":{"group":"transport","subtype":"rail-metro"},"metro":{"group":"transport","subtype":"rail-metro"},"airport":{"group":"transport","subtype":"airport"},"port":{"group":"transport","subtype":"port"},"terminal":{"group":"transport","subtype":"terminal-parking"},"parking":{"group":"transport","subtype":"terminal-parking"},"dam":{"group":"water","subtype":"dam"},"waternetwork":{"group":"water","subtype":"networks"},"sewernetwork":{"group":"water","subtype":"networks"},"watertreatment":{"group":"water","subtype":"treatment"},"wastewater":{"group":"water","subtype":"treatment"},"irrigationcanal":{"group":"water","subtype":"irrigation-flood"},"flood":{"group":"water","subtype":"irrigation-flood"},"powerplant":{"group":"energy","subtype":"powerplant"},"renewable":{"group":"energy","subtype":"renewable"},"powergrid":{"group":"energy","subtype":"powergrid"},"gas":{"group":"energy","subtype":"gas-pipeline"},"pipeline":{"group":"energy","subtype":"gas-pipeline"},"hvac":{"group":"energy","subtype":"hvac"},"ev":{"group":"energy","subtype":"ev"},"factory":{"group":"industry","subtype":"factory-workshop"},"workshop":{"group":"industry","subtype":"factory-workshop"},"warehouse":{"group":"industry","subtype":"warehouse-cold"},"coldstore":{"group":"industry","subtype":"warehouse-cold"},"refinery":{"group":"industry","subtype":"refinery"},"industrialpark":{"group":"industry","subtype":"industrialpark"},"mineral":{"group":"industry","subtype":"mineral"},"streets":{"group":"urban","subtype":"streets"},"furniture":{"group":"urban","subtype":"streets"},"lighting":{"group":"urban","subtype":"streets"},"parks":{"group":"urban","subtype":"parks"},"waste":{"group":"urban","subtype":"waste"},"cemetery":{"group":"urban","subtype":"cemetery"},"fire":{"group":"urban","subtype":"fire"},"regeneration":{"group":"urban","subtype":"regeneration"},"fiber":{"group":"digital","subtype":"fiber-telecom"},"telecom":{"group":"digital","subtype":"fiber-telecom"},"datacenter":{"group":"digital","subtype":"datacenter"},"smartcity":{"group":"digital","subtype":"smart"},"control":{"group":"digital","subtype":"smart"},"pressure":{"group":"agriculture","subtype":"pressure"},"greenhouse":{"group":"agriculture","subtype":"greenhouse"},"livestock":{"group":"agriculture","subtype":"livestock-fish"},"fish":{"group":"agriculture","subtype":"livestock-fish"},"ruralroad":{"group":"agriculture","subtype":"ruralroad"},"natural":{"group":"agriculture","subtype":"natural"},"restoration":{"group":"heritage","subtype":"restoration"},"protection":{"group":"heritage","subtype":"restoration"},"historichouse":{"group":"heritage","subtype":"historichouse"},"adaptive":{"group":"heritage","subtype":"historichouse"},"historicfabric":{"group":"heritage","subtype":"historicfabric"},"tourism":{"group":"heritage","subtype":"tourism"},"lhstudy":{"group":"land","subtype":"study"},"lhearth":{"group":"land","subtype":"preparation"},"lhroads":{"group":"land","subtype":"preparation"},"lhwater":{"group":"land","subtype":"preparation"},"lhenergy":{"group":"land","subtype":"preparation"},"lhintegrated":{"group":"land","subtype":"preparation"},"subdivision":{"group":"land","subtype":"subdivision"},"lhplots":{"group":"land","subtype":"subdivision"},"township":{"group":"land","subtype":"township"},"newland":{"group":"land","subtype":"township"},"lhhousing":{"group":"land","subtype":"landhousing"},"lhcompletion":{"group":"land","subtype":"landhousing"},"consolidation":{"group":"land","subtype":"renewal"},"redevelop":{"group":"land","subtype":"renewal"},"mixeduse":{"group":"land","subtype":"mixeduse"}};
