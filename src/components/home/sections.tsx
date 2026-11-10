@@ -5,12 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft, ArchiveTick, MagicStar, TickCircle, Location, Notification } from "@/components/iconsax";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { IranMap } from "@/components/brand/iran-map";
 import { CountUp, MatchRing, Reveal } from "@/components/brand/reveal";
-import { SignaturePhoto } from "@/components/listing/signature-photo";
 import { ListingCard } from "@/components/listing/listing-card";
 import { groupIcons, routeIcons } from "@/components/icons";
 import { cityPoints } from "@/components/home/hero";
@@ -55,35 +54,84 @@ export function Stats() {
   );
 }
 
-/* ——— گروه‌های پروژه ——— */
-const span = ["col-span-2 md:row-span-2", "", "", "col-span-2", "col-span-2", "", "", "col-span-2", "", ""];
+/* ——— گروه‌های پروژه: پنل‌های بازشونده ——— */
+// هر پنل با هاور باز می‌شود و زیردسته‌هایش را نشان می‌دهد؛ هاور روی هر زیردسته عکس پنل را عوض می‌کند.
 export function Categories() {
   const router = useRouter();
   const setCriteria = useStore((s) => s.setCriteria);
-  const count = (g: string) => listings.filter((l) => l.group === g).length;
+  const [active, setActive] = useState(0);
+  const [preview, setPreview] = useState<{ image: string; name: string } | null>(null);
+  const counts = useMemo(() => {
+    const g: Record<string, number> = {}, t: Record<string, number> = {};
+    for (const l of listings) if (l.group) { g[l.group] = (g[l.group] ?? 0) + 1; t[`${l.group}/${l.subtype}`] = (t[`${l.group}/${l.subtype}`] ?? 0) + 1; }
+    return { g, t };
+  }, []);
+  const open = (group: string, subtype?: string) => { setCriteria({ ...emptyCriteria, groups: [group], filters: subtype ? { subtypes: [subtype] } : {} }); router.push("/opportunities"); };
+
   return (
-    <section id="categories" className="mx-auto mt-28 max-w-7xl px-4 sm:px-6">
-      <SectionHead kicker="گروه‌های پروژه" title="از کدام حوزه شروع می‌کنید؟" text="هر گروه چند نوع پروژه دارد. گروه را انتخاب کنید و نوع دقیق را کنار نتایج مشخص کنید." />
-      <div className="mt-10 grid auto-rows-[13.5rem] grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+    <section id="categories" className="mx-auto mt-24 max-w-7xl px-4 sm:px-6">
+      <SectionHead kicker="گروه‌های پروژه" title="از کدام حوزه شروع می‌کنید؟" text="روی هر گروه بروید تا نوع‌های پروژه آن باز شود. روی هر نوع بزنید تا پروژه‌هایش را ببینید." />
+      <div className="mt-10 flex flex-col gap-2.5 lg:h-[34rem] lg:flex-row" onMouseLeave={() => setPreview(null)}>
         {projectGroups.map((g, i) => {
-          const I = groupIcons[g.id]; const big = i === 0;
+          const I = groupIcons[g.id]; const on = i === active;
           return (
-            <MotionButton variant="plain" size="auto" key={g.id} type="button" onClick={() => { setCriteria({ ...emptyCriteria, groups: [g.id] }); router.push("/opportunities"); }}
-              initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ duration: 0.6, delay: (i % 4) * 0.07, ease: [0.22, 1, 0.36, 1] }}
-              className={cn("group relative overflow-hidden rounded-[1.75rem] text-right", span[i])}>
-              <SignaturePhoto src={g.image ?? "/images/hero/field.jpg"} alt={g.name} className="absolute inset-0" sizes="(max-width:768px) 50vw, 40vw" />
-              <span className="glass-dark absolute right-4 top-4 grid size-11 place-items-center rounded-2xl text-white"><I size={22} variant="Bulk" /></span>
-              <span className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3 text-white">
-                <span className="min-w-0">
-                  <span className={cn("block font-black", big ? "text-3xl" : "text-xl")}>{g.name}</span>
-                  <span className="mt-1 block text-xs font-semibold text-white/75">{faNumber(g.subtypes.length)} نوع · {faNumber(count(g.id))} پروژه</span>
-                  <span className={cn("mt-3 flex-wrap gap-1.5", big ? "hidden md:flex" : "hidden")}>
-                    {g.subtypes.slice(0, 7).map((s) => <span key={s.id} className="glass-dark rounded-full px-2.5 py-1 text-[11px] font-bold">{s.name}</span>)}
-                  </span>
-                </span>
-                <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-ink transition-transform duration-300 group-hover:-translate-x-1 group-hover:bg-sand"><ArrowLeft size={18} /></span>
-              </span>
-            </MotionButton>
+            <motion.div key={g.id} data-panel onMouseEnter={() => { setActive(i); setPreview(null); }} onFocusCapture={() => setActive(i)} onClick={() => setActive(i)}
+              animate={{ flexGrow: on ? 9 : 1 }} transition={{ type: "spring", stiffness: 190, damping: 26 }}
+              className={cn("group/panel relative isolate min-w-0 shrink-0 cursor-pointer overflow-hidden rounded-[1.75rem] bg-deep text-white transition-[height] duration-500 lg:shrink lg:basis-0", on ? "h-[30rem] lg:h-auto" : "h-[4.5rem] lg:h-auto")}>
+              <Image src={g.image ?? "/images/hero/field.jpg"} alt="" fill sizes="(max-width:1024px) 100vw, 60vw" className={cn("object-cover transition-all duration-700", on ? "scale-100 saturate-[0.85]" : "scale-110 saturate-[0.4]")} />
+              <AnimatePresence>
+                {on && preview && (
+                  <motion.div key={preview.image} initial={{ opacity: 0, scale: 1.08 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="absolute inset-0">
+                    <Image src={preview.image} alt="" fill sizes="60vw" className="object-cover saturate-[0.85]" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <div className="absolute inset-0 bg-primary mix-blend-soft-light opacity-70" />
+              <div className={cn("absolute inset-0 transition-colors duration-500", on ? "bg-gradient-to-t from-deep via-deep/55 to-deep/10" : "bg-deep/70 group-hover/panel:bg-deep/50")} />
+              {on && <AlgoPattern className="-left-6 -top-6 h-2/3 w-2/3 text-white/25" fade="radial" scale={0.6} />}
+
+              {/* حالت بسته: آیکون و نام عمودی */}
+              <div className={cn("absolute inset-0 flex items-center gap-3 px-5 transition-opacity duration-300 lg:flex-col lg:justify-between lg:px-0 lg:py-5", on ? "pointer-events-none opacity-0" : "opacity-100")}>
+                <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-white/10 text-white"><I size={20} variant="Bulk" /></span>
+                <span className="text-base font-extrabold lg:[writing-mode:vertical-rl] lg:whitespace-nowrap">{g.name}</span>
+                <span className="mr-auto text-xs font-bold text-white/60 lg:mr-0">{faNumber(g.subtypes.length)} نوع</span>
+              </div>
+
+              {/* حالت باز: زیردسته‌ها */}
+              <AnimatePresence>
+                {on && (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.18 } }} exit={{ opacity: 0, transition: { duration: 0.1 } }} className="absolute inset-0 flex min-w-[20rem] flex-col justify-between p-5 sm:p-7">
+                    <div className="flex items-start justify-between gap-3">
+                      <span className="grid size-12 place-items-center rounded-2xl bg-white/15 text-sand backdrop-blur"><I size={24} variant="Bulk" /></span>
+                      <AnimatePresence mode="wait">
+                        <motion.span key={preview?.name ?? "g"} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="glass-dark rounded-full px-3.5 py-1.5 text-xs font-bold">
+                          {preview ? preview.name : `${faNumber(counts.g[g.id] ?? 0)} پروژه`}
+                        </motion.span>
+                      </AnimatePresence>
+                    </div>
+                    <div>
+                      <motion.h3 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.22, duration: 0.5 }} className="text-3xl font-black sm:text-4xl">{g.name}</motion.h3>
+                      <ul className="mt-4 flex flex-wrap gap-2">
+                        {g.subtypes.map((s, k) => (
+                          <motion.li key={s.id} initial={{ opacity: 0, y: 14, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.28 + k * 0.045, duration: 0.4 }}>
+                            <Button data-sub variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id, s.id); }}
+                              onMouseEnter={() => setPreview({ image: s.image ?? g.image ?? "", name: s.includes[0] ?? s.name })} onFocus={() => setPreview({ image: s.image ?? g.image ?? "", name: s.includes[0] ?? s.name })}
+                              className="group/sub h-auto gap-2 rounded-full border border-white/25 bg-white/10 px-3.5 py-2 text-[13px] font-bold text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-sand hover:bg-sand hover:text-ink">
+                              <span className="size-1.5 rounded-full bg-sand transition-all duration-300 group-hover/sub:w-4 group-hover/sub:bg-ink" />
+                              {s.name}
+                              <span className="text-[11px] font-semibold opacity-60">{faNumber(counts.t[`${g.id}/${s.id}`] ?? 0)}</span>
+                            </Button>
+                          </motion.li>
+                        ))}
+                      </ul>
+                      <Button variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id); }} className="group/all mt-5 h-12 gap-3 rounded-full bg-white pl-1.5 pr-5 text-sm font-extrabold text-ink hover:bg-sand">
+                        همه پروژه‌های {g.name}<span className="grid size-9 place-items-center rounded-full bg-ink text-white transition-transform group-hover/all:-translate-x-1"><ArrowLeft size={16} /></span>
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           );
         })}
       </div>
