@@ -20,7 +20,7 @@ import { Reveal } from "@/components/brand/reveal";
 import { SignaturePhoto } from "./signature-photo";
 import { ListingCard, SaveButton } from "./listing-card";
 import { listingById, listings, payoutLabel } from "@/lib/listings";
-import { factGroups, type FactGroup } from "@/lib/facts";
+import { dossier, factGroups, type DossierSection, type FactGroup } from "@/lib/facts";
 import { projectGroups } from "@/data/taxonomy";
 import { advisories } from "@/data/advisories";
 import { useStore } from "@/lib/store";
@@ -71,7 +71,7 @@ function Facts({ groups }: { groups: FactGroup[] }) {
               {g.items.map(([k, v]) => (
                 <div key={k} className={cn("py-2.5", v.length <= 22 && "flex items-baseline justify-between gap-3")}>
                   <dt className="shrink-0 text-xs font-semibold text-muted-foreground">{k}</dt>
-                  <dd className={cn("text-sm font-extrabold leading-6 text-ink", v.length <= 22 ? "text-left" : "mt-0.5")}>{v}</dd>
+                  <dd className={cn("text-sm font-extrabold leading-6", v === NA ? "font-semibold text-ink/35" : "text-ink", v.length <= 22 ? "text-left" : "mt-0.5")}>{v}</dd>
                 </div>
               ))}
             </dl>
@@ -121,7 +121,7 @@ function Milestones({ o }: { o: Opportunity }) {
 }
 
 /** مسیر پول: تأمین مالی ← بازگشت ← مالکیت؛ کارت‌ها با فلش به هم وصل‌اند */
-function MoneyFlow({ o }: { o: Opportunity }) {
+function MoneyFlow({ o }: { o: { finance?: string; repay?: string; ownership?: string | null } }) {
   const nodes = [
     { I: WalletMoney, t: "پول از کجا می‌آید", d: o.finance },
     { I: MoneyRecive, t: "چطور برمی‌گردد", d: o.repay },
@@ -158,6 +158,34 @@ function Steps({ steps }: { steps: string[] }) {
         </li>
       ))}
     </ol>
+  );
+}
+
+/** پرونده کامل: بخش‌های جزئیات نسخه مرجع، هر کدام در یک آکاردئون تا صفحه شلوغ نشود */
+function Dossier({ sections }: { sections: DossierSection[] }) {
+  return (
+    <Accordion type="multiple" defaultValue={[(sections.find((x) => /^terms|^heritage|^rights/.test(x.id)) ?? sections[0]).id]} className="surface rounded-[1.75rem] px-6">
+      {sections.map((sec) => (
+        <AccordionItem key={sec.id} value={sec.id} className="border-border">
+          <AccordionTrigger className="py-4 text-right text-[15px] font-extrabold text-ink hover:no-underline">{sec.title}</AccordionTrigger>
+          <AccordionContent className="pb-5">
+            {sec.note && <p className="mb-3 text-[13px] font-semibold leading-6 text-muted-foreground">{sec.note}</p>}
+            <dl className="grid grid-cols-2 gap-x-8">
+              {sec.rows.map(([k, v]) => { const pending = v === NA || v.startsWith(NA) || v.startsWith("نیازمند") || v.startsWith("احراز نشده");
+                return (
+                  <div key={k} className="border-b border-dashed border-border/80 py-3">
+                    <dt className="text-xs font-semibold text-muted-foreground">{k}</dt>
+                    <dd className={cn("mt-1 text-sm leading-7", pending ? "font-semibold text-ink/45" : "font-extrabold text-ink")}>{v}</dd>
+                  </div>
+                ); })}
+            </dl>
+            {!!sec.notes?.length && <div className="mt-4 grid grid-cols-2 gap-3">{sec.notes.map(([t, d]) => (
+              <div key={t} className="rounded-2xl bg-muted/70 px-4 py-3"><p className="text-[13px] font-extrabold text-ink">{t}</p><p className="mt-1 text-[13px] font-semibold leading-6 text-ink/70">{d}</p></div>
+            ))}</div>}
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
   );
 }
 
@@ -257,7 +285,10 @@ export function Detail({ id }: { id: string }) {
     : l.stats.map((s, i) => ({ I: [WalletMoney, Chart, ShieldSearch, Calendar][i], label: s.label, value: s.value }));
 
   const groups = factGroups(l);
-  const hasFlow = !!o && !!(o.finance || o.repay || o.ownership);
+  const text = (o ?? fund ?? sale)!;
+  const hasFlow = !!(text.finance || text.repay || text.ownership);
+  const sections = dossier(l);
+  const nextSteps = o?.steps.length ? o.steps : fund?.steps?.length ? fund.steps : routeSteps[l.routes[0] as RouteId];
   const hasTime = !!o && [o.firstIncomeMonths, o.executionMonths, o.lockupMonths, o.paybackYears, o.paybackDownsideYears, o.durationYears].some((x) => x != null);
 
   return (
@@ -273,12 +304,12 @@ export function Detail({ id }: { id: string }) {
             <div className="absolute inset-x-10 bottom-9 text-white">
               <div className="flex flex-wrap gap-2">
                 {l.tags.map((t) => <Badge key={t} variant="outline" className="border-white/30 bg-black/25 px-3.5 py-1.5 font-bold text-white">{t}</Badge>)}
-                {o && <Badge className="bg-white px-3.5 py-1.5 font-extrabold text-ink">{o.stage}</Badge>}
+                {text.stage && <Badge className="bg-white px-3.5 py-1.5 font-extrabold text-ink">{text.stage}</Badge>}
               </div>
               <h1 className="mt-4 max-w-4xl text-4xl font-black leading-[1.3] text-balance">{l.title}</h1>
               <p className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm font-semibold text-white/85">
                 {l.city && <span className="flex items-center gap-1.5"><Location size={17} variant="Bold" />{l.province}، {l.city}{sale?.neighborhood ? `، ${sale.neighborhood}` : ""}</span>}
-                {o && <span>مدل همکاری: {o.model}</span>}
+                {text.model && <span>{o ? "مدل همکاری" : "نوع"}: {text.model}</span>}
                 <span dir="ltr" className="text-white/60">{l.id}</span>
               </p>
             </div>
@@ -300,7 +331,7 @@ export function Detail({ id }: { id: string }) {
             <Chapter n={++n} title="شناسنامه پروژه"><Facts groups={groups} /></Chapter>
 
             {o && hasTime && <Chapter n={++n} title="پول شما در طول زمان"><Milestones o={o} /></Chapter>}
-            {o && hasFlow && <Chapter n={++n} title="مسیر پول"><MoneyFlow o={o} /></Chapter>}
+            {hasFlow && <Chapter n={++n} title="مسیر پول"><MoneyFlow o={text} /></Chapter>}
 
             {o && (
               <Chapter n={++n} title="ریسک و نکته‌های مهم">
@@ -325,7 +356,16 @@ export function Detail({ id }: { id: string }) {
 
             {o && advisory && <Chapter n={++n} title="پرسش‌هایی که باید پاسخشان را آماده کنید" note={subtype?.name}><AdvisoryBlock a={advisory} /></Chapter>}
 
-            {!o && routeSteps[l.routes[0] as RouteId] && <Chapter n={++n} title="از این‌جا به بعد"><Steps steps={routeSteps[l.routes[0] as RouteId]} /></Chapter>}
+            {!o && text.caution && (
+              <div className="flex items-start gap-4 rounded-[1.75rem] bg-sand/15 p-6 ring-1 ring-sand/40">
+                <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-sand/70 text-ink"><Warning2 size={22} variant="Bulk" /></span>
+                <span><span className="block text-sm font-extrabold text-ink">پیش از تصمیم بدانید</span><span className="mt-1 block text-[15px] font-semibold leading-8 text-ink/85">{text.caution}</span></span>
+              </div>
+            )}
+
+            <Chapter n={++n} title="پرونده کامل" note="همه اطلاعات ثبت‌شده و آنچه هنوز باید احراز شود"><Dossier sections={sections} /></Chapter>
+
+            {!o && nextSteps && <Chapter n={++n} title="از این‌جا به بعد"><Steps steps={nextSteps} /></Chapter>}
 
             {o && o.steps.length > 0 && (
               <Chapter n={++n} title="از این‌جا به بعد">

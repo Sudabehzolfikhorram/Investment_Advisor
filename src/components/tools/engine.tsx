@@ -93,9 +93,11 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
 
   const sync = useCallback(() => {
     const doc = frame.current?.contentDocument; if (!doc) return;
-    const el = doc.querySelector(root); if (!el) return;
+    // چند ریشه با «|» جدا می‌شوند (مثلاً فرم و نتیجه مسیر خیریه)
+    const els = root.split("|").map((sel) => doc.querySelector(sel)).filter(Boolean) as Element[]; if (!els.length) return;
     const map = new Map<string, Element>();
-    setTree(snapshot(el, map, "r"));
+    const kids = els.map((el, i) => snapshot(el, map, `r${i}`)).filter(Boolean) as N[];
+    setTree(kids.length === 1 ? kids[0] : { key: "roots", tag: "div", cls: [], id: "", kids, attr: {}, ds: {} });
     setDialogs([...doc.querySelectorAll("dialog[open]")].map((d, i) => snapshot(d, map, `d${i}`)).filter(Boolean) as N[]);
     refs.current = map;
   }, [root]);
@@ -104,7 +106,7 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
     const f = frame.current; if (!f) return;
     let obs: MutationObserver | undefined, t = 0;
     const start = () => {
-      const doc = f.contentDocument; if (!doc?.body || !doc.querySelector(root)) return;
+      const doc = f.contentDocument; if (!doc?.body || !doc.querySelector(root.split("|")[0])) return;
       // دانلود و پیام‌های نسخه مرجع به صفحه اصلی منتقل می‌شوند
       const w = f.contentWindow as unknown as Record<string, unknown>;
       w.toast = (m: string) => toast(clean(String(m)));
@@ -114,12 +116,17 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
         const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
         window.setTimeout(() => URL.revokeObjectURL(url), 1000); toast("فایل روی دستگاه شما ذخیره شد.");
       };
-      (doc.querySelector(opener) as HTMLElement | null)?.click();
+      if (opener.startsWith("role:")) {
+        // مسیرهایی که در نسخه مرجع داخل همان فرم اصلی‌اند: انتخاب نقش و رفتن به مرحله شرایط
+        const r = doc.querySelector(`input[name=role][value="${opener.slice(5)}"]`) as HTMLInputElement | null;
+        if (r) { r.checked = true; r.dispatchEvent(new Event("input", { bubbles: true })); r.dispatchEvent(new Event("change", { bubbles: true })); }
+        (doc.querySelector('[data-panel="0"] [data-next]') as HTMLElement | null)?.click();
+      } else (doc.querySelector(opener) as HTMLElement | null)?.click();
       sync();
       obs = new MutationObserver(() => { window.clearTimeout(t); t = window.setTimeout(sync, 16); });
       obs.observe(doc.body, { subtree: true, childList: true, attributes: true, characterData: true });
     };
-    if (f.contentDocument?.readyState === "complete" && f.contentDocument.querySelector(root)) start(); else f.addEventListener("load", start, { once: true });
+    if (f.contentDocument?.readyState === "complete" && f.contentDocument.querySelector(root.split("|")[0])) start(); else f.addEventListener("load", start, { once: true });
     return () => { obs?.disconnect(); window.clearTimeout(t); f.removeEventListener("load", start); };
   }, [opener, root, sync]);
 
@@ -161,7 +168,7 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
     if (checks.length < 3) return n.kids.map((k) => render(k));
     const first = n.kids.indexOf(checks[0]);
     return n.kids.map((k, i) => i === first ? <MultiDrop key={`${n.key}/multi`} items={checks.map((l) => { const c = controlsIn(l)[0]; const strong = find(l, (x) => x.tag === "strong"); const small = find(l, (x) => x.tag === "small");
-      return { key: c.key, checked: !!c.checked, disabled: !!c.disabled, title: clean(strong ? textOf(strong) : textOf(l)), hint: small ? clean(textOf(small)) : undefined }; })} onToggle={(key) => fire(key, "click")} /> : isCheck(k) ? null : render(k));
+      return { key: c.key, checked: !!c.checked, disabled: !!c.disabled, title: clean(strong ? textOf(strong) : textOf(l)), hint: small ? clean(textOf(small)) : undefined }; })} single={checks.every((l) => controlsIn(l)[0].attr.type === "radio")} onToggle={(key) => fire(key, "click")} /> : isCheck(k) ? null : render(k));
   };
   const inline = (n: N): React.ReactNode => n.kids.map((k) =>
     k.tag === "#text" ? <Fragment key={k.key}>{k.text}</Fragment>
@@ -314,7 +321,7 @@ function FileField({ accept, label, onFiles }: { accept?: string; label?: string
   );
 }
 
-function MultiDrop({ items, onToggle }: { items: { key: string; checked: boolean; disabled: boolean; title: string; hint?: string }[]; onToggle: (key: string) => void }) {
+function MultiDrop({ items, onToggle, single }: { items: { key: string; checked: boolean; disabled: boolean; title: string; hint?: string }[]; onToggle: (key: string) => void; single?: boolean }) {
   const [open, setOpen] = useState(false);
   const on = items.filter((i) => i.checked);
   return (
@@ -324,13 +331,13 @@ function MultiDrop({ items, onToggle }: { items: { key: string; checked: boolean
           <span className={cn("flex min-w-0 flex-wrap gap-1.5 text-sm", on.length ? "font-bold text-ink" : "font-semibold text-muted-foreground")}>
             {on.length ? on.map((i) => <span key={i.key} className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[12px] font-extrabold text-primary">{i.title}</span>) : "انتخاب کنید"}
           </span>
-          <span className="flex shrink-0 items-center gap-2 text-xs font-bold text-muted-foreground">{on.length > 0 && `${faNumber(on.length)} از ${faNumber(items.length)}`}<ArrowDown2 size={16} className={cn("transition-transform", open && "rotate-180")} /></span>
+          <span className="flex shrink-0 items-center gap-2 text-xs font-bold text-muted-foreground">{!single && on.length > 0 && `${faNumber(on.length)} از ${faNumber(items.length)}`}<ArrowDown2 size={16} className={cn("transition-transform", open && "rotate-180")} /></span>
         </Button>
       </PopoverTrigger>
       <PopoverContent align="start" className="thin-scroll max-h-80 w-(--radix-popover-trigger-width) overflow-y-auto rounded-2xl p-1.5">
         {items.map((i) => (
           <label key={i.key} className={cn("flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-primary/5", i.checked && "bg-primary/[0.06]")}>
-            <Checkbox checked={i.checked} disabled={i.disabled} onCheckedChange={() => onToggle(i.key)} className="mt-0.5 size-5 rounded-md border-ink/25 bg-white" />
+            <Checkbox role={single ? "radio" : undefined} checked={i.checked} disabled={i.disabled} onCheckedChange={() => { if (single && i.checked) return; onToggle(i.key); if (single) setOpen(false); }} className={cn("mt-0.5 size-5 border-ink/25 bg-white", single ? "rounded-full" : "rounded-md")} />
             <span className="min-w-0"><span className="block text-sm font-bold leading-6 text-ink">{i.title}</span>{i.hint && <span className="block text-xs leading-5 text-muted-foreground">{i.hint}</span>}</span>
           </label>
         ))}

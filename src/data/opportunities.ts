@@ -50,7 +50,24 @@ export const opportunities: Opportunity[] = [
     "publishedAt": "2026-11-01",
     "modelId": "M12",
     "revenues": [],
-    "owner": null
+    "owner": null,
+    "usage": "residential",
+    "usageLabel": "مسکونی",
+    "description": "نمونه آموزشی «توسعه مجموعه مسکونی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "interventions": [
+        "land"
+      ],
+      "partnerShare": 60,
+      "executionMonths": 36,
+      "partnershipSettlements": [
+        "same",
+        "mixed"
+      ],
+      "generalConditions": "بررسی مدارک ثبتی و توان مالی طبق فراخوان",
+      "specialConditions": "تجربه ساخت و تیم دارای صلاحیت؛ احراز نشده",
+      "irr": null
+    }
   },
   {
     "id": "DEMO-02",
@@ -99,7 +116,11 @@ export const opportunities: Opportunity[] = [
     "publishedAt": "2026-10-11",
     "modelId": "M05",
     "revenues": [],
-    "owner": null
+    "owner": null,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «احداث نیروگاه خورشیدی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {}
   },
   {
     "id": "DEMO-03",
@@ -148,7 +169,23 @@ export const opportunities: Opportunity[] = [
     "publishedAt": "2026-10-12",
     "modelId": "M17",
     "revenues": [],
-    "owner": null
+    "owner": null,
+    "usage": "industrial",
+    "usageLabel": "صنعتی و لجستیک",
+    "description": "نمونه آموزشی «خرید ساختمان انبار موجود»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "salePayments": [
+        "cash"
+      ],
+      "transferRights": [
+        "full"
+      ]
+    },
+    "rights": {
+      "subject": "مالکیت عرصه و اعیان طبق سند، در این نمونه فرضی",
+      "occupancy": "vacant",
+      "registration": "ثبت رسمی انتقال باید بررسی و انجام شود."
+    }
   },
   {
     "id": "DEMO-04",
@@ -198,7 +235,24 @@ export const opportunities: Opportunity[] = [
     "publishedAt": "2026-11-04",
     "modelId": "M08",
     "revenues": [],
-    "owner": null
+    "owner": null,
+    "usage": "heritage",
+    "usageLabel": "میراث و بنای تاریخی",
+    "description": "نمونه آموزشی «احیای بنای تاریخی خدماتی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {},
+    "heritageTerms": {
+      "returns": [
+        "lease",
+        "offset"
+      ],
+      "uses": [
+        "boutique",
+        "cafe",
+        "restaurant",
+        "culture"
+      ],
+      "years": null
+    }
   },
   {
     "id": "DEMO-05",
@@ -244,7 +298,11 @@ export const opportunities: Opportunity[] = [
     "publishedAt": "2026-10-14",
     "modelId": "M02",
     "revenues": [],
-    "owner": null
+    "owner": null,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «راهبری تصفیه‌خانه موجود»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {}
   },
   {
     "id": "DEMO-06",
@@ -293,7 +351,24 @@ export const opportunities: Opportunity[] = [
     "publishedAt": "2026-10-15",
     "modelId": "M01",
     "revenues": [],
-    "owner": null
+    "owner": null,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «اجرای بخش عمرانی مسیر دسترسی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "governmentShare": 100,
+      "executionMonths": 24,
+      "workingCapitalMin": 2,
+      "contractorSettlements": [
+        "cash"
+      ],
+      "acceptedGuarantees": [
+        "bank",
+        "cash"
+      ],
+      "generalConditions": "مدارک ثبتی و صلاحیت عمومی در اسناد فراخوان",
+      "specialConditions": "رشته و رتبه و ظرفیت آزاد؛ نیازمند احراز"
+    }
   },
   {
     "id": "DEMO-07",
@@ -342,7 +417,11 @@ export const opportunities: Opportunity[] = [
     "publishedAt": "2026-11-07",
     "modelId": "M06",
     "revenues": [],
-    "owner": null
+    "owner": null,
+    "usage": "medical",
+    "usageLabel": "درمانی",
+    "description": "نمونه آموزشی «ساخت ساختمان عمومی با اجاره»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {}
   },
   {
     "id": "DEMO-08",
@@ -387,7 +466,11 @@ export const opportunities: Opportunity[] = [
     "publishedAt": "2026-10-17",
     "modelId": "M11",
     "revenues": [],
-    "owner": null
+    "owner": null,
+    "usage": "mixed",
+    "usageLabel": "توسعه زمین و چندمنظوره",
+    "description": "نمونه آموزشی «توسعه مجموعه خدماتی مشترک»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {}
   },
   {
     "id": "DEMO-10",
@@ -415,7 +498,7 @@ export const opportunities: Opportunity[] = [
     "legalStatus": "review",
     "finance": "سرمایه شرکا؛ بدهی احتمالی پس از بررسی پوشش اقساط با اجاره",
     "repay": "سهم درآمد اجاره پس از هزینه نگهداری و تعهدات",
-    "ownership": null,
+    "ownership": "نمونه فرضی؛ نوع مالکیت، حق بهره‌برداری و انتقال فقط با بررسی سند و قرارداد تعیین می‌شود.",
     "caution": "نرخ اشغال، تعدیل اجاره و حق خروج از مشارکت بررسی شود.",
     "steps": [],
     "metric": {
@@ -434,7 +517,11 @@ export const opportunities: Opportunity[] = [
       "rent",
       "mixed"
     ],
-    "owner": null
+    "owner": null,
+    "usage": "residential",
+    "usageLabel": "مسکونی",
+    "description": "نمونه آموزشی «توسعه مسکن اجاره‌ای»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {}
   },
   {
     "id": "DEMO-11",
@@ -462,7 +549,7 @@ export const opportunities: Opportunity[] = [
     "legalStatus": "review",
     "finance": "آورده شریک؛ تأمین مالی بدهی فقط پس از احراز امکان و اعتبار قرارداد",
     "repay": "اجاره قراردادی مشروط به تحویل و تعهدات عملکرد",
-    "ownership": null,
+    "ownership": "نمونه فرضی؛ نوع مالکیت، حق بهره‌برداری و انتقال فقط با بررسی سند و قرارداد تعیین می‌شود.",
     "caution": "اختیار قانونی تعهد بلندمدت و توان پرداخت دستگاه هنوز احراز نشده است.",
     "steps": [],
     "metric": {
@@ -477,7 +564,11 @@ export const opportunities: Opportunity[] = [
     "revenues": [
       "public"
     ],
-    "owner": null
+    "owner": null,
+    "usage": "office",
+    "usageLabel": "اداری",
+    "description": "نمونه آموزشی «ساختمان اداری برای خریدار خدمت عمومی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {}
   },
   {
     "id": "DEMO-12",
@@ -505,7 +596,7 @@ export const opportunities: Opportunity[] = [
     "legalStatus": "review",
     "finance": "آورده سرمایه‌گذار و شریک اجرایی؛ تأمین مالی مشروط به مدل تقاضا",
     "repay": "سهم عایدی اجاره و خدمات مجموعه در مدت قرارداد",
-    "ownership": null,
+    "ownership": "نمونه فرضی؛ نوع مالکیت، حق بهره‌برداری و انتقال فقط با بررسی سند و قرارداد تعیین می‌شود.",
     "caution": "مدت بهره‌برداری، فضای خالی و اختیار واگذاری منافع بررسی شود.",
     "steps": [],
     "metric": {
@@ -524,7 +615,11 @@ export const opportunities: Opportunity[] = [
       "rent",
       "mixed"
     ],
-    "owner": null
+    "owner": null,
+    "usage": "commercial",
+    "usageLabel": "تجاری",
+    "description": "نمونه آموزشی «مشارکت در مجموعه تجاری محلی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {}
   },
   {
     "id": "DEMO-13",
@@ -552,7 +647,7 @@ export const opportunities: Opportunity[] = [
     "legalStatus": "review",
     "finance": "سرمایه بازسازی و تجهیز شریک؛ سرمایه در گردش جداگانه",
     "repay": "سهم درآمد اقامت یا اجاره به بهره‌بردار طبق قرارداد",
-    "ownership": null,
+    "ownership": "نمونه فرضی؛ نوع مالکیت، حق بهره‌برداری و انتقال فقط با بررسی سند و قرارداد تعیین می‌شود.",
     "caution": "این نمونه بنای ثبت‌شده تاریخی فرض نشده؛ مجوزها و بازار باید بررسی شوند.",
     "steps": [],
     "metric": {
@@ -571,7 +666,11 @@ export const opportunities: Opportunity[] = [
       "service",
       "rent"
     ],
-    "owner": null
+    "owner": null,
+    "usage": "tourism",
+    "usageLabel": "اقامتی و گردشگری",
+    "description": "نمونه آموزشی «بازسازی و تجهیز مجموعه اقامتی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {}
   },
   {
     "id": "DEMO-14",
@@ -599,7 +698,7 @@ export const opportunities: Opportunity[] = [
     "legalStatus": "review",
     "finance": "آورده شرکا؛ بدهی احتمالی متناسب با جریان پرداخت تأییدشده",
     "repay": "پرداخت قراردادی بابت در دسترس بودن و نگهداری ساختمان",
-    "ownership": null,
+    "ownership": "نمونه فرضی؛ نوع مالکیت، حق بهره‌برداری و انتقال فقط با بررسی سند و قرارداد تعیین می‌شود.",
     "caution": "اداره آموزشی و مجوز آن از خدمت تأسیساتی تفکیک شود؛ اختیار قرارداد هنوز احراز نشده است.",
     "steps": [],
     "metric": {
@@ -617,7 +716,11 @@ export const opportunities: Opportunity[] = [
     "revenues": [
       "public"
     ],
-    "owner": null
+    "owner": null,
+    "usage": "education",
+    "usageLabel": "آموزشی",
+    "description": "نمونه آموزشی «تأمین ساختمان آموزشی و نگهداری آن»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {}
   },
   {
     "id": "DEMO-15",
@@ -645,7 +748,7 @@ export const opportunities: Opportunity[] = [
     "legalStatus": "review",
     "finance": "آورده شریک و منابع خریدار خدمت در حدود تعهد معتبر",
     "repay": "پرداخت قراردادی مبتنی بر خدمت و عملکرد",
-    "ownership": null,
+    "ownership": "نمونه فرضی؛ نوع مالکیت، حق بهره‌برداری و انتقال فقط با بررسی سند و قرارداد تعیین می‌شود.",
     "caution": "بدون خریدار خدمت معتبر، بازگشت ارقام این سناریو قابل اتکا نیست.",
     "steps": [],
     "metric": {
@@ -660,7 +763,11 @@ export const opportunities: Opportunity[] = [
     "revenues": [
       "public"
     ],
-    "owner": null
+    "owner": null,
+    "usage": "cultural",
+    "usageLabel": "فرهنگی و مذهبی",
+    "description": "نمونه آموزشی «مرکز فرهنگی با خرید خدمت قراردادی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {}
   },
   {
     "id": "DEMO-16",
@@ -688,7 +795,7 @@ export const opportunities: Opportunity[] = [
     "legalStatus": "review",
     "finance": "آورده نقدی شریک؛ هزینه تجهیز و سرمایه در گردش جداگانه",
     "repay": "حق عضویت و خدمات یا اجاره به بهره‌بردار طبق قرارداد",
-    "ownership": null,
+    "ownership": "نمونه فرضی؛ نوع مالکیت، حق بهره‌برداری و انتقال فقط با بررسی سند و قرارداد تعیین می‌شود.",
     "caution": "ظرفیت جذب استفاده‌کننده و هزینه انرژی و نگهداری بررسی شود.",
     "steps": [],
     "metric": {
@@ -707,7 +814,11 @@ export const opportunities: Opportunity[] = [
       "service",
       "rent"
     ],
-    "owner": null
+    "owner": null,
+    "usage": "sports",
+    "usageLabel": "ورزشی",
+    "description": "نمونه آموزشی «ساخت و بهره‌برداری مجموعه ورزشی محلی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {}
   },
   {
     "id": "DEMO-17",
@@ -735,7 +846,7 @@ export const opportunities: Opportunity[] = [
     "legalStatus": "review",
     "finance": "آورده نقدی شرکا و ارزش‌گذاری ساختمان موجود",
     "repay": "سهم عایدی اجاره طبق قرارداد مشارکت",
-    "ownership": null,
+    "ownership": "نمونه فرضی؛ نوع مالکیت، حق بهره‌برداری و انتقال فقط با بررسی سند و قرارداد تعیین می‌شود.",
     "caution": "هزینه رفع نواقص، سند و کاربری، حاکمیت مشارکت و مستأجر بررسی شود.",
     "steps": [],
     "metric": {
@@ -753,7 +864,3963 @@ export const opportunities: Opportunity[] = [
     "revenues": [
       "rent"
     ],
-    "owner": "private"
+    "owner": "private",
+    "usage": "office",
+    "usageLabel": "اداری",
+    "description": "نمونه آموزشی «تکمیل ساختمان اداری برای بازار اجاره»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {}
+  },
+  {
+    "id": "DEMO-09",
+    "kind": "project",
+    "title": "اجاره فضای اداری موجود",
+    "group": "building",
+    "subtype": "office",
+    "image": "/images/types/office.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "lessee"
+    ],
+    "stage": "آماده استفاده",
+    "phase": "existing",
+    "model": "اجاره ملک موجود",
+    "minCapital": 4,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": null,
+    "firstIncomeMonths": null,
+    "income": "any",
+    "durationYears": 3,
+    "risk": "unknown",
+    "legalStatus": "review",
+    "finance": "ودیعه مستأجر و اجاره‌بهای دوره‌ای؛ منابع آماده‌سازی جداگانه برآورد شود.",
+    "repay": "مستأجر اجاره می‌پردازد؛ درآمد فعالیت مستأجر موضوع قرارداد جداست.",
+    "ownership": "حق استفاده مدت‌دار؛ مالکیت ملک منتقل نمی‌شود.",
+    "caution": "کاربری مجاز، هزینه‌های نگهداری، شرایط افزایش اجاره و استرداد ودیعه بررسی شود.",
+    "steps": [
+      "بررسی سند، اختیار اجاره و کاربری",
+      "بازدید و بررسی تناسب فضا با فعالیت",
+      "بررسی ودیعه، اجاره، مدت و شرایط تمدید",
+      "طی مسیر مجاز انتخاب مستأجر و تنظیم قرارداد و تحویل"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-11-01",
+    "modelId": "M18",
+    "revenues": [],
+    "owner": null,
+    "usage": "office",
+    "usageLabel": "اداری",
+    "description": "نمونه آموزشی «اجاره فضای اداری موجود»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "leaseTypes": [
+        "medium"
+      ],
+      "leasePayments": [
+        "monthly"
+      ],
+      "transferRights": [
+        "lease"
+      ]
+    },
+    "rights": {
+      "subject": "منافع مدت‌دار؛ بدون انتقال مالکیت عین",
+      "occupancy": "vacant"
+    },
+    "monthlyRent": 120
+  },
+  {
+    "id": "SAMPLE-01",
+    "kind": "project",
+    "title": "مشارکت در راه‌سازی و بزرگراه",
+    "group": "transport",
+    "subtype": "roads",
+    "image": "/images/types/roads.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 1000,
+    "paybackYears": 11,
+    "paybackDownsideYears": 15,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "عوارض عبور در صورت مجاز بودن",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تعیین محدوده راه، تملک اراضی و هزینه جابه‌جایی تأسیسات",
+      "تخصیص ریسک ترافیک، تعمیرات اساسی و تحویل راه",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-11",
+    "modelId": "S-roads",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در راه‌سازی و بزرگراه»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-02",
+    "kind": "project",
+    "title": "مشارکت در پل و تقاطع غیرهم‌سطح",
+    "group": "transport",
+    "subtype": "bridge",
+    "image": "/images/types/bridge.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 300,
+    "paybackYears": 11,
+    "paybackDownsideYears": 15,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی بابت احداث و در دسترس بودن",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تفکیک هزینه ساخت از نگهداری و بازرسی سازه",
+      "بررسی نیاز به مسدودسازی مسیر و تعهدات ایمنی",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-12",
+    "modelId": "S-bridge",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در پل و تقاطع غیرهم‌سطح»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-03",
+    "kind": "project",
+    "title": "مشارکت در تونل",
+    "group": "transport",
+    "subtype": "tunnel",
+    "image": "/images/types/tunnel.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 800,
+    "paybackYears": 11,
+    "paybackDownsideYears": 15,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "عوارض عبور مجاز",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تعیین مسئولیت ریسک شرایط پیش‌بینی‌نشده زمین",
+      "بررسی مجوز، مسیر و نیاز به اتصال به راه موجود",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-13",
+    "modelId": "S-tunnel",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در تونل»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-04",
+    "kind": "project",
+    "title": "مشارکت در راه‌آهن",
+    "group": "transport",
+    "subtype": "rail",
+    "image": "/images/types/rail.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 2000,
+    "paybackYears": 11,
+    "paybackDownsideYears": 15,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی برای زیرساخت / ظرفیت",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی تقاضای بار / مسافر و قراردادهای استفاده",
+      "تعیین هزینه نگهداری خط و تأسیسات و حدود اختیار بهره‌بردار",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": null,
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-11-05",
+    "modelId": "S-rail",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در راه‌آهن»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-05",
+    "kind": "project",
+    "title": "مشارکت در مترو و قطار شهری",
+    "group": "transport",
+    "subtype": "metro",
+    "image": "/images/types/metro.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 2500,
+    "paybackYears": 11,
+    "paybackDownsideYears": 15,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی بابت ظرفیت و کیفیت خدمت",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تعیین حدود مسئولیت خدمات مسافری و نگهداری",
+      "بررسی تأمین کسری درآمد و اختیار تعهد پرداخت عمومی",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-15",
+    "modelId": "S-metro",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در مترو و قطار شهری»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-06",
+    "kind": "project",
+    "title": "مشارکت در فرودگاه",
+    "group": "transport",
+    "subtype": "airport",
+    "image": "/images/types/airport.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 1500,
+    "paybackYears": 11,
+    "paybackDownsideYears": 15,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "درآمد خدمات فرودگاهی مجاز",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "احراز اختیار واگذاری خدمت و تعرفه‌های مربوط",
+      "تعیین محدوده سرمایه‌گذاری و الزامات امنیت و ایمنی",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-16",
+    "modelId": "S-airport",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در فرودگاه»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-07",
+    "kind": "project",
+    "title": "مشارکت در بندر و اسکله",
+    "group": "transport",
+    "subtype": "port",
+    "image": "/images/types/port.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 1200,
+    "paybackYears": 11,
+    "paybackDownsideYears": 15,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "تعرفه خدمات بندری و جابه‌جایی بار",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی مطالعات دریایی، رسوب و لایروبی",
+      "تعیین حق بهره‌برداری، تعرفه و هزینه نگهداری اسکله",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-17",
+    "modelId": "S-port",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در بندر و اسکله»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-08",
+    "kind": "project",
+    "title": "مشارکت در پایانه‌های مسافری و باری",
+    "group": "transport",
+    "subtype": "terminal",
+    "image": "/images/types/terminal.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 150,
+    "paybackYears": 11,
+    "paybackDownsideYears": 15,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "کارمزد و خدمات پایانه",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی دسترسی و تداخل ترافیکی پیرامون",
+      "تفکیک مجوز بهره‌برداری از حق تصرف و ساخت",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-11-09",
+    "modelId": "S-terminal",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در پایانه‌های مسافری و باری»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-09",
+    "kind": "project",
+    "title": "مشارکت در پارکینگ عمومی",
+    "group": "transport",
+    "subtype": "parking",
+    "image": "/images/types/parking.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 60,
+    "paybackYears": 11,
+    "paybackDownsideYears": 15,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "تعرفه توقف و خدمات پارکینگ",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "احراز حق بهره‌برداری و تعرفه مجاز",
+      "برآورد هزینه نیروی انسانی و ایمنی و نگهداری",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-19",
+    "modelId": "S-parking",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در پارکینگ عمومی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-10",
+    "kind": "project",
+    "title": "مشارکت در سد و مخزن ذخیره آب",
+    "group": "water",
+    "subtype": "dam",
+    "image": "/images/types/dam.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 3000,
+    "paybackYears": 10,
+    "paybackDownsideYears": 14,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی بابت تأمین آب یا خدمت",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی مجوزها، اراضی مخزن و اثرات محیط‌زیست",
+      "کنترل هزینه ایمنی، رسوب و نگهداری بلندمدت",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": null,
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-10-20",
+    "modelId": "S-dam",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در سد و مخزن ذخیره آب»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-11",
+    "kind": "project",
+    "title": "مشارکت در شبکه انتقال و توزیع آب",
+    "group": "water",
+    "subtype": "waternetwork",
+    "image": "/images/types/waternetwork.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 250,
+    "paybackYears": 10,
+    "paybackDownsideYears": 14,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی بابت انتقال / توزیع",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی حق عبور و تأسیسات معارض",
+      "تعیین تلفات مجاز، کیفیت خدمت و هزینه انرژی",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-21",
+    "modelId": "S-waternetwork",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در شبکه انتقال و توزیع آب»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-12",
+    "kind": "project",
+    "title": "مشارکت در تصفیه‌خانه آب",
+    "group": "water",
+    "subtype": "watertreatment",
+    "image": "/images/types/watertreatment.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 180,
+    "paybackYears": 10,
+    "paybackDownsideYears": 14,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش آب تصفیه‌شده به خریدار مشخص",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی مجوز برداشت و دفع پسماند تصفیه",
+      "تفکیک ساخت و بهره‌برداری و ریسک تغییر کیفیت ورودی",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-11-04",
+    "modelId": "S-watertreatment",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در تصفیه‌خانه آب»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-13",
+    "kind": "project",
+    "title": "مشارکت در شبکه جمع‌آوری فاضلاب",
+    "group": "water",
+    "subtype": "sewernetwork",
+    "image": "/images/types/sewernetwork.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 200,
+    "paybackYears": 10,
+    "paybackDownsideYears": 14,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی جمع‌آوری و انتقال",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی حق عبور، تداخل تأسیسات و آب‌های نفوذی",
+      "تعیین مسئولیت بهره‌برداری و گرفتگی و نشت",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-23",
+    "modelId": "S-sewernetwork",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در شبکه جمع‌آوری فاضلاب»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-14",
+    "kind": "project",
+    "title": "مشارکت در تصفیه‌خانه فاضلاب",
+    "group": "water",
+    "subtype": "wastewater",
+    "image": "/images/types/wastewater.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 220,
+    "paybackYears": 10,
+    "paybackDownsideYears": 14,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی تصفیه فاضلاب",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی الزامات دفع لجن و پایش خروجی",
+      "تعیین ریسک تغییر ورودی و استاندارد خروجی",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-24",
+    "modelId": "S-wastewater",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در تصفیه‌خانه فاضلاب»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-15",
+    "kind": "project",
+    "title": "مشارکت در کانال‌های آبیاری و زهکشی",
+    "group": "water",
+    "subtype": "irrigationcanal",
+    "image": "/images/types/irrigationcanal.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 120,
+    "paybackYears": 10,
+    "paybackDownsideYears": 14,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی احداث و نگهداری",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی تملک و حق عبور و راندمان شبکه",
+      "تعیین هزینه لایروبی، تعمیر و خسارت قطع آب",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-25",
+    "modelId": "S-irrigationcanal",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در کانال‌های آبیاری و زهکشی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-16",
+    "kind": "project",
+    "title": "مشارکت در سازه‌های کنترل سیلاب و آبخیزداری",
+    "group": "water",
+    "subtype": "flood",
+    "image": "/images/types/flood.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "قرارداد اجرای طرح و خدمت با منبع پرداخت مصوب",
+    "minCapital": 100,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی بابت خدمت حفاظت و نگهداری",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تعیین شاخص عملکرد حفاظت و حدود مسئولیت خسارت",
+      "بررسی مجوز بستر و حریم و اثرات محیطی",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": null,
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-11-08",
+    "modelId": "S-flood",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در سازه‌های کنترل سیلاب و آبخیزداری»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-17",
+    "kind": "project",
+    "title": "مشارکت در نیروگاه",
+    "group": "energy",
+    "subtype": "powerplant",
+    "image": "/images/types/powerplant.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 1500,
+    "paybackYears": 9,
+    "paybackDownsideYears": 13,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش برق / ظرفیت در چارچوب قرارداد معتبر",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی قرارداد فروش و اعتبار خریدار و وصول",
+      "کنترل هزینه ارزی تجهیزات و تعمیرات اساسی",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-27",
+    "modelId": "S-powerplant",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در نیروگاه»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-18",
+    "kind": "project",
+    "title": "مشارکت در خطوط انتقال و پست برق",
+    "group": "energy",
+    "subtype": "powergrid",
+    "image": "/images/types/powergrid.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 400,
+    "paybackYears": 9,
+    "paybackDownsideYears": 13,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی بابت ظرفیت و در دسترس بودن",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تعیین سطح قابلیت اطمینان، تلفات و مسئولیت قطعی",
+      "بررسی مسئولیت نگهداری و تعویض تجهیزات",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-28",
+    "modelId": "S-powergrid",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در خطوط انتقال و پست برق»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-19",
+    "kind": "project",
+    "title": "مشارکت در شبکه گازرسانی",
+    "group": "energy",
+    "subtype": "gas",
+    "image": "/images/types/gas.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 300,
+    "paybackYears": 9,
+    "paybackDownsideYears": 13,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی ایجاد ظرفیت و ارائه خدمت",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "کنترل الزامات ایمنی، حریم و حق عبور",
+      "تعیین هزینه امداد، نشت‌یابی و نگهداری",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-29",
+    "modelId": "S-gas",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در شبکه گازرسانی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-20",
+    "kind": "project",
+    "title": "مشارکت در خطوط انتقال نفت و گاز",
+    "group": "energy",
+    "subtype": "pipeline",
+    "image": "/images/types/pipeline.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 1800,
+    "paybackYears": 9,
+    "paybackDownsideYears": 13,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی ایجاد / نگهداری ظرفیت",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی حریم، مسیر و ریسک تملک",
+      "برآورد خوردگی، پایش نشتی و تعمیرات بلندمدت",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-11-03",
+    "modelId": "S-pipeline",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در خطوط انتقال نفت و گاز»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-21",
+    "kind": "project",
+    "title": "مشارکت در تأسیسات انرژی خورشیدی و بادی",
+    "group": "energy",
+    "subtype": "renewable",
+    "image": "/images/types/renewable.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 80,
+    "paybackYears": 9,
+    "paybackDownsideYears": 13,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش برق در چارچوب قرارداد / بازار مجاز",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی قرارداد فروش و اعتبار خریدار",
+      "برآورد ارز تجهیزات، افت عملکرد و جایگزینی قطعات",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-11",
+    "modelId": "S-renewable",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در تأسیسات انرژی خورشیدی و بادی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-22",
+    "kind": "project",
+    "title": "مشارکت در شبکه‌های گرمایش و سرمایش مرکزی",
+    "group": "energy",
+    "subtype": "hvac",
+    "image": "/images/types/hvac.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 150,
+    "paybackYears": 9,
+    "paybackDownsideYears": 13,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش انرژی / خدمت سرمایش و گرمایش",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تعیین شاخص آسایش و قابلیت دسترسی خدمت",
+      "برآورد نگهداری موتورخانه و هزینه جایگزینی تجهیزات",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": null,
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-10-12",
+    "modelId": "S-hvac",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در شبکه‌های گرمایش و سرمایش مرکزی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-23",
+    "kind": "project",
+    "title": "مشارکت در زیرساخت‌های شارژ خودروهای برقی",
+    "group": "energy",
+    "subtype": "ev",
+    "image": "/images/types/ev.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 20,
+    "paybackYears": 9,
+    "paybackDownsideYears": 13,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش خدمت شارژ در حدود تعرفه و مجوز مربوط",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی تعرفه، مالکیت محل و مدت حق استفاده",
+      "کنترل خرابی، خدمات پس از فروش و ارتقای تجهیزات",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-13",
+    "modelId": "S-ev",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در زیرساخت‌های شارژ خودروهای برقی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-24",
+    "kind": "project",
+    "title": "مشارکت در کارخانه و واحد تولیدی",
+    "group": "industry",
+    "subtype": "factory",
+    "image": "/images/types/factory.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "سرمایه‌گذاری در دارایی / شرکت پروژه با مالکیت مجاز",
+    "minCapital": 300,
+    "paybackYears": 7,
+    "paybackDownsideYears": 11,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش محصول تولیدی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی مجوز و کاربری صنعتی و الزامات محیط‌زیست",
+      "تفکیک سرمایه ثابت از موجودی مواد و مطالبات فروش",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-11-07",
+    "modelId": "S-factory",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "industrial",
+    "usageLabel": "صنعتی و لجستیک",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در کارخانه و واحد تولیدی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با صنعتی و لجستیک باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-25",
+    "kind": "project",
+    "title": "مشارکت در انبار و مرکز لجستیک",
+    "group": "industry",
+    "subtype": "warehouse",
+    "image": "/images/types/warehouse.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "سرمایه‌گذاری در دارایی / شرکت پروژه با مالکیت مجاز",
+    "minCapital": 90,
+    "paybackYears": 7,
+    "paybackDownsideYears": 11,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "درآمد انبارش، پردازش سفارش و خدمات",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی دسترسی حمل، کاربری و ایمنی و آتش‌نشانی",
+      "برآورد تجهیزات جابه‌جایی و سرمایه در گردش",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-15",
+    "modelId": "S-warehouse",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "industrial",
+    "usageLabel": "صنعتی و لجستیک",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در انبار و مرکز لجستیک»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با صنعتی و لجستیک باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-26",
+    "kind": "project",
+    "title": "مشارکت در پالایشگاه و پتروشیمی",
+    "group": "industry",
+    "subtype": "refinery",
+    "image": "/images/types/refinery.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "سرمایه‌گذاری در دارایی / شرکت پروژه با مالکیت مجاز",
+    "minCapital": 4000,
+    "paybackYears": 7,
+    "paybackDownsideYears": 11,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش فرآورده و محصولات",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی مجوزهای صنعتی، محیطی و ایمنی فرایند",
+      "آزمون حساسیت حاشیه سود به قیمت خوراک و محصول",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-16",
+    "modelId": "S-refinery",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "industrial",
+    "usageLabel": "صنعتی و لجستیک",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در پالایشگاه و پتروشیمی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با صنعتی و لجستیک باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-27",
+    "kind": "project",
+    "title": "مشارکت در شهرک صنعتی",
+    "group": "industry",
+    "subtype": "industrialpark",
+    "image": "/images/types/industrialpark.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "مشارکت در توسعه / تکمیل و تقسیم محصول مجاز",
+    "minCapital": 500,
+    "paybackYears": 7,
+    "paybackDownsideYears": 11,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "end",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "واگذاری مجاز قطعات / حقوق توسعه",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تفکیک هزینه آماده‌سازی از نگهداری مشترک",
+      "تعیین مسئولیت تأمین زیرساخت بیرون محدوده",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-17",
+    "modelId": "S-industrialpark",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "industrial",
+    "usageLabel": "صنعتی و لجستیک",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در شهرک صنعتی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با صنعتی و لجستیک باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-28",
+    "kind": "project",
+    "title": "مشارکت در سیلو و سردخانه",
+    "group": "industry",
+    "subtype": "coldstore",
+    "image": "/images/types/coldstore.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "سرمایه‌گذاری در دارایی / شرکت پروژه با مالکیت مجاز",
+    "minCapital": 100,
+    "paybackYears": 7,
+    "paybackDownsideYears": 11,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "کارمزد نگهداری و خدمات",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "برآورد هزینه انرژی و بیمه کالای امانی",
+      "تعیین استاندارد تحویل و مسئولیت افت و فساد",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": null,
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-11-02",
+    "modelId": "S-coldstore",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "industrial",
+    "usageLabel": "صنعتی و لجستیک",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در سیلو و سردخانه»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با صنعتی و لجستیک باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-29",
+    "kind": "project",
+    "title": "مشارکت در کارگاه‌ها و مجموعه‌های تولیدی",
+    "group": "industry",
+    "subtype": "workshop",
+    "image": "/images/types/workshop.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "سرمایه‌گذاری در دارایی / شرکت پروژه با مالکیت مجاز",
+    "minCapital": 25,
+    "paybackYears": 7,
+    "paybackDownsideYears": 11,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش محصول تولیدی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی مجوز فعالیت و ایمنی محیط کار",
+      "برآورد هزینه تعمیر، ضایعات و خواب مواد",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-19",
+    "modelId": "S-workshop",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "industrial",
+    "usageLabel": "صنعتی و لجستیک",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در کارگاه‌ها و مجموعه‌های تولیدی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با صنعتی و لجستیک باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-30",
+    "kind": "project",
+    "title": "مشارکت در تأسیسات فرآوری مواد معدنی",
+    "group": "industry",
+    "subtype": "mineral",
+    "image": "/images/types/mineral.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "سرمایه‌گذاری در دارایی / شرکت پروژه با مالکیت مجاز",
+    "minCapital": 400,
+    "paybackYears": 7,
+    "paybackDownsideYears": 11,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش محصول فرآوری‌شده",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تفکیک حق معدن از مجوز واحد فرآوری",
+      "کنترل هزینه حمل، آب و انرژی و الزامات محیطی",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-20",
+    "modelId": "S-mineral",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "industrial",
+    "usageLabel": "صنعتی و لجستیک",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در تأسیسات فرآوری مواد معدنی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با صنعتی و لجستیک باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-31",
+    "kind": "project",
+    "title": "مشارکت در سامان‌دهی و بهسازی معابر",
+    "group": "urban",
+    "subtype": "streets",
+    "image": "/images/types/streets.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "قرارداد اجرای طرح و خدمت با منبع پرداخت مصوب",
+    "minCapital": 80,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی بابت کیفیت و نگهداری معبر",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی معارضین تأسیساتی و دسترسی کسب‌وکارها",
+      "تعیین شاخص قابل سنجش کیفیت و زمان رفع نقص",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-21",
+    "modelId": "S-streets",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "public",
+    "usageLabel": "خدمات عمومی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در سامان‌دهی و بهسازی معابر»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با خدمات عمومی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-32",
+    "kind": "project",
+    "title": "مشارکت در فضای سبز و بوستان",
+    "group": "urban",
+    "subtype": "parks",
+    "image": "/images/types/parks.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 50,
+    "paybackYears": 8,
+    "paybackDownsideYears": 12,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی نگهداری و خدمت عمومی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "حفظ دسترسی عمومی و تعیین حد مسئولیت بهره‌بردار",
+      "تفکیک فضای خدمات عمومی از امتیاز فعالیت درآمدزا",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-11-06",
+    "modelId": "S-parks",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "public",
+    "usageLabel": "خدمات عمومی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در فضای سبز و بوستان»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با خدمات عمومی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-33",
+    "kind": "project",
+    "title": "مشارکت در مبلمان شهری",
+    "group": "urban",
+    "subtype": "furniture",
+    "image": "/images/types/furniture.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 15,
+    "paybackYears": 8,
+    "paybackDownsideYears": 12,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی نصب و نگهداری",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تعیین شاخص سلامت و زمان رفع خرابی",
+      "بررسی خسارت، بیمه و امکان جابه‌جایی تجهیزات",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-23",
+    "modelId": "S-furniture",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "public",
+    "usageLabel": "خدمات عمومی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در مبلمان شهری»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با خدمات عمومی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-34",
+    "kind": "project",
+    "title": "مشارکت در مدیریت و دفع پسماند",
+    "group": "urban",
+    "subtype": "waste",
+    "image": "/images/types/waste.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 200,
+    "paybackYears": 8,
+    "paybackDownsideYears": 12,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی خدمت مدیریت پسماند",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی مجوزها، محل و پذیرش محیطی",
+      "کنترل هزینه دفع نهایی و ریسک نوسان قیمت بازیافت",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": null,
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-10-24",
+    "modelId": "S-waste",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "public",
+    "usageLabel": "خدمات عمومی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در مدیریت و دفع پسماند»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با خدمات عمومی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-35",
+    "kind": "project",
+    "title": "مشارکت در آرامستان",
+    "group": "urban",
+    "subtype": "cemetery",
+    "image": "/images/types/cemetery.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 70,
+    "paybackYears": 8,
+    "paybackDownsideYears": 12,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی ایجاد و نگهداری خدمت",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی ظرفیت و خدمات جانبی و دسترسی",
+      "عدم فرض انتقال مالکیت زمین از محل حق استفاده خدمت",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-25",
+    "modelId": "S-cemetery",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "public",
+    "usageLabel": "خدمات عمومی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در آرامستان»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با خدمات عمومی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-36",
+    "kind": "project",
+    "title": "مشارکت در آتش‌نشانی و مراکز امدادی",
+    "group": "urban",
+    "subtype": "fire",
+    "image": "/images/types/fire.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "قرارداد اجرای طرح و خدمت با منبع پرداخت مصوب",
+    "minCapital": 60,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی بابت تأسیسات و آمادگی خدمت",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی مجوز، استاندارد ایمنی و مسئولیت حوادث",
+      "برآورد هزینه آماده‌باش و جایگزینی تجهیزات",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-11-01",
+    "modelId": "S-fire",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "public",
+    "usageLabel": "خدمات عمومی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در آتش‌نشانی و مراکز امدادی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با خدمات عمومی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-37",
+    "kind": "project",
+    "title": "مشارکت در روشنایی شهری",
+    "group": "urban",
+    "subtype": "lighting",
+    "image": "/images/types/lighting.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor"
+    ],
+    "stage": "احیا / توسعه دارایی موجود",
+    "phase": "existing",
+    "model": "مشارکت در تأمین مالی احیا و خدمت با پرداخت معتبر؛ متناسب با دارایی موجود",
+    "minCapital": 40,
+    "paybackYears": 8,
+    "paybackDownsideYears": 12,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 18,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی کیفیت روشنایی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "کنترل شدت روشنایی، ایمنی و دوره خرابی",
+      "تعیین مالکیت تجهیزات و هزینه تعویض و نگهداری",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-27",
+    "modelId": "S-lighting",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "public",
+    "usageLabel": "خدمات عمومی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در روشنایی شهری»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با خدمات عمومی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-38",
+    "kind": "project",
+    "title": "مشارکت در بازآفرینی بافت فرسوده",
+    "group": "urban",
+    "subtype": "regeneration",
+    "image": "/images/types/regeneration.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor"
+    ],
+    "stage": "احیا / توسعه دارایی موجود",
+    "phase": "existing",
+    "model": "مشارکت در توسعه / تکمیل و تقسیم محصول مجاز",
+    "minCapital": 250,
+    "paybackYears": 8,
+    "paybackDownsideYears": 12,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 18,
+    "income": "end",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش سهم / واحدهای مجاز پس از توسعه",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "برآورد هزینه آزادسازی، تخریب و زیرساخت",
+      "تفکیک سهم عمومی و سهم درآمدزا و زمان اجرای مرحله‌ای",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-28",
+    "modelId": "S-regeneration",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "public",
+    "usageLabel": "خدمات عمومی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در بازآفرینی بافت فرسوده»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با خدمات عمومی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-39",
+    "kind": "project",
+    "title": "مشارکت در شبکه فیبر نوری",
+    "group": "digital",
+    "subtype": "fiber",
+    "image": "/images/types/fiber.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 90,
+    "paybackYears": 7,
+    "paybackDownsideYears": 11,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش خدمت اتصال / ظرفیت مجاز",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "احراز مجوز و حدود فعالیت ارتباطی",
+      "برآورد تجهیزات فعال، نگهداری و ارتقای شبکه",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-29",
+    "modelId": "S-fiber",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در شبکه فیبر نوری»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-40",
+    "kind": "project",
+    "title": "مشارکت در دکل و سایت مخابراتی",
+    "group": "digital",
+    "subtype": "telecom",
+    "image": "/images/types/telecom.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 25,
+    "paybackYears": 7,
+    "paybackDownsideYears": 11,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "اجاره سایت / زیرساخت به اپراتورها",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "کنترل مجوز نصب و حقوق محل و همجواری",
+      "تعیین هزینه انرژی، حفاظت و نگهداری",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": null,
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-11-05",
+    "modelId": "S-telecom",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در دکل و سایت مخابراتی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-41",
+    "kind": "project",
+    "title": "مشارکت در مرکز داده",
+    "group": "digital",
+    "subtype": "datacenter",
+    "image": "/images/types/datacenter.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "سرمایه‌گذاری در دارایی / شرکت پروژه با مالکیت مجاز",
+    "minCapital": 350,
+    "paybackYears": 7,
+    "paybackDownsideYears": 11,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "درآمد میزبانی و خدمات مرکز داده",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی امنیت، الزامات داده و سطح خدمت",
+      "آزمون تقاضا و هزینه نوسازی سریع تجهیزات",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-11",
+    "modelId": "S-datacenter",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در مرکز داده»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-42",
+    "kind": "project",
+    "title": "مشارکت در زیرساخت شهر هوشمند",
+    "group": "digital",
+    "subtype": "smartcity",
+    "image": "/images/types/smartcity.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 80,
+    "paybackYears": 7,
+    "paybackDownsideYears": 11,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی بابت خدمت شهری قابل سنجش",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تعریف خروجی قابل سنجش و پذیرش خدمت",
+      "تعیین بودجه پشتیبانی و ارتقا و جلوگیری از وابستگی تأمین‌کننده",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-12",
+    "modelId": "S-smartcity",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در زیرساخت شهر هوشمند»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-43",
+    "kind": "project",
+    "title": "مشارکت در شبکه‌های ارتباطی و کنترل هوشمند",
+    "group": "digital",
+    "subtype": "control",
+    "image": "/images/types/control.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری (DBFO)؛ در صورت انطباق دامنه خدمت",
+    "minCapital": 60,
+    "paybackYears": 7,
+    "paybackDownsideYears": 11,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی تداوم و کیفیت خدمت",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تعیین سطح خدمت، مسئولیت فرمان و ثبت رویداد",
+      "برآورد چرخه ارتقا و سازگاری تجهیزات",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-13",
+    "modelId": "S-control",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "infrastructure",
+    "usageLabel": "زیرساختی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در شبکه‌های ارتباطی و کنترل هوشمند»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با زیرساختی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-44",
+    "kind": "project",
+    "title": "مشارکت در شبکه آبیاری تحت فشار",
+    "group": "agriculture",
+    "subtype": "pressure",
+    "image": "/images/types/pressure.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ برای دارایی و درآمد واجد شرایط",
+    "minCapital": 35,
+    "paybackYears": 6,
+    "paybackDownsideYears": 10,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "کارمزد خدمت آبیاری به بهره‌برداران",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "ثبت خط مبنای آب و هزینه و روش اندازه‌گیری منفعت",
+      "برآورد انرژی پمپ و تعویض و گرفتگی تجهیزات",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-11-09",
+    "modelId": "S-pressure",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "agricultural",
+    "usageLabel": "کشاورزی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در شبکه آبیاری تحت فشار»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با کشاورزی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-45",
+    "kind": "project",
+    "title": "مشارکت در گلخانه و مجتمع کشاورزی",
+    "group": "agriculture",
+    "subtype": "greenhouse",
+    "image": "/images/types/greenhouse.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "سرمایه‌گذاری در دارایی / شرکت پروژه با مالکیت مجاز",
+    "minCapital": 45,
+    "paybackYears": 6,
+    "paybackDownsideYears": 10,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش محصول گلخانه‌ای",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی مجوز و کاربری و فناوری کشت",
+      "تفکیک هزینه سازه از نهاده و سرمایه هر دوره تولید",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-15",
+    "modelId": "S-greenhouse",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "agricultural",
+    "usageLabel": "کشاورزی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در گلخانه و مجتمع کشاورزی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با کشاورزی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-46",
+    "kind": "project",
+    "title": "مشارکت در دامداری و دامپروری",
+    "group": "agriculture",
+    "subtype": "livestock",
+    "image": "/images/types/livestock.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "سرمایه‌گذاری در دارایی / شرکت پروژه با مالکیت مجاز",
+    "minCapital": 70,
+    "paybackYears": 6,
+    "paybackDownsideYears": 10,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش محصولات دامپروری",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی مجوز، آب و دفع پسماند و فاصله‌های مجاز",
+      "آزمون حساسیت درآمد به تلفات و قیمت خوراک",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": null,
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-10-16",
+    "modelId": "S-livestock",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "agricultural",
+    "usageLabel": "کشاورزی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در دامداری و دامپروری»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با کشاورزی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-47",
+    "kind": "project",
+    "title": "مشارکت در شیلات و آبزی‌پروری",
+    "group": "agriculture",
+    "subtype": "fish",
+    "image": "/images/types/fish.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "سرمایه‌گذاری در دارایی / شرکت پروژه با مالکیت مجاز",
+    "minCapital": 55,
+    "paybackYears": 6,
+    "paybackDownsideYears": 10,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش آبزی / محصول فرآوری‌شده",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی مجوز منبع آب و دفع پساب",
+      "تفکیک سرمایه تأسیسات از سرمایه هر دوره پرورش",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-17",
+    "modelId": "S-fish",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "agricultural",
+    "usageLabel": "کشاورزی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در شیلات و آبزی‌پروری»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با کشاورزی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-48",
+    "kind": "project",
+    "title": "مشارکت در راه‌های روستایی و کشاورزی",
+    "group": "agriculture",
+    "subtype": "ruralroad",
+    "image": "/images/types/ruralroad.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "قرارداد اجرای طرح و خدمت با منبع پرداخت مصوب",
+    "minCapital": 40,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی دسترسی و نگهداری راه",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "برآورد نگهداری فصلی و خسارت سیلاب",
+      "تعیین متولی و منبع پرداخت خدمت عمومی",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-11-04",
+    "modelId": "S-ruralroad",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "agricultural",
+    "usageLabel": "کشاورزی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در راه‌های روستایی و کشاورزی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با کشاورزی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-49",
+    "kind": "project",
+    "title": "مشارکت در تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی",
+    "group": "agriculture",
+    "subtype": "natural",
+    "image": "/images/types/natural.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "قرارداد اجرای طرح و خدمت با منبع پرداخت مصوب",
+    "minCapital": 30,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی اجرای حفاظت و نگهداری",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "سنجش نتیجه با شاخص محیطی و دوره پایش",
+      "عدم فرض درآمد کربن یا واگذاری زمین بدون حق و قرارداد احرازشده",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-19",
+    "modelId": "S-natural",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "agricultural",
+    "usageLabel": "کشاورزی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با کشاورزی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-50",
+    "kind": "project",
+    "title": "مشارکت در مرمت بناهای تاریخی",
+    "group": "heritage",
+    "subtype": "restoration",
+    "image": "/images/types/restoration.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor",
+      "heritage"
+    ],
+    "stage": "احیا / توسعه دارایی موجود",
+    "phase": "existing",
+    "model": "مشارکت در مرمت و بهره‌برداری مجاز مدت‌دار",
+    "minCapital": 20,
+    "paybackYears": 8,
+    "paybackDownsideYears": 12,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 18,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "درآمد بهره‌برداری مجاز پس از مرمت",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "احراز مالکیت و اختیار اعطای حق بهره‌برداری",
+      "تعیین تعهد حفاظت، بیمه و روش تحویل پس از مرمت",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-20",
+    "modelId": "S-restoration",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "heritage",
+    "usageLabel": "میراث و بنای تاریخی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در مرمت بناهای تاریخی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با میراث و بنای تاریخی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-51",
+    "kind": "project",
+    "title": "مشارکت در احیای خانه‌های ارزشمند",
+    "group": "heritage",
+    "subtype": "historichouse",
+    "image": "/images/types/historichouse.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor",
+      "heritage"
+    ],
+    "stage": "احیا / توسعه دارایی موجود",
+    "phase": "existing",
+    "model": "مشارکت در مرمت و بهره‌برداری مجاز مدت‌دار",
+    "minCapital": 15,
+    "paybackYears": 8,
+    "paybackDownsideYears": 12,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 18,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "بهره‌برداری فرهنگی / اقامتی / خدماتیِ مجاز",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی ارزش تاریخی، آسیب و حدود مداخله",
+      "تعیین حق بهره‌برداری مدت‌دار بدون فرض فروش بنا",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-21",
+    "modelId": "S-historichouse",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "heritage",
+    "usageLabel": "میراث و بنای تاریخی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در احیای خانه‌های ارزشمند»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با میراث و بنای تاریخی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-52",
+    "kind": "project",
+    "title": "مشارکت در بازآفرینی بافت تاریخی",
+    "group": "heritage",
+    "subtype": "historicfabric",
+    "image": "/images/types/historicfabric.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor",
+      "heritage"
+    ],
+    "stage": "احیا / توسعه دارایی موجود",
+    "phase": "existing",
+    "model": "مشارکت در تأمین مالی احیا و خدمت با پرداخت معتبر؛ متناسب با دارایی موجود",
+    "minCapital": 120,
+    "paybackYears": 8,
+    "paybackDownsideYears": 12,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 18,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی بازآفرینی و حفاظت",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تفکیک خدمات عمومی از قطعات یا فعالیت درآمدزا",
+      "برآورد اجرای مرحله‌ای، زیرساخت و حفظ هویت بافت",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": null,
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-11-08",
+    "modelId": "S-historicfabric",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "heritage",
+    "usageLabel": "میراث و بنای تاریخی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در بازآفرینی بافت تاریخی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با میراث و بنای تاریخی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-53",
+    "kind": "project",
+    "title": "مشارکت در تغییر کاربری بناهای تاریخی",
+    "group": "heritage",
+    "subtype": "adaptive",
+    "image": "/images/types/adaptive.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor",
+      "heritage"
+    ],
+    "stage": "احیا / توسعه دارایی موجود",
+    "phase": "existing",
+    "model": "مشارکت در مرمت و بهره‌برداری مجاز مدت‌دار",
+    "minCapital": 25,
+    "paybackYears": 8,
+    "paybackDownsideYears": 12,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 18,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "درآمد کاربری جدیدِ تأییدشده",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "مطالعه ظرفیت باربری و ایمنی و دسترسی",
+      "تعیین مسئول حفاظت و هزینه نگهداری بلندمدت",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-23",
+    "modelId": "S-adaptive",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "heritage",
+    "usageLabel": "میراث و بنای تاریخی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در تغییر کاربری بناهای تاریخی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با میراث و بنای تاریخی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-54",
+    "kind": "project",
+    "title": "مشارکت در مقاوم‌سازی و حفاظت اضطراری آثار",
+    "group": "heritage",
+    "subtype": "protection",
+    "image": "/images/types/protection.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor",
+      "heritage"
+    ],
+    "stage": "احیا / توسعه دارایی موجود",
+    "phase": "existing",
+    "model": "مشارکت در تأمین مالی احیا و خدمت با پرداخت معتبر؛ متناسب با دارایی موجود",
+    "minCapital": 8,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 18,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "پرداخت قراردادی حفاظت و رفع خطر",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تفکیک بودجه حفاظت فوری از برنامه مرمت و بهره‌برداری",
+      "ثبت وضعیت پیش از مداخله و کنترل آسیب ثانویه",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-24",
+    "modelId": "S-protection",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "heritage",
+    "usageLabel": "میراث و بنای تاریخی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در مقاوم‌سازی و حفاظت اضطراری آثار»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با میراث و بنای تاریخی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-55",
+    "kind": "project",
+    "title": "مشارکت در توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی",
+    "group": "heritage",
+    "subtype": "tourism",
+    "image": "/images/types/tourism.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor",
+      "heritage"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "مشارکت در مرمت و بهره‌برداری مجاز مدت‌دار",
+    "minCapital": 35,
+    "paybackYears": 8,
+    "paybackDownsideYears": 12,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "periodic",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "درآمد خدمات گردشگری مجاز",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی فصل بازدید و ظرفیت پذیرش اثر",
+      "تعیین حق ارائه خدمت بدون فرض انتقال حقوق اثر",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-25",
+    "modelId": "S-tourism",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "heritage",
+    "usageLabel": "میراث و بنای تاریخی",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با میراث و بنای تاریخی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-56",
+    "kind": "project",
+    "title": "مشارکت در آماده‌سازی و تفکیک زمین",
+    "group": "land",
+    "subtype": "subdivision",
+    "image": "/images/types/lhplots.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "مشارکت در توسعه / تکمیل و تقسیم محصول مجاز",
+    "minCapital": 180,
+    "paybackYears": 6,
+    "paybackDownsideYears": 10,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "end",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "واگذاری مجاز قطعات آماده‌شده",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "احراز سند و حدود و معارض و حقوق ارتفاق",
+      "تفکیک مساحت ناخالص از مساحت خالص قابل واگذاری",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-11-03",
+    "modelId": "S-subdivision",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "mixed",
+    "usageLabel": "توسعه زمین و چندمنظوره",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در آماده‌سازی و تفکیک زمین»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با توسعه زمین و چندمنظوره باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-57",
+    "kind": "project",
+    "title": "مشارکت در شهرک‌سازی",
+    "group": "land",
+    "subtype": "township",
+    "image": "/images/types/lhintegrated.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "مشارکت در توسعه / تکمیل و تقسیم محصول مجاز",
+    "minCapital": 600,
+    "paybackYears": 6,
+    "paybackDownsideYears": 10,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "end",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش مجاز زمین / واحدهای توسعه‌یافته",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "بررسی تقاضای سکونت یا فعالیت و دسترسی بیرونی",
+      "تعیین تعهد نگهداری و تحویل زیرساخت‌های عمومی",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-27",
+    "modelId": "S-township",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "mixed",
+    "usageLabel": "توسعه زمین و چندمنظوره",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در شهرک‌سازی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با توسعه زمین و چندمنظوره باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-58",
+    "kind": "project",
+    "title": "مشارکت در توسعه اراضی جدید",
+    "group": "land",
+    "subtype": "newland",
+    "image": "/images/types/lhintegrated.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "مشارکت در توسعه / تکمیل و تقسیم محصول مجاز",
+    "minCapital": 450,
+    "paybackYears": 6,
+    "paybackDownsideYears": 10,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "end",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "واگذاری مجاز حقوق / قطعات پس از توسعه",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "برآورد زیرساخت بیرونی، خدمات و هزینه آماده‌سازی",
+      "عدم فرض افزایش ارزش از تغییر کاربری تأییدنشده",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": null,
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-10-28",
+    "modelId": "S-newland",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "mixed",
+    "usageLabel": "توسعه زمین و چندمنظوره",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در توسعه اراضی جدید»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با توسعه زمین و چندمنظوره باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-59",
+    "kind": "project",
+    "title": "مشارکت در نوسازی و تجمیع املاک",
+    "group": "land",
+    "subtype": "consolidation",
+    "image": "/images/types/regeneration.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor"
+    ],
+    "stage": "احیا / توسعه دارایی موجود",
+    "phase": "existing",
+    "model": "مشارکت در توسعه / تکمیل و تقسیم محصول مجاز",
+    "minCapital": 100,
+    "paybackYears": 6,
+    "paybackDownsideYears": 10,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 18,
+    "income": "end",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "سهم واحد یا عایدی فروش پس از نوسازی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "ارزش‌گذاری جداگانه آورده هر ملک و هزینه انتقال",
+      "تعیین تعهدات ساخت و زمان تحویل و خروج شریک",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-29",
+    "modelId": "S-consolidation",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "mixed",
+    "usageLabel": "توسعه زمین و چندمنظوره",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در نوسازی و تجمیع املاک»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با توسعه زمین و چندمنظوره باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-60",
+    "kind": "project",
+    "title": "مشارکت در تغییر کاربری و توسعه مجدد ملک",
+    "group": "land",
+    "subtype": "redevelop",
+    "image": "/images/types/regeneration.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor"
+    ],
+    "stage": "احیا / توسعه دارایی موجود",
+    "phase": "existing",
+    "model": "مشارکت در توسعه / تکمیل و تقسیم محصول مجاز",
+    "minCapital": 120,
+    "paybackYears": 6,
+    "paybackDownsideYears": 10,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 18,
+    "income": "end",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "فروش محصول توسعه مجاز",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "مقایسه سناریوی مجاز فعلی با توسعه مشروط",
+      "بررسی بدهی‌ها، آلودگی احتمالی و حقوق استفاده‌کنندگان",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-11-07",
+    "modelId": "S-redevelop",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "mixed",
+    "usageLabel": "توسعه زمین و چندمنظوره",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در تغییر کاربری و توسعه مجدد ملک»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با توسعه زمین و چندمنظوره باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-61",
+    "kind": "project",
+    "title": "مشارکت در مجتمع‌های چندمنظوره مسکونی، تجاری و اداری",
+    "group": "land",
+    "subtype": "mixeduse",
+    "image": "/images/types/lhhousing.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "مشارکت در توسعه / تکمیل و تقسیم محصول مجاز",
+    "minCapital": 300,
+    "paybackYears": 6,
+    "paybackDownsideYears": 10,
+    "lockupMonths": 72,
+    "firstIncomeMonths": 36,
+    "income": "any",
+    "durationYears": 20,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا؛ آورده غیرنقدی پس از احراز حق، پذیرش و ارزش‌گذاری؛ بدهی / تسهیلات احتمالی پس از احراز صلاحیت و توان بازپرداخت؛ بدون احتساب منابع تأییدنشده",
+    "repay": "ترکیب فروش و اجاره بخش‌های مجاز",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تفکیک هزینه مشترک و درآمد هر کاربری",
+      "کنترل فازبندی ساخت و عرضه و مدیریت مشاعات",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-11",
+    "modelId": "S-mixeduse",
+    "revenues": [],
+    "owner": null,
+    "executionMonths": 36,
+    "usage": "mixed",
+    "usageLabel": "توسعه زمین و چندمنظوره",
+    "description": "نمونه آموزشی «نمونه فرضی مشارکت در مجتمع‌های چندمنظوره مسکونی، تجاری و اداری»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {
+      "executionMonths": 36,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با توسعه زمین و چندمنظوره باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-62",
+    "kind": "project",
+    "title": "مشارکت در مطالعات و طراحی آماده‌سازی اراضی",
+    "group": "landhousing",
+    "subtype": "lhstudy",
+    "image": "/images/types/lhstudy.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "قرارداد خدمات مطالعات و طراحی با منبع پرداخت روشن",
+    "minCapital": 2,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": null,
+    "firstIncomeMonths": null,
+    "income": "periodic",
+    "durationYears": null,
+    "risk": "unknown",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا یا پرداخت کارفرما مطابق قرارداد معتبر؛ آورده غیرنقدی فقط پس از احراز حق و ارزش‌گذاری؛ تسهیلات احتمالی پس از احراز پذیرش نهاد مالی و توان بازپرداخت",
+    "repay": "پرداخت قراردادی کارفرما / دستگاه عمومی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تعیین محدوده مطالعه، داده‌های مبنا و سطح دقت موردنیاز",
+      "تعریف خروجی‌ها، مرجع بررسی و تصویب و نحوه پرداخت خدمات مطالعه",
+      "تفکیک مالک، کارفرما، تأمین‌کننده منابع، مجری و تحویل‌گیرنده",
+      "احراز حق اجرا و حقوق قابل واگذاری؛ وعده سهم زمین، جایگزین اختیار قانونی نیست",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-12",
+    "modelId": "S-lhstudy",
+    "revenues": [],
+    "owner": null,
+    "usage": "infrastructure",
+    "usageLabel": "مطالعات و طراحی آماده‌سازی اراضی",
+    "description": "نمونه آموزشی مستقل مطالعات و طراحی آماده‌سازی اراضی؛ مبلغ ورود صرفاً فرضی است. هزینه و زمان واقعی، اختیار زمین و تعهد خدمات‌رسان باید از پرونده معتبر احراز شوند.",
+    "terms": {
+      "executionMonths": null,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با مطالعات و طراحی آماده‌سازی اراضی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-63",
+    "kind": "project",
+    "title": "مشارکت در تسطیح و عملیات خاکی اراضی",
+    "group": "landhousing",
+    "subtype": "lhearth",
+    "image": "/images/types/lhearth.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "قرارداد اجرای آماده‌سازی با منبع پرداخت معتبر",
+    "minCapital": 10,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": null,
+    "firstIncomeMonths": null,
+    "income": "periodic",
+    "durationYears": null,
+    "risk": "unknown",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا یا پرداخت کارفرما مطابق قرارداد معتبر؛ آورده غیرنقدی فقط پس از احراز حق و ارزش‌گذاری؛ تسهیلات احتمالی پس از احراز پذیرش نهاد مالی و توان بازپرداخت",
+    "repay": "پرداخت قراردادی کارفرما / دستگاه عمومی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "کنترل شرایط بستر، پایداری، تراز نهایی و حدود عملیات خاکی",
+      "تعیین روش اندازه‌گیری احجام و مسئولیت اختلاف مقادیر و شرایط پیش‌بینی‌نشده",
+      "تفکیک مالک، کارفرما، تأمین‌کننده منابع، مجری و تحویل‌گیرنده",
+      "احراز حق اجرا و حقوق قابل واگذاری؛ وعده سهم زمین، جایگزین اختیار قانونی نیست",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-13",
+    "modelId": "S-lhearth",
+    "revenues": [],
+    "owner": null,
+    "usage": "infrastructure",
+    "usageLabel": "تسطیح و عملیات خاکی اراضی",
+    "description": "نمونه آموزشی مستقل تسطیح و عملیات خاکی اراضی؛ مبلغ ورود صرفاً فرضی است. هزینه و زمان واقعی، اختیار زمین و تعهد خدمات‌رسان باید از پرونده معتبر احراز شوند.",
+    "terms": {
+      "executionMonths": null,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با تسطیح و عملیات خاکی اراضی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-64",
+    "kind": "project",
+    "title": "مشارکت در معابر و دسترسی‌های داخلی",
+    "group": "landhousing",
+    "subtype": "lhroads",
+    "image": "/images/types/lhroads.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "قرارداد اجرای آماده‌سازی با منبع پرداخت معتبر",
+    "minCapital": 15,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": null,
+    "firstIncomeMonths": null,
+    "income": "periodic",
+    "durationYears": null,
+    "risk": "unknown",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا یا پرداخت کارفرما مطابق قرارداد معتبر؛ آورده غیرنقدی فقط پس از احراز حق و ارزش‌گذاری؛ تسهیلات احتمالی پس از احراز پذیرش نهاد مالی و توان بازپرداخت",
+    "repay": "پرداخت قراردادی کارفرما / دستگاه عمومی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تعیین دامنه معابر، روسازی، جدول‌گذاری و اتصال به شبکه موجود",
+      "هماهنگی زمان اجرای معابر با حفاری و تکمیل شبکه‌های خدماتی",
+      "تفکیک مالک، کارفرما، تأمین‌کننده منابع، مجری و تحویل‌گیرنده",
+      "احراز حق اجرا و حقوق قابل واگذاری؛ وعده سهم زمین، جایگزین اختیار قانونی نیست",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": null,
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-11-02",
+    "modelId": "S-lhroads",
+    "revenues": [],
+    "owner": null,
+    "usage": "infrastructure",
+    "usageLabel": "معابر و دسترسی‌های داخلی",
+    "description": "نمونه آموزشی مستقل معابر و دسترسی‌های داخلی؛ مبلغ ورود صرفاً فرضی است. هزینه و زمان واقعی، اختیار زمین و تعهد خدمات‌رسان باید از پرونده معتبر احراز شوند.",
+    "terms": {
+      "executionMonths": null,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با معابر و دسترسی‌های داخلی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-65",
+    "kind": "project",
+    "title": "مشارکت در شبکه آب، فاضلاب و آب‌های سطحی",
+    "group": "landhousing",
+    "subtype": "lhwater",
+    "image": "/images/types/lhwater.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "قرارداد اجرای آماده‌سازی با منبع پرداخت معتبر",
+    "minCapital": 18,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": null,
+    "firstIncomeMonths": null,
+    "income": "periodic",
+    "durationYears": null,
+    "risk": "unknown",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا یا پرداخت کارفرما مطابق قرارداد معتبر؛ آورده غیرنقدی فقط پس از احراز حق و ارزش‌گذاری؛ تسهیلات احتمالی پس از احراز پذیرش نهاد مالی و توان بازپرداخت",
+    "repay": "پرداخت قراردادی کارفرما / دستگاه عمومی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تفکیک مسئولیت شبکه داخلی، خطوط انتقال بیرونی و تأمین ظرفیت",
+      "بررسی آزمون‌ها، استاندارد تحویل و پذیرش شبکه توسط مرجع مسئول",
+      "تفکیک مالک، کارفرما، تأمین‌کننده منابع، مجری و تحویل‌گیرنده",
+      "احراز حق اجرا و حقوق قابل واگذاری؛ وعده سهم زمین، جایگزین اختیار قانونی نیست",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-15",
+    "modelId": "S-lhwater",
+    "revenues": [],
+    "owner": null,
+    "usage": "infrastructure",
+    "usageLabel": "شبکه آب، فاضلاب و آب‌های سطحی",
+    "description": "نمونه آموزشی مستقل شبکه آب، فاضلاب و آب‌های سطحی؛ مبلغ ورود صرفاً فرضی است. هزینه و زمان واقعی، اختیار زمین و تعهد خدمات‌رسان باید از پرونده معتبر احراز شوند.",
+    "terms": {
+      "executionMonths": null,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با شبکه آب، فاضلاب و آب‌های سطحی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-66",
+    "kind": "project",
+    "title": "مشارکت در شبکه برق، گاز و روشنایی",
+    "group": "landhousing",
+    "subtype": "lhenergy",
+    "image": "/images/types/lhenergy.webp",
+    "province": "اصفهان",
+    "city": "اصفهان",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "قرارداد اجرای آماده‌سازی با منبع پرداخت معتبر",
+    "minCapital": 20,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": null,
+    "firstIncomeMonths": null,
+    "income": "periodic",
+    "durationYears": null,
+    "risk": "unknown",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا یا پرداخت کارفرما مطابق قرارداد معتبر؛ آورده غیرنقدی فقط پس از احراز حق و ارزش‌گذاری؛ تسهیلات احتمالی پس از احراز پذیرش نهاد مالی و توان بازپرداخت",
+    "repay": "پرداخت قراردادی کارفرما / دستگاه عمومی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تفکیک شبکه داخلی، توسعه ظرفیت بیرونی، انشعابات و روشنایی",
+      "تعیین مسئول تأمین تجهیزات، آزمون، اتصال و نگهداری پس از تحویل",
+      "تفکیک مالک، کارفرما، تأمین‌کننده منابع، مجری و تحویل‌گیرنده",
+      "احراز حق اجرا و حقوق قابل واگذاری؛ وعده سهم زمین، جایگزین اختیار قانونی نیست",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-16",
+    "modelId": "S-lhenergy",
+    "revenues": [],
+    "owner": null,
+    "usage": "infrastructure",
+    "usageLabel": "شبکه برق، گاز و روشنایی",
+    "description": "نمونه آموزشی مستقل شبکه برق، گاز و روشنایی؛ مبلغ ورود صرفاً فرضی است. هزینه و زمان واقعی، اختیار زمین و تعهد خدمات‌رسان باید از پرونده معتبر احراز شوند.",
+    "terms": {
+      "executionMonths": null,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با شبکه برق، گاز و روشنایی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-67",
+    "kind": "project",
+    "title": "مشارکت در قطعه‌بندی و تحویل زمین آماده ساخت",
+    "group": "landhousing",
+    "subtype": "lhplots",
+    "image": "/images/types/lhplots.webp",
+    "province": "فارس",
+    "city": "شیراز",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "قرارداد اجرای آماده‌سازی با منبع پرداخت معتبر",
+    "minCapital": 8,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": null,
+    "firstIncomeMonths": null,
+    "income": "periodic",
+    "durationYears": null,
+    "risk": "unknown",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا یا پرداخت کارفرما مطابق قرارداد معتبر؛ آورده غیرنقدی فقط پس از احراز حق و ارزش‌گذاری؛ تسهیلات احتمالی پس از احراز پذیرش نهاد مالی و توان بازپرداخت",
+    "repay": "پرداخت قراردادی کارفرما / دستگاه عمومی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تطبیق نقشه قطعات با وضع ثبتی، طرح مصوب و حقوق اشخاص ثالث",
+      "تعیین معیار تحویل زمین آماده ساخت و فهرست خدمات و نواقص هر قطعه",
+      "تفکیک مالک، کارفرما، تأمین‌کننده منابع، مجری و تحویل‌گیرنده",
+      "احراز حق اجرا و حقوق قابل واگذاری؛ وعده سهم زمین، جایگزین اختیار قانونی نیست",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "نرگس مهرآیین",
+      "mobile": "09120000202"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-17",
+    "modelId": "S-lhplots",
+    "revenues": [],
+    "owner": null,
+    "usage": "infrastructure",
+    "usageLabel": "قطعه‌بندی و تحویل زمین آماده ساخت",
+    "description": "نمونه آموزشی مستقل قطعه‌بندی و تحویل زمین آماده ساخت؛ مبلغ ورود صرفاً فرضی است. هزینه و زمان واقعی، اختیار زمین و تعهد خدمات‌رسان باید از پرونده معتبر احراز شوند.",
+    "terms": {
+      "executionMonths": null,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با قطعه‌بندی و تحویل زمین آماده ساخت باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-68",
+    "kind": "project",
+    "title": "مشارکت در آماده‌سازی یکپارچه اراضی مسکونی",
+    "group": "landhousing",
+    "subtype": "lhintegrated",
+    "image": "/images/types/lhintegrated.webp",
+    "province": "یزد",
+    "city": "یزد",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "قرارداد اجرای آماده‌سازی با منبع پرداخت معتبر",
+    "minCapital": 40,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": null,
+    "firstIncomeMonths": null,
+    "income": "periodic",
+    "durationYears": null,
+    "risk": "unknown",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا یا پرداخت کارفرما مطابق قرارداد معتبر؛ آورده غیرنقدی فقط پس از احراز حق و ارزش‌گذاری؛ تسهیلات احتمالی پس از احراز پذیرش نهاد مالی و توان بازپرداخت",
+    "repay": "پرداخت قراردادی کارفرما / دستگاه عمومی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تهیه برنامه هماهنگ آماده‌سازی و تعیین مسیر بحرانی زیرساخت‌ها",
+      "تفکیک تعهدات، منابع و زمان تحویل هر جزء و هزینه تأخیر بین پیمان‌ها",
+      "تفکیک مالک، کارفرما، تأمین‌کننده منابع، مجری و تحویل‌گیرنده",
+      "احراز حق اجرا و حقوق قابل واگذاری؛ وعده سهم زمین، جایگزین اختیار قانونی نیست",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-11-06",
+    "modelId": "S-lhintegrated",
+    "revenues": [],
+    "owner": null,
+    "usage": "infrastructure",
+    "usageLabel": "آماده‌سازی یکپارچه اراضی مسکونی",
+    "description": "نمونه آموزشی مستقل آماده‌سازی یکپارچه اراضی مسکونی؛ مبلغ ورود صرفاً فرضی است. هزینه و زمان واقعی، اختیار زمین و تعهد خدمات‌رسان باید از پرونده معتبر احراز شوند.",
+    "terms": {
+      "executionMonths": null,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با آماده‌سازی یکپارچه اراضی مسکونی باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-69",
+    "kind": "project",
+    "title": "مشارکت در توسعه یکپارچه زمین و ساخت مسکن",
+    "group": "landhousing",
+    "subtype": "lhhousing",
+    "image": "/images/types/lhhousing.webp",
+    "province": "البرز",
+    "city": "کرج",
+    "routes": [
+      "investor"
+    ],
+    "stage": "ایجاد / احداث جدید",
+    "phase": "new",
+    "model": "قرارداد اجرای آماده‌سازی با منبع پرداخت معتبر",
+    "minCapital": 80,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": null,
+    "firstIncomeMonths": null,
+    "income": "periodic",
+    "durationYears": null,
+    "risk": "unknown",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا یا پرداخت کارفرما مطابق قرارداد معتبر؛ آورده غیرنقدی فقط پس از احراز حق و ارزش‌گذاری؛ تسهیلات احتمالی پس از احراز پذیرش نهاد مالی و توان بازپرداخت",
+    "repay": "پرداخت قراردادی کارفرما / دستگاه عمومی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تفکیک هزینه زمین، آماده‌سازی، ساختمان، زیرساخت و خدمات محله",
+      "تطبیق برنامه ساخت و عرضه واحدها با ظرفیت و زمان آماده‌شدن خدمات",
+      "تفکیک مالک، کارفرما، تأمین‌کننده منابع، مجری و تحویل‌گیرنده",
+      "احراز حق اجرا و حقوق قابل واگذاری؛ وعده سهم زمین، جایگزین اختیار قانونی نیست",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-19",
+    "modelId": "S-lhhousing",
+    "revenues": [],
+    "owner": null,
+    "usage": "residential",
+    "usageLabel": "توسعه یکپارچه زمین و ساخت مسکن",
+    "description": "نمونه آموزشی مستقل توسعه یکپارچه زمین و ساخت مسکن؛ مبلغ ورود صرفاً فرضی است. هزینه و زمان واقعی، اختیار زمین و تعهد خدمات‌رسان باید از پرونده معتبر احراز شوند.",
+    "terms": {
+      "executionMonths": null,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با توسعه یکپارچه زمین و ساخت مسکن باید احراز شود."
+    }
+  },
+  {
+    "id": "SAMPLE-70",
+    "kind": "project",
+    "title": "مشارکت در تکمیل آماده‌سازی و رفع موانع تحویل مسکن",
+    "group": "landhousing",
+    "subtype": "lhcompletion",
+    "image": "/images/types/lhcompletion.webp",
+    "province": "تهران",
+    "city": "تهران",
+    "routes": [
+      "investor"
+    ],
+    "stage": "تکمیل طرح نیمه‌تمام",
+    "phase": "unfinished",
+    "model": "قرارداد اجرای آماده‌سازی با منبع پرداخت معتبر",
+    "minCapital": 25,
+    "paybackYears": null,
+    "paybackDownsideYears": null,
+    "lockupMonths": null,
+    "firstIncomeMonths": null,
+    "income": "periodic",
+    "durationYears": null,
+    "risk": "unknown",
+    "legalStatus": "review",
+    "finance": "آورده نقدی شرکا یا پرداخت کارفرما مطابق قرارداد معتبر؛ آورده غیرنقدی فقط پس از احراز حق و ارزش‌گذاری؛ تسهیلات احتمالی پس از احراز پذیرش نهاد مالی و توان بازپرداخت",
+    "repay": "پرداخت قراردادی کارفرما / دستگاه عمومی",
+    "ownership": "حقوق و مالکیت و انتقال در این سناریوی فرضی هنوز احراز نشده؛ باید با سند و مجوز و قرارداد همان طرح تعیین شود.",
+    "caution": "شرایط، ارقام و دوره‌ها صرفاً برای نمایش عملکرد سامانه‌اند؛ حقوق و مجوزها و خریدار یا بازار این فرصت تأیید نشده است.",
+    "steps": [
+      "تهیه صورت‌وضعیت واقعی و فهرست نواقص ساختمان، شبکه و دسترسی",
+      "تعیین مبلغ کسری تا تحویل قابل استفاده و مسئول هر تعهد باقی‌مانده",
+      "تفکیک مالک، کارفرما، تأمین‌کننده منابع، مجری و تحویل‌گیرنده",
+      "احراز حق اجرا و حقوق قابل واگذاری؛ وعده سهم زمین، جایگزین اختیار قانونی نیست",
+      "تهیه مدل هزینه و جریان نقدی و بررسی شرایط حقوقی و انتخاب شریک",
+      "دریافت فراخوان معتبر، بررسی صلاحیت و مذاکره درباره تقسیم ریسک و قرارداد"
+    ],
+    "metric": null,
+    "expert": null,
+    "guideFileUrl": "/guides/sample-guide.pdf",
+    "publishedAt": "2026-10-20",
+    "modelId": "S-lhcompletion",
+    "revenues": [],
+    "owner": null,
+    "usage": "infrastructure",
+    "usageLabel": "تکمیل آماده‌سازی و رفع موانع تحویل مسکن",
+    "description": "نمونه آموزشی مستقل تکمیل آماده‌سازی و رفع موانع تحویل مسکن؛ مبلغ ورود صرفاً فرضی است. هزینه و زمان واقعی، اختیار زمین و تعهد خدمات‌رسان باید از پرونده معتبر احراز شوند.",
+    "terms": {
+      "executionMonths": null,
+      "generalConditions": "شرایط عمومی طبق اسناد معتبر همان فرصت احراز می‌شود.",
+      "specialConditions": "توان فنی و مجوز مرتبط با تکمیل آماده‌سازی و رفع موانع تحویل مسکن باید احراز شود."
+    }
+  },
+  {
+    "id": "HERITAGE-FEE",
+    "kind": "project",
+    "title": "مرمت و تحویل خانه تاریخی برای استفاده مالک / دولت",
+    "group": "heritage",
+    "subtype": "historichouse",
+    "image": "/images/types/historichouse.webp",
+    "province": "اصفهان",
+    "city": "کاشان",
+    "routes": [
+      "heritage"
+    ],
+    "stage": "نیازمند احیا",
+    "phase": "existing",
+    "model": "ترتیبات مرمت و احیا؛ فرضی",
+    "minCapital": null,
+    "paybackYears": null,
+    "paybackDownsideYears": 9,
+    "lockupMonths": null,
+    "firstIncomeMonths": 24,
+    "income": "periodic",
+    "durationYears": 15,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده سرمایه‌گذار + تأمین مالی بازسازی در صورت پذیرش",
+    "repay": "درآمد بهره‌برداری خدماتی در مدت قرارداد",
+    "ownership": "حق بهره‌برداری مدت‌دار؛ انتقال نهایی مطابق قرارداد؛ نه فروش بنا.",
+    "caution": "مجوز مرمت و کاربری بهره‌برداری و هزینه احیا هنوز نیازمند بررسی‌اند.",
+    "steps": [
+      "بررسی وضعیت بنا و مجوزهای مرمت",
+      "تعیین کاربری مجاز و برآورد هزینه احیا",
+      "بررسی تقاضا و دوره بهره‌برداری",
+      "شرکت در مسیر انتخاب بهره‌بردار و تنظیم قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "کیان رادمنش",
+      "mobile": "09120000303"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-10-21",
+    "modelId": "M08",
+    "revenues": [],
+    "owner": null,
+    "usage": "heritage",
+    "usageLabel": "میراث و بنای تاریخی",
+    "description": "نمونه آموزشی «نمونه فرضی مرمت و تحویل خانه تاریخی برای استفاده مالک / دولت»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {},
+    "heritageTerms": {
+      "returns": [
+        "fee"
+      ],
+      "uses": [
+        "office",
+        "culture"
+      ],
+      "payments": [
+        "progress",
+        "delivery",
+        "staged"
+      ],
+      "years": null
+    }
+  },
+  {
+    "id": "HERITAGE-MIXED",
+    "kind": "project",
+    "title": "مرمت با دریافت وجه و بهره‌برداری مدت‌دار",
+    "group": "heritage",
+    "subtype": "historichouse",
+    "image": "/images/types/historichouse.webp",
+    "province": "اصفهان",
+    "city": "کاشان",
+    "routes": [
+      "heritage"
+    ],
+    "stage": "نیازمند احیا",
+    "phase": "existing",
+    "model": "ترتیبات مرمت و احیا؛ فرضی",
+    "minCapital": null,
+    "paybackYears": null,
+    "paybackDownsideYears": 9,
+    "lockupMonths": null,
+    "firstIncomeMonths": 24,
+    "income": "periodic",
+    "durationYears": 15,
+    "risk": "high",
+    "legalStatus": "review",
+    "finance": "آورده سرمایه‌گذار + تأمین مالی بازسازی در صورت پذیرش",
+    "repay": "درآمد بهره‌برداری خدماتی در مدت قرارداد",
+    "ownership": "حق بهره‌برداری مدت‌دار؛ انتقال نهایی مطابق قرارداد؛ نه فروش بنا.",
+    "caution": "مجوز مرمت و کاربری بهره‌برداری و هزینه احیا هنوز نیازمند بررسی‌اند.",
+    "steps": [
+      "بررسی وضعیت بنا و مجوزهای مرمت",
+      "تعیین کاربری مجاز و برآورد هزینه احیا",
+      "بررسی تقاضا و دوره بهره‌برداری",
+      "شرکت در مسیر انتخاب بهره‌بردار و تنظیم قرارداد"
+    ],
+    "metric": null,
+    "expert": {
+      "name": "آرمان نیک‌روش",
+      "mobile": "09120000101"
+    },
+    "guideFileUrl": null,
+    "publishedAt": "2026-11-01",
+    "modelId": "M08",
+    "revenues": [],
+    "owner": null,
+    "usage": "heritage",
+    "usageLabel": "میراث و بنای تاریخی",
+    "description": "نمونه آموزشی «نمونه فرضی مرمت با دریافت وجه و بهره‌برداری مدت‌دار»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "terms": {},
+    "heritageTerms": {
+      "returns": [
+        "mixed"
+      ],
+      "uses": [
+        "boutique",
+        "cafe",
+        "culture"
+      ],
+      "payments": [
+        "progress",
+        "delivery",
+        "staged"
+      ],
+      "years": null
+    }
   }
 ];
 
@@ -775,7 +4842,21 @@ export const funds: Fund[] = [
       "profit": false
     },
     "durationMonths": null,
-    "exit": "شرایط صدور، ابطال / معامله، زمان تسویه و هزینه خروج باید از امیدنامه بررسی شود."
+    "exit": "شرایط صدور، ابطال / معامله، زمان تسویه و هزینه خروج باید از امیدنامه بررسی شود.",
+    "stage": "صندوق فرضی؛ فاقد اطلاعات تأییدشده",
+    "model": "صندوق درآمد ثابت",
+    "finance": "وجه سرمایه‌گذار؛ مبلغ و شرایط واقعی ورود نیازمند بررسی اسناد است.",
+    "repay": "بازده و زمان پرداخت صرفاً در سناریوی فرضی؛ سود قطعی تعهد نشده است.",
+    "ownership": "حقوق واحد سرمایه‌گذاری طبق اساسنامه و امیدنامه و اسناد همان صندوق احراز شود.",
+    "caution": "تمام ارقام و وضعیت‌ها برای نمایش عملکرد راهنما هستند؛ هیچ صندوق، نرخ یا تضمین واقعی معرفی نشده است.",
+    "steps": [
+      "احراز هویت و وضعیت مجوز صندوق و دسترسی به اساسنامه و امیدنامه",
+      "بررسی نوع دارایی، ترکیب سبد، هزینه‌ها و سیاست تقسیم درآمد",
+      "احراز شرایط هر تضمین از متن سند؛ جدا از نقدشوندگی یا نام مدیر",
+      "بررسی صدور / ابطال یا معامله، زمان تسویه و شرایط خروج؛ سپس تصمیم مستقل"
+    ],
+    "rateBasis": "annual_nominal_simple",
+    "description": "نمونه آموزشی «نمونه فرضی صندوق درآمد ثابت با پرداخت ماهانه»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود."
   },
   {
     "id": "FUND-02",
@@ -793,7 +4874,21 @@ export const funds: Fund[] = [
       "profit": false
     },
     "durationMonths": null,
-    "exit": "امکان معامله یا ابطال و هزینه خروج هنوز احراز نشده است."
+    "exit": "امکان معامله یا ابطال و هزینه خروج هنوز احراز نشده است.",
+    "stage": "صندوق فرضی؛ فاقد اطلاعات تأییدشده",
+    "model": "صندوق مختلط",
+    "finance": "وجه سرمایه‌گذار؛ مبلغ و شرایط واقعی ورود نیازمند بررسی اسناد است.",
+    "repay": "بازده و زمان پرداخت صرفاً در سناریوی فرضی؛ سود قطعی تعهد نشده است.",
+    "ownership": "حقوق واحد سرمایه‌گذاری طبق اساسنامه و امیدنامه و اسناد همان صندوق احراز شود.",
+    "caution": "تمام ارقام و وضعیت‌ها برای نمایش عملکرد راهنما هستند؛ هیچ صندوق، نرخ یا تضمین واقعی معرفی نشده است.",
+    "steps": [
+      "احراز هویت و وضعیت مجوز صندوق و دسترسی به اساسنامه و امیدنامه",
+      "بررسی نوع دارایی، ترکیب سبد، هزینه‌ها و سیاست تقسیم درآمد",
+      "احراز شرایط هر تضمین از متن سند؛ جدا از نقدشوندگی یا نام مدیر",
+      "بررسی صدور / ابطال یا معامله، زمان تسویه و شرایط خروج؛ سپس تصمیم مستقل"
+    ],
+    "rateBasis": "annual_nominal_simple",
+    "description": "نمونه آموزشی «نمونه فرضی صندوق مختلط با رشد ارزش»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود."
   },
   {
     "id": "FUND-03",
@@ -811,7 +4906,21 @@ export const funds: Fund[] = [
       "profit": false
     },
     "durationMonths": null,
-    "exit": "بازارگردان، ضامن نقدشوندگی، نقدشوندگی واقعی و تضمین بازده باید جدا بررسی شوند."
+    "exit": "بازارگردان، ضامن نقدشوندگی، نقدشوندگی واقعی و تضمین بازده باید جدا بررسی شوند.",
+    "stage": "صندوق فرضی؛ فاقد اطلاعات تأییدشده",
+    "model": "صندوق سهامی",
+    "finance": "وجه سرمایه‌گذار؛ مبلغ و شرایط واقعی ورود نیازمند بررسی اسناد است.",
+    "repay": "بازده و زمان پرداخت صرفاً در سناریوی فرضی؛ سود قطعی تعهد نشده است.",
+    "ownership": "حقوق واحد سرمایه‌گذاری طبق اساسنامه و امیدنامه و اسناد همان صندوق احراز شود.",
+    "caution": "تمام ارقام و وضعیت‌ها برای نمایش عملکرد راهنما هستند؛ هیچ صندوق، نرخ یا تضمین واقعی معرفی نشده است.",
+    "steps": [
+      "احراز هویت و وضعیت مجوز صندوق و دسترسی به اساسنامه و امیدنامه",
+      "بررسی نوع دارایی، ترکیب سبد، هزینه‌ها و سیاست تقسیم درآمد",
+      "احراز شرایط هر تضمین از متن سند؛ جدا از نقدشوندگی یا نام مدیر",
+      "بررسی صدور / ابطال یا معامله، زمان تسویه و شرایط خروج؛ سپس تصمیم مستقل"
+    ],
+    "rateBasis": "annual_nominal_simple",
+    "description": "نمونه آموزشی «نمونه فرضی صندوق سهامی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود."
   },
   {
     "id": "FUND-04",
@@ -829,7 +4938,21 @@ export const funds: Fund[] = [
       "profit": false
     },
     "durationMonths": null,
-    "exit": "شرایط معامله، فاصله قیمت از ارزش دارایی و زمان تسویه نیازمند بررسی است."
+    "exit": "شرایط معامله، فاصله قیمت از ارزش دارایی و زمان تسویه نیازمند بررسی است.",
+    "stage": "صندوق فرضی؛ فاقد اطلاعات تأییدشده",
+    "model": "صندوق طلا / کالایی",
+    "finance": "وجه سرمایه‌گذار؛ مبلغ و شرایط واقعی ورود نیازمند بررسی اسناد است.",
+    "repay": "بازده و زمان پرداخت صرفاً در سناریوی فرضی؛ سود قطعی تعهد نشده است.",
+    "ownership": "حقوق واحد سرمایه‌گذاری طبق اساسنامه و امیدنامه و اسناد همان صندوق احراز شود.",
+    "caution": "تمام ارقام و وضعیت‌ها برای نمایش عملکرد راهنما هستند؛ هیچ صندوق، نرخ یا تضمین واقعی معرفی نشده است.",
+    "steps": [
+      "احراز هویت و وضعیت مجوز صندوق و دسترسی به اساسنامه و امیدنامه",
+      "بررسی نوع دارایی، ترکیب سبد، هزینه‌ها و سیاست تقسیم درآمد",
+      "احراز شرایط هر تضمین از متن سند؛ جدا از نقدشوندگی یا نام مدیر",
+      "بررسی صدور / ابطال یا معامله، زمان تسویه و شرایط خروج؛ سپس تصمیم مستقل"
+    ],
+    "rateBasis": "annual_nominal_simple",
+    "description": "نمونه آموزشی «نمونه فرضی صندوق طلا / کالایی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود."
   },
   {
     "id": "FUND-05",
@@ -848,7 +4971,21 @@ export const funds: Fund[] = [
     },
     "durationMonths": null,
     "exit": "درآمد اجاره، ارزش‌گذاری دارایی، تقسیم درآمد و خروج باید در اسناد همین صندوق احراز شوند.",
-    "assetSector": "building"
+    "assetSector": "building",
+    "stage": "صندوق فرضی؛ فاقد اطلاعات تأییدشده",
+    "model": "صندوق املاک و مستغلات",
+    "finance": "وجه سرمایه‌گذار؛ مبلغ و شرایط واقعی ورود نیازمند بررسی اسناد است.",
+    "repay": "بازده و زمان پرداخت صرفاً در سناریوی فرضی؛ سود قطعی تعهد نشده است.",
+    "ownership": "حقوق واحد سرمایه‌گذاری طبق اساسنامه و امیدنامه و اسناد همان صندوق احراز شود.",
+    "caution": "تمام ارقام و وضعیت‌ها برای نمایش عملکرد راهنما هستند؛ هیچ صندوق، نرخ یا تضمین واقعی معرفی نشده است.",
+    "steps": [
+      "احراز هویت و وضعیت مجوز صندوق و دسترسی به اساسنامه و امیدنامه",
+      "بررسی نوع دارایی، ترکیب سبد، هزینه‌ها و سیاست تقسیم درآمد",
+      "احراز شرایط هر تضمین از متن سند؛ جدا از نقدشوندگی یا نام مدیر",
+      "بررسی صدور / ابطال یا معامله، زمان تسویه و شرایط خروج؛ سپس تصمیم مستقل"
+    ],
+    "rateBasis": "annual_nominal_simple",
+    "description": "نمونه آموزشی «نمونه فرضی صندوق املاک با درآمد دوره‌ای»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود."
   },
   {
     "id": "FUND-06",
@@ -867,7 +5004,21 @@ export const funds: Fund[] = [
     },
     "durationMonths": 36,
     "exit": "مدت تکمیل و فروش، تمدید، تسویه و امکان انتقال واحدها هنوز تأیید نشده است.",
-    "assetSector": "land"
+    "assetSector": "land",
+    "stage": "صندوق فرضی؛ فاقد اطلاعات تأییدشده",
+    "model": "صندوق زمین و ساختمان",
+    "finance": "وجه سرمایه‌گذار؛ مبلغ و شرایط واقعی ورود نیازمند بررسی اسناد است.",
+    "repay": "بازده و زمان پرداخت صرفاً در سناریوی فرضی؛ سود قطعی تعهد نشده است.",
+    "ownership": "حقوق واحد سرمایه‌گذاری طبق اساسنامه و امیدنامه و اسناد همان صندوق احراز شود.",
+    "caution": "تمام ارقام و وضعیت‌ها برای نمایش عملکرد راهنما هستند؛ هیچ صندوق، نرخ یا تضمین واقعی معرفی نشده است.",
+    "steps": [
+      "احراز هویت و وضعیت مجوز صندوق و دسترسی به اساسنامه و امیدنامه",
+      "بررسی نوع دارایی، ترکیب سبد، هزینه‌ها و سیاست تقسیم درآمد",
+      "احراز شرایط هر تضمین از متن سند؛ جدا از نقدشوندگی یا نام مدیر",
+      "بررسی صدور / ابطال یا معامله، زمان تسویه و شرایط خروج؛ سپس تصمیم مستقل"
+    ],
+    "rateBasis": "annual_nominal_simple",
+    "description": "نمونه آموزشی «نمونه فرضی صندوق زمین و ساختمان»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود."
   },
   {
     "id": "FUND-07",
@@ -886,7 +5037,21 @@ export const funds: Fund[] = [
     },
     "durationMonths": 24,
     "exit": "مرحله پروژه، جریان نقدی، حق انتقال و شرایط تسویه واحدها باید از اسناد صندوق بررسی شود.",
-    "assetSector": "energy"
+    "assetSector": "energy",
+    "stage": "صندوق فرضی؛ فاقد اطلاعات تأییدشده",
+    "model": "صندوق پروژه",
+    "finance": "وجه سرمایه‌گذار؛ مبلغ و شرایط واقعی ورود نیازمند بررسی اسناد است.",
+    "repay": "بازده و زمان پرداخت صرفاً در سناریوی فرضی؛ سود قطعی تعهد نشده است.",
+    "ownership": "حقوق واحد سرمایه‌گذاری طبق اساسنامه و امیدنامه و اسناد همان صندوق احراز شود.",
+    "caution": "تمام ارقام و وضعیت‌ها برای نمایش عملکرد راهنما هستند؛ هیچ صندوق، نرخ یا تضمین واقعی معرفی نشده است.",
+    "steps": [
+      "احراز هویت و وضعیت مجوز صندوق و دسترسی به اساسنامه و امیدنامه",
+      "بررسی نوع دارایی، ترکیب سبد، هزینه‌ها و سیاست تقسیم درآمد",
+      "احراز شرایط هر تضمین از متن سند؛ جدا از نقدشوندگی یا نام مدیر",
+      "بررسی صدور / ابطال یا معامله، زمان تسویه و شرایط خروج؛ سپس تصمیم مستقل"
+    ],
+    "rateBasis": "annual_nominal_simple",
+    "description": "نمونه آموزشی «نمونه فرضی صندوق پروژه»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود."
   },
   {
     "id": "FUND-08",
@@ -911,7 +5076,21 @@ export const funds: Fund[] = [
     },
     "durationMonths": 12,
     "exit": "سررسید و امکان انتقال یا خروج پیش از موعد باید در فراخوان و قرارداد طرح بررسی شود.",
-    "assetSector": "industry"
+    "assetSector": "industry",
+    "stage": "طرح جمعی فرضی؛ فاقد فراخوان تأییدشده",
+    "model": "طرح تأمین مالی جمعی؛ از طریق سکو",
+    "finance": "وجه سرمایه‌گذار؛ مبلغ و شرایط واقعی ورود نیازمند بررسی اسناد است.",
+    "repay": "بازده و زمان پرداخت صرفاً در سناریوی فرضی؛ سود قطعی تعهد نشده است.",
+    "ownership": "ماهیت و حقوق گواهی شراکت طبق مقررات و قرارداد همان طرح احراز شود.",
+    "caution": "تمام ارقام و وضعیت‌ها برای نمایش عملکرد راهنما هستند؛ هیچ صندوق، نرخ یا تضمین واقعی معرفی نشده است.",
+    "steps": [
+      "احراز مجوز عامل و سکو و اصالت فراخوان همان طرح",
+      "بررسی طرح، صورت‌های مالی، ریسک‌ها و مبنای بازده پیش‌بینی‌شده",
+      "بررسی جدول پرداخت و متن و اصالت هر تضمین و دامنه پوشش آن",
+      "مطالعه قرارداد، حقوق گواهی شراکت و شرایط خروج؛ سپس تصمیم مستقل"
+    ],
+    "rateBasis": "annual_nominal_simple",
+    "description": "نمونه آموزشی «نمونه فرضی طرح جمعی با ادعای پوشش بانکی اصل سرمایه»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود."
   },
   {
     "id": "FUND-09",
@@ -931,7 +5110,21 @@ export const funds: Fund[] = [
     },
     "durationMonths": 12,
     "exit": "ضامن غیربانکی، وثیقه و بانک سه وضعیت متفاوت‌اند؛ پذیرش و نحوه مطالبه نیازمند بررسی است.",
-    "assetSector": "industry"
+    "assetSector": "industry",
+    "stage": "طرح جمعی فرضی؛ فاقد فراخوان تأییدشده",
+    "model": "طرح تأمین مالی جمعی؛ از طریق سکو",
+    "finance": "وجه سرمایه‌گذار؛ مبلغ و شرایط واقعی ورود نیازمند بررسی اسناد است.",
+    "repay": "بازده و زمان پرداخت صرفاً در سناریوی فرضی؛ سود قطعی تعهد نشده است.",
+    "ownership": "ماهیت و حقوق گواهی شراکت طبق مقررات و قرارداد همان طرح احراز شود.",
+    "caution": "تمام ارقام و وضعیت‌ها برای نمایش عملکرد راهنما هستند؛ هیچ صندوق، نرخ یا تضمین واقعی معرفی نشده است.",
+    "steps": [
+      "احراز مجوز عامل و سکو و اصالت فراخوان همان طرح",
+      "بررسی طرح، صورت‌های مالی، ریسک‌ها و مبنای بازده پیش‌بینی‌شده",
+      "بررسی جدول پرداخت و متن و اصالت هر تضمین و دامنه پوشش آن",
+      "مطالعه قرارداد، حقوق گواهی شراکت و شرایط خروج؛ سپس تصمیم مستقل"
+    ],
+    "rateBasis": "annual_nominal_simple",
+    "description": "نمونه آموزشی «نمونه فرضی طرح جمعی با ضامن غیربانکی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود."
   }
 ];
 
@@ -946,7 +5139,13 @@ export const saleItems: SaleItem[] = [
     "price": 12,
     "province": "تهران",
     "city": "تهران",
-    "neighborhood": "محدوده فرضی الف"
+    "neighborhood": "محدوده فرضی الف",
+    "stage": "نمونه عرضه فروش؛ فاقد آگهی واقعی",
+    "model": "فروش اراضی",
+    "ownership": "وضعیت سند و حقوق واگذاری هنوز احراز نشده",
+    "caution": "تمام مشخصات و قیمت‌ها فرضی‌اند.",
+    "description": "نمونه آموزشی «قطعه زمین مسکونی — نمونه فرضی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "usageLabel": "توسعه زمین و چندمنظوره"
   },
   {
     "id": "SALE-L02",
@@ -957,7 +5156,13 @@ export const saleItems: SaleItem[] = [
     "price": null,
     "province": "اصفهان",
     "city": "اصفهان",
-    "neighborhood": "محدوده فرضی ب"
+    "neighborhood": "محدوده فرضی ب",
+    "stage": "نمونه عرضه فروش؛ فاقد آگهی واقعی",
+    "model": "فروش اراضی",
+    "ownership": "وضعیت سند و حقوق واگذاری هنوز احراز نشده",
+    "caution": "تمام مشخصات و قیمت‌ها فرضی‌اند.",
+    "description": "نمونه آموزشی «زمین با کاربری تجاری — نمونه فرضی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "usageLabel": "توسعه زمین و چندمنظوره"
   },
   {
     "id": "SALE-L03",
@@ -968,7 +5173,13 @@ export const saleItems: SaleItem[] = [
     "price": 5.8,
     "province": "یزد",
     "city": "یزد",
-    "neighborhood": null
+    "neighborhood": null,
+    "stage": "نمونه عرضه فروش؛ فاقد آگهی واقعی",
+    "model": "فروش اراضی",
+    "ownership": "وضعیت سند و حقوق واگذاری هنوز احراز نشده",
+    "caution": "تمام مشخصات و قیمت‌ها فرضی‌اند.",
+    "description": "نمونه آموزشی «قطعه زمین چندمنظوره — نمونه فرضی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "usageLabel": "توسعه زمین و چندمنظوره"
   },
   {
     "id": "SALE-P01",
@@ -982,7 +5193,12 @@ export const saleItems: SaleItem[] = [
     "price": 17,
     "province": "فارس",
     "city": "شیراز",
-    "neighborhood": "محدوده فرضی ج"
+    "neighborhood": "محدوده فرضی ج",
+    "stage": "نمونه عرضه فروش؛ فاقد آگهی واقعی",
+    "model": "فروش املاک",
+    "ownership": "وضعیت سند و حقوق واگذاری هنوز احراز نشده",
+    "caution": "تمام مشخصات و قیمت‌ها فرضی‌اند.",
+    "description": "نمونه آموزشی «ملک ویلایی — نمونه فرضی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود."
   },
   {
     "id": "SALE-P02",
@@ -995,7 +5211,12 @@ export const saleItems: SaleItem[] = [
     "price": 10,
     "province": "تهران",
     "city": "تهران",
-    "neighborhood": "محدوده فرضی الف"
+    "neighborhood": "محدوده فرضی الف",
+    "stage": "نمونه عرضه فروش؛ فاقد آگهی واقعی",
+    "model": "فروش املاک",
+    "ownership": "وضعیت سند و حقوق واگذاری هنوز احراز نشده",
+    "caution": "تمام مشخصات و قیمت‌ها فرضی‌اند.",
+    "description": "نمونه آموزشی «واحد آپارتمان — نمونه فرضی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود."
   },
   {
     "id": "SALE-P03",
@@ -1008,7 +5229,12 @@ export const saleItems: SaleItem[] = [
     "price": null,
     "province": "البرز",
     "city": "کرج",
-    "neighborhood": null
+    "neighborhood": null,
+    "stage": "نمونه عرضه فروش؛ فاقد آگهی واقعی",
+    "model": "فروش املاک",
+    "ownership": "وضعیت سند و حقوق واگذاری هنوز احراز نشده",
+    "caution": "تمام مشخصات و قیمت‌ها فرضی‌اند.",
+    "description": "نمونه آموزشی «برج اداری — نمونه فرضی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود."
   },
   {
     "id": "SALE-P04",
@@ -1021,7 +5247,12 @@ export const saleItems: SaleItem[] = [
     "price": 75,
     "province": "اصفهان",
     "city": "اصفهان",
-    "neighborhood": "محدوده فرضی ب"
+    "neighborhood": "محدوده فرضی ب",
+    "stage": "نمونه عرضه فروش؛ فاقد آگهی واقعی",
+    "model": "فروش املاک",
+    "ownership": "وضعیت سند و حقوق واگذاری هنوز احراز نشده",
+    "caution": "تمام مشخصات و قیمت‌ها فرضی‌اند.",
+    "description": "نمونه آموزشی «مجتمع اداری — نمونه فرضی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود."
   },
   {
     "id": "SALE-S01",
@@ -1032,7 +5263,13 @@ export const saleItems: SaleItem[] = [
     "price": 180,
     "province": "فارس",
     "city": "شیراز",
-    "neighborhood": "محدوده فرضی ج"
+    "neighborhood": "محدوده فرضی ج",
+    "stage": "نمونه عرضه فروش؛ فاقد آگهی واقعی",
+    "model": "فروش کالای اسقاطی",
+    "ownership": "وضعیت سند و حقوق واگذاری هنوز احراز نشده",
+    "caution": "تمام مشخصات و قیمت‌ها فرضی‌اند.",
+    "description": "نمونه آموزشی «محموله فلزات اسقاطی — نمونه فرضی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "usageLabel": "صنعتی و لجستیک"
   },
   {
     "id": "SALE-S02",
@@ -1043,7 +5280,13 @@ export const saleItems: SaleItem[] = [
     "price": 40,
     "province": "تهران",
     "city": "تهران",
-    "neighborhood": "محدوده فرضی الف"
+    "neighborhood": "محدوده فرضی الف",
+    "stage": "نمونه عرضه فروش؛ فاقد آگهی واقعی",
+    "model": "فروش کالای اسقاطی",
+    "ownership": "وضعیت سند و حقوق واگذاری هنوز احراز نشده",
+    "caution": "تمام مشخصات و قیمت‌ها فرضی‌اند.",
+    "description": "نمونه آموزشی «تجهیزات اسقاطی — نمونه فرضی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "usageLabel": "صنعتی و لجستیک"
   },
   {
     "id": "SALE-S03",
@@ -1054,7 +5297,13 @@ export const saleItems: SaleItem[] = [
     "price": null,
     "province": "یزد",
     "city": "یزد",
-    "neighborhood": null
+    "neighborhood": null,
+    "stage": "نمونه عرضه فروش؛ فاقد آگهی واقعی",
+    "model": "فروش کالای اسقاطی",
+    "ownership": "وضعیت سند و حقوق واگذاری هنوز احراز نشده",
+    "caution": "تمام مشخصات و قیمت‌ها فرضی‌اند.",
+    "description": "نمونه آموزشی «محموله الکترونیکی — نمونه فرضی»؛ مشخصات و شرایط واقعی در اسناد تأییدشده هر فرصت ثبت می‌شود.",
+    "usageLabel": "صنعتی و لجستیک"
   }
 ];
 

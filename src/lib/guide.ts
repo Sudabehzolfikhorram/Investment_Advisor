@@ -4,7 +4,7 @@ import { advisories } from "@/data/advisories";
 import { site } from "@/data/site";
 import { routeSteps } from "@/data/routes";
 import type { RouteId } from "@/types";
-import { factGroups } from "./facts";
+import { dossier, factGroups } from "./facts";
 import type { Listing, Opportunity } from "@/types";
 import { faNumber } from "./utils";
 
@@ -71,16 +71,24 @@ export function guideHtml(l: Listing, ctx: GuideContext = {}): string {
   const mine: [string, string][] = [...(kind ? [["نوع پیگیری", kind] as [string, string]] : []), ...(ctx.mine ?? [])];
   if (mine.length) parts.push(sec("شرایط شما", `<div class="mine">${mine.map(([k, v]) => `<div class="row"><span>${esc(k)}</span><strong>${esc(v)}</strong></div>`).join("")}</div>`));
 
+  {
+    const t = l.raw as { finance?: string; repay?: string; ownership?: string | null; caution?: string };
+    const flow = [["پول از کجا می‌آید", t.finance], ["چطور برمی‌گردد", t.repay], ["مالکیت و سهم", t.ownership]].filter((x) => x[1]) as [string, string][];
+    if (flow.length) parts.push(sec("مسیر پول", `<div class="flow" style="grid-template-columns:${flow.map(() => "1fr").join(" auto ")}">${flow.map(([t, d], i) => `${i ? '<div class="arrow">←</div>' : ""}<div class="card"><h3>${t}</h3><p>${esc(d)}</p></div>`).join("")}</div>`));
+    if (!o && t.caution) parts.push(sec("پیش از اقدام بدانید", `<div class="note">${esc(t.caution)}</div>`));
+  }
   if (o) {
-    const flow = [["پول از کجا می‌آید", o.finance], ["چطور برمی‌گردد", o.repay], ["مالکیت و سهم", o.ownership]].filter((x) => x[1]) as [string, string][];
+    const flow: [string, string][] = [];
     if (flow.length) parts.push(sec("مسیر پول", `<div class="flow" style="grid-template-columns:${flow.map(() => "1fr").join(" auto ")}">${flow.map(([t, d], i) => `${i ? '<div class="arrow">←</div>' : ""}<div class="card"><h3>${t}</h3><p>${esc(d)}</p></div>`).join("")}</div>`));
     const checks = [...new Set([...(o.checks ?? []), ...(adv?.baseChecks ?? [])])];
     if (o.caution || checks.length) parts.push(sec("پیش از اقدام بدانید", `${o.caution ? `<div class="note">${esc(o.caution)}</div>` : ""}${checks.length ? `<ul class="check">${checks.map((c) => `<li><label><input type="checkbox" data-k="${esc(c)}"${ctx.checked?.includes(c) ? " checked" : ""}><i></i>${esc(c)}</label></li>`).join("")}</ul>` : ""}`));
     if (adv?.questions.length) parts.push(sec("پرسش‌هایی که باید پاسخشان را آماده کنید", `${adv.context ? `<p style="margin:0 0 8px;color:#667473">${esc(adv.context)}</p>` : ""}${adv.questions.map((q) => { const a = ctx.answers?.[q.id]; const opt = q.options.find((x) => x.value === a);
-      return `<div class="q"><p>${esc(q.label)}</p>${opt ? `<div class="ans"><b>پاسخ شما:</b> ${esc(opt.label)}</div>${q.actions[a!] ? `<small>${esc(q.actions[a!])}</small>` : ""}` : `<small>${q.options.map((x) => esc(x.label)).join(" · ")}</small>`}</div>`; }).join("")}`));
+      return `<div class="q"><p>${esc(q.label)}</p>${opt ? `<div class="ans"><b>پاسخ شما:</b> ${esc(opt.label)}</div>${q.actions[a!] ? `<small>${esc(q.actions[a!])}</small>` : ""}` : `<small>${q.options.map((x) => esc(x.label)).join(" / ")}</small>`}</div>`; }).join("")}`));
   }
+  parts.push(sec("پرونده کامل", dossier(l).map((d) => `<div class="card" style="margin-bottom:10px"><h3>${esc(d.title)}</h3>${d.note ? `<p style="margin:0 0 6px;color:#667473;font-size:12px">${esc(d.note)}</p>` : ""}${d.rows.map(([k, v]) => `<div class="row"><span>${esc(k)}</span><strong>${esc(v)}</strong></div>`).join("")}${(d.notes ?? []).map(([k, v]) => `<p style="margin:8px 0 0;font-size:12px"><b>${esc(k)}: </b>${esc(v)}</p>`).join("")}</div>`).join("")));
   {
-    const steps = o?.steps.length ? o.steps : routeSteps[l.routes[0] as RouteId] ?? [];
+    const fundSteps = l.kind === "fund" ? (l.raw as { steps?: string[] }).steps : undefined;
+    const steps = o?.steps.length ? o.steps : fundSteps?.length ? fundSteps : routeSteps[l.routes[0] as RouteId] ?? [];
     if (steps.length) parts.push(sec("گام‌های اقدام", `<ol class="steps">${steps.map((s) => `<li><label><input type="checkbox" data-k="${esc(s)}"${ctx.checked?.includes(s) ? " checked" : ""}><span>${esc(s)}</span><em></em></label></li>`).join("")}</ol>`));
   }
 

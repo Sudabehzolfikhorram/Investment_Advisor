@@ -2,7 +2,7 @@
 // شرطی که داده‌اش نامعلوم است نصف امتیاز می‌گیرد و «نیازمند بررسی» علامت می‌خورد.
 import type { Fund, Listing, MatchReason, MatchResult, Opportunity, SaleItem, SearchCriteria } from "@/types";
 
-export const WEIGHTS = { amount: 30, category: 20, location: 15, return: 20, risk: 15 } as const;
+export const WEIGHTS = { amount: 30, category: 20, location: 15, return: 20, risk: 15, terms: 15 } as const;
 export const ASSISTANT_MAX_RESULTS = 10;
 type Bucket = keyof typeof WEIGHTS;
 type Status = MatchReason["status"];
@@ -15,7 +15,9 @@ export function matchListing(l: Listing, c: SearchCriteria): MatchResult {
   const f = c.filters;
   const arr = (k: string) => (Array.isArray(f[k]) ? (f[k] as string[]) : []);
   const num = (k: string) => (typeof f[k] === "number" ? (f[k] as number) : undefined);
-  const str = (k: string) => (typeof f[k] === "string" && f[k] !== "any" ? (f[k] as string) : undefined);
+  const str = (k: string) => (typeof f[k] === "string" && f[k] !== "any" && f[k] !== "" ? (f[k] as string) : undefined);
+  /** گزینه تکی؛ اگر چندتایی ذخیره شده باشد اولین مقدار */
+  const one = (k: string) => str(k) ?? (arr(k).filter((x) => x !== "any")[0] || undefined);
 
   if (c.amount) add("amount", "مبلغ در بازه شما", tri(l.amount != null, l.amount != null && l.amount >= c.amount[0] && l.amount <= c.amount[1]));
 
@@ -32,6 +34,46 @@ export function matchListing(l: Listing, c: SearchCriteria): MatchResult {
     if (lockup != null) add("return", "قفل سرمایه", tri(o.lockupMonths != null, (o.lockupMonths ?? 0) <= lockup));
     if (first != null) add("return", "زمان اولین دریافت", tri(o.firstIncomeMonths != null, (o.firstIncomeMonths ?? 0) <= first));
     if (income) add("return", "نوع دریافت درآمد", tri(o.income !== "any", o.income === income));
+
+    // شرایط قرارداد و مسیر — همان منطق checkOption / checkNumber نسخه مرجع
+    const t = o.terms ?? {}, h = o.heritageTerms ?? {}, r = c.route;
+    const opt = (key: string, label: string, have: string[] | undefined) => { const v = one(key); if (v) add("terms", label, tri(!!have?.length, !!have?.includes(v))); };
+    const atLeast = (key: string, label: string, have: number | null | undefined) => { const v = num(key); if (v != null && v > 0) add("terms", label, tri(have != null, (have ?? 0) >= v)); };
+    const exec = t.executionMonths ?? o.executionMonths;
+    if (r === "investor" || r === "heritage") {
+      opt("intervention", "نوع آورده دولت", t.interventions);
+      atLeast("shareMin", "حداقل سهم شما", t.partnerShare);
+      atLeast("executionMin", "مدت اجرا", exec);
+      opt("settlement", "روش تسویه سهم", t.partnershipSettlements);
+    }
+    if (r === "heritage") {
+      const ret = one("heritageReturn"); if (ret) add("terms", "روش جبران هزینه", tri(!!h.returns?.length, !!h.returns?.includes(ret)));
+      opt("heritageUse", "کاربری پس از مرمت", h.uses);
+      atLeast("heritageYears", "مدت بهره‌برداری", h.years);
+      opt("heritagePayment", "زمان دریافت مبلغ", h.payments);
+    }
+    if (r === "contractor") {
+      atLeast("governmentMin", "سهم دولت از منابع", t.governmentShare);
+      atLeast("executionMin", "مدت اجرا", exec);
+      opt("settlement", "تسویه صورت‌وضعیت", t.contractorSettlements);
+      const wc = num("workingCapital"); if (wc != null && wc > 0) add("terms", "نقدینگی اجرای پیمان", tri(t.workingCapitalMin != null, wc >= (t.workingCapitalMin ?? 0)));
+      const g = arr("guarantees"); if (g.length) add("terms", "نوع تضمین", tri(!!t.acceptedGuarantees, g.some((x) => t.acceptedGuarantees?.includes(x))));
+    }
+    if (r === "buyer") opt("payment", "شرایط پرداخت خرید", t.salePayments);
+    if (r === "lessee") {
+      opt("leasePayment", "نحوه پرداخت اجاره", t.leasePayments);
+      const lt = one("leaseType");
+      if (lt) add("terms", "نوع اجاره", lt === "one" && o.durationYears != null ? tri(true, o.durationYears <= 1) : lt === "medium" && o.durationYears != null ? tri(true, o.durationYears > 1) : tri(!!t.leaseTypes?.length, !!t.leaseTypes?.includes(lt)));
+      const rent = num("leaseRent"); if (rent != null && rent > 0) add("amount", "اجاره ماهانه", tri(o.monthlyRent != null, (o.monthlyRent ?? 0) <= rent));
+      const yrs = num("leaseYears"); if (yrs != null && yrs > 1) add("terms", "مدت اجاره", tri(o.durationYears != null, (o.durationYears ?? 0) >= yrs));
+      const lump = num("lumpBudget"); if (one("leasePayment") === "lump" && lump != null) add("amount", "اجاره یکجا", tri(t.lumpRent != null, (t.lumpRent ?? 0) <= lump));
+    }
+    if (r === "buyer" || r === "lessee") {
+      opt("right", "نوع حق واگذارشدنی", t.transferRights);
+      if (one("occupied") === "vacant") add("terms", "تخلیه ملک", tri(!!o.rights?.occupancy, o.rights?.occupancy === "vacant"));
+    }
+    const kw = str("keyword")?.trim(); if (kw) add("category", "عنوان یا مشخصات", tri(true, `${o.title} ${o.description ?? ""}`.includes(kw)));
+    if (arr("usage").length) add("category", "کاربری", tri(!!o.usage, arr("usage").includes(o.usage ?? "")));
   }
   if (l.kind === "fund") {
     const fund = l.raw as Fund;
@@ -47,6 +89,8 @@ export function matchListing(l: Listing, c: SearchCriteria): MatchResult {
     if (arr("usage").length) add("category", "کاربری", tri(!!s.usage, arr("usage").includes(s.usage ?? "")));
     const area = f.area as [number, number] | undefined;
     if (Array.isArray(area)) add("category", "مساحت", tri(s.area != null, (s.area ?? 0) >= area[0] && (s.area ?? 0) <= area[1]));
+    const kw = str("keyword")?.trim(); if (kw) add("category", "عنوان یا مشخصات", tri(true, `${s.title} ${s.description ?? ""}`.includes(kw)));
+    const nb = str("neighborhood")?.trim(); if (nb) add("location", "محله", tri(!!s.neighborhood, !!s.neighborhood?.includes(nb)));
   }
 
   if (c.provinces.length) add("location", "استان", tri(l.province != null, c.provinces.includes(l.province ?? "")));

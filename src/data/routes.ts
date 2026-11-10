@@ -90,7 +90,7 @@ export const routeTools: Partial<Record<RouteId, string[]>> = {
   lessee: ["ma-manager", "ma-exchange"],
   buyer: ["ma-exchange"],
   heritage: ["proposal"],
-  charity: ["proposal", "ideas"],
+  charity: ["charity", "proposal", "ideas"],
 };
 const tomanOf = (unit: string) => (unit.includes("میلیارد") ? 1e9 : 1e6);
 /** بودجه کاربر هنگام تغییر مسیر حفظ می‌شود: به واحد و بازه مسیر تازه تبدیل می‌شود */

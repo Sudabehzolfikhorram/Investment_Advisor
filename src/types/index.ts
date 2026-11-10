@@ -68,19 +68,41 @@ export interface Opportunity {
   expert: Expert | null;
   guideFileUrl: string | null;
   publishedAt: string;
+  /** کاربری و شرح عمومی (از نسخه مرجع) */
+  usage?: string | null;
+  usageLabel?: string;
+  description?: string;
+  /** شرایط اختصاصی اعلام‌شده برای هر مسیر */
+  terms?: ProjectTerms;
+  /** حقوق مالکیت و منافع (خرید و اجاره) */
+  rights?: Record<string, string>;
+  /** ترتیبات مرمت (مسیر میراث) */
+  heritageTerms?: { returns?: string[]; uses?: string[]; payments?: string[]; years?: number | null };
+  /** اجاره ماهانه — میلیون تومان */
+  monthlyRent?: number | null;
 }
 
-export interface Fund {
+export interface ProjectTerms {
+  interventions?: string[]; partnerShare?: number | null; executionMonths?: number | null; partnershipSettlements?: string[];
+  generalConditions?: string; specialConditions?: string; irr?: number | null; irrCashflowsVerified?: boolean; irrBasis?: string; irrPrice?: string;
+  salePayments?: string[]; transferRights?: string[]; governmentShare?: number | null; workingCapitalMin?: number | null;
+  contractorSettlements?: string[]; acceptedGuarantees?: string[]; leaseTypes?: string[]; leasePayments?: string[]; lumpRent?: number | null;
+}
+
+/** فیلدهای متنی مشترک نسخه مرجع برای صندوق و مورد فروش */
+interface SourceText { stage?: string; model?: string; finance?: string; repay?: string; ownership?: string; caution?: string; steps?: string[]; description?: string }
+
+export interface Fund extends SourceText {
   id: string; title: string; kind: string; type: string;
   minimumMillion: number; forecast: number | null; payout: string; risk: string;
   bank: { exists: boolean | null; verified: boolean; principal: boolean | null; profit: boolean | null; [key: string]: unknown };
-  durationMonths: number | null; exit: string; assetSector?: string;
+  durationMonths: number | null; exit: string; assetSector?: string; rateBasis?: string;
 }
 
-export interface SaleItem {
+export interface SaleItem extends SourceText {
   id: string; category: string; title: string; usage?: string; area?: number; landArea?: number;
   price: number | null; province: string; city: string; neighborhood: string | null;
-  buildingType?: string; subject?: string; scrapType?: string; quantity?: string | null;
+  buildingType?: string; subject?: string; scrapType?: string; quantity?: string | null; usageLabel?: string;
 }
 
 export type FieldControl =

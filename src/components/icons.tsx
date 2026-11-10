@@ -18,5 +18,5 @@ export const routeIcons: Record<string, Icon> = {
 export const toolIcons: Record<string, Icon> = {
   proposal: DocumentUpload, ideas: LampOn, "land-preparation": Map, "foreign-investment": Global,
   "ma-notice": FolderOpen, "ma-renewal": Refresh2, "ma-manager": Buliding, "ma-exchange": Convertshape2, "ma-profile": UserSquare,
-  library: Book1, drafts: ArchiveBook,
+  library: Book1, drafts: ArchiveBook, charity: Lovely,
 };

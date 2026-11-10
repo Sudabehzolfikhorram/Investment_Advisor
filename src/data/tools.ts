@@ -18,6 +18,7 @@ export const tools: ToolDef[] = [
   { id: "ma-manager", group: "more", name: "اجاره‌داری حرفه‌ای", description: "مسیر مدیریت اجاره‌داری را جدا بررسی کنید.", opener: '[data-ma-open="manager"]', root: "#ma-tools" },
   { id: "ma-exchange", group: "more", name: "معاوضه ملک", description: "ملک خود را برای معاوضه معرفی کنید.", opener: '[data-ma-open="exchange"]', root: "#ma-tools" },
   { id: "ma-profile", group: "more", name: "پروفایل حرفه‌ای من", description: "اطلاعات حرفه‌ای ثابت خود را اختیاری ثبت کنید؛ فقط روی دستگاه شما ذخیره می‌شود.", opener: '[data-ma-open="profile"]', root: "#ma-tools" },
+  { id: "charity", group: "more", name: "همراهی در کار خیر", description: "حوزه، نوع و اندازه همراهی خود را انتخاب کنید و دورنمای اثر آن را ببینید.", opener: "role:charity", root: '[data-panel="2"]|#results' },
   { id: "library", group: "docs", name: "راهنما و مستندات", description: "مدل‌های همکاری، مدارک موردنیاز و مراحل ورود را مرور کنید.", opener: '[data-ext-open="library"]', root: "#ext-library" },
   { id: "drafts", group: "docs", name: "منتخب‌ها و پیش‌نویس‌های من", description: "آنچه در این خدمات ذخیره کرده‌اید، روی همین دستگاه.", opener: '[data-ext-open="saved"]', root: "#ext-saved" },
 ];

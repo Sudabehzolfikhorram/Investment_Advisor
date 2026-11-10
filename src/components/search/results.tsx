@@ -19,6 +19,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { groupIcons, routeIcons } from "@/components/icons";
 import { sortOptions } from "@/data/fields";
 import { convertAmount, routes, routeSubcategories, routeTools } from "@/data/routes";
+import { LegacyTool } from "@/components/tools/engine";
 import { toolById } from "@/data/tools";
 import Link from "next/link";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -314,7 +315,7 @@ export function Results() {
     if (!hydrated || (!deferred.amount && !deferred.provinces.length)) return routeCounts;
     return Object.fromEntries(routes.map((r) => [r.id, rank(listings, { route: r.id, groups: [], filters: {}, provinces: r.id === "fund" ? [] : deferred.provinces, amount: r.id === deferred.route ? deferred.amount : convertAmount(deferred.amount, deferred.route, r.id) }).filter((x) => x.score >= SUITABLE).length])) as Record<RouteId, number>;
   }, [hydrated, deferred.amount, deferred.provinces, deferred.route]);
-  const related = (routeTools[route.id] ?? []).map((id) => toolById(id)!).filter(Boolean);
+  const related = (routeTools[route.id] ?? []).filter((id) => !(route.id === "charity" && id === "charity")).map((id) => toolById(id)!).filter(Boolean);
   const suitable = useMemo(() => (hasCriteria ? all.filter((r) => r.score >= SUITABLE).length : all.length), [all, hasCriteria]);
 
   useEffect(() => setLimit(PAGE), [deferred, q, sort, showAll]);
@@ -344,7 +345,7 @@ export function Results() {
 
               <section className="min-w-0">
                 <div className="mb-4 flex items-center justify-between gap-4">
-                  <h1 className="shrink-0 text-xl font-black text-ink">{faNumber(shown.length)} پروژه <span className="text-sm font-semibold text-muted-foreground">{hasCriteria ? "نزدیک به خواسته شما" : `در ${route.name}`}</span></h1>
+                  <h1 className="shrink-0 text-xl font-black text-ink">{route.id === "charity" && all.length === 0 ? "همراهی در کار خیر" : <>{faNumber(shown.length)} پروژه <span className="text-sm font-semibold text-muted-foreground">{hasCriteria ? "نزدیک به خواسته شما" : `در ${route.name}`}</span></>}</h1>
                   <div className="flex items-center gap-2">
                     <div className="flex h-10 items-center gap-2 rounded-full border border-border bg-white px-3.5"><SearchNormal1 size={16} className="text-muted-foreground" />
                       <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجو در نتایج" aria-label="جست‌وجو در نتایج" className="h-8 w-36 border-0 !bg-transparent px-0 text-sm font-semibold shadow-none focus-visible:ring-0 placeholder:font-normal" />
@@ -377,7 +378,10 @@ export function Results() {
                   </div>
                 )}
 
-                {shown.length === 0 ? (
+                {route.id === "charity" && all.length === 0 ? (
+                  // مسیر خیریه در نسخه مرجع پروژه نمونه ندارد و جای آن، فرم همراهی و دورنمای اثر است
+                  <Card className="surface block rounded-[2rem] p-7 shadow-none"><LegacyTool opener={toolById("charity")!.opener} root={toolById("charity")!.root} /></Card>
+                ) : shown.length === 0 ? (
                   <Card className="surface grid place-items-center gap-0 rounded-[2rem] px-6 py-20 text-center shadow-none">
                     <span className="grid size-16 place-items-center rounded-full bg-primary/10 text-primary"><SearchNormal1 size={28} variant="Bulk" /></span>
                     <h2 className="mt-5 text-xl font-extrabold text-ink">{all.length === 0 ? "در این مسیر هنوز پروژه‌ای نیست." : "با این فیلترها پروژه‌ای پیدا نشد."}</h2>

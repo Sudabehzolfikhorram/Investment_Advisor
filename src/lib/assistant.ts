@@ -2,6 +2,7 @@
 // در نسخه واقعی، یک مدل زبانی جای این تابع می‌نشیند؛ خروجی و امتیازدهی همان است.
 import { projectGroups } from "@/data/taxonomy";
 import { provinces } from "@/data/provinces";
+import { routes, routeSubcategories } from "@/data/routes";
 import { cityCoords } from "@/data/opportunities";
 import { listings } from "./listings";
 import { ASSISTANT_MAX_RESULTS, rank } from "./match";
@@ -26,20 +27,32 @@ export function readPrompt(text: string): AssistantReading {
   const filters: Record<string, FilterValue> = {};
   let route: RouteId = "investor";
   if (/صندوق|سرمایه‌گذاری جمعی|تأمین مالی جمعی/.test(t)) route = "fund";
-  else if (/بخرم|خرید ملک|خرید زمین|خرید یک/.test(t)) route = "buyer";
+  else if (/اجاره کنم|اجاره ملک|اجاره دفتر|اجاره فضا|مستأجر|اجاره‌ای برای/.test(t)) route = "lessee";
+  else if (/بخرم|خرید|اسقاط/.test(t)) route = "buyer";
   else if (/پیمانکار/.test(t)) route = "contractor";
-  understood.push({ label: "مسیر", value: route === "fund" ? "صندوق‌ها" : route === "buyer" ? "خرید ملک و دارایی" : route === "contractor" ? "پیمانکاری" : "سرمایه‌گذاری و مشارکت" });
+  else if (/مرمت|احیا|بنای تاریخی|خانه تاریخی/.test(t)) route = "heritage";
+  else if (/خیریه|وقف|نیکوکاری|مشارکت اجتماعی/.test(t)) route = "charity";
+  else if (/بهره‌بردار|بهره برداری|بهره‌برداری/.test(t)) route = "operator";
+  understood.push({ label: "مسیر", value: routes.find((r) => r.id === route)!.name });
+  if (route === "buyer") {
+    const cat = [/اسقاط|ضایعات|فلزات/.test(t) && "scrap", /زمین|اراضی/.test(t) && "land", /ملک|خانه|آپارتمان|ویلا|مغازه|دفتر|واحد/.test(t) && "property"].filter(Boolean) as string[];
+    if (cat.length) { filters.saleCategory = cat; understood.push({ label: "دسته", value: cat.map((c) => routeSubcategories.buyer?.find((x) => x.id === c)?.name ?? c).join("، ") }); }
+  }
 
   const groups: string[] = [], subtypes: string[] = [];
-  if (route === "investor" || route === "contractor")
+  if (route === "investor" || route === "contractor" || route === "heritage" || route === "operator")
     for (const [re, g, s] of groupWords) if (re.test(t)) { if (!groups.includes(g)) groups.push(g); if (s && !subtypes.includes(s)) subtypes.push(s); }
   if (groups.length) understood.push({ label: "گروه پروژه", value: groups.map((g) => projectGroups.find((x) => x.id === g)!.name).join("، ") });
   if (subtypes.length) { filters.subtypes = subtypes; understood.push({ label: "نوع", value: subtypes.map((s) => projectGroups.flatMap((g) => g.subtypes).find((x) => x.id === s)!.name).join("، ") }); }
 
   const provs = new Set<string>();
   for (const p of provinces) if (t.includes(p)) provs.add(p);
-  for (const c of Object.keys(cityCoords)) if (t.includes(c) && cityProvince[c]) provs.add(cityProvince[c]);
+  const cities = Object.keys(cityCoords).filter((c) => t.includes(c) && cityProvince[c]);
+  for (const c of cities) provs.add(cityProvince[c]);
   if (provs.size) understood.push({ label: "استان", value: [...provs].join("، ") });
+  // نام شهری که با نام استان یکی نیست، فیلتر شهر هم می‌شود (مثل شیراز یا کاشان)
+  const onlyCities = cities.filter((c) => !(provinces as readonly string[]).includes(c));
+  if (onlyCities.length) { filters.cities = onlyCities; understood.push({ label: "شهر", value: onlyCities.join("، ") }); }
 
   let amount: [number, number] | null = null;
   const m = /(\d+(?:\.\d+)?)\s*(میلیارد|میلیون)/.exec(t);
@@ -50,7 +63,7 @@ export function readPrompt(text: string): AssistantReading {
     understood.push({ label: "مبلغ", value: `تا ${m[1].replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[+d])} ${m[2]} تومان` });
   }
   const y = /(\d+)\s*سال/.exec(t);
-  if (y && route === "investor") { filters.horizon = +y[1]; understood.push({ label: "افق بازگشت", value: `تا ${y[1].replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[+d])} سال` }); }
+  if (y && (route === "investor" || route === "heritage")) { filters.horizon = +y[1]; understood.push({ label: "افق بازگشت", value: `تا ${y[1].replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[+d])} سال` }); }
   const pct = /(\d+)\s*(?:درصد|٪|%)/.exec(t);
   if (pct) { filters[route === "fund" ? "fundReturnMin" : "irrMin"] = +pct[1]; understood.push({ label: "حداقل بازده", value: `${pct[1].replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[+d])}٪ سالانه` }); }
   const r = /ریسک\s*(کم|پایین|متوسط|زیاد|بالا)|(کم‌ریسک|کم ریسک)/.exec(t);
