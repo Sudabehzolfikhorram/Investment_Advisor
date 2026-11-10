@@ -1,4 +1,6 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { MotionButton } from "@/components/motion-button";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -66,7 +68,7 @@ export function Categories() {
         {projectGroups.map((g, i) => {
           const I = groupIcons[g.id]; const big = i === 0;
           return (
-            <motion.button key={g.id} type="button" onClick={() => { setCriteria({ ...emptyCriteria, groups: [g.id] }); router.push("/opportunities"); }}
+            <MotionButton variant="plain" size="auto" key={g.id} type="button" onClick={() => { setCriteria({ ...emptyCriteria, groups: [g.id] }); router.push("/opportunities"); }}
               initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ duration: 0.6, delay: (i % 4) * 0.07, ease: [0.22, 1, 0.36, 1] }}
               className={cn("group relative overflow-hidden rounded-[1.75rem] text-right", span[i])}>
               <SignaturePhoto src={g.image ?? "/images/hero/field.jpg"} alt={g.name} className="absolute inset-0" sizes="(max-width:768px) 50vw, 40vw" />
@@ -81,7 +83,7 @@ export function Categories() {
                 </span>
                 <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-ink transition-transform duration-300 group-hover:-translate-x-1 group-hover:bg-sand"><ArrowLeft size={18} /></span>
               </span>
-            </motion.button>
+            </MotionButton>
           );
         })}
       </div>
@@ -101,7 +103,7 @@ export function Routes() {
         {routes.map((r, i) => {
           const I = routeIcons[r.id]; const n = forRoute(listings, r.id).length;
           return (
-            <motion.button key={r.id} type="button" onClick={() => { setCriteria({ ...emptyCriteria, route: r.id }); router.push("/opportunities"); }}
+            <MotionButton variant="plain" size="auto" key={r.id} type="button" onClick={() => { setCriteria({ ...emptyCriteria, route: r.id }); router.push("/opportunities"); }}
               initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ duration: 0.55, delay: (i % 4) * 0.06 }}
               className={cn("group glass relative flex flex-col gap-4 overflow-hidden rounded-[1.75rem] p-5 text-right transition-all duration-300 hover:-translate-y-1", i === 0 && "!bg-none !bg-deep text-white")}>
               <span className="flex items-center justify-between">
@@ -115,7 +117,7 @@ export function Routes() {
               <span className={cn("mt-auto flex items-center justify-between border-t border-dashed pt-3 text-xs font-bold", i === 0 ? "border-white/20 text-sand" : "border-border text-primary")}>
                 {n ? `${faNumber(n)} مورد` : "به‌زودی"}<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
               </span>
-            </motion.button>
+            </MotionButton>
           );
         })}
       </div>
@@ -145,18 +147,18 @@ export function MapSection() {
             <SectionHead light kicker="محدوده" title="روی نقشه انتخاب کنید کجا سرمایه‌گذاری می‌کنید." text="هر نود یک شهر دارای پروژه است. روی نود یا نام استان بزنید؛ چند استان را می‌توانید با هم انتخاب کنید." />
             <Reveal delay={0.1} className="mt-7 flex flex-wrap gap-2">
               {byProvince.map(([p, n]) => (
-                <button key={p} type="button" aria-pressed={active.includes(p)} onClick={() => toggle(p)}
+                <Button variant="plain" size="auto" key={p} type="button" aria-pressed={active.includes(p)} onClick={() => toggle(p)}
                   className={cn("inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-[13px] font-bold transition-all", active.includes(p) ? "border-sand bg-sand text-ink" : "border-white/15 bg-white/[0.06] text-white/85 hover:border-white/40")}>
                   {p}<span className={cn("text-[11px]", active.includes(p) ? "text-ink/70" : "text-white/50")}>{faNumber(n)}</span>
-                </button>
+                </Button>
               ))}
             </Reveal>
             <Reveal delay={0.15} className="mt-8">
-              <button type="button" onClick={() => { setCriteria({ ...emptyCriteria, provinces: active }); router.push("/opportunities"); }}
+              <Button variant="plain" size="auto" type="button" onClick={() => { setCriteria({ ...emptyCriteria, provinces: active }); router.push("/opportunities"); }}
                 className="group inline-flex h-14 items-center gap-3 rounded-full bg-white pl-2 pr-6 font-extrabold text-ink transition-colors hover:bg-sand">
                 نمایش {faNumber(total)} پروژه {active.length ? "در استان‌های انتخابی" : "در همه ایران"}
                 <span className="grid size-10 place-items-center rounded-full bg-ink text-white transition-transform group-hover:-translate-x-1"><ArrowLeft size={18} /></span>
-              </button>
+              </Button>
             </Reveal>
           </div>
           <Reveal y={0} className="relative">
@@ -280,7 +282,7 @@ export function SaveCta() {
           </div>
           <div className="flex shrink-0 flex-wrap gap-3">
             <Link href="/opportunities" className="inline-flex h-14 items-center gap-2 rounded-full bg-primary px-7 font-extrabold text-white transition-colors hover:bg-deep">دیدن پروژه‌ها <ArrowLeft size={18} /></Link>
-            {!user && <button type="button" onClick={() => openLogin()} className="inline-flex h-14 items-center rounded-full border border-ink/15 px-7 font-extrabold text-ink transition-colors hover:border-primary hover:text-primary">ورود با موبایل</button>}
+            {!user && <Button variant="plain" size="auto" type="button" onClick={() => openLogin()} className="inline-flex h-14 items-center rounded-full border border-ink/15 px-7 font-extrabold text-ink transition-colors hover:border-primary hover:text-primary">ورود با موبایل</Button>}
           </div>
         </div>
       </Reveal>

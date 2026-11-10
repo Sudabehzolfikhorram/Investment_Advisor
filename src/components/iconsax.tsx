@@ -6,7 +6,7 @@ import type { Icon, IconProps } from "iconsax-react";
 export type { Icon };
 
 const wrap = (C: Icon): Icon => {
-  const W = forwardRef<SVGSVGElement, IconProps>(({ variant = "Linear", color = "currentColor", size = 24, ...rest }, ref) => <C ref={ref} variant={variant} color={color} size={size} {...rest} />);
+  const W = forwardRef<SVGSVGElement, IconProps>(({ variant = "Linear", color = "currentColor", size = 24, className, ...rest }, ref) => <C ref={ref} variant={variant} color={color} size={size} className={`icon-size-prop ${className ?? ""}`} {...rest} />);
   W.displayName = "Iconsax";
   return W as unknown as Icon;
 };
@@ -37,6 +37,7 @@ export const Key = wrap(I.Key);
 export const Location = wrap(I.Location);
 export const Lock1 = wrap(I.Lock1);
 export const Login = wrap(I.Login);
+export const Logout = wrap(I.Logout);
 export const Lovely = wrap(I.Lovely);
 export const MagicStar = wrap(I.MagicStar);
 export const Map1 = wrap(I.Map1);

@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArchiveTick, Login, MagicStar, ProfileCircle } from "@/components/iconsax";
+import { ArchiveTick, Login, Logout, MagicStar, ProfileCircle } from "@/components/iconsax";
 import { Logo } from "@/components/brand/algo-pattern";
 import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useHydrated, useStore } from "@/lib/store";
 import { cn, faDigits, faNumber } from "@/lib/utils";
 
@@ -33,9 +34,18 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
             ))}
           </ul>
           {hydrated && user ? (
-            <button onClick={logout} title="خروج" className={cn("flex h-10 items-center gap-2 rounded-full px-4 text-sm font-bold", overlay ? "bg-white text-ink" : "bg-ink text-white")}>
-              <ProfileCircle size={20} variant="Bulk" /><span dir="ltr">{faDigits(user.mobile)}</span>
-            </button>
+            <DropdownMenu dir="rtl">
+              <DropdownMenuTrigger asChild>
+                <Button variant="plain" size="auto" className={cn("h-10 rounded-full px-4 text-sm font-bold", overlay ? "bg-white text-ink" : "bg-ink text-white")}>
+                  <ProfileCircle size={20} variant="Bulk" /><span dir="ltr">{faDigits(user.mobile)}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-52 rounded-2xl p-1.5">
+                <DropdownMenuItem asChild className="rounded-xl"><Link href="/saved"><ArchiveTick size={17} variant="Bulk" />ذخیره‌شده‌ها</Link></DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onSelect={logout} variant="destructive" className="rounded-xl"><Logout size={17} />خروج</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <Button onClick={() => openLogin()} className={cn("h-10 rounded-full px-5 font-bold", overlay ? "bg-white text-ink hover:bg-white/90" : "bg-ink text-white hover:bg-ink/90")}>
               <Login size={18} /> ورود

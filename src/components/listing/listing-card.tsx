@@ -1,8 +1,11 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { toast } from "sonner";
 import { ArchiveAdd, ArchiveTick, ArrowLeft, Location, TickCircle, CloseCircle, InfoCircle } from "@/components/iconsax";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { SignaturePhoto } from "./signature-photo";
 import { MatchRing } from "@/components/brand/reveal";
 import { useHydrated, useStore } from "@/lib/store";
@@ -15,14 +18,14 @@ export function SaveButton({ id, className, label }: { id: string; className?: s
   const hydrated = useHydrated();
   const on = hydrated && saved.includes(id);
   return (
-    <button type="button" aria-pressed={on} aria-label={on ? "حذف از ذخیره‌شده‌ها" : "ذخیره پروژه"}
+    <Button variant="plain" size="auto" type="button" aria-pressed={on} aria-label={on ? "حذف از ذخیره‌شده‌ها" : "ذخیره پروژه"}
       onClick={(e) => { e.preventDefault(); e.stopPropagation();
         if (!user) return openLogin({ type: "save-listing", id });
         toggleSaved(id); toast(on ? "از ذخیره‌شده‌ها حذف شد." : "در ذخیره‌شده‌ها قرار گرفت."); }}
       className={cn("inline-flex items-center justify-center gap-2 rounded-full transition-all active:scale-95", label ? "h-12 px-5 font-bold" : "size-10", on ? "bg-sand text-ink" : "glass-dark text-white hover:bg-white/25", className)}>
       {on ? <ArchiveTick size={20} variant="Bold" /> : <ArchiveAdd size={20} />}
       {label && <span>{on ? "ذخیره شد" : "ذخیره پروژه"}</span>}
-    </button>
+    </Button>
   );
 }
 
@@ -39,18 +42,19 @@ export function Reasons({ reasons, className }: { reasons: MatchReason[]; classN
 
 export function ListingCard({ listing: l, score, reasons, index = 0 }: { listing: Listing; score?: number; reasons?: MatchReason[]; index?: number }) {
   return (
-    <motion.article layout initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ duration: 0.55, delay: Math.min(index, 6) * 0.06, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative flex flex-col overflow-hidden rounded-[1.75rem] bg-white shadow-[0_1px_0_#fff_inset,0_20px_50px_-30px_rgb(8_63_59/0.35)] ring-1 ring-black/[0.04] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_30px_70px_-30px_rgb(8_63_59/0.5)]">
+    <motion.article layout className="h-full" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ duration: 0.55, delay: Math.min(index, 6) * 0.06, ease: [0.22, 1, 0.36, 1] }}
+>
+      <Card className="group relative h-full gap-0 overflow-hidden rounded-[1.75rem] border-0 bg-white py-0 shadow-[0_1px_0_#fff_inset,0_20px_50px_-30px_rgb(8_63_59/0.35)] ring-1 ring-black/[0.04] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_30px_70px_-30px_rgb(8_63_59/0.5)]">
       <Link href={`/opportunities/${l.id}`} className="absolute inset-0 z-10" aria-label={l.title} />
       <SignaturePhoto src={l.image} alt={l.title} className="m-2 aspect-[16/10] rounded-[1.35rem]">
         <div className="absolute inset-x-3 top-3 z-20 flex flex-row-reverse items-start justify-end gap-2">
-          {isNew(l) && <span className="rounded-full bg-sand px-2.5 py-1 text-[11px] font-extrabold text-ink">جدید</span>}
+          {isNew(l) && <Badge className="bg-sand px-2.5 py-1 text-[11px] font-extrabold text-ink">جدید</Badge>}
           <SaveButton id={l.id} />
         </div>
         <div className="absolute inset-x-4 bottom-3 flex items-end justify-between gap-3 text-white">
           <div className="min-w-0">
             {l.city && <p className="mb-1 flex items-center gap-1 text-xs font-semibold text-white/85"><Location size={14} variant="Bold" />{l.province}، {l.city}</p>}
-            <div className="flex flex-wrap gap-1.5">{l.tags.map((t) => <span key={t} className="glass-dark rounded-full px-2.5 py-0.5 text-[11px] font-bold">{t}</span>)}</div>
+            <div className="flex flex-wrap gap-1.5">{l.tags.map((t) => <Badge key={t} variant="outline" className="glass-dark px-2.5 text-[11px] font-bold text-white">{t}</Badge>)}</div>
           </div>
           {score != null && <span className="rounded-full bg-deep/60 p-0.5 backdrop-blur"><MatchRing score={score} light /></span>}
         </div>
@@ -65,6 +69,7 @@ export function ListingCard({ listing: l, score, reasons, index = 0 }: { listing
         {reasons && <Reasons reasons={reasons} />}
         <span className="mt-auto inline-flex items-center gap-1.5 text-sm font-bold text-primary">مشاهده جزئیات <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></span>
       </div>
+      </Card>
     </motion.article>
   );
 }

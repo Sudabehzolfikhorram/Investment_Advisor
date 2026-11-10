@@ -1,8 +1,10 @@
 "use client";
+import { Button } from "@/components/ui/button";
 // فیلتر پیشرفته کنار نتایج. همه فیلدهای اختیاری از data/fields.ts خوانده می‌شوند.
-import { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { ArrowDown2, Refresh2, Setting4 } from "@/components/iconsax";
+import { useMemo } from "react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { Refresh2, Setting4 } from "@/components/iconsax";
 import { advancedFields, advancedSections, profileFields } from "@/data/fields";
 import { routes, routeSubcategories } from "@/data/routes";
 import { projectGroups } from "@/data/taxonomy";
@@ -29,22 +31,14 @@ function visible(f: FieldDef, route: RouteId, filters: Record<string, FilterValu
   return true;
 }
 
-function Section({ title, count, defaultOpen = true, children }: { title: string; count: number; defaultOpen?: boolean; children: React.ReactNode }) {
-  const [open, setOpen] = useState(defaultOpen);
+function Section({ id, title, count, children }: { id: string; title: string; count: number; children: React.ReactNode }) {
   return (
-    <div className="border-b border-border/70 last:border-0">
-      <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} className="flex w-full items-center justify-between py-4 text-right">
-        <span className="flex items-center gap-2 text-[15px] font-extrabold text-ink">{title}{count > 0 && <span className="grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1 text-[11px] font-bold text-white">{faNumber(count)}</span>}</span>
-        <ArrowDown2 size={16} className={cn("text-muted-foreground transition-transform duration-300", open && "rotate-180")} />
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden">
-            <div className="space-y-5 pb-5">{children}</div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+    <AccordionItem value={id} className="border-border/70">
+      <AccordionTrigger className="items-center py-4 text-right text-[15px] font-extrabold text-ink hover:no-underline">
+        <span className="flex items-center gap-2">{title}{count > 0 && <Badge className="h-5 min-w-5 px-1 text-[11px] font-bold">{faNumber(count)}</Badge>}</span>
+      </AccordionTrigger>
+      <AccordionContent className="space-y-5 px-0.5 pb-5">{children}</AccordionContent>
+    </AccordionItem>
   );
 }
 
@@ -66,7 +60,7 @@ function ReturnSentence({ yearKey, pctKey, maxPct }: { yearKey?: string; pctKey:
       )}
       <label className="mt-4 block"><span className="mb-2 block text-[11px] font-semibold text-muted-foreground">بازده سالانه (درصد)</span>
         <Slider dir="rtl" min={0} max={maxPct} value={[p ?? 0]} onValueChange={(v) => setFilter(pctKey, v[0] || undefined)} className={cn(!p && "opacity-50")} /></label>
-      {(y != null || !!p) && <button type="button" onClick={() => { if (yearKey) setFilter(yearKey, undefined); setFilter(pctKey, undefined); }} className="mt-3 text-xs font-semibold text-muted-foreground hover:text-destructive">حذف این شرط</button>}
+      {(y != null || !!p) && <Button variant="plain" size="auto" type="button" onClick={() => { if (yearKey) setFilter(yearKey, undefined); setFilter(pctKey, undefined); }} className="mt-3 text-xs font-semibold text-muted-foreground hover:text-destructive">حذف این شرط</Button>}
     </div>
   );
 }
@@ -105,16 +99,17 @@ export function AdvancedFilter({ className }: { className?: string }) {
     <div className={className}>
       <div className="flex items-center justify-between pb-2">
         <h2 className="flex items-center gap-2 text-lg font-black text-ink"><Setting4 size={20} variant="Bulk" className="text-primary" />فیلتر پیشرفته</h2>
-        {total > 0 && <button type="button" onClick={resetFilters} className="flex items-center gap-1 text-xs font-bold text-muted-foreground hover:text-destructive"><Refresh2 size={14} />پاک کردن ({faNumber(total)})</button>}
+        {total > 0 && <Button variant="ghost" size="xs" type="button" onClick={resetFilters} className="font-bold text-muted-foreground hover:text-destructive"><Refresh2 size={14} />پاک کردن ({faNumber(total)})</Button>}
       </div>
       <p className="pb-2 text-xs leading-6 text-muted-foreground">همه موارد اختیاری‌اند. با هر تغییر، نتایج همان لحظه به‌روز می‌شود.</p>
 
+      <Accordion key={route.id} type="multiple" defaultValue={advancedSections.filter((s) => !("collapsed" in s && s.collapsed)).map((s) => s.id)}>
       {advancedSections.map((s) => {
         const list = fields.filter((x) => x.section === s.id);
         const isAmount = s.id === "amount";
         if (!list.length && !(isAmount && route.amount)) return null;
         return (
-          <Section key={s.id + route.id} title={s.name} count={activeIn(list) + (isAmount && criteria.amount ? 1 : 0)} defaultOpen={!("collapsed" in s && s.collapsed)}>
+          <Section key={s.id} id={s.id} title={s.name} count={activeIn(list) + (isAmount && criteria.amount ? 1 : 0)}>
             {isAmount && route.amount && (
               <div><p className="mb-2 text-[13px] font-bold text-ink/80">{route.amount.label}</p>
                 <RangeField min={route.amount.min} max={route.amount.max} step={route.amount.step} unit={route.amount.unit} value={criteria.amount ?? undefined} onChange={(v) => setCriteria({ amount: v })} presets={amountPresets(route.amount.min, route.amount.max)} /></div>
@@ -126,11 +121,12 @@ export function AdvancedFilter({ className }: { className?: string }) {
         );
       })}
       {profile.length > 0 && (
-        <Section title="اطلاعات تکمیلی شما" count={activeIn(profile)} defaultOpen={false}>
+        <Section id="profile" title="اطلاعات تکمیلی شما" count={activeIn(profile)}>
           <p className="text-xs leading-6 text-muted-foreground">یک‌بار وارد می‌کنید و همراه شرایط ذخیره می‌شود.</p>
           {profile.map(row)}
         </Section>
       )}
+      </Accordion>
     </div>
   );
 }

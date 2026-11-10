@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 // صفحه جزئیات: روایت پروژه به‌جای متن پشت‌سرهم — عدد، خط زمان، مسیر پول، گام‌ها، نقشه و کارشناس.
 import Link from "next/link";
 import { motion } from "motion/react";
@@ -7,6 +8,8 @@ import {
   ArrowRight, Call, Copy, DocumentDownload, Location, Warning2, ShieldSearch, WalletMoney, MoneyRecive, Key,
   Timer1, Lock1, Chart, Calendar, Building, TickCircle, InfoCircle, type Icon,
 } from "@/components/iconsax";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Header, Footer } from "@/components/site/header";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { IranMap } from "@/components/brand/iran-map";
@@ -15,6 +18,7 @@ import { SignaturePhoto } from "./signature-photo";
 import { ListingCard, SaveButton } from "./listing-card";
 import { listingById, listings, payoutLabel } from "@/lib/listings";
 import { projectGroups } from "@/data/taxonomy";
+import { withBase } from "@/lib/image-loader";
 import { routes } from "@/data/routes";
 import type { Fund, Listing, Opportunity, SaleItem } from "@/types";
 import { cn, faNumber, formatMobile, incomeLabel, legalLabel, riskLabel } from "@/lib/utils";
@@ -36,14 +40,14 @@ function Chapter({ n, title, children, className }: { n: number; title: string; 
 
 function Tile({ I, label, value, sub, accent }: { I: Icon; label: string; value: string; sub?: string; accent?: boolean }) {
   return (
-    <div className={cn("flex flex-col gap-3 rounded-[1.5rem] p-4 sm:p-5", accent ? "bg-deep text-white" : "glass")}>
+    <Card className={cn("gap-3 rounded-[1.5rem] border-0 p-4 shadow-none sm:p-5", accent ? "bg-deep text-white" : "glass")}>
       <span className={cn("grid size-10 place-items-center rounded-xl", accent ? "bg-white/10 text-sand" : "bg-primary/10 text-primary")}><I size={20} variant="Bulk" /></span>
       <span>
         <span className={cn("block text-xs font-semibold", accent ? "text-white/65" : "text-muted-foreground")}>{label}</span>
         <span className="mt-1 block text-xl font-black leading-8 sm:text-2xl">{value}</span>
         {sub && <span className={cn("block text-[11px] font-semibold", accent ? "text-white/60" : "text-muted-foreground")}>{sub}</span>}
       </span>
-    </div>
+    </Card>
   );
 }
 
@@ -148,13 +152,13 @@ function Contact({ l }: { l: Listing }) {
             <span dir="ltr" className="text-lg font-black tracking-wide">{formatMobile(expert.mobile)}</span>
             <span className="grid size-10 place-items-center rounded-full bg-primary text-white"><Call size={18} variant="Bold" /></span>
           </a>
-          <button type="button" onClick={() => { navigator.clipboard?.writeText(expert.mobile); toast("شماره کپی شد."); }} className="relative mt-2 flex w-full items-center justify-center gap-1.5 py-2 text-xs font-semibold text-white/70 hover:text-white"><Copy size={14} />کپی شماره</button>
+          <Button variant="plain" size="auto" type="button" onClick={() => { navigator.clipboard?.writeText(expert.mobile); toast("شماره کپی شد."); }} className="relative mt-2 flex w-full items-center justify-center gap-1.5 py-2 text-xs font-semibold text-white/70 hover:text-white"><Copy size={14} />کپی شماره</Button>
         </>
       ) : (
         <>
           <p className="relative text-xs font-bold text-sand">فایل راهنمای پروژه</p>
           <p className="relative mt-3 text-[15px] font-semibold leading-7 text-white/85">برای این پروژه به‌جای کارشناس، فایل راهنما آماده شده است.</p>
-          <a href={guide!} download className="relative mt-5 flex h-14 items-center justify-between rounded-full bg-white pl-2 pr-5 font-extrabold text-ink transition-colors hover:bg-sand">
+          <a href={withBase(guide!)} download className="relative mt-5 flex h-14 items-center justify-between rounded-full bg-white pl-2 pr-5 font-extrabold text-ink transition-colors hover:bg-sand">
             دانلود فایل راهنما<span className="grid size-10 place-items-center rounded-full bg-primary text-white"><DocumentDownload size={18} variant="Bold" /></span>
           </a>
         </>
@@ -196,8 +200,8 @@ export function Detail({ id }: { id: string }) {
             <div className="absolute right-5 top-5 z-10"><SaveButton id={l.id} className="size-12" /></div>
             <div className="absolute inset-x-5 bottom-6 text-white sm:inset-x-10 sm:bottom-10">
               <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="flex flex-wrap gap-2">
-                {l.tags.map((t) => <span key={t} className="glass-dark rounded-full px-3.5 py-1.5 text-xs font-bold">{t}</span>)}
-                {o && <span className="rounded-full bg-sand px-3.5 py-1.5 text-xs font-extrabold text-ink">{o.stage}</span>}
+                {l.tags.map((t) => <Badge key={t} variant="outline" className="glass-dark px-3.5 py-1.5 font-bold text-white">{t}</Badge>)}
+                {o && <Badge className="bg-sand px-3.5 py-1.5 font-extrabold text-ink">{o.stage}</Badge>}
               </motion.div>
               <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.8, ease }} className="mt-4 max-w-4xl text-3xl font-black leading-[1.35] text-balance sm:text-5xl sm:leading-[1.3]">{l.title}</motion.h1>
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm font-semibold text-white/80">

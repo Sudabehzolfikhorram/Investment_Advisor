@@ -1,47 +1,55 @@
 "use client";
-// کنترل‌های ورودی ساده و کم‌کلیک؛ هم در فرم پایه و هم در فیلتر پیشرفته استفاده می‌شوند.
+// کنترل‌های ورودی ساده و کم‌کلیک؛ همه بر پایه کامپوننت‌های shadcn/ui.
 import { useState } from "react";
 import { TickCircle, ArrowDown2 } from "@/components/iconsax";
+import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Toggle } from "@/components/ui/toggle";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import type { FieldDef, FieldOption, FilterValue } from "@/types";
 import { cn, faNumber } from "@/lib/utils";
 
+const pill = "h-auto min-w-0 rounded-full border border-border bg-white/70 px-3.5 py-1.5 text-[13px] font-semibold text-ink/75 shadow-none transition-all duration-200 hover:border-primary/40 hover:bg-white hover:text-primary data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-white data-[state=on]:shadow-[0_8px_20px_-10px_var(--primary)]";
+
 export function Chip({ active, children, onClick, className }: { active?: boolean; children: React.ReactNode; onClick?: () => void; className?: string }) {
+  return <Toggle pressed={!!active} onPressedChange={() => onClick?.()} className={cn(pill, "gap-1.5", className)}>{children}</Toggle>;
+}
+
+/** چندانتخابی: دکمه‌های کنار هم */
+export function Chips({ options, value, onChange }: { options: FieldOption[]; value: string[] | undefined; onChange: (v: string[]) => void }) {
   return (
-    <button type="button" aria-pressed={active} onClick={onClick}
-      className={cn("inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[13px] font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-        active ? "border-primary bg-primary text-white shadow-[0_8px_20px_-10px_var(--primary)]" : "border-border bg-white/70 text-ink/75 hover:border-primary/40 hover:text-primary", className)}>
-      {children}
-    </button>
+    <ToggleGroup type="multiple" spacing={2} value={value ?? []} onValueChange={onChange} className="w-full flex-wrap">
+      {options.map((o) => <ToggleGroupItem key={o.value} value={o.value} className={pill}>{o.label}</ToggleGroupItem>)}
+    </ToggleGroup>
   );
 }
 
-export function Chips({ options, value, onChange, multi }: { options: FieldOption[]; value: string | string[] | undefined; onChange: (v: string | string[] | undefined) => void; multi?: boolean }) {
-  const arr = multi ? ((value as string[]) ?? []) : [];
-  return (
-    <div className="flex flex-wrap gap-2">
-      {options.map((o) => {
-        const on = multi ? arr.includes(o.value) : value === o.value;
-        return <Chip key={o.value} active={on} onClick={() => onChange(multi ? (on ? arr.filter((x) => x !== o.value) : [...arr, o.value]) : on ? undefined : o.value)}>{o.label}</Chip>;
-      })}
-    </div>
-  );
-}
-
+/** تک‌انتخابی کوتاه (تا چهار گزینه) */
 export function Segmented({ options, value, onChange }: { options: FieldOption[]; value: string | undefined; onChange: (v: string | undefined) => void }) {
   return (
-    <div className="grid auto-cols-fr grid-flow-col rounded-full bg-muted p-1">
-      {options.map((o) => (
-        <button key={o.value} type="button" aria-pressed={value === o.value} onClick={() => onChange(value === o.value ? undefined : o.value)}
-          className={cn("rounded-full px-2 py-1.5 text-[13px] font-semibold transition-all", value === o.value ? "bg-white text-primary shadow-sm" : "text-ink/60 hover:text-ink")}>
-          {o.label}
-        </button>
-      ))}
-    </div>
+    <ToggleGroup type="single" spacing={1} value={value ?? ""} onValueChange={(v) => onChange(v || undefined)} className="grid w-full auto-cols-fr grid-flow-col rounded-full bg-muted p-1">
+      {options.map((o) => <ToggleGroupItem key={o.value} value={o.value} className="h-auto rounded-full px-2 py-1.5 text-[13px] font-semibold text-ink/60 hover:bg-transparent hover:text-ink data-[state=on]:bg-white data-[state=on]:text-primary data-[state=on]:shadow-sm">{o.label}</ToggleGroupItem>)}
+    </ToggleGroup>
+  );
+}
+
+/** تک‌انتخابی بلند: دراپ‌داون */
+export function Dropdown({ options, value, onChange, placeholder = "انتخاب کنید" }: { options: FieldOption[]; value: string | undefined; onChange: (v: string | undefined) => void; placeholder?: string }) {
+  return (
+    <Select dir="rtl" value={value ?? ""} onValueChange={(v) => onChange(v === "__none" ? undefined : v)}>
+      <SelectTrigger className="h-11 w-full rounded-2xl bg-white/70 px-3.5 font-semibold data-[size=default]:h-11"><SelectValue placeholder={placeholder} /></SelectTrigger>
+      <SelectContent className="rounded-2xl">
+        {value && <SelectItem value="__none" className="rounded-xl text-muted-foreground">بدون انتخاب</SelectItem>}
+        {options.map((o) => <SelectItem key={o.value} value={o.value} className="rounded-xl">{o.label}</SelectItem>)}
+      </SelectContent>
+    </Select>
   );
 }
 
@@ -66,9 +74,9 @@ export function RangeField({ min, max, step = 1, unit, value, onChange, presets 
 export function SliderField({ min = 0, max = 100, step = 1, unit, value, onChange }: { min?: number; max?: number; step?: number; unit?: string; value: number | undefined; onChange: (v: number | undefined) => void }) {
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between text-sm">
+      <div className="flex h-6 items-center justify-between text-sm">
         <span className={cn("font-extrabold", value == null ? "text-muted-foreground" : "text-ink")}>{value == null ? "انتخاب نشده" : `${faNumber(value)} ${unit ?? ""}`}</span>
-        {value != null && <button type="button" onClick={() => onChange(undefined)} className="text-xs text-muted-foreground hover:text-destructive">حذف</button>}
+        {value != null && <Button type="button" variant="ghost" size="xs" onClick={() => onChange(undefined)} className="text-muted-foreground hover:text-destructive">حذف</Button>}
       </div>
       <Slider dir="rtl" min={min} max={max} step={step} value={[value ?? min]} onValueChange={(x) => onChange(x[0])} className={cn(value == null && "opacity-50")} />
     </div>
@@ -80,12 +88,12 @@ export function MultiCombobox({ options, value, onChange, placeholder, empty = "
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <button type="button" className="flex min-h-11 w-full items-center justify-between gap-2 rounded-2xl border border-border bg-white/70 px-3.5 py-2 text-right text-sm">
+        <Button type="button" variant="outline" role="combobox" aria-expanded={open} className="h-auto min-h-11 w-full justify-between gap-2 whitespace-normal rounded-2xl bg-white/70 px-3.5 py-2 text-right font-normal shadow-none">
           <span className={cn("flex flex-wrap gap-1.5", !value.length && "text-muted-foreground")}>
-            {value.length ? value.map((v) => <span key={v} className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-bold text-primary">{options.find((o) => o.value === v)?.label ?? v}</span>) : placeholder}
+            {value.length ? value.map((v) => <Badge key={v} variant="secondary" className="bg-primary/10 px-2.5 font-bold text-primary">{options.find((o) => o.value === v)?.label ?? v}</Badge>) : placeholder}
           </span>
           <ArrowDown2 size={16} className="shrink-0 text-muted-foreground" />
-        </button>
+        </Button>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-(--radix-popover-trigger-width) min-w-60 rounded-2xl p-0">
         <ComboList options={options} value={value} onChange={onChange} placeholder="جست‌وجو…" empty={empty} />
@@ -120,14 +128,14 @@ export function ComboList({ options, value, onChange, placeholder, empty }: { op
 export function FieldControl({ field, value, onChange, options }: { field: FieldDef; value: FilterValue; onChange: (v: FilterValue) => void; options?: FieldOption[] }) {
   const opts = options ?? field.options ?? [];
   switch (field.control) {
-    case "chips": return <Chips options={opts} value={value as string} onChange={onChange} />;
-    case "multi-chips": return <Chips multi options={opts} value={value as string[]} onChange={onChange} />;
+    case "chips": return opts.length > 4 ? <Dropdown options={opts} value={value as string} onChange={onChange} /> : <Segmented options={opts} value={value as string} onChange={onChange} />;
     case "segmented": return <Segmented options={opts} value={value as string} onChange={onChange} />;
+    case "multi-chips": return opts.length > 8 ? <MultiCombobox options={opts} value={(value as string[]) ?? []} onChange={onChange} placeholder="انتخاب کنید" /> : <Chips options={opts} value={value as string[]} onChange={onChange} />;
     case "multi-combobox": return <MultiCombobox options={opts} value={(value as string[]) ?? []} onChange={onChange} placeholder="انتخاب کنید" />;
     case "range": return <RangeField min={field.min ?? 0} max={field.max ?? 100} step={field.step} unit={field.unit} value={value as [number, number]} onChange={onChange} />;
     case "slider": return <SliderField min={field.min} max={field.max} step={field.step} unit={field.unit} value={value as number} onChange={onChange} />;
     case "switch": return <Switch dir="rtl" checked={value === true} onCheckedChange={(c) => onChange(c || undefined)} />;
-    case "textarea": return <textarea value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value || undefined)} rows={2} className="w-full rounded-2xl border border-border bg-white/70 px-3.5 py-2.5 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring" />;
+    case "textarea": return <Textarea value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value || undefined)} rows={2} className="rounded-2xl bg-white/70" />;
     default: return <Input value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value || undefined)} className="h-11 rounded-2xl bg-white/70" />;
   }
 }

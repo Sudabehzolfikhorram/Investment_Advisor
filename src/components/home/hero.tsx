@@ -1,10 +1,13 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowLeft, MagicStar, Setting4 } from "@/components/iconsax";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
 import { Header } from "@/components/site/header";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { IranMap } from "@/components/brand/iran-map";
@@ -12,7 +15,6 @@ import { MatchRing } from "@/components/brand/reveal";
 import { SearchBar } from "@/components/search/search-bar";
 import { listings } from "@/lib/listings";
 import { samplePrompts } from "@/lib/assistant";
-import { cn } from "@/lib/utils";
 
 export function cityPoints() {
   const m = new Map<string, { city: string; province: string; count: number }>();
@@ -74,16 +76,15 @@ export function Hero() {
 
       {/* فرم پایه یا دستیار؛ روی لبه پایین هیرو می‌نشیند */}
       <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.45, ease }} className="relative z-10 mx-auto -mt-32 max-w-6xl px-3 sm:px-6 md:-mt-28">
-        <div className="mb-3 flex justify-center md:justify-start">
-          <div className="glass-dark inline-flex rounded-full p-1 text-sm font-bold text-white">
+        <Tabs dir="rtl" value={mode} onValueChange={(v) => setMode(v as "form" | "assistant")} className="mb-3 items-center md:items-start">
+          <TabsList className="glass-dark h-auto rounded-full p-1 group-data-[orientation=horizontal]/tabs:h-auto">
             {([["form", "شرایط من", Setting4], ["assistant", "از دستیار بپرس", MagicStar]] as const).map(([k, label, I]) => (
-              <button key={k} type="button" onClick={() => setMode(k)} aria-pressed={mode === k} className={cn("relative flex items-center gap-1.5 rounded-full px-4 py-2 transition-colors", mode === k ? "text-ink" : "text-white/85 hover:text-white")}>
-                {mode === k && <motion.span layoutId="hero-tab" className="absolute inset-0 rounded-full bg-white" transition={{ type: "spring", duration: 0.5, bounce: 0.15 }} />}
-                <I size={17} variant="Bulk" className="relative" /><span className="relative">{label}</span>
-              </button>
+              <TabsTrigger key={k} value={k} className="h-auto gap-1.5 rounded-full border-0 px-4 py-2 text-sm font-bold text-white/85 hover:text-white data-[state=active]:bg-white data-[state=active]:text-ink data-[state=active]:shadow-none">
+                <I size={17} variant="Bulk" />{label}
+              </TabsTrigger>
             ))}
-          </div>
-        </div>
+          </TabsList>
+        </Tabs>
         <AnimatePresence mode="wait">
           {mode === "form" ? (
             <motion.div key="form" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}><SearchBar /></motion.div>
@@ -91,11 +92,11 @@ export function Hero() {
             <motion.form key="assistant" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }} onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) go(prompt); }} className="glass-strong rounded-[2rem] p-3">
               <div className="flex flex-col gap-2 md:flex-row md:items-center">
                 <span className="hidden size-12 shrink-0 place-items-center rounded-full bg-primary/10 text-primary md:grid"><MagicStar size={24} variant="Bulk" /></span>
-                <input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="شرایط خود را بنویسید؛ مثلاً: ۳۰ میلیارد دارم، پروژه مسکونی در تهران، بازگشت تا ۸ سال…" className="h-14 min-w-0 flex-1 bg-transparent px-3 text-[15px] font-semibold text-ink outline-none placeholder:font-normal placeholder:text-muted-foreground" aria-label="توضیح شرایط برای دستیار" />
-                <button type="submit" className="group flex h-14 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 font-extrabold text-white shadow-[0_14px_30px_-12px_var(--primary)] transition-all hover:bg-deep">پیشنهاد بده <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></button>
+                <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="شرایط خود را بنویسید؛ مثلاً: ۳۰ میلیارد دارم، پروژه مسکونی در تهران، بازگشت تا ۸ سال…" className="h-14 min-w-0 flex-1 border-0 bg-transparent px-3 text-[15px] font-semibold text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-[15px]" aria-label="توضیح شرایط برای دستیار" />
+                <Button variant="plain" size="auto" type="submit" className="group flex h-14 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-6 font-extrabold text-white shadow-[0_14px_30px_-12px_var(--primary)] transition-all hover:bg-deep">پیشنهاد بده <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
               </div>
               <div className="no-scrollbar mt-2 flex gap-2 overflow-x-auto px-1 pb-1">
-                {samplePrompts.map((p) => <button key={p} type="button" onClick={() => go(p)} className="shrink-0 rounded-full border border-border bg-white/70 px-3.5 py-1.5 text-xs font-semibold text-ink/70 hover:border-primary/40 hover:text-primary">{p.length > 58 ? p.slice(0, 58) + "…" : p}</button>)}
+                {samplePrompts.map((p) => <Button variant="plain" size="auto" key={p} type="button" onClick={() => go(p)} className="shrink-0 rounded-full border border-border bg-white/70 px-3.5 py-1.5 text-xs font-semibold text-ink/70 hover:border-primary/40 hover:text-primary">{p.length > 58 ? p.slice(0, 58) + "…" : p}</Button>)}
               </div>
             </motion.form>
           )}

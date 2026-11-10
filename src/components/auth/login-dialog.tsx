@@ -50,7 +50,7 @@ export function LoginDialog() {
           <Button type="submit" disabled={step === "mobile" ? !validMobile : code.length !== 5} className="h-12 w-full rounded-2xl text-base font-bold">
             {step === "mobile" ? "دریافت کد" : "ورود"}
           </Button>
-          {step === "code" && <button type="button" onClick={() => setStep("mobile")} className="w-full text-center text-sm text-muted-foreground hover:text-primary">ویرایش شماره</button>}
+          {step === "code" && <Button variant="plain" size="auto" type="button" onClick={() => setStep("mobile")} className="w-full text-center text-sm text-muted-foreground hover:text-primary">ویرایش شماره</Button>}
           <p className="text-center text-xs text-muted-foreground">نسخه نمایشی: هر کد پنج‌رقمی پذیرفته می‌شود.</p>
         </form>
       </DialogContent>
