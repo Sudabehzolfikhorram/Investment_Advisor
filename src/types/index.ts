@@ -5,6 +5,8 @@ export type RouteId =
 export interface ProjectSubtype {
   id: string;
   name: string;
+  /** نمونه‌های این نوع (از نسخه مرجع) */
+  examples?: string;
   /** شناسه زیردسته‌های نسخه مرجع که در این مورد ادغام شده‌اند */
   sources: string[];
   /** نام کامل همان زیردسته‌ها */
@@ -55,6 +57,12 @@ export interface Opportunity {
   caution: string;
   checks?: string[];
   steps: string[];
+  /** شناسه مدل قرارداد در نسخه مرجع */
+  modelId?: string | null;
+  /** منابع درآمد طرح */
+  revenues?: string[];
+  /** صاحب پروژه: public | private */
+  owner?: string | null;
   metric: { label: string; unit: string; value: number } | null;
   /** کارشناس پروژه؛ اگر نباشد فایل راهنما نمایش داده می‌شود */
   expert: Expert | null;
@@ -144,3 +152,7 @@ export interface Listing {
 }
 
 export interface MatchResult { listing: Listing; score: number; reasons: MatchReason[] }
+
+/** پرسش‌های تخصصی یک نوع پروژه (از نسخه مرجع) */
+export interface AdvisoryQuestion { id: string; label: string; options: FieldOption[]; actions: Record<string, string>; review: string[]; block: string[] }
+export interface Advisory { context: string; baseChecks: string[]; questions: AdvisoryQuestion[]; example: Record<string, string> }

@@ -22,7 +22,7 @@ export function LoginDialog() {
 
   const finish = () => {
     const done = login(mobile);
-    if (done?.type === "save-criteria") { saveProfile("شرایط من"); toast.success("شرایط شما ذخیره شد. دفعه بعد لازم نیست دوباره وارد کنید."); }
+    if (done?.type === "save-criteria") { saveProfile(done.name || "شرایط من"); toast.success("شرایط شما ذخیره شد. دفعه بعد لازم نیست دوباره وارد کنید."); }
     else if (done?.type === "save-listing") toast.success("پروژه در ذخیره‌شده‌ها قرار گرفت.");
     else toast.success("خوش آمدید.");
     setStep("mobile"); setCode(""); setMobile("");
@@ -30,13 +30,13 @@ export function LoginDialog() {
 
   return (
     <Dialog open={loginOpen} onOpenChange={(o) => { if (!o) { closeLogin(); setStep("mobile"); setCode(""); } }}>
-      <DialogContent className="overflow-hidden rounded-3xl border-white/70 bg-white/90 p-0 backdrop-blur-2xl sm:max-w-md">
-        <div className="relative overflow-hidden bg-deep px-7 pb-7 pt-9 text-white">
-          <AlgoPattern className="inset-0 size-full text-white/20" fade="left" scale={0.6} />
-          <span className="relative grid size-12 place-items-center rounded-2xl bg-white/15">{step === "mobile" ? <Mobile size={24} variant="Bulk" /> : <ShieldTick size={24} variant="Bulk" />}</span>
+      <DialogContent className="overflow-hidden rounded-3xl bg-white p-0 sm:max-w-md">
+        <div className="relative overflow-hidden border-b border-border bg-white px-7 pb-6 pt-9 text-ink">
+          <AlgoPattern className="inset-0 size-full text-ink/[0.07]" fade="left" scale={0.6} />
+          <span className="relative grid size-12 place-items-center rounded-2xl bg-primary/10 text-primary">{step === "mobile" ? <Mobile size={24} variant="Bulk" /> : <ShieldTick size={24} variant="Bulk" />}</span>
           <DialogHeader className="relative mt-4 text-right">
             <DialogTitle className="text-xl font-extrabold">{step === "mobile" ? "ورود با شماره موبایل" : "کد تأیید را وارد کنید"}</DialogTitle>
-            <DialogDescription className="text-white/75">
+            <DialogDescription className="text-muted-foreground">
               {step === "mobile" ? `${reason} فقط شماره موبایل لازم است. نام و رمز نمی‌خواهیم.` : `کد پنج‌رقمی به ${faDigits(mobile)} فرستاده شد.`}
             </DialogDescription>
           </DialogHeader>

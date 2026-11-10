@@ -16,7 +16,12 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import type { FieldDef, FieldOption, FilterValue } from "@/types";
 import { cn, faNumber } from "@/lib/utils";
 
-const pill = "h-auto min-w-0 rounded-full border border-border bg-white/70 px-3.5 py-1.5 text-[13px] font-semibold text-ink/75 shadow-none transition-all duration-200 hover:border-primary/40 hover:bg-white hover:text-primary data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-white data-[state=on]:shadow-[0_8px_20px_-10px_var(--primary)]";
+export const amountPresets = (min: number, max: number): [number, number][] => {
+  const a = Math.round(max * 0.04) || 1, b = Math.round(max * 0.1), c = Math.round(max * 0.3);
+  return [[min, a], [a, b], [b, c], [c, max]];
+};
+
+const pill = "h-auto min-w-0 rounded-full border border-border bg-white px-3.5 py-1.5 text-[13px] font-semibold text-ink/75 shadow-none transition-all duration-200 hover:border-primary/40 hover:bg-white hover:text-primary data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-white data-[state=on]:shadow-[0_8px_20px_-10px_var(--primary)]";
 
 export function Chip({ active, children, onClick, className }: { active?: boolean; children: React.ReactNode; onClick?: () => void; className?: string }) {
   return <Toggle pressed={!!active} onPressedChange={() => onClick?.()} className={cn(pill, "gap-1.5", className)}>{children}</Toggle>;
@@ -44,7 +49,7 @@ export function Segmented({ options, value, onChange }: { options: FieldOption[]
 export function Dropdown({ options, value, onChange, placeholder = "انتخاب کنید" }: { options: FieldOption[]; value: string | undefined; onChange: (v: string | undefined) => void; placeholder?: string }) {
   return (
     <Select dir="rtl" value={value ?? ""} onValueChange={(v) => onChange(v === "__none" ? undefined : v)}>
-      <SelectTrigger className="h-11 w-full rounded-2xl bg-white/70 px-3.5 font-semibold data-[size=default]:h-11"><SelectValue placeholder={placeholder} /></SelectTrigger>
+      <SelectTrigger className="h-11 w-full rounded-2xl bg-white px-3.5 font-semibold data-[size=default]:h-11"><SelectValue placeholder={placeholder} /></SelectTrigger>
       <SelectContent className="rounded-2xl">
         {value && <SelectItem value="__none" className="rounded-xl text-muted-foreground">بدون انتخاب</SelectItem>}
         {options.map((o) => <SelectItem key={o.value} value={o.value} className="rounded-xl">{o.label}</SelectItem>)}
@@ -88,7 +93,7 @@ export function MultiCombobox({ options, value, onChange, placeholder, empty = "
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button type="button" variant="outline" role="combobox" aria-expanded={open} className="h-auto min-h-11 w-full justify-between gap-2 whitespace-normal rounded-2xl bg-white/70 px-3.5 py-2 text-right font-normal shadow-none">
+        <Button type="button" variant="outline" role="combobox" aria-expanded={open} className="h-auto min-h-11 w-full justify-between gap-2 whitespace-normal rounded-2xl bg-white px-3.5 py-2 text-right font-normal shadow-none">
           <span className={cn("flex flex-wrap gap-1.5", !value.length && "text-muted-foreground")}>
             {value.length ? value.map((v) => <Badge key={v} variant="secondary" className="bg-primary/10 px-2.5 font-bold text-primary">{options.find((o) => o.value === v)?.label ?? v}</Badge>) : placeholder}
           </span>
@@ -135,7 +140,7 @@ export function FieldControl({ field, value, onChange, options }: { field: Field
     case "range": return <RangeField min={field.min ?? 0} max={field.max ?? 100} step={field.step} unit={field.unit} value={value as [number, number]} onChange={onChange} />;
     case "slider": return <SliderField min={field.min} max={field.max} step={field.step} unit={field.unit} value={value as number} onChange={onChange} />;
     case "switch": return <Switch dir="rtl" checked={value === true} onCheckedChange={(c) => onChange(c || undefined)} />;
-    case "textarea": return <Textarea value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value || undefined)} rows={2} className="rounded-2xl bg-white/70" />;
-    default: return <Input value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value || undefined)} className="h-11 rounded-2xl bg-white/70" />;
+    case "textarea": return <Textarea value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value || undefined)} rows={2} className="rounded-2xl bg-white" />;
+    default: return <Input value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value || undefined)} className="h-11 rounded-2xl bg-white" />;
   }
 }

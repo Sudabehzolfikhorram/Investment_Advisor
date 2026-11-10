@@ -21,14 +21,14 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
   return (
     <header className={cn("z-40 w-full", overlay ? "absolute inset-x-0 top-0" : "sticky top-0")}>
       <div className="mx-auto max-w-7xl px-4 pt-4 sm:px-6">
-        <nav className={cn("flex h-16 items-center justify-between gap-4 rounded-full px-3 pr-5", overlay ? "glass-dark text-white" : "glass")}>
+        <nav className={cn("flex h-16 items-center justify-between gap-4 rounded-full px-3 pr-5", overlay ? "glass-dark text-white" : "border border-border bg-white/85 shadow-[0_14px_40px_-30px_rgb(11_31_29/0.3)] backdrop-blur-md")}>
           <Link href="/" aria-label="صفحه نخست"><Logo light={overlay} /></Link>
           <ul className="hidden items-center gap-1 md:flex">
             {links.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className={cn("flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-colors", overlay ? "text-white/85 hover:bg-white/10 hover:text-white" : "text-ink/70 hover:bg-primary/5 hover:text-primary", path.startsWith(l.href) && (overlay ? "bg-white/15 text-white" : "bg-primary/10 text-primary"))}>
                   {l.icon && <l.icon size={17} variant="Bulk" />}{l.label}
-                  {l.href === "/saved" && hydrated && saved.length > 0 && <span className="grid h-5 min-w-5 place-items-center rounded-full bg-sand px-1 text-[11px] font-bold text-ink">{faNumber(saved.length)}</span>}
+                  {l.href === "/saved" && hydrated && saved.length > 0 && <span className="grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1 text-[11px] font-bold text-white">{faNumber(saved.length)}</span>}
                 </Link>
               </li>
             ))}

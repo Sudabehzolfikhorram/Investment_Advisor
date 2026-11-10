@@ -1,4 +1,4 @@
-// گروه‌ها و زیردسته‌های پروژه — از نسخه HTML مرجع، با ادغام موارد هم‌پوشان.
+// گروه‌ها و زیردسته‌های پروژه — از نسخه HTML مرجع، بدون ادغام؛ همه گروه‌ها و زیردسته‌ها مطابق مرجع.
 // sources = شناسه زیردسته‌های اصلی که در این مورد ادغام شده‌اند؛ includes = نام کامل آن‌ها (هیچ موردی حذف نشده).
 import type { ProjectGroup } from "@/types";
 
@@ -15,6 +15,7 @@ export const projectGroups: ProjectGroup[] = [
       {
         "id": "residential",
         "name": "مسکونی",
+        "examples": "آپارتمان، مجتمع مسکونی، شهرک و ویلا",
         "sources": [
           "residential"
         ],
@@ -26,6 +27,7 @@ export const projectGroups: ProjectGroup[] = [
       {
         "id": "office",
         "name": "اداری",
+        "examples": "ساختمان اداری، مجتمع دولتی و دفتر کار",
         "sources": [
           "office"
         ],
@@ -37,6 +39,7 @@ export const projectGroups: ProjectGroup[] = [
       {
         "id": "commercial",
         "name": "تجاری",
+        "examples": "مرکز خرید، بازار، فروشگاه و مجتمع تجاری",
         "sources": [
           "commercial"
         ],
@@ -47,7 +50,8 @@ export const projectGroups: ProjectGroup[] = [
       },
       {
         "id": "hospitality",
-        "name": "هتل و گردشگری",
+        "name": "اقامتی و گردشگری",
+        "examples": "هتل، اقامتگاه، مجتمع تفریحی و بوم‌گردی",
         "sources": [
           "hospitality"
         ],
@@ -59,6 +63,7 @@ export const projectGroups: ProjectGroup[] = [
       {
         "id": "education",
         "name": "آموزشی",
+        "examples": "مدرسه، دانشگاه و مرکز آموزشی",
         "sources": [
           "education"
         ],
@@ -70,6 +75,7 @@ export const projectGroups: ProjectGroup[] = [
       {
         "id": "medical",
         "name": "درمانی",
+        "examples": "بیمارستان، درمانگاه و مرکز بهداشت",
         "sources": [
           "medical"
         ],
@@ -81,6 +87,7 @@ export const projectGroups: ProjectGroup[] = [
       {
         "id": "cultural",
         "name": "فرهنگی و مذهبی",
+        "examples": "کتابخانه، موزه، فرهنگ‌سرا و مسجد",
         "sources": [
           "cultural"
         ],
@@ -92,6 +99,7 @@ export const projectGroups: ProjectGroup[] = [
       {
         "id": "sports",
         "name": "ورزشی",
+        "examples": "ورزشگاه، سالن ورزشی و مجموعه تفریحی",
         "sources": [
           "sports"
         ],
@@ -113,7 +121,8 @@ export const projectGroups: ProjectGroup[] = [
     "subtypes": [
       {
         "id": "roads",
-        "name": "راه و بزرگراه",
+        "name": "راه‌سازی و بزرگراه",
+        "examples": "",
         "sources": [
           "roads"
         ],
@@ -123,34 +132,57 @@ export const projectGroups: ProjectGroup[] = [
         "image": "/images/types/roads.webp"
       },
       {
-        "id": "bridge-tunnel",
-        "name": "پل و تونل",
+        "id": "bridge",
+        "name": "پل و تقاطع غیرهم‌سطح",
+        "examples": "",
         "sources": [
-          "bridge",
-          "tunnel"
+          "bridge"
         ],
         "includes": [
-          "پل و تقاطع غیرهم‌سطح",
-          "تونل"
+          "پل و تقاطع غیرهم‌سطح"
         ],
         "image": "/images/types/bridge.webp"
       },
       {
-        "id": "rail-metro",
-        "name": "راه‌آهن و مترو",
+        "id": "tunnel",
+        "name": "تونل",
+        "examples": "",
         "sources": [
-          "rail",
-          "metro"
+          "tunnel"
         ],
         "includes": [
-          "راه‌آهن",
-          "مترو و قطار شهری"
+          "تونل"
+        ],
+        "image": "/images/types/tunnel.webp"
+      },
+      {
+        "id": "rail",
+        "name": "راه‌آهن",
+        "examples": "",
+        "sources": [
+          "rail"
+        ],
+        "includes": [
+          "راه‌آهن"
         ],
         "image": "/images/types/rail.webp"
       },
       {
+        "id": "metro",
+        "name": "مترو و قطار شهری",
+        "examples": "",
+        "sources": [
+          "metro"
+        ],
+        "includes": [
+          "مترو و قطار شهری"
+        ],
+        "image": "/images/types/metro.webp"
+      },
+      {
         "id": "airport",
         "name": "فرودگاه",
+        "examples": "",
         "sources": [
           "airport"
         ],
@@ -162,6 +194,7 @@ export const projectGroups: ProjectGroup[] = [
       {
         "id": "port",
         "name": "بندر و اسکله",
+        "examples": "",
         "sources": [
           "port"
         ],
@@ -171,17 +204,28 @@ export const projectGroups: ProjectGroup[] = [
         "image": "/images/types/port.webp"
       },
       {
-        "id": "terminal-parking",
-        "name": "پایانه و پارکینگ",
+        "id": "terminal",
+        "name": "پایانه‌های مسافری و باری",
+        "examples": "",
         "sources": [
-          "terminal",
+          "terminal"
+        ],
+        "includes": [
+          "پایانه‌های مسافری و باری"
+        ],
+        "image": "/images/types/terminal.webp"
+      },
+      {
+        "id": "parking",
+        "name": "پارکینگ عمومی",
+        "examples": "",
+        "sources": [
           "parking"
         ],
         "includes": [
-          "پایانه‌های مسافری و باری",
           "پارکینگ عمومی"
         ],
-        "image": "/images/types/terminal.webp"
+        "image": "/images/types/parking.webp"
       }
     ]
   },
@@ -196,7 +240,8 @@ export const projectGroups: ProjectGroup[] = [
     "subtypes": [
       {
         "id": "dam",
-        "name": "سد و مخزن",
+        "name": "سد و مخزن ذخیره آب",
+        "examples": "",
         "sources": [
           "dam"
         ],
@@ -206,43 +251,76 @@ export const projectGroups: ProjectGroup[] = [
         "image": "/images/types/dam.webp"
       },
       {
-        "id": "networks",
-        "name": "شبکه آب و فاضلاب",
+        "id": "waternetwork",
+        "name": "شبکه انتقال و توزیع آب",
+        "examples": "",
         "sources": [
-          "waternetwork",
-          "sewernetwork"
+          "waternetwork"
         ],
         "includes": [
-          "شبکه انتقال و توزیع آب",
-          "شبکه جمع‌آوری فاضلاب"
+          "شبکه انتقال و توزیع آب"
         ],
         "image": "/images/types/waternetwork.webp"
       },
       {
-        "id": "treatment",
-        "name": "تصفیه‌خانه آب و فاضلاب",
+        "id": "watertreatment",
+        "name": "تصفیه‌خانه آب",
+        "examples": "",
         "sources": [
-          "watertreatment",
-          "wastewater"
+          "watertreatment"
         ],
         "includes": [
-          "تصفیه‌خانه آب",
-          "تصفیه‌خانه فاضلاب"
+          "تصفیه‌خانه آب"
         ],
         "image": "/images/types/watertreatment.webp"
       },
       {
-        "id": "irrigation-flood",
-        "name": "آبیاری، زهکشی و سیلاب",
+        "id": "sewernetwork",
+        "name": "شبکه جمع‌آوری فاضلاب",
+        "examples": "",
         "sources": [
-          "irrigationcanal",
+          "sewernetwork"
+        ],
+        "includes": [
+          "شبکه جمع‌آوری فاضلاب"
+        ],
+        "image": "/images/types/sewernetwork.webp"
+      },
+      {
+        "id": "wastewater",
+        "name": "تصفیه‌خانه فاضلاب",
+        "examples": "",
+        "sources": [
+          "wastewater"
+        ],
+        "includes": [
+          "تصفیه‌خانه فاضلاب"
+        ],
+        "image": "/images/types/wastewater.webp"
+      },
+      {
+        "id": "irrigationcanal",
+        "name": "کانال‌های آبیاری و زهکشی",
+        "examples": "",
+        "sources": [
+          "irrigationcanal"
+        ],
+        "includes": [
+          "کانال‌های آبیاری و زهکشی"
+        ],
+        "image": "/images/types/irrigationcanal.webp"
+      },
+      {
+        "id": "flood",
+        "name": "سازه‌های کنترل سیلاب و آبخیزداری",
+        "examples": "",
+        "sources": [
           "flood"
         ],
         "includes": [
-          "کانال‌های آبیاری و زهکشی",
           "سازه‌های کنترل سیلاب و آبخیزداری"
         ],
-        "image": "/images/types/irrigationcanal.webp"
+        "image": "/images/types/flood.webp"
       }
     ]
   },
@@ -258,6 +336,7 @@ export const projectGroups: ProjectGroup[] = [
       {
         "id": "powerplant",
         "name": "نیروگاه",
+        "examples": "",
         "sources": [
           "powerplant"
         ],
@@ -267,19 +346,9 @@ export const projectGroups: ProjectGroup[] = [
         "image": "/images/types/powerplant.webp"
       },
       {
-        "id": "renewable",
-        "name": "خورشیدی و بادی",
-        "sources": [
-          "renewable"
-        ],
-        "includes": [
-          "تأسیسات انرژی خورشیدی و بادی"
-        ],
-        "image": "/images/types/renewable.webp"
-      },
-      {
         "id": "powergrid",
-        "name": "انتقال و پست برق",
+        "name": "خطوط انتقال و پست برق",
+        "examples": "",
         "sources": [
           "powergrid"
         ],
@@ -289,21 +358,45 @@ export const projectGroups: ProjectGroup[] = [
         "image": "/images/types/powergrid.webp"
       },
       {
-        "id": "gas-pipeline",
-        "name": "گازرسانی و خطوط نفت و گاز",
+        "id": "gas",
+        "name": "شبکه گازرسانی",
+        "examples": "",
         "sources": [
-          "gas",
-          "pipeline"
+          "gas"
         ],
         "includes": [
-          "شبکه گازرسانی",
-          "خطوط انتقال نفت و گاز"
+          "شبکه گازرسانی"
         ],
         "image": "/images/types/gas.webp"
       },
       {
+        "id": "pipeline",
+        "name": "خطوط انتقال نفت و گاز",
+        "examples": "",
+        "sources": [
+          "pipeline"
+        ],
+        "includes": [
+          "خطوط انتقال نفت و گاز"
+        ],
+        "image": "/images/types/pipeline.webp"
+      },
+      {
+        "id": "renewable",
+        "name": "تأسیسات انرژی خورشیدی و بادی",
+        "examples": "",
+        "sources": [
+          "renewable"
+        ],
+        "includes": [
+          "تأسیسات انرژی خورشیدی و بادی"
+        ],
+        "image": "/images/types/renewable.webp"
+      },
+      {
         "id": "hvac",
-        "name": "گرمایش و سرمایش مرکزی",
+        "name": "شبکه‌های گرمایش و سرمایش مرکزی",
+        "examples": "",
         "sources": [
           "hvac"
         ],
@@ -314,7 +407,8 @@ export const projectGroups: ProjectGroup[] = [
       },
       {
         "id": "ev",
-        "name": "شارژ خودرو برقی",
+        "name": "زیرساخت‌های شارژ خودروهای برقی",
+        "examples": "",
         "sources": [
           "ev"
         ],
@@ -335,34 +429,33 @@ export const projectGroups: ProjectGroup[] = [
     "image": "/images/types/factory.webp",
     "subtypes": [
       {
-        "id": "factory-workshop",
-        "name": "کارخانه و کارگاه تولیدی",
+        "id": "factory",
+        "name": "کارخانه و واحد تولیدی",
+        "examples": "",
         "sources": [
-          "factory",
-          "workshop"
+          "factory"
         ],
         "includes": [
-          "کارخانه و واحد تولیدی",
-          "کارگاه‌ها و مجموعه‌های تولیدی"
+          "کارخانه و واحد تولیدی"
         ],
         "image": "/images/types/factory.webp"
       },
       {
-        "id": "warehouse-cold",
-        "name": "انبار، سیلو و سردخانه",
+        "id": "warehouse",
+        "name": "انبار و مرکز لجستیک",
+        "examples": "",
         "sources": [
-          "warehouse",
-          "coldstore"
+          "warehouse"
         ],
         "includes": [
-          "انبار و مرکز لجستیک",
-          "سیلو و سردخانه"
+          "انبار و مرکز لجستیک"
         ],
         "image": "/images/types/warehouse.webp"
       },
       {
         "id": "refinery",
         "name": "پالایشگاه و پتروشیمی",
+        "examples": "",
         "sources": [
           "refinery"
         ],
@@ -374,6 +467,7 @@ export const projectGroups: ProjectGroup[] = [
       {
         "id": "industrialpark",
         "name": "شهرک صنعتی",
+        "examples": "",
         "sources": [
           "industrialpark"
         ],
@@ -383,8 +477,33 @@ export const projectGroups: ProjectGroup[] = [
         "image": "/images/types/industrialpark.webp"
       },
       {
+        "id": "coldstore",
+        "name": "سیلو و سردخانه",
+        "examples": "",
+        "sources": [
+          "coldstore"
+        ],
+        "includes": [
+          "سیلو و سردخانه"
+        ],
+        "image": "/images/types/coldstore.webp"
+      },
+      {
+        "id": "workshop",
+        "name": "کارگاه‌ها و مجموعه‌های تولیدی",
+        "examples": "",
+        "sources": [
+          "workshop"
+        ],
+        "includes": [
+          "کارگاه‌ها و مجموعه‌های تولیدی"
+        ],
+        "image": "/images/types/workshop.webp"
+      },
+      {
         "id": "mineral",
-        "name": "فرآوری مواد معدنی",
+        "name": "تأسیسات فرآوری مواد معدنی",
+        "examples": "",
         "sources": [
           "mineral"
         ],
@@ -406,22 +525,20 @@ export const projectGroups: ProjectGroup[] = [
     "subtypes": [
       {
         "id": "streets",
-        "name": "معابر، مبلمان و روشنایی شهری",
+        "name": "سامان‌دهی و بهسازی معابر",
+        "examples": "",
         "sources": [
-          "streets",
-          "furniture",
-          "lighting"
+          "streets"
         ],
         "includes": [
-          "سامان‌دهی و بهسازی معابر",
-          "مبلمان شهری",
-          "روشنایی شهری"
+          "سامان‌دهی و بهسازی معابر"
         ],
         "image": "/images/types/streets.webp"
       },
       {
         "id": "parks",
         "name": "فضای سبز و بوستان",
+        "examples": "",
         "sources": [
           "parks"
         ],
@@ -431,8 +548,21 @@ export const projectGroups: ProjectGroup[] = [
         "image": "/images/types/parks.webp"
       },
       {
+        "id": "furniture",
+        "name": "مبلمان شهری",
+        "examples": "",
+        "sources": [
+          "furniture"
+        ],
+        "includes": [
+          "مبلمان شهری"
+        ],
+        "image": "/images/types/furniture.webp"
+      },
+      {
         "id": "waste",
-        "name": "مدیریت پسماند",
+        "name": "مدیریت و دفع پسماند",
+        "examples": "",
         "sources": [
           "waste"
         ],
@@ -444,6 +574,7 @@ export const projectGroups: ProjectGroup[] = [
       {
         "id": "cemetery",
         "name": "آرامستان",
+        "examples": "",
         "sources": [
           "cemetery"
         ],
@@ -454,7 +585,8 @@ export const projectGroups: ProjectGroup[] = [
       },
       {
         "id": "fire",
-        "name": "آتش‌نشانی و امداد",
+        "name": "آتش‌نشانی و مراکز امدادی",
+        "examples": "",
         "sources": [
           "fire"
         ],
@@ -464,8 +596,21 @@ export const projectGroups: ProjectGroup[] = [
         "image": "/images/types/fire.webp"
       },
       {
+        "id": "lighting",
+        "name": "روشنایی شهری",
+        "examples": "",
+        "sources": [
+          "lighting"
+        ],
+        "includes": [
+          "روشنایی شهری"
+        ],
+        "image": "/images/types/lighting.webp"
+      },
+      {
         "id": "regeneration",
         "name": "بازآفرینی بافت فرسوده",
+        "examples": "",
         "sources": [
           "regeneration"
         ],
@@ -486,21 +631,33 @@ export const projectGroups: ProjectGroup[] = [
     "image": "/images/types/fiber.webp",
     "subtypes": [
       {
-        "id": "fiber-telecom",
-        "name": "فیبر نوری و دکل مخابراتی",
+        "id": "fiber",
+        "name": "شبکه فیبر نوری",
+        "examples": "",
         "sources": [
-          "fiber",
-          "telecom"
+          "fiber"
         ],
         "includes": [
-          "شبکه فیبر نوری",
-          "دکل و سایت مخابراتی"
+          "شبکه فیبر نوری"
         ],
         "image": "/images/types/fiber.webp"
       },
       {
+        "id": "telecom",
+        "name": "دکل و سایت مخابراتی",
+        "examples": "",
+        "sources": [
+          "telecom"
+        ],
+        "includes": [
+          "دکل و سایت مخابراتی"
+        ],
+        "image": "/images/types/telecom.webp"
+      },
+      {
         "id": "datacenter",
         "name": "مرکز داده",
+        "examples": "",
         "sources": [
           "datacenter"
         ],
@@ -510,17 +667,28 @@ export const projectGroups: ProjectGroup[] = [
         "image": "/images/types/datacenter.webp"
       },
       {
-        "id": "smart",
-        "name": "شهر هوشمند و کنترل هوشمند",
+        "id": "smartcity",
+        "name": "زیرساخت شهر هوشمند",
+        "examples": "",
         "sources": [
-          "smartcity",
+          "smartcity"
+        ],
+        "includes": [
+          "زیرساخت شهر هوشمند"
+        ],
+        "image": "/images/types/smartcity.webp"
+      },
+      {
+        "id": "control",
+        "name": "شبکه‌های ارتباطی و کنترل هوشمند",
+        "examples": "",
+        "sources": [
           "control"
         ],
         "includes": [
-          "زیرساخت شهر هوشمند",
           "شبکه‌های ارتباطی و کنترل هوشمند"
         ],
-        "image": "/images/types/smartcity.webp"
+        "image": "/images/types/control.webp"
       }
     ]
   },
@@ -535,7 +703,8 @@ export const projectGroups: ProjectGroup[] = [
     "subtypes": [
       {
         "id": "pressure",
-        "name": "آبیاری تحت فشار",
+        "name": "شبکه آبیاری تحت فشار",
+        "examples": "",
         "sources": [
           "pressure"
         ],
@@ -547,6 +716,7 @@ export const projectGroups: ProjectGroup[] = [
       {
         "id": "greenhouse",
         "name": "گلخانه و مجتمع کشاورزی",
+        "examples": "",
         "sources": [
           "greenhouse"
         ],
@@ -556,21 +726,33 @@ export const projectGroups: ProjectGroup[] = [
         "image": "/images/types/greenhouse.webp"
       },
       {
-        "id": "livestock-fish",
-        "name": "دامپروری و آبزی‌پروری",
+        "id": "livestock",
+        "name": "دامداری و دامپروری",
+        "examples": "",
         "sources": [
-          "livestock",
-          "fish"
+          "livestock"
         ],
         "includes": [
-          "دامداری و دامپروری",
-          "شیلات و آبزی‌پروری"
+          "دامداری و دامپروری"
         ],
         "image": "/images/types/livestock.webp"
       },
       {
+        "id": "fish",
+        "name": "شیلات و آبزی‌پروری",
+        "examples": "",
+        "sources": [
+          "fish"
+        ],
+        "includes": [
+          "شیلات و آبزی‌پروری"
+        ],
+        "image": "/images/types/fish.webp"
+      },
+      {
         "id": "ruralroad",
-        "name": "راه روستایی",
+        "name": "راه‌های روستایی و کشاورزی",
+        "examples": "",
         "sources": [
           "ruralroad"
         ],
@@ -581,7 +763,8 @@ export const projectGroups: ProjectGroup[] = [
       },
       {
         "id": "natural",
-        "name": "حفاظت منابع طبیعی",
+        "name": "تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی",
+        "examples": "",
         "sources": [
           "natural"
         ],
@@ -603,33 +786,32 @@ export const projectGroups: ProjectGroup[] = [
     "subtypes": [
       {
         "id": "restoration",
-        "name": "مرمت و حفاظت بنا",
+        "name": "مرمت بناهای تاریخی",
+        "examples": "",
         "sources": [
-          "restoration",
-          "protection"
+          "restoration"
         ],
         "includes": [
-          "مرمت بناهای تاریخی",
-          "مقاوم‌سازی و حفاظت اضطراری آثار"
+          "مرمت بناهای تاریخی"
         ],
         "image": "/images/types/restoration.webp"
       },
       {
         "id": "historichouse",
-        "name": "احیا و تغییر کاربری بنای تاریخی",
+        "name": "احیای خانه‌های ارزشمند",
+        "examples": "",
         "sources": [
-          "historichouse",
-          "adaptive"
+          "historichouse"
         ],
         "includes": [
-          "احیای خانه‌های ارزشمند",
-          "تغییر کاربری بناهای تاریخی"
+          "احیای خانه‌های ارزشمند"
         ],
         "image": "/images/types/historichouse.webp"
       },
       {
         "id": "historicfabric",
         "name": "بازآفرینی بافت تاریخی",
+        "examples": "",
         "sources": [
           "historicfabric"
         ],
@@ -639,8 +821,33 @@ export const projectGroups: ProjectGroup[] = [
         "image": "/images/types/historicfabric.webp"
       },
       {
+        "id": "adaptive",
+        "name": "تغییر کاربری بناهای تاریخی",
+        "examples": "",
+        "sources": [
+          "adaptive"
+        ],
+        "includes": [
+          "تغییر کاربری بناهای تاریخی"
+        ],
+        "image": "/images/types/adaptive.webp"
+      },
+      {
+        "id": "protection",
+        "name": "مقاوم‌سازی و حفاظت اضطراری آثار",
+        "examples": "",
+        "sources": [
+          "protection"
+        ],
+        "includes": [
+          "مقاوم‌سازی و حفاظت اضطراری آثار"
+        ],
+        "image": "/images/types/protection.webp"
+      },
+      {
         "id": "tourism",
-        "name": "گردشگری پیرامون آثار",
+        "name": "توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی",
+        "examples": "",
         "sources": [
           "tourism"
         ],
@@ -653,99 +860,77 @@ export const projectGroups: ProjectGroup[] = [
   },
   {
     "id": "land",
-    "name": "زمین و مسکن",
+    "name": "توسعه زمین و املاک",
     "fullNames": [
-      "پروژه‌های توسعه زمین و املاک",
-      "آماده‌سازی زمین و توسعه مسکن"
+      "پروژه‌های توسعه زمین و املاک"
     ],
     "icon": "Map1",
     "image": "/images/types/lhintegrated.webp",
     "subtypes": [
       {
-        "id": "study",
-        "name": "مطالعات و طراحی",
-        "sources": [
-          "lhstudy"
-        ],
-        "includes": [
-          "مطالعات و طراحی آماده‌سازی اراضی"
-        ],
-        "image": "/images/types/lhstudy.webp"
-      },
-      {
-        "id": "preparation",
-        "name": "آماده‌سازی و زیرساخت زمین",
-        "sources": [
-          "lhearth",
-          "lhroads",
-          "lhwater",
-          "lhenergy",
-          "lhintegrated"
-        ],
-        "includes": [
-          "تسطیح و عملیات خاکی اراضی",
-          "معابر و دسترسی‌های داخلی",
-          "شبکه آب، فاضلاب و آب‌های سطحی",
-          "شبکه برق، گاز و روشنایی",
-          "آماده‌سازی یکپارچه اراضی مسکونی"
-        ],
-        "image": "/images/types/lhearth.webp"
-      },
-      {
         "id": "subdivision",
-        "name": "تفکیک و قطعه‌بندی",
+        "name": "آماده‌سازی و تفکیک زمین",
+        "examples": "",
         "sources": [
-          "subdivision",
-          "lhplots"
+          "subdivision"
         ],
         "includes": [
-          "آماده‌سازی و تفکیک زمین",
-          "قطعه‌بندی و تحویل زمین آماده ساخت"
+          "آماده‌سازی و تفکیک زمین"
         ],
         "image": "/images/types/lhplots.webp"
       },
       {
         "id": "township",
-        "name": "شهرک‌سازی و توسعه اراضی",
+        "name": "شهرک‌سازی",
+        "examples": "",
         "sources": [
-          "township",
+          "township"
+        ],
+        "includes": [
+          "شهرک‌سازی"
+        ],
+        "image": "/images/types/lhintegrated.webp"
+      },
+      {
+        "id": "newland",
+        "name": "توسعه اراضی جدید",
+        "examples": "",
+        "sources": [
           "newland"
         ],
         "includes": [
-          "شهرک‌سازی",
           "توسعه اراضی جدید"
         ],
         "image": "/images/types/lhintegrated.webp"
       },
       {
-        "id": "landhousing",
-        "name": "توسعه زمین و ساخت مسکن",
+        "id": "consolidation",
+        "name": "نوسازی و تجمیع املاک",
+        "examples": "",
         "sources": [
-          "lhhousing",
-          "lhcompletion"
+          "consolidation"
         ],
         "includes": [
-          "توسعه یکپارچه زمین و ساخت مسکن",
-          "تکمیل آماده‌سازی و رفع موانع تحویل مسکن"
+          "نوسازی و تجمیع املاک"
         ],
-        "image": "/images/types/lhhousing.webp"
+        "image": "/images/types/regeneration.webp"
       },
       {
-        "id": "renewal",
-        "name": "نوسازی و توسعه مجدد",
+        "id": "redevelop",
+        "name": "تغییر کاربری و توسعه مجدد ملک",
+        "examples": "",
         "sources": [
-          "consolidation",
           "redevelop"
         ],
         "includes": [
-          "نوسازی و تجمیع املاک",
           "تغییر کاربری و توسعه مجدد ملک"
         ],
         "image": "/images/types/regeneration.webp"
       },
       {
         "id": "mixeduse",
-        "name": "مجتمع چندمنظوره",
+        "name": "مجتمع‌های چندمنظوره مسکونی، تجاری و اداری",
+        "examples": "",
         "sources": [
           "mixeduse"
         ],
@@ -755,7 +940,126 @@ export const projectGroups: ProjectGroup[] = [
         "image": "/images/types/commercial.webp"
       }
     ]
+  },
+  {
+    "id": "landhousing",
+    "name": "آماده‌سازی زمین و مسکن",
+    "fullNames": [
+      "آماده‌سازی زمین و توسعه مسکن"
+    ],
+    "icon": "Home2",
+    "image": "/images/types/lhhousing.webp",
+    "subtypes": [
+      {
+        "id": "lhstudy",
+        "name": "مطالعات و طراحی آماده‌سازی اراضی",
+        "examples": "",
+        "sources": [
+          "lhstudy"
+        ],
+        "includes": [
+          "مطالعات و طراحی آماده‌سازی اراضی"
+        ],
+        "image": "/images/types/lhstudy.webp"
+      },
+      {
+        "id": "lhearth",
+        "name": "تسطیح و عملیات خاکی اراضی",
+        "examples": "",
+        "sources": [
+          "lhearth"
+        ],
+        "includes": [
+          "تسطیح و عملیات خاکی اراضی"
+        ],
+        "image": "/images/types/lhearth.webp"
+      },
+      {
+        "id": "lhroads",
+        "name": "معابر و دسترسی‌های داخلی",
+        "examples": "",
+        "sources": [
+          "lhroads"
+        ],
+        "includes": [
+          "معابر و دسترسی‌های داخلی"
+        ],
+        "image": "/images/types/lhroads.webp"
+      },
+      {
+        "id": "lhwater",
+        "name": "شبکه آب، فاضلاب و آب‌های سطحی",
+        "examples": "",
+        "sources": [
+          "lhwater"
+        ],
+        "includes": [
+          "شبکه آب، فاضلاب و آب‌های سطحی"
+        ],
+        "image": "/images/types/lhwater.webp"
+      },
+      {
+        "id": "lhenergy",
+        "name": "شبکه برق، گاز و روشنایی",
+        "examples": "",
+        "sources": [
+          "lhenergy"
+        ],
+        "includes": [
+          "شبکه برق، گاز و روشنایی"
+        ],
+        "image": "/images/types/lhenergy.webp"
+      },
+      {
+        "id": "lhplots",
+        "name": "قطعه‌بندی و تحویل زمین آماده ساخت",
+        "examples": "",
+        "sources": [
+          "lhplots"
+        ],
+        "includes": [
+          "قطعه‌بندی و تحویل زمین آماده ساخت"
+        ],
+        "image": "/images/types/lhplots.webp"
+      },
+      {
+        "id": "lhintegrated",
+        "name": "آماده‌سازی یکپارچه اراضی مسکونی",
+        "examples": "",
+        "sources": [
+          "lhintegrated"
+        ],
+        "includes": [
+          "آماده‌سازی یکپارچه اراضی مسکونی"
+        ],
+        "image": "/images/types/lhintegrated.webp"
+      },
+      {
+        "id": "lhhousing",
+        "name": "توسعه یکپارچه زمین و ساخت مسکن",
+        "examples": "",
+        "sources": [
+          "lhhousing"
+        ],
+        "includes": [
+          "توسعه یکپارچه زمین و ساخت مسکن"
+        ],
+        "image": "/images/types/lhhousing.webp"
+      },
+      {
+        "id": "lhcompletion",
+        "name": "تکمیل آماده‌سازی و رفع موانع تحویل مسکن",
+        "examples": "",
+        "sources": [
+          "lhcompletion"
+        ],
+        "includes": [
+          "تکمیل آماده‌سازی و رفع موانع تحویل مسکن"
+        ],
+        "image": "/images/types/lhcompletion.webp"
+      }
+    ]
   }
 ];
 
-export const subtypeBySource: Record<string, { group: string; subtype: string }> = {"residential":{"group":"building","subtype":"residential"},"office":{"group":"building","subtype":"office"},"commercial":{"group":"building","subtype":"commercial"},"hospitality":{"group":"building","subtype":"hospitality"},"education":{"group":"building","subtype":"education"},"medical":{"group":"building","subtype":"medical"},"cultural":{"group":"building","subtype":"cultural"},"sports":{"group":"building","subtype":"sports"},"roads":{"group":"transport","subtype":"roads"},"bridge":{"group":"transport","subtype":"bridge-tunnel"},"tunnel":{"group":"transport","subtype":"bridge-tunnel"},"rail":{"group":"transport","subtype":"rail-metro"},"metro":{"group":"transport","subtype":"rail-metro"},"airport":{"group":"transport","subtype":"airport"},"port":{"group":"transport","subtype":"port"},"terminal":{"group":"transport","subtype":"terminal-parking"},"parking":{"group":"transport","subtype":"terminal-parking"},"dam":{"group":"water","subtype":"dam"},"waternetwork":{"group":"water","subtype":"networks"},"sewernetwork":{"group":"water","subtype":"networks"},"watertreatment":{"group":"water","subtype":"treatment"},"wastewater":{"group":"water","subtype":"treatment"},"irrigationcanal":{"group":"water","subtype":"irrigation-flood"},"flood":{"group":"water","subtype":"irrigation-flood"},"powerplant":{"group":"energy","subtype":"powerplant"},"renewable":{"group":"energy","subtype":"renewable"},"powergrid":{"group":"energy","subtype":"powergrid"},"gas":{"group":"energy","subtype":"gas-pipeline"},"pipeline":{"group":"energy","subtype":"gas-pipeline"},"hvac":{"group":"energy","subtype":"hvac"},"ev":{"group":"energy","subtype":"ev"},"factory":{"group":"industry","subtype":"factory-workshop"},"workshop":{"group":"industry","subtype":"factory-workshop"},"warehouse":{"group":"industry","subtype":"warehouse-cold"},"coldstore":{"group":"industry","subtype":"warehouse-cold"},"refinery":{"group":"industry","subtype":"refinery"},"industrialpark":{"group":"industry","subtype":"industrialpark"},"mineral":{"group":"industry","subtype":"mineral"},"streets":{"group":"urban","subtype":"streets"},"furniture":{"group":"urban","subtype":"streets"},"lighting":{"group":"urban","subtype":"streets"},"parks":{"group":"urban","subtype":"parks"},"waste":{"group":"urban","subtype":"waste"},"cemetery":{"group":"urban","subtype":"cemetery"},"fire":{"group":"urban","subtype":"fire"},"regeneration":{"group":"urban","subtype":"regeneration"},"fiber":{"group":"digital","subtype":"fiber-telecom"},"telecom":{"group":"digital","subtype":"fiber-telecom"},"datacenter":{"group":"digital","subtype":"datacenter"},"smartcity":{"group":"digital","subtype":"smart"},"control":{"group":"digital","subtype":"smart"},"pressure":{"group":"agriculture","subtype":"pressure"},"greenhouse":{"group":"agriculture","subtype":"greenhouse"},"livestock":{"group":"agriculture","subtype":"livestock-fish"},"fish":{"group":"agriculture","subtype":"livestock-fish"},"ruralroad":{"group":"agriculture","subtype":"ruralroad"},"natural":{"group":"agriculture","subtype":"natural"},"restoration":{"group":"heritage","subtype":"restoration"},"protection":{"group":"heritage","subtype":"restoration"},"historichouse":{"group":"heritage","subtype":"historichouse"},"adaptive":{"group":"heritage","subtype":"historichouse"},"historicfabric":{"group":"heritage","subtype":"historicfabric"},"tourism":{"group":"heritage","subtype":"tourism"},"lhstudy":{"group":"land","subtype":"study"},"lhearth":{"group":"land","subtype":"preparation"},"lhroads":{"group":"land","subtype":"preparation"},"lhwater":{"group":"land","subtype":"preparation"},"lhenergy":{"group":"land","subtype":"preparation"},"lhintegrated":{"group":"land","subtype":"preparation"},"subdivision":{"group":"land","subtype":"subdivision"},"lhplots":{"group":"land","subtype":"subdivision"},"township":{"group":"land","subtype":"township"},"newland":{"group":"land","subtype":"township"},"lhhousing":{"group":"land","subtype":"landhousing"},"lhcompletion":{"group":"land","subtype":"landhousing"},"consolidation":{"group":"land","subtype":"renewal"},"redevelop":{"group":"land","subtype":"renewal"},"mixeduse":{"group":"land","subtype":"mixeduse"}};
+export const subtypeBySource: Record<string, { group: string; subtype: string }> = {"residential":{"group":"building","subtype":"residential"},"office":{"group":"building","subtype":"office"},"commercial":{"group":"building","subtype":"commercial"},"hospitality":{"group":"building","subtype":"hospitality"},"education":{"group":"building","subtype":"education"},"medical":{"group":"building","subtype":"medical"},"cultural":{"group":"building","subtype":"cultural"},"sports":{"group":"building","subtype":"sports"},"roads":{"group":"transport","subtype":"roads"},"bridge":{"group":"transport","subtype":"bridge"},"tunnel":{"group":"transport","subtype":"tunnel"},"rail":{"group":"transport","subtype":"rail"},"metro":{"group":"transport","subtype":"metro"},"airport":{"group":"transport","subtype":"airport"},"port":{"group":"transport","subtype":"port"},"terminal":{"group":"transport","subtype":"terminal"},"parking":{"group":"transport","subtype":"parking"},"dam":{"group":"water","subtype":"dam"},"waternetwork":{"group":"water","subtype":"waternetwork"},"watertreatment":{"group":"water","subtype":"watertreatment"},"sewernetwork":{"group":"water","subtype":"sewernetwork"},"wastewater":{"group":"water","subtype":"wastewater"},"irrigationcanal":{"group":"water","subtype":"irrigationcanal"},"flood":{"group":"water","subtype":"flood"},"powerplant":{"group":"energy","subtype":"powerplant"},"powergrid":{"group":"energy","subtype":"powergrid"},"gas":{"group":"energy","subtype":"gas"},"pipeline":{"group":"energy","subtype":"pipeline"},"renewable":{"group":"energy","subtype":"renewable"},"hvac":{"group":"energy","subtype":"hvac"},"ev":{"group":"energy","subtype":"ev"},"factory":{"group":"industry","subtype":"factory"},"warehouse":{"group":"industry","subtype":"warehouse"},"refinery":{"group":"industry","subtype":"refinery"},"industrialpark":{"group":"industry","subtype":"industrialpark"},"coldstore":{"group":"industry","subtype":"coldstore"},"workshop":{"group":"industry","subtype":"workshop"},"mineral":{"group":"industry","subtype":"mineral"},"streets":{"group":"urban","subtype":"streets"},"parks":{"group":"urban","subtype":"parks"},"furniture":{"group":"urban","subtype":"furniture"},"waste":{"group":"urban","subtype":"waste"},"cemetery":{"group":"urban","subtype":"cemetery"},"fire":{"group":"urban","subtype":"fire"},"lighting":{"group":"urban","subtype":"lighting"},"regeneration":{"group":"urban","subtype":"regeneration"},"fiber":{"group":"digital","subtype":"fiber"},"telecom":{"group":"digital","subtype":"telecom"},"datacenter":{"group":"digital","subtype":"datacenter"},"smartcity":{"group":"digital","subtype":"smartcity"},"control":{"group":"digital","subtype":"control"},"pressure":{"group":"agriculture","subtype":"pressure"},"greenhouse":{"group":"agriculture","subtype":"greenhouse"},"livestock":{"group":"agriculture","subtype":"livestock"},"fish":{"group":"agriculture","subtype":"fish"},"ruralroad":{"group":"agriculture","subtype":"ruralroad"},"natural":{"group":"agriculture","subtype":"natural"},"restoration":{"group":"heritage","subtype":"restoration"},"historichouse":{"group":"heritage","subtype":"historichouse"},"historicfabric":{"group":"heritage","subtype":"historicfabric"},"adaptive":{"group":"heritage","subtype":"adaptive"},"protection":{"group":"heritage","subtype":"protection"},"tourism":{"group":"heritage","subtype":"tourism"},"subdivision":{"group":"land","subtype":"subdivision"},"township":{"group":"land","subtype":"township"},"newland":{"group":"land","subtype":"newland"},"consolidation":{"group":"land","subtype":"consolidation"},"redevelop":{"group":"land","subtype":"redevelop"},"mixeduse":{"group":"land","subtype":"mixeduse"},"lhstudy":{"group":"landhousing","subtype":"lhstudy"},"lhearth":{"group":"landhousing","subtype":"lhearth"},"lhroads":{"group":"landhousing","subtype":"lhroads"},"lhwater":{"group":"landhousing","subtype":"lhwater"},"lhenergy":{"group":"landhousing","subtype":"lhenergy"},"lhplots":{"group":"landhousing","subtype":"lhplots"},"lhintegrated":{"group":"landhousing","subtype":"lhintegrated"},"lhhousing":{"group":"landhousing","subtype":"lhhousing"},"lhcompletion":{"group":"landhousing","subtype":"lhcompletion"}};

@@ -24,6 +24,8 @@ export function matchListing(l: Listing, c: SearchCriteria): MatchResult {
     if (c.groups.length) add("category", "گروه پروژه", tri(true, c.groups.includes(o.group)));
     if (arr("subtypes").length) add("category", "نوع پروژه", tri(true, arr("subtypes").includes(o.subtype)));
     if (arr("phase").length) add("category", "مرحله پروژه", tri(true, arr("phase").includes(o.phase)));
+    const owner = str("owner");
+    if (owner) add("category", "صاحب پروژه", tri(!!o.owner, o.owner === owner));
     const horizon = num("horizon"), lockup = num("lockup"), first = num("firstIncome"), income = str("income"), irr = num("irrMin");
     if (horizon != null) add("return", "دوره بازگشت در افق شما", tri(o.paybackYears != null, (o.paybackYears ?? 0) <= horizon));
     if (irr != null && irr > 0) add("return", "حداقل بازده سالانه", "unknown");

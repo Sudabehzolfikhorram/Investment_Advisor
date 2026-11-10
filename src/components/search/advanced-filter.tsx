@@ -1,23 +1,24 @@
 "use client";
-import { Button } from "@/components/ui/button";
 // فیلتر پیشرفته کنار نتایج. همه فیلدهای اختیاری از data/fields.ts خوانده می‌شوند.
+// بخش‌ها تک‌بازشو هستند تا فهرست کوتاه بماند و اسکرول کم شود. مبلغ و محدوده بالای صفحه‌اند.
 import { useMemo } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
-import { Refresh2, Setting4 } from "@/components/iconsax";
+import { Button } from "@/components/ui/button";
+import { Danger, InfoCircle, Refresh2, Setting4 } from "@/components/iconsax";
 import { advancedFields, advancedSections, profileFields } from "@/data/fields";
 import { routes, routeSubcategories } from "@/data/routes";
 import { projectGroups } from "@/data/taxonomy";
+import { advisories } from "@/data/advisories";
 import { listings } from "@/lib/listings";
 import { useStore } from "@/lib/store";
 import type { FieldDef, FieldOption, FilterValue, RouteId } from "@/types";
 import { cn, faNumber } from "@/lib/utils";
-import { FieldControl, RangeField } from "./controls";
-import { Slider } from "@/components/ui/slider";
-import { amountPresets } from "./search-bar";
+import { Dropdown, FieldControl } from "./controls";
 
 const noLocation: RouteId[] = ["fund"];
 const propertyRoutes: RouteId[] = ["buyer", "lessee"];
+const sectionName: Record<string, string> = { amount: "بازده و زمان‌بندی", risk: "ریسک", project: "ویژگی‌های پروژه", location: "شهر و محله", contract: "شرایط قرارداد" };
 
 function visible(f: FieldDef, route: RouteId, filters: Record<string, FilterValue>) {
   if (f.routes && !f.routes.includes(route)) return false;
@@ -33,8 +34,8 @@ function visible(f: FieldDef, route: RouteId, filters: Record<string, FilterValu
 
 function Section({ id, title, count, children }: { id: string; title: string; count: number; children: React.ReactNode }) {
   return (
-    <AccordionItem value={id} className="border-border/70">
-      <AccordionTrigger className="items-center py-4 text-right text-[15px] font-extrabold text-ink hover:no-underline">
+    <AccordionItem value={id} className="border-border">
+      <AccordionTrigger className="items-center py-3.5 text-right text-[15px] font-extrabold text-ink hover:no-underline">
         <span className="flex items-center gap-2">{title}{count > 0 && <Badge className="h-5 min-w-5 px-1 text-[11px] font-bold">{faNumber(count)}</Badge>}</span>
       </AccordionTrigger>
       <AccordionContent className="space-y-5 px-0.5 pb-5">{children}</AccordionContent>
@@ -42,31 +43,36 @@ function Section({ id, title, count, children }: { id: string; title: string; co
   );
 }
 
-/** جمله «تا سال X حداقل Y درصد» */
-function ReturnSentence({ yearKey, pctKey, maxPct }: { yearKey?: string; pctKey: string; maxPct: number }) {
+/** پرسش‌های تخصصی نوع پروژه (از نسخه مرجع)؛ فقط برای نوع‌های انتخاب‌شده نمایش داده می‌شود */
+function AdvisoryQuestions({ subtypes }: { subtypes: string[] }) {
   const { criteria, setFilter } = useStore();
-  const y = yearKey ? (criteria.filters[yearKey] as number | undefined) : undefined;
-  const p = criteria.filters[pctKey] as number | undefined;
-  const pill = (on: boolean) => cn("mx-1 inline-block rounded-lg px-2 py-0.5 font-black", on ? "bg-primary text-white" : "bg-primary/10 text-primary");
+  const names = useMemo(() => Object.fromEntries(projectGroups.flatMap((g) => g.subtypes).map((s) => [s.id, s.name])), []);
+  const withAdvisory = subtypes.filter((s) => advisories[s]);
+  if (!subtypes.length) return <p className="text-[13px] leading-6 text-muted-foreground">در بخش «ویژگی‌های پروژه» یک «نوع دقیق پروژه» انتخاب کنید تا پرسش‌های همان نوع این‌جا بیاید.</p>;
+  if (!withAdvisory.length) return <p className="text-[13px] leading-6 text-muted-foreground">برای نوع انتخاب‌شده پرسش تخصصی ثبت نشده است.</p>;
   return (
-    <div className="rounded-3xl bg-gradient-to-br from-primary/[0.09] to-sand/[0.14] p-4">
-      <p className="text-[15px] font-bold leading-9 text-ink">
-        {yearKey && <>تا<span className={pill(y != null)}>{y != null ? `${faNumber(y)} سال` : "چند سال"}</span>دیگر، </>}
-        حداقل<span className={pill(!!p)}>{p ? `${faNumber(p)}٪` : "چند درصد"}</span>بازده سالانه می‌خواهم.
-      </p>
-      {yearKey && (
-        <label className="mt-3 block"><span className="mb-2 block text-[11px] font-semibold text-muted-foreground">افق بازگشت سرمایه (سال)</span>
-          <Slider dir="rtl" min={1} max={25} value={[y ?? 1]} onValueChange={(v) => setFilter(yearKey, v[0])} className={cn(y == null && "opacity-50")} /></label>
-      )}
-      <label className="mt-4 block"><span className="mb-2 block text-[11px] font-semibold text-muted-foreground">بازده سالانه (درصد)</span>
-        <Slider dir="rtl" min={0} max={maxPct} value={[p ?? 0]} onValueChange={(v) => setFilter(pctKey, v[0] || undefined)} className={cn(!p && "opacity-50")} /></label>
-      {(y != null || !!p) && <Button variant="plain" size="auto" type="button" onClick={() => { if (yearKey) setFilter(yearKey, undefined); setFilter(pctKey, undefined); }} className="mt-3 text-xs font-semibold text-muted-foreground hover:text-destructive">حذف این شرط</Button>}
-    </div>
+    <>
+      {withAdvisory.map((st) => { const a = advisories[st];
+        return (
+          <div key={st} className="space-y-4">
+            <p className="rounded-2xl bg-muted p-3 text-[13px] font-semibold leading-6 text-ink/80"><b className="text-primary">{names[st]}: </b>{a.context}</p>
+            {a.questions.map((q) => { const key = `adv:${st}:${q.id}`; const v = criteria.filters[key] as string | undefined;
+              return (
+                <div key={q.id}>
+                  <p className="mb-2 text-[13px] font-bold leading-6 text-ink/80">{q.label}</p>
+                  <Dropdown options={q.options} value={v} onChange={(x) => setFilter(key, x)} />
+                  {v && q.block.includes(v) && <p className="mt-2 flex items-start gap-1.5 text-xs font-semibold leading-5 text-destructive"><Danger size={15} variant="Bold" className="mt-0.5 shrink-0" />{q.actions[v] ?? "با این پاسخ، ادامه مسیر نیازمند رفع مانع است."}</p>}
+                  {v && !q.block.includes(v) && (q.review.includes(v) || q.actions[v]) && <p className="mt-2 flex items-start gap-1.5 text-xs font-semibold leading-5 text-ink/70"><InfoCircle size={15} variant="Bold" className="mt-0.5 shrink-0 text-primary" />{q.actions[v] ?? "این مورد نیازمند بررسی کارشناس است."}</p>}
+                </div>
+              ); })}
+          </div>
+        ); })}
+    </>
   );
 }
 
 export function AdvancedFilter({ className }: { className?: string }) {
-  const { criteria, setCriteria, setFilter, resetFilters } = useStore();
+  const { criteria, setFilter } = useStore();
   const route = routes.find((r) => r.id === criteria.route)!;
   const f = criteria.filters;
 
@@ -81,12 +87,14 @@ export function AdvancedFilter({ className }: { className?: string }) {
     };
   }, [criteria.groups, criteria.provinces]);
 
-  const special = new Set(["horizon", "irrMin", "fundReturnMin"]);
   const fields = advancedFields.filter((x) => visible(x, route.id, f));
   const profile = profileFields.filter((x) => !x.routes || x.routes.includes(route.id));
   const activeIn = (list: FieldDef[]) => list.filter((x) => f[x.id] != null).length;
+  const advKeys = Object.keys(f).filter((k) => k.startsWith("adv:"));
   const total = Object.keys(f).length;
   const many = dynamicOptions.subtypes.length > 14;
+  const subtypes = (f.subtypes as string[] | undefined) ?? [];
+  const clear = () => Object.keys(f).forEach((k) => setFilter(k, undefined));
 
   const row = (x: FieldDef) => (
     <div key={x.id} className={cn(x.control === "switch" && "flex items-center justify-between gap-3")}>
@@ -97,35 +105,27 @@ export function AdvancedFilter({ className }: { className?: string }) {
 
   return (
     <div className={className}>
-      <div className="flex items-center justify-between pb-2">
+      <div className="flex items-center justify-between pb-1">
         <h2 className="flex items-center gap-2 text-lg font-black text-ink"><Setting4 size={20} variant="Bulk" className="text-primary" />فیلتر پیشرفته</h2>
-        {total > 0 && <Button variant="ghost" size="xs" type="button" onClick={resetFilters} className="font-bold text-muted-foreground hover:text-destructive"><Refresh2 size={14} />پاک کردن ({faNumber(total)})</Button>}
+        {total > 0 && <Button variant="ghost" size="xs" type="button" onClick={clear} className="font-bold text-muted-foreground hover:text-destructive"><Refresh2 size={14} />حذف ({faNumber(total)})</Button>}
       </div>
-      <p className="pb-2 text-xs leading-6 text-muted-foreground">همه موارد اختیاری‌اند. با هر تغییر، نتایج همان لحظه به‌روز می‌شود.</p>
+      <p className="pb-1 text-xs leading-6 text-muted-foreground">همه اختیاری‌اند و نتایج همان لحظه به‌روز می‌شود.</p>
 
-      <Accordion key={route.id} type="multiple" defaultValue={advancedSections.filter((s) => !("collapsed" in s && s.collapsed)).map((s) => s.id)}>
-      {advancedSections.map((s) => {
-        const list = fields.filter((x) => x.section === s.id);
-        const isAmount = s.id === "amount";
-        if (!list.length && !(isAmount && route.amount)) return null;
-        return (
-          <Section key={s.id} id={s.id} title={s.name} count={activeIn(list) + (isAmount && criteria.amount ? 1 : 0)}>
-            {isAmount && route.amount && (
-              <div><p className="mb-2 text-[13px] font-bold text-ink/80">{route.amount.label}</p>
-                <RangeField min={route.amount.min} max={route.amount.max} step={route.amount.step} unit={route.amount.unit} value={criteria.amount ?? undefined} onChange={(v) => setCriteria({ amount: v })} presets={amountPresets(route.amount.min, route.amount.max)} /></div>
-            )}
-            {isAmount && list.some((x) => x.id === "irrMin") && <ReturnSentence yearKey="horizon" pctKey="irrMin" maxPct={80} />}
-            {isAmount && list.some((x) => x.id === "fundReturnMin") && <ReturnSentence pctKey="fundReturnMin" maxPct={60} />}
-            {list.filter((x) => !special.has(x.id)).map(row)}
+      <Accordion key={route.id} type="single" collapsible defaultValue={fields.some((x) => x.section === "amount") ? "amount" : "project"}>
+        {advancedSections.map((s) => {
+          const list = fields.filter((x) => x.section === s.id);
+          if (!list.length) return null;
+          return <Section key={s.id} id={s.id} title={sectionName[s.id] ?? s.name} count={activeIn(list)}>{list.map(row)}</Section>;
+        })}
+        {route.usesProjectGroups && (
+          <Section id="advisory" title="پرسش‌های تخصصی نوع پروژه" count={advKeys.length}><AdvisoryQuestions subtypes={subtypes} /></Section>
+        )}
+        {profile.length > 0 && (
+          <Section id="profile" title="اطلاعات تکمیلی شما" count={activeIn(profile)}>
+            <p className="text-xs leading-6 text-muted-foreground">یک‌بار وارد می‌کنید و همراه شرایط ذخیره می‌شود.</p>
+            {profile.map(row)}
           </Section>
-        );
-      })}
-      {profile.length > 0 && (
-        <Section id="profile" title="اطلاعات تکمیلی شما" count={activeIn(profile)}>
-          <p className="text-xs leading-6 text-muted-foreground">یک‌بار وارد می‌کنید و همراه شرایط ذخیره می‌شود.</p>
-          {profile.map(row)}
-        </Section>
-      )}
+        )}
       </Accordion>
     </div>
   );

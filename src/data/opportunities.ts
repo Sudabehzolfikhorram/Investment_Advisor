@@ -47,7 +47,10 @@ export const opportunities: Opportunity[] = [
       "mobile": "09120000101"
     },
     "guideFileUrl": null,
-    "publishedAt": "2026-11-01"
+    "publishedAt": "2026-11-01",
+    "modelId": "M12",
+    "revenues": [],
+    "owner": null
   },
   {
     "id": "DEMO-02",
@@ -93,14 +96,17 @@ export const opportunities: Opportunity[] = [
       "mobile": "09120000202"
     },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-11"
+    "publishedAt": "2026-10-11",
+    "modelId": "M05",
+    "revenues": [],
+    "owner": null
   },
   {
     "id": "DEMO-03",
     "kind": "project",
     "title": "خرید ساختمان انبار موجود",
     "group": "industry",
-    "subtype": "warehouse-cold",
+    "subtype": "warehouse",
     "image": "/images/types/warehouse.webp",
     "province": "اصفهان",
     "city": "اصفهان",
@@ -139,7 +145,10 @@ export const opportunities: Opportunity[] = [
       "mobile": "09120000303"
     },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-12"
+    "publishedAt": "2026-10-12",
+    "modelId": "M17",
+    "revenues": [],
+    "owner": null
   },
   {
     "id": "DEMO-04",
@@ -186,14 +195,17 @@ export const opportunities: Opportunity[] = [
       "mobile": "09120000101"
     },
     "guideFileUrl": null,
-    "publishedAt": "2026-11-04"
+    "publishedAt": "2026-11-04",
+    "modelId": "M08",
+    "revenues": [],
+    "owner": null
   },
   {
     "id": "DEMO-05",
     "kind": "project",
     "title": "راهبری تصفیه‌خانه موجود",
     "group": "water",
-    "subtype": "treatment",
+    "subtype": "wastewater",
     "image": "/images/types/wastewater.webp",
     "province": "تهران",
     "city": "ری",
@@ -229,7 +241,10 @@ export const opportunities: Opportunity[] = [
     },
     "expert": null,
     "guideFileUrl": "/guides/sample-guide.pdf",
-    "publishedAt": "2026-10-14"
+    "publishedAt": "2026-10-14",
+    "modelId": "M02",
+    "revenues": [],
+    "owner": null
   },
   {
     "id": "DEMO-06",
@@ -275,7 +290,10 @@ export const opportunities: Opportunity[] = [
       "mobile": "09120000303"
     },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-15"
+    "publishedAt": "2026-10-15",
+    "modelId": "M01",
+    "revenues": [],
+    "owner": null
   },
   {
     "id": "DEMO-07",
@@ -321,7 +339,10 @@ export const opportunities: Opportunity[] = [
       "mobile": "09120000101"
     },
     "guideFileUrl": null,
-    "publishedAt": "2026-11-07"
+    "publishedAt": "2026-11-07",
+    "modelId": "M06",
+    "revenues": [],
+    "owner": null
   },
   {
     "id": "DEMO-08",
@@ -363,7 +384,10 @@ export const opportunities: Opportunity[] = [
       "mobile": "09120000202"
     },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-17"
+    "publishedAt": "2026-10-17",
+    "modelId": "M11",
+    "revenues": [],
+    "owner": null
   },
   {
     "id": "DEMO-10",
@@ -404,7 +428,13 @@ export const opportunities: Opportunity[] = [
       "mobile": "09120000303"
     },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-18"
+    "publishedAt": "2026-10-18",
+    "modelId": "B01",
+    "revenues": [
+      "rent",
+      "mixed"
+    ],
+    "owner": null
   },
   {
     "id": "DEMO-11",
@@ -442,7 +472,12 @@ export const opportunities: Opportunity[] = [
     },
     "expert": null,
     "guideFileUrl": "/guides/sample-guide.pdf",
-    "publishedAt": "2026-11-02"
+    "publishedAt": "2026-11-02",
+    "modelId": "M06",
+    "revenues": [
+      "public"
+    ],
+    "owner": null
   },
   {
     "id": "DEMO-12",
@@ -483,7 +518,13 @@ export const opportunities: Opportunity[] = [
       "mobile": "09120000202"
     },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-20"
+    "publishedAt": "2026-10-20",
+    "modelId": "M03",
+    "revenues": [
+      "rent",
+      "mixed"
+    ],
+    "owner": null
   },
   {
     "id": "DEMO-13",
@@ -524,7 +565,13 @@ export const opportunities: Opportunity[] = [
       "mobile": "09120000303"
     },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-21"
+    "publishedAt": "2026-10-21",
+    "modelId": "M08",
+    "revenues": [
+      "service",
+      "rent"
+    ],
+    "owner": null
   },
   {
     "id": "DEMO-14",
@@ -565,7 +612,12 @@ export const opportunities: Opportunity[] = [
       "mobile": "09120000101"
     },
     "guideFileUrl": null,
-    "publishedAt": "2026-11-05"
+    "publishedAt": "2026-11-05",
+    "modelId": "B02",
+    "revenues": [
+      "public"
+    ],
+    "owner": null
   },
   {
     "id": "DEMO-15",
@@ -603,7 +655,12 @@ export const opportunities: Opportunity[] = [
     },
     "expert": null,
     "guideFileUrl": "/guides/sample-guide.pdf",
-    "publishedAt": "2026-10-23"
+    "publishedAt": "2026-10-23",
+    "modelId": "B03",
+    "revenues": [
+      "public"
+    ],
+    "owner": null
   },
   {
     "id": "DEMO-16",
@@ -644,7 +701,13 @@ export const opportunities: Opportunity[] = [
       "mobile": "09120000303"
     },
     "guideFileUrl": null,
-    "publishedAt": "2026-10-24"
+    "publishedAt": "2026-10-24",
+    "modelId": "M03",
+    "revenues": [
+      "service",
+      "rent"
+    ],
+    "owner": null
   },
   {
     "id": "DEMO-17",
@@ -685,7 +748,12 @@ export const opportunities: Opportunity[] = [
       "mobile": "09120000101"
     },
     "guideFileUrl": null,
-    "publishedAt": "2026-11-08"
+    "publishedAt": "2026-11-08",
+    "modelId": "M11",
+    "revenues": [
+      "rent"
+    ],
+    "owner": "private"
   }
 ];
 
@@ -1028,6 +1096,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تخصیص ریسک ترافیک، تعمیرات اساسی و تحویل راه"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول مسیر",
    "unit": "کیلومتر",
@@ -1075,6 +1146,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تخصیص ریسک ترافیک، تعمیرات اساسی و تحویل راه"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول مسیر",
    "unit": "کیلومتر",
@@ -1122,6 +1196,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تخصیص ریسک ترافیک، تعمیرات اساسی و تحویل راه"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول مسیر",
    "unit": "کیلومتر",
@@ -1139,7 +1216,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث پل و تقاطع غیرهم‌سطح — قم",
   "group": "transport",
-  "subtype": "bridge-tunnel",
+  "subtype": "bridge",
   "image": "/images/types/bridge.webp",
   "province": "قم",
   "city": "قم",
@@ -1169,6 +1246,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی نیاز به مسدودسازی مسیر و تعهدات ایمنی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول پل",
    "unit": "متر",
@@ -1183,7 +1263,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل پل و تقاطع غیرهم‌سطح — اراک",
   "group": "transport",
-  "subtype": "bridge-tunnel",
+  "subtype": "bridge",
   "image": "/images/types/bridge.webp",
   "province": "مرکزی",
   "city": "اراک",
@@ -1213,6 +1293,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی نیاز به مسدودسازی مسیر و تعهدات ایمنی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول پل",
    "unit": "متر",
@@ -1230,7 +1313,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی پل و تقاطع غیرهم‌سطح — تبریز",
   "group": "transport",
-  "subtype": "bridge-tunnel",
+  "subtype": "bridge",
   "image": "/images/types/bridge.webp",
   "province": "آذربایجان شرقی",
   "city": "تبریز",
@@ -1260,6 +1343,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی نیاز به مسدودسازی مسیر و تعهدات ایمنی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول پل",
    "unit": "متر",
@@ -1277,7 +1363,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث تونل — قم",
   "group": "transport",
-  "subtype": "bridge-tunnel",
+  "subtype": "tunnel",
   "image": "/images/types/tunnel.webp",
   "province": "قم",
   "city": "قم",
@@ -1307,6 +1393,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی مجوز، مسیر و نیاز به اتصال به راه موجود"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول تونل",
    "unit": "متر",
@@ -1324,7 +1413,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل تونل — اراک",
   "group": "transport",
-  "subtype": "bridge-tunnel",
+  "subtype": "tunnel",
   "image": "/images/types/tunnel.webp",
   "province": "مرکزی",
   "city": "اراک",
@@ -1354,6 +1443,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی مجوز، مسیر و نیاز به اتصال به راه موجود"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول تونل",
    "unit": "متر",
@@ -1371,7 +1463,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی تونل — تبریز",
   "group": "transport",
-  "subtype": "bridge-tunnel",
+  "subtype": "tunnel",
   "image": "/images/types/tunnel.webp",
   "province": "آذربایجان شرقی",
   "city": "تبریز",
@@ -1401,6 +1493,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی مجوز، مسیر و نیاز به اتصال به راه موجود"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول تونل",
    "unit": "متر",
@@ -1418,7 +1513,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث راه‌آهن — قم",
   "group": "transport",
-  "subtype": "rail-metro",
+  "subtype": "rail",
   "image": "/images/types/rail.webp",
   "province": "قم",
   "city": "قم",
@@ -1448,6 +1543,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین هزینه نگهداری خط و تأسیسات و حدود اختیار بهره‌بردار"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول خط",
    "unit": "کیلومتر",
@@ -1465,7 +1563,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل راه‌آهن — اراک",
   "group": "transport",
-  "subtype": "rail-metro",
+  "subtype": "rail",
   "image": "/images/types/rail.webp",
   "province": "مرکزی",
   "city": "اراک",
@@ -1495,6 +1593,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین هزینه نگهداری خط و تأسیسات و حدود اختیار بهره‌بردار"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول خط",
    "unit": "کیلومتر",
@@ -1509,7 +1610,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی راه‌آهن — تبریز",
   "group": "transport",
-  "subtype": "rail-metro",
+  "subtype": "rail",
   "image": "/images/types/rail.webp",
   "province": "آذربایجان شرقی",
   "city": "تبریز",
@@ -1539,6 +1640,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین هزینه نگهداری خط و تأسیسات و حدود اختیار بهره‌بردار"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول خط",
    "unit": "کیلومتر",
@@ -1556,7 +1660,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث مترو و قطار شهری — تهران",
   "group": "transport",
-  "subtype": "rail-metro",
+  "subtype": "metro",
   "image": "/images/types/metro.webp",
   "province": "تهران",
   "city": "تهران",
@@ -1586,6 +1690,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی تأمین کسری درآمد و اختیار تعهد پرداخت عمومی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول مسیر شهری",
    "unit": "کیلومتر",
@@ -1603,7 +1710,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل مترو و قطار شهری — مشهد",
   "group": "transport",
-  "subtype": "rail-metro",
+  "subtype": "metro",
   "image": "/images/types/metro.webp",
   "province": "خراسان رضوی",
   "city": "مشهد",
@@ -1633,6 +1740,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی تأمین کسری درآمد و اختیار تعهد پرداخت عمومی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول مسیر شهری",
    "unit": "کیلومتر",
@@ -1650,7 +1760,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی مترو و قطار شهری — شیراز",
   "group": "transport",
-  "subtype": "rail-metro",
+  "subtype": "metro",
   "image": "/images/types/metro.webp",
   "province": "فارس",
   "city": "شیراز",
@@ -1680,6 +1790,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی تأمین کسری درآمد و اختیار تعهد پرداخت عمومی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول مسیر شهری",
    "unit": "کیلومتر",
@@ -1727,6 +1840,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین محدوده سرمایه‌گذاری و الزامات امنیت و ایمنی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت سالانه",
    "unit": "مسافر",
@@ -1774,6 +1890,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین محدوده سرمایه‌گذاری و الزامات امنیت و ایمنی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت سالانه",
    "unit": "مسافر",
@@ -1821,6 +1940,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین محدوده سرمایه‌گذاری و الزامات امنیت و ایمنی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت سالانه",
    "unit": "مسافر",
@@ -1865,6 +1987,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین حق بهره‌برداری، تعرفه و هزینه نگهداری اسکله"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت سالانه تخلیه و بارگیری",
    "unit": "تن",
@@ -1912,6 +2037,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین حق بهره‌برداری، تعرفه و هزینه نگهداری اسکله"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت سالانه تخلیه و بارگیری",
    "unit": "تن",
@@ -1959,6 +2087,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین حق بهره‌برداری، تعرفه و هزینه نگهداری اسکله"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت سالانه تخلیه و بارگیری",
    "unit": "تن",
@@ -1976,7 +2107,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث پایانه‌های مسافری و باری — قم",
   "group": "transport",
-  "subtype": "terminal-parking",
+  "subtype": "terminal",
   "image": "/images/types/terminal.webp",
   "province": "قم",
   "city": "قم",
@@ -2006,6 +2137,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک مجوز بهره‌برداری از حق تصرف و ساخت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت روزانه",
    "unit": "مسافر",
@@ -2023,7 +2157,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل پایانه‌های مسافری و باری — اراک",
   "group": "transport",
-  "subtype": "terminal-parking",
+  "subtype": "terminal",
   "image": "/images/types/terminal.webp",
   "province": "مرکزی",
   "city": "اراک",
@@ -2053,6 +2187,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک مجوز بهره‌برداری از حق تصرف و ساخت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت روزانه",
    "unit": "مسافر",
@@ -2070,7 +2207,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی پایانه‌های مسافری و باری — تبریز",
   "group": "transport",
-  "subtype": "terminal-parking",
+  "subtype": "terminal",
   "image": "/images/types/terminal.webp",
   "province": "آذربایجان شرقی",
   "city": "تبریز",
@@ -2100,6 +2237,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک مجوز بهره‌برداری از حق تصرف و ساخت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت روزانه",
    "unit": "مسافر",
@@ -2117,7 +2257,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث پارکینگ عمومی — قم",
   "group": "transport",
-  "subtype": "terminal-parking",
+  "subtype": "parking",
   "image": "/images/types/parking.webp",
   "province": "قم",
   "city": "قم",
@@ -2147,6 +2287,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد هزینه نیروی انسانی و ایمنی و نگهداری"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت پارک",
    "unit": "خودرو",
@@ -2161,7 +2304,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل پارکینگ عمومی — اراک",
   "group": "transport",
-  "subtype": "terminal-parking",
+  "subtype": "parking",
   "image": "/images/types/parking.webp",
   "province": "مرکزی",
   "city": "اراک",
@@ -2191,6 +2334,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد هزینه نیروی انسانی و ایمنی و نگهداری"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت پارک",
    "unit": "خودرو",
@@ -2208,7 +2354,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی پارکینگ عمومی — تبریز",
   "group": "transport",
-  "subtype": "terminal-parking",
+  "subtype": "parking",
   "image": "/images/types/parking.webp",
   "province": "آذربایجان شرقی",
   "city": "تبریز",
@@ -2238,6 +2384,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد هزینه نیروی انسانی و ایمنی و نگهداری"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت پارک",
    "unit": "خودرو",
@@ -2285,6 +2434,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل هزینه ایمنی، رسوب و نگهداری بلندمدت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "حجم مخزن",
    "unit": "میلیون مترمکعب",
@@ -2332,6 +2484,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل هزینه ایمنی، رسوب و نگهداری بلندمدت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "حجم مخزن",
    "unit": "میلیون مترمکعب",
@@ -2379,6 +2534,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل هزینه ایمنی، رسوب و نگهداری بلندمدت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "حجم مخزن",
    "unit": "میلیون مترمکعب",
@@ -2396,7 +2554,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث شبکه انتقال و توزیع آب — اهواز",
   "group": "water",
-  "subtype": "networks",
+  "subtype": "waternetwork",
   "image": "/images/types/waternetwork.webp",
   "province": "خوزستان",
   "city": "اهواز",
@@ -2426,6 +2584,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین تلفات مجاز، کیفیت خدمت و هزینه انرژی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول شبکه",
    "unit": "کیلومتر",
@@ -2443,7 +2604,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل شبکه انتقال و توزیع آب — خرم‌آباد",
   "group": "water",
-  "subtype": "networks",
+  "subtype": "waternetwork",
   "image": "/images/types/waternetwork.webp",
   "province": "لرستان",
   "city": "خرم‌آباد",
@@ -2473,6 +2634,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین تلفات مجاز، کیفیت خدمت و هزینه انرژی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول شبکه",
    "unit": "کیلومتر",
@@ -2487,7 +2651,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی شبکه انتقال و توزیع آب — رشت",
   "group": "water",
-  "subtype": "networks",
+  "subtype": "waternetwork",
   "image": "/images/types/waternetwork.webp",
   "province": "گیلان",
   "city": "رشت",
@@ -2517,6 +2681,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین تلفات مجاز، کیفیت خدمت و هزینه انرژی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول شبکه",
    "unit": "کیلومتر",
@@ -2534,7 +2701,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث تصفیه‌خانه آب — اهواز",
   "group": "water",
-  "subtype": "treatment",
+  "subtype": "watertreatment",
   "image": "/images/types/watertreatment.webp",
   "province": "خوزستان",
   "city": "اهواز",
@@ -2564,6 +2731,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک ساخت و بهره‌برداری و ریسک تغییر کیفیت ورودی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت تصفیه روزانه",
    "unit": "مترمکعب",
@@ -2581,7 +2751,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل تصفیه‌خانه آب — خرم‌آباد",
   "group": "water",
-  "subtype": "treatment",
+  "subtype": "watertreatment",
   "image": "/images/types/watertreatment.webp",
   "province": "لرستان",
   "city": "خرم‌آباد",
@@ -2611,6 +2781,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک ساخت و بهره‌برداری و ریسک تغییر کیفیت ورودی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت تصفیه روزانه",
    "unit": "مترمکعب",
@@ -2628,7 +2801,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی تصفیه‌خانه آب — رشت",
   "group": "water",
-  "subtype": "treatment",
+  "subtype": "watertreatment",
   "image": "/images/types/watertreatment.webp",
   "province": "گیلان",
   "city": "رشت",
@@ -2658,6 +2831,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک ساخت و بهره‌برداری و ریسک تغییر کیفیت ورودی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت تصفیه روزانه",
    "unit": "مترمکعب",
@@ -2675,7 +2851,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث شبکه جمع‌آوری فاضلاب — اهواز",
   "group": "water",
-  "subtype": "networks",
+  "subtype": "sewernetwork",
   "image": "/images/types/sewernetwork.webp",
   "province": "خوزستان",
   "city": "اهواز",
@@ -2705,6 +2881,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین مسئولیت بهره‌برداری و گرفتگی و نشت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول شبکه جمع‌آوری",
    "unit": "کیلومتر",
@@ -2722,7 +2901,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل شبکه جمع‌آوری فاضلاب — خرم‌آباد",
   "group": "water",
-  "subtype": "networks",
+  "subtype": "sewernetwork",
   "image": "/images/types/sewernetwork.webp",
   "province": "لرستان",
   "city": "خرم‌آباد",
@@ -2752,6 +2931,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین مسئولیت بهره‌برداری و گرفتگی و نشت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول شبکه جمع‌آوری",
    "unit": "کیلومتر",
@@ -2769,7 +2951,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی شبکه جمع‌آوری فاضلاب — رشت",
   "group": "water",
-  "subtype": "networks",
+  "subtype": "sewernetwork",
   "image": "/images/types/sewernetwork.webp",
   "province": "گیلان",
   "city": "رشت",
@@ -2799,6 +2981,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین مسئولیت بهره‌برداری و گرفتگی و نشت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول شبکه جمع‌آوری",
    "unit": "کیلومتر",
@@ -2813,7 +2998,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث تصفیه‌خانه فاضلاب — اهواز",
   "group": "water",
-  "subtype": "treatment",
+  "subtype": "wastewater",
   "image": "/images/types/wastewater.webp",
   "province": "خوزستان",
   "city": "اهواز",
@@ -2843,6 +3028,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین ریسک تغییر ورودی و استاندارد خروجی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت تصفیه روزانه",
    "unit": "مترمکعب",
@@ -2860,7 +3048,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل تصفیه‌خانه فاضلاب — خرم‌آباد",
   "group": "water",
-  "subtype": "treatment",
+  "subtype": "wastewater",
   "image": "/images/types/wastewater.webp",
   "province": "لرستان",
   "city": "خرم‌آباد",
@@ -2890,6 +3078,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین ریسک تغییر ورودی و استاندارد خروجی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت تصفیه روزانه",
    "unit": "مترمکعب",
@@ -2907,7 +3098,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی تصفیه‌خانه فاضلاب — رشت",
   "group": "water",
-  "subtype": "treatment",
+  "subtype": "wastewater",
   "image": "/images/types/wastewater.webp",
   "province": "گیلان",
   "city": "رشت",
@@ -2937,6 +3128,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین ریسک تغییر ورودی و استاندارد خروجی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت تصفیه روزانه",
    "unit": "مترمکعب",
@@ -2954,7 +3148,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث کانال‌های آبیاری و زهکشی — اهواز",
   "group": "water",
-  "subtype": "irrigation-flood",
+  "subtype": "irrigationcanal",
   "image": "/images/types/irrigationcanal.webp",
   "province": "خوزستان",
   "city": "اهواز",
@@ -2984,6 +3178,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین هزینه لایروبی، تعمیر و خسارت قطع آب"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول کانال",
    "unit": "کیلومتر",
@@ -3001,7 +3198,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل کانال‌های آبیاری و زهکشی — خرم‌آباد",
   "group": "water",
-  "subtype": "irrigation-flood",
+  "subtype": "irrigationcanal",
   "image": "/images/types/irrigationcanal.webp",
   "province": "لرستان",
   "city": "خرم‌آباد",
@@ -3031,6 +3228,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین هزینه لایروبی، تعمیر و خسارت قطع آب"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول کانال",
    "unit": "کیلومتر",
@@ -3048,7 +3248,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی کانال‌های آبیاری و زهکشی — رشت",
   "group": "water",
-  "subtype": "irrigation-flood",
+  "subtype": "irrigationcanal",
   "image": "/images/types/irrigationcanal.webp",
   "province": "گیلان",
   "city": "رشت",
@@ -3078,6 +3278,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین هزینه لایروبی، تعمیر و خسارت قطع آب"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول کانال",
    "unit": "کیلومتر",
@@ -3095,7 +3298,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث سازه‌های کنترل سیلاب و آبخیزداری — اهواز",
   "group": "water",
-  "subtype": "irrigation-flood",
+  "subtype": "flood",
   "image": "/images/types/flood.webp",
   "province": "خوزستان",
   "city": "اهواز",
@@ -3125,6 +3328,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی مجوز بستر و حریم و اثرات محیطی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "حجم کنترل سیلاب",
    "unit": "میلیون مترمکعب",
@@ -3139,7 +3345,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل سازه‌های کنترل سیلاب و آبخیزداری — خرم‌آباد",
   "group": "water",
-  "subtype": "irrigation-flood",
+  "subtype": "flood",
   "image": "/images/types/flood.webp",
   "province": "لرستان",
   "city": "خرم‌آباد",
@@ -3169,6 +3375,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی مجوز بستر و حریم و اثرات محیطی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "حجم کنترل سیلاب",
    "unit": "میلیون مترمکعب",
@@ -3186,7 +3395,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی سازه‌های کنترل سیلاب و آبخیزداری — رشت",
   "group": "water",
-  "subtype": "irrigation-flood",
+  "subtype": "flood",
   "image": "/images/types/flood.webp",
   "province": "گیلان",
   "city": "رشت",
@@ -3216,6 +3425,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی مجوز بستر و حریم و اثرات محیطی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "حجم کنترل سیلاب",
    "unit": "میلیون مترمکعب",
@@ -3263,6 +3475,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل هزینه ارزی تجهیزات و تعمیرات اساسی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "توان نامی",
    "unit": "مگاوات",
@@ -3310,6 +3525,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل هزینه ارزی تجهیزات و تعمیرات اساسی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "توان نامی",
    "unit": "مگاوات",
@@ -3357,6 +3575,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل هزینه ارزی تجهیزات و تعمیرات اساسی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "توان نامی",
    "unit": "مگاوات",
@@ -3404,6 +3625,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی مسئولیت نگهداری و تعویض تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت پست",
    "unit": "مگاولت‌آمپر",
@@ -3451,6 +3675,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی مسئولیت نگهداری و تعویض تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت پست",
    "unit": "مگاولت‌آمپر",
@@ -3495,6 +3722,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی مسئولیت نگهداری و تعویض تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت پست",
    "unit": "مگاولت‌آمپر",
@@ -3512,7 +3742,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث شبکه گازرسانی — یزد",
   "group": "energy",
-  "subtype": "gas-pipeline",
+  "subtype": "gas",
   "image": "/images/types/gas.webp",
   "province": "یزد",
   "city": "یزد",
@@ -3542,6 +3772,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین هزینه امداد، نشت‌یابی و نگهداری"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول شبکه گاز",
    "unit": "کیلومتر",
@@ -3559,7 +3792,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل شبکه گازرسانی — کرمان",
   "group": "energy",
-  "subtype": "gas-pipeline",
+  "subtype": "gas",
   "image": "/images/types/gas.webp",
   "province": "کرمان",
   "city": "کرمان",
@@ -3589,6 +3822,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین هزینه امداد، نشت‌یابی و نگهداری"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول شبکه گاز",
    "unit": "کیلومتر",
@@ -3606,7 +3842,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی شبکه گازرسانی — بیرجند",
   "group": "energy",
-  "subtype": "gas-pipeline",
+  "subtype": "gas",
   "image": "/images/types/gas.webp",
   "province": "خراسان جنوبی",
   "city": "بیرجند",
@@ -3636,6 +3872,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین هزینه امداد، نشت‌یابی و نگهداری"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول شبکه گاز",
    "unit": "کیلومتر",
@@ -3653,7 +3892,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث خطوط انتقال نفت و گاز — یزد",
   "group": "energy",
-  "subtype": "gas-pipeline",
+  "subtype": "pipeline",
   "image": "/images/types/pipeline.webp",
   "province": "یزد",
   "city": "یزد",
@@ -3683,6 +3922,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد خوردگی، پایش نشتی و تعمیرات بلندمدت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول خط انتقال",
    "unit": "کیلومتر",
@@ -3700,7 +3942,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل خطوط انتقال نفت و گاز — کرمان",
   "group": "energy",
-  "subtype": "gas-pipeline",
+  "subtype": "pipeline",
   "image": "/images/types/pipeline.webp",
   "province": "کرمان",
   "city": "کرمان",
@@ -3730,6 +3972,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد خوردگی، پایش نشتی و تعمیرات بلندمدت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول خط انتقال",
    "unit": "کیلومتر",
@@ -3747,7 +3992,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی خطوط انتقال نفت و گاز — بیرجند",
   "group": "energy",
-  "subtype": "gas-pipeline",
+  "subtype": "pipeline",
   "image": "/images/types/pipeline.webp",
   "province": "خراسان جنوبی",
   "city": "بیرجند",
@@ -3777,6 +4022,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد خوردگی، پایش نشتی و تعمیرات بلندمدت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول خط انتقال",
    "unit": "کیلومتر",
@@ -3821,6 +4069,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد ارز تجهیزات، افت عملکرد و جایگزینی قطعات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "توان نامی",
    "unit": "مگاوات",
@@ -3868,6 +4119,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد ارز تجهیزات، افت عملکرد و جایگزینی قطعات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "توان نامی",
    "unit": "مگاوات",
@@ -3915,6 +4169,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد ارز تجهیزات، افت عملکرد و جایگزینی قطعات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "توان نامی",
    "unit": "مگاوات",
@@ -3962,6 +4219,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد نگهداری موتورخانه و هزینه جایگزینی تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "توان حرارتی",
    "unit": "مگاوات",
@@ -4009,6 +4269,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد نگهداری موتورخانه و هزینه جایگزینی تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "توان حرارتی",
    "unit": "مگاوات",
@@ -4056,6 +4319,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد نگهداری موتورخانه و هزینه جایگزینی تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "توان حرارتی",
    "unit": "مگاوات",
@@ -4103,6 +4369,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل خرابی، خدمات پس از فروش و ارتقای تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد نقاط شارژ",
    "unit": "نقطه",
@@ -4147,6 +4416,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل خرابی، خدمات پس از فروش و ارتقای تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد نقاط شارژ",
    "unit": "نقطه",
@@ -4194,6 +4466,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل خرابی، خدمات پس از فروش و ارتقای تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد نقاط شارژ",
    "unit": "نقطه",
@@ -4211,7 +4486,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث کارخانه و واحد تولیدی — بندرعباس",
   "group": "industry",
-  "subtype": "factory-workshop",
+  "subtype": "factory",
   "image": "/images/types/factory.webp",
   "province": "هرمزگان",
   "city": "بندرعباس",
@@ -4241,6 +4516,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک سرمایه ثابت از موجودی مواد و مطالبات فروش"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت تولید سالانه",
    "unit": "تن",
@@ -4258,7 +4536,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل کارخانه و واحد تولیدی — آبادان",
   "group": "industry",
-  "subtype": "factory-workshop",
+  "subtype": "factory",
   "image": "/images/types/factory.webp",
   "province": "خوزستان",
   "city": "آبادان",
@@ -4288,6 +4566,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک سرمایه ثابت از موجودی مواد و مطالبات فروش"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت تولید سالانه",
    "unit": "تن",
@@ -4305,7 +4586,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی کارخانه و واحد تولیدی — عسلویه",
   "group": "industry",
-  "subtype": "factory-workshop",
+  "subtype": "factory",
   "image": "/images/types/factory.webp",
   "province": "بوشهر",
   "city": "عسلویه",
@@ -4335,6 +4616,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک سرمایه ثابت از موجودی مواد و مطالبات فروش"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت تولید سالانه",
    "unit": "تن",
@@ -4352,7 +4636,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث انبار و مرکز لجستیک — بندرعباس",
   "group": "industry",
-  "subtype": "warehouse-cold",
+  "subtype": "warehouse",
   "image": "/images/types/warehouse.webp",
   "province": "هرمزگان",
   "city": "بندرعباس",
@@ -4382,6 +4666,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد تجهیزات جابه‌جایی و سرمایه در گردش"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "زیربنای لجستیکی",
    "unit": "مترمربع",
@@ -4399,7 +4686,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل انبار و مرکز لجستیک — آبادان",
   "group": "industry",
-  "subtype": "warehouse-cold",
+  "subtype": "warehouse",
   "image": "/images/types/warehouse.webp",
   "province": "خوزستان",
   "city": "آبادان",
@@ -4429,6 +4716,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد تجهیزات جابه‌جایی و سرمایه در گردش"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "زیربنای لجستیکی",
    "unit": "مترمربع",
@@ -4443,7 +4733,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی انبار و مرکز لجستیک — عسلویه",
   "group": "industry",
-  "subtype": "warehouse-cold",
+  "subtype": "warehouse",
   "image": "/images/types/warehouse.webp",
   "province": "بوشهر",
   "city": "عسلویه",
@@ -4473,6 +4763,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد تجهیزات جابه‌جایی و سرمایه در گردش"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "زیربنای لجستیکی",
    "unit": "مترمربع",
@@ -4520,6 +4813,9 @@ export const generatedOpportunities: Opportunity[] = [
    "آزمون حساسیت حاشیه سود به قیمت خوراک و محصول"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت فرآورش روزانه",
    "unit": "بشکه",
@@ -4567,6 +4863,9 @@ export const generatedOpportunities: Opportunity[] = [
    "آزمون حساسیت حاشیه سود به قیمت خوراک و محصول"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت فرآورش روزانه",
    "unit": "بشکه",
@@ -4614,6 +4913,9 @@ export const generatedOpportunities: Opportunity[] = [
    "آزمون حساسیت حاشیه سود به قیمت خوراک و محصول"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت فرآورش روزانه",
    "unit": "بشکه",
@@ -4661,6 +4963,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین مسئولیت تأمین زیرساخت بیرون محدوده"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت محدوده صنعتی",
    "unit": "هکتار",
@@ -4708,6 +5013,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین مسئولیت تأمین زیرساخت بیرون محدوده"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت محدوده صنعتی",
    "unit": "هکتار",
@@ -4755,6 +5063,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین مسئولیت تأمین زیرساخت بیرون محدوده"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت محدوده صنعتی",
    "unit": "هکتار",
@@ -4769,7 +5080,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث سیلو و سردخانه — بندرعباس",
   "group": "industry",
-  "subtype": "warehouse-cold",
+  "subtype": "coldstore",
   "image": "/images/types/coldstore.webp",
   "province": "هرمزگان",
   "city": "بندرعباس",
@@ -4799,6 +5110,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین استاندارد تحویل و مسئولیت افت و فساد"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت ذخیره‌سازی",
    "unit": "تن",
@@ -4816,7 +5130,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل سیلو و سردخانه — آبادان",
   "group": "industry",
-  "subtype": "warehouse-cold",
+  "subtype": "coldstore",
   "image": "/images/types/coldstore.webp",
   "province": "خوزستان",
   "city": "آبادان",
@@ -4846,6 +5160,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین استاندارد تحویل و مسئولیت افت و فساد"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت ذخیره‌سازی",
    "unit": "تن",
@@ -4863,7 +5180,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی سیلو و سردخانه — عسلویه",
   "group": "industry",
-  "subtype": "warehouse-cold",
+  "subtype": "coldstore",
   "image": "/images/types/coldstore.webp",
   "province": "بوشهر",
   "city": "عسلویه",
@@ -4893,6 +5210,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین استاندارد تحویل و مسئولیت افت و فساد"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت ذخیره‌سازی",
    "unit": "تن",
@@ -4910,7 +5230,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث کارگاه‌ها و مجموعه‌های تولیدی — بندرعباس",
   "group": "industry",
-  "subtype": "factory-workshop",
+  "subtype": "workshop",
   "image": "/images/types/workshop.webp",
   "province": "هرمزگان",
   "city": "بندرعباس",
@@ -4940,6 +5260,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد هزینه تعمیر، ضایعات و خواب مواد"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "فضای کارگاهی",
    "unit": "مترمربع",
@@ -4957,7 +5280,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل کارگاه‌ها و مجموعه‌های تولیدی — آبادان",
   "group": "industry",
-  "subtype": "factory-workshop",
+  "subtype": "workshop",
   "image": "/images/types/workshop.webp",
   "province": "خوزستان",
   "city": "آبادان",
@@ -4987,6 +5310,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد هزینه تعمیر، ضایعات و خواب مواد"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "فضای کارگاهی",
    "unit": "مترمربع",
@@ -5004,7 +5330,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی کارگاه‌ها و مجموعه‌های تولیدی — عسلویه",
   "group": "industry",
-  "subtype": "factory-workshop",
+  "subtype": "workshop",
   "image": "/images/types/workshop.webp",
   "province": "بوشهر",
   "city": "عسلویه",
@@ -5034,6 +5360,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد هزینه تعمیر، ضایعات و خواب مواد"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "فضای کارگاهی",
    "unit": "مترمربع",
@@ -5081,6 +5410,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل هزینه حمل، آب و انرژی و الزامات محیطی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت فرآوری سالانه",
    "unit": "تن",
@@ -5125,6 +5457,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل هزینه حمل، آب و انرژی و الزامات محیطی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت فرآوری سالانه",
    "unit": "تن",
@@ -5172,6 +5507,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل هزینه حمل، آب و انرژی و الزامات محیطی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت فرآوری سالانه",
    "unit": "تن",
@@ -5219,6 +5557,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین شاخص قابل سنجش کیفیت و زمان رفع نقص"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول معابر",
    "unit": "کیلومتر",
@@ -5266,6 +5607,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین شاخص قابل سنجش کیفیت و زمان رفع نقص"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول معابر",
    "unit": "کیلومتر",
@@ -5313,6 +5657,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین شاخص قابل سنجش کیفیت و زمان رفع نقص"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول معابر",
    "unit": "کیلومتر",
@@ -5360,6 +5707,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک فضای خدمات عمومی از امتیاز فعالیت درآمدزا"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت فضای سبز",
    "unit": "هکتار",
@@ -5407,6 +5757,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک فضای خدمات عمومی از امتیاز فعالیت درآمدزا"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت فضای سبز",
    "unit": "هکتار",
@@ -5451,6 +5804,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک فضای خدمات عمومی از امتیاز فعالیت درآمدزا"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت فضای سبز",
    "unit": "هکتار",
@@ -5468,7 +5824,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث مبلمان شهری — تهران",
   "group": "urban",
-  "subtype": "streets",
+  "subtype": "furniture",
   "image": "/images/types/furniture.webp",
   "province": "تهران",
   "city": "تهران",
@@ -5498,6 +5854,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی خسارت، بیمه و امکان جابه‌جایی تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد نقاط تجهیز",
    "unit": "نقطه",
@@ -5515,7 +5874,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل مبلمان شهری — ساری",
   "group": "urban",
-  "subtype": "streets",
+  "subtype": "furniture",
   "image": "/images/types/furniture.webp",
   "province": "مازندران",
   "city": "ساری",
@@ -5545,6 +5904,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی خسارت، بیمه و امکان جابه‌جایی تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد نقاط تجهیز",
    "unit": "نقطه",
@@ -5562,7 +5924,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی مبلمان شهری — مشهد",
   "group": "urban",
-  "subtype": "streets",
+  "subtype": "furniture",
   "image": "/images/types/furniture.webp",
   "province": "خراسان رضوی",
   "city": "مشهد",
@@ -5592,6 +5954,9 @@ export const generatedOpportunities: Opportunity[] = [
    "بررسی خسارت، بیمه و امکان جابه‌جایی تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد نقاط تجهیز",
    "unit": "نقطه",
@@ -5639,6 +6004,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل هزینه دفع نهایی و ریسک نوسان قیمت بازیافت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت پذیرش روزانه",
    "unit": "تن",
@@ -5686,6 +6054,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل هزینه دفع نهایی و ریسک نوسان قیمت بازیافت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت پذیرش روزانه",
    "unit": "تن",
@@ -5733,6 +6104,9 @@ export const generatedOpportunities: Opportunity[] = [
    "کنترل هزینه دفع نهایی و ریسک نوسان قیمت بازیافت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "ظرفیت پذیرش روزانه",
    "unit": "تن",
@@ -5777,6 +6151,9 @@ export const generatedOpportunities: Opportunity[] = [
    "عدم فرض انتقال مالکیت زمین از محل حق استفاده خدمت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت محدوده",
    "unit": "هکتار",
@@ -5824,6 +6201,9 @@ export const generatedOpportunities: Opportunity[] = [
    "عدم فرض انتقال مالکیت زمین از محل حق استفاده خدمت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت محدوده",
    "unit": "هکتار",
@@ -5871,6 +6251,9 @@ export const generatedOpportunities: Opportunity[] = [
    "عدم فرض انتقال مالکیت زمین از محل حق استفاده خدمت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت محدوده",
    "unit": "هکتار",
@@ -5918,6 +6301,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد هزینه آماده‌باش و جایگزینی تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد جایگاه خودرو",
    "unit": "جایگاه",
@@ -5965,6 +6351,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد هزینه آماده‌باش و جایگزینی تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد جایگاه خودرو",
    "unit": "جایگاه",
@@ -6012,6 +6401,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد هزینه آماده‌باش و جایگزینی تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد جایگاه خودرو",
    "unit": "جایگاه",
@@ -6029,7 +6421,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث روشنایی شهری — تهران",
   "group": "urban",
-  "subtype": "streets",
+  "subtype": "lighting",
   "image": "/images/types/lighting.webp",
   "province": "تهران",
   "city": "تهران",
@@ -6059,6 +6451,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین مالکیت تجهیزات و هزینه تعویض و نگهداری"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد پایه روشنایی",
    "unit": "پایه",
@@ -6073,7 +6468,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل روشنایی شهری — ساری",
   "group": "urban",
-  "subtype": "streets",
+  "subtype": "lighting",
   "image": "/images/types/lighting.webp",
   "province": "مازندران",
   "city": "ساری",
@@ -6103,6 +6498,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین مالکیت تجهیزات و هزینه تعویض و نگهداری"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد پایه روشنایی",
    "unit": "پایه",
@@ -6120,7 +6518,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی روشنایی شهری — مشهد",
   "group": "urban",
-  "subtype": "streets",
+  "subtype": "lighting",
   "image": "/images/types/lighting.webp",
   "province": "خراسان رضوی",
   "city": "مشهد",
@@ -6150,6 +6548,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین مالکیت تجهیزات و هزینه تعویض و نگهداری"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد پایه روشنایی",
    "unit": "پایه",
@@ -6197,6 +6598,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک سهم عمومی و سهم درآمدزا و زمان اجرای مرحله‌ای"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت محدوده بازآفرینی",
    "unit": "هکتار",
@@ -6244,6 +6648,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک سهم عمومی و سهم درآمدزا و زمان اجرای مرحله‌ای"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت محدوده بازآفرینی",
    "unit": "هکتار",
@@ -6291,6 +6698,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک سهم عمومی و سهم درآمدزا و زمان اجرای مرحله‌ای"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت محدوده بازآفرینی",
    "unit": "هکتار",
@@ -6308,7 +6718,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث شبکه فیبر نوری — تهران",
   "group": "digital",
-  "subtype": "fiber-telecom",
+  "subtype": "fiber",
   "image": "/images/types/fiber.webp",
   "province": "تهران",
   "city": "تهران",
@@ -6338,6 +6748,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد تجهیزات فعال، نگهداری و ارتقای شبکه"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول مسیر فیبر",
    "unit": "کیلومتر",
@@ -6355,7 +6768,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل شبکه فیبر نوری — اصفهان",
   "group": "digital",
-  "subtype": "fiber-telecom",
+  "subtype": "fiber",
   "image": "/images/types/fiber.webp",
   "province": "اصفهان",
   "city": "اصفهان",
@@ -6385,6 +6798,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد تجهیزات فعال، نگهداری و ارتقای شبکه"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول مسیر فیبر",
    "unit": "کیلومتر",
@@ -6399,7 +6815,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی شبکه فیبر نوری — تبریز",
   "group": "digital",
-  "subtype": "fiber-telecom",
+  "subtype": "fiber",
   "image": "/images/types/fiber.webp",
   "province": "آذربایجان شرقی",
   "city": "تبریز",
@@ -6429,6 +6845,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد تجهیزات فعال، نگهداری و ارتقای شبکه"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول مسیر فیبر",
    "unit": "کیلومتر",
@@ -6446,7 +6865,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث دکل و سایت مخابراتی — تهران",
   "group": "digital",
-  "subtype": "fiber-telecom",
+  "subtype": "telecom",
   "image": "/images/types/telecom.webp",
   "province": "تهران",
   "city": "تهران",
@@ -6476,6 +6895,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین هزینه انرژی، حفاظت و نگهداری"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد سایت مخابراتی",
    "unit": "سایت",
@@ -6493,7 +6915,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل دکل و سایت مخابراتی — اصفهان",
   "group": "digital",
-  "subtype": "fiber-telecom",
+  "subtype": "telecom",
   "image": "/images/types/telecom.webp",
   "province": "اصفهان",
   "city": "اصفهان",
@@ -6523,6 +6945,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین هزینه انرژی، حفاظت و نگهداری"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد سایت مخابراتی",
    "unit": "سایت",
@@ -6540,7 +6965,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی دکل و سایت مخابراتی — تبریز",
   "group": "digital",
-  "subtype": "fiber-telecom",
+  "subtype": "telecom",
   "image": "/images/types/telecom.webp",
   "province": "آذربایجان شرقی",
   "city": "تبریز",
@@ -6570,6 +6995,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین هزینه انرژی، حفاظت و نگهداری"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد سایت مخابراتی",
    "unit": "سایت",
@@ -6617,6 +7045,9 @@ export const generatedOpportunities: Opportunity[] = [
    "آزمون تقاضا و هزینه نوسازی سریع تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت برق فناوری اطلاعات",
    "unit": "مگاوات",
@@ -6664,6 +7095,9 @@ export const generatedOpportunities: Opportunity[] = [
    "آزمون تقاضا و هزینه نوسازی سریع تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت برق فناوری اطلاعات",
    "unit": "مگاوات",
@@ -6711,6 +7145,9 @@ export const generatedOpportunities: Opportunity[] = [
    "آزمون تقاضا و هزینه نوسازی سریع تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت برق فناوری اطلاعات",
    "unit": "مگاوات",
@@ -6725,7 +7162,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث زیرساخت شهر هوشمند — تهران",
   "group": "digital",
-  "subtype": "smart",
+  "subtype": "smartcity",
   "image": "/images/types/smartcity.webp",
   "province": "تهران",
   "city": "تهران",
@@ -6755,6 +7192,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین بودجه پشتیبانی و ارتقا و جلوگیری از وابستگی تأمین‌کننده"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد نقاط پایش",
    "unit": "نقطه",
@@ -6772,7 +7212,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل زیرساخت شهر هوشمند — اصفهان",
   "group": "digital",
-  "subtype": "smart",
+  "subtype": "smartcity",
   "image": "/images/types/smartcity.webp",
   "province": "اصفهان",
   "city": "اصفهان",
@@ -6802,6 +7242,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین بودجه پشتیبانی و ارتقا و جلوگیری از وابستگی تأمین‌کننده"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد نقاط پایش",
    "unit": "نقطه",
@@ -6819,7 +7262,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی زیرساخت شهر هوشمند — تبریز",
   "group": "digital",
-  "subtype": "smart",
+  "subtype": "smartcity",
   "image": "/images/types/smartcity.webp",
   "province": "آذربایجان شرقی",
   "city": "تبریز",
@@ -6849,6 +7292,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین بودجه پشتیبانی و ارتقا و جلوگیری از وابستگی تأمین‌کننده"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد نقاط پایش",
    "unit": "نقطه",
@@ -6866,7 +7312,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث شبکه‌های ارتباطی و کنترل هوشمند — تهران",
   "group": "digital",
-  "subtype": "smart",
+  "subtype": "control",
   "image": "/images/types/control.webp",
   "province": "تهران",
   "city": "تهران",
@@ -6896,6 +7342,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد چرخه ارتقا و سازگاری تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد ایستگاه متصل",
    "unit": "ایستگاه",
@@ -6913,7 +7362,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل شبکه‌های ارتباطی و کنترل هوشمند — اصفهان",
   "group": "digital",
-  "subtype": "smart",
+  "subtype": "control",
   "image": "/images/types/control.webp",
   "province": "اصفهان",
   "city": "اصفهان",
@@ -6943,6 +7392,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد چرخه ارتقا و سازگاری تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد ایستگاه متصل",
    "unit": "ایستگاه",
@@ -6960,7 +7412,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی شبکه‌های ارتباطی و کنترل هوشمند — تبریز",
   "group": "digital",
-  "subtype": "smart",
+  "subtype": "control",
   "image": "/images/types/control.webp",
   "province": "آذربایجان شرقی",
   "city": "تبریز",
@@ -6990,6 +7442,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد چرخه ارتقا و سازگاری تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "تعداد ایستگاه متصل",
    "unit": "ایستگاه",
@@ -7037,6 +7492,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد انرژی پمپ و تعویض و گرفتگی تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "سطح آبیاری",
    "unit": "هکتار",
@@ -7081,6 +7539,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد انرژی پمپ و تعویض و گرفتگی تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "سطح آبیاری",
    "unit": "هکتار",
@@ -7128,6 +7589,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد انرژی پمپ و تعویض و گرفتگی تجهیزات"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "سطح آبیاری",
    "unit": "هکتار",
@@ -7175,6 +7639,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک هزینه سازه از نهاده و سرمایه هر دوره تولید"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "سطح گلخانه",
    "unit": "هکتار",
@@ -7222,6 +7689,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک هزینه سازه از نهاده و سرمایه هر دوره تولید"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "سطح گلخانه",
    "unit": "هکتار",
@@ -7269,6 +7739,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک هزینه سازه از نهاده و سرمایه هر دوره تولید"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "سطح گلخانه",
    "unit": "هکتار",
@@ -7286,7 +7759,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث دامداری و دامپروری — شیراز",
   "group": "agriculture",
-  "subtype": "livestock-fish",
+  "subtype": "livestock",
   "image": "/images/types/livestock.webp",
   "province": "فارس",
   "city": "شیراز",
@@ -7316,6 +7789,9 @@ export const generatedOpportunities: Opportunity[] = [
    "آزمون حساسیت درآمد به تلفات و قیمت خوراک"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت نگهداری",
    "unit": "رأس",
@@ -7333,7 +7809,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل دامداری و دامپروری — رشت",
   "group": "agriculture",
-  "subtype": "livestock-fish",
+  "subtype": "livestock",
   "image": "/images/types/livestock.webp",
   "province": "گیلان",
   "city": "رشت",
@@ -7363,6 +7839,9 @@ export const generatedOpportunities: Opportunity[] = [
    "آزمون حساسیت درآمد به تلفات و قیمت خوراک"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت نگهداری",
    "unit": "رأس",
@@ -7377,7 +7856,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی دامداری و دامپروری — کرمان",
   "group": "agriculture",
-  "subtype": "livestock-fish",
+  "subtype": "livestock",
   "image": "/images/types/livestock.webp",
   "province": "کرمان",
   "city": "کرمان",
@@ -7407,6 +7886,9 @@ export const generatedOpportunities: Opportunity[] = [
    "آزمون حساسیت درآمد به تلفات و قیمت خوراک"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت نگهداری",
    "unit": "رأس",
@@ -7424,7 +7906,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث شیلات و آبزی‌پروری — بوشهر",
   "group": "agriculture",
-  "subtype": "livestock-fish",
+  "subtype": "fish",
   "image": "/images/types/fish.webp",
   "province": "بوشهر",
   "city": "بوشهر",
@@ -7454,6 +7936,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک سرمایه تأسیسات از سرمایه هر دوره پرورش"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت تولید سالانه",
    "unit": "تن",
@@ -7471,7 +7956,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل شیلات و آبزی‌پروری — بندرعباس",
   "group": "agriculture",
-  "subtype": "livestock-fish",
+  "subtype": "fish",
   "image": "/images/types/fish.webp",
   "province": "هرمزگان",
   "city": "بندرعباس",
@@ -7501,6 +7986,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک سرمایه تأسیسات از سرمایه هر دوره پرورش"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت تولید سالانه",
    "unit": "تن",
@@ -7518,7 +8006,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی شیلات و آبزی‌پروری — رشت",
   "group": "agriculture",
-  "subtype": "livestock-fish",
+  "subtype": "fish",
   "image": "/images/types/fish.webp",
   "province": "گیلان",
   "city": "رشت",
@@ -7548,6 +8036,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تفکیک سرمایه تأسیسات از سرمایه هر دوره پرورش"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "private",
   "metric": {
    "label": "ظرفیت تولید سالانه",
    "unit": "تن",
@@ -7595,6 +8086,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین متولی و منبع پرداخت خدمت عمومی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول مسیر",
    "unit": "کیلومتر",
@@ -7642,6 +8136,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین متولی و منبع پرداخت خدمت عمومی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول مسیر",
    "unit": "کیلومتر",
@@ -7689,6 +8186,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین متولی و منبع پرداخت خدمت عمومی"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "طول مسیر",
    "unit": "کیلومتر",
@@ -7733,6 +8233,9 @@ export const generatedOpportunities: Opportunity[] = [
    "عدم فرض درآمد کربن یا واگذاری زمین بدون حق و قرارداد احرازشده"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "سطح احیا و حفاظت",
    "unit": "هکتار",
@@ -7780,6 +8283,9 @@ export const generatedOpportunities: Opportunity[] = [
    "عدم فرض درآمد کربن یا واگذاری زمین بدون حق و قرارداد احرازشده"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "سطح احیا و حفاظت",
    "unit": "هکتار",
@@ -7827,6 +8333,9 @@ export const generatedOpportunities: Opportunity[] = [
    "عدم فرض درآمد کربن یا واگذاری زمین بدون حق و قرارداد احرازشده"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "سطح احیا و حفاظت",
    "unit": "هکتار",
@@ -7874,6 +8383,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین تعهد حفاظت، بیمه و روش تحویل پس از مرمت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "زیربنای مرمت",
    "unit": "مترمربع",
@@ -7921,6 +8433,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین تعهد حفاظت، بیمه و روش تحویل پس از مرمت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "زیربنای مرمت",
    "unit": "مترمربع",
@@ -7968,6 +8483,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین تعهد حفاظت، بیمه و روش تحویل پس از مرمت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "زیربنای مرمت",
    "unit": "مترمربع",
@@ -8015,6 +8533,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین حق بهره‌برداری مدت‌دار بدون فرض فروش بنا"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "زیربنای بنای تاریخی",
    "unit": "مترمربع",
@@ -8059,6 +8580,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین حق بهره‌برداری مدت‌دار بدون فرض فروش بنا"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "زیربنای بنای تاریخی",
    "unit": "مترمربع",
@@ -8106,6 +8630,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین حق بهره‌برداری مدت‌دار بدون فرض فروش بنا"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "زیربنای بنای تاریخی",
    "unit": "مترمربع",
@@ -8153,6 +8680,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد اجرای مرحله‌ای، زیرساخت و حفظ هویت بافت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت بافت تاریخی",
    "unit": "هکتار",
@@ -8200,6 +8730,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد اجرای مرحله‌ای، زیرساخت و حفظ هویت بافت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت بافت تاریخی",
    "unit": "هکتار",
@@ -8247,6 +8780,9 @@ export const generatedOpportunities: Opportunity[] = [
    "برآورد اجرای مرحله‌ای، زیرساخت و حفظ هویت بافت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "مساحت بافت تاریخی",
    "unit": "هکتار",
@@ -8264,7 +8800,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث تغییر کاربری بناهای تاریخی — یزد",
   "group": "heritage",
-  "subtype": "historichouse",
+  "subtype": "adaptive",
   "image": "/images/types/adaptive.webp",
   "province": "یزد",
   "city": "یزد",
@@ -8294,6 +8830,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین مسئول حفاظت و هزینه نگهداری بلندمدت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "فضای قابل احیا",
    "unit": "مترمربع",
@@ -8311,7 +8850,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل تغییر کاربری بناهای تاریخی — کاشان",
   "group": "heritage",
-  "subtype": "historichouse",
+  "subtype": "adaptive",
   "image": "/images/types/adaptive.webp",
   "province": "اصفهان",
   "city": "کاشان",
@@ -8341,6 +8880,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین مسئول حفاظت و هزینه نگهداری بلندمدت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "فضای قابل احیا",
    "unit": "مترمربع",
@@ -8355,7 +8897,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی تغییر کاربری بناهای تاریخی — اصفهان",
   "group": "heritage",
-  "subtype": "historichouse",
+  "subtype": "adaptive",
   "image": "/images/types/adaptive.webp",
   "province": "اصفهان",
   "city": "اصفهان",
@@ -8385,6 +8927,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین مسئول حفاظت و هزینه نگهداری بلندمدت"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "فضای قابل احیا",
    "unit": "مترمربع",
@@ -8402,7 +8947,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "احداث مقاوم‌سازی و حفاظت اضطراری آثار — یزد",
   "group": "heritage",
-  "subtype": "restoration",
+  "subtype": "protection",
   "image": "/images/types/protection.webp",
   "province": "یزد",
   "city": "یزد",
@@ -8432,6 +8977,9 @@ export const generatedOpportunities: Opportunity[] = [
    "ثبت وضعیت پیش از مداخله و کنترل آسیب ثانویه"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "سطح مداخله حفاظتی",
    "unit": "مترمربع",
@@ -8449,7 +8997,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "تکمیل مقاوم‌سازی و حفاظت اضطراری آثار — کاشان",
   "group": "heritage",
-  "subtype": "restoration",
+  "subtype": "protection",
   "image": "/images/types/protection.webp",
   "province": "اصفهان",
   "city": "کاشان",
@@ -8479,6 +9027,9 @@ export const generatedOpportunities: Opportunity[] = [
    "ثبت وضعیت پیش از مداخله و کنترل آسیب ثانویه"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "سطح مداخله حفاظتی",
    "unit": "مترمربع",
@@ -8496,7 +9047,7 @@ export const generatedOpportunities: Opportunity[] = [
   "kind": "project",
   "title": "توسعه و بهسازی مقاوم‌سازی و حفاظت اضطراری آثار — اصفهان",
   "group": "heritage",
-  "subtype": "restoration",
+  "subtype": "protection",
   "image": "/images/types/protection.webp",
   "province": "اصفهان",
   "city": "اصفهان",
@@ -8526,6 +9077,9 @@ export const generatedOpportunities: Opportunity[] = [
    "ثبت وضعیت پیش از مداخله و کنترل آسیب ثانویه"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "سطح مداخله حفاظتی",
    "unit": "مترمربع",
@@ -8573,6 +9127,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین حق ارائه خدمت بدون فرض انتقال حقوق اثر"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "سطح خدمات گردشگری",
    "unit": "مترمربع",
@@ -8620,6 +9177,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین حق ارائه خدمت بدون فرض انتقال حقوق اثر"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "سطح خدمات گردشگری",
    "unit": "مترمربع",
@@ -8667,6 +9227,9 @@ export const generatedOpportunities: Opportunity[] = [
    "تعیین حق ارائه خدمت بدون فرض انتقال حقوق اثر"
   ],
   "steps": [],
+  "modelId": null,
+  "revenues": [],
+  "owner": "public",
   "metric": {
    "label": "سطح خدمات گردشگری",
    "unit": "مترمربع",

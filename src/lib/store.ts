@@ -6,13 +6,19 @@ import type { FilterValue, SavedProfile, SearchCriteria } from "@/types";
 
 export const emptyCriteria: SearchCriteria = { route: "investor", groups: [], provinces: [], amount: null, filters: {} };
 
-type Pending = { type: "save-listing"; id: string } | { type: "save-criteria" } | null;
+type Pending = { type: "save-listing"; id: string } | { type: "save-criteria"; name?: string } | null;
 
 interface State {
   user: { mobile: string } | null;
   saved: string[];
   profiles: SavedProfile[];
   criteria: SearchCriteria;
+  /** آیا کاربر گام «اطلاعات پایه» را در صفحه پروژه‌ها گذرانده است */
+  started: boolean;
+  setStarted: (v: boolean) => void;
+  /** شروع تازه از یک دسته اصلی یا گروه؛ گام اطلاعات پایه دوباره نمایش داده می‌شود */
+  begin: (c: Partial<SearchCriteria>) => void;
+  applyProfile: (id: string) => void;
   loginOpen: boolean;
   pending: Pending;
   setCriteria: (c: Partial<SearchCriteria>) => void;
@@ -31,7 +37,10 @@ interface State {
 export const useStore = create<State>()(
   persist(
     (set, get) => ({
-      user: null, saved: [], profiles: [], criteria: emptyCriteria, loginOpen: false, pending: null,
+      user: null, saved: [], profiles: [], criteria: emptyCriteria, started: false, loginOpen: false, pending: null,
+      setStarted: (started) => set({ started }),
+      begin: (c) => set({ criteria: { ...emptyCriteria, ...c }, started: false }),
+      applyProfile: (id) => set((s) => { const p = s.profiles.find((x) => x.id === id); return p ? { criteria: p.criteria, started: true, profiles: s.profiles.map((x) => (x.id === id ? { ...x, lastSeenAt: "2026-11-10" } : x)) } : {}; }),
       setCriteria: (c) => set((s) => ({ criteria: { ...s.criteria, ...c } })),
       setFilter: (id, v) =>
         set((s) => {
@@ -40,7 +49,7 @@ export const useStore = create<State>()(
           if (empty) delete filters[id]; else filters[id] = v;
           return { criteria: { ...s.criteria, filters } };
         }),
-      resetFilters: () => set((s) => ({ criteria: { ...s.criteria, filters: {} } })),
+      resetFilters: () => set((s) => ({ criteria: { ...s.criteria, groups: [], provinces: [], amount: null, filters: {} } })),
       openLogin: (pending = null) => set({ loginOpen: true, pending }),
       closeLogin: () => set({ loginOpen: false, pending: null }),
       login: (mobile) => {
@@ -54,14 +63,14 @@ export const useStore = create<State>()(
       saveProfile: (name) =>
         set((s) => ({
           profiles: [
-            { id: String(s.profiles.length + 1) + "-" + name, name, criteria: s.criteria, createdAt: "2026-11-10", lastSeenAt: "2026-11-01" },
+            { id: String(Date.now()) + "-" + String(s.profiles.length + 1), name, criteria: s.criteria, createdAt: "2026-11-10", lastSeenAt: "2026-11-01" },
             ...s.profiles,
           ],
         })),
       removeProfile: (id) => set((s) => ({ profiles: s.profiles.filter((p) => p.id !== id) })),
       touchProfile: (id) => set((s) => ({ profiles: s.profiles.map((p) => (p.id === id ? { ...p, lastSeenAt: "2026-11-10" } : p)) })),
     }),
-    { name: "sarmayenama", partialize: (s) => ({ user: s.user, saved: s.saved, profiles: s.profiles, criteria: s.criteria }) },
+    { name: "hamsarmaye", partialize: (s) => ({ user: s.user, saved: s.saved, profiles: s.profiles, criteria: s.criteria, started: s.started }) },
   ),
 );
 

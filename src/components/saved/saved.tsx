@@ -13,7 +13,7 @@ import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { ListingCard } from "@/components/listing/listing-card";
 import { routeIcons } from "@/components/icons";
 import { routes } from "@/data/routes";
-import { projectGroups } from "@/data/taxonomy";
+import { describeCriteria } from "@/lib/criteria";
 import { listings } from "@/lib/listings";
 import { rank } from "@/lib/match";
 import { useHydrated, useStore } from "@/lib/store";
@@ -22,19 +22,14 @@ import { faNumber } from "@/lib/utils";
 
 function ProfileCard({ p, i }: { p: SavedProfile; i: number }) {
   const router = useRouter();
-  const { setCriteria, touchProfile, removeProfile } = useStore();
+  const { applyProfile, removeProfile } = useStore();
   const route = routes.find((r) => r.id === p.criteria.route)!;
   const I = routeIcons[route.id];
   const matches = rank(listings, p.criteria).filter((r) => r.score >= 50);
   const fresh = matches.filter((r) => r.listing.publishedAt > p.lastSeenAt).length;
-  const chips = [
-    ...p.criteria.groups.map((g) => projectGroups.find((x) => x.id === g)?.name ?? g),
-    ...p.criteria.provinces,
-    p.criteria.amount && route.amount ? `${faNumber(p.criteria.amount[0])} تا ${faNumber(p.criteria.amount[1])} ${route.amount.unit}` : null,
-    Object.keys(p.criteria.filters).length ? `${faNumber(Object.keys(p.criteria.filters).length)} فیلتر پیشرفته` : null,
-  ].filter(Boolean) as string[];
+  const chips = describeCriteria(p.criteria).map((c) => c.label);
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}><Card className="glass relative h-full gap-5 overflow-hidden rounded-[2rem] p-6">
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}><Card className="surface relative h-full gap-5 overflow-hidden rounded-[2rem] p-6 shadow-none">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           <span className="grid size-12 place-items-center rounded-2xl bg-primary/10 text-primary"><I size={24} variant="Bulk" /></span>
@@ -45,8 +40,8 @@ function ProfileCard({ p, i }: { p: SavedProfile; i: number }) {
       <div className="flex flex-wrap gap-1.5">{chips.length ? chips.map((c) => <Badge key={c} variant="outline" className="border-black/[0.06] bg-white px-3 py-1 font-bold text-ink/80">{c}</Badge>) : <span className="text-xs text-muted-foreground">بدون محدودیت</span>}</div>
       <div className="mt-auto flex items-center justify-between gap-3 border-t border-dashed border-border pt-4">
         <span className="text-sm font-bold text-ink">{faNumber(matches.length)} پروژه متناسب
-          {fresh > 0 && <span className="mr-2 inline-flex items-center gap-1 rounded-full bg-sand px-2.5 py-0.5 text-[11px] font-extrabold text-ink"><Notification size={12} variant="Bold" />{faNumber(fresh)} تازه</span>}</span>
-        <Button variant="plain" size="auto" type="button" onClick={() => { setCriteria(p.criteria); touchProfile(p.id); router.push("/opportunities"); }} className="group inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 text-sm font-extrabold text-white hover:bg-deep">نمایش <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></Button>
+          {fresh > 0 && <span className="mr-2 inline-flex items-center gap-1 rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-extrabold text-white"><Notification size={12} variant="Bold" />{faNumber(fresh)} تازه</span>}</span>
+        <Button variant="plain" size="auto" type="button" onClick={() => { applyProfile(p.id); router.push("/opportunities"); }} className="group inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 text-sm font-extrabold text-white hover:bg-deep">نمایش <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></Button>
       </div>
     </Card></motion.div>
   );
@@ -62,12 +57,12 @@ export function Saved() {
     <>
       <Header />
       <main className="relative mx-auto min-h-[70dvh] max-w-7xl px-4 pt-10 sm:px-6">
-        <AlgoPattern className="-top-20 left-0 h-80 w-[36rem] text-primary/[0.08]" fade="radial" scale={0.8} />
+        <AlgoPattern className="-top-20 left-0 h-80 w-[36rem] text-ink/[0.05]" fade="radial" />
         <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-primary"><NodeMark />حساب شما</span>
         <h1 className="mt-2 text-3xl font-black text-ink sm:text-4xl">ذخیره‌شده‌ها</h1>
 
         {hydrated && !user ? (
-          <Card className="glass mt-8 grid place-items-center gap-0 rounded-[2rem] px-6 py-20 text-center">
+          <Card className="surface mt-8 grid place-items-center gap-0 rounded-[2rem] px-6 py-20 text-center">
             <span className="grid size-16 place-items-center rounded-full bg-primary/10 text-primary"><ArchiveTick size={30} variant="Bulk" /></span>
             <h2 className="mt-5 text-xl font-extrabold text-ink">برای دیدن ذخیره‌شده‌ها وارد شوید.</h2>
             <p className="mt-2 max-w-md text-sm leading-7 text-muted-foreground">پروژه‌ها و شرایطی که ذخیره می‌کنید با شماره موبایل شما نگه داشته می‌شود.</p>
@@ -76,10 +71,10 @@ export function Saved() {
         ) : hydrated && (
           <>
             <Tabs dir="rtl" value={tab} onValueChange={(v) => setTab(v as "projects" | "criteria")} className="mt-7 gap-7">
-              <TabsList className="glass h-auto rounded-full p-1 group-data-[orientation=horizontal]/tabs:h-auto">
+              <TabsList className="surface h-auto bg-white rounded-full p-1 group-data-[orientation=horizontal]/tabs:h-auto">
                 {tabs.map(([k, label, I, n]) => (
                   <TabsTrigger key={k} value={k} className="group/t h-auto gap-2 rounded-full border-0 px-4 py-2.5 text-sm font-bold text-ink/70 data-[state=active]:bg-ink data-[state=active]:text-white sm:px-5">
-                    <I size={17} variant="Bulk" />{label}<Badge className="h-5 min-w-5 bg-ink/10 px-1 text-[11px] text-ink group-data-[state=active]/t:bg-sand">{faNumber(n)}</Badge>
+                    <I size={17} variant="Bulk" />{label}<Badge className="h-5 min-w-5 bg-ink/10 px-1 text-[11px] text-ink group-data-[state=active]/t:bg-white">{faNumber(n)}</Badge>
                   </TabsTrigger>
                 ))}
               </TabsList>

@@ -1,63 +1,217 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+// صفحه پروژه‌ها: اول «اطلاعات پایه» (دسته اصلی، محدوده، بودجه) پرسیده می‌شود و بعد نتایج می‌آید.
+// در نتایج: دسته‌های اصلی (تک‌انتخابی) و فیلترهای اصلی بالای صفحه، فیلتر پیشرفته کنار نتایج.
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "motion/react";
 import { toast } from "sonner";
-import { ArchiveAdd, CloseCircle, FilterSearch, SearchNormal1, Sort, TickCircle, Notification } from "@/components/iconsax";
+import { ArrowDown2, ArrowLeft, Category2, CloseCircle, Edit2, Location, Save2, SearchNormal1, Sort, TickCircle, WalletMoney } from "@/components/iconsax";
 import { Header, Footer } from "@/components/site/header";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { ListingCard } from "@/components/listing/listing-card";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { groupIcons, routeIcons } from "@/components/icons";
 import { sortOptions } from "@/data/fields";
-import { routes } from "@/data/routes";
+import { routes, routeSubcategories } from "@/data/routes";
+import { projectGroups } from "@/data/taxonomy";
+import { describeCriteria, hasAnyCriteria, type CriteriaChip } from "@/lib/criteria";
 import { listings } from "@/lib/listings";
-import { rank } from "@/lib/match";
+import { forRoute, rank } from "@/lib/match";
 import { useHydrated, useStore } from "@/lib/store";
-import type { MatchResult, Opportunity } from "@/types";
-import { faNumber } from "@/lib/utils";
-import { SearchBar } from "./search-bar";
+import type { MatchResult, Opportunity, RouteId } from "@/types";
+import { cn, faNumber } from "@/lib/utils";
 import { AdvancedFilter } from "./advanced-filter";
+import { Chip, RangeField, amountPresets } from "./controls";
+import { ProvincePicker } from "./province-picker";
+import { SaveCriteriaDialog, SavedCriteriaMenu, useProfileStats } from "./save-criteria";
 
 const PAGE = 12;
 const SUITABLE = 50;
+const subKey: Record<string, string> = { fund: "fundType", buyer: "saleCategory", charity: "charityType" };
+const routeCounts = Object.fromEntries(routes.map((r) => [r.id, forRoute(listings, r.id).length])) as Record<RouteId, number>;
 
-function SaveCriteriaBar({ hasCriteria }: { hasCriteria: boolean }) {
-  const { user, openLogin, saveProfile, profiles, criteria } = useStore();
-  const saved = profiles.some((p) => JSON.stringify(p.criteria) === JSON.stringify(criteria));
-  const save = () => {
-    if (!user) return openLogin({ type: "save-criteria" });
-    saveProfile(`شرایط ${faNumber(profiles.length + 1)}`);
-    toast.success("شرایط شما ذخیره شد.");
-  };
-  if (!hasCriteria) return null;
+function useRoute() {
+  const id = useStore((s) => s.criteria.route);
+  return routes.find((r) => r.id === id)!;
+}
+const changeRoute = (id: RouteId) => useStore.getState().setCriteria({ route: id, groups: [], amount: null, filters: {} });
+
+/* ——— گام اول: اطلاعات پایه ——— */
+function Step({ n, title, hint, children }: { n: number; title: string; hint?: string; children: React.ReactNode }) {
   return (
-    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="relative isolate mb-5 flex flex-col gap-3 overflow-hidden rounded-3xl bg-deep p-4 pr-5 text-white sm:flex-row sm:items-center sm:justify-between">
-      <AlgoPattern className="inset-y-0 left-0 h-full w-1/2 text-white/[0.12]" fade="right" scale={0.5} />
-      <p className="relative flex items-center gap-3 text-sm font-bold leading-6"><span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/10 text-sand"><Notification size={20} variant="Bulk" /></span>
-        {saved ? "این شرایط ذخیره شده است. دفعه بعد پروژه‌های تازه را همین‌جا می‌بینید." : "این شرایط را ذخیره کنید تا دفعه بعد دوباره وارد نکنید و پروژه‌های تازه را ببینید."}</p>
-      {saved ? <span className="relative inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-white/10 px-5 text-sm font-extrabold text-sand"><TickCircle size={18} variant="Bold" />ذخیره شد</span>
-        : <Button variant="plain" size="auto" type="button" onClick={save} className="relative inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-extrabold text-ink transition-colors hover:bg-sand"><ArchiveAdd size={18} />ذخیره شرایط</Button>}
+    <section className="grid grid-cols-[13rem_1fr] gap-8 border-t border-border py-8 first:border-t-0 first:pt-0">
+      <div>
+        <span className="grid size-9 place-items-center rounded-full bg-ink text-sm font-black text-white">{faNumber(n)}</span>
+        <h2 className="mt-3 text-lg font-extrabold text-ink">{title}</h2>
+        {hint && <p className="mt-1.5 text-[13px] leading-6 text-muted-foreground">{hint}</p>}
+      </div>
+      <div className="min-w-0">{children}</div>
+    </section>
+  );
+}
+
+function Intake({ count }: { count: number }) {
+  const { criteria, setCriteria, setStarted, profiles, applyProfile } = useStore();
+  const stats = useProfileStats();
+  const route = useRoute();
+  return (
+    <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mx-auto max-w-5xl">
+      <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-primary"><NodeMark />گام اول از دو</span>
+      <h1 className="mt-2 text-4xl font-black leading-[1.4] text-ink">اول سه مورد پایه را بگویید، بعد پروژه‌ها را ببینید.</h1>
+      <p className="mt-2 text-[15px] leading-7 text-muted-foreground">بقیه شرایط اختیاری است و کنار نتایج، در فیلتر پیشرفته می‌آید.</p>
+
+      {profiles.length > 0 && (
+        <div className="surface mt-6 flex flex-wrap items-center gap-2 rounded-3xl p-4">
+          <span className="ml-1 text-[13px] font-bold text-ink">با شرایط ذخیره‌شده ادامه دهید:</span>
+          {profiles.map((p) => (
+            <Button key={p.id} variant="outline" onClick={() => applyProfile(p.id)} className="h-10 gap-2 rounded-full bg-white px-4 text-[13px] font-bold shadow-none hover:border-primary hover:text-primary">
+              {p.name}{(stats[p.id]?.fresh ?? 0) > 0 && <Badge className="px-2 text-[11px]">{faNumber(stats[p.id].fresh)} تازه</Badge>}
+            </Button>
+          ))}
+        </div>
+      )}
+
+      <Card className="surface mt-6 block gap-0 rounded-[2rem] p-8 shadow-none">
+        <Step n={1} title="دسته‌بندی اصلی" hint="فقط یکی؛ هر دسته فیلترهای خودش را دارد.">
+          <ToggleGroup type="single" spacing={2} value={criteria.route} onValueChange={(v) => v && changeRoute(v as RouteId)} className="grid w-full grid-cols-4">
+            {routes.map((r) => { const I = routeIcons[r.id];
+              return (
+                <ToggleGroupItem key={r.id} value={r.id} className="group/r h-auto min-w-0 flex-col items-start gap-2 whitespace-normal rounded-2xl border border-border bg-white p-3.5 text-right shadow-none hover:border-primary/40 hover:bg-white data-[state=on]:border-primary data-[state=on]:bg-primary/[0.05]">
+                  <span className="flex w-full items-center justify-between">
+                    <span className="grid size-9 place-items-center rounded-xl bg-muted text-ink/70 group-data-[state=on]/r:bg-primary group-data-[state=on]/r:text-white"><I size={18} variant="Bulk" /></span>
+                    <span className="text-[11px] font-semibold text-muted-foreground">{faNumber(routeCounts[r.id])} پروژه</span>
+                  </span>
+                  <span className="text-[13px] font-extrabold leading-5 text-ink">{r.name}</span>
+                </ToggleGroupItem>
+              ); })}
+          </ToggleGroup>
+        </Step>
+
+        <Step n={2} title="محدوده پروژه" hint={route.id === "fund" ? undefined : "یک یا چند استان. اگر انتخاب نکنید، همه ایران در نظر گرفته می‌شود."}>
+          {route.id === "fund"
+            ? <p className="rounded-2xl bg-muted p-4 text-sm font-semibold text-ink/75">صندوق‌ها و طرح‌های جمعی محدوده مکانی ندارند.</p>
+            : <ProvincePicker route={route.id} value={criteria.provinces} onChange={(v) => setCriteria({ provinces: v })} />}
+        </Step>
+
+        <Step n={3} title="بودجه" hint={route.amount?.label}>
+          {route.amount
+            ? <div className="max-w-xl"><RangeField min={route.amount.min} max={route.amount.max} step={route.amount.step} unit={route.amount.unit} value={criteria.amount ?? undefined} onChange={(v) => setCriteria({ amount: v })} presets={amountPresets(route.amount.min, route.amount.max)} />
+                {criteria.amount && <Button variant="ghost" size="xs" onClick={() => setCriteria({ amount: null })} className="mt-3 font-bold text-muted-foreground hover:text-destructive">حذف بودجه</Button>}</div>
+            : <p className="rounded-2xl bg-muted p-4 text-sm font-semibold text-ink/75">در این دسته مبلغ پرسیده نمی‌شود.</p>}
+        </Step>
+
+        <div className="flex items-center gap-4 border-t border-border pt-7">
+          <Button variant="plain" size="auto" onClick={() => { setStarted(true); window.scrollTo({ top: 0 }); }} className="group h-14 gap-3 rounded-full bg-primary pl-2 pr-7 text-base font-extrabold text-white shadow-[0_18px_40px_-20px_var(--primary)] hover:bg-deep">
+            نمایش {faNumber(count)} پروژه<span className="grid size-10 place-items-center rounded-full bg-white/15 transition-transform group-hover:-translate-x-1"><ArrowLeft size={18} /></span>
+          </Button>
+          <Button variant="ghost" onClick={() => { setCriteria({ provinces: [], amount: null }); setStarted(true); window.scrollTo({ top: 0 }); }} className="h-12 rounded-full px-5 font-bold text-ink/70">فعلاً همه پروژه‌های این دسته</Button>
+        </div>
+      </Card>
     </motion.div>
+  );
+}
+
+/* ——— فیلترهای اصلی بالای نتایج ——— */
+function BarItem({ icon, label, value, active, width = "w-[22rem]", children }: { icon: React.ReactNode; label: string; value: string; active: boolean; width?: string; children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button variant="plain" size="auto" className={cn("h-auto min-w-0 flex-1 justify-start gap-3 rounded-2xl px-3.5 py-2.5 text-right hover:bg-muted", open && "bg-muted")}>
+          <span className={cn("grid size-10 shrink-0 place-items-center rounded-xl", active ? "bg-primary text-white" : "bg-muted text-ink/70")}>{icon}</span>
+          <span className="min-w-0 flex-1"><span className="block text-[11px] font-semibold text-muted-foreground">{label}</span><span className="block truncate text-sm font-extrabold text-ink">{value}</span></span>
+          <ArrowDown2 size={15} className={cn("shrink-0 text-muted-foreground transition-transform", open && "rotate-180")} />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent align="start" sideOffset={10} className={cn("rounded-3xl p-5 shadow-2xl", width)}>{children}</PopoverContent>
+    </Popover>
+  );
+}
+
+function FilterBar() {
+  const { criteria, setCriteria, setFilter } = useStore();
+  const route = useRoute();
+  const subs = routeSubcategories[route.id];
+  const sKey = subKey[route.id];
+  const subValue = (criteria.filters[sKey] as string[]) ?? [];
+  const groupText = route.usesProjectGroups
+    ? criteria.groups.length ? criteria.groups.map((g) => projectGroups.find((x) => x.id === g)?.name).join("، ") : "همه گروه‌ها"
+    : subs ? (subValue.length ? subValue.map((s) => subs.find((x) => x.id === s)?.name).join("، ") : "همه") : "";
+  return (
+    <div className="surface flex items-center gap-1 rounded-3xl p-1.5">
+      {route.id !== "fund" && <>
+        <BarItem icon={<Location size={20} variant="Bulk" />} label="محدوده پروژه" value={criteria.provinces.length ? criteria.provinces.join("، ") : "همه ایران"} active={criteria.provinces.length > 0} width="w-[44rem]">
+          <ProvincePicker route={route.id} value={criteria.provinces} onChange={(v) => setCriteria({ provinces: v })} />
+        </BarItem>
+        <span className="h-9 w-px shrink-0 bg-border" />
+      </>}
+      {route.amount && <>
+        <BarItem icon={<WalletMoney size={20} variant="Bulk" />} label={route.amount.label} value={criteria.amount ? `${faNumber(criteria.amount[0])} تا ${faNumber(criteria.amount[1])} ${route.amount.unit}` : "هر مبلغی"} active={criteria.amount != null} width="w-[24rem]">
+          <RangeField min={route.amount.min} max={route.amount.max} step={route.amount.step} unit={route.amount.unit} value={criteria.amount ?? undefined} onChange={(v) => setCriteria({ amount: v })} presets={amountPresets(route.amount.min, route.amount.max)} />
+          {criteria.amount && <Button variant="ghost" size="xs" onClick={() => setCriteria({ amount: null })} className="mt-3 font-bold text-muted-foreground hover:text-destructive">حذف مبلغ</Button>}
+        </BarItem>
+        <span className="h-9 w-px shrink-0 bg-border" />
+      </>}
+      {(route.usesProjectGroups || subs) && (
+        <BarItem icon={<Category2 size={20} variant="Bulk" />} label={route.usesProjectGroups ? "گروه پروژه" : "زیردسته"} value={groupText} active={route.usesProjectGroups ? criteria.groups.length > 0 : subValue.length > 0} width="w-[30rem]">
+          <p className="mb-3 text-xs text-muted-foreground">چند مورد را می‌توانید با هم انتخاب کنید. نوع دقیق هر گروه در فیلتر پیشرفته است.</p>
+          <div className="flex flex-wrap gap-2">
+            {route.usesProjectGroups
+              ? projectGroups.map((g) => { const I = groupIcons[g.id]; const on = criteria.groups.includes(g.id);
+                  return <Chip key={g.id} active={on} onClick={() => setCriteria({ groups: on ? criteria.groups.filter((x) => x !== g.id) : [...criteria.groups, g.id] })}><I size={15} variant="Bulk" />{g.name}</Chip>; })
+              : subs!.map((s) => { const on = subValue.includes(s.id);
+                  return <Chip key={s.id} active={on} onClick={() => setFilter(sKey, on ? subValue.filter((x) => x !== s.id) : [...subValue, s.id])}>{s.name}</Chip>; })}
+          </div>
+        </BarItem>
+      )}
+    </div>
+  );
+}
+
+function ActiveChips({ chips }: { chips: CriteriaChip[] }) {
+  const { criteria, setCriteria, setFilter, resetFilters } = useStore();
+  if (!chips.length) return null;
+  const remove = (c: CriteriaChip) =>
+    c.kind === "group" ? setCriteria({ groups: criteria.groups.filter((x) => x !== c.value) })
+    : c.kind === "province" ? setCriteria({ provinces: criteria.provinces.filter((x) => x !== c.value) })
+    : c.kind === "amount" ? setCriteria({ amount: null }) : setFilter(c.value!, undefined);
+  return (
+    <div className="mt-3 flex flex-wrap items-center gap-2">
+      <span className="text-xs font-bold text-muted-foreground">فیلترهای فعال:</span>
+      {chips.map((c) => (
+        <Badge key={c.key} variant="outline" className="gap-1 border-primary/25 bg-primary/[0.05] py-1 pl-1 pr-3 text-[12px] font-bold text-ink">
+          {c.label}
+          <Button variant="plain" size="auto" aria-label={`حذف ${c.label}`} onClick={() => remove(c)} className="grid size-5 place-items-center rounded-full text-ink/50 hover:bg-destructive/10 hover:text-destructive"><CloseCircle size={15} variant="Bold" /></Button>
+        </Badge>
+      ))}
+      <Button variant="ghost" size="xs" onClick={resetFilters} className="font-bold text-destructive hover:bg-destructive/10 hover:text-destructive">حذف همه</Button>
+    </div>
   );
 }
 
 export function Results() {
   const hydrated = useHydrated();
-  const { criteria, user, openLogin } = useStore();
+  const { criteria, started, setStarted, profiles } = useStore();
+  const deferred = useDeferredValue(criteria);
   const [sort, setSort] = useState("relevance");
   const [q, setQ] = useState("");
   const [showAll, setShowAll] = useState(false);
   const [limit, setLimit] = useState(PAGE);
-  const route = routes.find((r) => r.id === criteria.route)!;
-  const filterCount = Object.keys(criteria.filters).length;
-  const hasCriteria = hydrated && (criteria.groups.length > 0 || criteria.provinces.length > 0 || criteria.amount != null || filterCount > 0);
+  const [saveOpen, setSaveOpen] = useState(false);
+  const route = useRoute();
+  const hasCriteria = hydrated && hasAnyCriteria(deferred);
+  const chips = useMemo(() => (hydrated ? describeCriteria(criteria) : []), [hydrated, criteria]);
+  const isSaved = hydrated && profiles.some((p) => JSON.stringify(p.criteria) === JSON.stringify(criteria));
 
-  const all = useMemo(() => (hydrated ? rank(listings, criteria) : []), [hydrated, criteria]);
+  const all = useMemo(() => (hydrated ? rank(listings, deferred) : []), [hydrated, deferred]);
   const { shown, hidden } = useMemo(() => {
     let list = all;
     if (q.trim()) list = list.filter((r) => `${r.listing.title} ${r.listing.city ?? ""} ${r.listing.province ?? ""} ${r.listing.tags.join(" ")}`.includes(q.trim()));
@@ -70,82 +224,101 @@ export function Results() {
     };
     return { shown: [...ok].sort(by[sort]), hidden: list.length - ok.length };
   }, [all, q, sort, showAll, hasCriteria]);
+  const suitable = useMemo(() => (hasCriteria ? all.filter((r) => r.score >= SUITABLE).length : all.length), [all, hasCriteria]);
 
-  useEffect(() => setLimit(PAGE), [criteria, q, sort, showAll]);
+  useEffect(() => setLimit(PAGE), [deferred, q, sort, showAll]);
 
-  // پیشنهاد ذخیره شرایط، یک‌بار پس از پر کردن
+  // پیشنهاد ذخیره شرایط، یک‌بار پس از دیدن نتایج
   const nudged = useRef(false);
   useEffect(() => {
-    if (!hasCriteria || nudged.current || user) return;
+    if (!started || !hasCriteria || nudged.current || isSaved) return;
     nudged.current = true;
-    const t = setTimeout(() => toast("شرایطتان را ذخیره کنیم؟", { description: "دفعه بعد لازم نیست دوباره وارد کنید.", duration: 9000, action: { label: "ذخیره", onClick: () => openLogin({ type: "save-criteria" }) } }), 2500);
+    const t = setTimeout(() => toast("این شرایط را ذخیره کنیم؟", { description: "دفعه بعد لازم نیست دوباره وارد کنید.", duration: 9000, action: { label: "ذخیره", onClick: () => setSaveOpen(true) } }), 4000);
     return () => clearTimeout(t);
-  }, [hasCriteria, user, openLogin]);
+  }, [started, hasCriteria, isSaved]);
 
   return (
     <>
       <Header />
-      <main className="relative mx-auto max-w-[92rem] px-3 pt-6 sm:px-6">
-        <AlgoPattern className="-top-24 left-0 h-80 w-[36rem] text-primary/[0.08]" fade="radial" scale={0.8} />
-        <div className="relative z-30"><SearchBar compact /></div>
+      <main className="relative mx-auto min-h-[70dvh] max-w-[90rem] px-6 pt-8">
+        <AlgoPattern className="-top-24 left-0 -z-10 h-80 w-[36rem] text-ink/[0.05]" fade="radial" />
+        {!hydrated ? null : !started ? <Intake count={suitable} /> : (
+          <>
+            {/* دسته‌بندی‌های اصلی: تک‌انتخابی */}
+            <Tabs dir="rtl" value={criteria.route} onValueChange={(v) => changeRoute(v as RouteId)}>
+              <TabsList className="surface h-auto w-full justify-start gap-1 rounded-3xl bg-white p-1.5 group-data-[orientation=horizontal]/tabs:h-auto">
+                {routes.map((r) => { const I = routeIcons[r.id];
+                  return (
+                    <TabsTrigger key={r.id} value={r.id} className="group/t h-auto min-w-0 flex-1 gap-2 rounded-2xl border-0 whitespace-normal px-2 py-2 text-right text-[12.5px] font-bold leading-5 text-ink/65 hover:text-ink data-[state=active]:bg-ink data-[state=active]:text-white data-[state=active]:shadow-none">
+                      <I size={17} variant="Bulk" className="shrink-0" /><span>{r.name}</span>
+                      <span className="shrink-0 rounded-full bg-ink/[0.07] px-1.5 text-[11px] group-data-[state=active]/t:bg-white/20">{faNumber(routeCounts[r.id])}</span>
+                    </TabsTrigger>
+                  ); })}
+              </TabsList>
+            </Tabs>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-[22rem_1fr]">
-          <aside className="hidden lg:block">
-            <Card className="glass no-scrollbar sticky top-24 block max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[2rem] p-5"><AdvancedFilter /></Card>
-          </aside>
-
-          <section className="min-w-0">
-            <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-primary"><NodeMark />{route.name}</span>
-                <h1 className="mt-1.5 text-2xl font-black text-ink sm:text-3xl">{hydrated ? faNumber(shown.length) : "…"} پروژه {hasCriteria ? "متناسب با شرایط شما" : "برای بررسی"}</h1>
-              </div>
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="glass flex h-11 items-center gap-2 rounded-full px-4"><SearchNormal1 size={17} className="text-muted-foreground" />
-                  <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجو در نتایج" aria-label="جست‌وجو در نتایج" className="h-9 w-36 border-0 bg-transparent px-0 text-sm font-semibold shadow-none focus-visible:ring-0 placeholder:font-normal" />
-                  {q && <Button variant="plain" size="auto" type="button" onClick={() => setQ("")} aria-label="پاک کردن"><CloseCircle size={16} className="text-muted-foreground" /></Button>}</div>
-                <Select dir="rtl" value={sort} onValueChange={setSort}>
-                  <SelectTrigger aria-label="مرتب‌سازی" className="glass h-11 gap-2 rounded-full border-white/75 px-4 text-sm font-bold text-ink data-[size=default]:h-11"><Sort size={17} className="text-primary" /><SelectValue /></SelectTrigger>
-                  <SelectContent align="end" className="rounded-2xl">
-                    {sortOptions.map((o) => <SelectItem key={o.value} value={o.value} className="rounded-xl">{o.label}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-                <Sheet>
-                  <SheetTrigger asChild><Button variant="plain" size="auto" type="button" className="flex h-11 items-center gap-2 rounded-full bg-ink px-4 text-sm font-bold text-white lg:hidden"><FilterSearch size={17} />فیلتر پیشرفته{filterCount > 0 && <span className="grid size-5 place-items-center rounded-full bg-sand text-[11px] text-ink">{faNumber(filterCount)}</span>}</Button></SheetTrigger>
-                  <SheetContent side="bottom" className="max-h-[88dvh] overflow-y-auto rounded-t-[2rem] p-5"><SheetTitle className="sr-only">فیلتر پیشرفته</SheetTitle><AdvancedFilter /></SheetContent>
-                </Sheet>
-              </div>
+            <div className="relative z-30 mt-3 flex items-center gap-3">
+              <div className="min-w-0 flex-1"><FilterBar /></div>
+              <SavedCriteriaMenu onSave={() => setSaveOpen(true)} />
+              {isSaved
+                ? <span className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-full bg-primary/10 px-4 text-sm font-extrabold text-primary"><TickCircle size={18} variant="Bold" />ذخیره شده</span>
+                : <Button onClick={() => setSaveOpen(true)} className="h-11 shrink-0 gap-2 rounded-full px-5 text-sm font-extrabold"><Save2 size={18} />ذخیره شرایط</Button>}
             </div>
+            <ActiveChips chips={chips} />
 
-            <SaveCriteriaBar hasCriteria={hasCriteria} />
+            <div className="mt-7 grid grid-cols-[21rem_1fr] gap-7">
+              <aside>
+                <Card className="surface sticky top-24 block max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[1.75rem] p-5 shadow-none"><AdvancedFilter /></Card>
+              </aside>
 
-            {hasCriteria && (hidden > 0 || showAll) && (
-              <Label className="mb-5 flex w-fit items-center gap-3 text-sm font-semibold text-ink/75"><Switch dir="rtl" checked={showAll} onCheckedChange={setShowAll} />
-                نمایش موارد کم‌تطابق{!showAll && ` (${faNumber(hidden)} مورد پنهان است)`}</Label>
-            )}
+              <section className="min-w-0">
+                <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
+                  <div>
+                    <Button variant="plain" size="auto" onClick={() => setStarted(false)} className="gap-1.5 text-[13px] font-extrabold text-primary hover:underline"><Edit2 size={15} />ویرایش اطلاعات پایه</Button>
+                    <h1 className="mt-1.5 text-3xl font-black text-ink">{faNumber(shown.length)} پروژه {hasCriteria ? "متناسب با شرایط شما" : `در ${route.name}`}</h1>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex h-11 items-center gap-2 rounded-full border border-border bg-white px-4"><SearchNormal1 size={17} className="text-muted-foreground" />
+                      <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجو در نتایج" aria-label="جست‌وجو در نتایج" className="h-9 w-36 border-0 bg-transparent px-0 text-sm font-semibold shadow-none focus-visible:ring-0 placeholder:font-normal" />
+                      {q && <Button variant="plain" size="auto" type="button" onClick={() => setQ("")} aria-label="پاک کردن"><CloseCircle size={16} className="text-muted-foreground" /></Button>}</div>
+                    <Select dir="rtl" value={sort} onValueChange={setSort}>
+                      <SelectTrigger aria-label="مرتب‌سازی" className="h-11 gap-2 rounded-full bg-white px-4 text-sm font-bold text-ink shadow-none data-[size=default]:h-11"><Sort size={17} className="text-primary" /><SelectValue /></SelectTrigger>
+                      <SelectContent align="end" className="rounded-2xl">
+                        {sortOptions.map((o) => <SelectItem key={o.value} value={o.value} className="rounded-xl">{o.label}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
 
-            {hydrated && shown.length === 0 ? (
-              <Card className="glass grid place-items-center gap-0 rounded-[2rem] px-6 py-20 text-center">
-                <span className="grid size-16 place-items-center rounded-full bg-primary/10 text-primary"><SearchNormal1 size={28} variant="Bulk" /></span>
-                <h2 className="mt-5 text-xl font-extrabold text-ink">{all.length === 0 ? "برای این مسیر هنوز پروژه‌ای ثبت نشده است." : "با این شرایط پروژه‌ای پیدا نشد."}</h2>
-                <p className="mt-2 max-w-md text-sm leading-7 text-muted-foreground">{all.length === 0 ? "شرایطتان را ذخیره کنید تا با اضافه شدن پروژه تازه، آن را ببینید." : "چند فیلتر را بردارید یا موارد کم‌تطابق را هم نمایش دهید."}</p>
-                {all.length > 0 && hidden > 0 && <Button variant="plain" size="auto" type="button" onClick={() => setShowAll(true)} className="mt-6 h-12 rounded-full bg-primary px-6 font-bold text-white">نمایش {faNumber(hidden)} مورد کم‌تطابق</Button>}
-              </Card>
-            ) : (
-              <div className="grid gap-5 sm:grid-cols-2 2xl:grid-cols-3">
-                <AnimatePresence mode="popLayout">
-                  {shown.slice(0, limit).map((r, i) => <ListingCard key={r.listing.id} listing={r.listing} score={hasCriteria ? r.score : undefined} reasons={hasCriteria ? r.reasons : undefined} index={i % PAGE} />)}
-                </AnimatePresence>
-              </div>
-            )}
-            {shown.length > limit && (
-              <div className="mt-10 flex flex-col items-center gap-2">
-                <Button variant="plain" size="auto" type="button" onClick={() => setLimit(limit + PAGE)} className="h-13 rounded-full border border-ink/15 bg-white/70 px-8 py-3.5 font-extrabold text-ink transition-colors hover:border-primary hover:text-primary">نمایش بیشتر</Button>
-                <span className="text-xs text-muted-foreground">{faNumber(Math.min(limit, shown.length))} از {faNumber(shown.length)}</span>
-              </div>
-            )}
-          </section>
-        </div>
+                {hasCriteria && (hidden > 0 || showAll) && (
+                  <Label className="mb-5 flex w-fit items-center gap-3 text-sm font-semibold text-ink/75"><Switch dir="rtl" checked={showAll} onCheckedChange={setShowAll} />
+                    نمایش موارد کم‌تطابق{!showAll && ` (${faNumber(hidden)} مورد پنهان است)`}</Label>
+                )}
+
+                {shown.length === 0 ? (
+                  <Card className="surface grid place-items-center gap-0 rounded-[2rem] px-6 py-20 text-center shadow-none">
+                    <span className="grid size-16 place-items-center rounded-full bg-primary/10 text-primary"><SearchNormal1 size={28} variant="Bulk" /></span>
+                    <h2 className="mt-5 text-xl font-extrabold text-ink">{all.length === 0 ? "برای این دسته هنوز پروژه‌ای ثبت نشده است." : "با این شرایط پروژه‌ای پیدا نشد."}</h2>
+                    <p className="mt-2 max-w-md text-sm leading-7 text-muted-foreground">{all.length === 0 ? "شرایطتان را ذخیره کنید تا با اضافه شدن پروژه تازه، آن را ببینید." : "چند فیلتر را بردارید یا موارد کم‌تطابق را هم نمایش دهید."}</p>
+                    {all.length > 0 && hidden > 0 && <Button onClick={() => setShowAll(true)} className="mt-6 h-12 rounded-full px-6 font-bold">نمایش {faNumber(hidden)} مورد کم‌تطابق</Button>}
+                    {all.length === 0 && <Button onClick={() => setSaveOpen(true)} className="mt-6 h-12 gap-2 rounded-full px-6 font-bold"><Save2 size={18} />ذخیره شرایط</Button>}
+                  </Card>
+                ) : (
+                  <div className={cn("grid grid-cols-2 gap-5 transition-opacity 2xl:grid-cols-3", deferred !== criteria && "opacity-60")}>
+                    {shown.slice(0, limit).map((r, i) => <ListingCard key={r.listing.id} listing={r.listing} score={hasCriteria ? r.score : undefined} reasons={hasCriteria ? r.reasons : undefined} index={i % PAGE} />)}
+                  </div>
+                )}
+                {shown.length > limit && (
+                  <div className="mt-10 flex flex-col items-center gap-2">
+                    <Button variant="outline" onClick={() => setLimit(limit + PAGE)} className="h-12 rounded-full bg-white px-8 font-extrabold shadow-none hover:border-primary hover:text-primary">نمایش بیشتر</Button>
+                    <span className="text-xs text-muted-foreground">{faNumber(Math.min(limit, shown.length))} از {faNumber(shown.length)}</span>
+                  </div>
+                )}
+              </section>
+            </div>
+          </>
+        )}
+        <SaveCriteriaDialog open={saveOpen} onOpenChange={setSaveOpen} />
       </main>
       <Footer />
     </>

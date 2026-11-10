@@ -1,13 +1,13 @@
 "use client";
 // آیکون‌ها از پک Iconsax
 import {
-  Buildings, Routing, Drop, Flash, Box, Tree, Cpu, Sun1, Courthouse, Map1,
+  Buildings, Routing, Drop, Flash, Box, Tree, Cpu, Sun1, Courthouse, Map1, Home2,
   TrendUp, Chart21, Ruler, Shop, Key, Lovely, Setting2, type Icon,
 } from "@/components/iconsax";
 
 export const groupIcons: Record<string, Icon> = {
   building: Buildings, transport: Routing, water: Drop, energy: Flash, industry: Box,
-  urban: Tree, digital: Cpu, agriculture: Sun1, heritage: Courthouse, land: Map1,
+  urban: Tree, digital: Cpu, agriculture: Sun1, heritage: Courthouse, land: Map1, landhousing: Home2,
 };
 
 export const routeIcons: Record<string, Icon> = {
