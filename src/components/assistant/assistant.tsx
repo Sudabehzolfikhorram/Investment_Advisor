@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Header, Footer } from "@/components/site/header";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { MatchRing } from "@/components/brand/reveal";
-import { Reasons, SaveButton } from "@/components/listing/listing-card";
+import { SaveButton } from "@/components/listing/listing-card";
 import { samplePrompts, suggest } from "@/lib/assistant";
 import { ASSISTANT_MAX_RESULTS } from "@/lib/match";
 import { useStore } from "@/lib/store";
@@ -91,7 +91,6 @@ export function Assistant() {
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-base font-extrabold text-ink">{r.listing.title}</span>
                       <span className="mt-0.5 flex flex-wrap items-center gap-x-3 text-xs font-semibold text-muted-foreground">{r.listing.city && <span className="flex items-center gap-1"><Location size={13} variant="Bold" />{r.listing.province}</span>}<span>{r.listing.stats[0].label}: {r.listing.stats[0].value}</span><span>{r.listing.stats[1].label}: {r.listing.stats[1].value}</span></span>
-                      <Reasons reasons={r.reasons} className="mt-2 hidden sm:flex" />
                     </span>
                     <span className="relative z-20 hidden sm:block"><SaveButton id={r.listing.id} className="!bg-muted !text-ink aria-pressed:!bg-primary aria-pressed:!text-white" /></span>
                     <MatchRing score={r.score} size={58} />

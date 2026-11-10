@@ -19,10 +19,9 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
   const toggle = (p: string) => onChange(value.includes(p) ? value.filter((x) => x !== p) : [...value, p]);
   const options = useMemo(() => [...provinces].sort((a, b) => (counts[b] ?? 0) - (counts[a] ?? 0)).map((p) => ({ value: p, label: counts[p] ? `${p} (${faNumber(counts[p])})` : p })), [counts]);
   return (
-    <div className={cn("grid grid-cols-[1.25fr_1fr] items-start gap-5", className)}>
+    <div className={cn("grid grid-cols-[1.25fr_1fr] items-center gap-5", className)}>
       <div>
         <IranMap points={points} active={value} onToggle={toggle} links={false} pulse={false} />
-        <p className="mt-1 text-center text-[11px] font-semibold text-muted-foreground">هر نقطه یک شهر دارای پروژه است. روی آن بزنید تا استانش انتخاب شود.</p>
       </div>
       <div className="overflow-hidden rounded-2xl border border-border bg-white">
         <ComboList options={options} value={value} onChange={onChange} placeholder="جست‌وجوی استان…" empty="استانی پیدا نشد" />

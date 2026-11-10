@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { toast } from "sonner";
-import { ArchiveAdd, ArchiveTick, Location, TickCircle, CloseCircle, InfoCircle } from "@/components/iconsax";
+import { ArchiveAdd, ArchiveTick, Location } from "@/components/iconsax";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SignaturePhoto } from "./signature-photo";
@@ -29,18 +29,6 @@ export function SaveButton({ id, className, label }: { id: string; className?: s
   );
 }
 
-const reasonIcon = { met: TickCircle, unmet: CloseCircle, unknown: InfoCircle } as const;
-export function Reasons({ reasons, className }: { reasons: MatchReason[]; className?: string }) {
-  if (!reasons.length) return null;
-  return (
-    <ul className={cn("flex flex-wrap gap-x-3 gap-y-1 text-[12px]", className)}>
-      {reasons.map((r) => { const I = reasonIcon[r.status];
-        return <li key={r.label} className={cn("inline-flex items-center gap-1 font-semibold", r.status === "met" ? "text-primary" : r.status === "unmet" ? "text-destructive" : "text-muted-foreground")}><I size={14} variant="Bold" />{r.label}{r.status === "unknown" && " (نیازمند بررسی)"}</li>; })}
-    </ul>
-  );
-}
-
-/** کارت پروژه: فقط مهم‌ترین داده‌ها (محل، نوع، دو عدد کلیدی). بقیه در صفحه جزئیات است. */
 export function ListingCard({ listing: l, score, index = 0 }: { listing: Listing; score?: number; reasons?: MatchReason[]; index?: number }) {
   const tag = l.tags[l.tags.length - 1];
   return (

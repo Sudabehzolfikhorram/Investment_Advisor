@@ -62,7 +62,7 @@ function Tile({ I, label, value, sub }: { I: Icon; label: string; value: string;
 const groupIcon: Record<string, Icon> = { project: Building, money: WalletMoney, status: ShieldSearch };
 function Facts({ groups }: { groups: FactGroup[] }) {
   return (
-    <div className="grid grid-cols-3 items-start gap-4">
+    <div className="grid grid-cols-3 gap-4">
       {groups.map((g) => { const I = groupIcon[g.id];
         return (
           <div key={g.id} className="surface rounded-[1.75rem] p-5">

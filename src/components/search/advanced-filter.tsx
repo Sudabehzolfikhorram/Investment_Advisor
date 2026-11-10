@@ -109,7 +109,6 @@ export function AdvancedFilter({ className }: { className?: string }) {
         <h2 className="flex items-center gap-2 text-lg font-black text-ink"><Setting4 size={20} variant="Bulk" className="text-primary" />فیلترهای بیشتر</h2>
         {total > 0 && <Button variant="ghost" size="xs" type="button" onClick={clear} className="font-bold text-muted-foreground hover:text-destructive"><Refresh2 size={14} />حذف ({faNumber(total)})</Button>}
       </div>
-      <p className="pb-1 text-xs leading-6 text-muted-foreground">هر کدام را که مهم است تنظیم کنید؛ نتایج همان لحظه تغییر می‌کند.</p>
 
       <Accordion key={route.id} type="single" collapsible defaultValue={fields.some((x) => x.section === "amount") ? "amount" : "project"}>
         {advancedSections.map((s) => {
