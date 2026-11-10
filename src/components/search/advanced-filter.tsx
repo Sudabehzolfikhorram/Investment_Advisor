@@ -61,8 +61,8 @@ function AdvisoryQuestions({ subtypes }: { subtypes: string[] }) {
                 <div key={q.id}>
                   <p className="mb-2 text-[13px] font-bold leading-6 text-ink/80">{q.label}</p>
                   <Dropdown options={q.options} value={v} onChange={(x) => setFilter(key, x)} />
-                  {v && q.block.includes(v) && <p className="mt-2 flex items-start gap-1.5 text-xs font-semibold leading-5 text-destructive"><Danger size={15} variant="Bold" className="mt-0.5 shrink-0" />{q.actions[v] ?? "با این پاسخ، ادامه مسیر نیازمند رفع مانع است."}</p>}
-                  {v && !q.block.includes(v) && (q.review.includes(v) || q.actions[v]) && <p className="mt-2 flex items-start gap-1.5 text-xs font-semibold leading-5 text-ink/70"><InfoCircle size={15} variant="Bold" className="mt-0.5 shrink-0 text-primary" />{q.actions[v] ?? "این مورد نیازمند بررسی کارشناس است."}</p>}
+                  {v && q.block.includes(v) && <p className="mt-2 flex items-start gap-1.5 text-xs font-semibold leading-5 text-destructive"><Danger size={15} variant="Bold" className="mt-0.5 shrink-0" />{q.actions[v] ?? "با این پاسخ، ابتدا باید این مانع برطرف شود."}</p>}
+                  {v && !q.block.includes(v) && (q.review.includes(v) || q.actions[v]) && <p className="mt-2 flex items-start gap-1.5 text-xs font-semibold leading-5 text-ink/70"><InfoCircle size={15} variant="Bold" className="mt-0.5 shrink-0 text-primary" />{q.actions[v] ?? "این مورد را کارشناس باید بررسی کند."}</p>}
                 </div>
               ); })}
           </div>

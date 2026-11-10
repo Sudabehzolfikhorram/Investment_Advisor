@@ -1,4 +1,4 @@
-// گروه‌ها و زیردسته‌های پروژه — از نسخه HTML مرجع، بدون ادغام؛ همه گروه‌ها و زیردسته‌ها مطابق مرجع.
+// گروه‌ها و زیردسته‌های پروژه: از نسخه HTML مرجع، بدون ادغام؛ همه گروه‌ها و زیردسته‌ها مطابق مرجع.
 // sources = شناسه زیردسته‌های اصلی که در این مورد ادغام شده‌اند؛ includes = نام کامل آن‌ها (هیچ موردی حذف نشده).
 import type { ProjectGroup } from "@/types";
 
@@ -20,7 +20,7 @@ export const projectGroups: ProjectGroup[] = [
           "residential"
         ],
         "includes": [
-          "مسکونی — آپارتمان، مجتمع مسکونی، شهرک و ویلا"
+          "مسکونی: آپارتمان، مجتمع مسکونی، شهرک و ویلا"
         ],
         "image": "/images/types/residential.webp"
       },
@@ -32,7 +32,7 @@ export const projectGroups: ProjectGroup[] = [
           "office"
         ],
         "includes": [
-          "اداری — ساختمان اداری، مجتمع دولتی و دفتر کار"
+          "اداری: ساختمان اداری، مجتمع دولتی و دفتر کار"
         ],
         "image": "/images/types/office.webp"
       },
@@ -44,7 +44,7 @@ export const projectGroups: ProjectGroup[] = [
           "commercial"
         ],
         "includes": [
-          "تجاری — مرکز خرید، بازار، فروشگاه و مجتمع تجاری"
+          "تجاری: مرکز خرید، بازار، فروشگاه و مجتمع تجاری"
         ],
         "image": "/images/types/commercial.webp"
       },
@@ -56,7 +56,7 @@ export const projectGroups: ProjectGroup[] = [
           "hospitality"
         ],
         "includes": [
-          "اقامتی و گردشگری — هتل، اقامتگاه، مجتمع تفریحی و بوم‌گردی"
+          "اقامتی و گردشگری: هتل، اقامتگاه، مجتمع تفریحی و بوم‌گردی"
         ],
         "image": "/images/types/hospitality.webp"
       },
@@ -68,7 +68,7 @@ export const projectGroups: ProjectGroup[] = [
           "education"
         ],
         "includes": [
-          "آموزشی — مدرسه، دانشگاه و مرکز آموزشی"
+          "آموزشی: مدرسه، دانشگاه و مرکز آموزشی"
         ],
         "image": "/images/types/education.webp"
       },
@@ -80,7 +80,7 @@ export const projectGroups: ProjectGroup[] = [
           "medical"
         ],
         "includes": [
-          "درمانی — بیمارستان، درمانگاه و مرکز بهداشت"
+          "درمانی: بیمارستان، درمانگاه و مرکز بهداشت"
         ],
         "image": "/images/types/medical.webp"
       },
@@ -92,7 +92,7 @@ export const projectGroups: ProjectGroup[] = [
           "cultural"
         ],
         "includes": [
-          "فرهنگی و مذهبی — کتابخانه، موزه، فرهنگ‌سرا و مسجد"
+          "فرهنگی و مذهبی: کتابخانه، موزه، فرهنگ‌سرا و مسجد"
         ],
         "image": "/images/types/cultural.webp"
       },
@@ -104,7 +104,7 @@ export const projectGroups: ProjectGroup[] = [
           "sports"
         ],
         "includes": [
-          "ورزشی — ورزشگاه، سالن ورزشی و مجموعه تفریحی"
+          "ورزشی: ورزشگاه، سالن ورزشی و مجموعه تفریحی"
         ],
         "image": "/images/types/sports.webp"
       }

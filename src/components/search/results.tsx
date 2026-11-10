@@ -295,7 +295,7 @@ export function Results() {
                   <Card className="surface grid place-items-center gap-0 rounded-[2rem] px-6 py-20 text-center shadow-none">
                     <span className="grid size-16 place-items-center rounded-full bg-primary/10 text-primary"><SearchNormal1 size={28} variant="Bulk" /></span>
                     <h2 className="mt-5 text-xl font-extrabold text-ink">{all.length === 0 ? "در این مسیر هنوز پروژه‌ای نیست." : "با این فیلترها پروژه‌ای پیدا نشد."}</h2>
-                    <p className="mt-2 max-w-md text-sm leading-7 text-muted-foreground">{all.length === 0 ? "این جست‌وجو را ذخیره کنید؛ با اضافه شدن پروژه تازه، دفعه بعد همین‌جا می‌بینید." : "یکی دو فیلتر را بردارید تا نتایج بیشتری ببینید."}</p>
+                    <p className="mt-2 max-w-md text-sm leading-7 text-muted-foreground">{all.length === 0 ? "این جست‌وجو را ذخیره کنید تا پروژه‌های تازه را دفعه بعد همین‌جا ببینید." : "یکی دو فیلتر را بردارید تا نتایج بیشتری ببینید."}</p>
                     {all.length > 0 && hidden > 0 && <Button onClick={() => setShowAll(true)} className="mt-6 h-12 rounded-full px-6 font-bold">دیدن {faNumber(hidden)} پروژه نزدیک</Button>}
                     {all.length === 0 && <Button onClick={() => setSaveOpen(true)} className="mt-6 h-12 gap-2 rounded-full px-6 font-bold"><Save2 size={18} />ذخیره جست‌وجو</Button>}
                   </Card>

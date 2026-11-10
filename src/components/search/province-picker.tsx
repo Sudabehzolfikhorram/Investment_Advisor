@@ -22,7 +22,7 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
     <div className={cn("grid grid-cols-[1.25fr_1fr] items-start gap-5", className)}>
       <div>
         <IranMap points={points} active={value} onToggle={toggle} links={false} pulse={false} />
-        <p className="mt-1 text-center text-[11px] font-semibold text-muted-foreground">هر نود یک شهر دارای پروژه است. روی نود بزنید تا استانش انتخاب شود.</p>
+        <p className="mt-1 text-center text-[11px] font-semibold text-muted-foreground">هر نقطه یک شهر دارای پروژه است. روی آن بزنید تا استانش انتخاب شود.</p>
       </div>
       <div className="overflow-hidden rounded-2xl border border-border bg-white">
         <ComboList options={options} value={value} onChange={onChange} placeholder="جست‌وجوی استان…" empty="استانی پیدا نشد" />

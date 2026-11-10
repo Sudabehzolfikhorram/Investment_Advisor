@@ -23,7 +23,7 @@ export function LoginDialog() {
   const finish = () => {
     const done = login(mobile);
     if (done?.type === "save-criteria") { saveProfile(done.name || "جست‌وجوی من"); toast.success("جست‌وجو ذخیره شد.", { description: "دفعه بعد از «جست‌وجوهای من» ادامه دهید." }); }
-    else if (done?.type === "save-listing") toast.success("پروژه در ذخیره‌شده‌ها قرار گرفت.");
+    else if (done?.type === "save-listing") toast.success("پروژه ذخیره شد.");
     else toast.success("خوش آمدید.");
     setStep("mobile"); setCode(""); setMobile("");
   };

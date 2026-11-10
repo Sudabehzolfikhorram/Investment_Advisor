@@ -323,7 +323,7 @@ export function Detail({ id }: { id: string }) {
               </Chapter>
             )}
 
-            {o && advisory && <Chapter n={++n} title="پرسش‌هایی که از شما پرسیده می‌شود" note={subtype?.name}><AdvisoryBlock a={advisory} /></Chapter>}
+            {o && advisory && <Chapter n={++n} title="پرسش‌هایی که باید پاسخشان را آماده کنید" note={subtype?.name}><AdvisoryBlock a={advisory} /></Chapter>}
 
             {o && o.steps.length > 0 && (
               <Chapter n={++n} title="از این‌جا به بعد">

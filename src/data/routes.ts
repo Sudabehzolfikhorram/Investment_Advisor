@@ -33,7 +33,7 @@ export const routes: RouteDef[] = [
     description: "در مرمت و احیای بناهای تاریخی سرمایه‌گذاری کنید.",
     amount: { label: "سرمایه نقدی قابل تعهد", unit: "میلیارد تومان", min: 1, max: 200, step: 1 }, usesProjectGroups: false },
   { id: "charity", name: "مشارکت اجتماعی و خیریه", fullName: "همراهی در ساختن آینده‌ای بهتر",
-    description: "در آموزش، درمان و بهبود زندگی مردم سهمی ماندگار داشته باشید.",
+    description: "در پروژه‌های آموزشی، درمانی و خدمات محله سهیم شوید.",
     amount: { label: "مبلغ همراهی", unit: "میلیون تومان", min: 1, max: 100000, step: 1 }, usesProjectGroups: false },
   { id: "operator", name: "بهره‌برداری", fullName: "بهره‌برداری و نگهداری",
     description: "بهره‌برداری و نگهداری پروژه‌های آماده را بر عهده بگیرید.",

@@ -21,7 +21,7 @@ export function SaveButton({ id, className, label }: { id: string; className?: s
     <Button variant="plain" size="auto" type="button" aria-pressed={on} aria-label={on ? "حذف از ذخیره‌شده‌ها" : "ذخیره پروژه"}
       onClick={(e) => { e.preventDefault(); e.stopPropagation();
         if (!user) return openLogin({ type: "save-listing", id });
-        toggleSaved(id); toast(on ? "از ذخیره‌شده‌ها حذف شد." : "در ذخیره‌شده‌ها قرار گرفت."); }}
+        toggleSaved(id); toast(on ? "از ذخیره‌شده‌ها حذف شد." : "پروژه ذخیره شد."); }}
       className={cn("inline-flex items-center justify-center gap-2 rounded-full transition-all active:scale-95", label ? "h-12 px-5 font-bold" : "size-10", on ? "bg-primary text-white" : label ? "border border-border bg-white text-ink hover:border-primary hover:text-primary" : "bg-black/55 text-white hover:bg-black/70", className)}>
       {on ? <ArchiveTick size={20} variant="Bold" /> : <ArchiveAdd size={20} />}
       {label && <span>{on ? "ذخیره شد" : "ذخیره پروژه"}</span>}

@@ -66,7 +66,7 @@ export const opportunities: Opportunity[] = [
     ],
     "stage": "احداث جدید",
     "phase": "new",
-    "model": "BOO — ساخت، مالکیت و بهره‌برداری",
+    "model": "ساخت، مالکیت و بهره‌برداری (BOO)",
     "minCapital": 25,
     "paybackYears": 7,
     "paybackDownsideYears": 10,
@@ -165,7 +165,7 @@ export const opportunities: Opportunity[] = [
     ],
     "stage": "نیازمند احیا",
     "phase": "existing",
-    "model": "ROT — احیا، بهره‌برداری و انتقال",
+    "model": "احیا، بهره‌برداری و انتقال (ROT)",
     "minCapital": 8,
     "paybackYears": 6,
     "paybackDownsideYears": 9,
@@ -214,7 +214,7 @@ export const opportunities: Opportunity[] = [
     ],
     "stage": "آماده بهره‌برداری",
     "phase": "existing",
-    "model": "O&M — بهره‌برداری و نگهداری",
+    "model": "بهره‌برداری و نگهداری (O&M)",
     "minCapital": null,
     "paybackYears": null,
     "paybackDownsideYears": null,
@@ -309,7 +309,7 @@ export const opportunities: Opportunity[] = [
     ],
     "stage": "احداث جدید",
     "phase": "new",
-    "model": "BLT — ساخت، اجاره و انتقال",
+    "model": "ساخت، اجاره و انتقال (BLT)",
     "minCapital": 60,
     "paybackYears": 9,
     "paybackDownsideYears": 12,
@@ -358,7 +358,7 @@ export const opportunities: Opportunity[] = [
     ],
     "stage": "توسعه دارایی موجود",
     "phase": "existing",
-    "model": "JV — شرکت مشترک پروژه",
+    "model": "شرکت مشترک پروژه (JV)",
     "minCapital": 12,
     "paybackYears": 4,
     "paybackDownsideYears": 6,
@@ -450,7 +450,7 @@ export const opportunities: Opportunity[] = [
     ],
     "stage": "احداث جدید",
     "phase": "new",
-    "model": "BLT — ساخت، اجاره و انتقال؛ قابل مطالعه",
+    "model": "ساخت، اجاره و انتقال (BLT)؛ قابل مطالعه",
     "minCapital": 28,
     "paybackYears": 8,
     "paybackDownsideYears": 11,
@@ -493,7 +493,7 @@ export const opportunities: Opportunity[] = [
     ],
     "stage": "احداث جدید",
     "phase": "new",
-    "model": "BOT — ساخت، بهره‌برداری و انتقال؛ قابل مطالعه",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ قابل مطالعه",
     "minCapital": 18,
     "paybackYears": 7,
     "paybackDownsideYears": 10,
@@ -540,7 +540,7 @@ export const opportunities: Opportunity[] = [
     ],
     "stage": "دارایی موجود",
     "phase": "existing",
-    "model": "ROT — بازسازی، بهره‌برداری و انتقال؛ قابل مطالعه",
+    "model": "بازسازی، بهره‌برداری و انتقال (ROT)؛ قابل مطالعه",
     "minCapital": 16,
     "paybackYears": 8,
     "paybackDownsideYears": 12,
@@ -587,7 +587,7 @@ export const opportunities: Opportunity[] = [
     ],
     "stage": "احداث جدید",
     "phase": "new",
-    "model": "DBFO — طراحی، ساخت، تأمین مالی و بهره‌برداری تأسیساتی؛ قابل مطالعه",
+    "model": "طراحی، ساخت، تأمین مالی و بهره‌برداری تأسیساتی (DBFO)؛ قابل مطالعه",
     "minCapital": 20,
     "paybackYears": 9,
     "paybackDownsideYears": 12,
@@ -676,7 +676,7 @@ export const opportunities: Opportunity[] = [
     ],
     "stage": "احداث جدید",
     "phase": "new",
-    "model": "BOT — ساخت، بهره‌برداری و انتقال؛ قابل مطالعه",
+    "model": "ساخت، بهره‌برداری و انتقال (BOT)؛ قابل مطالعه",
     "minCapital": 12,
     "paybackYears": 7,
     "paybackDownsideYears": 11,
@@ -723,7 +723,7 @@ export const opportunities: Opportunity[] = [
     ],
     "stage": "نیمه‌تمام",
     "phase": "unfinished",
-    "model": "JV — مشارکت در تکمیل و بهره‌برداری",
+    "model": "مشارکت در تکمیل و بهره‌برداری (JV)",
     "minCapital": 15,
     "paybackYears": 7,
     "paybackDownsideYears": 10,
@@ -1064,7 +1064,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-ROADS-01",
   "kind": "project",
-  "title": "احداث راه‌سازی و بزرگراه — قم",
+  "title": "احداث راه‌سازی و بزرگراه در قم",
   "group": "transport",
   "subtype": "roads",
   "image": "/images/types/roads.webp",
@@ -1114,7 +1114,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-ROADS-02",
   "kind": "project",
-  "title": "تکمیل راه‌سازی و بزرگراه — اراک",
+  "title": "تکمیل راه‌سازی و بزرگراه در اراک",
   "group": "transport",
   "subtype": "roads",
   "image": "/images/types/roads.webp",
@@ -1164,7 +1164,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-ROADS-03",
   "kind": "project",
-  "title": "توسعه و بهسازی راه‌سازی و بزرگراه — تبریز",
+  "title": "توسعه و بهسازی راه‌سازی و بزرگراه در تبریز",
   "group": "transport",
   "subtype": "roads",
   "image": "/images/types/roads.webp",
@@ -1214,7 +1214,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-BRIDGE-01",
   "kind": "project",
-  "title": "احداث پل و تقاطع غیرهم‌سطح — قم",
+  "title": "احداث پل و تقاطع غیرهم‌سطح در قم",
   "group": "transport",
   "subtype": "bridge",
   "image": "/images/types/bridge.webp",
@@ -1261,7 +1261,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-BRIDGE-02",
   "kind": "project",
-  "title": "تکمیل پل و تقاطع غیرهم‌سطح — اراک",
+  "title": "تکمیل پل و تقاطع غیرهم‌سطح در اراک",
   "group": "transport",
   "subtype": "bridge",
   "image": "/images/types/bridge.webp",
@@ -1311,7 +1311,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-BRIDGE-03",
   "kind": "project",
-  "title": "توسعه و بهسازی پل و تقاطع غیرهم‌سطح — تبریز",
+  "title": "توسعه و بهسازی پل و تقاطع غیرهم‌سطح در تبریز",
   "group": "transport",
   "subtype": "bridge",
   "image": "/images/types/bridge.webp",
@@ -1361,7 +1361,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-TUNNEL-01",
   "kind": "project",
-  "title": "احداث تونل — قم",
+  "title": "احداث تونل در قم",
   "group": "transport",
   "subtype": "tunnel",
   "image": "/images/types/tunnel.webp",
@@ -1411,7 +1411,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-TUNNEL-02",
   "kind": "project",
-  "title": "تکمیل تونل — اراک",
+  "title": "تکمیل تونل در اراک",
   "group": "transport",
   "subtype": "tunnel",
   "image": "/images/types/tunnel.webp",
@@ -1461,7 +1461,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-TUNNEL-03",
   "kind": "project",
-  "title": "توسعه و بهسازی تونل — تبریز",
+  "title": "توسعه و بهسازی تونل در تبریز",
   "group": "transport",
   "subtype": "tunnel",
   "image": "/images/types/tunnel.webp",
@@ -1511,7 +1511,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-RAIL-01",
   "kind": "project",
-  "title": "احداث راه‌آهن — قم",
+  "title": "احداث راه‌آهن در قم",
   "group": "transport",
   "subtype": "rail",
   "image": "/images/types/rail.webp",
@@ -1561,7 +1561,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-RAIL-02",
   "kind": "project",
-  "title": "تکمیل راه‌آهن — اراک",
+  "title": "تکمیل راه‌آهن در اراک",
   "group": "transport",
   "subtype": "rail",
   "image": "/images/types/rail.webp",
@@ -1608,7 +1608,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-RAIL-03",
   "kind": "project",
-  "title": "توسعه و بهسازی راه‌آهن — تبریز",
+  "title": "توسعه و بهسازی راه‌آهن در تبریز",
   "group": "transport",
   "subtype": "rail",
   "image": "/images/types/rail.webp",
@@ -1658,7 +1658,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-METRO-01",
   "kind": "project",
-  "title": "احداث مترو و قطار شهری — تهران",
+  "title": "احداث مترو و قطار شهری در تهران",
   "group": "transport",
   "subtype": "metro",
   "image": "/images/types/metro.webp",
@@ -1708,7 +1708,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-METRO-02",
   "kind": "project",
-  "title": "تکمیل مترو و قطار شهری — مشهد",
+  "title": "تکمیل مترو و قطار شهری در مشهد",
   "group": "transport",
   "subtype": "metro",
   "image": "/images/types/metro.webp",
@@ -1758,7 +1758,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-METRO-03",
   "kind": "project",
-  "title": "توسعه و بهسازی مترو و قطار شهری — شیراز",
+  "title": "توسعه و بهسازی مترو و قطار شهری در شیراز",
   "group": "transport",
   "subtype": "metro",
   "image": "/images/types/metro.webp",
@@ -1808,7 +1808,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-AIRPORT-01",
   "kind": "project",
-  "title": "احداث فرودگاه — شیراز",
+  "title": "احداث فرودگاه در شیراز",
   "group": "transport",
   "subtype": "airport",
   "image": "/images/types/airport.webp",
@@ -1858,7 +1858,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-AIRPORT-02",
   "kind": "project",
-  "title": "تکمیل فرودگاه — تبریز",
+  "title": "تکمیل فرودگاه در تبریز",
   "group": "transport",
   "subtype": "airport",
   "image": "/images/types/airport.webp",
@@ -1908,7 +1908,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-AIRPORT-03",
   "kind": "project",
-  "title": "توسعه و بهسازی فرودگاه — مشهد",
+  "title": "توسعه و بهسازی فرودگاه در مشهد",
   "group": "transport",
   "subtype": "airport",
   "image": "/images/types/airport.webp",
@@ -1955,7 +1955,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PORT-01",
   "kind": "project",
-  "title": "احداث بندر و اسکله — بندرعباس",
+  "title": "احداث بندر و اسکله در بندرعباس",
   "group": "transport",
   "subtype": "port",
   "image": "/images/types/port.webp",
@@ -2005,7 +2005,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PORT-02",
   "kind": "project",
-  "title": "تکمیل بندر و اسکله — بوشهر",
+  "title": "تکمیل بندر و اسکله در بوشهر",
   "group": "transport",
   "subtype": "port",
   "image": "/images/types/port.webp",
@@ -2055,7 +2055,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PORT-03",
   "kind": "project",
-  "title": "توسعه و بهسازی بندر و اسکله — چابهار",
+  "title": "توسعه و بهسازی بندر و اسکله در چابهار",
   "group": "transport",
   "subtype": "port",
   "image": "/images/types/port.webp",
@@ -2105,7 +2105,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-TERMINAL-01",
   "kind": "project",
-  "title": "احداث پایانه‌های مسافری و باری — قم",
+  "title": "احداث پایانه‌های مسافری و باری در قم",
   "group": "transport",
   "subtype": "terminal",
   "image": "/images/types/terminal.webp",
@@ -2155,7 +2155,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-TERMINAL-02",
   "kind": "project",
-  "title": "تکمیل پایانه‌های مسافری و باری — اراک",
+  "title": "تکمیل پایانه‌های مسافری و باری در اراک",
   "group": "transport",
   "subtype": "terminal",
   "image": "/images/types/terminal.webp",
@@ -2205,7 +2205,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-TERMINAL-03",
   "kind": "project",
-  "title": "توسعه و بهسازی پایانه‌های مسافری و باری — تبریز",
+  "title": "توسعه و بهسازی پایانه‌های مسافری و باری در تبریز",
   "group": "transport",
   "subtype": "terminal",
   "image": "/images/types/terminal.webp",
@@ -2255,7 +2255,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PARKING-01",
   "kind": "project",
-  "title": "احداث پارکینگ عمومی — قم",
+  "title": "احداث پارکینگ عمومی در قم",
   "group": "transport",
   "subtype": "parking",
   "image": "/images/types/parking.webp",
@@ -2302,7 +2302,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PARKING-02",
   "kind": "project",
-  "title": "تکمیل پارکینگ عمومی — اراک",
+  "title": "تکمیل پارکینگ عمومی در اراک",
   "group": "transport",
   "subtype": "parking",
   "image": "/images/types/parking.webp",
@@ -2352,7 +2352,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PARKING-03",
   "kind": "project",
-  "title": "توسعه و بهسازی پارکینگ عمومی — تبریز",
+  "title": "توسعه و بهسازی پارکینگ عمومی در تبریز",
   "group": "transport",
   "subtype": "parking",
   "image": "/images/types/parking.webp",
@@ -2402,7 +2402,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-DAM-01",
   "kind": "project",
-  "title": "احداث سد و مخزن ذخیره آب — اهواز",
+  "title": "احداث سد و مخزن ذخیره آب در اهواز",
   "group": "water",
   "subtype": "dam",
   "image": "/images/types/dam.webp",
@@ -2452,7 +2452,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-DAM-02",
   "kind": "project",
-  "title": "تکمیل سد و مخزن ذخیره آب — خرم‌آباد",
+  "title": "تکمیل سد و مخزن ذخیره آب در خرم‌آباد",
   "group": "water",
   "subtype": "dam",
   "image": "/images/types/dam.webp",
@@ -2502,7 +2502,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-DAM-03",
   "kind": "project",
-  "title": "توسعه و بهسازی سد و مخزن ذخیره آب — رشت",
+  "title": "توسعه و بهسازی سد و مخزن ذخیره آب در رشت",
   "group": "water",
   "subtype": "dam",
   "image": "/images/types/dam.webp",
@@ -2552,7 +2552,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WATERNETWORK-01",
   "kind": "project",
-  "title": "احداث شبکه انتقال و توزیع آب — اهواز",
+  "title": "احداث شبکه انتقال و توزیع آب در اهواز",
   "group": "water",
   "subtype": "waternetwork",
   "image": "/images/types/waternetwork.webp",
@@ -2602,7 +2602,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WATERNETWORK-02",
   "kind": "project",
-  "title": "تکمیل شبکه انتقال و توزیع آب — خرم‌آباد",
+  "title": "تکمیل شبکه انتقال و توزیع آب در خرم‌آباد",
   "group": "water",
   "subtype": "waternetwork",
   "image": "/images/types/waternetwork.webp",
@@ -2649,7 +2649,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WATERNETWORK-03",
   "kind": "project",
-  "title": "توسعه و بهسازی شبکه انتقال و توزیع آب — رشت",
+  "title": "توسعه و بهسازی شبکه انتقال و توزیع آب در رشت",
   "group": "water",
   "subtype": "waternetwork",
   "image": "/images/types/waternetwork.webp",
@@ -2699,7 +2699,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WATERTREATMENT-01",
   "kind": "project",
-  "title": "احداث تصفیه‌خانه آب — اهواز",
+  "title": "احداث تصفیه‌خانه آب در اهواز",
   "group": "water",
   "subtype": "watertreatment",
   "image": "/images/types/watertreatment.webp",
@@ -2749,7 +2749,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WATERTREATMENT-02",
   "kind": "project",
-  "title": "تکمیل تصفیه‌خانه آب — خرم‌آباد",
+  "title": "تکمیل تصفیه‌خانه آب در خرم‌آباد",
   "group": "water",
   "subtype": "watertreatment",
   "image": "/images/types/watertreatment.webp",
@@ -2799,7 +2799,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WATERTREATMENT-03",
   "kind": "project",
-  "title": "توسعه و بهسازی تصفیه‌خانه آب — رشت",
+  "title": "توسعه و بهسازی تصفیه‌خانه آب در رشت",
   "group": "water",
   "subtype": "watertreatment",
   "image": "/images/types/watertreatment.webp",
@@ -2849,7 +2849,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-SEWERNETWORK-01",
   "kind": "project",
-  "title": "احداث شبکه جمع‌آوری فاضلاب — اهواز",
+  "title": "احداث شبکه جمع‌آوری فاضلاب در اهواز",
   "group": "water",
   "subtype": "sewernetwork",
   "image": "/images/types/sewernetwork.webp",
@@ -2899,7 +2899,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-SEWERNETWORK-02",
   "kind": "project",
-  "title": "تکمیل شبکه جمع‌آوری فاضلاب — خرم‌آباد",
+  "title": "تکمیل شبکه جمع‌آوری فاضلاب در خرم‌آباد",
   "group": "water",
   "subtype": "sewernetwork",
   "image": "/images/types/sewernetwork.webp",
@@ -2949,7 +2949,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-SEWERNETWORK-03",
   "kind": "project",
-  "title": "توسعه و بهسازی شبکه جمع‌آوری فاضلاب — رشت",
+  "title": "توسعه و بهسازی شبکه جمع‌آوری فاضلاب در رشت",
   "group": "water",
   "subtype": "sewernetwork",
   "image": "/images/types/sewernetwork.webp",
@@ -2996,7 +2996,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WASTEWATER-01",
   "kind": "project",
-  "title": "احداث تصفیه‌خانه فاضلاب — اهواز",
+  "title": "احداث تصفیه‌خانه فاضلاب در اهواز",
   "group": "water",
   "subtype": "wastewater",
   "image": "/images/types/wastewater.webp",
@@ -3046,7 +3046,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WASTEWATER-02",
   "kind": "project",
-  "title": "تکمیل تصفیه‌خانه فاضلاب — خرم‌آباد",
+  "title": "تکمیل تصفیه‌خانه فاضلاب در خرم‌آباد",
   "group": "water",
   "subtype": "wastewater",
   "image": "/images/types/wastewater.webp",
@@ -3096,7 +3096,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WASTEWATER-03",
   "kind": "project",
-  "title": "توسعه و بهسازی تصفیه‌خانه فاضلاب — رشت",
+  "title": "توسعه و بهسازی تصفیه‌خانه فاضلاب در رشت",
   "group": "water",
   "subtype": "wastewater",
   "image": "/images/types/wastewater.webp",
@@ -3146,7 +3146,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-IRRIGATIONCANAL-01",
   "kind": "project",
-  "title": "احداث کانال‌های آبیاری و زهکشی — اهواز",
+  "title": "احداث کانال‌های آبیاری و زهکشی در اهواز",
   "group": "water",
   "subtype": "irrigationcanal",
   "image": "/images/types/irrigationcanal.webp",
@@ -3196,7 +3196,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-IRRIGATIONCANAL-02",
   "kind": "project",
-  "title": "تکمیل کانال‌های آبیاری و زهکشی — خرم‌آباد",
+  "title": "تکمیل کانال‌های آبیاری و زهکشی در خرم‌آباد",
   "group": "water",
   "subtype": "irrigationcanal",
   "image": "/images/types/irrigationcanal.webp",
@@ -3246,7 +3246,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-IRRIGATIONCANAL-03",
   "kind": "project",
-  "title": "توسعه و بهسازی کانال‌های آبیاری و زهکشی — رشت",
+  "title": "توسعه و بهسازی کانال‌های آبیاری و زهکشی در رشت",
   "group": "water",
   "subtype": "irrigationcanal",
   "image": "/images/types/irrigationcanal.webp",
@@ -3296,7 +3296,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FLOOD-01",
   "kind": "project",
-  "title": "احداث سازه‌های کنترل سیلاب و آبخیزداری — اهواز",
+  "title": "احداث سازه‌های کنترل سیلاب و آبخیزداری در اهواز",
   "group": "water",
   "subtype": "flood",
   "image": "/images/types/flood.webp",
@@ -3343,7 +3343,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FLOOD-02",
   "kind": "project",
-  "title": "تکمیل سازه‌های کنترل سیلاب و آبخیزداری — خرم‌آباد",
+  "title": "تکمیل سازه‌های کنترل سیلاب و آبخیزداری در خرم‌آباد",
   "group": "water",
   "subtype": "flood",
   "image": "/images/types/flood.webp",
@@ -3393,7 +3393,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FLOOD-03",
   "kind": "project",
-  "title": "توسعه و بهسازی سازه‌های کنترل سیلاب و آبخیزداری — رشت",
+  "title": "توسعه و بهسازی سازه‌های کنترل سیلاب و آبخیزداری در رشت",
   "group": "water",
   "subtype": "flood",
   "image": "/images/types/flood.webp",
@@ -3443,7 +3443,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-POWERPLANT-01",
   "kind": "project",
-  "title": "احداث نیروگاه — یزد",
+  "title": "احداث نیروگاه در یزد",
   "group": "energy",
   "subtype": "powerplant",
   "image": "/images/types/powerplant.webp",
@@ -3493,7 +3493,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-POWERPLANT-02",
   "kind": "project",
-  "title": "تکمیل نیروگاه — کرمان",
+  "title": "تکمیل نیروگاه در کرمان",
   "group": "energy",
   "subtype": "powerplant",
   "image": "/images/types/powerplant.webp",
@@ -3543,7 +3543,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-POWERPLANT-03",
   "kind": "project",
-  "title": "توسعه و بهسازی نیروگاه — بیرجند",
+  "title": "توسعه و بهسازی نیروگاه در بیرجند",
   "group": "energy",
   "subtype": "powerplant",
   "image": "/images/types/powerplant.webp",
@@ -3593,7 +3593,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-POWERGRID-01",
   "kind": "project",
-  "title": "احداث خطوط انتقال و پست برق — یزد",
+  "title": "احداث خطوط انتقال و پست برق در یزد",
   "group": "energy",
   "subtype": "powergrid",
   "image": "/images/types/powergrid.webp",
@@ -3643,7 +3643,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-POWERGRID-02",
   "kind": "project",
-  "title": "تکمیل خطوط انتقال و پست برق — کرمان",
+  "title": "تکمیل خطوط انتقال و پست برق در کرمان",
   "group": "energy",
   "subtype": "powergrid",
   "image": "/images/types/powergrid.webp",
@@ -3690,7 +3690,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-POWERGRID-03",
   "kind": "project",
-  "title": "توسعه و بهسازی خطوط انتقال و پست برق — بیرجند",
+  "title": "توسعه و بهسازی خطوط انتقال و پست برق در بیرجند",
   "group": "energy",
   "subtype": "powergrid",
   "image": "/images/types/powergrid.webp",
@@ -3740,7 +3740,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-GAS-01",
   "kind": "project",
-  "title": "احداث شبکه گازرسانی — یزد",
+  "title": "احداث شبکه گازرسانی در یزد",
   "group": "energy",
   "subtype": "gas",
   "image": "/images/types/gas.webp",
@@ -3790,7 +3790,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-GAS-02",
   "kind": "project",
-  "title": "تکمیل شبکه گازرسانی — کرمان",
+  "title": "تکمیل شبکه گازرسانی در کرمان",
   "group": "energy",
   "subtype": "gas",
   "image": "/images/types/gas.webp",
@@ -3840,7 +3840,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-GAS-03",
   "kind": "project",
-  "title": "توسعه و بهسازی شبکه گازرسانی — بیرجند",
+  "title": "توسعه و بهسازی شبکه گازرسانی در بیرجند",
   "group": "energy",
   "subtype": "gas",
   "image": "/images/types/gas.webp",
@@ -3890,7 +3890,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PIPELINE-01",
   "kind": "project",
-  "title": "احداث خطوط انتقال نفت و گاز — یزد",
+  "title": "احداث خطوط انتقال نفت و گاز در یزد",
   "group": "energy",
   "subtype": "pipeline",
   "image": "/images/types/pipeline.webp",
@@ -3940,7 +3940,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PIPELINE-02",
   "kind": "project",
-  "title": "تکمیل خطوط انتقال نفت و گاز — کرمان",
+  "title": "تکمیل خطوط انتقال نفت و گاز در کرمان",
   "group": "energy",
   "subtype": "pipeline",
   "image": "/images/types/pipeline.webp",
@@ -3990,7 +3990,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PIPELINE-03",
   "kind": "project",
-  "title": "توسعه و بهسازی خطوط انتقال نفت و گاز — بیرجند",
+  "title": "توسعه و بهسازی خطوط انتقال نفت و گاز در بیرجند",
   "group": "energy",
   "subtype": "pipeline",
   "image": "/images/types/pipeline.webp",
@@ -4037,7 +4037,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-RENEWABLE-01",
   "kind": "project",
-  "title": "احداث تأسیسات انرژی خورشیدی و بادی — یزد",
+  "title": "احداث تأسیسات انرژی خورشیدی و بادی در یزد",
   "group": "energy",
   "subtype": "renewable",
   "image": "/images/types/renewable.webp",
@@ -4087,7 +4087,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-RENEWABLE-02",
   "kind": "project",
-  "title": "تکمیل تأسیسات انرژی خورشیدی و بادی — کرمان",
+  "title": "تکمیل تأسیسات انرژی خورشیدی و بادی در کرمان",
   "group": "energy",
   "subtype": "renewable",
   "image": "/images/types/renewable.webp",
@@ -4137,7 +4137,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-RENEWABLE-03",
   "kind": "project",
-  "title": "توسعه و بهسازی تأسیسات انرژی خورشیدی و بادی — بیرجند",
+  "title": "توسعه و بهسازی تأسیسات انرژی خورشیدی و بادی در بیرجند",
   "group": "energy",
   "subtype": "renewable",
   "image": "/images/types/renewable.webp",
@@ -4187,7 +4187,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-HVAC-01",
   "kind": "project",
-  "title": "احداث شبکه‌های گرمایش و سرمایش مرکزی — یزد",
+  "title": "احداث شبکه‌های گرمایش و سرمایش مرکزی در یزد",
   "group": "energy",
   "subtype": "hvac",
   "image": "/images/types/hvac.webp",
@@ -4237,7 +4237,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-HVAC-02",
   "kind": "project",
-  "title": "تکمیل شبکه‌های گرمایش و سرمایش مرکزی — کرمان",
+  "title": "تکمیل شبکه‌های گرمایش و سرمایش مرکزی در کرمان",
   "group": "energy",
   "subtype": "hvac",
   "image": "/images/types/hvac.webp",
@@ -4287,7 +4287,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-HVAC-03",
   "kind": "project",
-  "title": "توسعه و بهسازی شبکه‌های گرمایش و سرمایش مرکزی — بیرجند",
+  "title": "توسعه و بهسازی شبکه‌های گرمایش و سرمایش مرکزی در بیرجند",
   "group": "energy",
   "subtype": "hvac",
   "image": "/images/types/hvac.webp",
@@ -4337,7 +4337,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-EV-01",
   "kind": "project",
-  "title": "احداث زیرساخت‌های شارژ خودروهای برقی — یزد",
+  "title": "احداث زیرساخت‌های شارژ خودروهای برقی در یزد",
   "group": "energy",
   "subtype": "ev",
   "image": "/images/types/ev.webp",
@@ -4384,7 +4384,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-EV-02",
   "kind": "project",
-  "title": "تکمیل زیرساخت‌های شارژ خودروهای برقی — کرمان",
+  "title": "تکمیل زیرساخت‌های شارژ خودروهای برقی در کرمان",
   "group": "energy",
   "subtype": "ev",
   "image": "/images/types/ev.webp",
@@ -4434,7 +4434,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-EV-03",
   "kind": "project",
-  "title": "توسعه و بهسازی زیرساخت‌های شارژ خودروهای برقی — بیرجند",
+  "title": "توسعه و بهسازی زیرساخت‌های شارژ خودروهای برقی در بیرجند",
   "group": "energy",
   "subtype": "ev",
   "image": "/images/types/ev.webp",
@@ -4484,7 +4484,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FACTORY-01",
   "kind": "project",
-  "title": "احداث کارخانه و واحد تولیدی — بندرعباس",
+  "title": "احداث کارخانه و واحد تولیدی در بندرعباس",
   "group": "industry",
   "subtype": "factory",
   "image": "/images/types/factory.webp",
@@ -4534,7 +4534,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FACTORY-02",
   "kind": "project",
-  "title": "تکمیل کارخانه و واحد تولیدی — آبادان",
+  "title": "تکمیل کارخانه و واحد تولیدی در آبادان",
   "group": "industry",
   "subtype": "factory",
   "image": "/images/types/factory.webp",
@@ -4584,7 +4584,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FACTORY-03",
   "kind": "project",
-  "title": "توسعه و بهسازی کارخانه و واحد تولیدی — عسلویه",
+  "title": "توسعه و بهسازی کارخانه و واحد تولیدی در عسلویه",
   "group": "industry",
   "subtype": "factory",
   "image": "/images/types/factory.webp",
@@ -4634,7 +4634,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WAREHOUSE-01",
   "kind": "project",
-  "title": "احداث انبار و مرکز لجستیک — بندرعباس",
+  "title": "احداث انبار و مرکز لجستیک در بندرعباس",
   "group": "industry",
   "subtype": "warehouse",
   "image": "/images/types/warehouse.webp",
@@ -4684,7 +4684,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WAREHOUSE-02",
   "kind": "project",
-  "title": "تکمیل انبار و مرکز لجستیک — آبادان",
+  "title": "تکمیل انبار و مرکز لجستیک در آبادان",
   "group": "industry",
   "subtype": "warehouse",
   "image": "/images/types/warehouse.webp",
@@ -4731,7 +4731,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WAREHOUSE-03",
   "kind": "project",
-  "title": "توسعه و بهسازی انبار و مرکز لجستیک — عسلویه",
+  "title": "توسعه و بهسازی انبار و مرکز لجستیک در عسلویه",
   "group": "industry",
   "subtype": "warehouse",
   "image": "/images/types/warehouse.webp",
@@ -4781,7 +4781,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-REFINERY-01",
   "kind": "project",
-  "title": "احداث پالایشگاه نفت — آبادان",
+  "title": "احداث پالایشگاه نفت در آبادان",
   "group": "industry",
   "subtype": "refinery",
   "image": "/images/types/refinery.webp",
@@ -4831,7 +4831,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-REFINERY-02",
   "kind": "project",
-  "title": "تکمیل پالایشگاه نفت — بندرعباس",
+  "title": "تکمیل پالایشگاه نفت در بندرعباس",
   "group": "industry",
   "subtype": "refinery",
   "image": "/images/types/refinery.webp",
@@ -4881,7 +4881,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-REFINERY-03",
   "kind": "project",
-  "title": "توسعه و بهسازی پالایشگاه نفت — عسلویه",
+  "title": "توسعه و بهسازی پالایشگاه نفت در عسلویه",
   "group": "industry",
   "subtype": "refinery",
   "image": "/images/types/refinery.webp",
@@ -4931,7 +4931,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-INDUSTRIALPARK-01",
   "kind": "project",
-  "title": "احداث شهرک صنعتی — بندرعباس",
+  "title": "احداث شهرک صنعتی در بندرعباس",
   "group": "industry",
   "subtype": "industrialpark",
   "image": "/images/types/industrialpark.webp",
@@ -4981,7 +4981,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-INDUSTRIALPARK-02",
   "kind": "project",
-  "title": "تکمیل شهرک صنعتی — آبادان",
+  "title": "تکمیل شهرک صنعتی در آبادان",
   "group": "industry",
   "subtype": "industrialpark",
   "image": "/images/types/industrialpark.webp",
@@ -5031,7 +5031,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-INDUSTRIALPARK-03",
   "kind": "project",
-  "title": "توسعه و بهسازی شهرک صنعتی — عسلویه",
+  "title": "توسعه و بهسازی شهرک صنعتی در عسلویه",
   "group": "industry",
   "subtype": "industrialpark",
   "image": "/images/types/industrialpark.webp",
@@ -5078,7 +5078,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-COLDSTORE-01",
   "kind": "project",
-  "title": "احداث سیلو و سردخانه — بندرعباس",
+  "title": "احداث سیلو و سردخانه در بندرعباس",
   "group": "industry",
   "subtype": "coldstore",
   "image": "/images/types/coldstore.webp",
@@ -5128,7 +5128,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-COLDSTORE-02",
   "kind": "project",
-  "title": "تکمیل سیلو و سردخانه — آبادان",
+  "title": "تکمیل سیلو و سردخانه در آبادان",
   "group": "industry",
   "subtype": "coldstore",
   "image": "/images/types/coldstore.webp",
@@ -5178,7 +5178,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-COLDSTORE-03",
   "kind": "project",
-  "title": "توسعه و بهسازی سیلو و سردخانه — عسلویه",
+  "title": "توسعه و بهسازی سیلو و سردخانه در عسلویه",
   "group": "industry",
   "subtype": "coldstore",
   "image": "/images/types/coldstore.webp",
@@ -5228,7 +5228,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WORKSHOP-01",
   "kind": "project",
-  "title": "احداث کارگاه‌ها و مجموعه‌های تولیدی — بندرعباس",
+  "title": "احداث کارگاه‌ها و مجموعه‌های تولیدی در بندرعباس",
   "group": "industry",
   "subtype": "workshop",
   "image": "/images/types/workshop.webp",
@@ -5278,7 +5278,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WORKSHOP-02",
   "kind": "project",
-  "title": "تکمیل کارگاه‌ها و مجموعه‌های تولیدی — آبادان",
+  "title": "تکمیل کارگاه‌ها و مجموعه‌های تولیدی در آبادان",
   "group": "industry",
   "subtype": "workshop",
   "image": "/images/types/workshop.webp",
@@ -5328,7 +5328,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WORKSHOP-03",
   "kind": "project",
-  "title": "توسعه و بهسازی کارگاه‌ها و مجموعه‌های تولیدی — عسلویه",
+  "title": "توسعه و بهسازی کارگاه‌ها و مجموعه‌های تولیدی در عسلویه",
   "group": "industry",
   "subtype": "workshop",
   "image": "/images/types/workshop.webp",
@@ -5378,7 +5378,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-MINERAL-01",
   "kind": "project",
-  "title": "احداث تأسیسات فرآوری مواد معدنی — بندرعباس",
+  "title": "احداث تأسیسات فرآوری مواد معدنی در بندرعباس",
   "group": "industry",
   "subtype": "mineral",
   "image": "/images/types/mineral.webp",
@@ -5425,7 +5425,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-MINERAL-02",
   "kind": "project",
-  "title": "تکمیل تأسیسات فرآوری مواد معدنی — آبادان",
+  "title": "تکمیل تأسیسات فرآوری مواد معدنی در آبادان",
   "group": "industry",
   "subtype": "mineral",
   "image": "/images/types/mineral.webp",
@@ -5475,7 +5475,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-MINERAL-03",
   "kind": "project",
-  "title": "توسعه و بهسازی تأسیسات فرآوری مواد معدنی — عسلویه",
+  "title": "توسعه و بهسازی تأسیسات فرآوری مواد معدنی در عسلویه",
   "group": "industry",
   "subtype": "mineral",
   "image": "/images/types/mineral.webp",
@@ -5525,7 +5525,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-STREETS-01",
   "kind": "project",
-  "title": "احداث سامان‌دهی و بهسازی معابر — تهران",
+  "title": "احداث سامان‌دهی و بهسازی معابر در تهران",
   "group": "urban",
   "subtype": "streets",
   "image": "/images/types/streets.webp",
@@ -5575,7 +5575,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-STREETS-02",
   "kind": "project",
-  "title": "تکمیل سامان‌دهی و بهسازی معابر — ساری",
+  "title": "تکمیل سامان‌دهی و بهسازی معابر در ساری",
   "group": "urban",
   "subtype": "streets",
   "image": "/images/types/streets.webp",
@@ -5625,7 +5625,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-STREETS-03",
   "kind": "project",
-  "title": "توسعه و بهسازی سامان‌دهی و بهسازی معابر — مشهد",
+  "title": "توسعه و بهسازی سامان‌دهی و بهسازی معابر در مشهد",
   "group": "urban",
   "subtype": "streets",
   "image": "/images/types/streets.webp",
@@ -5675,7 +5675,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PARKS-01",
   "kind": "project",
-  "title": "احداث فضای سبز و بوستان — تهران",
+  "title": "احداث فضای سبز و بوستان در تهران",
   "group": "urban",
   "subtype": "parks",
   "image": "/images/types/parks.webp",
@@ -5725,7 +5725,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PARKS-02",
   "kind": "project",
-  "title": "تکمیل فضای سبز و بوستان — ساری",
+  "title": "تکمیل فضای سبز و بوستان در ساری",
   "group": "urban",
   "subtype": "parks",
   "image": "/images/types/parks.webp",
@@ -5772,7 +5772,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PARKS-03",
   "kind": "project",
-  "title": "توسعه و بهسازی فضای سبز و بوستان — مشهد",
+  "title": "توسعه و بهسازی فضای سبز و بوستان در مشهد",
   "group": "urban",
   "subtype": "parks",
   "image": "/images/types/parks.webp",
@@ -5822,7 +5822,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FURNITURE-01",
   "kind": "project",
-  "title": "احداث مبلمان شهری — تهران",
+  "title": "احداث مبلمان شهری در تهران",
   "group": "urban",
   "subtype": "furniture",
   "image": "/images/types/furniture.webp",
@@ -5872,7 +5872,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FURNITURE-02",
   "kind": "project",
-  "title": "تکمیل مبلمان شهری — ساری",
+  "title": "تکمیل مبلمان شهری در ساری",
   "group": "urban",
   "subtype": "furniture",
   "image": "/images/types/furniture.webp",
@@ -5922,7 +5922,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FURNITURE-03",
   "kind": "project",
-  "title": "توسعه و بهسازی مبلمان شهری — مشهد",
+  "title": "توسعه و بهسازی مبلمان شهری در مشهد",
   "group": "urban",
   "subtype": "furniture",
   "image": "/images/types/furniture.webp",
@@ -5972,7 +5972,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WASTE-01",
   "kind": "project",
-  "title": "احداث مدیریت و دفع پسماند — تهران",
+  "title": "احداث مدیریت و دفع پسماند در تهران",
   "group": "urban",
   "subtype": "waste",
   "image": "/images/types/waste.webp",
@@ -6022,7 +6022,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WASTE-02",
   "kind": "project",
-  "title": "تکمیل مدیریت و دفع پسماند — ساری",
+  "title": "تکمیل مدیریت و دفع پسماند در ساری",
   "group": "urban",
   "subtype": "waste",
   "image": "/images/types/waste.webp",
@@ -6072,7 +6072,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-WASTE-03",
   "kind": "project",
-  "title": "توسعه و بهسازی مدیریت و دفع پسماند — مشهد",
+  "title": "توسعه و بهسازی مدیریت و دفع پسماند در مشهد",
   "group": "urban",
   "subtype": "waste",
   "image": "/images/types/waste.webp",
@@ -6119,7 +6119,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-CEMETERY-01",
   "kind": "project",
-  "title": "احداث آرامستان — تهران",
+  "title": "احداث آرامستان در تهران",
   "group": "urban",
   "subtype": "cemetery",
   "image": "/images/types/cemetery.webp",
@@ -6169,7 +6169,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-CEMETERY-02",
   "kind": "project",
-  "title": "تکمیل آرامستان — ساری",
+  "title": "تکمیل آرامستان در ساری",
   "group": "urban",
   "subtype": "cemetery",
   "image": "/images/types/cemetery.webp",
@@ -6219,7 +6219,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-CEMETERY-03",
   "kind": "project",
-  "title": "توسعه و بهسازی آرامستان — مشهد",
+  "title": "توسعه و بهسازی آرامستان در مشهد",
   "group": "urban",
   "subtype": "cemetery",
   "image": "/images/types/cemetery.webp",
@@ -6269,7 +6269,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FIRE-01",
   "kind": "project",
-  "title": "احداث آتش‌نشانی و مراکز امدادی — تهران",
+  "title": "احداث آتش‌نشانی و مراکز امدادی در تهران",
   "group": "urban",
   "subtype": "fire",
   "image": "/images/types/fire.webp",
@@ -6319,7 +6319,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FIRE-02",
   "kind": "project",
-  "title": "تکمیل آتش‌نشانی و مراکز امدادی — ساری",
+  "title": "تکمیل آتش‌نشانی و مراکز امدادی در ساری",
   "group": "urban",
   "subtype": "fire",
   "image": "/images/types/fire.webp",
@@ -6369,7 +6369,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FIRE-03",
   "kind": "project",
-  "title": "توسعه و بهسازی آتش‌نشانی و مراکز امدادی — مشهد",
+  "title": "توسعه و بهسازی آتش‌نشانی و مراکز امدادی در مشهد",
   "group": "urban",
   "subtype": "fire",
   "image": "/images/types/fire.webp",
@@ -6419,7 +6419,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-LIGHTING-01",
   "kind": "project",
-  "title": "احداث روشنایی شهری — تهران",
+  "title": "احداث روشنایی شهری در تهران",
   "group": "urban",
   "subtype": "lighting",
   "image": "/images/types/lighting.webp",
@@ -6466,7 +6466,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-LIGHTING-02",
   "kind": "project",
-  "title": "تکمیل روشنایی شهری — ساری",
+  "title": "تکمیل روشنایی شهری در ساری",
   "group": "urban",
   "subtype": "lighting",
   "image": "/images/types/lighting.webp",
@@ -6516,7 +6516,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-LIGHTING-03",
   "kind": "project",
-  "title": "توسعه و بهسازی روشنایی شهری — مشهد",
+  "title": "توسعه و بهسازی روشنایی شهری در مشهد",
   "group": "urban",
   "subtype": "lighting",
   "image": "/images/types/lighting.webp",
@@ -6566,7 +6566,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-REGENERATION-01",
   "kind": "project",
-  "title": "احداث بازآفرینی بافت فرسوده — تهران",
+  "title": "احداث بازآفرینی بافت فرسوده در تهران",
   "group": "urban",
   "subtype": "regeneration",
   "image": "/images/types/regeneration.webp",
@@ -6616,7 +6616,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-REGENERATION-02",
   "kind": "project",
-  "title": "تکمیل بازآفرینی بافت فرسوده — ساری",
+  "title": "تکمیل بازآفرینی بافت فرسوده در ساری",
   "group": "urban",
   "subtype": "regeneration",
   "image": "/images/types/regeneration.webp",
@@ -6666,7 +6666,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-REGENERATION-03",
   "kind": "project",
-  "title": "توسعه و بهسازی بازآفرینی بافت فرسوده — مشهد",
+  "title": "توسعه و بهسازی بازآفرینی بافت فرسوده در مشهد",
   "group": "urban",
   "subtype": "regeneration",
   "image": "/images/types/regeneration.webp",
@@ -6716,7 +6716,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FIBER-01",
   "kind": "project",
-  "title": "احداث شبکه فیبر نوری — تهران",
+  "title": "احداث شبکه فیبر نوری در تهران",
   "group": "digital",
   "subtype": "fiber",
   "image": "/images/types/fiber.webp",
@@ -6766,7 +6766,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FIBER-02",
   "kind": "project",
-  "title": "تکمیل شبکه فیبر نوری — اصفهان",
+  "title": "تکمیل شبکه فیبر نوری در اصفهان",
   "group": "digital",
   "subtype": "fiber",
   "image": "/images/types/fiber.webp",
@@ -6813,7 +6813,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FIBER-03",
   "kind": "project",
-  "title": "توسعه و بهسازی شبکه فیبر نوری — تبریز",
+  "title": "توسعه و بهسازی شبکه فیبر نوری در تبریز",
   "group": "digital",
   "subtype": "fiber",
   "image": "/images/types/fiber.webp",
@@ -6863,7 +6863,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-TELECOM-01",
   "kind": "project",
-  "title": "احداث دکل و سایت مخابراتی — تهران",
+  "title": "احداث دکل و سایت مخابراتی در تهران",
   "group": "digital",
   "subtype": "telecom",
   "image": "/images/types/telecom.webp",
@@ -6913,7 +6913,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-TELECOM-02",
   "kind": "project",
-  "title": "تکمیل دکل و سایت مخابراتی — اصفهان",
+  "title": "تکمیل دکل و سایت مخابراتی در اصفهان",
   "group": "digital",
   "subtype": "telecom",
   "image": "/images/types/telecom.webp",
@@ -6963,7 +6963,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-TELECOM-03",
   "kind": "project",
-  "title": "توسعه و بهسازی دکل و سایت مخابراتی — تبریز",
+  "title": "توسعه و بهسازی دکل و سایت مخابراتی در تبریز",
   "group": "digital",
   "subtype": "telecom",
   "image": "/images/types/telecom.webp",
@@ -7013,7 +7013,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-DATACENTER-01",
   "kind": "project",
-  "title": "احداث مرکز داده — تهران",
+  "title": "احداث مرکز داده در تهران",
   "group": "digital",
   "subtype": "datacenter",
   "image": "/images/types/datacenter.webp",
@@ -7063,7 +7063,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-DATACENTER-02",
   "kind": "project",
-  "title": "تکمیل مرکز داده — اصفهان",
+  "title": "تکمیل مرکز داده در اصفهان",
   "group": "digital",
   "subtype": "datacenter",
   "image": "/images/types/datacenter.webp",
@@ -7113,7 +7113,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-DATACENTER-03",
   "kind": "project",
-  "title": "توسعه و بهسازی مرکز داده — تبریز",
+  "title": "توسعه و بهسازی مرکز داده در تبریز",
   "group": "digital",
   "subtype": "datacenter",
   "image": "/images/types/datacenter.webp",
@@ -7160,7 +7160,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-SMARTCITY-01",
   "kind": "project",
-  "title": "احداث زیرساخت شهر هوشمند — تهران",
+  "title": "احداث زیرساخت شهر هوشمند در تهران",
   "group": "digital",
   "subtype": "smartcity",
   "image": "/images/types/smartcity.webp",
@@ -7210,7 +7210,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-SMARTCITY-02",
   "kind": "project",
-  "title": "تکمیل زیرساخت شهر هوشمند — اصفهان",
+  "title": "تکمیل زیرساخت شهر هوشمند در اصفهان",
   "group": "digital",
   "subtype": "smartcity",
   "image": "/images/types/smartcity.webp",
@@ -7260,7 +7260,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-SMARTCITY-03",
   "kind": "project",
-  "title": "توسعه و بهسازی زیرساخت شهر هوشمند — تبریز",
+  "title": "توسعه و بهسازی زیرساخت شهر هوشمند در تبریز",
   "group": "digital",
   "subtype": "smartcity",
   "image": "/images/types/smartcity.webp",
@@ -7310,7 +7310,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-CONTROL-01",
   "kind": "project",
-  "title": "احداث شبکه‌های ارتباطی و کنترل هوشمند — تهران",
+  "title": "احداث شبکه‌های ارتباطی و کنترل هوشمند در تهران",
   "group": "digital",
   "subtype": "control",
   "image": "/images/types/control.webp",
@@ -7360,7 +7360,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-CONTROL-02",
   "kind": "project",
-  "title": "تکمیل شبکه‌های ارتباطی و کنترل هوشمند — اصفهان",
+  "title": "تکمیل شبکه‌های ارتباطی و کنترل هوشمند در اصفهان",
   "group": "digital",
   "subtype": "control",
   "image": "/images/types/control.webp",
@@ -7410,7 +7410,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-CONTROL-03",
   "kind": "project",
-  "title": "توسعه و بهسازی شبکه‌های ارتباطی و کنترل هوشمند — تبریز",
+  "title": "توسعه و بهسازی شبکه‌های ارتباطی و کنترل هوشمند در تبریز",
   "group": "digital",
   "subtype": "control",
   "image": "/images/types/control.webp",
@@ -7460,7 +7460,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PRESSURE-01",
   "kind": "project",
-  "title": "احداث شبکه آبیاری تحت فشار — شیراز",
+  "title": "احداث شبکه آبیاری تحت فشار در شیراز",
   "group": "agriculture",
   "subtype": "pressure",
   "image": "/images/types/pressure.webp",
@@ -7507,7 +7507,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PRESSURE-02",
   "kind": "project",
-  "title": "تکمیل شبکه آبیاری تحت فشار — رشت",
+  "title": "تکمیل شبکه آبیاری تحت فشار در رشت",
   "group": "agriculture",
   "subtype": "pressure",
   "image": "/images/types/pressure.webp",
@@ -7557,7 +7557,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PRESSURE-03",
   "kind": "project",
-  "title": "توسعه و بهسازی شبکه آبیاری تحت فشار — کرمان",
+  "title": "توسعه و بهسازی شبکه آبیاری تحت فشار در کرمان",
   "group": "agriculture",
   "subtype": "pressure",
   "image": "/images/types/pressure.webp",
@@ -7607,7 +7607,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-GREENHOUSE-01",
   "kind": "project",
-  "title": "احداث گلخانه و مجتمع کشاورزی — شیراز",
+  "title": "احداث گلخانه و مجتمع کشاورزی در شیراز",
   "group": "agriculture",
   "subtype": "greenhouse",
   "image": "/images/types/greenhouse.webp",
@@ -7657,7 +7657,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-GREENHOUSE-02",
   "kind": "project",
-  "title": "تکمیل گلخانه و مجتمع کشاورزی — رشت",
+  "title": "تکمیل گلخانه و مجتمع کشاورزی در رشت",
   "group": "agriculture",
   "subtype": "greenhouse",
   "image": "/images/types/greenhouse.webp",
@@ -7707,7 +7707,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-GREENHOUSE-03",
   "kind": "project",
-  "title": "توسعه و بهسازی گلخانه و مجتمع کشاورزی — کرمان",
+  "title": "توسعه و بهسازی گلخانه و مجتمع کشاورزی در کرمان",
   "group": "agriculture",
   "subtype": "greenhouse",
   "image": "/images/types/greenhouse.webp",
@@ -7757,7 +7757,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-LIVESTOCK-01",
   "kind": "project",
-  "title": "احداث دامداری و دامپروری — شیراز",
+  "title": "احداث دامداری و دامپروری در شیراز",
   "group": "agriculture",
   "subtype": "livestock",
   "image": "/images/types/livestock.webp",
@@ -7807,7 +7807,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-LIVESTOCK-02",
   "kind": "project",
-  "title": "تکمیل دامداری و دامپروری — رشت",
+  "title": "تکمیل دامداری و دامپروری در رشت",
   "group": "agriculture",
   "subtype": "livestock",
   "image": "/images/types/livestock.webp",
@@ -7854,7 +7854,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-LIVESTOCK-03",
   "kind": "project",
-  "title": "توسعه و بهسازی دامداری و دامپروری — کرمان",
+  "title": "توسعه و بهسازی دامداری و دامپروری در کرمان",
   "group": "agriculture",
   "subtype": "livestock",
   "image": "/images/types/livestock.webp",
@@ -7904,7 +7904,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FISH-01",
   "kind": "project",
-  "title": "احداث شیلات و آبزی‌پروری — بوشهر",
+  "title": "احداث شیلات و آبزی‌پروری در بوشهر",
   "group": "agriculture",
   "subtype": "fish",
   "image": "/images/types/fish.webp",
@@ -7954,7 +7954,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FISH-02",
   "kind": "project",
-  "title": "تکمیل شیلات و آبزی‌پروری — بندرعباس",
+  "title": "تکمیل شیلات و آبزی‌پروری در بندرعباس",
   "group": "agriculture",
   "subtype": "fish",
   "image": "/images/types/fish.webp",
@@ -8004,7 +8004,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-FISH-03",
   "kind": "project",
-  "title": "توسعه و بهسازی شیلات و آبزی‌پروری — رشت",
+  "title": "توسعه و بهسازی شیلات و آبزی‌پروری در رشت",
   "group": "agriculture",
   "subtype": "fish",
   "image": "/images/types/fish.webp",
@@ -8054,7 +8054,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-RURALROAD-01",
   "kind": "project",
-  "title": "احداث راه‌های روستایی و کشاورزی — شیراز",
+  "title": "احداث راه‌های روستایی و کشاورزی در شیراز",
   "group": "agriculture",
   "subtype": "ruralroad",
   "image": "/images/types/ruralroad.webp",
@@ -8104,7 +8104,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-RURALROAD-02",
   "kind": "project",
-  "title": "تکمیل راه‌های روستایی و کشاورزی — رشت",
+  "title": "تکمیل راه‌های روستایی و کشاورزی در رشت",
   "group": "agriculture",
   "subtype": "ruralroad",
   "image": "/images/types/ruralroad.webp",
@@ -8154,7 +8154,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-RURALROAD-03",
   "kind": "project",
-  "title": "توسعه و بهسازی راه‌های روستایی و کشاورزی — کرمان",
+  "title": "توسعه و بهسازی راه‌های روستایی و کشاورزی در کرمان",
   "group": "agriculture",
   "subtype": "ruralroad",
   "image": "/images/types/ruralroad.webp",
@@ -8201,7 +8201,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-NATURAL-01",
   "kind": "project",
-  "title": "احداث تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی — شیراز",
+  "title": "احداث تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی در شیراز",
   "group": "agriculture",
   "subtype": "natural",
   "image": "/images/types/natural.webp",
@@ -8251,7 +8251,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-NATURAL-02",
   "kind": "project",
-  "title": "تکمیل تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی — رشت",
+  "title": "تکمیل تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی در رشت",
   "group": "agriculture",
   "subtype": "natural",
   "image": "/images/types/natural.webp",
@@ -8301,7 +8301,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-NATURAL-03",
   "kind": "project",
-  "title": "توسعه و بهسازی تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی — کرمان",
+  "title": "توسعه و بهسازی تثبیت خاک، جنگل‌کاری و حفاظت منابع طبیعی در کرمان",
   "group": "agriculture",
   "subtype": "natural",
   "image": "/images/types/natural.webp",
@@ -8351,7 +8351,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-RESTORATION-01",
   "kind": "project",
-  "title": "احداث مرمت بناهای تاریخی — یزد",
+  "title": "احداث مرمت بناهای تاریخی در یزد",
   "group": "heritage",
   "subtype": "restoration",
   "image": "/images/types/restoration.webp",
@@ -8401,7 +8401,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-RESTORATION-02",
   "kind": "project",
-  "title": "تکمیل مرمت بناهای تاریخی — کاشان",
+  "title": "تکمیل مرمت بناهای تاریخی در کاشان",
   "group": "heritage",
   "subtype": "restoration",
   "image": "/images/types/restoration.webp",
@@ -8451,7 +8451,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-RESTORATION-03",
   "kind": "project",
-  "title": "توسعه و بهسازی مرمت بناهای تاریخی — اصفهان",
+  "title": "توسعه و بهسازی مرمت بناهای تاریخی در اصفهان",
   "group": "heritage",
   "subtype": "restoration",
   "image": "/images/types/restoration.webp",
@@ -8501,7 +8501,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-HISTORICHOUSE-01",
   "kind": "project",
-  "title": "احداث احیای خانه‌های ارزشمند — یزد",
+  "title": "احداث احیای خانه‌های ارزشمند در یزد",
   "group": "heritage",
   "subtype": "historichouse",
   "image": "/images/types/historichouse.webp",
@@ -8548,7 +8548,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-HISTORICHOUSE-02",
   "kind": "project",
-  "title": "تکمیل احیای خانه‌های ارزشمند — کاشان",
+  "title": "تکمیل احیای خانه‌های ارزشمند در کاشان",
   "group": "heritage",
   "subtype": "historichouse",
   "image": "/images/types/historichouse.webp",
@@ -8598,7 +8598,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-HISTORICHOUSE-03",
   "kind": "project",
-  "title": "توسعه و بهسازی احیای خانه‌های ارزشمند — اصفهان",
+  "title": "توسعه و بهسازی احیای خانه‌های ارزشمند در اصفهان",
   "group": "heritage",
   "subtype": "historichouse",
   "image": "/images/types/historichouse.webp",
@@ -8648,7 +8648,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-HISTORICFABRIC-01",
   "kind": "project",
-  "title": "احداث بازآفرینی بافت تاریخی — یزد",
+  "title": "احداث بازآفرینی بافت تاریخی در یزد",
   "group": "heritage",
   "subtype": "historicfabric",
   "image": "/images/types/historicfabric.webp",
@@ -8698,7 +8698,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-HISTORICFABRIC-02",
   "kind": "project",
-  "title": "تکمیل بازآفرینی بافت تاریخی — کاشان",
+  "title": "تکمیل بازآفرینی بافت تاریخی در کاشان",
   "group": "heritage",
   "subtype": "historicfabric",
   "image": "/images/types/historicfabric.webp",
@@ -8748,7 +8748,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-HISTORICFABRIC-03",
   "kind": "project",
-  "title": "توسعه و بهسازی بازآفرینی بافت تاریخی — اصفهان",
+  "title": "توسعه و بهسازی بازآفرینی بافت تاریخی در اصفهان",
   "group": "heritage",
   "subtype": "historicfabric",
   "image": "/images/types/historicfabric.webp",
@@ -8798,7 +8798,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-ADAPTIVE-01",
   "kind": "project",
-  "title": "احداث تغییر کاربری بناهای تاریخی — یزد",
+  "title": "احداث تغییر کاربری بناهای تاریخی در یزد",
   "group": "heritage",
   "subtype": "adaptive",
   "image": "/images/types/adaptive.webp",
@@ -8848,7 +8848,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-ADAPTIVE-02",
   "kind": "project",
-  "title": "تکمیل تغییر کاربری بناهای تاریخی — کاشان",
+  "title": "تکمیل تغییر کاربری بناهای تاریخی در کاشان",
   "group": "heritage",
   "subtype": "adaptive",
   "image": "/images/types/adaptive.webp",
@@ -8895,7 +8895,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-ADAPTIVE-03",
   "kind": "project",
-  "title": "توسعه و بهسازی تغییر کاربری بناهای تاریخی — اصفهان",
+  "title": "توسعه و بهسازی تغییر کاربری بناهای تاریخی در اصفهان",
   "group": "heritage",
   "subtype": "adaptive",
   "image": "/images/types/adaptive.webp",
@@ -8945,7 +8945,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PROTECTION-01",
   "kind": "project",
-  "title": "احداث مقاوم‌سازی و حفاظت اضطراری آثار — یزد",
+  "title": "احداث مقاوم‌سازی و حفاظت اضطراری آثار در یزد",
   "group": "heritage",
   "subtype": "protection",
   "image": "/images/types/protection.webp",
@@ -8995,7 +8995,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PROTECTION-02",
   "kind": "project",
-  "title": "تکمیل مقاوم‌سازی و حفاظت اضطراری آثار — کاشان",
+  "title": "تکمیل مقاوم‌سازی و حفاظت اضطراری آثار در کاشان",
   "group": "heritage",
   "subtype": "protection",
   "image": "/images/types/protection.webp",
@@ -9045,7 +9045,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-PROTECTION-03",
   "kind": "project",
-  "title": "توسعه و بهسازی مقاوم‌سازی و حفاظت اضطراری آثار — اصفهان",
+  "title": "توسعه و بهسازی مقاوم‌سازی و حفاظت اضطراری آثار در اصفهان",
   "group": "heritage",
   "subtype": "protection",
   "image": "/images/types/protection.webp",
@@ -9095,7 +9095,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-TOURISM-01",
   "kind": "project",
-  "title": "احداث توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی — یزد",
+  "title": "احداث توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی در یزد",
   "group": "heritage",
   "subtype": "tourism",
   "image": "/images/types/tourism.webp",
@@ -9145,7 +9145,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-TOURISM-02",
   "kind": "project",
-  "title": "تکمیل توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی — کاشان",
+  "title": "تکمیل توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی در کاشان",
   "group": "heritage",
   "subtype": "tourism",
   "image": "/images/types/tourism.webp",
@@ -9195,7 +9195,7 @@ export const generatedOpportunities: Opportunity[] = [
  {
   "id": "PL-TOURISM-03",
   "kind": "project",
-  "title": "توسعه و بهسازی توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی — اصفهان",
+  "title": "توسعه و بهسازی توسعه زیرساخت‌های گردشگری پیرامون آثار تاریخی در اصفهان",
   "group": "heritage",
   "subtype": "tourism",
   "image": "/images/types/tourism.webp",
