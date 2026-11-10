@@ -50,8 +50,8 @@ export function ListingCard({ listing: l, score, index = 0 }: { listing: Listing
         </SignaturePhoto>
         <div className="flex flex-1 flex-col gap-3.5 p-5 pt-3">
           <h3 className="line-clamp-2 min-h-14 text-[17px] font-extrabold leading-7 text-ink">{l.title}</h3>
-          <dl className="mt-auto grid grid-cols-2 gap-x-4 border-t border-dashed border-border pt-3.5">
-            {l.stats.slice(0, 2).map((s) => (
+          <dl className="mt-auto grid grid-cols-2 gap-x-4 gap-y-3 border-t border-dashed border-border pt-3.5">
+            {l.stats.slice(0, 4).filter((s) => s.value).map((s) => (
               <div key={s.label} className="min-w-0"><dt className="text-[11px] font-semibold text-muted-foreground">{s.label}</dt><dd className="truncate text-[15px] font-extrabold text-ink">{s.value}</dd></div>
             ))}
           </dl>

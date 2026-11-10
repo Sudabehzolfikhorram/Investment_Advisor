@@ -1,9 +1,8 @@
 "use client";
 // صفحه پروژه‌ها: اول «اطلاعات پایه» (دسته اصلی، محدوده، بودجه) پرسیده می‌شود و بعد نتایج می‌آید.
 // در نتایج: دسته‌های اصلی (تک‌انتخابی) و فیلترهای اصلی بالای صفحه، فیلتر پیشرفته کنار نتایج.
-import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { motion } from "motion/react";
-import { toast } from "sonner";
 import { ArrowDown2, ArrowLeft, Category2, CloseCircle, Location, Save2, SearchNormal1, Sort, WalletMoney } from "@/components/iconsax";
 import { Header, Footer } from "@/components/site/header";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
@@ -16,7 +15,6 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { groupIcons, routeIcons } from "@/components/icons";
 import { sortOptions } from "@/data/fields";
@@ -228,14 +226,8 @@ export function Results() {
 
   useEffect(() => setLimit(PAGE), [deferred, q, sort, showAll]);
 
-  // پیشنهاد ذخیره شرایط، یک‌بار پس از دیدن نتایج
-  const nudged = useRef(false);
-  useEffect(() => {
-    if (!started || !hasCriteria || nudged.current || isSaved) return;
-    nudged.current = true;
-    const t = setTimeout(() => toast("این جست‌وجو را ذخیره کنیم؟", { description: "دفعه بعد با یک کلیک به همین نتایج برمی‌گردید.", duration: 9000, action: { label: "ذخیره", onClick: () => setSaveOpen(true) } }), 4000);
-    return () => clearTimeout(t);
-  }, [started, hasCriteria, isSaved]);
+  // پیشنهاد ذخیره جست‌وجو: نوار پررنگ بالای نتایج تا وقتی ذخیره یا بسته شود
+  const [nudgeOff, setNudgeOff] = useState(false);
 
   return (
     <>
@@ -245,19 +237,16 @@ export function Results() {
         {!hydrated ? null : !started ? <Intake count={suitable} /> : (
           <>
             {/* مسیرها: تک‌انتخابی، یک ردیف با اسکرول افقی */}
-            <Tabs dir="rtl" value={criteria.route} onValueChange={(v) => changeRoute(v as RouteId)}>
-              <div className="no-scrollbar -mx-1 overflow-x-auto px-1">
-                <TabsList className="h-auto w-max gap-1.5 bg-transparent p-0 group-data-[orientation=horizontal]/tabs:h-auto">
-                  {routes.map((r) => { const I = routeIcons[r.id];
-                    return (
-                      <TabsTrigger key={r.id} value={r.id} className="group/t h-10 flex-none gap-2 whitespace-nowrap rounded-full border border-border bg-white px-4 text-[13px] font-bold text-ink/70 hover:border-ink/30 hover:text-ink data-[state=active]:border-ink data-[state=active]:bg-ink data-[state=active]:text-white data-[state=active]:shadow-none">
-                        <I size={16} variant="Bulk" className="shrink-0" />{r.name}
-                        <span className="text-[11px] font-semibold opacity-60">{faNumber(routeCounts[r.id])}</span>
-                      </TabsTrigger>
-                    ); })}
-                </TabsList>
-              </div>
-            </Tabs>
+            <div role="tablist" aria-label="مسیر ورود" className="no-scrollbar -mx-2 flex gap-2 overflow-x-auto px-2 py-2">
+              {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === criteria.route;
+                return (
+                  <Button key={r.id} role="tab" aria-selected={on} type="button" variant="plain" size="auto" onClick={() => changeRoute(r.id)}
+                    className={cn("h-11 flex-none gap-2 whitespace-nowrap rounded-full border px-4 text-[13px] transition-all", on ? "border-primary bg-primary font-extrabold text-white shadow-[0_10px_24px_-12px_var(--primary)]" : "border-border bg-white font-bold text-ink/70 hover:border-primary/40 hover:text-primary")}>
+                    <I size={17} variant="Bulk" className="shrink-0" />{r.name}
+                    <span className={cn("rounded-full px-1.5 text-[11px] font-bold", on ? "bg-white/20 text-white" : "bg-muted text-ink/60")}>{faNumber(routeCounts[r.id])}</span>
+                  </Button>
+                ); })}
+            </div>
 
             <div className="relative z-30 mt-4 flex items-center gap-3">
               <div className="min-w-0 flex-1"><FilterBar /></div>
@@ -289,6 +278,19 @@ export function Results() {
                 {hasCriteria && (hidden > 0 || showAll) && (
                   <Label className="mb-5 flex w-fit items-center gap-3 text-sm font-semibold text-ink/75"><Switch dir="rtl" checked={showAll} onCheckedChange={setShowAll} />
                     پروژه‌های دورتر از خواسته من را هم نشان بده{!showAll && ` (${faNumber(hidden)} مورد)`}</Label>
+                )}
+
+                {hasCriteria && !isSaved && !nudgeOff && shown.length > 0 && (
+                  <div className="relative mb-5 flex items-center gap-4 overflow-hidden rounded-[1.75rem] bg-deep p-4 pr-5 text-white">
+                    <AlgoPattern className="-left-10 -top-10 h-48 w-72 text-white/15" fade="radial" scale={0.6} />
+                    <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-white/15"><Save2 size={24} variant="Bulk" /></span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-base font-extrabold">فیلترهایی را که تنظیم کرده‌اید ذخیره کنید</p>
+                      <p className="mt-0.5 text-[13px] leading-6 text-white/75">دفعه بعد لازم نیست این مراحل را تکرار کنید؛ با یک کلیک به همین نتایج برمی‌گردید و پروژه‌های تازه را می‌بینید.</p>
+                    </div>
+                    <Button type="button" onClick={() => setSaveOpen(true)} className="relative h-11 shrink-0 gap-2 rounded-full bg-white px-5 font-extrabold text-ink hover:bg-white/90"><Save2 size={18} />ذخیره این جست‌وجو</Button>
+                    <Button type="button" variant="plain" size="auto" aria-label="بستن" onClick={() => setNudgeOff(true)} className="relative grid size-9 shrink-0 place-items-center rounded-full text-white/70 hover:bg-white/10 hover:text-white"><CloseCircle size={20} /></Button>
+                  </div>
                 )}
 
                 {shown.length === 0 ? (

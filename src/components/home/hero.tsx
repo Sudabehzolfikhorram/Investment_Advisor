@@ -1,6 +1,6 @@
 "use client";
 // هیرو: پیش‌فرض «از دستیار بپرس». حالت دوم یک جمله است که فقط دسته‌بندی اصلی در آن انتخاب می‌شود.
-// نقشه نقطه‌ای ایران انتخاب‌گر نیست؛ کارت‌های «تازه اضافه شد» روی آن می‌آیند و می‌روند.
+// نقشه نقطه‌ای ایران انتخاب‌گر نیست؛ کارت پروژه‌های تازه روی آن می‌آیند و می‌روند.
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -63,7 +63,7 @@ function RouteBlank() {
   );
 }
 
-/* ——— کارت‌های «تازه اضافه شد» روی نقشه ——— */
+/* کارت پروژه‌های تازه روی نقشه */
 const LIFE = 9000; // هر کارت کمتر از ۱۰ ثانیه می‌ماند
 const EVERY = 3400;
 type FeedItem = { key: number; id: string; born: number };
@@ -116,7 +116,7 @@ function MapScene() {
               <Link href={`/opportunities/${l.id}`} className={cn("surface absolute right-1/2 flex w-60 translate-x-1/2 items-center gap-2.5 rounded-[1.25rem] p-2 pl-3 transition-shadow hover:shadow-xl", below ? "top-4" : "bottom-4")}>
                 <span className="relative size-12 shrink-0 overflow-hidden rounded-xl"><Image src={l.image} alt="" fill sizes="48px" className="object-cover" /></span>
                 <span className="min-w-0 flex-1">
-                  <span className="flex items-center gap-1.5 text-[11px] font-extrabold text-primary"><span className="size-1.5 rounded-full bg-primary" style={{ animation: "node-blink 1.4s ease-in-out infinite" }} />تازه اضافه شد در {l.city}</span>
+                  <span className="flex items-center gap-1.5 text-[11px] font-extrabold text-primary"><span className="size-1.5 rounded-full bg-primary" style={{ animation: "node-blink 1.4s ease-in-out infinite" }} />{l.province}، {l.city}</span>
                   <span className="mt-0.5 block truncate text-[13px] font-extrabold text-ink">{l.title}</span>
                   <span className="block truncate text-[11px] text-muted-foreground">{l.stats[0].label}: {l.stats[0].value}</span>
                 </span>

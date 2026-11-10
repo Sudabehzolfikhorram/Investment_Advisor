@@ -50,6 +50,8 @@ export function Stats() {
   );
 }
 
+const groupRoutes = routes.filter((r) => r.usesProjectGroups);
+
 /* ——— گروه‌های پروژه: پنل‌های بازشونده ——— */
 // هر پنل با هاور باز می‌شود و زیردسته‌هایش را نشان می‌دهد؛ هاور روی هر زیردسته عکس پنل را عوض می‌کند.
 export function Categories() {
@@ -57,17 +59,29 @@ export function Categories() {
   const begin = useStore((s) => s.begin);
   const [active, setActive] = useState(0);
   const [preview, setPreview] = useState<{ image: string; name: string } | null>(null);
+  const [routeId, setRouteId] = useState(groupRoutes[0].id);
+  const route = groupRoutes.find((r) => r.id === routeId)!;
   const counts = useMemo(() => {
     const g: Record<string, number> = {}, t: Record<string, number> = {};
-    for (const l of listings) if (l.group) { g[l.group] = (g[l.group] ?? 0) + 1; t[`${l.group}/${l.subtype}`] = (t[`${l.group}/${l.subtype}`] ?? 0) + 1; }
+    for (const l of forRoute(listings, routeId)) if (l.group) { g[l.group] = (g[l.group] ?? 0) + 1; t[`${l.group}/${l.subtype}`] = (t[`${l.group}/${l.subtype}`] ?? 0) + 1; }
     return { g, t };
-  }, []);
-  const open = (group: string, subtype?: string) => { begin({ groups: [group], filters: subtype ? { subtypes: [subtype] } : {} }); router.push("/opportunities"); };
+  }, [routeId]);
+  const open = (group: string, subtype?: string) => { begin({ route: routeId, groups: [group], filters: subtype ? { subtypes: [subtype] } : {} }); router.push("/opportunities"); };
 
   return (
     <section id="categories" className="mx-auto mt-24 max-w-7xl px-4 sm:px-6">
-      <SectionHead kicker="حوزه‌ها" title="در چه حوزه‌ای دنبال پروژه‌اید؟" text="روی هر حوزه بروید تا انواع پروژه‌هایش را ببینید." />
-      <div className="mt-10 flex flex-col gap-2.5 lg:h-[34rem] lg:flex-row" onMouseLeave={() => setPreview(null)}>
+      <SectionHead kicker="زیردسته‌های هر مسیر" title={`حوزه‌های مسیر «${route.name}»`} text={`${groupRoutes.map((r) => `«${r.name}»`).join("، ")} به ${faNumber(projectGroups.length)} حوزه تقسیم می‌شوند. مسیر را انتخاب کنید و روی هر حوزه بروید تا انواع پروژه‌هایش را ببینید.`} className="max-w-3xl" />
+      <div className="mt-7 flex flex-wrap items-center gap-2">
+        <span className="ml-1 text-[13px] font-bold text-muted-foreground">مسیر:</span>
+        {groupRoutes.map((r) => { const I = routeIcons[r.id]; const on = r.id === routeId;
+          return (
+            <Button key={r.id} type="button" variant="plain" size="auto" aria-pressed={on} onClick={() => setRouteId(r.id)}
+              className={cn("h-11 gap-2 rounded-full border px-4 text-sm font-extrabold transition-all", on ? "border-ink bg-ink text-white shadow-[0_14px_30px_-16px_rgb(11_31_29/0.7)]" : "border-border bg-white text-ink/70 hover:border-primary/50 hover:text-primary")}>
+              <I size={18} variant="Bulk" />{r.name}<span className={cn("text-xs font-bold", on ? "text-white/60" : "text-muted-foreground")}>{faNumber(forRoute(listings, r.id).length)}</span>
+            </Button>
+          ); })}
+      </div>
+      <div className="mt-5 flex flex-col gap-2.5 lg:h-[34rem] lg:flex-row" onMouseLeave={() => setPreview(null)}>
         {projectGroups.map((g, i) => {
           const I = groupIcons[g.id]; const on = i === active;
           return (
@@ -105,6 +119,7 @@ export function Categories() {
                       </AnimatePresence>
                     </div>
                     <div>
+                      <p className="mb-1 flex items-center gap-1.5 text-xs font-bold text-white/70">{route.name}<ArrowLeft size={13} />حوزه</p>
                       <motion.h3 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.22, duration: 0.5 }} className="text-3xl font-black sm:text-4xl">{g.name}</motion.h3>
                       <ul className="mt-4 flex flex-wrap gap-2">
                         {g.subtypes.map((s, k) => (
@@ -141,6 +156,8 @@ export function MainCategories() {
   const begin = useStore((s) => s.begin);
   return (
     <section id="routes" className="relative mx-auto mt-20 max-w-7xl px-6">
+      <AlgoPattern animated className="-left-24 -top-16 -z-10 h-[26rem] w-[40rem] text-ink/[0.07]" fade="radial" />
+      <AlgoPattern animated className="-bottom-24 -right-20 -z-10 h-[22rem] w-[34rem] text-primary/[0.09]" fade="radial" scale={0.8} />
       <SectionHead kicker="هشت مسیر ورود" title="سرمایه، تخصص یا توان اجرایی؛ با کدام وارد می‌شوید؟" text="هر مسیر پروژه‌ها و شرایط خودش را دارد." />
       <div className="mt-10 grid grid-cols-4 gap-4">
         {routes.map((r, i) => {

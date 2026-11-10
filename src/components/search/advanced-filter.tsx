@@ -15,6 +15,7 @@ import { useStore } from "@/lib/store";
 import type { FieldDef, FieldOption, FilterValue, RouteId } from "@/types";
 import { cn, faNumber } from "@/lib/utils";
 import { Dropdown, FieldControl } from "./controls";
+import { CityPicker } from "./province-picker";
 
 const noLocation: RouteId[] = ["fund"];
 const propertyRoutes: RouteId[] = ["buyer", "lessee"];
@@ -99,7 +100,8 @@ export function AdvancedFilter({ className }: { className?: string }) {
   const row = (x: FieldDef) => (
     <div key={x.id} className={cn(x.control === "switch" && "flex items-center justify-between gap-3")}>
       <p className={cn("text-[13px] font-bold text-ink/80", x.control !== "switch" && "mb-2")}>{x.label}</p>
-      <FieldControl field={x.id === "subtypes" && many ? { ...x, control: "multi-combobox" } : x} value={f[x.id]} onChange={(v) => setFilter(x.id, v)} options={dynamicOptions[x.id]} />
+      {x.id === "cities" ? <CityPicker route={route.id} provinces={criteria.provinces} />
+        : <FieldControl field={x.id === "subtypes" && many ? { ...x, control: "multi-combobox" } : x} value={f[x.id]} onChange={(v) => setFilter(x.id, v)} options={dynamicOptions[x.id]} />}
     </div>
   );
 

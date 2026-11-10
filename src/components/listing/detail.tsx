@@ -15,13 +15,12 @@ import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Header, Footer } from "@/components/site/header";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
-import { IranMap } from "@/components/brand/iran-map";
+import { LocationMap } from "@/components/brand/iran-map";
 import { Reveal } from "@/components/brand/reveal";
 import { SignaturePhoto } from "./signature-photo";
 import { ListingCard, SaveButton } from "./listing-card";
 import { listingById, listings, payoutLabel } from "@/lib/listings";
 import { factGroups, type FactGroup } from "@/lib/facts";
-import { downloadGuide } from "@/components/guide/guide-view";
 import { projectGroups } from "@/data/taxonomy";
 import { advisories } from "@/data/advisories";
 import { useStore } from "@/lib/store";
@@ -228,7 +227,6 @@ function Contact({ l }: { l: Listing }) {
           <Button asChild variant="plain" size="auto" className="mt-5 h-14 w-full justify-between rounded-full bg-white pl-1.5 pr-6 text-base font-extrabold text-ink hover:bg-white/90">
             <Link href={`/guide/${l.id}`}>دیدن راهنما<span className="grid size-11 place-items-center rounded-full bg-primary text-white"><ArrowLeft size={18} /></span></Link>
           </Button>
-          <Button variant="plain" size="auto" type="button" onClick={() => downloadGuide(l.id)} className="mt-2 h-10 w-full gap-2 rounded-full text-sm font-bold text-white/80 hover:bg-white/10 hover:text-white"><DocumentDownload size={17} />دانلود فایل HTML</Button>
         </>
       )}
       <SaveButton id={l.id} label className="mt-2 w-full border-white/20 !bg-white/10 !text-white hover:!bg-white/20" />
@@ -366,8 +364,8 @@ export function Detail({ id }: { id: string }) {
                 <div className="flex items-center gap-3 p-4">
                   <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><Location size={22} variant="Bulk" /></span>
                   <p className="min-w-0 flex-1 text-base font-extrabold leading-6 text-ink">{l.city}<span className="block text-xs font-semibold text-muted-foreground">استان {l.province}{sale?.neighborhood ? `، ${sale.neighborhood}` : ""}</span></p>
-                  <IranMap points={[{ city: l.city, province: l.province!, count: 1 }]} labels={false} links={false} pulse={false} className="w-20 shrink-0" />
                 </div>
+                <LocationMap city={l.city} province={l.province!} className="h-40 border-t border-border" />
                 <Link href="/opportunities" onClick={() => { useStore.getState().begin({ route: l.routes[0] as never, provinces: [l.province!] }); useStore.getState().setStarted(true); }}
                   className="flex items-center justify-between border-t border-border px-5 py-3 text-[13px] font-bold text-primary hover:bg-primary/[0.05]">پروژه‌های دیگر در {l.province}<ArrowLeft size={16} /></Link>
               </div>
