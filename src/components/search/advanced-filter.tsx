@@ -48,7 +48,7 @@ function AdvisoryQuestions({ subtypes }: { subtypes: string[] }) {
   const { criteria, setFilter } = useStore();
   const names = useMemo(() => Object.fromEntries(projectGroups.flatMap((g) => g.subtypes).map((s) => [s.id, s.name])), []);
   const withAdvisory = subtypes.filter((s) => advisories[s]);
-  if (!subtypes.length) return <p className="text-[13px] leading-6 text-muted-foreground">در بخش «ویژگی‌های پروژه» یک «نوع دقیق پروژه» انتخاب کنید تا پرسش‌های همان نوع این‌جا بیاید.</p>;
+  if (!subtypes.length) return <p className="text-[13px] leading-6 text-muted-foreground">از «ویژگی‌های پروژه»، نوع دقیق پروژه را انتخاب کنید تا پرسش‌های همان نوع این‌جا بیاید.</p>;
   if (!withAdvisory.length) return <p className="text-[13px] leading-6 text-muted-foreground">برای نوع انتخاب‌شده پرسش تخصصی ثبت نشده است.</p>;
   return (
     <>
@@ -106,10 +106,10 @@ export function AdvancedFilter({ className }: { className?: string }) {
   return (
     <div className={className}>
       <div className="flex items-center justify-between pb-1">
-        <h2 className="flex items-center gap-2 text-lg font-black text-ink"><Setting4 size={20} variant="Bulk" className="text-primary" />فیلتر پیشرفته</h2>
+        <h2 className="flex items-center gap-2 text-lg font-black text-ink"><Setting4 size={20} variant="Bulk" className="text-primary" />فیلترهای بیشتر</h2>
         {total > 0 && <Button variant="ghost" size="xs" type="button" onClick={clear} className="font-bold text-muted-foreground hover:text-destructive"><Refresh2 size={14} />حذف ({faNumber(total)})</Button>}
       </div>
-      <p className="pb-1 text-xs leading-6 text-muted-foreground">همه اختیاری‌اند و نتایج همان لحظه به‌روز می‌شود.</p>
+      <p className="pb-1 text-xs leading-6 text-muted-foreground">هر کدام را که مهم است تنظیم کنید؛ نتایج همان لحظه تغییر می‌کند.</p>
 
       <Accordion key={route.id} type="single" collapsible defaultValue={fields.some((x) => x.section === "amount") ? "amount" : "project"}>
         {advancedSections.map((s) => {
@@ -118,11 +118,11 @@ export function AdvancedFilter({ className }: { className?: string }) {
           return <Section key={s.id} id={s.id} title={sectionName[s.id] ?? s.name} count={activeIn(list)}>{list.map(row)}</Section>;
         })}
         {route.usesProjectGroups && (
-          <Section id="advisory" title="پرسش‌های تخصصی نوع پروژه" count={advKeys.length}><AdvisoryQuestions subtypes={subtypes} /></Section>
+          <Section id="advisory" title="پرسش‌های تخصصی" count={advKeys.length}><AdvisoryQuestions subtypes={subtypes} /></Section>
         )}
         {profile.length > 0 && (
-          <Section id="profile" title="اطلاعات تکمیلی شما" count={activeIn(profile)}>
-            <p className="text-xs leading-6 text-muted-foreground">یک‌بار وارد می‌کنید و همراه شرایط ذخیره می‌شود.</p>
+          <Section id="profile" title="درباره شما" count={activeIn(profile)}>
+            <p className="text-xs leading-6 text-muted-foreground">یک‌بار وارد کنید؛ همراه جست‌وجو ذخیره می‌شود.</p>
             {profile.map(row)}
           </Section>
         )}

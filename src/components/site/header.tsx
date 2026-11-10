@@ -62,7 +62,7 @@ export function Footer() {
     <footer className="mx-auto mt-24 max-w-7xl px-4 pb-10 sm:px-6">
       <div className="flex flex-col items-center justify-between gap-4 border-t border-border pt-8 text-sm text-muted-foreground md:flex-row">
         <Logo />
-        <p>همه پروژه‌ها، مبالغ و دوره‌ها نمونه و فرضی‌اند و تعهد پرداخت یا تضمین سود نیستند.</p>
+        <p>اطلاعات پروژه‌ها برای تصمیم‌گیری اولیه است و تعهد پرداخت یا تضمین سود نیست.</p>
         <nav className="flex gap-5 md:hidden">{links.map((l) => <Link key={l.href} href={l.href} className="font-semibold text-ink/70">{l.label}</Link>)}</nav>
       </div>
     </footer>

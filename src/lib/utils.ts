@@ -12,4 +12,4 @@ export const formatMobile = (m: string) => faDigits(`${m.slice(0, 4)} ${m.slice(
 
 export const riskLabel: Record<string, string> = { low: "کم", medium: "متوسط", high: "زیاد", unknown: "ارزیابی‌نشده" };
 export const incomeLabel: Record<string, string> = { any: "بدون محدودیت", periodic: "درآمد دوره‌ای", end: "عایدی در پایان طرح" };
-export const legalLabel: Record<string, string> = { review: "نیازمند بررسی حقوقی", sample: "نمونه؛ مستندات احراز نشده" };
+export const legalLabel: Record<string, string> = { review: "نیازمند بررسی حقوقی", sample: "مستندات احراز نشده" };

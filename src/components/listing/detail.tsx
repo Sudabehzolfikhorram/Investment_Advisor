@@ -2,11 +2,11 @@
 // صفحه جزئیات: روایت پروژه به‌جای متن پشت‌سرهم. همه فیلدهای داده نمایش داده می‌شوند؛
 // هر جا داده‌ای نیست «ثبت نشده» می‌آید تا ساختار صفحه برای همه پروژه‌ها یکسان بماند.
 import Link from "next/link";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { motion } from "motion/react";
 import { toast } from "sonner";
 import {
-  ArrowRight, Call, Copy, CopySuccess, DocumentDownload, Location, Warning2, ShieldSearch, WalletMoney, MoneyRecive, Key,
+  ArrowLeft, ArrowRight, Call, Copy, CopySuccess, DocumentDownload, Location, Warning2, ShieldSearch, WalletMoney, MoneyRecive, Key,
   Timer1, Lock1, Chart, Calendar, Building, TickCircle, InfoCircle, Danger, type Icon,
 } from "@/components/iconsax";
 import { Button } from "@/components/ui/button";
@@ -14,26 +14,22 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Header, Footer } from "@/components/site/header";
-import { NodeMark } from "@/components/brand/algo-pattern";
+import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { IranMap } from "@/components/brand/iran-map";
 import { Reveal } from "@/components/brand/reveal";
 import { SignaturePhoto } from "./signature-photo";
 import { ListingCard, SaveButton } from "./listing-card";
 import { listingById, listings, payoutLabel } from "@/lib/listings";
-import { ownerLabel, phaseLabel, revenueLabel } from "@/lib/criteria";
+import { factGroups, type FactGroup } from "@/lib/facts";
+import { downloadGuide } from "@/components/guide/guide-view";
 import { projectGroups } from "@/data/taxonomy";
 import { advisories } from "@/data/advisories";
-import { usages } from "@/data/provinces";
-import { withBase } from "@/lib/image-loader";
-import { routes, routeSubcategories } from "@/data/routes";
 import { useStore } from "@/lib/store";
 import type { Advisory, Fund, Listing, Opportunity, SaleItem } from "@/types";
-import { cn, faDigits, faNumber, formatMobile, incomeLabel, legalLabel, riskLabel } from "@/lib/utils";
+import { cn, faNumber, formatMobile, incomeLabel, legalLabel, riskLabel } from "@/lib/utils";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const NA = "ثبت نشده";
-type Val = string | null | undefined;
-const num = (v: number | null | undefined, unit: string): Val => (v != null ? `${faNumber(v)} ${unit}` : null);
 
 function Chapter({ n, title, note, children }: { n: number; title: string; note?: string; children: React.ReactNode }) {
   return (
@@ -49,10 +45,6 @@ function Chapter({ n, title, note, children }: { n: number; title: string; note?
   );
 }
 
-const Empty = ({ text = "برای این پروژه داده‌ای ثبت نشده است." }: { text?: string }) => (
-  <p className="rounded-2xl border border-dashed border-border px-5 py-4 text-sm font-semibold text-muted-foreground">{text}</p>
-);
-
 function Tile({ I, label, value, sub }: { I: Icon; label: string; value: string; sub?: string }) {
   return (
     <Card className="surface gap-3 rounded-[1.5rem] p-5 shadow-none">
@@ -66,17 +58,26 @@ function Tile({ I, label, value, sub }: { I: Icon; label: string; value: string;
   );
 }
 
-/** شناسنامه: همه فیلدها در یک جدول خوانا */
-function Facts({ items }: { items: [string, Val][] }) {
+/** شناسنامه: سه کارت موضوعی با آیکون؛ فقط داده‌های ثبت‌شده. متن بلند زیر برچسبش می‌شکند. */
+const groupIcon: Record<string, Icon> = { project: Building, money: WalletMoney, status: ShieldSearch };
+function Facts({ groups }: { groups: FactGroup[] }) {
   return (
-    <dl className="surface grid grid-cols-3 overflow-hidden rounded-[1.75rem]">
-      {items.map(([k, v], i) => (
-        <div key={k} className={cn("border-border px-5 py-4", i % 3 !== 2 && "border-l", i < items.length - (items.length % 3 || 3) && "border-b")}>
-          <dt className="text-xs font-semibold text-muted-foreground">{k}</dt>
-          <dd className={cn("mt-1 text-[15px] font-extrabold leading-7", v ? "text-ink" : "font-semibold text-ink/35")}>{v || NA}</dd>
-        </div>
-      ))}
-    </dl>
+    <div className="grid grid-cols-3 items-start gap-4">
+      {groups.map((g) => { const I = groupIcon[g.id];
+        return (
+          <div key={g.id} className="surface rounded-[1.75rem] p-5">
+            <h3 className="flex items-center gap-2.5 text-[15px] font-extrabold text-ink"><span className="grid size-9 place-items-center rounded-xl bg-primary/10 text-primary"><I size={18} variant="Bulk" /></span>{g.title}</h3>
+            <dl className="mt-3 divide-y divide-border/70">
+              {g.items.map(([k, v]) => (
+                <div key={k} className={cn("py-2.5", v.length <= 22 && "flex items-baseline justify-between gap-3")}>
+                  <dt className="shrink-0 text-xs font-semibold text-muted-foreground">{k}</dt>
+                  <dd className={cn("text-sm font-extrabold leading-6 text-ink", v.length <= 22 ? "text-left" : "mt-0.5")}>{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ); })}
+    </div>
   );
 }
 
@@ -93,7 +94,7 @@ function RiskMeter({ risk }: { risk: string }) {
 /** زمان‌بندی پول: ایستگاه‌های ثابت به ترتیب زمان. نوار و دستگیره ندارد تا قابل تغییر به نظر نرسد. */
 function Milestones({ o }: { o: Opportunity }) {
   const all = [
-    { at: 0, label: "ورود سرمایه", value: "شروع" as Val },
+    { at: 0, label: "ورود سرمایه", value: "شروع" as string | null },
     { at: o.firstIncomeMonths ?? null, label: "اولین دریافت", value: o.firstIncomeMonths != null ? `ماه ${faNumber(o.firstIncomeMonths)}` : null },
     { at: o.executionMonths ?? null, label: "پایان اجرا", value: o.executionMonths != null ? `ماه ${faNumber(o.executionMonths)}` : null },
     { at: o.lockupMonths ?? null, label: "پایان قفل سرمایه", value: o.lockupMonths != null ? `ماه ${faNumber(o.lockupMonths)}` : null },
@@ -102,7 +103,7 @@ function Milestones({ o }: { o: Opportunity }) {
     { at: o.durationYears != null ? o.durationYears * 12 : null, label: "پایان طرح", value: o.durationYears != null ? `سال ${faNumber(o.durationYears)}` : null },
   ];
   const known = all.filter((m) => m.at != null).sort((a, b) => a.at! - b.at!);
-  const unknown = all.filter((m) => m.at == null);
+  if (known.length < 2) return null;
   return (
     <div className="surface rounded-[1.75rem] p-6">
       <ol className="grid" style={{ gridTemplateColumns: `repeat(${known.length}, minmax(0, 1fr))` }}>
@@ -115,30 +116,32 @@ function Milestones({ o }: { o: Opportunity }) {
           </li>
         ))}
       </ol>
-      <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-dashed border-border pt-4 text-xs font-semibold text-muted-foreground">
-        <span className="flex items-center gap-1.5"><InfoCircle size={15} variant="Bulk" className="text-primary" />برآورد ثابت پروژه است و قابل تغییر نیست.</span>
-        {unknown.map((m) => <span key={m.label}>{m.label}: <span className="text-ink/40">{NA}</span></span>)}
-      </div>
     </div>
   );
 }
 
-/** مسیر پول: تأمین مالی ← بازگشت ← مالکیت */
+/** مسیر پول: تأمین مالی ← بازگشت ← مالکیت؛ کارت‌ها با فلش به هم وصل‌اند */
 function MoneyFlow({ o }: { o: Opportunity }) {
   const nodes = [
     { I: WalletMoney, t: "پول از کجا می‌آید", d: o.finance },
     { I: MoneyRecive, t: "چطور برمی‌گردد", d: o.repay },
     { I: Key, t: "مالکیت و سهم", d: o.ownership },
-  ];
+  ].filter((x) => x.d);
   return (
-    <div className="grid grid-cols-3 gap-4">
-      {nodes.map((n, i) => (
-        <div key={n.t} className="surface relative h-full rounded-[1.75rem] p-6">
-          {i < nodes.length - 1 && <NodeMark className="absolute -left-9 top-9 z-10 text-primary/50" />}
-          <span className="grid size-12 place-items-center rounded-2xl bg-primary/10 text-primary"><n.I size={24} variant="Bulk" /></span>
-          <h3 className="mt-4 text-sm font-extrabold text-primary">{n.t}</h3>
-          <p className={cn("mt-2 text-[15px] font-semibold leading-8", n.d ? "text-ink" : "text-ink/35")}>{n.d || NA}</p>
-        </div>
+    <div className="flex items-stretch gap-2">
+      {nodes.map((x, i) => (
+        <Fragment key={x.t}>
+          {i > 0 && (
+            <span aria-hidden className="flex w-12 shrink-0 items-center text-primary">
+              <span className="h-0.5 flex-1 bg-primary/30" /><ArrowLeft size={20} className="-mr-1.5" />
+            </span>
+          )}
+          <div className="surface flex-1 rounded-[1.75rem] p-6">
+            <span className="grid size-12 place-items-center rounded-2xl bg-primary/10 text-primary"><x.I size={24} variant="Bulk" /></span>
+            <h3 className="mt-4 text-sm font-extrabold text-primary">{x.t}</h3>
+            <p className="mt-2 text-[15px] font-semibold leading-8 text-ink">{x.d}</p>
+          </div>
+        </Fragment>
       ))}
     </div>
   );
@@ -180,7 +183,6 @@ function AdvisoryBlock({ a }: { a: Advisory }) {
                     <p className="flex flex-wrap items-center gap-2 text-sm font-bold text-ink">{op.label}
                       {block && <Badge variant="outline" className="gap-1 border-destructive/30 bg-destructive/5 text-[11px] text-destructive"><Danger size={12} variant="Bold" />مانع ادامه</Badge>}
                       {review && <Badge variant="outline" className="bg-white text-[11px] text-ink/70">نیازمند بررسی</Badge>}
-                      {a.example[q.id] === op.value && <Badge className="text-[11px]">پاسخ نمونه</Badge>}
                     </p>
                     {q.actions[op.value] && <p className="mt-1 text-[13px] leading-6 text-muted-foreground">{q.actions[op.value]}</p>}
                   </div>
@@ -194,39 +196,42 @@ function AdvisoryBlock({ a }: { a: Advisory }) {
   );
 }
 
+/** کارت اقدام: کارشناس و شماره (آیکون کپی داخل خود فیلد) یا فایل راهنما */
 function Contact({ l }: { l: Listing }) {
   const o = l.kind === "project" ? (l.raw as Opportunity) : null;
   const expert = o?.expert ?? null;
-  const guide = o?.guideFileUrl ?? (!expert ? "/guides/sample-guide.pdf" : null);
   const [copied, setCopied] = useState(false);
   const copy = () => { navigator.clipboard?.writeText(expert!.mobile); setCopied(true); toast("شماره کپی شد."); setTimeout(() => setCopied(false), 2000); };
   return (
-    <div className="surface rounded-[1.75rem] p-5">
+    <div id="next-step" className="relative isolate overflow-hidden rounded-[2rem] bg-deep p-6 text-white">
+      <AlgoPattern className="-left-8 -top-8 -z-10 h-56 w-72 text-white/[0.12]" fade="radial" />
       {expert ? (
         <>
-          <p className="flex items-center gap-2 text-xs font-extrabold text-primary"><NodeMark />کارشناس این پروژه</p>
+          <p className="flex items-center gap-2 text-xs font-bold text-white/70"><NodeMark />گام بعدی: با کارشناس پروژه صحبت کنید</p>
           <div className="mt-4 flex items-center gap-3">
-            <span className="grid size-14 place-items-center rounded-2xl bg-primary/10 text-xl font-black text-primary">{expert.name.trim()[0]}</span>
-            <span><span className="block text-lg font-extrabold text-ink">{expert.name}</span><span className="block text-xs text-muted-foreground">پاسخ‌گوی پرسش‌های شما درباره همین پروژه</span></span>
+            <span className="grid size-14 place-items-center rounded-2xl bg-white/10 text-xl font-black">{expert.name.trim()[0]}</span>
+            <span><span className="block text-lg font-extrabold">{expert.name}</span><span className="block text-xs text-white/65">کارشناس همین پروژه</span></span>
           </div>
-          {/* فیلد شماره: آیکون کپی داخل خود فیلد */}
-          <div className="mt-5 flex h-14 items-center gap-1 rounded-2xl border border-border bg-muted/60 p-1.5">
-            <Button asChild variant="plain" size="auto" className="size-11 shrink-0 rounded-xl bg-primary text-white hover:bg-deep"><a href={`tel:${expert.mobile}`} aria-label="تماس با کارشناس"><Call size={19} variant="Bold" /></a></Button>
-            <span dir="ltr" className="flex-1 select-all text-center text-lg font-black tracking-wide text-ink">{formatMobile(expert.mobile)}</span>
-            <Button variant="plain" size="auto" type="button" onClick={copy} aria-label="کپی شماره" title="کپی شماره" className={cn("size-11 shrink-0 rounded-xl hover:bg-white", copied ? "text-primary" : "text-ink/60 hover:text-primary")}>{copied ? <CopySuccess size={20} variant="Bold" /> : <Copy size={20} />}</Button>
+          <div className="mt-5 flex h-14 items-center gap-1 rounded-full bg-white p-1.5 text-ink">
+            <Button asChild variant="plain" size="auto" className="size-11 shrink-0 rounded-full bg-primary text-white hover:bg-deep"><a href={`tel:${expert.mobile}`} aria-label="تماس با کارشناس"><Call size={19} variant="Bold" /></a></Button>
+            <span dir="ltr" className="flex-1 select-all text-center text-lg font-black tracking-wide">{formatMobile(expert.mobile)}</span>
+            <Button variant="plain" size="auto" type="button" onClick={copy} aria-label="کپی شماره" title="کپی شماره" className={cn("size-11 shrink-0 rounded-full hover:bg-muted", copied ? "text-primary" : "text-ink/55 hover:text-primary")}>{copied ? <CopySuccess size={20} variant="Bold" /> : <Copy size={20} />}</Button>
           </div>
         </>
       ) : (
         <>
-          <p className="flex items-center gap-2 text-xs font-extrabold text-primary"><NodeMark />فایل راهنمای پروژه</p>
+          <p className="flex items-center gap-2 text-xs font-bold text-white/70"><NodeMark />گام بعدی: راهنمای اقدام را بگیرید</p>
           <div className="mt-4 flex items-center gap-3">
-            <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><DocumentDownload size={26} variant="Bulk" /></span>
-            <span><span className="block text-base font-extrabold text-ink">راهنمای ورود به این پروژه</span><span className="block text-xs leading-5 text-muted-foreground">این پروژه کارشناس اختصاصی ندارد؛ مراحل و مدارک در فایل آمده است.</span></span>
+            <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/10"><DocumentDownload size={26} variant="Bulk" /></span>
+            <span><span className="block text-lg font-extrabold">راهنمای اقدام</span><span className="block text-xs leading-5 text-white/65">مراحل، مدارک و نکته‌های این پروژه در یک فایل</span></span>
           </div>
-          <Button asChild className="mt-5 h-14 w-full gap-2 rounded-2xl text-base font-extrabold"><a href={withBase(guide!)} download><DocumentDownload size={20} variant="Bold" />دانلود فایل راهنما<span className="text-xs font-semibold opacity-75">PDF</span></a></Button>
+          <Button asChild variant="plain" size="auto" className="mt-5 h-14 w-full justify-between rounded-full bg-white pl-1.5 pr-6 text-base font-extrabold text-ink hover:bg-white/90">
+            <Link href={`/guide/${l.id}`}>دیدن راهنما<span className="grid size-11 place-items-center rounded-full bg-primary text-white"><ArrowLeft size={18} /></span></Link>
+          </Button>
+          <Button variant="plain" size="auto" type="button" onClick={() => downloadGuide(l.id)} className="mt-2 h-10 w-full gap-2 rounded-full text-sm font-bold text-white/80 hover:bg-white/10 hover:text-white"><DocumentDownload size={17} />دانلود فایل HTML</Button>
         </>
       )}
-      <SaveButton id={l.id} label className="mt-2 w-full !rounded-2xl" />
+      <SaveButton id={l.id} label className="mt-2 w-full border-white/20 !bg-white/10 !text-white hover:!bg-white/20" />
     </div>
   );
 }
@@ -240,7 +245,6 @@ export function Detail({ id }: { id: string }) {
   const subtype = group?.subtypes.find((s) => s.id === l.subtype);
   const advisory = o ? advisories[o.subtype] : undefined;
   const similar = listings.filter((x) => x.id !== l.id && x.kind === l.kind && (l.kind !== "project" || x.group === l.group)).slice(0, 3);
-  const routeNames = l.routes.map((r) => routes.find((x) => x.id === r)?.name).filter(Boolean).join("، ");
   let n = 0;
 
   const tiles: { I: Icon; label: string; value: string; sub?: string }[] = o
@@ -252,33 +256,9 @@ export function Detail({ id }: { id: string }) {
       ]
     : l.stats.map((s, i) => ({ I: [WalletMoney, Chart, ShieldSearch, Calendar][i], label: s.label, value: s.value }));
 
-  const facts: [string, Val][] = o
-    ? [
-        ["شناسه", o.id], ["گروه پروژه", group?.name], ["نوع پروژه", subtype?.name],
-        ["نمونه‌های این نوع", subtype?.examples], ["استان", o.province], ["شهر", o.city],
-        ["دسته‌بندی اصلی", routeNames], ["وضعیت", o.stage], ["مرحله پروژه", phaseLabel[o.phase] ?? o.phase],
-        ["مدل همکاری", o.model], ["صاحب پروژه", o.owner ? ownerLabel[o.owner] ?? o.owner : null], ["منابع درآمد", o.revenues?.length ? o.revenues.map((r) => revenueLabel[r] ?? r).join("، ") : null],
-        ["حداقل سرمایه ورود", num(o.minCapital, "میلیارد تومان")], ["نیاز مالی طرح", num(o.budget, "میلیارد تومان")], ["مدت اجرا", num(o.executionMonths, "ماه")],
-        ["دوره بازگشت", num(o.paybackYears, "سال")], ["بازگشت بدبینانه", num(o.paybackDownsideYears, "سال")], ["قفل سرمایه", num(o.lockupMonths, "ماه")],
-        ["اولین دریافت", num(o.firstIncomeMonths, "ماه")], ["نوع درآمد", incomeLabel[o.income] ?? o.income], ["مدت کل طرح", num(o.durationYears, "سال")],
-        ["سطح ریسک", riskLabel[o.risk] ?? o.risk], ["وضعیت حقوقی", legalLabel[o.legalStatus] ?? o.legalStatus], [o.metric?.label ?? "ظرفیت طرح", o.metric ? `${faNumber(o.metric.value)} ${o.metric.unit}` : null],
-        ["تاریخ ثبت", faDigits(o.publishedAt.replaceAll("-", "/"))], ["کارشناس", o.expert?.name], ["فایل راهنما", o.guideFileUrl ? "دارد" : null],
-      ]
-    : fund
-      ? [
-          ["شناسه", fund.id], ["نوع", fund.kind === "fund" ? "صندوق" : "طرح جمعی"], ["دسته", routeSubcategories.fund?.find((x) => x.id === fund.type)?.name ?? fund.type],
-          ["حداقل ورود", num(fund.minimumMillion, "میلیون تومان")], ["بازده پیش‌بینی", fund.forecast != null ? `${faNumber(fund.forecast)}٪ سالانه` : null], ["پرداخت سود", payoutLabel[fund.payout] ?? fund.payout],
-          ["سطح ریسک", riskLabel[fund.risk] ?? fund.risk], ["مدت", num(fund.durationMonths, "ماه")], ["حوزه دارایی", fund.assetSector],
-          ["تضمین بانکی", fund.bank.exists == null ? null : fund.bank.exists ? "دارد" : "ندارد"], ["تضمین اصل سرمایه", fund.bank.principal == null ? null : fund.bank.principal ? "دارد" : "ندارد"], ["تضمین سود", fund.bank.profit == null ? null : fund.bank.profit ? "دارد" : "ندارد"],
-        ]
-      : sale
-        ? [
-            ["شناسه", sale.id], ["دسته", routeSubcategories.buyer?.find((x) => x.id === sale.category)?.name ?? sale.category], ["نوع", routeSubcategories.buyer?.flatMap((x) => x.children ?? []).find((c) => c.id === (sale.buildingType ?? sale.scrapType))?.name],
-            ["کاربری", usages.find((u) => u.value === sale.usage)?.label], ["قیمت", num(sale.price, sale.category === "scrap" ? "میلیون تومان" : "میلیارد تومان")], ["مساحت", num(sale.area, "مترمربع")],
-            ["مساحت عرصه", num(sale.landArea, "مترمربع")], ["مقدار", sale.quantity], ["موضوع", sale.subject],
-            ["استان", sale.province], ["شهر", sale.city], ["محله یا محدوده", sale.neighborhood],
-          ]
-        : [];
+  const groups = factGroups(l);
+  const hasFlow = !!o && !!(o.finance || o.repay || o.ownership);
+  const hasTime = !!o && [o.firstIncomeMonths, o.executionMonths, o.lockupMonths, o.paybackYears, o.paybackDownsideYears, o.durationYears].some((x) => x != null);
 
   return (
     <>
@@ -315,10 +295,12 @@ export function Detail({ id }: { id: string }) {
               </p>
             )}
 
-            <Chapter n={++n} title="شناسنامه" note="همه داده‌های ثبت‌شده"><Facts items={facts} /></Chapter>
+            {subtype?.examples && <p className="-mt-8 flex items-start gap-2.5 rounded-2xl bg-muted px-5 py-3.5 text-sm font-semibold leading-7 text-ink/75"><InfoCircle size={18} variant="Bulk" className="mt-1 shrink-0 text-primary" /><span><b className="text-ink">{subtype.name} یعنی: </b>{subtype.examples}</span></p>}
 
-            {o && <Chapter n={++n} title="پول شما در طول زمان"><Milestones o={o} /></Chapter>}
-            {o && <Chapter n={++n} title="مسیر پول"><MoneyFlow o={o} /></Chapter>}
+            <Chapter n={++n} title="شناسنامه پروژه"><Facts groups={groups} /></Chapter>
+
+            {o && hasTime && <Chapter n={++n} title="پول شما در طول زمان"><Milestones o={o} /></Chapter>}
+            {o && hasFlow && <Chapter n={++n} title="مسیر پول"><MoneyFlow o={o} /></Chapter>}
 
             {o && (
               <Chapter n={++n} title="ریسک و نکته‌های مهم">
@@ -328,26 +310,32 @@ export function Detail({ id }: { id: string }) {
                     <div className="mt-4"><RiskMeter risk={o.risk} /></div>
                     <p className="mt-5 flex items-center gap-2 border-t border-dashed border-border pt-4 text-sm font-bold text-ink/80"><ShieldSearch size={18} variant="Bulk" className="text-primary" />وضعیت حقوقی: {legalLabel[o.legalStatus] ?? o.legalStatus}</p>
                   </div>
-                  <div className="rounded-[1.75rem] bg-sand/15 p-6 ring-1 ring-sand/40">
+                  {o.caution && <div className="rounded-[1.75rem] bg-sand/15 p-6 ring-1 ring-sand/40">
                     <span className="grid size-11 place-items-center rounded-2xl bg-sand/70 text-ink"><Warning2 size={22} variant="Bulk" /></span>
                     <h3 className="mt-3 text-sm font-extrabold text-ink">پیش از تصمیم بدانید</h3>
-                    <p className={cn("mt-2 text-[15px] font-semibold leading-8", o.caution ? "text-ink/85" : "text-ink/35")}>{o.caution || NA}</p>
-                  </div>
+                    <p className="mt-2 text-[15px] font-semibold leading-8 text-ink/85">{o.caution}</p>
+                  </div>}
                 </div>
-                <h3 className="mb-2 mt-6 text-sm font-extrabold text-ink">مواردی که باید بررسی شود</h3>
-                {o.checks?.length
-                  ? <ul className="grid grid-cols-2 gap-2">{o.checks.map((c) => <li key={c} className="surface flex items-start gap-2.5 rounded-2xl px-4 py-3 text-sm font-semibold leading-7 text-ink/85"><InfoCircle size={18} variant="Bulk" className="mt-1 shrink-0 text-primary" />{c}</li>)}</ul>
-                  : <Empty />}
+                {!!o.checks?.length && <>
+                  <h3 className="mb-2 mt-6 text-sm font-extrabold text-ink">این موارد را بررسی کنید</h3>
+                  <ul className="grid grid-cols-2 gap-2">{o.checks.map((c) => <li key={c} className="surface flex items-start gap-2.5 rounded-2xl px-4 py-3 text-sm font-semibold leading-7 text-ink/85"><InfoCircle size={18} variant="Bulk" className="mt-1 shrink-0 text-primary" />{c}</li>)}</ul>
+                </>}
               </Chapter>
             )}
 
-            {o && (
-              <Chapter n={++n} title="پرسش‌های تخصصی این نوع پروژه" note={subtype?.name}>
-                {advisory ? <AdvisoryBlock a={advisory} /> : <Empty text="برای این نوع پروژه پرسش تخصصی ثبت نشده است." />}
+            {o && advisory && <Chapter n={++n} title="پرسش‌هایی که از شما پرسیده می‌شود" note={subtype?.name}><AdvisoryBlock a={advisory} /></Chapter>}
+
+            {o && o.steps.length > 0 && (
+              <Chapter n={++n} title="از این‌جا به بعد">
+                <Steps steps={o.steps} />
+                <div className="mt-5 flex items-center justify-between gap-4 rounded-[1.75rem] bg-primary/[0.07] p-5 pr-7">
+                  <p className="text-[15px] font-extrabold text-ink">{o.expert ? `برای شروع، با ${o.expert.name} تماس بگیرید.` : "برای شروع، راهنمای اقدام این پروژه را بگیرید."}</p>
+                  {o.expert
+                    ? <Button asChild className="h-12 gap-2 rounded-full px-6 font-extrabold"><a href={`tel:${o.expert.mobile}`}><Call size={18} variant="Bold" />تماس با کارشناس</a></Button>
+                    : <Button asChild className="h-12 gap-2 rounded-full px-6 font-extrabold"><Link href={`/guide/${l.id}`}><DocumentDownload size={18} variant="Bold" />دیدن راهنمای اقدام</Link></Button>}
+                </div>
               </Chapter>
             )}
-
-            {o && <Chapter n={++n} title="گام‌های بعدی">{o.steps.length ? <Steps steps={o.steps} /> : <Empty />}</Chapter>}
 
             {fund && (
               <>
@@ -374,17 +362,16 @@ export function Detail({ id }: { id: string }) {
           <aside className="sticky top-24 space-y-4 self-start">
             <Contact l={l} />
             {l.city && (
-              <div className="surface flex items-center gap-4 rounded-[1.75rem] p-4">
-                <IranMap points={[{ city: l.city, province: l.province!, count: 1 }]} labels={false} links={false} pulse={false} className="w-24 shrink-0" />
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold text-muted-foreground">محل پروژه</p>
-                  <p className="text-base font-extrabold text-ink">{l.city}</p>
-                  <p className="text-xs text-muted-foreground">استان {l.province}{sale?.neighborhood ? ` · ${sale.neighborhood}` : ""}</p>
-                  <Link href="/opportunities" onClick={() => { useStore.getState().begin({ route: l.routes[0] as never, provinces: [l.province!] }); useStore.getState().setStarted(true); }} className="mt-1 inline-flex text-xs font-bold text-primary hover:underline">پروژه‌های دیگر این استان</Link>
+              <div className="surface overflow-hidden rounded-[1.75rem]">
+                <div className="flex items-center gap-3 p-4">
+                  <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><Location size={22} variant="Bulk" /></span>
+                  <p className="min-w-0 flex-1 text-base font-extrabold leading-6 text-ink">{l.city}<span className="block text-xs font-semibold text-muted-foreground">استان {l.province}{sale?.neighborhood ? `، ${sale.neighborhood}` : ""}</span></p>
+                  <IranMap points={[{ city: l.city, province: l.province!, count: 1 }]} labels={false} links={false} pulse={false} className="w-20 shrink-0" />
                 </div>
+                <Link href="/opportunities" onClick={() => { useStore.getState().begin({ route: l.routes[0] as never, provinces: [l.province!] }); useStore.getState().setStarted(true); }}
+                  className="flex items-center justify-between border-t border-border px-5 py-3 text-[13px] font-bold text-primary hover:bg-primary/[0.05]">پروژه‌های دیگر در {l.province}<ArrowLeft size={16} /></Link>
               </div>
             )}
-            <p className="px-2 text-xs leading-6 text-muted-foreground">اطلاعات این صفحه نمونه و فرضی است و تعهد پرداخت یا تضمین سود نیست.</p>
           </aside>
         </div>
 

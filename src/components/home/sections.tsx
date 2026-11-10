@@ -31,9 +31,9 @@ export function SectionHead({ kicker, title, text, className, light }: { kicker:
 export function Stats() {
   const provinces = new Set(listings.map((l) => l.province).filter(Boolean)).size;
   const items = [
-    { n: listings.length, label: "پروژه و فرصت نمونه" },
+    { n: listings.length, label: "پروژه و فرصت" },
     { n: projectGroups.length, label: "گروه پروژه" },
-    { n: routes.length, label: "دسته‌بندی اصلی" },
+    { n: routes.length, label: "مسیر ورود" },
     { n: provinces, label: "استان" },
   ];
   return (
@@ -66,7 +66,7 @@ export function Categories() {
 
   return (
     <section id="categories" className="mx-auto mt-24 max-w-7xl px-4 sm:px-6">
-      <SectionHead kicker="گروه‌های پروژه" title="از کدام حوزه شروع می‌کنید؟" text="روی هر گروه بروید تا نوع‌های پروژه آن باز شود. روی هر نوع بزنید تا پروژه‌هایش را ببینید." />
+      <SectionHead kicker="حوزه‌ها" title="در چه حوزه‌ای دنبال پروژه‌اید؟" text="روی هر حوزه بروید تا انواع پروژه‌هایش را ببینید." />
       <div className="mt-10 flex flex-col gap-2.5 lg:h-[34rem] lg:flex-row" onMouseLeave={() => setPreview(null)}>
         {projectGroups.map((g, i) => {
           const I = groupIcons[g.id]; const on = i === active;
@@ -141,7 +141,7 @@ export function MainCategories() {
   const begin = useStore((s) => s.begin);
   return (
     <section id="routes" className="relative mx-auto mt-20 max-w-7xl px-6">
-      <SectionHead kicker="دسته‌بندی‌های اصلی" title="از کدام مسیر وارد می‌شوید؟" text="هر دسته فیلترها و پروژه‌های خودش را دارد. یکی را انتخاب کنید." />
+      <SectionHead kicker="هشت مسیر ورود" title="سرمایه، تخصص یا توان اجرایی؛ با کدام وارد می‌شوید؟" text="هر مسیر پروژه‌ها و شرایط خودش را دارد." />
       <div className="mt-10 grid grid-cols-4 gap-4">
         {routes.map((r, i) => {
           const I = routeIcons[r.id]; const n = forRoute(listings, r.id).length;
@@ -162,7 +162,7 @@ export function MainCategories() {
                 </span>
                 <span className="mt-auto flex items-center justify-between pt-5 text-xs font-bold text-primary">
                   <NodeMark className="text-ink/20 transition-colors duration-300 group-hover:text-primary" />
-                  <span className="flex items-center gap-1">{n ? "دیدن پروژه‌ها" : "هنوز پروژه‌ای ثبت نشده"}<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></span>
+                  <span className="flex items-center gap-1">{n ? "دیدن پروژه‌ها" : "به‌زودی"}<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></span>
                 </span>
               </Button>
             </Reveal>
@@ -196,7 +196,7 @@ const steps = [
 export function HowItWorks() {
   return (
     <section className="mx-auto mt-28 max-w-7xl px-4 sm:px-6">
-      <SectionHead kicker="روش کار" title="هر پیشنهاد دلیل دارد." className="mx-auto text-center [&>span]:justify-center" />
+      <SectionHead kicker="روش کار" title="چرا این پروژه‌ها را به شما نشان می‌دهیم؟" className="mx-auto text-center [&>span]:justify-center" />
       <div className="relative mt-12 grid gap-4 md:grid-cols-3">
         <svg aria-hidden className="absolute inset-x-[16%] top-9 hidden h-px w-[68%] overflow-visible text-primary/40 md:block"><motion.line x1="100%" y1="0" x2="0" y2="0" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 6" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1.4 }} /></svg>
         {steps.map((s, i) => (

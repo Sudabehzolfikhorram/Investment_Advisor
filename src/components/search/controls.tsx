@@ -40,7 +40,7 @@ export function Chips({ options, value, onChange }: { options: FieldOption[]; va
 export function Segmented({ options, value, onChange }: { options: FieldOption[]; value: string | undefined; onChange: (v: string | undefined) => void }) {
   return (
     <ToggleGroup type="single" spacing={1} value={value ?? ""} onValueChange={(v) => onChange(v || undefined)} className="grid w-full auto-cols-fr grid-flow-col rounded-full bg-muted p-1">
-      {options.map((o) => <ToggleGroupItem key={o.value} value={o.value} className="h-auto rounded-full px-2 py-1.5 text-[13px] font-semibold text-ink/60 hover:bg-transparent hover:text-ink data-[state=on]:bg-white data-[state=on]:text-primary data-[state=on]:shadow-sm">{o.label}</ToggleGroupItem>)}
+      {options.map((o) => <ToggleGroupItem key={o.value} value={o.value} className="h-auto min-w-0 whitespace-nowrap rounded-full px-2 py-1.5 text-[13px] font-semibold text-ink/70 hover:bg-transparent hover:text-ink data-[state=on]:bg-white data-[state=on]:text-primary data-[state=on]:shadow-sm">{o.label}</ToggleGroupItem>)}
     </ToggleGroup>
   );
 }
@@ -133,8 +133,9 @@ export function ComboList({ options, value, onChange, placeholder, empty }: { op
 export function FieldControl({ field, value, onChange, options }: { field: FieldDef; value: FilterValue; onChange: (v: FilterValue) => void; options?: FieldOption[] }) {
   const opts = options ?? field.options ?? [];
   switch (field.control) {
-    case "chips": return opts.length > 4 ? <Dropdown options={opts} value={value as string} onChange={onChange} /> : <Segmented options={opts} value={value as string} onChange={onChange} />;
-    case "segmented": return <Segmented options={opts} value={value as string} onChange={onChange} />;
+    // گزینه‌های زیاد یا بلند در نوار باریک روی هم می‌افتند؛ در آن حالت دراپ‌داون می‌شوند
+    case "chips":
+    case "segmented": return opts.length > 3 || opts.reduce((n, o) => n + o.label.length, 0) > 24 ? <Dropdown options={opts} value={value as string} onChange={onChange} /> : <Segmented options={opts} value={value as string} onChange={onChange} />;
     case "multi-chips": return opts.length > 8 ? <MultiCombobox options={opts} value={(value as string[]) ?? []} onChange={onChange} placeholder="انتخاب کنید" /> : <Chips options={opts} value={value as string[]} onChange={onChange} />;
     case "multi-combobox": return <MultiCombobox options={opts} value={(value as string[]) ?? []} onChange={onChange} placeholder="انتخاب کنید" />;
     case "range": return <RangeField min={field.min ?? 0} max={field.max ?? 100} step={field.step} unit={field.unit} value={value as [number, number]} onChange={onChange} />;

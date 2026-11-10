@@ -35,9 +35,9 @@ function ProfileCard({ p, i }: { p: SavedProfile; i: number }) {
           <span className="grid size-12 place-items-center rounded-2xl bg-primary/10 text-primary"><I size={24} variant="Bulk" /></span>
           <div><h3 className="text-lg font-extrabold text-ink">{p.name}</h3><p className="text-xs font-semibold text-muted-foreground">{route.name}</p></div>
         </div>
-        <Button variant="plain" size="auto" type="button" aria-label="حذف شرایط" onClick={() => removeProfile(p.id)} className="grid size-9 place-items-center rounded-full text-muted-foreground hover:bg-destructive/10 hover:text-destructive"><Trash size={17} /></Button>
+        <Button variant="plain" size="auto" type="button" aria-label="حذف جست‌وجو" onClick={() => removeProfile(p.id)} className="grid size-9 place-items-center rounded-full text-muted-foreground hover:bg-destructive/10 hover:text-destructive"><Trash size={17} /></Button>
       </div>
-      <div className="flex flex-wrap gap-1.5">{chips.length ? chips.map((c) => <Badge key={c} variant="outline" className="border-black/[0.06] bg-white px-3 py-1 font-bold text-ink/80">{c}</Badge>) : <span className="text-xs text-muted-foreground">بدون محدودیت</span>}</div>
+      <div className="flex flex-wrap gap-1.5">{chips.length ? chips.map((c) => <Badge key={c} variant="outline" className="border-black/[0.06] bg-white px-3 py-1 font-bold text-ink/80">{c}</Badge>) : <span className="text-xs text-muted-foreground">بدون فیلتر</span>}</div>
       <div className="mt-auto flex items-center justify-between gap-3 border-t border-dashed border-border pt-4">
         <span className="text-sm font-bold text-ink">{faNumber(matches.length)} پروژه متناسب
           {fresh > 0 && <span className="mr-2 inline-flex items-center gap-1 rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-extrabold text-white"><Notification size={12} variant="Bold" />{faNumber(fresh)} تازه</span>}</span>
@@ -52,7 +52,7 @@ export function Saved() {
   const { user, saved, profiles, openLogin } = useStore();
   const [tab, setTab] = useState<"projects" | "criteria">("projects");
   const items = listings.filter((l) => saved.includes(l.id));
-  const tabs = [["projects", "پروژه‌های ذخیره‌شده", ArchiveTick, items.length], ["criteria", "شرایط ذخیره‌شده", Setting4, profiles.length]] as const;
+  const tabs = [["projects", "پروژه‌های ذخیره‌شده", ArchiveTick, items.length], ["criteria", "جست‌وجوهای من", Setting4, profiles.length]] as const;
   return (
     <>
       <Header />
@@ -65,7 +65,7 @@ export function Saved() {
           <Card className="surface mt-8 grid place-items-center gap-0 rounded-[2rem] px-6 py-20 text-center">
             <span className="grid size-16 place-items-center rounded-full bg-primary/10 text-primary"><ArchiveTick size={30} variant="Bulk" /></span>
             <h2 className="mt-5 text-xl font-extrabold text-ink">برای دیدن ذخیره‌شده‌ها وارد شوید.</h2>
-            <p className="mt-2 max-w-md text-sm leading-7 text-muted-foreground">پروژه‌ها و شرایطی که ذخیره می‌کنید با شماره موبایل شما نگه داشته می‌شود.</p>
+            <p className="mt-2 max-w-md text-sm leading-7 text-muted-foreground">پروژه‌ها و جست‌وجوهایی که ذخیره می‌کنید با شماره موبایل شما نگه داشته می‌شود.</p>
             <Button variant="plain" size="auto" type="button" onClick={() => openLogin()} className="mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-primary px-7 font-extrabold text-white hover:bg-deep"><Login size={18} />ورود با موبایل</Button>
           </Card>
         ) : hydrated && (
@@ -84,7 +84,7 @@ export function Saved() {
               </TabsContent>
               <TabsContent value="criteria">
                 {profiles.length ? <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{profiles.map((p, i) => <ProfileCard key={p.id} p={p} i={i} />)}</div>
-                  : <Empty text="هنوز شرایطی ذخیره نکرده‌اید. در صفحه پروژه‌ها، شرایطتان را وارد و ذخیره کنید." cta="وارد کردن شرایط" />}
+                  : <Empty text="هنوز جست‌وجویی ذخیره نکرده‌اید. در صفحه پروژه‌ها فیلترها را تنظیم و ذخیره کنید." cta="رفتن به پروژه‌ها" />}
               </TabsContent>
             </Tabs>
           </>

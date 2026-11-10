@@ -51,14 +51,14 @@ export function AlgoPattern({ className, fade = "radial", scale = 1, animated }:
   );
 }
 
-/** نشان نود — موج — A الگونت — خط — حلقه؛ امضای ثابت روی عکس‌ها و کنار عنوان‌ها */
+/** نشان الگونت: نقطه — موج — A — خط — حلقه؛ امضای ثابت روی عکس‌ها و کنار عنوان‌ها */
 export function NodeMark({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 62 20" aria-hidden className={cn("icon-size-prop !h-[18px] !w-14 shrink-0", className)} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7 11H11.5Q14 5.5 16.5 11T21.5 11H52" />
-      <path d="M26.5 17.5L33 3L39.5 17.5" strokeWidth="2" />
-      <circle cx="4" cy="11" r="3" fill="currentColor" stroke="none" />
-      <circle cx="55.5" cy="11" r="3.2" />
+    <svg viewBox="60 70 1090 350" aria-hidden className={cn("icon-size-prop !h-[18px] !w-14 shrink-0", className)} fill="none" stroke="currentColor" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M168 248H232C302 248 332 292 360 342C386 386 414 393 440 390C466 387 490 372 502 357L703 92V395" />
+      <path d="M585 250H703M703 395C703 300 742 250 900 250H1042" />
+      <circle cx="120" cy="250" r="50" fill="currentColor" stroke="none" />
+      <circle cx="1087" cy="250" r="44" />
     </svg>
   );
 }
@@ -67,9 +67,8 @@ export function Logo({ className, light }: { className?: string; light?: boolean
   return (
     <span className={cn("inline-flex items-center gap-2.5 font-extrabold tracking-tight", light ? "text-white" : "text-ink", className)}>
       <span className={cn("grid size-9 place-items-center rounded-xl", light ? "bg-white/15 text-white" : "bg-primary text-white")}>
-        <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M5.5 19L12 4.5L18.5 19M3 13.5H17.5" />
-          <circle cx="20.5" cy="13.5" r="1.7" />
+        <svg viewBox="150 60 800 380" className="size-6" fill="none" stroke="currentColor" strokeWidth="34" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M232 248C302 248 332 292 360 342C386 386 414 393 440 390C466 387 490 372 502 357L703 92V395M585 250H703M703 395C703 300 742 250 880 250" />
         </svg>
       </span>
       <span className="text-lg">{site.name}</span>

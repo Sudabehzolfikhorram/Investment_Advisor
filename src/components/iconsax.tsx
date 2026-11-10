@@ -94,3 +94,4 @@ export const Money = wrap(I.Money);
 export const Timer = wrap(I.Timer);
 export const Star1 = wrap(I.Star1);
 export const Send2 = wrap(I.Send2);
+export const Printer = wrap(I.Printer);

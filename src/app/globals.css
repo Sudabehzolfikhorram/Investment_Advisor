@@ -96,6 +96,7 @@
   .surface { background: #fff; border: 1px solid var(--border); box-shadow: 0 1px 2px rgb(11 31 29 / 0.03), 0 16px 40px -30px rgb(11 31 29 / 0.16); }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { scrollbar-width: none; }
+  .thin-scroll { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
   .text-balance { text-wrap: balance; }
 }
 

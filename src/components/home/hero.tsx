@@ -46,7 +46,7 @@ function RouteBlank() {
         </Button>
       </PopoverTrigger>
       <PopoverContent align="start" sideOffset={12} className="w-[30rem] rounded-3xl p-3 shadow-2xl">
-        <p className="px-2 pb-2 text-xs font-semibold text-muted-foreground">یک دسته‌بندی اصلی را انتخاب کنید.</p>
+        <p className="px-2 pb-2 text-xs font-semibold text-muted-foreground">چطور می‌خواهید وارد شوید؟</p>
         <div className="grid grid-cols-2 gap-1.5">
           {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === route;
             return (
@@ -125,7 +125,7 @@ function MapScene() {
           );
         })}
       </AnimatePresence>
-      <p className="mt-1 text-center text-xs font-semibold text-muted-foreground">پروژه‌های تازه در استان‌های مختلف؛ روی هر کارت بزنید تا جزئیات را ببینید.</p>
+      <p className="mt-1 text-center text-xs font-semibold text-muted-foreground">تازه‌ترین پروژه‌ها از سراسر ایران</p>
     </motion.div>
   );
 }
@@ -149,37 +149,36 @@ export function Hero() {
         <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease }}>
           <Tabs dir="rtl" defaultValue="assistant" className="gap-7">
             <div className="flex flex-wrap items-center gap-3">
-              <Badge variant="outline" className="gap-2.5 border-border bg-white px-4 py-2 text-[13px] font-bold text-ink"><span><NodeMark className="text-primary" /></span>مشاور هوشمند فرصت‌های سرمایه‌گذاری</Badge>
+              <Badge variant="outline" className="gap-2.5 border-border bg-white px-4 py-2 text-[13px] font-bold text-ink"><span><NodeMark className="text-primary" /></span>مشاور سرمایه‌گذاری</Badge>
               <TabsList className="h-auto rounded-full bg-ink/[0.05] p-1 group-data-[orientation=horizontal]/tabs:h-auto">
-                {([["assistant", "از دستیار بپرس", MagicStar], ["form", "انتخاب دسته‌بندی", Category2]] as const).map(([k, label, I]) => (
+                {([["assistant", "از دستیار بپرس", MagicStar], ["form", "خودم انتخاب می‌کنم", Category2]] as const).map(([k, label, I]) => (
                   <TabsTrigger key={k} value={k} className="h-auto gap-1.5 rounded-full border-0 px-4 py-2 text-sm font-bold text-ink/65 data-[state=active]:bg-ink data-[state=active]:text-white data-[state=active]:shadow-none"><I size={16} variant="Bulk" />{label}</TabsTrigger>
                 ))}
               </TabsList>
             </div>
 
             <TabsContent value="assistant" className="space-y-6">
-              <h1 className="text-5xl font-black leading-[1.4] tracking-tight text-ink text-balance">شرایطتان را بنویسید؛ دستیار <span className="text-primary">تا ۱۰ پروژه</span> با درصد تطابق پیشنهاد می‌دهد.</h1>
+              <h1 className="text-5xl font-black leading-[1.4] tracking-tight text-ink text-balance">بگویید چه می‌خواهید؛ <span className="text-primary">نزدیک‌ترین پروژه‌ها</span> را با درصد تطابق نشانتان می‌دهیم.</h1>
               <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) go(prompt); }} className="surface rounded-[2rem] p-2.5">
                 <div className="flex items-center gap-2">
                   <span className="grid size-12 shrink-0 place-items-center rounded-full bg-primary/10 text-primary"><MagicStar size={24} variant="Bulk" /></span>
-                  <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="مثلاً: ۳۰ میلیارد دارم، پروژه مسکونی در تهران…" aria-label="توضیح شرایط برای دستیار" className="h-14 min-w-0 flex-1 border-0 bg-transparent px-3 text-[15px] font-semibold text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-[15px]" />
-                  <Button type="submit" variant="plain" size="auto" className="group h-14 gap-2 rounded-full bg-primary px-6 font-extrabold text-white hover:bg-deep">پیشنهاد بده <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
+                  <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="۳۰ میلیارد دارم، پروژه مسکونی در تهران می‌خواهم…" aria-label="توضیح شرایط برای دستیار" className="h-14 min-w-0 flex-1 border-0 bg-transparent px-3 text-[15px] font-semibold text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-[15px]" />
+                  <Button type="submit" variant="plain" size="auto" className="group h-14 gap-2 rounded-full bg-primary px-6 font-extrabold text-white hover:bg-deep">پیدا کن <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
                 </div>
               </form>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-semibold text-muted-foreground">نمونه:</span>
                 {samplePrompts.map((p) => <Button key={p} variant="plain" size="auto" onClick={() => go(p)} className="h-auto rounded-full border border-border bg-white px-3.5 py-1.5 text-[13px] font-semibold text-ink/75 hover:border-primary/50 hover:text-primary">{p}</Button>)}
               </div>
             </TabsContent>
 
             <TabsContent value="form" className="space-y-8">
-              <h1 className="text-[3.1rem] font-black leading-[1.9] tracking-tight text-ink">دنبال فرصت‌های<RouteBlank />هستم.</h1>
+              <h1 className="text-[3.1rem] font-black leading-[1.9] tracking-tight text-ink">می‌خواهم از مسیر<RouteBlank />وارد شوم.</h1>
               <div className="flex flex-wrap items-center gap-4">
                 <Button variant="plain" size="auto" onClick={() => { begin({ route }); router.push("/opportunities"); }} className="group h-16 gap-3 rounded-full bg-primary pl-2.5 pr-7 text-lg font-extrabold text-white shadow-[0_22px_44px_-22px_var(--primary)] hover:bg-deep">
-                  ادامه با {hydrated ? faNumber(count) : "…"} پروژه
+                  دیدن {hydrated ? faNumber(count) : "…"} پروژه
                   <span className="grid size-11 place-items-center rounded-full bg-white/15 transition-transform group-hover:-translate-x-1"><ArrowLeft size={20} /></span>
                 </Button>
-                <p className="max-w-60 text-[13px] leading-6 text-muted-foreground">در گام بعد فقط محدوده و بودجه را می‌پرسیم و بعد پروژه‌ها را می‌بینید.</p>
+                <p className="max-w-60 text-[13px] leading-6 text-muted-foreground">فقط محدوده و بودجه را می‌پرسیم؛ بعد پروژه‌ها جلوی شماست.</p>
               </div>
             </TabsContent>
           </Tabs>

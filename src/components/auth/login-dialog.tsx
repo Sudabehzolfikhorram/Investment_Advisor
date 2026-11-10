@@ -17,12 +17,12 @@ export function LoginDialog() {
   const [step, setStep] = useState<"mobile" | "code">("mobile");
   const [mobile, setMobile] = useState("");
   const [code, setCode] = useState("");
-  const reason = pending?.type === "save-listing" ? "برای ذخیره این پروژه" : pending?.type === "save-criteria" ? "برای ذخیره شرایط شما" : "برای دسترسی به ذخیره‌شده‌ها";
+  const reason = pending?.type === "save-listing" ? "برای ذخیره این پروژه" : pending?.type === "save-criteria" ? "برای ذخیره این جست‌وجو" : "برای دسترسی به ذخیره‌شده‌ها";
   const validMobile = /^09\d{9}$/.test(mobile);
 
   const finish = () => {
     const done = login(mobile);
-    if (done?.type === "save-criteria") { saveProfile(done.name || "شرایط من"); toast.success("شرایط شما ذخیره شد. دفعه بعد لازم نیست دوباره وارد کنید."); }
+    if (done?.type === "save-criteria") { saveProfile(done.name || "جست‌وجوی من"); toast.success("جست‌وجو ذخیره شد.", { description: "دفعه بعد از «جست‌وجوهای من» ادامه دهید." }); }
     else if (done?.type === "save-listing") toast.success("پروژه در ذخیره‌شده‌ها قرار گرفت.");
     else toast.success("خوش آمدید.");
     setStep("mobile"); setCode(""); setMobile("");
@@ -51,7 +51,6 @@ export function LoginDialog() {
             {step === "mobile" ? "دریافت کد" : "ورود"}
           </Button>
           {step === "code" && <Button variant="plain" size="auto" type="button" onClick={() => setStep("mobile")} className="w-full text-center text-sm text-muted-foreground hover:text-primary">ویرایش شماره</Button>}
-          <p className="text-center text-xs text-muted-foreground">نسخه نمایشی: هر کد پنج‌رقمی پذیرفته می‌شود.</p>
         </form>
       </DialogContent>
     </Dialog>
