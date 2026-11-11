@@ -7,6 +7,7 @@ import { ArchiveAdd, ArchiveTick, Convertshape2, Location, TickCircle } from "@/
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SignaturePhoto } from "./signature-photo";
+import { useHoverGallery } from "./gallery";
 import { MatchRing } from "@/components/brand/reveal";
 import { useHydrated, useStore } from "@/lib/store";
 import { isNew } from "@/lib/listings";
@@ -44,11 +45,13 @@ function CompareButton({ id }: { id: string }) {
 export function ListingCard({ listing: l, score, reasons, index = 0, comparable = false }: { listing: Listing; score?: number; reasons?: MatchReason[]; index?: number; comparable?: boolean }) {
   const tag = l.tags[l.tags.length - 1];
   const budget = reasons?.find((r) => r.label === "مبلغ در بازه شما")?.status;
+  const gallery = useHoverGallery(l);
   return (
     <motion.article className="h-full" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: Math.min(index, 5) * 0.04 }}>
-      <Card className="group relative h-full gap-0 overflow-hidden rounded-[1.75rem] border border-border bg-white py-0 shadow-[0_16px_40px_-32px_rgb(11_31_29/0.25)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_-32px_rgb(11_31_29/0.4)]">
+      <Card {...gallery.bind} className="group relative h-full gap-0 overflow-hidden rounded-[1.75rem] border border-border bg-white py-0 shadow-[0_16px_40px_-32px_rgb(11_31_29/0.25)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_-32px_rgb(11_31_29/0.4)]">
         <Link href={`/opportunities/${l.id}`} className="absolute inset-0 z-10" aria-label={l.title} />
-        <SignaturePhoto src={l.image} alt={l.title} className="m-2 aspect-[16/9] rounded-[1.35rem]">
+        <SignaturePhoto src={gallery.src} alt={l.title} className="m-2 aspect-[16/9] rounded-[1.35rem]">
+          {gallery.dots}
           <div className="absolute inset-x-4 bottom-3.5 flex items-end justify-between gap-3 text-white">
             <div className="min-w-0 space-y-1.5">
               {tag && <span className="inline-block max-w-full truncate rounded-full bg-white px-2.5 py-1 text-[11px] font-extrabold text-ink">{tag}</span>}

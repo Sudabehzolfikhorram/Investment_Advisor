@@ -2,14 +2,16 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { LegacyTool } from "@/components/tools/engine";
+import { toolById } from "@/data/tools";
 import { motion } from "motion/react";
-import { ArchiveTick, ArrowLeft, Login, Setting4, Trash, Notification } from "@/components/iconsax";
+import { ArchiveTick, ArrowLeft, Login, Setting4, Trash, Notification, UserEdit } from "@/components/iconsax";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Header, Footer } from "@/components/site/header";
-import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
+import { NodeMark } from "@/components/brand/algo-pattern";
 import { ListingCard } from "@/components/listing/listing-card";
 import { routeIcons } from "@/components/icons";
 import { routes } from "@/data/routes";
@@ -50,14 +52,20 @@ function ProfileCard({ p, i }: { p: SavedProfile; i: number }) {
 export function Saved() {
   const hydrated = useHydrated();
   const { user, saved, profiles, openLogin } = useStore();
-  const [tab, setTab] = useState<"projects" | "criteria">("projects");
+  type Tab = "projects" | "criteria" | "profile";
+  const [tab, setTab] = useState<Tab>("projects");
+  // بعد از ورود، پیشنهاد «ذخیره اطلاعات» مستقیم به برگه اطلاعات حرفه‌ای می‌آورد
+  useEffect(() => {
+    const read = () => { try { const t = sessionStorage.getItem("hs-saved-tab"); if (t) { setTab(t as Tab); sessionStorage.removeItem("hs-saved-tab"); } } catch {} };
+    read(); window.addEventListener("hs-saved-tab", read); return () => window.removeEventListener("hs-saved-tab", read);
+  }, []);
   const items = listings.filter((l) => saved.includes(l.id));
-  const tabs = [["projects", "پروژه‌های ذخیره‌شده", ArchiveTick, items.length], ["criteria", "جست‌وجوهای من", Setting4, profiles.length]] as const;
+  const tabs = [["projects", "پروژه‌های ذخیره‌شده", ArchiveTick, items.length], ["criteria", "جست‌وجوهای من", Setting4, profiles.length], ["profile", "اطلاعات حرفه‌ای من", UserEdit, null]] as const;
+  const profileTool = toolById("ma-profile")!;
   return (
     <>
       <Header />
       <main className="relative mx-auto min-h-[70dvh] max-w-7xl px-4 pt-10 sm:px-6">
-        <AlgoPattern className="-top-20 left-0 h-80 w-[36rem] text-ink/[0.05]" fade="radial" />
         <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-primary"><NodeMark />حساب شما</span>
         <h1 className="mt-2 text-3xl font-black text-ink sm:text-4xl">ذخیره‌شده‌ها</h1>
 
@@ -70,11 +78,11 @@ export function Saved() {
           </Card>
         ) : hydrated && (
           <>
-            <Tabs dir="rtl" value={tab} onValueChange={(v) => setTab(v as "projects" | "criteria")} className="mt-7 gap-7">
+            <Tabs dir="rtl" value={tab} onValueChange={(v) => setTab(v as Tab)} className="mt-7 gap-7">
               <TabsList className="surface h-auto bg-white rounded-full p-1 group-data-[orientation=horizontal]/tabs:h-auto">
                 {tabs.map(([k, label, I, n]) => (
                   <TabsTrigger key={k} value={k} className="group/t h-auto gap-2 rounded-full border-0 px-4 py-2.5 text-sm font-bold text-ink/70 data-[state=active]:bg-ink data-[state=active]:text-white sm:px-5">
-                    <I size={17} variant="Bulk" />{label}<Badge className="h-5 min-w-5 bg-ink/10 px-1 text-[11px] text-ink group-data-[state=active]/t:bg-white">{faNumber(n)}</Badge>
+                    <I size={17} variant="Bulk" />{label}{n != null && <Badge className="h-5 min-w-5 bg-ink/10 px-1 text-[11px] text-ink group-data-[state=active]/t:bg-white">{faNumber(n)}</Badge>}
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -85,6 +93,17 @@ export function Saved() {
               <TabsContent value="criteria">
                 {profiles.length ? <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{profiles.map((p, i) => <ProfileCard key={p.id} p={p} i={i} />)}</div>
                   : <Empty text="هنوز جست‌وجویی ذخیره نکرده‌اید. در صفحه پروژه‌ها فیلترها را تنظیم و ذخیره کنید." cta="رفتن به پروژه‌ها" />}
+              </TabsContent>
+              <TabsContent value="profile">
+                <div className="grid grid-cols-[1fr_19rem] items-start gap-7">
+                  <Card className="surface block gap-0 rounded-[2rem] p-8 shadow-none">{tab === "profile" && <LegacyTool opener={profileTool.opener} root={profileTool.root} />}</Card>
+                  <Card className="surface sticky top-24 gap-3 rounded-[1.75rem] p-6 shadow-none">
+                    <span className="grid size-11 place-items-center rounded-2xl bg-primary/10 text-primary"><UserEdit size={22} variant="Bulk" /></span>
+                    <h2 className="text-base font-extrabold text-ink">چرا این اطلاعات را ذخیره کنم؟</h2>
+                    <p className="text-[13px] leading-7 text-muted-foreground">نقش، تجربه و توان حرفه‌ای شما یک‌بار ثبت می‌شود و در خدمات دیگر لازم نیست دوباره بنویسید. با جست‌وجوهای ذخیره‌شده، پروژه‌های تازه‌ای را که به همین مشخصات می‌خورند هم می‌بینید.</p>
+                    <Link href="/opportunities" className="mt-1 inline-flex h-10 w-fit items-center gap-2 rounded-full border border-border bg-white px-4 text-[13px] font-extrabold text-ink hover:border-primary hover:text-primary">پیدا کردن پروژه<ArrowLeft size={15} /></Link>
+                  </Card>
+                </div>
               </TabsContent>
             </Tabs>
           </>

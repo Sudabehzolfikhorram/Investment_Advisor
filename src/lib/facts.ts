@@ -14,6 +14,10 @@ export interface FactGroup { id: "project" | "money" | "status"; title: string; 
 const num = (v: number | null | undefined, unit: string): Val => (v != null ? `${faNumber(v)} ${unit}` : null);
 const yn = (v: boolean | null | undefined): Val => (v == null ? null : v ? "دارد" : "ندارد");
 export const NA = "ثبت نشده";
+/** مقدارهایی که هنوز سندی برایشان نیست */
+export const isPending = (v: string) => v === NA || v.startsWith(NA) || v.startsWith("نیازمند") || v.startsWith("احراز نشده");
+/** ردیف‌های ثبت‌شده جدا، و نام ردیف‌های ثبت‌نشده در یک فهرست کوتاه */
+export const splitPending = (rows: [string, string][]) => ({ known: rows.filter(([, v]) => !isPending(v)), pending: rows.filter(([, v]) => isPending(v)).map(([k]) => k) });
 const clean = (items: [string, Val][]) => items.map(([k, v]): [string, string] => [k, v || NA]);
 
 export function factGroups(l: Listing): FactGroup[] {

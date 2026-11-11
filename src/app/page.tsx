@@ -1,5 +1,5 @@
 import { Hero } from "@/components/home/hero";
-import { Stats, MainCategories, Categories, Featured, HowItWorks } from "@/components/home/sections";
+import { Stats, MainCategories, Categories, Featured, HowItWorks, HelpCenter } from "@/components/home/sections";
 import { Footer } from "@/components/site/header";
 
 export default function Home() {
@@ -11,6 +11,7 @@ export default function Home() {
       <Featured />
       <Stats />
       <HowItWorks />
+      <HelpCenter />
       <Footer />
     </main>
   );

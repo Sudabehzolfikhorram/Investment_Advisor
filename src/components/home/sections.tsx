@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft } from "@/components/iconsax";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
+import { HelpSummary } from "@/components/guide/library";
 import { CountUp, Reveal } from "@/components/brand/reveal";
 import { ListingCard } from "@/components/listing/listing-card";
 import { groupIcons, routeIcons } from "@/components/icons";
@@ -24,6 +25,16 @@ export function SectionHead({ kicker, title, text, className, light }: { kicker:
       <h2 className={cn("mt-3 text-3xl font-black leading-[1.35] tracking-tight text-balance sm:text-[2.6rem]", light ? "text-white" : "text-ink")}>{title}</h2>
       {text && <p className={cn("mt-3 text-base leading-8", light ? "text-white/70" : "text-muted-foreground")}>{text}</p>}
     </Reveal>
+  );
+}
+
+/* ——— راهنمای کوتاه ——— */
+export function HelpCenter() {
+  return (
+    <section className="mx-auto mt-28 max-w-7xl px-4 sm:px-6">
+      <SectionHead kicker="راهنما" title="وقتی پیش از تصمیم راهنمایی لازم دارید" />
+      <Reveal className="mt-10"><HelpSummary /></Reveal>
+    </section>
   );
 }
 

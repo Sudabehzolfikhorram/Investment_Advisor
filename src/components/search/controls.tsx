@@ -107,9 +107,9 @@ export function MultiCombobox({ options, value, onChange, placeholder, empty = "
   );
 }
 
-export function ComboList({ options, value, onChange, placeholder, empty }: { options: FieldOption[]; value: string[]; onChange: (v: string[]) => void; placeholder: string; empty: string }) {
+export function ComboList({ options, value, onChange, placeholder, empty, className }: { options: FieldOption[]; value: string[]; onChange: (v: string[]) => void; placeholder: string; empty: string; className?: string }) {
   return (
-    <Command className="rounded-2xl">
+    <Command className={cn("rounded-2xl", className)}>
       <CommandInput placeholder={placeholder} />
       <CommandList className="max-h-64">
         <CommandEmpty>{empty}</CommandEmpty>

@@ -21,10 +21,14 @@ const noLocation: RouteId[] = ["fund"];
 const propertyRoutes: RouteId[] = ["buyer", "lessee"];
 const sectionName: Record<string, string> = { amount: "بازده و زمان‌بندی", risk: "ریسک", project: "ویژگی‌های پروژه", location: "شهر و محله", contract: "شرایط قرارداد" };
 
-function visible(f: FieldDef, route: RouteId, filters: Record<string, FilterValue>) {
+function inRoute(f: FieldDef, route: RouteId) {
   if (f.routes && !f.routes.includes(route)) return false;
   if (!f.routes && f.section === "location" && noLocation.includes(route)) return false;
   if (!f.routes && (f.id === "usage" || f.id === "area") && !propertyRoutes.includes(route)) return false;
+  return true;
+}
+function visible(f: FieldDef, route: RouteId, filters: Record<string, FilterValue>) {
+  if (!inRoute(f, route)) return false;
   if (f.showWhen) {
     const v = filters[f.showWhen.field];
     if (f.showWhen.filled) return v != null && v !== 0;
@@ -89,6 +93,20 @@ export function AdvancedFilter({ className }: { className?: string }) {
   }, [criteria.groups, criteria.provinces]);
 
   const fields = advancedFields.filter((x) => visible(x, route.id, f));
+  // فیلدهای وابسته‌ای که هنوز بسته‌اند؛ زیر فیلد والد یک خط راهنما می‌گیرند
+  const waiting = advancedFields.filter((x) => x.showWhen && inRoute(x, route.id) && !visible(x, route.id, f));
+  const hintFor = (x: FieldDef) => {
+    const deps = waiting.filter((d) => d.showWhen!.field === x.id); if (!deps.length) return null;
+    const byCond = new Map<string, FieldDef[]>();
+    for (const d of deps) { const k = JSON.stringify(d.showWhen); byCond.set(k, [...(byCond.get(k) ?? []), d]); }
+    return [...byCond.values()].map((list) => {
+      const when = list[0].showWhen!;
+      const opts = when.in?.map((v) => x.options?.find((o) => o.value === v)?.label ?? v) ?? [];
+      const cond = when.filled ? `با تعیین «${x.label}»` : `با انتخاب ${opts.map((o) => `«${o}»`).join(" یا ")}`;
+      return <p key={`${x.id}-${list[0].id}-hint`} className="-mt-2 flex items-start gap-1.5 text-xs font-semibold leading-6 text-muted-foreground"><InfoCircle size={14} variant="Bold" className="mt-1 shrink-0 text-primary" /><span>{cond}، {list.map((d) => `«${d.label}»`).join("، ")} هم باز می‌شود.</span></p>;
+    });
+  };
+
   const profile = profileFields.filter((x) => !x.routes || x.routes.includes(route.id));
   const activeIn = (list: FieldDef[]) => list.filter((x) => f[x.id] != null).length;
   const advKeys = Object.keys(f).filter((k) => k.startsWith("adv:"));
@@ -116,7 +134,7 @@ export function AdvancedFilter({ className }: { className?: string }) {
         {advancedSections.map((s) => {
           const list = fields.filter((x) => x.section === s.id);
           if (!list.length) return null;
-          return <Section key={s.id} id={s.id} title={sectionName[s.id] ?? s.name} count={activeIn(list)}>{list.map(row)}</Section>;
+          return <Section key={s.id} id={s.id} title={sectionName[s.id] ?? s.name} count={activeIn(list)}>{list.flatMap((x) => [row(x), hintFor(x)])}</Section>;
         })}
         {route.usesProjectGroups && (
           <Section id="advisory" title="پرسش‌های تخصصی" count={advKeys.length}><AdvisoryQuestions subtypes={subtypes} /></Section>

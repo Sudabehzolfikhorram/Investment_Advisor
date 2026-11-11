@@ -18,9 +18,10 @@ import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { LocationMap } from "@/components/brand/iran-map";
 import { Reveal } from "@/components/brand/reveal";
 import { SignaturePhoto } from "./signature-photo";
+import { HeroGallery } from "./gallery";
 import { ListingCard, SaveButton } from "./listing-card";
-import { listingById, listings, payoutLabel } from "@/lib/listings";
-import { dossier, factGroups, type DossierSection, type FactGroup } from "@/lib/facts";
+import { galleryOf, listingById, listings, payoutLabel } from "@/lib/listings";
+import { dossier, factGroups, splitPending, type DossierSection, type FactGroup } from "@/lib/facts";
 import { projectGroups } from "@/data/taxonomy";
 import { advisories } from "@/data/advisories";
 import { useStore } from "@/lib/store";
@@ -68,13 +69,14 @@ function Facts({ groups }: { groups: FactGroup[] }) {
           <div key={g.id} className="surface rounded-[1.75rem] p-5">
             <h3 className="flex items-center gap-2.5 text-[15px] font-extrabold text-ink"><span className="grid size-9 place-items-center rounded-xl bg-primary/10 text-primary"><I size={18} variant="Bulk" /></span>{g.title}</h3>
             <dl className="mt-3 divide-y divide-border/70">
-              {g.items.map(([k, v]) => (
+              {splitPending(g.items).known.map(([k, v]) => (
                 <div key={k} className={cn("py-2.5", v.length <= 22 && "flex items-baseline justify-between gap-3")}>
                   <dt className="shrink-0 text-xs font-semibold text-muted-foreground">{k}</dt>
                   <dd className={cn("text-sm font-extrabold leading-6", v === NA ? "font-semibold text-ink/35" : "text-ink", v.length <= 22 ? "text-left" : "mt-0.5")}>{v}</dd>
                 </div>
               ))}
             </dl>
+            {splitPending(g.items).pending.length > 0 && <p className="mt-2 border-t border-dashed border-border pt-2.5 text-xs leading-6 text-muted-foreground"><b className="font-extrabold text-ink/70">ثبت نشده: </b>{splitPending(g.items).pending.join("، ")}</p>}
           </div>
         ); })}
     </div>
@@ -170,15 +172,25 @@ function Dossier({ sections }: { sections: DossierSection[] }) {
           <AccordionTrigger className="py-4 text-right text-[15px] font-extrabold text-ink hover:no-underline">{sec.title}</AccordionTrigger>
           <AccordionContent className="pb-5">
             {sec.note && <p className="mb-3 text-[13px] font-semibold leading-6 text-muted-foreground">{sec.note}</p>}
-            <dl className="grid grid-cols-2 gap-x-8">
-              {sec.rows.map(([k, v]) => { const pending = v === NA || v.startsWith(NA) || v.startsWith("نیازمند") || v.startsWith("احراز نشده");
-                return (
-                  <div key={k} className="border-b border-dashed border-border/80 py-3">
-                    <dt className="text-xs font-semibold text-muted-foreground">{k}</dt>
-                    <dd className={cn("mt-1 text-sm leading-7", pending ? "font-semibold text-ink/45" : "font-extrabold text-ink")}>{v}</dd>
+            {(() => { const { known, pending } = splitPending(sec.rows);
+              return <>
+                {known.length > 0 && (
+                  <dl className="grid grid-cols-2 gap-x-8">
+                    {known.map(([k, v]) => (
+                      <div key={k} className="border-b border-dashed border-border/80 py-3">
+                        <dt className="text-xs font-semibold text-muted-foreground">{k}</dt>
+                        <dd className="mt-1 text-sm font-extrabold leading-7 text-ink">{v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+                {pending.length > 0 && (
+                  <div className={cn("rounded-2xl border border-dashed border-border px-4 py-3", known.length > 0 && "mt-4")}>
+                    <p className="text-xs font-extrabold text-ink/70">هنوز ثبت نشده و با دریافت اسناد کامل می‌شود ({faNumber(pending.length)} مورد)</p>
+                    <div className="mt-2 flex flex-wrap gap-1.5">{pending.map((k) => <span key={k} className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-semibold text-ink/60">{k}</span>)}</div>
                   </div>
-                ); })}
-            </dl>
+                )}
+              </>; })()}
             {!!sec.notes?.length && <div className="mt-4 grid grid-cols-2 gap-3">{sec.notes.map(([t, d]) => (
               <div key={t} className="rounded-2xl bg-muted/70 px-4 py-3"><p className="text-[13px] font-extrabold text-ink">{t}</p><p className="mt-1 text-[13px] font-semibold leading-6 text-ink/70">{d}</p></div>
             ))}</div>}
@@ -264,6 +276,7 @@ function Contact({ l }: { l: Listing }) {
 }
 
 export function Detail({ id }: { id: string }) {
+  const [photo, setPhoto] = useState(0);
   const l = listingById(id)!;
   const o = l.kind === "project" ? (l.raw as Opportunity) : null;
   const fund = l.kind === "fund" ? (l.raw as Fund) : null;
@@ -285,6 +298,7 @@ export function Detail({ id }: { id: string }) {
     : l.stats.map((s, i) => ({ I: [WalletMoney, Chart, ShieldSearch, Calendar][i], label: s.label, value: s.value }));
 
   const groups = factGroups(l);
+  const pics = galleryOf(l);
   const text = (o ?? fund ?? sale)!;
   const hasFlow = !!(text.finance || text.repay || text.ownership);
   const sections = dossier(l);
@@ -299,7 +313,8 @@ export function Detail({ id }: { id: string }) {
 
         {/* پرده اول: تصویر و عنوان */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }}>
-          <SignaturePhoto src={l.image} alt={l.title} priority sizes="100vw" className="h-[27rem] rounded-[2.25rem]">
+          <SignaturePhoto src={pics[photo].src} alt={l.title} priority sizes="100vw" className="h-[27rem] rounded-[2.25rem]">
+            <HeroGallery l={l} index={photo} onIndex={setPhoto} />
             <div className="absolute right-5 top-5 z-10"><SaveButton id={l.id} className="size-12" /></div>
             <div className="absolute inset-x-10 bottom-9 text-white">
               <div className="flex flex-wrap gap-2">

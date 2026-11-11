@@ -2,6 +2,7 @@ import { opportunities, generatedOpportunities, funds, saleItems } from "@/data/
 import { projectGroups } from "@/data/taxonomy";
 import { routeSubcategories } from "@/data/routes";
 import { usages } from "@/data/provinces";
+import { provincePhotos } from "@/data/province-photos";
 import type { Fund, Listing, Opportunity, SaleItem } from "@/types";
 import { faNumber, riskLabel } from "./utils";
 
@@ -93,3 +94,22 @@ export const listings: Listing[] = [
 
 export const listingById = (id: string) => listings.find((l) => l.id === id);
 export const isNew = (l: Listing, since = "2026-11-01") => l.publishedAt >= since;
+
+/**
+ * عکس‌های هر پروژه (حالت چندعکسی): عکس اصلی، عکس شاخص استان و عکس نوع‌های هم‌خانواده.
+ * داده نمونه عکس اختصاصی ندارد؛ این عکس‌ها نماینده موقعیت و نوع پروژه‌اند.
+ */
+const allTypeImages = [...new Set(projectGroups.flatMap((g) => [g.image, ...g.subtypes.map((s) => s.image)]).filter(Boolean) as string[])];
+const galleryCache = new Map<string, { src: string; caption: string }[]>();
+export function galleryOf(l: Listing): { src: string; caption: string }[] {
+  const hit = galleryCache.get(l.id); if (hit) return hit;
+  const out: { src: string; caption: string }[] = [{ src: l.image, caption: l.title }];
+  const add = (src: string | undefined, caption: string) => { if (src && !out.some((x) => x.src === src)) out.push({ src, caption }); };
+  if (l.province && provincePhotos[l.province]) add(provincePhotos[l.province].src, `${provincePhotos[l.province].place}، ${l.province}`);
+  const g = projectGroups.find((x) => x.id === l.group);
+  const seed = [...l.id].reduce((n, c) => n + c.charCodeAt(0), 0);
+  const pool = g ? g.subtypes.filter((s) => s.id !== l.subtype && s.image).map((s) => ({ src: s.image!, caption: `نمونه ${s.name}` })) : allTypeImages.map((src) => ({ src, caption: "نمونه پروژه مشابه" }));
+  for (let i = 0; out.length < 4 && i < pool.length; i++) { const p = pool[(seed + i * 3) % pool.length]; add(p.src, p.caption); }
+  galleryCache.set(l.id, out);
+  return out;
+}

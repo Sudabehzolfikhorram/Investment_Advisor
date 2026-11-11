@@ -4,7 +4,7 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ArrowLeft, DocumentDownload, InfoCircle, Warning2 } from "@/components/iconsax";
+import { ArrowLeft, DocumentDownload, InfoCircle, TickCircle, Warning2 } from "@/components/iconsax";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,6 +15,7 @@ import { ArrowDown2 } from "@/components/iconsax";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { engineFrame } from "@/lib/engine-src";
+import { wrapLegacyDoc } from "@/lib/doc-template";
 import { cn, faNumber } from "@/lib/utils";
 
 interface N {
@@ -29,8 +30,8 @@ const SKIP_CLASS = ["friendly-home", "friendly-stage-back", "ext-foot", "ma-tabs
 const SKIP_DATA = ["extClose", "maClose", "friendlyHome", "lpHome", "fiHome", "vividClose", "fiClose"];
 /** دکمه‌هایی که در نسخه مرجع بخش دیگری را باز می‌کردند، اینجا به صفحه همان بخش می‌روند */
 const navTarget = (ds: Record<string, string>): string | null =>
-  ds.maOpen ? `/tools/ma-${ds.maOpen}` : ds.extOpen === "catalog" || "extGuide" in ds || "extRole" in ds ? "/opportunities"
-  : ds.extOpen === "saved" ? "/tools/drafts" : ds.extOpen ? `/tools/${ds.extOpen}` : null;
+  ds.maOpen === "profile" ? "/saved" : ds.maOpen ? `/tools/ma-${ds.maOpen}` : ds.extOpen === "catalog" || "extGuide" in ds || "extRole" in ds ? "/opportunities"
+  : ds.extOpen === "saved" ? "/saved" : ds.extOpen ? `/tools/${ds.extOpen}` : null;
 
 function snapshot(root: Element, refs: Map<string, Element>, prefix: string): N | null {
   const win = root.ownerDocument.defaultView!;
@@ -111,7 +112,8 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
       const w = f.contentWindow as unknown as Record<string, unknown>;
       w.toast = (m: string) => toast(clean(String(m)));
       w.download = (name: string, data: unknown, html = false) => {
-        const body = html ? String(data).replace("</style>", "body{font-family:Vazirmatn,Vazir,Tahoma,sans-serif!important;color:#0b1f1d}h1,h3,h4{color:#0f766e}.ext-note{border-radius:14px}</style>") : JSON.stringify(data, null, 2);
+        // فایل‌های HTML با سربرگ و پانویس یکسان سایت ساخته می‌شوند
+        const body = html ? wrapLegacyDoc(String(data), name.replace(/\.html?$/i, "").replace(/[-_]+/g, " ")) : JSON.stringify(data, null, 2);
         const url = URL.createObjectURL(new Blob([body], { type: html ? "text/html;charset=utf-8" : "application/json;charset=utf-8" }));
         const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
         window.setTimeout(() => URL.revokeObjectURL(url), 1000); toast("فایل روی دستگاه شما ذخیره شد.");
@@ -177,6 +179,8 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
     : k.tag === "small" ? <small key={k.key} className="block text-xs font-normal leading-6 text-muted-foreground">{inline(k)}</small>
     : find(k, (x) => isControl(x) || x.tag === "button") ? render(k) : <span key={k.key}>{inline(k)}</span>);
 
+  // برچسب آخرین دراپ‌داون رندرشده، برای راهنمای فیلدهای وابسته
+  let lastSelect = "";
   function render(n: N): React.ReactNode {
     if (n.tag === "#text") return <Fragment key={n.key}>{n.text}</Fragment>;
     if (isControl(n)) return control(n);
@@ -184,9 +188,21 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
     const text = clean(textOf(n));
     switch (n.tag) {
       case "h1": case "h2": return has(n, "sr-only") ? null : <h2 key={n.key} className="text-2xl font-black leading-[1.5] text-ink">{text}</h2>;
-      case "h3": case "legend": return <h3 key={n.key} className="col-span-full mt-2 text-lg font-extrabold text-ink">{text}</h3>;
+      case "h3": case "legend": return <h3 key={n.key} className="col-span-full mt-3 flex items-center gap-3 text-lg font-extrabold text-ink"><span className="h-5 w-1 shrink-0 rounded-full bg-primary" />{text}<span className="h-px flex-1 bg-border" /></h3>;
       case "h4": case "h5": return <h4 key={n.key} className="col-span-full text-[15px] font-extrabold text-ink">{text}</h4>;
-      case "p": return text ? <p key={n.key} className={cn("col-span-full text-sm leading-7 text-ink/75", has(n, "ext-desc") && "text-muted-foreground", has(n, "ext-step-label") && "text-[13px] font-extrabold text-primary", (has(n, "error") || has(n, "fi-error")) && "rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 font-bold text-destructive", (has(n, "ext-note") || has(n, "source-note") || has(n, "ext-status") || has(n, "field-note") || has(n, "results-note")) && "rounded-2xl bg-muted px-4 py-3 font-semibold", has(n, "ext-empty") && "col-span-full rounded-2xl border border-dashed border-border px-4 py-8 text-center")}>{inline(n)}</p> : null;
+      case "p": {
+        const m = has(n, "ext-step-label") ? text.match(/مرحله\s*([۰-۹0-9]+)\s*از\s*([۰-۹0-9]+)[،,:\s]*(.*)/u) : null;
+        if (m) { const toN = (x: string) => Number(x.replace(/[۰-۹]/g, (d) => String("۰۱۲۳۴۵۶۷۸۹".indexOf(d)))); const a = toN(m[1]), b = toN(m[2]);
+          return (
+            <div key={n.key} className="col-span-full flex items-center gap-4 rounded-2xl bg-primary/[0.05] px-4 py-3">
+              <span className="shrink-0 text-[13px] font-black text-primary">مرحله {faNumber(a)} از {faNumber(b)}</span>
+              <span className="flex flex-1 gap-1.5">{Array.from({ length: b }, (_, i) => <span key={i} className={cn("h-1.5 flex-1 rounded-full transition-colors duration-500", i < a ? "bg-primary" : "bg-primary/15")} />)}</span>
+              {m[3] && <span className="shrink-0 text-[13px] font-extrabold text-ink">{m[3]}</span>}
+            </div>);
+        }
+      }
+      // falls through
+      case "p_": return text ? <p key={n.key} className={cn("col-span-full text-sm leading-7 text-ink/75", has(n, "ext-desc") && "text-muted-foreground", has(n, "ext-step-label") && "text-[13px] font-extrabold text-primary", (has(n, "error") || has(n, "fi-error")) && "rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 font-bold text-destructive", (has(n, "ext-note") || has(n, "source-note") || has(n, "ext-status") || has(n, "field-note") || has(n, "results-note")) && "rounded-2xl bg-muted px-4 py-3 font-semibold", has(n, "ext-empty") && "col-span-full rounded-2xl border border-dashed border-border px-4 py-8 text-center")}>{inline(n)}</p> : null;
       case "ul": case "ol": return <ul key={n.key} className="space-y-2">{n.kids.filter((k) => k.tag === "li").map((li, i) => {
         const interactive = !!find(li, (x) => x.tag === "button" || isControl(x));
         return <li key={li.key} className={cn("flex gap-2.5 text-sm leading-7 text-ink/80", interactive && "items-center rounded-2xl border border-border bg-white px-4 py-2")}>
@@ -235,10 +251,19 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
         if (c) {
           const lab = n.kids.find((k) => (k.tag === "span" || k.tag === "#text" || k.tag === "label" || k.tag === "strong") && !find(k, isControl) && textOf(k).trim());
           const { text: labText, required } = fieldLabel(lab ? clean(textOf(lab)) : "", c);
+          // فیلد وابسته: تا فیلد قبلی انتخاب نشود گزینه‌ای ندارد؛ غیرفعال می‌ماند و راهنما می‌گیرد
+          const waiting = c.tag === "select" && !c.attr.multiple && !c.options?.some((o) => o.value);
+          const waitHint = waiting ? (() => { const ph = c.options?.find((o) => !o.value)?.label ?? ""; return /ابتدا/.test(ph) ? clean(ph) : lastSelect ? `ابتدا «${lastSelect}» را انتخاب کنید.` : "ابتدا فیلد قبلی را انتخاب کنید."; })() : "";
+          if (c.tag === "select" && !waiting) lastSelect = labText;
           return (
             <div key={n.key} className={cn("flex min-w-0 flex-col gap-2", (has(n, "full") || c.tag === "textarea") && "col-span-full")}>
               <span className="text-[13px] font-bold text-ink">{labText}{required && <span className="mr-1 text-destructive" aria-label="ضروری">*</span>}</span>
-              {control(c, labText)}
+              {waiting ? (
+                <>
+                  <Select dir="rtl" disabled><SelectTrigger aria-label={labText} className="h-12 w-full rounded-2xl border-dashed bg-muted/40 px-4 text-sm font-semibold shadow-none data-[size=default]:h-12"><SelectValue placeholder="هنوز گزینه‌ای ندارد" /></SelectTrigger><SelectContent /></Select>
+                  <small className="flex items-center gap-1.5 text-xs font-semibold leading-6 text-primary"><InfoCircle size={14} variant="Bold" className="shrink-0" />{waitHint}</small>
+                </>
+              ) : control(c, labText)}
               {n.kids.filter((k) => k !== lab && k !== c).map((k) => k.tag === "small" || k.tag === "#text" ? <small key={k.key} className="text-xs leading-6 text-muted-foreground">{clean(textOf(k))}</small> : render(k))}
             </div>);
         }
@@ -269,7 +294,8 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
         const card = has(n, "ext-card") || has(n, "fi-provider") || has(n, "fi-case") || has(n, "ext-source") || has(n, "lp-service-output") || has(n, "dialog-section") || has(n, "lp-package") || has(n, "fi-definition") || has(n, "vivid-idea-result") || has(n, "compare-scroll");
         const multi = n.kids.filter(isCheck).length >= 3;
         return <div key={n.key} className={cn(multi && "col-span-full",
-          has(n, "ext-actions") || has(n, "lp-order-actions") || has(n, "ma-context-links") || has(n, "fi-library-filter") || has(n, "ma-source-links") ? "flex flex-wrap items-center gap-2.5" : grid && !multi ? cn("grid grid-cols-2 gap-4", (has(n, "fi-families") || has(n, "fi-three-parts")) && "grid-cols-3") : cards ? "grid grid-cols-2 gap-4" : "flex min-w-0 flex-col gap-4",
+          has(n, "ext-actions") || has(n, "lp-order-actions") || has(n, "ma-context-links") || has(n, "fi-library-filter") || has(n, "ma-source-links") ? "flex flex-wrap items-center gap-2.5" : grid && !multi ? cn("grid grid-cols-2 gap-x-5 gap-y-5", (has(n, "fi-families") || has(n, "fi-three-parts")) && "grid-cols-3", fields >= 2 && !card && "rounded-[1.75rem] border border-border/80 bg-[#f8faf9] p-6") : cards ? "grid grid-cols-2 gap-4" : "flex min-w-0 flex-col gap-4",
+          (has(n, "ext-actions") || has(n, "lp-order-actions")) && find(n, (x) => x.tag === "button" && (has(x, "primary") || has(x, "jll-button"))) && "col-span-full mt-2 border-t border-border pt-6",
           card && "rounded-3xl border border-border bg-white p-5", has(n, "full") && "col-span-full", has(n, "ext-actions") && "pt-1", has(n, "lp-services") && "col-span-full")}>{kids(n)}</div>;
       }
       default: return n.kids.length ? <div key={n.key} className="flex flex-col gap-3">{kids(n)}</div> : null;
@@ -299,12 +325,17 @@ function Head({ eyebrow, title }: { eyebrow: string; title: string }) {
 
 function Steps({ items }: { items: N[] }) {
   const flat = items.filter((i) => i.tag !== "#text");
+  const cur = Math.max(0, flat.findIndex((s) => s.attr["aria-current"] != null));
   return (
-    <ol className="flex items-stretch gap-2">
-      {flat.map((s, i) => { const on = s.attr["aria-current"] != null; const small = s.kids.find((k) => k.tag === "small"); const label = clean(s.kids.filter((k) => k !== small).map(textOf).join("")).replace(/^[۰-۹0-9]+[.\s]*/u, "");
-        return <li key={s.key} className={cn("flex flex-1 items-center gap-3 rounded-2xl border px-4 py-3", on ? "border-primary bg-primary/[0.06]" : "border-border bg-white")}>
-          <span className={cn("grid size-8 shrink-0 place-items-center rounded-full text-sm font-black", on ? "bg-primary text-white" : "bg-muted text-ink/60")}>{faNumber(i + 1)}</span>
-          <span className="min-w-0"><span className={cn("block truncate text-sm font-extrabold", on ? "text-ink" : "text-ink/60")}>{label}</span>{small && <span className="block truncate text-xs text-muted-foreground">{clean(textOf(small))}</span>}</span></li>; })}
+    <ol className="relative flex items-start">
+      {flat.map((s, i) => { const on = i === cur, done = i < cur; const small = s.kids.find((k) => k.tag === "small"); const label = clean(s.kids.filter((k) => k !== small).map(textOf).join("")).replace(/^[۰-۹0-9]+[.\s]*/u, "");
+        return (
+          <li key={s.key} className="relative flex flex-1 flex-col items-center px-2 text-center">
+            {i < flat.length - 1 && <span aria-hidden className={cn("absolute right-1/2 top-[1.125rem] h-0.5 w-full -translate-x-0", done ? "bg-primary" : "bg-border")} style={{ right: "calc(50% + 1.5rem)", width: "calc(100% - 3rem)" }} />}
+            <span className={cn("relative grid size-9 place-items-center rounded-full text-sm font-black transition-colors", on ? "bg-primary text-white shadow-[0_10px_24px_-10px_var(--primary)] ring-4 ring-primary/15" : done ? "bg-primary/15 text-primary" : "border border-border bg-white text-ink/50")}>{done ? <TickCircle size={20} variant="Bold" /> : faNumber(i + 1)}</span>
+            <span className={cn("mt-2.5 block text-[13px] font-extrabold leading-6", on ? "text-ink" : "text-ink/55")}>{label}</span>
+            {small && <span className="block text-xs leading-5 text-muted-foreground">{clean(textOf(small))}</span>}
+          </li>); })}
     </ol>
   );
 }

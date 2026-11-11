@@ -57,7 +57,12 @@
 
 @layer base {
   * { border-color: var(--border); }
-  html { scroll-behavior: smooth; overflow-x: clip; }
+  html { scroll-behavior: smooth; overflow-x: clip; scrollbar-gutter: stable; }
+  /* باز شدن دراپ‌داون و پنجره، صفحه را جابه‌جا نمی‌کند: جای اسکرول‌بار ثابت است و جبران حاشیه لازم نیست */
+  /* قفل اسکرول روی html می‌نشیند نه body؛ وگرنه سربرگ چسبان هنگام باز بودن دراپ‌داون از جایش می‌پرد */
+  html body[data-scroll-locked] { margin: 0 !important; padding: 0 !important; overflow: visible !important; --removed-body-scroll-bar-size: 0px !important; }
+  html:has(body[data-scroll-locked]) { overflow: hidden; }
+  * { overflow-anchor: auto; }
   body { overflow-x: clip; }
   body {
     background: var(--background);

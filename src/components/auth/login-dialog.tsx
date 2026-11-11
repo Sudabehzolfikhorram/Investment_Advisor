@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Mobile, ShieldTick } from "@/components/iconsax";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -19,12 +20,20 @@ export function LoginDialog() {
   const [code, setCode] = useState("");
   const reason = pending?.type === "save-listing" ? "برای ذخیره این پروژه" : pending?.type === "save-criteria" ? "برای ذخیره این جست‌وجو" : "برای دسترسی به ذخیره‌شده‌ها";
   const validMobile = /^09\d{9}$/.test(mobile);
+  const router = useRouter();
+  // بعد از ورود: پیشنهاد ذخیره اطلاعات برای پیدا کردن پروژه‌های دیگر در دفعه‌های بعد
+  const suggest = () => window.setTimeout(() => toast("اطلاعاتتان را ذخیره کنید", {
+    description: "با ذخیره اطلاعات حرفه‌ای و جست‌وجوهایتان، دفعه بعد پروژه‌های دیگری را که به همین مشخصات می‌خورند پیدا می‌کنید.",
+    duration: 12000,
+    action: { label: "ذخیره اطلاعات", onClick: () => { try { sessionStorage.setItem("hs-saved-tab", "profile"); } catch {} window.dispatchEvent(new Event("hs-saved-tab")); router.push("/saved"); } },
+  }), 1600);
 
   const finish = () => {
     const done = login(mobile);
     if (done?.type === "save-criteria") { saveProfile(done.name || "جست‌وجوی من"); toast.success("جست‌وجو ذخیره شد.", { description: "دفعه بعد از «جست‌وجوهای من» ادامه دهید." }); }
     else if (done?.type === "save-listing") toast.success("پروژه ذخیره شد.");
     else toast.success("خوش آمدید.");
+    suggest();
     setStep("mobile"); setCode(""); setMobile("");
   };
 
