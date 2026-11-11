@@ -1,15 +1,16 @@
 "use client";
 // دستیار: متن کاربر را می‌خواند، برداشتش را نشان می‌دهد و حداکثر ۱۰ پروژه با درصد تطابق پیشنهاد می‌کند.
-// چیدمان گفت‌وگویی است: درخواست کاربر، مراحل بررسی (با پیش‌نمایش کارت‌ها) و پاسخ با سه پیشنهاد برتر و فهرست بقیه.
+// چیدمان مثل یک چت است: گفت‌وگو از بالا به پایین می‌آید و جای نوشتن همیشه پایین صفحه ثابت است؛
+// نمونه‌ها هم کنار همان جای نوشتن‌اند تا انتخاب هر نمونه، درست بالای آن به‌عنوان پیام شما دیده شود.
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowLeft, Edit2, Location, MagicStar, Setting4, TickCircle } from "@/components/iconsax";
+import { Building, Edit2, Home2, Location, MagicStar, Send2, Setting4, Sun1, TickCircle, WalletMoney } from "@/components/iconsax";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Header, Footer } from "@/components/site/header";
+import { Header } from "@/components/site/header";
 import { NodeMark } from "@/components/brand/algo-pattern";
 import { MatchRing } from "@/components/brand/reveal";
 import { SaveButton } from "@/components/listing/listing-card";
@@ -71,112 +72,131 @@ function Row({ r, i }: { r: MatchResult; i: number }) {
   );
 }
 
+type Turn = { id: number; q: string };
+const promptIcons = [Building, WalletMoney, Sun1, Home2];
+
+/** یک نوبت گفت‌وگو: پیام شما، مراحل بررسی و پاسخ */
+function TurnView({ q, onEdit, onRefine }: { q: string; onEdit: (q: string) => void; onRefine: (c: ReturnType<typeof suggest>["criteria"]) => void }) {
+  const out = useMemo(() => suggest(q), [q]);
+  const [phase, setPhase] = useState(0);
+  const done = phase >= phases.length;
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => { ref.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }, []);
+  useEffect(() => { if (done) return; const t = setTimeout(() => setPhase((p) => p + 1), 750); return () => clearTimeout(t); }, [phase, done]);
+  const top = out.results.slice(0, 3), rest = out.results.slice(3);
+  return (
+    <div ref={ref} className="scroll-mt-28 space-y-5">
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex justify-start">
+        <p className="max-w-xl rounded-[1.5rem] rounded-tr-md bg-ink px-5 py-3 text-[15px] font-semibold leading-8 text-white">{q}</p>
+      </motion.div>
+      <div className="flex items-start gap-3">
+        <Avatar />
+        <div className="min-w-0 flex-1">
+          <AnimatePresence mode="wait">
+            {!done ? (
+              <motion.div key="thinking" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                <div className="surface inline-flex flex-col gap-2.5 rounded-[1.5rem] rounded-tr-md px-5 py-4">
+                  {phases.map((p, i) => (
+                    <span key={p} className={cn("flex items-center gap-2.5 text-sm font-bold transition-colors duration-300", i < phase ? "text-primary" : i === phase ? "text-ink" : "text-ink/30")}>
+                      {i < phase ? <TickCircle size={18} variant="Bold" /> : i === phase ? <span className="grid size-[18px] place-items-center"><span className="size-3.5 animate-spin rounded-full border-2 border-primary border-t-transparent" /></span> : <span className="grid size-[18px] place-items-center"><span className="size-2 rounded-full bg-current" /></span>}
+                      {p}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-5 grid grid-cols-3 gap-4" aria-hidden>
+                  {[0, 1, 2].map((k) => (
+                    <div key={k} className="overflow-hidden rounded-[1.75rem] border border-border bg-white p-2">
+                      <div className="aspect-[16/10] animate-pulse rounded-[1.35rem] bg-muted" style={{ animationDelay: `${k * 150}ms` }} />
+                      <div className="space-y-2 p-3"><div className="h-3.5 w-4/5 animate-pulse rounded-full bg-muted" /><div className="h-3 w-1/2 animate-pulse rounded-full bg-muted" /></div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div key="answer" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                <div className="surface rounded-[1.5rem] rounded-tr-md p-5">
+                  <p className="flex items-center gap-2 text-[13px] font-extrabold text-primary"><NodeMark />برداشت من از درخواست شما</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {out.understood.length ? out.understood.map((u, i) => (
+                      <motion.span key={u.label} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.06 }} className="rounded-xl border border-border bg-muted/40 px-3 py-1.5 text-[13px] font-extrabold text-ink"><span className="ml-1 text-xs font-semibold text-muted-foreground">{u.label}</span>{u.value}</motion.span>
+                    )) : <span className="text-sm font-semibold text-muted-foreground">شرط مشخصی پیدا نکردم؛ پروژه‌های پرتطابق همه مسیرها را آورده‌ام.</span>}
+                  </div>
+                  <div className="mt-4 flex items-center justify-between gap-3 border-t border-dashed border-border pt-4">
+                    <p className="text-base font-black text-ink">{out.results.length ? `${faNumber(out.results.length)} پیشنهاد برای شما` : "پروژه‌ای با این شرایط پیدا نشد."}</p>
+                    <div className="flex gap-2">
+                      <Button type="button" variant="ghost" onClick={() => onEdit(q)} className="h-10 gap-1.5 rounded-full px-4 text-[13px] font-bold text-ink/70"><Edit2 size={16} />تغییر درخواست</Button>
+                      <Button type="button" variant="outline" onClick={() => onRefine(out.criteria)} className="h-10 gap-1.5 rounded-full bg-white px-4 text-[13px] font-extrabold shadow-none hover:border-primary hover:text-primary"><Setting4 size={16} />دقیق‌تر کردن با فیلترها</Button>
+                    </div>
+                  </div>
+                </div>
+                {top.length > 0 && <div className="mt-5 grid grid-cols-3 gap-4">{top.map((r, i) => <TopCard key={r.listing.id} r={r} i={i} />)}</div>}
+                {rest.length > 0 && <ol className="mt-4 space-y-2.5">{rest.map((r, i) => <Row key={r.listing.id} r={r} i={i} />)}</ol>}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Assistant() {
   const router = useRouter();
   const initial = useSearchParams().get("q") ?? "";
   const setCriteria = useStore((s) => s.setCriteria);
-  const [text, setText] = useState(initial);
-  const [asked, setAsked] = useState(initial);
-  const [phase, setPhase] = useState(initial ? 0 : -1);
-  const out = useMemo(() => (asked ? suggest(asked) : null), [asked]);
-  const done = phase >= phases.length;
-  const answer = useRef<HTMLDivElement>(null);
+  const [text, setText] = useState("");
+  const [turns, setTurns] = useState<Turn[]>(initial ? [{ id: 1, q: initial }] : []);
+  const box = useRef<HTMLTextAreaElement>(null);
+  const started = turns.length > 0;
+  const asked = new Set(turns.map((t) => t.q));
+  const left = samplePrompts.filter((p) => !asked.has(p));
 
-  useEffect(() => {
-    if (phase < 0 || done) return;
-    const t = setTimeout(() => setPhase((p) => p + 1), 750);
-    return () => clearTimeout(t);
-  }, [phase, done]);
-  useEffect(() => { if (phase === 0) answer.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }, [phase, asked]);
-
-  const ask = (q: string) => { if (!q.trim()) return; setText(q); setAsked(q); setPhase(0); };
-  const top = out?.results.slice(0, 3) ?? [], rest = out?.results.slice(3) ?? [];
+  const ask = (q: string) => { const v = q.trim(); if (!v) return; setTurns((t) => [...t, { id: (t.at(-1)?.id ?? 0) + 1, q: v }]); setText(""); };
+  const edit = (q: string) => { setText(q); requestAnimationFrame(() => { const el = box.current; if (el) { el.focus(); el.setSelectionRange(q.length, q.length); } }); };
 
   return (
     <>
       <Header />
-      <main className="relative mx-auto min-h-[75dvh] max-w-5xl px-6 pt-10">
-        <div className="text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-[13px] font-extrabold text-primary"><MagicStar size={16} variant="Bold" />دستیار</span>
-          <h1 className="mx-auto mt-4 max-w-2xl text-[2.4rem] font-black leading-[1.4] text-ink text-balance">بگویید چه می‌خواهید؛ تا {faNumber(ASSISTANT_MAX_RESULTS)} پروژه نزدیک به شرایطتان را می‌بینید.</h1>
-        </div>
-
-        <form onSubmit={(e) => { e.preventDefault(); ask(text); }} className="mx-auto mt-8 max-w-3xl">
-          <div className="surface rounded-[2rem] p-2.5 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.12),0_24px_50px_-30px_rgb(11_31_29/0.3)]">
-            <Textarea value={text} onChange={(e) => setText(e.target.value)} rows={3} placeholder="مثلاً: ۳۰ میلیارد دارم، پروژه مسکونی در تهران، بازگشت تا ۸ سال…" aria-label="شرایط شما"
-              onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(text); } }}
-              className="min-h-24 resize-none rounded-[1.5rem] border-0 bg-muted/50 px-5 pt-4 text-base font-semibold leading-8 text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
-            <div className="flex items-center justify-end gap-3 px-2 pb-1 pt-3">
-              <Button variant="plain" size="auto" type="submit" disabled={!text.trim()} className="group flex h-12 items-center gap-2 rounded-full bg-primary px-6 font-extrabold text-white shadow-[0_14px_30px_-12px_var(--primary)] hover:bg-deep disabled:opacity-50">پیدا کن<ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" /></Button>
-            </div>
-          </div>
-          <div className="mt-4 flex flex-wrap justify-center gap-2 p-1">
-            {samplePrompts.map((p) => { const on = asked === p;
-              return <Button variant="plain" size="auto" key={p} type="button" aria-pressed={on} onClick={() => ask(p)}
-                className={cn("rounded-full border px-4 py-2 text-[13px] font-bold transition-colors", on ? "border-primary bg-primary/[0.07] text-primary" : "border-border bg-white text-ink/70 hover:border-primary/40 hover:text-primary")}>{p}</Button>; })}
-          </div>
-        </form>
-
-        <div ref={answer} className="scroll-mt-28">
-          {phase >= 0 && (
-            <div className="mt-12 space-y-6">
-              {/* درخواست کاربر */}
-              <div className="flex justify-start">
-                <p className="max-w-xl rounded-[1.5rem] rounded-tr-md bg-ink px-5 py-3 text-[15px] font-semibold leading-8 text-white">{asked}</p>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <Avatar />
-                <div className="min-w-0 flex-1">
-                  <AnimatePresence mode="wait">
-                    {!done ? (
-                      <motion.div key="thinking" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-                        <div className="surface inline-flex flex-col gap-2.5 rounded-[1.5rem] rounded-tr-md px-5 py-4">
-                          {phases.map((p, i) => (
-                            <span key={p} className={cn("flex items-center gap-2.5 text-sm font-bold transition-colors duration-300", i < phase ? "text-primary" : i === phase ? "text-ink" : "text-ink/30")}>
-                              {i < phase ? <TickCircle size={18} variant="Bold" /> : i === phase ? <span className="grid size-[18px] place-items-center"><span className="size-3.5 animate-spin rounded-full border-2 border-primary border-t-transparent" /></span> : <span className="grid size-[18px] place-items-center"><span className="size-2 rounded-full bg-current" /></span>}
-                              {p}
-                            </span>
-                          ))}
-                        </div>
-                        <div className="mt-5 grid grid-cols-3 gap-4" aria-hidden>
-                          {[0, 1, 2].map((k) => (
-                            <div key={k} className="overflow-hidden rounded-[1.75rem] border border-border bg-white p-2">
-                              <div className="aspect-[16/10] animate-pulse rounded-[1.35rem] bg-muted" style={{ animationDelay: `${k * 150}ms` }} />
-                              <div className="space-y-2 p-3"><div className="h-3.5 w-4/5 animate-pulse rounded-full bg-muted" /><div className="h-3 w-1/2 animate-pulse rounded-full bg-muted" /></div>
-                            </div>
-                          ))}
-                        </div>
-                      </motion.div>
-                    ) : out && (
-                      <motion.div key={`a-${asked}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                        <div className="surface rounded-[1.5rem] rounded-tr-md p-5">
-                          <p className="flex items-center gap-2 text-[13px] font-extrabold text-primary"><NodeMark />برداشت من از درخواست شما</p>
-                          <div className="mt-3 flex flex-wrap gap-2">
-                            {out.understood.length ? out.understood.map((u, i) => (
-                              <motion.span key={u.label} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.06 }} className="rounded-xl border border-border bg-muted/40 px-3 py-1.5 text-[13px] font-extrabold text-ink"><span className="ml-1 text-xs font-semibold text-muted-foreground">{u.label}</span>{u.value}</motion.span>
-                            )) : <span className="text-sm font-semibold text-muted-foreground">شرط مشخصی پیدا نکردم؛ پروژه‌های پرتطابق همه مسیرها را آورده‌ام.</span>}
-                          </div>
-                          <div className="mt-4 flex items-center justify-between gap-3 border-t border-dashed border-border pt-4">
-                            <p className="text-base font-black text-ink">{out.results.length ? `${faNumber(out.results.length)} پیشنهاد برای شما` : "پروژه‌ای با این شرایط پیدا نشد."}</p>
-                            <div className="flex gap-2">
-                              <Button type="button" variant="ghost" onClick={() => { document.querySelector<HTMLTextAreaElement>("textarea")?.focus(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="h-10 gap-1.5 rounded-full px-4 text-[13px] font-bold text-ink/70"><Edit2 size={16} />تغییر درخواست</Button>
-                              <Button type="button" variant="outline" onClick={() => { setCriteria(out.criteria); useStore.getState().setStarted(true); router.push("/opportunities"); }} className="h-10 gap-1.5 rounded-full bg-white px-4 text-[13px] font-extrabold shadow-none hover:border-primary hover:text-primary"><Setting4 size={16} />دقیق‌تر کردن با فیلترها</Button>
-                            </div>
-                          </div>
-                        </div>
-                        {top.length > 0 && <div className="mt-5 grid grid-cols-3 gap-4">{top.map((r, i) => <TopCard key={r.listing.id} r={r} i={i} />)}</div>}
-                        {rest.length > 0 && <ol className="mt-4 space-y-2.5">{rest.map((r, i) => <Row key={r.listing.id} r={r} i={i} />)}</ol>}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
+      <main className="relative mx-auto flex min-h-[calc(100dvh-6rem)] max-w-5xl flex-col px-6 pt-8">
+        {/* پیش از شروع: معرفی وسط صفحه؛ بعد از شروع فقط گفت‌وگو */}
+        <div className="flex-1">
+          {!started ? (
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="flex min-h-[48dvh] flex-col items-center justify-center text-center">
+              <span className="grid size-16 place-items-center rounded-[1.4rem] bg-primary text-white shadow-[0_20px_40px_-18px_var(--primary)]"><MagicStar size={30} variant="Bold" /></span>
+              <h1 className="mx-auto mt-6 max-w-2xl text-[2.4rem] font-black leading-[1.4] text-ink text-balance">بگویید چه می‌خواهید؛ تا {faNumber(ASSISTANT_MAX_RESULTS)} پروژه نزدیک به شرایطتان را می‌بینید.</h1>
+            </motion.div>
+          ) : (
+            <div className="space-y-12 pb-6">
+              {turns.map((t) => <TurnView key={t.id} q={t.q} onEdit={edit} onRefine={(c) => { setCriteria(c); useStore.getState().setStarted(true); router.push("/opportunities"); }} />)}
             </div>
           )}
         </div>
+
+        {/* جای نوشتن: همیشه پایین صفحه؛ نمونه‌ها درست بالای آن */}
+        <div className="sticky bottom-0 z-30 -mx-6 bg-gradient-to-t from-background via-background via-75% to-transparent px-6 pb-6 pt-10">
+          <div className="mx-auto max-w-3xl">
+            {left.length > 0 && (
+              <div className={cn("mb-3 flex flex-wrap gap-2 p-1", started ? "justify-start" : "justify-center")}>
+                {left.map((p) => { const I = promptIcons[samplePrompts.indexOf(p) % promptIcons.length];
+                  return (
+                    <Button variant="plain" size="auto" key={p} type="button" onClick={() => ask(p)}
+                      className="group gap-2 rounded-full border border-border bg-white py-2 pl-4 pr-2.5 text-[13px] font-bold text-ink/75 transition-colors hover:border-primary/40 hover:text-primary">
+                      <span className="grid size-6 place-items-center rounded-full bg-primary/10 text-primary"><I size={14} variant="Bold" /></span>{p}
+                    </Button>); })}
+              </div>
+            )}
+            <form onSubmit={(e) => { e.preventDefault(); ask(text); }}
+              className="surface flex items-end gap-2 rounded-[1.75rem] p-2 pr-5 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.12),0_24px_50px_-30px_rgb(11_31_29/0.3)]">
+              <Textarea ref={box} value={text} onChange={(e) => setText(e.target.value)} rows={1} aria-label="شرایط شما"
+                placeholder={started ? "پرسش بعدی یا شرط تازه را بنویسید…" : "مثلاً: ۳۰ میلیارد دارم، پروژه مسکونی در تهران، بازگشت تا ۸ سال…"}
+                onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(text); } }}
+                className="field-sizing-content max-h-40 min-h-12 flex-1 resize-none border-0 bg-transparent px-0 py-3 text-base font-semibold leading-7 text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
+              <Button variant="plain" size="auto" type="submit" disabled={!text.trim()} aria-label="بفرست"
+                className="grid size-12 shrink-0 place-items-center rounded-full bg-primary text-white shadow-[0_14px_30px_-12px_var(--primary)] transition-colors hover:bg-deep disabled:bg-ink/15 disabled:shadow-none"><Send2 size={20} variant="Bold" className="-scale-x-100" /></Button>
+            </form>
+          </div>
+        </div>
       </main>
-      <Footer />
     </>
   );
 }

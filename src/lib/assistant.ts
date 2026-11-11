@@ -75,7 +75,8 @@ export function readPrompt(text: string): AssistantReading {
 
 export function suggest(text: string) {
   const reading = readPrompt(text);
-  return { ...reading, results: rank(listings, reading.criteria, ASSISTANT_MAX_RESULTS) };
+  // پروژه‌ای که هیچ شرطی از درخواست را ندارد (تطابق صفر) پیشنهاد نمی‌شود
+  return { ...reading, results: rank(listings, reading.criteria, ASSISTANT_MAX_RESULTS).filter((r) => r.score > 0) };
 }
 
 /** پیشنهادهای کوتاه دستیار */
