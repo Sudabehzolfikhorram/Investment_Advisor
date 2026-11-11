@@ -7,17 +7,21 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Building, Edit2, Home2, Location, MagicStar, Send2, Setting4, Sun1, TickCircle, WalletMoney } from "@/components/iconsax";
+import { ArchiveTick, Building, Edit2, Home2, Location, MagicStar, MessageQuestion, Save2, Send2, Setting4, Sun1, TickCircle, WalletMoney } from "@/components/iconsax";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Header } from "@/components/site/header";
 import { NodeMark } from "@/components/brand/algo-pattern";
 import { MatchRing } from "@/components/brand/reveal";
 import { SaveButton } from "@/components/listing/listing-card";
+import { SaveCriteriaDialog, useProfileStats } from "@/components/search/save-criteria";
+import { routes } from "@/data/routes";
 import { samplePrompts, suggest } from "@/lib/assistant";
-import { ASSISTANT_MAX_RESULTS } from "@/lib/match";
-import { useStore } from "@/lib/store";
-import type { MatchResult } from "@/types";
+import { describeCriteria } from "@/lib/criteria";
+import { listings } from "@/lib/listings";
+import { rank } from "@/lib/match";
+import { useHydrated, useStore } from "@/lib/store";
+import type { MatchResult, SearchCriteria } from "@/types";
 import { cn, faNumber } from "@/lib/utils";
 
 const phases = ["خواندن شرایط شما", "تطبیق با پروژه‌ها", "مرتب‌سازی بر اساس درصد تطابق"];
@@ -72,23 +76,55 @@ function Row({ r, i }: { r: MatchResult; i: number }) {
   );
 }
 
-type Turn = { id: number; q: string };
+type Turn = { id: number; q: string; criteria?: SearchCriteria };
 const promptIcons = [Building, WalletMoney, Sun1, Home2];
+const same = (a: SearchCriteria, b: SearchCriteria) => JSON.stringify(a) === JSON.stringify(b);
 
-/** یک نوبت گفت‌وگو: پیام شما، مراحل بررسی و پاسخ */
-function TurnView({ q, onEdit, onRefine }: { q: string; onEdit: (q: string) => void; onRefine: (c: ReturnType<typeof suggest>["criteria"]) => void }) {
-  const out = useMemo(() => suggest(q), [q]);
+/** پاسخ یک نوبت: یا از متن کاربر خوانده می‌شود، یا از شرایط ذخیره‌شده‌ای که کاربر انتخاب کرده */
+function answerOf(t: Turn) {
+  if (!t.criteria) return suggest(t.q);
+  const c = t.criteria;
+  const understood = [{ label: "مسیر", value: routes.find((r) => r.id === c.route)?.name ?? "" }, ...describeCriteria(c).map((x) => ({ label: "", value: x.label }))];
+  return { criteria: c, understood, results: rank(listings, c, 10).filter((r) => r.score > 0) };
+}
+
+/** پیشنهاد گام بعد: اگر بودجه یا محل گفته نشده، با یک ضربه اضافه شود */
+function nextAsk(c: SearchCriteria) {
+  if (!c.amount) return { title: "با چه بودجه‌ای؟", chips: c.route === "fund" ? ["تا ۵۰ میلیون", "تا ۵۰۰ میلیون", "تا ۵ میلیارد"] : ["تا ۵ میلیارد", "تا ۲۰ میلیارد", "تا ۱۰۰ میلیارد"] };
+  if (!c.provinces.length && c.route !== "fund") {
+    const count = new Map<string, number>();
+    for (const l of listings) if (l.province && l.routes.includes(c.route)) count.set(l.province, (count.get(l.province) ?? 0) + 1);
+    const top = [...count.entries()].sort((a, b) => b[1] - a[1]).slice(0, 4).map(([p]) => `در ${p}`);
+    if (top.length) return { title: "کدام استان برایتان مهم‌تر است؟", chips: top };
+  }
+  return null;
+}
+
+function Bubble({ children }: { children: React.ReactNode }) {
+  // پیام کاربر سمت چپ، پاسخ دستیار سمت راست
+  return (
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex justify-end">
+      <p className="max-w-xl rounded-[1.5rem] rounded-tl-md bg-ink px-5 py-3 text-[15px] font-semibold leading-8 text-white">{children}</p>
+    </motion.div>
+  );
+}
+
+/** یک نوبت گفت‌وگو: پیام شما، مراحل بررسی، پاسخ و (در آخرین نوبت) گام بعد */
+function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave }: { turn: Turn; last: boolean; onAsk: (q: string) => void; onEdit: (q: string) => void; onRefine: (c: SearchCriteria) => void; onSave: (c: SearchCriteria) => void }) {
+  const out = useMemo(() => answerOf(turn), [turn]);
   const [phase, setPhase] = useState(0);
   const done = phase >= phases.length;
   const ref = useRef<HTMLDivElement>(null);
+  const hydrated = useHydrated();
+  const profiles = useStore((s) => s.profiles);
+  const saved = hydrated && profiles.some((p) => same(p.criteria, out.criteria));
+  const ask = nextAsk(out.criteria);
   useEffect(() => { ref.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }, []);
   useEffect(() => { if (done) return; const t = setTimeout(() => setPhase((p) => p + 1), 750); return () => clearTimeout(t); }, [phase, done]);
   const top = out.results.slice(0, 3), rest = out.results.slice(3);
   return (
     <div ref={ref} className="scroll-mt-28 space-y-5">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex justify-start">
-        <p className="max-w-xl rounded-[1.5rem] rounded-tr-md bg-ink px-5 py-3 text-[15px] font-semibold leading-8 text-white">{q}</p>
-      </motion.div>
+      <Bubble>{turn.q}</Bubble>
       <div className="flex items-start gap-3">
         <Avatar />
         <div className="min-w-0 flex-1">
@@ -118,19 +154,44 @@ function TurnView({ q, onEdit, onRefine }: { q: string; onEdit: (q: string) => v
                   <p className="flex items-center gap-2 text-[13px] font-extrabold text-primary"><NodeMark />برداشت من از درخواست شما</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {out.understood.length ? out.understood.map((u, i) => (
-                      <motion.span key={u.label} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.06 }} className="rounded-xl border border-border bg-muted/40 px-3 py-1.5 text-[13px] font-extrabold text-ink"><span className="ml-1 text-xs font-semibold text-muted-foreground">{u.label}</span>{u.value}</motion.span>
+                      <motion.span key={u.label + u.value} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.06 }} className="rounded-xl border border-border bg-muted/40 px-3 py-1.5 text-[13px] font-extrabold text-ink">{u.label && <span className="ml-1 text-xs font-semibold text-muted-foreground">{u.label}</span>}{u.value}</motion.span>
                     )) : <span className="text-sm font-semibold text-muted-foreground">شرط مشخصی پیدا نکردم؛ پروژه‌های پرتطابق همه مسیرها را آورده‌ام.</span>}
                   </div>
                   <div className="mt-4 flex items-center justify-between gap-3 border-t border-dashed border-border pt-4">
-                    <p className="text-base font-black text-ink">{out.results.length ? `${faNumber(out.results.length)} پیشنهاد برای شما` : "پروژه‌ای با این شرایط پیدا نشد."}</p>
+                    <p className="text-base font-black text-ink">{out.results.length ? `${faNumber(out.results.length)} پروژه نزدیک به خواسته شما` : "فعلاً پروژه‌ای با این شرایط نداریم."}</p>
                     <div className="flex gap-2">
-                      <Button type="button" variant="ghost" onClick={() => onEdit(q)} className="h-10 gap-1.5 rounded-full px-4 text-[13px] font-bold text-ink/70"><Edit2 size={16} />تغییر درخواست</Button>
+                      {!turn.criteria && <Button type="button" variant="ghost" onClick={() => onEdit(turn.q)} className="h-10 gap-1.5 rounded-full px-4 text-[13px] font-bold text-ink/70"><Edit2 size={16} />تغییر درخواست</Button>}
                       <Button type="button" variant="outline" onClick={() => onRefine(out.criteria)} className="h-10 gap-1.5 rounded-full bg-white px-4 text-[13px] font-extrabold shadow-none hover:border-primary hover:text-primary"><Setting4 size={16} />دقیق‌تر کردن با فیلترها</Button>
                     </div>
                   </div>
                 </div>
                 {top.length > 0 && <div className="mt-5 grid grid-cols-3 gap-4">{top.map((r, i) => <TopCard key={r.listing.id} r={r} i={i} />)}</div>}
                 {rest.length > 0 && <ol className="mt-4 space-y-2.5">{rest.map((r, i) => <Row key={r.listing.id} r={r} i={i} />)}</ol>}
+
+                {/* گام بعد: کامل‌تر کردن شرایط با یک ضربه و ذخیره آن برای دفعه بعد */}
+                {last && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-6 grid grid-cols-[1fr_1.1fr] gap-4">
+                    {ask ? (
+                      <div className="surface rounded-[1.5rem] p-5">
+                        <p className="flex items-center gap-2 text-sm font-extrabold text-ink"><MessageQuestion size={18} variant="Bulk" className="text-primary" />{ask.title}</p>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {ask.chips.map((c) => <Button key={c} type="button" variant="outline" onClick={() => onAsk(`${turn.q}، ${c}`)} className="h-9 rounded-full bg-white px-4 text-[13px] font-bold shadow-none hover:border-primary hover:text-primary">{c}</Button>)}
+                        </div>
+                      </div>
+                    ) : <div className="surface flex items-center gap-3 rounded-[1.5rem] p-5 text-sm font-bold text-ink/75"><TickCircle size={20} variant="Bulk" className="shrink-0 text-primary" />شرایط اصلی را گفته‌اید؛ اگر شرط دیگری دارید، پایین بنویسید.</div>}
+                    <div className={cn("relative overflow-hidden rounded-[1.5rem] p-5", saved ? "surface" : "bg-ink text-white")}>
+                      {saved ? (
+                        <p className="flex items-center gap-2.5 text-sm font-extrabold text-primary"><ArchiveTick size={20} variant="Bulk" />این شرایط ذخیره شده است؛ دفعه بعد از همین‌جا ادامه می‌دهید.</p>
+                      ) : (
+                        <>
+                          <p className="text-[15px] font-black">این شرایط را برایتان نگه دارم؟</p>
+                          <p className="mt-1 text-[13px] leading-6 text-white/70">دفعه بعد لازم نیست دوباره بنویسید؛ با یک ضربه برمی‌گردید و پروژه‌های تازه را جدا می‌بینید.</p>
+                          <Button type="button" onClick={() => onSave(out.criteria)} className="mt-3.5 h-10 gap-2 rounded-full bg-white px-5 text-[13px] font-extrabold text-ink hover:bg-white/90"><Save2 size={17} />ذخیره شرایط</Button>
+                        </>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
@@ -144,30 +205,51 @@ export function Assistant() {
   const router = useRouter();
   const initial = useSearchParams().get("q") ?? "";
   const setCriteria = useStore((s) => s.setCriteria);
+  const hydrated = useHydrated();
+  const profiles = useStore((s) => s.profiles);
+  const stats = useProfileStats();
   const [text, setText] = useState("");
   const [turns, setTurns] = useState<Turn[]>(initial ? [{ id: 1, q: initial }] : []);
+  const [saveOpen, setSaveOpen] = useState(false);
   const box = useRef<HTMLTextAreaElement>(null);
   const started = turns.length > 0;
   const asked = new Set(turns.map((t) => t.q));
   const left = samplePrompts.filter((p) => !asked.has(p));
+  const mine = hydrated ? profiles.slice(0, 3) : [];
 
-  const ask = (q: string) => { const v = q.trim(); if (!v) return; setTurns((t) => [...t, { id: (t.at(-1)?.id ?? 0) + 1, q: v }]); setText(""); };
+  const push = (t: Omit<Turn, "id">) => setTurns((x) => [...x, { id: (x.at(-1)?.id ?? 0) + 1, ...t }]);
+  const ask = (q: string) => { const v = q.trim(); if (!v) return; push({ q: v }); setText(""); };
   const edit = (q: string) => { setText(q); requestAnimationFrame(() => { const el = box.current; if (el) { el.focus(); el.setSelectionRange(q.length, q.length); } }); };
 
   return (
     <>
       <Header />
       <main className="relative mx-auto flex min-h-[calc(100dvh-6rem)] max-w-5xl flex-col px-6 pt-8">
-        {/* پیش از شروع: معرفی وسط صفحه؛ بعد از شروع فقط گفت‌وگو */}
         <div className="flex-1">
           {!started ? (
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="flex min-h-[48dvh] flex-col items-center justify-center text-center">
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="flex min-h-[50dvh] flex-col items-center justify-center text-center">
               <span className="grid size-16 place-items-center rounded-[1.4rem] bg-primary text-white shadow-[0_20px_40px_-18px_var(--primary)]"><MagicStar size={30} variant="Bold" /></span>
-              <h1 className="mx-auto mt-6 max-w-2xl text-[2.4rem] font-black leading-[1.4] text-ink text-balance">بگویید چه می‌خواهید؛ تا {faNumber(ASSISTANT_MAX_RESULTS)} پروژه نزدیک به شرایطتان را می‌بینید.</h1>
+              <h1 className="mx-auto mt-6 max-w-3xl text-[2.4rem] font-black leading-[1.45] text-ink text-balance">از سرمایه و هدفتان بگویید؛ پروژه مناسب را با هم پیدا می‌کنیم.</h1>
+              <p className="mx-auto mt-3 max-w-xl text-[15px] leading-8 text-muted-foreground">همان‌طور که با یک مشاور حرف می‌زنید بنویسید: چقدر سرمایه دارید، در کدام شهر و در چه کاری. شرایطتان را یک بار ذخیره کنید و دفعه بعد از همین‌جا ادامه دهید.</p>
+              {mine.length > 0 && (
+                <div className="mt-8 w-full max-w-2xl rounded-[1.75rem] border border-border bg-white/80 p-4 text-right">
+                  <p className="px-1 text-[13px] font-extrabold text-ink">خوش برگشتید؛ از شرایط ذخیره‌شده ادامه دهید</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {mine.map((p) => (
+                      <Button key={p.id} type="button" variant="outline" onClick={() => push({ q: `ادامه با «${p.name}»`, criteria: p.criteria })} className="h-10 gap-2 rounded-full bg-white pl-2 pr-4 text-[13px] font-bold shadow-none hover:border-primary hover:text-primary">
+                        <ArchiveTick size={16} variant="Bulk" className="text-primary" />{p.name}
+                        {stats[p.id]?.fresh ? <span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-extrabold text-white">{faNumber(stats[p.id].fresh)} تازه</span> : null}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </motion.div>
           ) : (
             <div className="space-y-12 pb-6">
-              {turns.map((t) => <TurnView key={t.id} q={t.q} onEdit={edit} onRefine={(c) => { setCriteria(c); useStore.getState().setStarted(true); router.push("/opportunities"); }} />)}
+              {turns.map((t, i) => <TurnView key={t.id} turn={t} last={i === turns.length - 1} onAsk={ask} onEdit={edit}
+                onRefine={(c) => { setCriteria(c); useStore.getState().setStarted(true); router.push("/opportunities"); }}
+                onSave={(c) => { setCriteria(c); setSaveOpen(true); }} />)}
             </div>
           )}
         </div>
@@ -176,7 +258,7 @@ export function Assistant() {
         <div className="sticky bottom-0 z-30 -mx-6 bg-gradient-to-t from-background via-background via-75% to-transparent px-6 pb-6 pt-10">
           <div className="mx-auto max-w-3xl">
             {left.length > 0 && (
-              <div className={cn("mb-3 flex flex-wrap gap-2 p-1", started ? "justify-start" : "justify-center")}>
+              <div className="mb-3 flex flex-wrap justify-center gap-2 p-1">
                 {left.map((p) => { const I = promptIcons[samplePrompts.indexOf(p) % promptIcons.length];
                   return (
                     <Button variant="plain" size="auto" key={p} type="button" onClick={() => ask(p)}
@@ -188,7 +270,7 @@ export function Assistant() {
             <form onSubmit={(e) => { e.preventDefault(); ask(text); }}
               className="surface flex items-end gap-2 rounded-[1.75rem] p-2 pr-5 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.12),0_24px_50px_-30px_rgb(11_31_29/0.3)]">
               <Textarea ref={box} value={text} onChange={(e) => setText(e.target.value)} rows={1} aria-label="شرایط شما"
-                placeholder={started ? "پرسش بعدی یا شرط تازه را بنویسید…" : "مثلاً: ۳۰ میلیارد دارم، پروژه مسکونی در تهران، بازگشت تا ۸ سال…"}
+                placeholder={started ? "شرط تازه‌ای دارید؟ بنویسید…" : "مثلاً: ۳۰ میلیارد دارم و دنبال پروژه مسکونی در تهران هستم"}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(text); } }}
                 className="field-sizing-content max-h-40 min-h-12 flex-1 resize-none border-0 bg-transparent px-0 py-3 text-base font-semibold leading-7 text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
               <Button variant="plain" size="auto" type="submit" disabled={!text.trim()} aria-label="بفرست"
@@ -197,6 +279,7 @@ export function Assistant() {
           </div>
         </div>
       </main>
+      <SaveCriteriaDialog open={saveOpen} onOpenChange={setSaveOpen} />
     </>
   );
 }
