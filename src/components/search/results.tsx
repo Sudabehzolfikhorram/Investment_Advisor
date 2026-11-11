@@ -34,13 +34,15 @@ import { cn, faNumber } from "@/lib/utils";
 import { AdvancedFilter } from "./advanced-filter";
 import { Chip } from "./controls";
 import { BudgetField } from "./budget-field";
-import { ProvincePicker } from "./province-picker";
+import { LocationFields, ProvincePicker } from "./province-picker";
 import { SaveCriteriaDialog, SavedCriteriaMenu, useProfileStats } from "./save-criteria";
 
 const PAGE = 12;
 const SUITABLE = 50;
 const subKey: Record<string, string> = { fund: "fundType", buyer: "saleCategory", charity: "charityType" };
 const routeCounts = Object.fromEntries(routes.map((r) => [r.id, forRoute(listings, r.id).length])) as Record<RouteId, number>;
+// بیشترین تعداد رقم شمارنده مسیرها (عرض ثابت برچسب شمارنده)
+const countDigits = Math.max(2, ...Object.values(routeCounts).map((n) => String(n).length));
 
 function useRoute() {
   const id = useStore((s) => s.criteria.route);
@@ -123,7 +125,7 @@ function Step({ n, title, hint, children }: { n: number; title: string; hint?: s
   return (
     <section className="border-t border-border py-7 first:border-t-0 first:pt-0">
       <div className="mb-5 flex items-center gap-3">
-        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-ink text-sm font-black text-white">{faNumber(n)}</span>
+        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-coral text-sm font-black text-white">{faNumber(n)}</span>
         <h2 className="shrink-0 text-lg font-extrabold text-ink">{title}</h2>
         {hint && <p className="truncate text-[13px] text-muted-foreground">{hint}</p>}
       </div>
@@ -228,8 +230,8 @@ function FilterBar() {
   return (
     <div className="surface flex items-center gap-1 rounded-full p-1">
       {route.id !== "fund" && <>
-        <BarItem icon={<Location size={20} variant="Bulk" />} label="محدوده" value={criteria.provinces.length ? criteria.provinces.join("، ") : "همه ایران"} active={criteria.provinces.length > 0} width="w-[44rem]">
-          <ProvincePicker route={route.id} value={criteria.provinces} onChange={(v) => setCriteria({ provinces: v })} />
+        <BarItem icon={<Location size={20} variant="Bulk" />} label="محدوده" value={criteria.provinces.length ? criteria.provinces.join("، ") + ((criteria.filters.cities as string[] | undefined)?.length ? `، ${faNumber(new Set(criteria.filters.cities as string[]).size)} شهر` : "") : "همه ایران"} active={criteria.provinces.length > 0} width="w-[28rem]">
+          <LocationFields route={route.id} value={criteria.provinces} onChange={(v) => setCriteria({ provinces: v })} />
         </BarItem>
         <span className="h-7 w-px shrink-0 bg-border" />
       </>}
@@ -290,13 +292,14 @@ function RouteTabs({ routeCounts, active, onChange }: { routeCounts: Record<stri
   const arrow = "absolute top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full border border-border bg-white text-ink shadow-md hover:border-primary hover:text-primary";
   return (
     <div className="relative">
-      <div ref={ref} role="tablist" aria-label="مسیر ورود" className="no-scrollbar -mx-2 flex gap-2 overflow-x-auto px-2 py-2">
+      <div ref={ref} role="tablist" aria-label="مسیر ورود" className="no-scrollbar -mx-3 -my-2 flex gap-2 overflow-x-auto px-3 py-4">
         {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === active;
           return (
             <Button key={r.id} role="tab" aria-selected={on} type="button" variant="plain" size="auto" onClick={() => onChange(r.id)}
-              className={cn("h-11 flex-none gap-2 whitespace-nowrap rounded-full border px-4 text-[13px] transition-all", on ? "border-primary bg-primary font-extrabold text-white shadow-[0_10px_24px_-12px_var(--primary)]" : "border-border bg-white font-bold text-ink/70 hover:border-primary/40 hover:text-primary")}>
+              className={cn("h-11 flex-none gap-2 whitespace-nowrap rounded-full border px-4 text-[13px] font-extrabold transition-[background-color,border-color,color,box-shadow]", on ? "border-primary bg-primary text-white shadow-[0_6px_14px_-6px_rgb(15_118_110/0.55)]" : "border-border bg-white text-ink/70 hover:border-primary/40 hover:text-primary")}>
               <I size={17} variant="Bulk" className="shrink-0" />{r.name}
-              <span className={cn("rounded-full px-1.5 text-[11px] font-bold", on ? "bg-white/20 text-white" : "bg-muted text-ink/60")}>{faNumber(routeCounts[r.id])}</span>
+              {/* عرض ثابت به اندازه بزرگ‌ترین عدد، تا با تغییر عدد یا انتخاب، اندازه دکمه عوض نشود */}
+              <span style={{ width: `${countDigits + 1.2}ch` }} className={cn("inline-block shrink-0 rounded-full text-center text-[11px] font-bold tabular-nums", on ? "bg-white/20 text-white" : "bg-muted text-ink/60")}>{faNumber(routeCounts[r.id])}</span>
             </Button>
           ); })}
       </div>
@@ -321,10 +324,10 @@ function CompareBar() {
   ];
   return (
     <>
-      <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="fixed inset-x-0 bottom-5 z-40 mx-auto flex w-fit items-center gap-3 rounded-full bg-ink p-2 pr-5 text-white shadow-2xl">
+      <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="fixed inset-x-0 bottom-5 z-40 mx-auto flex w-fit items-center gap-3 rounded-full bg-coral p-2 pr-5 text-white shadow-[0_18px_40px_-16px_rgb(232_95_65/0.6)]">
         <span className="text-sm font-extrabold">{faNumber(items.length)} پروژه برای مقایسه</span>
         <Button type="button" disabled={items.length < 2} onClick={() => setOpen(true)} className="h-10 rounded-full bg-primary px-5 font-extrabold text-white hover:bg-primary/90 disabled:opacity-60">{items.length < 2 ? "یک پروژه دیگر انتخاب کنید" : "مقایسه"}</Button>
-        <Button type="button" variant="plain" size="auto" aria-label="پاک کردن مقایسه" onClick={clearCompare} className="grid size-10 place-items-center rounded-full text-white/70 hover:bg-white/10 hover:text-white"><CloseCircle size={20} /></Button>
+        <Button type="button" variant="plain" size="auto" aria-label="پاک کردن مقایسه" onClick={clearCompare} className="grid size-10 place-items-center rounded-full text-ink/50 hover:bg-white hover:text-ink"><CloseCircle size={20} /></Button>
       </motion.div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent dir="rtl" aria-describedby={undefined} className="thin-scroll max-h-[88dvh] overflow-y-auto rounded-[2rem] p-7 sm:max-w-5xl">
@@ -432,15 +435,15 @@ export function Results() {
                 )}
 
                 {hasCriteria && !isSaved && !nudgeOff && shown.length > 0 && (
-                  <div className="relative mb-5 flex items-center gap-4 overflow-hidden rounded-[1.75rem] bg-deep p-4 pr-5 text-white">
-                    <AlgoPattern className="-left-10 -top-10 h-48 w-72 text-white/15" fade="radial" scale={0.6} />
-                    <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-white/15"><Save2 size={24} variant="Bulk" /></span>
+                  <div className="relative mb-5 flex items-center gap-4 overflow-hidden rounded-[1.75rem] bg-coral-soft p-4 pr-5 text-ink">
+                    <AlgoPattern className="-left-10 -top-10 h-48 w-72 text-coral/25" fade="radial" scale={0.6} />
+                    <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-white text-coral-deep"><Save2 size={24} variant="Bulk" /></span>
                     <div className="min-w-0 flex-1">
                       <p className="text-base font-extrabold">فیلترهایی را که تنظیم کرده‌اید ذخیره کنید</p>
-                      <p className="mt-0.5 text-[13px] leading-6 text-white/75">دفعه بعد لازم نیست این مراحل را تکرار کنید؛ با یک کلیک به همین نتایج برمی‌گردید و پروژه‌های تازه را می‌بینید.</p>
+                      <p className="mt-0.5 text-[13px] leading-6 text-ink/70">دفعه بعد لازم نیست این مراحل را تکرار کنید؛ با یک کلیک به همین نتایج برمی‌گردید و پروژه‌های تازه را می‌بینید.</p>
                     </div>
-                    <Button type="button" onClick={() => setSaveOpen(true)} className="relative h-11 shrink-0 gap-2 rounded-full bg-white px-5 font-extrabold text-ink hover:bg-white/90"><Save2 size={18} />ذخیره این جست‌وجو</Button>
-                    <Button type="button" variant="plain" size="auto" aria-label="بستن" onClick={() => setNudgeOff(true)} className="relative grid size-9 shrink-0 place-items-center rounded-full text-white/70 hover:bg-white/10 hover:text-white"><CloseCircle size={20} /></Button>
+                    <Button type="button" onClick={() => setSaveOpen(true)} className="relative h-11 shrink-0 gap-2 rounded-full bg-coral px-5 font-extrabold text-white hover:bg-coral-deep"><Save2 size={18} />ذخیره این جست‌وجو</Button>
+                    <Button type="button" variant="plain" size="auto" aria-label="بستن" onClick={() => setNudgeOff(true)} className="relative grid size-9 shrink-0 place-items-center rounded-full text-ink/50 hover:bg-white hover:text-ink"><CloseCircle size={20} /></Button>
                   </div>
                 )}
 

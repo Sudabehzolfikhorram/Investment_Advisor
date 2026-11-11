@@ -24,8 +24,8 @@ body{background:#f3f5f5!important;color:#0b1f1d;font:15px/2 Vazirmatn,Tahoma,Ari
 .doc-head h1{margin:0;font-size:29px;line-height:1.55;font-weight:900;color:#0b1f1d}.doc-body h1,.doc-body h2,.doc-body h3{color:#0b1f1d;background:none}
 .doc-meta{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}.pill{padding:2px 14px;border-radius:99px;background:#f2f4f4;font-size:12.5px;font-weight:700}
 .doc-body{padding:8px 44px 36px}
-.doc-foot{display:flex;justify-content:space-between;gap:24px;padding:22px 44px;background:#0b1f1d;color:rgb(255 255 255/.72);font-size:12px;line-height:1.9}
-.doc-foot b{color:#fff;font-size:13px}.doc-foot .doc-foot-end{text-align:left;white-space:nowrap}
+.doc-foot{display:flex;justify-content:space-between;gap:24px;padding:22px 44px;background:#ffe4de;color:#5b4540;font-size:12px;line-height:1.9}
+.doc-foot b{color:#0b1f1d;font-size:13px}.doc-foot .doc-foot-end{text-align:left;white-space:nowrap}
 /* نوشتار عمومی داخل سند */
 .doc-body h2{display:flex;align-items:center;gap:12px;margin:26px 0 12px;font-size:19px;font-weight:900}
 .doc-body h3{margin:20px 0 8px;font-size:15.5px;font-weight:900;color:#0b1f1d}

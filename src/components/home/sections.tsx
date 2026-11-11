@@ -87,7 +87,7 @@ export function Categories() {
         {groupRoutes.map((r) => { const I = routeIcons[r.id]; const on = r.id === routeId;
           return (
             <Button key={r.id} type="button" variant="plain" size="auto" aria-pressed={on} onClick={() => setRouteId(r.id)}
-              className={cn("h-11 gap-2 rounded-full border px-4 text-sm font-extrabold transition-all", on ? "border-ink bg-ink text-white shadow-[0_14px_30px_-16px_rgb(11_31_29/0.7)]" : "border-border bg-white text-ink/70 hover:border-primary/50 hover:text-primary")}>
+              className={cn("h-11 gap-2 rounded-full border px-4 text-sm font-extrabold transition-all", on ? "border-coral bg-coral text-white shadow-[0_10px_22px_-12px_rgb(232_95_65/0.75)]" : "border-border bg-white text-ink/70 hover:border-primary/50 hover:text-primary")}>
               <I size={18} variant="Bulk" />{r.name}<span className={cn("text-xs font-bold", on ? "text-white/60" : "text-muted-foreground")}>{faNumber(forRoute(listings, r.id).length)}</span>
             </Button>
           ); })}
@@ -146,7 +146,7 @@ export function Categories() {
                         ))}
                       </ul>
                       <Button variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id); }} className="group/all mt-5 h-12 gap-3 rounded-full bg-white pl-1.5 pr-5 text-sm font-extrabold text-ink hover:bg-white/90">
-                        همه پروژه‌های {g.name}<span className="grid size-9 place-items-center rounded-full bg-ink text-white transition-transform group-hover/all:-translate-x-1"><ArrowLeft size={16} /></span>
+                        همه پروژه‌های {g.name}<span className="grid size-9 place-items-center rounded-full bg-coral text-white transition-transform group-hover/all:-translate-x-1"><ArrowLeft size={16} /></span>
                       </Button>
                     </div>
                   </motion.div>

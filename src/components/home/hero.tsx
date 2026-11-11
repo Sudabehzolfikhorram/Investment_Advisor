@@ -152,7 +152,7 @@ export function Hero() {
               <Badge variant="outline" className="gap-2.5 border-border bg-white px-4 py-2 text-[13px] font-bold text-ink"><span><NodeMark className="text-primary" /></span>مشاور سرمایه‌گذاری</Badge>
               <TabsList className="h-auto rounded-full bg-ink/[0.05] p-1 group-data-[orientation=horizontal]/tabs:h-auto">
                 {([["assistant", "از دستیار بپرس", MagicStar], ["form", "خودم انتخاب می‌کنم", Category2]] as const).map(([k, label, I]) => (
-                  <TabsTrigger key={k} value={k} className="h-auto gap-1.5 rounded-full border-0 px-4 py-2 text-sm font-bold text-ink/65 data-[state=active]:bg-ink data-[state=active]:text-white data-[state=active]:shadow-none"><I size={16} variant="Bulk" />{label}</TabsTrigger>
+                  <TabsTrigger key={k} value={k} className="h-auto gap-1.5 rounded-full border-0 px-4 py-2 text-sm font-bold text-ink/65 data-[state=active]:bg-coral data-[state=active]:text-white data-[state=active]:shadow-none"><I size={16} variant="Bulk" />{label}</TabsTrigger>
                 ))}
               </TabsList>
             </div>

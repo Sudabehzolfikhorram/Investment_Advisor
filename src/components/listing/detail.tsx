@@ -36,7 +36,7 @@ function Chapter({ n, title, note, children }: { n: number; title: string; note?
   return (
     <Reveal className="relative">
       <div className="mb-5 flex items-center gap-3">
-        <span className="grid size-9 place-items-center rounded-full bg-ink text-sm font-black text-white">{faNumber(n)}</span>
+        <span className="grid size-9 place-items-center rounded-full bg-coral text-sm font-black text-white">{faNumber(n)}</span>
         <h2 className="text-xl font-black text-ink">{title}</h2>
         <span className="h-px flex-1 bg-gradient-to-l from-border to-transparent" />
         {note && <span className="text-xs font-semibold text-muted-foreground">{note}</span>}
@@ -112,7 +112,7 @@ function Milestones({ o }: { o: Opportunity }) {
         {known.map((m, i) => (
           <li key={m.label} className="relative px-1 text-center">
             {i > 0 && <span aria-hidden className="absolute left-1/2 top-[7px] w-full border-t-2 border-dotted border-ink/20" />}
-            <span className={cn("relative z-10 mx-auto block size-4 rounded-full ring-4 ring-white", i === 0 ? "bg-ink" : m.label.includes("بدبینانه") ? "bg-sand" : "bg-primary")} />
+            <span className={cn("relative z-10 mx-auto block size-4 rounded-full ring-4 ring-white", i === 0 ? "bg-coral" : m.label.includes("بدبینانه") ? "bg-sand" : "bg-primary")} />
             <span className="mt-3 block text-base font-black text-ink">{m.value}</span>
             <span className="mt-0.5 block text-xs font-semibold leading-5 text-muted-foreground">{m.label}</span>
           </li>
@@ -251,14 +251,14 @@ function Contact({ l }: { l: Listing }) {
   const [copied, setCopied] = useState(false);
   const copy = () => { navigator.clipboard?.writeText(expert!.mobile); setCopied(true); toast("شماره کپی شد."); setTimeout(() => setCopied(false), 2000); };
   return (
-    <div id="next-step" className="relative isolate overflow-hidden rounded-[2rem] bg-deep p-6 text-white">
-      <AlgoPattern className="-left-8 -top-8 -z-10 h-56 w-72 text-white/[0.12]" fade="radial" />
+    <div id="next-step" className="relative isolate overflow-hidden rounded-[2rem] bg-coral-soft p-6 text-ink">
+      <AlgoPattern className="-left-8 -top-8 -z-10 h-56 w-72 text-coral/25" fade="radial" />
       {expert ? (
         <>
-          <p className="flex items-center gap-2 text-xs font-bold text-white/70"><NodeMark />گام بعدی: با کارشناس پروژه صحبت کنید</p>
+          <p className="flex items-center gap-2 text-xs font-bold text-coral-deep"><NodeMark />گام بعدی: با کارشناس پروژه صحبت کنید</p>
           <div className="mt-4 flex items-center gap-3">
-            <span className="grid size-14 place-items-center rounded-2xl bg-white/10 text-lg font-black">{expert.name.trim()[0]}</span>
-            <span><span className="block text-base font-extrabold">{expert.name}</span><span className="block text-xs text-white/65">کارشناس همین پروژه</span></span>
+            <span className="grid size-14 place-items-center rounded-2xl bg-white text-lg text-coral-deep font-black">{expert.name.trim()[0]}</span>
+            <span><span className="block text-base font-extrabold">{expert.name}</span><span className="block text-xs text-ink/60">کارشناس همین پروژه</span></span>
           </div>
           <div className="mt-5 flex h-14 items-center gap-1 rounded-full bg-white p-1.5 text-ink">
             <Button asChild variant="plain" size="auto" className="size-11 shrink-0 rounded-full bg-primary text-white hover:bg-deep"><a href={`tel:${expert.mobile}`} aria-label="تماس با کارشناس"><Call size={19} variant="Bold" /></a></Button>
@@ -268,17 +268,17 @@ function Contact({ l }: { l: Listing }) {
         </>
       ) : (
         <>
-          <p className="flex items-center gap-2 text-xs font-bold text-white/70"><NodeMark />گام بعدی: راهنمای اقدام را بگیرید</p>
+          <p className="flex items-center gap-2 text-xs font-bold text-coral-deep"><NodeMark />گام بعدی: راهنمای اقدام را بگیرید</p>
           <div className="mt-4 flex items-center gap-3">
-            <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/10"><DocumentDownload size={26} variant="Bulk" /></span>
-            <span><span className="block text-base font-extrabold">راهنمای اقدام</span><span className="block text-xs leading-5 text-white/65">مراحل، مدارک و نکته‌های این پروژه در یک فایل</span></span>
+            <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white text-coral-deep"><DocumentDownload size={26} variant="Bulk" /></span>
+            <span><span className="block text-base font-extrabold">راهنمای اقدام</span><span className="block text-xs leading-5 text-ink/60">مراحل، مدارک و نکته‌های این پروژه در یک فایل</span></span>
           </div>
           <Button asChild variant="plain" size="auto" className="mt-5 h-14 w-full justify-between rounded-full bg-white pl-1.5 pr-6 text-base font-extrabold text-ink hover:bg-white/90">
             <Link href={`/guide/${l.id}`}>دیدن راهنما<span className="grid size-11 place-items-center rounded-full bg-primary text-white"><ArrowLeft size={18} /></span></Link>
           </Button>
         </>
       )}
-      <SaveButton id={l.id} label className="mt-2 w-full border-white/20 !bg-white/10 !text-white hover:!bg-white/20" />
+      <SaveButton id={l.id} label className="mt-2 w-full border-coral/25 !bg-white/70 !text-ink hover:!bg-white" />
     </div>
   );
 }

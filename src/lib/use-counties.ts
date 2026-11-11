@@ -14,3 +14,6 @@ export function useCounties(province: string | null): ProvinceCounties {
   useEffect(() => { if (province && !cache[province]) { let live = true; loadCounties(province).then(() => live && tick((n) => n + 1)); return () => { live = false; }; } }, [province]);
   return (province && cache[province]) || empty;
 }
+
+/** شهرستان‌های بارگذاری‌شده یک استان (بدون انتظار) */
+export const countiesOf = (province: string) => cache[province]?.counties ?? [];

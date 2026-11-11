@@ -88,42 +88,47 @@ export function SliderField({ min = 0, max = 100, step = 1, unit, value, onChang
   );
 }
 
-export function MultiCombobox({ options, value, onChange, placeholder, empty = "موردی پیدا نشد" }: { options: FieldOption[]; value: string[]; onChange: (v: string[]) => void; placeholder: string; empty?: string }) {
+// group: عنوان گروه در فهرست (مثل نام استان برای شهرها)؛ short: متن کوتاه برچسب انتخاب‌شده
+export type ComboOption = FieldOption & { group?: string; short?: string };
+export function MultiCombobox({ options, value, onChange, placeholder, empty = "موردی پیدا نشد", disabled, label, search = "جست‌وجو…" }: { options: ComboOption[]; value: string[]; onChange: (v: string[]) => void; placeholder: string; empty?: string; disabled?: boolean; label?: string; search?: string }) {
   const [open, setOpen] = useState(false);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button type="button" variant="outline" role="combobox" aria-expanded={open} className="h-auto min-h-11 w-full justify-between gap-2 whitespace-normal rounded-2xl bg-white px-3.5 py-2 text-right font-normal shadow-none">
+        <Button type="button" variant="outline" role="combobox" aria-expanded={open} aria-label={label} disabled={disabled} className="h-auto min-h-12 w-full justify-between gap-2 whitespace-normal rounded-2xl bg-white px-3.5 py-2 text-right font-normal shadow-none disabled:border-dashed disabled:bg-muted/40 disabled:opacity-100">
           <span className={cn("flex flex-wrap gap-1.5", !value.length && "text-muted-foreground")}>
-            {value.length ? value.map((v) => <Badge key={v} variant="secondary" className="bg-primary/10 px-2.5 font-bold text-primary">{options.find((o) => o.value === v)?.label ?? v}</Badge>) : placeholder}
+            {value.length ? value.map((v) => { const o = options.find((x) => x.value === v); return <Badge key={v} variant="secondary" className="bg-primary/10 px-2.5 font-bold text-primary">{o?.short ?? o?.label ?? v}</Badge>; }) : placeholder}
           </span>
           <ArrowDown2 size={16} className="shrink-0 text-muted-foreground" />
         </Button>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-(--radix-popover-trigger-width) min-w-60 rounded-2xl p-0">
-        <ComboList options={options} value={value} onChange={onChange} placeholder="جست‌وجو…" empty={empty} />
+        <ComboList options={options} value={value} onChange={onChange} placeholder={search} empty={empty} />
       </PopoverContent>
     </Popover>
   );
 }
 
-export function ComboList({ options, value, onChange, placeholder, empty, className }: { options: FieldOption[]; value: string[]; onChange: (v: string[]) => void; placeholder: string; empty: string; className?: string }) {
+export function ComboList({ options, value, onChange, placeholder, empty, className }: { options: ComboOption[]; value: string[]; onChange: (v: string[]) => void; placeholder: string; empty: string; className?: string }) {
+  const groups = [...new Set(options.map((o) => o.group ?? ""))];
   return (
     <Command className={cn("rounded-2xl", className)}>
       <CommandInput placeholder={placeholder} />
       <CommandList className="max-h-64">
         <CommandEmpty>{empty}</CommandEmpty>
-        <CommandGroup>
-          {options.map((o) => {
-            const on = value.includes(o.value);
-            return (
-              <CommandItem key={o.value} value={o.label} onSelect={() => onChange(on ? value.filter((x) => x !== o.value) : [...value, o.value])} className="flex items-center justify-between rounded-xl">
-                <span className={cn(on && "font-bold text-primary")}>{o.label}</span>
-                {on && <TickCircle size={18} variant="Bold" className="text-primary" />}
-              </CommandItem>
-            );
-          })}
-        </CommandGroup>
+        {groups.map((g) => (
+          <CommandGroup key={g} heading={g || undefined} className="[&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-extrabold [&_[cmdk-group-heading]]:text-coral-deep">
+            {options.filter((o) => (o.group ?? "") === g).map((o) => {
+              const on = value.includes(o.value);
+              return (
+                <CommandItem key={o.value} value={`${o.label} ${g}`} onSelect={() => onChange(on ? value.filter((x) => x !== o.value) : [...value, o.value])} className="flex items-center justify-between rounded-xl">
+                  <span className={cn(on && "font-bold text-primary")}>{o.label}</span>
+                  {on && <TickCircle size={18} variant="Bold" className="text-primary" />}
+                </CommandItem>
+              );
+            })}
+          </CommandGroup>
+        ))}
       </CommandList>
     </Command>
   );

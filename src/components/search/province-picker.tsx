@@ -1,7 +1,7 @@
 "use client";
 // انتخاب محدوده روی نقشه ایران با مرز استان‌ها.
-// نمای اول استان‌ها را نشان می‌دهد. با انتخاب فقط یک استان، نقشه روی همان استان زوم می‌کند تا شهرهایش انتخاب شوند.
-// با بیش از یک استان، کنار نقشه کارت هر استان با شهرهایش می‌آید و با دکمه «روی نقشه» همان استان زوم می‌شود.
+// یک یا چند استان انتخاب می‌شود؛ کنار نقشه کارت هر استان با همه شهرهایش می‌آید (شهرهای دارای پروژه اول، با تعداد)
+// و با «روی نقشه» همان استان زوم می‌شود تا شهرها روی مرز شهرستان‌ها هم انتخاب شوند.
 import { useEffect, useMemo, useState } from "react";
 import { Add, ArrowDown2, ArrowLeft, ArrowRight, CloseCircle, Map1, Maximize4, TickCircle } from "@/components/iconsax";
 import { Badge } from "@/components/ui/badge";
@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { provinceArea, provinceBox, provinceLabel, provincePaths } from "@/data/iran-map";
 import { provincePhotos } from "@/data/province-photos";
-import { loadCounties, useCounties } from "@/lib/use-counties";
+import { countiesOf, loadCounties, useCounties } from "@/lib/use-counties";
 import { provinces } from "@/data/provinces";
 import { withBase } from "@/lib/image-loader";
 import { listings } from "@/lib/listings";
@@ -17,7 +17,7 @@ import { forRoute } from "@/lib/match";
 import { useStore } from "@/lib/store";
 import type { RouteId } from "@/types";
 import { cn, faNumber } from "@/lib/utils";
-import { Chip, ComboList } from "./controls";
+import { Chip, ComboList, MultiCombobox, type ComboOption } from "./controls";
 
 const W = 360, H = 330;
 
@@ -39,20 +39,20 @@ function useCities(route: RouteId) {
   const geo = useRouteGeo(route);
   const value = (criteria.filters.cities as string[] | undefined) ?? [];
   const set = (v: string[]) => setFilter("cities", v.length ? v : undefined);
-  const prune = (provs: string[]) => { if (provs.length && value.length) set(value.filter((c) => provs.some((p) => geo.cities[p]?.[c]))); };
+  // شهری می‌ماند که در یکی از استان‌های انتخاب‌شده باشد (شهر دارای پروژه یا هر شهرستان آن استان)
+  const prune = (provs: string[]) => { if (value.length) set(value.filter((c) => provs.some((p) => geo.cities[p]?.[c] || countiesOf(p).some((k) => k.name === c || k.cities.includes(c))))); };
   return { ...geo, value, set, toggle: (c: string) => set(value.includes(c) ? value.filter((x) => x !== c) : [...value, c]), prune };
 }
 
 export function ProvincePicker({ route, value, onChange, className }: { route: RouteId; value: string[]; onChange: (v: string[]) => void; className?: string }) {
   const city = useCities(route);
-  const [wide, setWide] = useState(false);
   const [zoom, setZoom] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
-  const multi = value.length > 1;
-  const change = (v: string[]) => { setWide(false); city.prune(v); onChange(v); if (v.length < 2) setAdding(false); };
+  const multi = value.length > 0;
+  const change = (v: string[]) => { v.forEach((p) => loadCounties(p)); city.prune(v); onChange(v); if (!v.length) setAdding(false); };
   const toggle = (p: string) => change(value.includes(p) ? value.filter((x) => x !== p) : [...value, p]);
-  const focus = wide ? null : value.length === 1 ? value[0] : zoom && value.includes(zoom) ? zoom : null;
-  const zoomTo = (p: string | null) => { setWide(false); setZoom(p); if (p) loadCounties(p); };
+  const focus = zoom && value.includes(zoom) ? zoom : null;
+  const zoomTo = (p: string | null) => { setZoom(p); if (p) loadCounties(p); };
   const [hover, setHover] = useState<string | null>(null);
   const inRoute = focus ? city.cities[focus] ?? {} : {};
   const { counties: focusCounties, outline } = useCounties(focus);
@@ -69,7 +69,6 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
     return () => window.clearTimeout(t);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const hasCities = focusCounties.some((c) => c.cities.some((x) => inRoute[x]));
 
   return (
     <div className={cn("grid grid-cols-[1.25fr_1fr] items-stretch gap-5", className)}>
@@ -104,44 +103,35 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
                 <path d={focusPath} strokeWidth={0} className="fill-white" />
                 <g clipPath="url(#clip-focus)">
                   {focusCounties.map((c) => {
-                    const names = c.cities.filter((x) => inRoute[x]); const on = names.some((x) => city.value.includes(x));
-                    return names.length ? (
-                      <path key={c.name} d={c.d} role="button" aria-pressed={on} aria-label={`شهرستان ${c.name}، ${names.join("، ")}`} strokeWidth={(on ? 1.6 : 1) / k} strokeLinejoin="round"
+                    const live = c.cities.some((x) => inRoute[x]); const names = [...new Set([c.name, ...c.cities])]; const on = names.some((x) => city.value.includes(x));
+                    return (
+                      <path key={c.name} d={c.d} role="button" aria-pressed={on} aria-label={`شهرستان ${c.name}`} strokeWidth={(on ? 1.6 : live ? 1 : 0.6) / k} strokeLinejoin="round"
                         onClick={() => city.set(on ? city.value.filter((x) => !names.includes(x)) : [...city.value, ...names.filter((x) => !city.value.includes(x))])}
-                        className={cn("cursor-pointer transition-colors duration-300", on ? "fill-primary/40 stroke-primary" : "fill-primary/[0.12] stroke-primary hover:fill-primary/25")} />
-                    ) : <path key={c.name} d={c.d} strokeWidth={0.6 / k} strokeLinejoin="round" className="fill-white stroke-ink/25" />;
+                        className={cn("cursor-pointer transition-colors duration-300", on ? "fill-primary/40 stroke-primary" : live ? "fill-primary/[0.12] stroke-primary hover:fill-primary/25" : "fill-white stroke-ink/25 hover:fill-primary/10")} />
+                    );
                   })}
                 </g>
                 <path d={focusPath} fill="none" strokeWidth={1.6 / k} strokeLinejoin="round" className="pointer-events-none stroke-primary" />
-                {focusCounties.map((c) => { const names = c.cities.filter((x) => inRoute[x]); const on = names.some((x) => city.value.includes(x));
+                {focusCounties.map((c) => { const names = c.cities.filter((x) => inRoute[x]); const on = [c.name, ...c.cities].some((x) => city.value.includes(x));
                   const px = Math.sqrt(c.a) * k; const fs = names.length ? Math.max(8, Math.min(11, px * 0.22)) : Math.max(5.5, Math.min(8.5, px * 0.2));
                   return <text key={c.name} x={c.c[0]} y={c.c[1] + (fs * 0.35) / k} textAnchor="middle" style={{ fontSize: fs / k }} strokeWidth={(fs * 0.3) / k} strokeLinejoin="round"
-                    className={cn("pointer-events-none [paint-order:stroke] stroke-white", names.length ? (on ? "fill-deep font-black" : "fill-ink font-extrabold") : "fill-ink/55 font-semibold")}>{names.length ? `${c.name} (${faNumber(names.reduce((n, x) => n + inRoute[x], 0))})` : c.name}</text>; })}
+                    className={cn("pointer-events-none [paint-order:stroke] stroke-white", on ? "fill-deep font-black" : names.length ? "fill-ink font-extrabold" : "fill-ink/60 font-semibold")}>{names.length ? `${c.name} (${faNumber(names.reduce((n, x) => n + inRoute[x], 0))})` : c.name}</text>; })}
               </g>
             )}
           </g>
         </svg>
         {tip && (
-          <span className="pointer-events-none absolute bottom-3 right-3 flex items-center gap-2.5 rounded-2xl bg-ink p-1.5 pl-4 text-white shadow-xl">
+          <span className="pointer-events-none absolute bottom-3 right-3 flex items-center gap-2.5 rounded-2xl bg-coral p-1.5 pl-4 text-white shadow-[0_10px_24px_-10px_rgb(255_120_90/0.7)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             {provincePhotos[tip] && <img src={withBase(provincePhotos[tip].src)} alt="" className="size-11 rounded-xl object-cover" />}
-            <span className={cn("text-xs font-extrabold leading-5", !provincePhotos[tip] && "py-1.5 pr-2.5")}>{tip}<span className="block text-[11px] font-semibold text-white/65">{provincePhotos[tip]?.place}<span className="block text-white/85">{city.counts[tip] ? `${faNumber(city.counts[tip])} پروژه` : "بدون پروژه در این مسیر"}</span></span></span>
+            <span className={cn("text-xs font-extrabold leading-5", !provincePhotos[tip] && "py-1.5 pr-2.5")}>{tip}<span className="block text-[11px] font-semibold text-white/85">{provincePhotos[tip]?.place}<span className="block text-white">{city.counts[tip] ? `${faNumber(city.counts[tip])} پروژه` : "بدون پروژه در این مسیر"}</span></span></span>
           </span>
         )}
         {multi && (
           <div className="absolute inset-x-3 top-3 flex flex-wrap items-center gap-1.5">
-            <Button type="button" variant="outline" size="xs" onClick={() => zoomTo(null)} className={cn("rounded-full bg-white font-bold", !focus && "border-deep bg-deep text-white hover:bg-deep hover:text-white")}><Maximize4 size={14} />کل ایران</Button>
-            {value.map((p) => <Button key={p} type="button" variant="outline" size="xs" onClick={() => zoomTo(p)} className={cn("rounded-full bg-white font-bold", focus === p && "border-primary bg-primary text-white hover:bg-primary hover:text-white")}>{p}</Button>)}
+            <Button type="button" variant="outline" size="xs" onClick={() => zoomTo(null)} className={cn("rounded-full bg-white font-bold", !focus && "border-coral bg-coral text-white hover:bg-coral hover:text-white")}><Maximize4 size={14} />کل ایران</Button>
+            {value.map((p) => <Button key={p} type="button" variant="outline" size="xs" onClick={() => zoomTo(p)} className={cn("rounded-full bg-white font-bold", focus === p && "border-primary bg-primary text-white hover:bg-primary hover:text-white")}>{focus === p ? `شهرهای ${p}` : p}</Button>)}
           </div>
-        )}
-        {focus && !multi && (
-          <div className="absolute inset-x-3 top-3 flex items-center justify-between gap-2">
-            <span className="rounded-full bg-deep px-3.5 py-1.5 text-xs font-extrabold text-white">{hasCities || !focusCounties.length ? `شهرهای استان ${focus}` : `در استان ${focus} در این مسیر پروژه‌ای نیست`}</span>
-            <Button type="button" variant="outline" size="xs" onClick={() => setWide(true)} className="rounded-full bg-white font-bold"><Maximize4 size={14} />نقشه کل ایران</Button>
-          </div>
-        )}
-        {!focus && value.length === 1 && (
-          <Button type="button" variant="outline" size="xs" onClick={() => setWide(false)} className="absolute left-3 top-3 rounded-full bg-white font-bold">شهرهای {value[0]}<ArrowLeft size={14} /></Button>
         )}
       </div>
       <div className="relative min-h-80">
@@ -159,7 +149,7 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
           ) : (
             <>
               {multi && (
-                <Button type="button" variant="ghost" onClick={() => setAdding(false)} className="h-11 w-full shrink-0 justify-start gap-2 rounded-none border-b border-border px-4 text-[13px] font-extrabold text-ink"><ArrowRight size={16} />بازگشت به شهرهای استان‌ها</Button>
+                <Button type="button" variant="ghost" onClick={() => setAdding(false)} className="h-11 w-full shrink-0 justify-start gap-2 rounded-none border-b border-border px-4 text-[13px] font-extrabold text-ink"><ArrowRight size={16} />بازگشت به شهرهای {value.length > 1 ? "استان‌ها" : value[0]}</Button>
               )}
               <ComboList options={options} value={value} onChange={change} placeholder="جست‌وجوی استان…" empty="استانی پیدا نشد" className="min-h-0 flex-1 [&_[data-slot=command-list]]:max-h-none" />
             </>
@@ -172,9 +162,19 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
 
 /** کارت یک استان در حالت چندانتخابی: عکس شاخص، تعداد پروژه و شهرهای دارای پروژه */
 function ProvinceCities({ province: p, active, city, onZoom, onRemove }: { province: string; active: boolean; city: ReturnType<typeof useCities>; onZoom: () => void; onRemove: () => void }) {
-  const list = Object.entries(city.cities[p] ?? {}).sort((a, b) => b[1] - a[1]);
-  const names = list.map(([c]) => c);
+  const { counties } = useCounties(p);
+  const [all, setAll] = useState(false);
+  const inRoute = city.cities[p] ?? {};
+  // هر شهرستان یک گزینه است (به نام شهر مرکزش)؛ شهرهای دارای پروژه اول و با تعداد. اگر مرزها هنوز نیامده، شهرهای دارای پروژه
+  const list = (counties.length
+    ? counties.map((c) => ({ name: c.name, names: [...new Set([c.name, ...c.cities])], n: c.cities.reduce((s, x) => s + (inRoute[x] ?? 0), 0) }))
+    : Object.entries(inRoute).map(([c, n]) => ({ name: c, names: [c], n }))).sort((a, b) => b.n - a.n || a.name.localeCompare(b.name, "fa"));
+  const names = list.flatMap((x) => x.names);
   const picked = city.value.filter((c) => names.includes(c));
+  const isOn = (x: { names: string[] }) => x.names.some((c) => city.value.includes(c));
+  const LIMIT = 10;
+  const shown = all ? list : list.filter((x, i) => i < LIMIT || isOn(x));
+  const pickedCount = list.filter(isOn).length;
   const photo = provincePhotos[p];
   return (
     <div className={cn("rounded-2xl border p-3 transition-colors duration-300", active ? "border-primary bg-primary/[0.04]" : "border-border bg-white")}>
@@ -183,7 +183,7 @@ function ProvinceCities({ province: p, active, city, onZoom, onRemove }: { provi
         {photo ? <img src={withBase(photo.src)} alt="" className="size-11 shrink-0 rounded-xl object-cover" /> : <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-muted text-ink/50"><Map1 size={18} variant="Bulk" /></span>}
         <span className="min-w-0 flex-1">
           <span className="block text-sm font-extrabold text-ink">{p}</span>
-          <span className="block text-xs font-semibold text-muted-foreground">{city.counts[p] ? `${faNumber(city.counts[p])} پروژه` : "بدون پروژه در این مسیر"}{picked.length > 0 && <span className="text-primary">، {faNumber(picked.length)} شهر انتخاب شده</span>}</span>
+          <span className="block text-xs font-semibold text-muted-foreground">{city.counts[p] ? `${faNumber(city.counts[p])} پروژه` : "بدون پروژه در این مسیر"}{pickedCount > 0 && <span className="text-primary">، {faNumber(pickedCount)} شهر انتخاب شده</span>}</span>
         </span>
         {list.length > 0 && <Button type="button" variant="outline" size="xs" onClick={onZoom} className={cn("rounded-full bg-white font-bold", active && "border-primary text-primary")}><Map1 size={14} />روی نقشه</Button>}
         <Button type="button" variant="plain" size="auto" aria-label={`حذف ${p}`} onClick={onRemove} className="grid size-7 place-items-center rounded-full text-ink/40 hover:bg-destructive/10 hover:text-destructive"><CloseCircle size={18} variant="Bold" /></Button>
@@ -191,7 +191,9 @@ function ProvinceCities({ province: p, active, city, onZoom, onRemove }: { provi
       {list.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-1.5">
           <Chip active={!picked.length} onClick={() => city.set(city.value.filter((c) => !names.includes(c)))} className="px-3 py-1 text-xs">همه شهرها</Chip>
-          {list.map(([c, n]) => <Chip key={c} active={picked.includes(c)} onClick={() => city.toggle(c)} className="px-3 py-1 text-xs">{c} <span className="opacity-70">({faNumber(n)})</span></Chip>)}
+          {shown.map((x) => <Chip key={x.name} active={isOn(x)} onClick={() => city.set(isOn(x) ? city.value.filter((c) => !x.names.includes(c)) : [...city.value, ...x.names.filter((c) => !city.value.includes(c))])} className="px-3 py-1 text-xs">{x.name}{x.n > 0 && <span className="opacity-70"> ({faNumber(x.n)})</span>}</Chip>)}
+          {list.length > shown.length && <Button type="button" variant="ghost" size="xs" onClick={() => setAll(true)} className="h-7 rounded-full px-3 text-xs font-extrabold text-primary hover:text-primary">{faNumber(list.length - shown.length)} شهر دیگر<ArrowDown2 size={13} /></Button>}
+          {all && list.length > LIMIT && <Button type="button" variant="ghost" size="xs" onClick={() => setAll(false)} className="h-7 rounded-full px-3 text-xs font-bold text-muted-foreground">کمتر</Button>}
         </div>
       )}
     </div>
@@ -239,5 +241,41 @@ export function CityPicker({ route, provinces: selected }: { route: RouteId; pro
           )}
       </PopoverContent>
     </Popover>
+  );
+}
+
+/** محدوده بدون نقشه: دو فیلد چندانتخابی؛ استان‌ها و بعد شهرهای همان استان‌ها (همه شهرها، دارای پروژه اول و با تعداد) */
+export function LocationFields({ route, value, onChange }: { route: RouteId; value: string[]; onChange: (v: string[]) => void }) {
+  const city = useCities(route);
+  const [, tick] = useState(0);
+  useEffect(() => { let live = true; Promise.all(value.map((p) => loadCounties(p))).then(() => live && tick((n) => n + 1)); return () => { live = false; }; }, [value]);
+  const provOptions = useMemo(() => [...provinces].sort((a, b) => (city.counts[b] ?? 0) - (city.counts[a] ?? 0)).map((p) => ({ value: p, label: city.counts[p] ? `${p} (${faNumber(city.counts[p])})` : p, short: p })), [city.counts]);
+  const items = value.flatMap((p) => {
+    const inRoute = city.cities[p] ?? {};
+    const cs = countiesOf(p);
+    const list = cs.length ? cs.map((c) => ({ name: c.name, names: [...new Set([c.name, ...c.cities])], n: c.cities.reduce((s, x) => s + (inRoute[x] ?? 0), 0) }))
+      : Object.entries(inRoute).map(([c, n]) => ({ name: c, names: [c], n }));
+    return list.sort((a, b) => b.n - a.n || a.name.localeCompare(b.name, "fa")).map((x) => ({ ...x, key: `${p}/${x.name}`, group: p }));
+  });
+  const cityOptions: ComboOption[] = items.map((x) => ({ value: x.key, label: x.n ? `${x.name} (${faNumber(x.n)})` : x.name, short: x.name, group: x.group }));
+  const cityValue = items.filter((x) => x.names.some((c) => city.value.includes(c))).map((x) => x.key);
+  const setCities = (keys: string[]) => {
+    const own = new Set(items.flatMap((x) => x.names));
+    const keep = city.value.filter((c) => !own.has(c));
+    city.set([...new Set([...keep, ...items.filter((x) => keys.includes(x.key)).flatMap((x) => x.names)])]);
+  };
+  const change = (v: string[]) => { v.forEach((p) => loadCounties(p)); city.prune(v); onChange(v); };
+  return (
+    <div className="space-y-5">
+      <label className="block space-y-2">
+        <span className="text-[13px] font-bold text-ink">استان</span>
+        <MultiCombobox label="استان" options={provOptions} value={value} onChange={change} placeholder="همه ایران" search="جست‌وجوی استان…" empty="استانی پیدا نشد" />
+      </label>
+      <div className="space-y-2">
+        <span className="block text-[13px] font-bold text-ink">شهر</span>
+        <MultiCombobox label="شهر" options={cityOptions} value={cityValue} onChange={setCities} disabled={!value.length} placeholder={value.length ? "همه شهرها" : "هنوز گزینه‌ای ندارد"} search="جست‌وجوی شهر…" empty="شهری پیدا نشد" />
+        {!value.length && <small className="block text-xs font-semibold text-primary">ابتدا «استان» را انتخاب کنید.</small>}
+      </div>
+    </div>
   );
 }
