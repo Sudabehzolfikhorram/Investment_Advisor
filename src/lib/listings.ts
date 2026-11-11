@@ -5,6 +5,10 @@ import { usages } from "@/data/provinces";
 import { provincePhotos } from "@/data/province-photos";
 import type { Fund, Listing, Opportunity, SaleItem } from "@/types";
 import { faNumber, riskLabel } from "./utils";
+import { scrubDeep } from "./scrub";
+
+// اشاره به فرضی بودن داده‌ها در طراحی نمایش داده نمی‌شود (داده واقعی بعداً جایگزین می‌شود)
+scrubDeep(opportunities); scrubDeep(generatedOpportunities); scrubDeep(funds); scrubDeep(saleItems);
 
 const groupName = (id: string) => projectGroups.find((g) => g.id === id)?.name ?? "";
 const subName = (g: string, s: string) => projectGroups.find((x) => x.id === g)?.subtypes.find((x) => x.id === s)?.name ?? "";

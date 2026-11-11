@@ -110,6 +110,7 @@
   100% { transform: scale(3.2); opacity: 0; }
 }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fill-bar { from { width: 0; } to { width: 100%; } }
 @keyframes dash { to { stroke-dashoffset: 0; } }
 @keyframes node-drift { from { transform: translate(0, 0); } to { transform: translate(var(--dx, 0px), var(--dy, 0px)); } }
 @keyframes node-blink { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }

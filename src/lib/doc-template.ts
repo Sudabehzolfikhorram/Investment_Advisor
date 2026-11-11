@@ -1,6 +1,7 @@
 // قالب یکسان همه فایل‌های راهنما که دانلود می‌شوند: سربرگ، پانویس و سبک نوشتار.
 // هم راهنمای اقدام پروژه‌ها و هم خروجی HTML خدمات با همین قالب ساخته می‌شوند.
 import { site } from "@/data/site";
+import { scrub } from "./scrub";
 
 export const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
@@ -60,6 +61,9 @@ export function docShell({ kind, title, meta = [], body, css = "", sourceCss = "
 export function wrapLegacyDoc(raw: string, fallbackTitle: string) {
   const doc = new DOMParser().parseFromString(raw, "text/html");
   doc.querySelectorAll("script, .letterhead, .letterhead-foot, header.letterhead").forEach((e) => e.remove());
+  // اشاره به فرضی بودن داده‌ها در فایل هم نمی‌آید
+  const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) if (/فرضی|آموزشی/.test(n.textContent ?? "")) n.textContent = scrub(n.textContent ?? "");
   const styles = [...doc.querySelectorAll("style")].map((s) => s.textContent ?? "").join("\n");
   doc.querySelectorAll("style").forEach((s) => s.remove());
   const h1 = doc.body.querySelector("h1");

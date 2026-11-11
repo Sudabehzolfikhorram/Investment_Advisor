@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { XIcon } from "lucide-react"
+import { Add } from "@/components/iconsax"
 import { Dialog as SheetPrimitive } from "radix-ui"
 
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
@@ -74,8 +74,8 @@ function SheetContent({
       >
         {children}
         {showCloseButton && (
-          <SheetPrimitive.Close className="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-secondary">
-            <XIcon className="size-4" />
+          <SheetPrimitive.Close className="absolute top-4 left-4 z-10 grid size-9 place-items-center rounded-full bg-muted/80 text-ink/60 transition-colors hover:bg-muted hover:text-ink focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-hidden disabled:pointer-events-none">
+            <Add size={20} className="rotate-45" />
             <span className="sr-only">بستن</span>
           </SheetPrimitive.Close>
         )}

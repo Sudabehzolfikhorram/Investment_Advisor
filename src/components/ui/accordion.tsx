@@ -54,7 +54,8 @@ function AccordionContent({
   return (
     <AccordionPrimitive.Content
       data-slot="accordion-content"
-      className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+      // حاشیه منفی و فاصله داخلی برابر: جای حلقه فوکوس و سایه آیتم‌های لبه بریده نمی‌شود، چیدمان هم تغییر نمی‌کند
+      className="-mx-1.5 -mt-1.5 overflow-hidden px-1.5 pt-1.5 text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
       {...props}
     >
       <div className={cn("pt-0 pb-4", className)}>{children}</div>

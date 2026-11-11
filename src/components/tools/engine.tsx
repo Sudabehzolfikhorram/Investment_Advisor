@@ -16,6 +16,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { engineFrame } from "@/lib/engine-src";
 import { wrapLegacyDoc } from "@/lib/doc-template";
+import { scrub, scrubDeep } from "@/lib/scrub";
+
+// فاصله‌های دو سر متن حفظ می‌شود تا کلمه‌های کنار هم به هم نچسبند
+const scrubText = (t: string) => { if (!/فرضی|آموزشی|این نمونه/.test(t)) return t; const a = /^\s/.test(t) ? " " : "", b = /\s$/.test(t) ? " " : ""; const x = scrub(t); return x ? a + x + b : ""; };
 import { cn, faNumber } from "@/lib/utils";
 
 interface N {
@@ -48,12 +52,13 @@ function snapshot(root: Element, refs: Map<string, Element>, prefix: string): N 
     refs.set(k, el);
     const attr: Record<string, string> = {};
     for (const a of ["required", "type", "placeholder", "min", "max", "step", "href", "aria-current", "aria-pressed", "aria-selected", "accept", "colspan", "inputmode", "maxlength", "rows"]) { const v = el.getAttribute(a); if (v != null) attr[a] = v; }
+    if (attr.placeholder) attr.placeholder = scrub(attr.placeholder);
     if (/teal|primary/.test(h.style?.borderColor ?? "")) attr["aria-current"] = "step";
     const n: N = { key: k, tag, cls, id: el.id, kids: [], attr, ds };
     if (tag === "select") {
       const s = el as HTMLSelectElement;
       n.value = s.value; n.disabled = s.disabled; if (s.multiple) attr.multiple = "1";
-      n.options = [...s.options].map((o) => ({ value: o.value, label: o.text, disabled: o.disabled, group: o.parentElement?.tagName === "OPTGROUP" ? (o.parentElement as HTMLOptGroupElement).label : undefined }));
+      n.options = [...s.options].map((o) => ({ value: o.value, label: scrub(o.text), disabled: o.disabled, group: o.parentElement?.tagName === "OPTGROUP" ? (o.parentElement as HTMLOptGroupElement).label : undefined }));
       if (s.multiple) n.value = [...s.selectedOptions].map((o) => o.value).join("\u0001");
       return n;
     }
@@ -62,7 +67,7 @@ function snapshot(root: Element, refs: Map<string, Element>, prefix: string): N 
     if (tag === "details") n.open = (el as HTMLDetailsElement).open;
     let i = 0;
     for (const c of el.childNodes) {
-      if (c.nodeType === 3) { const t = c.textContent ?? ""; if (t.trim()) n.kids.push({ key: `${k}/t${i++}`, tag: "#text", cls: [], id: "", kids: [], attr: {}, ds: {}, text: t.replace(/\s+/g, " ").replace(/\s*[—–]\s*/g, "، ").replace(/\s+·\s+/g, "، ") }); }
+      if (c.nodeType === 3) { const t = scrubText(c.textContent ?? ""); if (t.trim()) n.kids.push({ key: `${k}/t${i++}`, tag: "#text", cls: [], id: "", kids: [], attr: {}, ds: {}, text: t.replace(/\s+/g, " ").replace(/\s*[—–]\s*/g, "، ").replace(/\s+·\s+/g, "، ") }); }
       else if (c.nodeType === 1) { const child = walk(c as Element, `${k}/${i++}`); if (child) n.kids.push(child); }
     }
     return n;
@@ -82,6 +87,18 @@ function fieldLabel(raw: string, c: N) {
   const required = !optional && (c.attr.required != null || /\*/.test(raw) || (c.tag === "select" && !c.attr.multiple && !!c.options?.some((o) => !o.value)));
   return { text, required };
 }
+/** برچسب پرسش: پرسش‌های شماره‌دار (چه عنوان بخش باشند چه برچسب فیلد) یک شکل دارند */
+function QLabel({ text, required, className }: { text: string; required?: boolean; className?: string }) {
+  const m = text.match(/^([۰-۹0-9]+)[.)]\s*(.+)$/u);
+  const star = required && <span className="mr-1 text-destructive" aria-label="ضروری">*</span>;
+  if (!m) return <span className={cn("text-[13px] font-bold leading-6 text-ink", className)}>{text}{star}</span>;
+  return (
+    <span className={cn("flex items-start gap-2.5 text-[14px] font-extrabold leading-6 text-ink", className)}>
+      <span className="grid size-6 shrink-0 place-items-center rounded-full bg-primary text-[12px] font-black text-white">{m[1]}</span>
+      <span className="min-w-0">{m[2]}{star}</span>
+    </span>);
+}
+const isQuestion = (t: string) => /^[۰-۹0-9]+[.)]\s*\S/u.test(t);
 const isControl = (n: N) => n.tag === "input" || n.tag === "select" || n.tag === "textarea";
 const clean = (s: string) => s.replace(/^\s*[←→↓↑]\s*/u, "").replace(/\s*[←→↓↑×]\s*$/u, "").replace(/\s*[—–]\s*/g, "، ").trim();
 
@@ -113,7 +130,7 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
       w.toast = (m: string) => toast(clean(String(m)));
       w.download = (name: string, data: unknown, html = false) => {
         // فایل‌های HTML با سربرگ و پانویس یکسان سایت ساخته می‌شوند
-        const body = html ? wrapLegacyDoc(String(data), name.replace(/\.html?$/i, "").replace(/[-_]+/g, " ")) : JSON.stringify(data, null, 2);
+        const body = html ? wrapLegacyDoc(String(data), name.replace(/\.html?$/i, "").replace(/[-_]+/g, " ")) : JSON.stringify(scrubDeep(structuredClone(data)), null, 2);
         const url = URL.createObjectURL(new Blob([body], { type: html ? "text/html;charset=utf-8" : "application/json;charset=utf-8" }));
         const a = document.createElement("a"); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
         window.setTimeout(() => URL.revokeObjectURL(url), 1000); toast("فایل روی دستگاه شما ذخیره شد.");
@@ -188,7 +205,7 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
     const text = clean(textOf(n));
     switch (n.tag) {
       case "h1": case "h2": return has(n, "sr-only") ? null : <h2 key={n.key} className="text-2xl font-black leading-[1.5] text-ink">{text}</h2>;
-      case "h3": case "legend": return <h3 key={n.key} className="col-span-full mt-3 flex items-center gap-3 text-lg font-extrabold text-ink"><span className="h-5 w-1 shrink-0 rounded-full bg-primary" />{text}<span className="h-px flex-1 bg-border" /></h3>;
+      case "h3": case "legend": return isQuestion(text) ? <h3 key={n.key} className="col-span-full mt-2"><QLabel text={text} /></h3> : <h3 key={n.key} className="col-span-full mt-3 flex items-center gap-3 text-[17px] font-extrabold text-ink"><span className="h-5 w-1 shrink-0 rounded-full bg-primary" />{text}<span className="h-px flex-1 bg-border" /></h3>;
       case "h4": case "h5": return <h4 key={n.key} className="col-span-full text-[15px] font-extrabold text-ink">{text}</h4>;
       case "p": {
         const m = has(n, "ext-step-label") ? text.match(/مرحله\s*([۰-۹0-9]+)\s*از\s*([۰-۹0-9]+)[،,:\s]*(.*)/u) : null;
@@ -246,7 +263,7 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
         }
         if (c && controlsIn(n).length > 1) {
           const lab = n.kids.find((k) => (k.tag === "span" || k.tag === "legend" || k.tag === "#text") && !find(k, isControl));
-          return <div key={n.key} className="col-span-full flex min-w-0 flex-col gap-2">{lab && <span className="text-[13px] font-bold text-ink">{clean(textOf(lab))}</span>}{kids({ ...n, kids: n.kids.filter((k) => k !== lab) })}</div>;
+          return <div key={n.key} className="col-span-full flex min-w-0 flex-col gap-2">{lab && <QLabel text={clean(textOf(lab))} />}{kids({ ...n, kids: n.kids.filter((k) => k !== lab) })}</div>;
         }
         if (c) {
           const lab = n.kids.find((k) => (k.tag === "span" || k.tag === "#text" || k.tag === "label" || k.tag === "strong") && !find(k, isControl) && textOf(k).trim());
@@ -257,7 +274,7 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
           if (c.tag === "select" && !waiting) lastSelect = labText;
           return (
             <div key={n.key} className={cn("flex min-w-0 flex-col gap-2", (has(n, "full") || c.tag === "textarea") && "col-span-full")}>
-              <span className="text-[13px] font-bold text-ink">{labText}{required && <span className="mr-1 text-destructive" aria-label="ضروری">*</span>}</span>
+              <QLabel text={labText} required={required} />
               {waiting ? (
                 <>
                   <Select dir="rtl" disabled><SelectTrigger aria-label={labText} className="h-12 w-full rounded-2xl border-dashed bg-muted/40 px-4 text-sm font-semibold shadow-none data-[size=default]:h-12"><SelectValue placeholder="هنوز گزینه‌ای ندارد" /></SelectTrigger><SelectContent /></Select>
@@ -271,6 +288,8 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
       }
       case "details": {
         const sum = n.kids.find((k) => k.tag === "summary");
+        // جزئیاتی که عنوانش در این مسیر پنهان است فقط پوشش است؛ محتوا مستقیم می‌آید (نه جعبه‌ای با عنوان «جزئیات»)
+        if (!sum) return <div key={n.key} className="flex min-w-0 flex-col gap-5">{kids({ ...n, kids: n.kids })}</div>;
         return (
           <Accordion key={n.key} type="single" collapsible value={n.open ? "x" : ""} onValueChange={(v) => { const el = refs.current.get(n.key) as HTMLDetailsElement | undefined; if (el) { el.open = v === "x"; sync(); } }} className="rounded-2xl border border-border bg-white px-5">
             <AccordionItem value="x" className="border-0"><AccordionTrigger className="py-4 text-right text-[15px] font-extrabold text-ink hover:no-underline">{sum ? clean(textOf(sum)) : "جزئیات"}</AccordionTrigger>
@@ -282,18 +301,27 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
         if (!n.kids.length) return null;
         if (has(n, "fi-stepbar") || has(n, "ext-flow")) return <Steps key={n.key} items={n.kids} />;
         if (has(n, "ext-head") || has(n, "dialog-top")) { const h = find(n, (x) => x.tag === "h2" || x.tag === "h3"); const eb = find(n, (x) => has(x, "eyebrow")); return n.cls.includes("dialog-top") ? <Fragment key={n.key}>{h && <DialogTitle className="text-xl font-black leading-8 text-ink">{clean(textOf(h))}</DialogTitle>}</Fragment> : <Head key={n.key} eyebrow={eb ? clean(textOf(eb)) : ""} title={h ? clean(textOf(h)) : ""} />; }
+        if (has(n, "charity-hero")) { const eb = find(n, (x) => has(x, "eyebrow")); const h = find(n, (x) => x.tag === "h3"); const para = n.kids.find((k) => k.tag === "p");
+          return (
+            <div key={n.key} className="relative col-span-full overflow-hidden rounded-[1.75rem] bg-gradient-to-l from-primary/[0.09] to-primary/[0.02] px-6 py-5">
+              {eb && <span className="text-[12px] font-extrabold text-primary">{clean(textOf(eb))}</span>}
+              {h && <p className="mt-1 text-[17px] font-black leading-8 text-ink">{clean(textOf(h))}</p>}
+              {para && <p className="mt-1 text-[13px] leading-7 text-ink/70">{clean(textOf(para))}</p>}
+            </div>); }
+        if (has(n, "charity-line")) return text ? <p key={n.key} className="col-span-full -mt-1 border-r-2 border-primary/40 pr-4 text-[13px] font-semibold leading-7 text-ink/70">{text}</p> : null;
         if (has(n, "eyebrow")) return <span key={n.key} className="text-[13px] font-extrabold text-primary">{text}</span>;
         const allText = n.kids.every((k) => k.tag === "#text" || k.tag === "strong" || k.tag === "small" || k.tag === "a" || k.tag === "span" || k.tag === "b") && !find(n, (x) => isControl(x) || x.tag === "button");
-        const note = has(n, "ext-note") || has(n, "fi-plain-note") || has(n, "fi-assumption") || has(n, "vivid-privacy-note") || has(n, "vivid-mini-note") || has(n, "source-note") || has(n, "ext-status") || has(n, "field-note");
+        const note = has(n, "ext-note") || has(n, "fi-plain-note") || has(n, "fi-assumption") || has(n, "vivid-privacy-note") || has(n, "vivid-mini-note") || has(n, "charity-data-note") || has(n, "source-note") || has(n, "ext-status") || has(n, "field-note");
         if (note) { const warn = has(n, "warn"); return <div key={n.key} className={cn("col-span-full flex gap-3 rounded-2xl px-4 py-3.5 text-sm leading-7", warn ? "bg-amber-50 text-amber-900" : "bg-muted text-ink/80")}>{warn ? <Warning2 size={20} variant="Bulk" className="mt-1 shrink-0" /> : <InfoCircle size={20} variant="Bulk" className="mt-1 shrink-0 text-primary" />}<div className="min-w-0 flex-1 space-y-2">{allText ? inline(n) : kids(n)}</div></div>; }
         if (has(n, "error") || has(n, "fi-error")) return text ? <p key={n.key} role="alert" className="col-span-full flex items-center gap-2 rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-bold text-destructive"><Warning2 size={18} variant="Bulk" />{text}</p> : null;
         if (allText) return text ? <div key={n.key} className={cn("text-sm leading-7 text-ink/80", n.attr["aria-current"] && "font-extrabold text-primary")}>{inline(n)}</div> : null;
         const fields = n.kids.filter((k) => k.tag === "label" || has(k, "field")).length;
         const grid = has(n, "form-grid") || has(n, "fi-grid") || has(n, "lp-service-grid") || has(n, "ma-checks") || has(n, "fi-checks") || has(n, "ext-evidence") || has(n, "ext-mini-grid") || has(n, "fi-families") || has(n, "fi-three-parts") || (fields >= 2 && fields >= n.kids.length - 1);
         const cards = has(n, "ext-card-grid") || has(n, "fi-provider-grid") || has(n, "cards") || has(n, "ext-source-list");
-        const card = has(n, "ext-card") || has(n, "fi-provider") || has(n, "fi-case") || has(n, "ext-source") || has(n, "lp-service-output") || has(n, "dialog-section") || has(n, "lp-package") || has(n, "fi-definition") || has(n, "vivid-idea-result") || has(n, "compare-scroll");
+        const card = has(n, "ext-card") || has(n, "fi-provider") || has(n, "fi-case") || has(n, "ext-source") || has(n, "lp-service-output") || has(n, "dialog-section") || has(n, "lp-package") || has(n, "fi-definition") || has(n, "vivid-idea-result") || has(n, "compare-scroll") || has(n, "charity-impact");
         const multi = n.kids.filter(isCheck).length >= 3;
         return <div key={n.key} className={cn(multi && "col-span-full",
+          has(n, "actions") ? "col-span-full mt-2 flex flex-row-reverse items-center justify-between gap-3 border-t border-border pt-6" :
           has(n, "ext-actions") || has(n, "lp-order-actions") || has(n, "ma-context-links") || has(n, "fi-library-filter") || has(n, "ma-source-links") ? "flex flex-wrap items-center gap-2.5" : grid && !multi ? cn("grid grid-cols-2 gap-x-5 gap-y-5", (has(n, "fi-families") || has(n, "fi-three-parts")) && "grid-cols-3", fields >= 2 && !card && "rounded-[1.75rem] border border-border/80 bg-[#f8faf9] p-6") : cards ? "grid grid-cols-2 gap-4" : "flex min-w-0 flex-col gap-4",
           (has(n, "ext-actions") || has(n, "lp-order-actions")) && find(n, (x) => x.tag === "button" && (has(x, "primary") || has(x, "jll-button"))) && "col-span-full mt-2 border-t border-border pt-6",
           card && "rounded-3xl border border-border bg-white p-5", has(n, "full") && "col-span-full", has(n, "ext-actions") && "pt-1", has(n, "lp-services") && "col-span-full")}>{kids(n)}</div>;

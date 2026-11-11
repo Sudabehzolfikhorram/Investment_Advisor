@@ -149,16 +149,24 @@ function MoneyFlow({ o }: { o: { finance?: string; repay?: string; ownership?: s
   );
 }
 
+/** «مراحل ورود و اسناد لازم» (بخش جزئیات پروژه در نسخه مرجع): مسیر خطی و غیرقابل‌کلیک، با ترتیب روشن گام‌ها */
+const ordinal = ["اول", "دوم", "سوم", "چهارم", "پنجم", "ششم", "هفتم", "هشتم", "نهم", "دهم"];
 function Steps({ steps }: { steps: string[] }) {
+  const cols = Math.min(steps.length, 4);
   return (
-    <ol className="relative space-y-3 pr-5">
-      <span aria-hidden className="absolute bottom-6 right-[1.05rem] top-6 w-px bg-primary/30" />
-      {steps.map((s, i) => (
-        <li key={s} className="relative flex items-center gap-4">
-          <span className="relative z-10 -mr-5 grid size-9 shrink-0 place-items-center rounded-full border border-primary/30 bg-white text-sm font-black text-primary">{faNumber(i + 1)}</span>
-          <span className="surface flex-1 rounded-2xl px-5 py-3.5 text-[15px] font-bold leading-7 text-ink">{s}</span>
-        </li>
-      ))}
+    <ol className="grid gap-x-3 gap-y-9" style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}>
+      {steps.map((s, i) => { const lastInRow = (i + 1) % cols === 0 || i === steps.length - 1;
+        return (
+          <li key={s} className="min-w-0">
+            <div className="flex items-center gap-3">
+              <span className={cn("grid size-11 shrink-0 place-items-center rounded-full text-base font-black", i === 0 ? "bg-primary text-white shadow-[0_10px_24px_-12px_var(--primary)]" : "bg-primary/10 text-primary")}>{faNumber(i + 1)}</span>
+              {!lastInRow && <span aria-hidden className="h-px flex-1 border-t-2 border-dashed border-primary/25" />}
+              {!lastInRow && <ArrowLeft size={14} className="-mr-2 shrink-0 text-primary/40" />}
+            </div>
+            <p className="mt-3 text-xs font-extrabold text-primary">گام {ordinal[i] ?? faNumber(i + 1)}</p>
+            <p className="mt-1 pl-4 text-[15px] font-bold leading-7 text-ink">{s}</p>
+          </li>
+        ); })}
     </ol>
   );
 }
@@ -313,7 +321,7 @@ export function Detail({ id }: { id: string }) {
 
         {/* پرده اول: تصویر و عنوان */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }}>
-          <SignaturePhoto src={pics[photo].src} alt={l.title} priority sizes="100vw" className="h-[27rem] rounded-[2.25rem]">
+          <SignaturePhoto src={l.image} srcs={pics.map((p) => p.src)} active={photo} alt={l.title} priority sizes="100vw" className="h-[27rem] rounded-[2.25rem]">
             <HeroGallery l={l} index={photo} onIndex={setPhoto} />
             <div className="absolute right-5 top-5 z-10"><SaveButton id={l.id} className="size-12" /></div>
             <div className="absolute inset-x-10 bottom-9 text-white">
@@ -380,14 +388,12 @@ export function Detail({ id }: { id: string }) {
 
             <Chapter n={++n} title="پرونده کامل" note="همه اطلاعات ثبت‌شده و آنچه هنوز باید احراز شود"><Dossier sections={sections} /></Chapter>
 
-            {!o && nextSteps && <Chapter n={++n} title="از این‌جا به بعد"><Steps steps={nextSteps} /></Chapter>}
-
-            {o && o.steps.length > 0 && (
-              <Chapter n={++n} title="از این‌جا به بعد">
-                <Steps steps={o.steps} />
+            {nextSteps && nextSteps.length > 0 && (
+              <Chapter n={++n} title="مراحل ورود و اسناد لازم" note="به همین ترتیب پیش بروید؛ هر گام پیش‌نیاز گام بعدی است">
+                <div className="surface rounded-[1.75rem] p-7"><Steps steps={nextSteps} /></div>
                 <div className="mt-5 flex items-center justify-between gap-4 rounded-[1.75rem] bg-primary/[0.07] p-5 pr-7">
-                  <p className="text-[15px] font-extrabold text-ink">{o.expert ? `برای شروع، با ${o.expert.name} تماس بگیرید.` : "برای شروع، راهنمای اقدام این پروژه را بگیرید."}</p>
-                  {o.expert
+                  <p className="text-[15px] font-extrabold text-ink">{o?.expert ? `برای شروع، با ${o.expert.name} تماس بگیرید.` : "این گام‌ها را در راهنمای اقدام تیک بزنید و همراه خود داشته باشید."}</p>
+                  {o?.expert
                     ? <Button asChild className="h-12 gap-2 rounded-full px-6 font-extrabold"><a href={`tel:${o.expert.mobile}`}><Call size={18} variant="Bold" />تماس با کارشناس</a></Button>
                     : <Button asChild className="h-12 gap-2 rounded-full px-6 font-extrabold"><Link href={`/guide/${l.id}`}><DocumentDownload size={18} variant="Bold" />دیدن راهنمای اقدام</Link></Button>}
                 </div>

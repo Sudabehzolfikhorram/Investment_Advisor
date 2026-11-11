@@ -1,7 +1,7 @@
 "use client";
 // حالت چندعکسی پروژه: در کارت با حرکت نشانگر عکس عوض می‌شود؛ در صفحه جزئیات بندانگشتی‌ها و نمای بزرگ.
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft2, ArrowRight2, Gallery as GalleryIcon } from "@/components/iconsax";
 import { Button } from "@/components/ui/button";
@@ -10,20 +10,28 @@ import { galleryOf } from "@/lib/listings";
 import type { Listing } from "@/types";
 import { cn, faNumber } from "@/lib/utils";
 
-/** عکس‌های کارت: با حرکت نشانگر روی عکس، هر بخش از عرض یک عکس را نشان می‌دهد */
+/** عکس‌های کارت: با هاور روی کارت، هر ۴ ثانیه عکس بعدی با محو شدن نرم می‌آید؛ نوار بالای عکس زمان را نشان می‌دهد */
+const STEP = 4000;
 export function useHoverGallery(l: Listing) {
   const pics = galleryOf(l);
   const [i, setI] = useState(0);
-  const bind = {
-    onMouseMove: (e: React.MouseEvent<HTMLElement>) => { const r = e.currentTarget.getBoundingClientRect(); const x = (r.right - e.clientX) / r.width; setI(Math.min(pics.length - 1, Math.max(0, Math.floor(x * pics.length)))); },
-    onMouseLeave: () => setI(0),
-  };
+  const [hover, setHover] = useState(false);
+  useEffect(() => {
+    if (!hover || pics.length < 2) return;
+    const t = window.setInterval(() => setI((x) => (x + 1) % pics.length), STEP);
+    return () => window.clearInterval(t);
+  }, [hover, pics.length]);
+  const bind = { onMouseEnter: () => setHover(true), onMouseLeave: () => { setHover(false); setI(0); } };
   const dots = pics.length > 1 ? (
-    <span className="pointer-events-none absolute inset-x-0 top-2.5 z-10 flex justify-center gap-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-      {pics.map((_, k) => <span key={k} className={cn("h-1 rounded-full bg-white transition-all duration-300", k === i ? "w-5" : "w-2.5 opacity-50")} />)}
+    <span className={cn("pointer-events-none absolute inset-x-4 top-2.5 z-10 flex gap-1 transition-opacity duration-300", hover ? "opacity-100" : "opacity-0")} aria-hidden>
+      {pics.map((_, k) => (
+        <span key={k} className="h-[3px] flex-1 overflow-hidden rounded-full bg-white/35">
+          <span key={`${k}-${i}-${hover}`} className={cn("block h-full rounded-full bg-white", k < i ? "w-full" : k === i && hover ? "animate-[fill-bar_4s_linear_forwards]" : "w-0")} />
+        </span>
+      ))}
     </span>
   ) : null;
-  return { src: pics[i].src, bind, dots, count: pics.length };
+  return { srcs: pics.map((p) => p.src), active: i, bind, dots, count: pics.length };
 }
 
 /** بندانگشتی‌های روی عکس بزرگ صفحه جزئیات و نمای تمام‌صفحه */
@@ -44,7 +52,7 @@ export function HeroGallery({ l, index, onIndex }: { l: Listing; index: number; 
         <Button type="button" variant="plain" size="auto" onClick={() => setOpen(true)} className="h-14 gap-2 rounded-xl bg-black/45 px-3.5 text-[13px] font-extrabold text-white backdrop-blur hover:bg-black/60"><GalleryIcon size={18} variant="Bulk" />{faNumber(pics.length)} عکس</Button>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent dir="rtl" aria-describedby={undefined} className="gap-4 rounded-[2rem] bg-ink p-5 text-white sm:max-w-5xl [&>button]:text-white">
+        <DialogContent dir="rtl" aria-describedby={undefined} className="gap-4 rounded-[2rem] bg-ink p-5 text-white sm:max-w-5xl [&_[data-slot=dialog-close-x]]:bg-white/10 [&_[data-slot=dialog-close-x]]:text-white">
           <DialogTitle className="text-base font-extrabold text-white">{l.title}</DialogTitle>
           <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-black">
             <AnimatePresence mode="popLayout" initial={false}>

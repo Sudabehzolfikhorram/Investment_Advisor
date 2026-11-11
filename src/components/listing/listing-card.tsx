@@ -50,7 +50,7 @@ export function ListingCard({ listing: l, score, reasons, index = 0, comparable 
     <motion.article className="h-full" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: Math.min(index, 5) * 0.04 }}>
       <Card {...gallery.bind} className="group relative h-full gap-0 overflow-hidden rounded-[1.75rem] border border-border bg-white py-0 shadow-[0_16px_40px_-32px_rgb(11_31_29/0.25)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_-32px_rgb(11_31_29/0.4)]">
         <Link href={`/opportunities/${l.id}`} className="absolute inset-0 z-10" aria-label={l.title} />
-        <SignaturePhoto src={gallery.src} alt={l.title} className="m-2 aspect-[16/9] rounded-[1.35rem]">
+        <SignaturePhoto src={l.image} srcs={gallery.srcs} active={gallery.active} alt={l.title} className="m-2 aspect-[16/9] rounded-[1.35rem]">
           {gallery.dots}
           <div className="absolute inset-x-4 bottom-3.5 flex items-end justify-between gap-3 text-white">
             <div className="min-w-0 space-y-1.5">
