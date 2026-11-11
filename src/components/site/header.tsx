@@ -22,7 +22,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
   return (
     <header className={cn("z-40 w-full", overlay ? "absolute inset-x-0 top-0" : "sticky top-0")}>
       <div className="mx-auto max-w-7xl px-4 pt-4 sm:px-6">
-        <nav className={cn("flex h-16 items-center justify-between gap-4 rounded-full px-3 pr-5", overlay ? "glass-dark text-white" : "border border-border bg-white/85 shadow-[0_14px_40px_-30px_rgb(11_31_29/0.3)] backdrop-blur-md")}>
+        <nav className={cn("flex h-16 items-center justify-between gap-4 rounded-full px-3 pr-5", overlay ? "glass-dark text-white" : "border border-border bg-white/85 shadow-[0_14px_40px_-30px_rgb(8_59_55/0.3)] backdrop-blur-md")}>
           <Link href="/" aria-label="صفحه نخست"><Logo light={overlay} /></Link>
           <ul className="hidden items-center gap-1 md:flex">
             {links.map((l) => (
@@ -37,7 +37,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
           {hydrated && user ? (
             <DropdownMenu dir="rtl">
               <DropdownMenuTrigger asChild>
-                <Button variant="plain" size="auto" className={cn("h-10 rounded-full px-4 text-sm font-bold", overlay ? "bg-white text-ink" : "bg-coral text-white hover:bg-coral-deep")}>
+                <Button variant="plain" size="auto" className={cn("h-10 rounded-full px-4 text-sm font-bold", overlay ? "bg-white text-ink" : "bg-pine text-white hover:bg-pine-deep")}>
                   <ProfileCircle size={20} variant="Bulk" /><span dir="ltr">{faDigits(user.mobile)}</span>
                 </Button>
               </DropdownMenuTrigger>
@@ -48,7 +48,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button onClick={() => openLogin()} className={cn("h-10 rounded-full px-5 font-bold", overlay ? "bg-white text-ink hover:bg-white/90" : "bg-coral text-white hover:bg-coral-deep")}>
+            <Button onClick={() => openLogin()} className={cn("h-10 rounded-full px-5 font-bold", overlay ? "bg-white text-ink hover:bg-white/90" : "bg-pine text-white hover:bg-pine-deep")}>
               <Login size={18} /> ورود
             </Button>
           )}

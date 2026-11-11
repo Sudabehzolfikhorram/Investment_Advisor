@@ -40,7 +40,7 @@ function RouteBlank() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="plain" size="auto" className={cn("mx-2 inline-flex h-auto max-w-full items-center gap-2 whitespace-normal rounded-2xl border-b-2 border-primary bg-white px-4 py-0.5 align-baseline text-[0.85em] font-black leading-[1.5] text-primary shadow-[0_18px_40px_-24px_rgb(11_31_29/0.35)] transition-all duration-300 hover:-translate-y-0.5", open && "ring-4 ring-primary/10")}>
+        <Button variant="plain" size="auto" className={cn("mx-2 inline-flex h-auto max-w-full items-center gap-2 whitespace-normal rounded-2xl border-b-2 border-primary bg-white px-4 py-0.5 align-baseline text-[0.85em] font-black leading-[1.5] text-primary shadow-[0_18px_40px_-24px_rgb(8_59_55/0.35)] transition-all duration-300 hover:-translate-y-0.5", open && "ring-4 ring-primary/10")}>
           <span className="text-right">{current.name}</span>
           <ArrowDown2 size={20} className={cn("shrink-0 transition-transform", open && "rotate-180")} />
         </Button>
@@ -150,9 +150,9 @@ export function Hero() {
           <Tabs dir="rtl" defaultValue="assistant" className="gap-7">
             <div className="flex flex-wrap items-center gap-3">
               <Badge variant="outline" className="gap-2.5 border-border bg-white px-4 py-2 text-[13px] font-bold text-ink"><span><NodeMark className="text-primary" /></span>مشاور سرمایه‌گذاری</Badge>
-              <TabsList className="h-auto rounded-full bg-ink/[0.05] p-1 group-data-[orientation=horizontal]/tabs:h-auto">
+              <TabsList className="h-auto rounded-full bg-pine/[0.05] p-1 group-data-[orientation=horizontal]/tabs:h-auto">
                 {([["assistant", "از دستیار بپرس", MagicStar], ["form", "خودم انتخاب می‌کنم", Category2]] as const).map(([k, label, I]) => (
-                  <TabsTrigger key={k} value={k} className="h-auto gap-1.5 rounded-full border-0 px-4 py-2 text-sm font-bold text-ink/65 data-[state=active]:bg-coral data-[state=active]:text-white data-[state=active]:shadow-none"><I size={16} variant="Bulk" />{label}</TabsTrigger>
+                  <TabsTrigger key={k} value={k} className="h-auto gap-1.5 rounded-full border-0 px-4 py-2 text-sm font-bold text-ink/65 data-[state=active]:bg-pine data-[state=active]:text-white data-[state=active]:shadow-none"><I size={16} variant="Bulk" />{label}</TabsTrigger>
                 ))}
               </TabsList>
             </div>

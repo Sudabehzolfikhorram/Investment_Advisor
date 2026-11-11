@@ -53,7 +53,7 @@ export function BudgetField({ min, max, step = 1, unit, label, value, onChange, 
     <div className={cn("space-y-4", compact && "space-y-3.5")}>
       <div className="flex items-center gap-2.5">
         <NumberBox label="از" value={v[0]} onCommit={(n) => set(n, v[1])} />
-        <span className="h-px w-4 shrink-0 bg-ink/25" />
+        <span className="h-px w-4 shrink-0 bg-pine/25" />
         <NumberBox label="تا" value={v[1]} onCommit={(n) => set(v[0], n)} />
         <span className="shrink-0 text-xs font-bold text-muted-foreground">{unit}</span>
       </div>
@@ -61,7 +61,7 @@ export function BudgetField({ min, max, step = 1, unit, label, value, onChange, 
       <div>
         <div className="flex h-14 items-end gap-[3px] px-2" aria-hidden>
           {bins.map((n, i) => (
-            <span key={i} className={cn("flex-1 rounded-t-[3px] transition-colors duration-200", i + 1 > lo && i < hi ? "bg-primary/70" : "bg-ink/10")} style={{ height: `${n ? 12 + (n / peak) * 88 : 4}%` }} />
+            <span key={i} className={cn("flex-1 rounded-t-[3px] transition-colors duration-200", i + 1 > lo && i < hi ? "bg-primary/70" : "bg-pine/10")} style={{ height: `${n ? 12 + (n / peak) * 88 : 4}%` }} />
           ))}
         </div>
         <Slider dir="rtl" min={0} max={last} step={1} value={[lo, hi]} onValueChange={(x) => set(stops[Math.round(x[0])], stops[Math.round(x[1])])} className="-mt-1.5" />

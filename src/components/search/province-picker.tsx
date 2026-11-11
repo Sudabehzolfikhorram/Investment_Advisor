@@ -121,7 +121,7 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
           </g>
         </svg>
         {tip && (
-          <span className="pointer-events-none absolute bottom-3 right-3 flex items-center gap-2.5 rounded-2xl bg-coral p-1.5 pl-4 text-white shadow-[0_10px_24px_-10px_rgb(255_120_90/0.7)]">
+          <span className="pointer-events-none absolute bottom-3 right-3 flex items-center gap-2.5 rounded-2xl bg-pine p-1.5 pl-4 text-white shadow-[0_10px_24px_-10px_rgb(8_59_55/0.7)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             {provincePhotos[tip] && <img src={withBase(provincePhotos[tip].src)} alt="" className="size-11 rounded-xl object-cover" />}
             <span className={cn("text-xs font-extrabold leading-5", !provincePhotos[tip] && "py-1.5 pr-2.5")}>{tip}<span className="block text-[11px] font-semibold text-white/85">{provincePhotos[tip]?.place}<span className="block text-white">{city.counts[tip] ? `${faNumber(city.counts[tip])} پروژه` : "بدون پروژه در این مسیر"}</span></span></span>
@@ -129,7 +129,7 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
         )}
         {multi && (
           <div className="absolute inset-x-3 top-3 flex flex-wrap items-center gap-1.5">
-            <Button type="button" variant="outline" size="xs" onClick={() => zoomTo(null)} className={cn("rounded-full bg-white font-bold", !focus && "border-coral bg-coral text-white hover:bg-coral hover:text-white")}><Maximize4 size={14} />کل ایران</Button>
+            <Button type="button" variant="outline" size="xs" onClick={() => zoomTo(null)} className={cn("rounded-full bg-white font-bold", !focus && "border-pine bg-pine text-white hover:bg-pine hover:text-white")}><Maximize4 size={14} />کل ایران</Button>
             {value.map((p) => <Button key={p} type="button" variant="outline" size="xs" onClick={() => zoomTo(p)} className={cn("rounded-full bg-white font-bold", focus === p && "border-primary bg-primary text-white hover:bg-primary hover:text-white")}>{focus === p ? `شهرهای ${p}` : p}</Button>)}
           </div>
         )}

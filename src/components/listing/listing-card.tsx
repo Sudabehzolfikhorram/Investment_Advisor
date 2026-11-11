@@ -23,7 +23,7 @@ export function SaveButton({ id, className, label }: { id: string; className?: s
       onClick={(e) => { e.preventDefault(); e.stopPropagation();
         if (!user) return openLogin({ type: "save-listing", id });
         toggleSaved(id); toast(on ? "از ذخیره‌شده‌ها حذف شد." : "پروژه ذخیره شد."); }}
-      className={cn("inline-flex items-center justify-center gap-2 rounded-full transition-all active:scale-95", label ? "h-12 px-5 font-bold" : "size-10", on ? "bg-primary text-white" : label ? "border border-border bg-white text-ink hover:border-primary hover:text-primary" : "bg-black/55 text-white hover:bg-black/70", className)}>
+      className={cn("inline-flex items-center justify-center gap-2 rounded-full transition-all active:scale-95", label ? "h-12 px-5 font-bold" : "size-10", on ? "bg-primary text-white" : label ? "border border-border bg-white text-ink hover:border-primary hover:text-primary" : "bg-pine/55 text-white hover:bg-pine/70", className)}>
       {on ? <ArchiveTick size={20} variant="Bold" /> : <ArchiveAdd size={20} />}
       {label && <span>{on ? "ذخیره شد" : "ذخیره پروژه"}</span>}
     </Button>
@@ -36,7 +36,7 @@ function CompareButton({ id }: { id: string }) {
   return (
     <Button variant="plain" size="auto" type="button" aria-pressed={on} aria-label={on ? "حذف از مقایسه" : "افزودن به مقایسه"} title={full ? "حداکثر سه پروژه" : on ? "حذف از مقایسه" : "مقایسه"}
       onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (full) return toast("حداکثر سه پروژه را می‌توانید مقایسه کنید."); toggleCompare(id); }}
-      className={cn("inline-flex size-10 items-center justify-center rounded-full transition-all active:scale-95", on ? "bg-primary text-white" : "bg-black/55 text-white hover:bg-black/70")}>
+      className={cn("inline-flex size-10 items-center justify-center rounded-full transition-all active:scale-95", on ? "bg-primary text-white" : "bg-pine/55 text-white hover:bg-pine/70")}>
       <Convertshape2 size={19} variant={on ? "Bold" : "Linear"} />
     </Button>
   );
@@ -48,7 +48,7 @@ export function ListingCard({ listing: l, score, reasons, index = 0, comparable 
   const gallery = useHoverGallery(l);
   return (
     <motion.article className="h-full" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: Math.min(index, 5) * 0.04 }}>
-      <Card {...gallery.bind} className="group relative h-full gap-0 overflow-hidden rounded-[1.75rem] border border-border bg-white py-0 shadow-[0_16px_40px_-32px_rgb(11_31_29/0.25)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_-32px_rgb(11_31_29/0.4)]">
+      <Card {...gallery.bind} className="group relative h-full gap-0 overflow-hidden rounded-[1.75rem] border border-border bg-white py-0 shadow-[0_16px_40px_-32px_rgb(8_59_55/0.25)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_-32px_rgb(8_59_55/0.4)]">
         <Link href={`/opportunities/${l.id}`} className="absolute inset-0 z-10" aria-label={l.title} />
         <SignaturePhoto src={l.image} srcs={gallery.srcs} active={gallery.active} alt={l.title} className="m-2 aspect-[16/9] rounded-[1.35rem]">
           {gallery.dots}
@@ -57,7 +57,7 @@ export function ListingCard({ listing: l, score, reasons, index = 0, comparable 
               {tag && <span className="inline-block max-w-full truncate rounded-full bg-white px-2.5 py-1 text-[11px] font-extrabold text-ink">{tag}</span>}
               {l.city && <p className="flex items-center gap-1 text-[13px] font-bold text-white [text-shadow:0_1px_3px_rgb(0_0_0/0.7)]"><Location size={15} variant="Bold" />{l.province}، {l.city}</p>}
             </div>
-            {score != null && <span className="shrink-0 rounded-full bg-black/60 p-0.5"><MatchRing score={score} light /></span>}
+            {score != null && <span className="shrink-0 rounded-full bg-pine/60 p-0.5"><MatchRing score={score} light /></span>}
           </div>
         </SignaturePhoto>
         <div className="pointer-events-none absolute inset-x-5 top-5 z-20 flex flex-row-reverse [&>*]:pointer-events-auto items-start justify-end gap-2">

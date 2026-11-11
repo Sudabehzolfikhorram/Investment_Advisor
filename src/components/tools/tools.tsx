@@ -29,7 +29,7 @@ function ToolCard({ t, i, large }: { t: ToolDef; i: number; large?: boolean }) {
   return (
     <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ duration: 0.45, delay: (i % 3) * 0.06 }}>
       <Link href={`/tools/${t.id}`} className="group block h-full">
-        <Card className="surface h-full gap-0 overflow-hidden rounded-[1.75rem] p-0 shadow-none transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_28px_60px_-34px_rgb(11_31_29/0.35)]">
+        <Card className="surface h-full gap-0 overflow-hidden rounded-[1.75rem] p-0 shadow-none transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_28px_60px_-34px_rgb(8_59_55/0.35)]">
           <SignaturePhoto src={t.image ?? "/images/hero/office.jpg"} alt="" className={large ? "aspect-[16/8]" : "aspect-[16/9]"} sizes="40vw">
             <span className="absolute bottom-4 right-4 flex items-center gap-2.5">
               <span className="grid size-11 place-items-center rounded-2xl bg-white/95 text-primary shadow-lg transition-colors group-hover:bg-primary group-hover:text-white"><I size={22} variant="Bulk" /></span>

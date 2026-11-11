@@ -11,26 +11,26 @@ const node = `<svg viewBox="60 70 1090 350" width="62" height="20" fill="none" s
 const fontImport = `@import url("https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css");`;
 export const docCss = `
 *{box-sizing:border-box}html,body{margin:0;padding:0}
-body{background:#f3f5f5!important;color:#0b1f1d;font:15px/2 Vazirmatn,Tahoma,Arial,sans-serif;direction:rtl}
+body{background:#f3f5f5!important;color:#083b37;font:15px/2 Vazirmatn,Tahoma,Arial,sans-serif;direction:rtl}
 .sheet{max-width:860px;margin:32px auto;background:#fff;border:1px solid #e4e9e8;border-radius:28px;overflow:hidden}
 .doc-head{position:relative;padding:28px 44px 30px;border-bottom:1px solid #e4e9e8;background:linear-gradient(135deg,#fff 55%,#eef6f4)}
 .doc-head:after{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(to left,#0f766e,#5aa79f 60%,transparent)}
 .doc-brand{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.doc-logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:16px;color:#0b1f1d}
+.doc-logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:16px;color:#083b37}
 .doc-logo i{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#0f766e;color:#fff;font-style:normal}
 .doc-logo small{display:block;font-size:11.5px;font-weight:600;color:#667473;line-height:1.6}
 .doc-stamp{text-align:left;font-size:12px;color:#667473;line-height:1.8}.doc-stamp b{display:block;color:#0f766e;font-size:12.5px}
 .doc-kicker{display:flex;align-items:center;gap:8px;margin:26px 0 4px;font-size:13px;font-weight:800;color:#0f766e}
-.doc-head h1{margin:0;font-size:29px;line-height:1.55;font-weight:900;color:#0b1f1d}.doc-body h1,.doc-body h2,.doc-body h3{color:#0b1f1d;background:none}
+.doc-head h1{margin:0;font-size:29px;line-height:1.55;font-weight:900;color:#083b37}.doc-body h1,.doc-body h2,.doc-body h3{color:#083b37;background:none}
 .doc-meta{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}.pill{padding:2px 14px;border-radius:99px;background:#f2f4f4;font-size:12.5px;font-weight:700}
 .doc-body{padding:8px 44px 36px}
-.doc-foot{display:flex;justify-content:space-between;gap:24px;padding:22px 44px;background:#ffe4de;color:#5b4540;font-size:12px;line-height:1.9}
-.doc-foot b{color:#0b1f1d;font-size:13px}.doc-foot .doc-foot-end{text-align:left;white-space:nowrap}
+.doc-foot{display:flex;justify-content:space-between;gap:24px;padding:22px 44px;background:#e2edeb;color:#3d5552;font-size:12px;line-height:1.9}
+.doc-foot b{color:#083b37;font-size:13px}.doc-foot .doc-foot-end{text-align:left;white-space:nowrap}
 /* نوشتار عمومی داخل سند */
 .doc-body h2{display:flex;align-items:center;gap:12px;margin:26px 0 12px;font-size:19px;font-weight:900}
-.doc-body h3{margin:20px 0 8px;font-size:15.5px;font-weight:900;color:#0b1f1d}
+.doc-body h3{margin:20px 0 8px;font-size:15.5px;font-weight:900;color:#083b37}
 .doc-body h4{margin:14px 0 6px;font-size:14px;font-weight:800;color:#0f766e}
-.doc-body p{margin:8px 0;line-height:2}.doc-body p,.doc-body li,.doc-body td,.doc-body dd{color:#0b1f1d}.doc-body a{color:#0f766e;font-weight:700}
+.doc-body p{margin:8px 0;line-height:2}.doc-body p,.doc-body li,.doc-body td,.doc-body dd{color:#083b37}.doc-body a{color:#0f766e;font-weight:700}
 .doc-body ul:not(.check),.doc-body ol:not(.steps){margin:8px 0;padding:0 22px 0 0}.doc-body li{margin:3px 0}
 .doc-body table{width:100%;border-collapse:separate;border-spacing:0;margin:12px 0;font-size:13.5px;border:1px solid #e4e9e8;border-radius:16px;overflow:hidden}
 .doc-body th,.doc-body td{padding:10px 14px;text-align:right;vertical-align:top;border-bottom:1px solid #eef2f1}
@@ -38,7 +38,7 @@ body{background:#f3f5f5!important;color:#0b1f1d;font:15px/2 Vazirmatn,Tahoma,Ari
 .doc-body dl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.doc-body dl>div{border:1px solid #e4e9e8;border-radius:14px;padding:10px 14px}
 .doc-body dt{font-size:12px;color:#667473}.doc-body dd{margin:0;font-weight:800}
 .doc-body .ext-note,.doc-body .notice,.doc-body .note{padding:14px 18px;border-radius:16px;background:#faf5ea;border:1px solid #ecdcb9;font-weight:700}
-.pending{margin-top:10px;padding:10px 14px;border:1px dashed #d5dedd;border-radius:14px;font-size:12.5px;color:#667473;line-height:1.9}.pending b{color:#0b1f1d}
+.pending{margin-top:10px;padding:10px 14px;border:1px dashed #d5dedd;border-radius:14px;font-size:12.5px;color:#667473;line-height:1.9}.pending b{color:#083b37}
 @media print{body{background:#fff}.sheet{margin:0;border:0;border-radius:0;max-width:none}section{break-inside:avoid}.doc-foot{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 @media(max-width:640px){.doc-head,.doc-body,.doc-foot{padding-inline:22px}.doc-foot{flex-direction:column}.doc-body dl{grid-template-columns:1fr}}
 `;

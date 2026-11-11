@@ -125,7 +125,7 @@ function Step({ n, title, hint, children }: { n: number; title: string; hint?: s
   return (
     <section className="border-t border-border py-7 first:border-t-0 first:pt-0">
       <div className="mb-5 flex items-center gap-3">
-        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-coral text-sm font-black text-white">{faNumber(n)}</span>
+        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-pine text-sm font-black text-white">{faNumber(n)}</span>
         <h2 className="shrink-0 text-lg font-extrabold text-ink">{title}</h2>
         {hint && <p className="truncate text-[13px] text-muted-foreground">{hint}</p>}
       </div>
@@ -324,7 +324,7 @@ function CompareBar() {
   ];
   return (
     <>
-      <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="fixed inset-x-0 bottom-5 z-40 mx-auto flex w-fit items-center gap-3 rounded-full bg-coral p-2 pr-5 text-white shadow-[0_18px_40px_-16px_rgb(232_95_65/0.6)]">
+      <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="fixed inset-x-0 bottom-5 z-40 mx-auto flex w-fit items-center gap-3 rounded-full bg-pine p-2 pr-5 text-white shadow-[0_18px_40px_-16px_rgb(8_59_55/0.6)]">
         <span className="text-sm font-extrabold">{faNumber(items.length)} پروژه برای مقایسه</span>
         <Button type="button" disabled={items.length < 2} onClick={() => setOpen(true)} className="h-10 rounded-full bg-primary px-5 font-extrabold text-white hover:bg-primary/90 disabled:opacity-60">{items.length < 2 ? "یک پروژه دیگر انتخاب کنید" : "مقایسه"}</Button>
         <Button type="button" variant="plain" size="auto" aria-label="پاک کردن مقایسه" onClick={clearCompare} className="grid size-10 place-items-center rounded-full text-ink/50 hover:bg-white hover:text-ink"><CloseCircle size={20} /></Button>
@@ -435,14 +435,14 @@ export function Results() {
                 )}
 
                 {hasCriteria && !isSaved && !nudgeOff && shown.length > 0 && (
-                  <div className="relative mb-5 flex items-center gap-4 overflow-hidden rounded-[1.75rem] bg-coral-soft p-4 pr-5 text-ink">
-                    <AlgoPattern className="-left-10 -top-10 h-48 w-72 text-coral/25" fade="radial" scale={0.6} />
-                    <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-white text-coral-deep"><Save2 size={24} variant="Bulk" /></span>
+                  <div className="relative mb-5 flex items-center gap-4 overflow-hidden rounded-[1.75rem] bg-pine-soft p-4 pr-5 text-ink">
+                    <AlgoPattern className="-left-10 -top-10 h-48 w-72 text-pine/25" fade="radial" scale={0.6} />
+                    <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-white text-pine-deep"><Save2 size={24} variant="Bulk" /></span>
                     <div className="min-w-0 flex-1">
                       <p className="text-base font-extrabold">فیلترهایی را که تنظیم کرده‌اید ذخیره کنید</p>
                       <p className="mt-0.5 text-[13px] leading-6 text-ink/70">دفعه بعد لازم نیست این مراحل را تکرار کنید؛ با یک کلیک به همین نتایج برمی‌گردید و پروژه‌های تازه را می‌بینید.</p>
                     </div>
-                    <Button type="button" onClick={() => setSaveOpen(true)} className="relative h-11 shrink-0 gap-2 rounded-full bg-coral px-5 font-extrabold text-white hover:bg-coral-deep"><Save2 size={18} />ذخیره این جست‌وجو</Button>
+                    <Button type="button" onClick={() => setSaveOpen(true)} className="relative h-11 shrink-0 gap-2 rounded-full bg-pine px-5 font-extrabold text-white hover:bg-pine-deep"><Save2 size={18} />ذخیره این جست‌وجو</Button>
                     <Button type="button" variant="plain" size="auto" aria-label="بستن" onClick={() => setNudgeOff(true)} className="relative grid size-9 shrink-0 place-items-center rounded-full text-ink/50 hover:bg-white hover:text-ink"><CloseCircle size={20} /></Button>
                   </div>
                 )}

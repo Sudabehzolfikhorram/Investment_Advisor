@@ -87,7 +87,7 @@ export function Categories() {
         {groupRoutes.map((r) => { const I = routeIcons[r.id]; const on = r.id === routeId;
           return (
             <Button key={r.id} type="button" variant="plain" size="auto" aria-pressed={on} onClick={() => setRouteId(r.id)}
-              className={cn("h-11 gap-2 rounded-full border px-4 text-sm font-extrabold transition-all", on ? "border-coral bg-coral text-white shadow-[0_10px_22px_-12px_rgb(232_95_65/0.75)]" : "border-border bg-white text-ink/70 hover:border-primary/50 hover:text-primary")}>
+              className={cn("h-11 gap-2 rounded-full border px-4 text-sm font-extrabold transition-all", on ? "border-pine bg-pine text-white shadow-[0_10px_22px_-12px_rgb(8_59_55/0.75)]" : "border-border bg-white text-ink/70 hover:border-primary/50 hover:text-primary")}>
               <I size={18} variant="Bulk" />{r.name}<span className={cn("text-xs font-bold", on ? "text-white/60" : "text-muted-foreground")}>{faNumber(forRoute(listings, r.id).length)}</span>
             </Button>
           ); })}
@@ -98,7 +98,7 @@ export function Categories() {
           return (
             <motion.div key={g.id} data-panel onMouseEnter={() => { setActive(i); setPreview(null); }} onFocusCapture={() => setActive(i)} onClick={() => setActive(i)}
               animate={{ flexGrow: on ? 9 : 1 }} transition={{ type: "spring", stiffness: 190, damping: 26 }}
-              className={cn("group/panel relative isolate min-w-0 shrink-0 cursor-pointer overflow-hidden rounded-[1.75rem] bg-ink text-white transition-[height] duration-500 lg:shrink lg:basis-0", on ? "h-[30rem] lg:h-auto" : "h-[4.5rem] lg:h-auto")}>
+              className={cn("group/panel relative isolate min-w-0 shrink-0 cursor-pointer overflow-hidden rounded-[1.75rem] bg-pine text-white transition-[height] duration-500 lg:shrink lg:basis-0", on ? "h-[30rem] lg:h-auto" : "h-[4.5rem] lg:h-auto")}>
               <Image src={g.image ?? "/images/hero/field.jpg"} alt="" fill sizes="(max-width:1024px) 100vw, 60vw" className={cn("object-cover transition-all duration-700", on ? "scale-100" : "scale-110 saturate-[0.3]")} />
               <AnimatePresence>
                 {on && preview && (
@@ -107,7 +107,7 @@ export function Categories() {
                   </motion.div>
                 )}
               </AnimatePresence>
-              <div className={cn("absolute inset-0 transition-colors duration-500", on ? "bg-gradient-to-t from-ink/90 via-ink/45 to-ink/5" : "bg-ink/65 group-hover/panel:bg-ink/45")} />
+              <div className={cn("absolute inset-0 transition-colors duration-500", on ? "bg-gradient-to-t from-pine/90 via-pine/45 to-pine/5" : "bg-pine/65 group-hover/panel:bg-pine/45")} />
               {on && <AlgoPattern className="-left-6 -top-6 h-2/3 w-2/3 text-white/25" fade="radial" scale={0.6} />}
 
               {/* حالت بسته: آیکون و نام عمودی */}
@@ -146,7 +146,7 @@ export function Categories() {
                         ))}
                       </ul>
                       <Button variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id); }} className="group/all mt-5 h-12 gap-3 rounded-full bg-white pl-1.5 pr-5 text-sm font-extrabold text-ink hover:bg-white/90">
-                        همه پروژه‌های {g.name}<span className="grid size-9 place-items-center rounded-full bg-coral text-white transition-transform group-hover/all:-translate-x-1"><ArrowLeft size={16} /></span>
+                        همه پروژه‌های {g.name}<span className="grid size-9 place-items-center rounded-full bg-pine text-white transition-transform group-hover/all:-translate-x-1"><ArrowLeft size={16} /></span>
                       </Button>
                     </div>
                   </motion.div>
@@ -177,7 +177,7 @@ export function MainCategories() {
           return (
             <Reveal key={r.id} delay={(i % 4) * 0.06} className="h-full">
               <Button variant="plain" size="auto" type="button" onClick={() => { begin({ route: r.id }); router.push("/opportunities"); }}
-                className="group surface flex h-full w-full flex-col items-stretch justify-start gap-0 whitespace-normal rounded-[1.75rem] p-5 text-right transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_26px_50px_-30px_rgb(11_31_29/0.35)]">
+                className="group surface flex h-full w-full flex-col items-stretch justify-start gap-0 whitespace-normal rounded-[1.75rem] p-5 text-right transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_26px_50px_-30px_rgb(8_59_55/0.35)]">
                 <span className="flex items-start justify-between gap-3">
                   <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-muted text-ink/70 transition-colors duration-300 group-hover:bg-primary group-hover:text-white"><I size={24} variant="Bulk" /></span>
                   <span className="text-left leading-none"><span className={cn("block text-3xl font-black", n ? "text-ink" : "text-ink/25")}>{faNumber(n)}</span><span className="mt-1 block text-[11px] font-semibold text-muted-foreground">پروژه</span></span>

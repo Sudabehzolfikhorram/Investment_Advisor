@@ -36,7 +36,7 @@ function Chapter({ n, title, note, children }: { n: number; title: string; note?
   return (
     <Reveal className="relative">
       <div className="mb-5 flex items-center gap-3">
-        <span className="grid size-9 place-items-center rounded-full bg-coral text-sm font-black text-white">{faNumber(n)}</span>
+        <span className="grid size-9 place-items-center rounded-full bg-pine text-sm font-black text-white">{faNumber(n)}</span>
         <h2 className="text-xl font-black text-ink">{title}</h2>
         <span className="h-px flex-1 bg-gradient-to-l from-border to-transparent" />
         {note && <span className="text-xs font-semibold text-muted-foreground">{note}</span>}
@@ -112,7 +112,7 @@ function Milestones({ o }: { o: Opportunity }) {
         {known.map((m, i) => (
           <li key={m.label} className="relative px-1 text-center">
             {i > 0 && <span aria-hidden className="absolute left-1/2 top-[7px] w-full border-t-2 border-dotted border-ink/20" />}
-            <span className={cn("relative z-10 mx-auto block size-4 rounded-full ring-4 ring-white", i === 0 ? "bg-coral" : m.label.includes("بدبینانه") ? "bg-sand" : "bg-primary")} />
+            <span className={cn("relative z-10 mx-auto block size-4 rounded-full ring-4 ring-white", i === 0 ? "bg-pine" : m.label.includes("بدبینانه") ? "bg-sand" : "bg-primary")} />
             <span className="mt-3 block text-base font-black text-ink">{m.value}</span>
             <span className="mt-0.5 block text-xs font-semibold leading-5 text-muted-foreground">{m.label}</span>
           </li>
@@ -251,13 +251,13 @@ function Contact({ l }: { l: Listing }) {
   const [copied, setCopied] = useState(false);
   const copy = () => { navigator.clipboard?.writeText(expert!.mobile); setCopied(true); toast("شماره کپی شد."); setTimeout(() => setCopied(false), 2000); };
   return (
-    <div id="next-step" className="relative isolate overflow-hidden rounded-[2rem] bg-coral-soft p-6 text-ink">
-      <AlgoPattern className="-left-8 -top-8 -z-10 h-56 w-72 text-coral/25" fade="radial" />
+    <div id="next-step" className="relative isolate overflow-hidden rounded-[2rem] bg-pine-soft p-6 text-ink">
+      <AlgoPattern className="-left-8 -top-8 -z-10 h-56 w-72 text-pine/25" fade="radial" />
       {expert ? (
         <>
-          <p className="flex items-center gap-2 text-xs font-bold text-coral-deep"><NodeMark />گام بعدی: با کارشناس پروژه صحبت کنید</p>
+          <p className="flex items-center gap-2 text-xs font-bold text-pine-deep"><NodeMark />گام بعدی: با کارشناس پروژه صحبت کنید</p>
           <div className="mt-4 flex items-center gap-3">
-            <span className="grid size-14 place-items-center rounded-2xl bg-white text-lg text-coral-deep font-black">{expert.name.trim()[0]}</span>
+            <span className="grid size-14 place-items-center rounded-2xl bg-white text-lg text-pine-deep font-black">{expert.name.trim()[0]}</span>
             <span><span className="block text-base font-extrabold">{expert.name}</span><span className="block text-xs text-ink/60">کارشناس همین پروژه</span></span>
           </div>
           <div className="mt-5 flex h-14 items-center gap-1 rounded-full bg-white p-1.5 text-ink">
@@ -268,9 +268,9 @@ function Contact({ l }: { l: Listing }) {
         </>
       ) : (
         <>
-          <p className="flex items-center gap-2 text-xs font-bold text-coral-deep"><NodeMark />گام بعدی: راهنمای اقدام را بگیرید</p>
+          <p className="flex items-center gap-2 text-xs font-bold text-pine-deep"><NodeMark />گام بعدی: راهنمای اقدام را بگیرید</p>
           <div className="mt-4 flex items-center gap-3">
-            <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white text-coral-deep"><DocumentDownload size={26} variant="Bulk" /></span>
+            <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white text-pine-deep"><DocumentDownload size={26} variant="Bulk" /></span>
             <span><span className="block text-base font-extrabold">راهنمای اقدام</span><span className="block text-xs leading-5 text-ink/60">مراحل، مدارک و نکته‌های این پروژه در یک فایل</span></span>
           </div>
           <Button asChild variant="plain" size="auto" className="mt-5 h-14 w-full justify-between rounded-full bg-white pl-1.5 pr-6 text-base font-extrabold text-ink hover:bg-white/90">
@@ -278,7 +278,7 @@ function Contact({ l }: { l: Listing }) {
           </Button>
         </>
       )}
-      <SaveButton id={l.id} label className="mt-2 w-full border-coral/25 !bg-white/70 !text-ink hover:!bg-white" />
+      <SaveButton id={l.id} label className="mt-2 w-full border-pine/25 !bg-white/70 !text-ink hover:!bg-white" />
     </div>
   );
 }
@@ -326,7 +326,7 @@ export function Detail({ id }: { id: string }) {
             <div className="absolute right-5 top-5 z-10"><SaveButton id={l.id} className="size-12" /></div>
             <div className="absolute inset-x-10 bottom-9 text-white">
               <div className="flex flex-wrap gap-2">
-                {l.tags.map((t) => <Badge key={t} variant="outline" className="border-white/30 bg-black/25 px-3.5 py-1.5 font-bold text-white">{t}</Badge>)}
+                {l.tags.map((t) => <Badge key={t} variant="outline" className="border-white/30 bg-pine/25 px-3.5 py-1.5 font-bold text-white">{t}</Badge>)}
                 {text.stage && <Badge className="bg-white px-3.5 py-1.5 font-extrabold text-ink">{text.stage}</Badge>}
               </div>
               <h1 className="mt-4 max-w-4xl text-4xl font-black leading-[1.3] text-balance">{l.title}</h1>

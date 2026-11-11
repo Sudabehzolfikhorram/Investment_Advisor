@@ -13,7 +13,7 @@ import { splitPending } from "./facts";
 const css = `
 section{padding:26px 0;border-bottom:1px dashed #e4e9e8}section:last-child{border:0}
 .doc-body section h2{margin:0 0 14px}.doc-body .card h3{margin:0 0 8px;font-size:13px;color:#0f766e;font-weight:800}
-.doc-body h2 b{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#0b1f1d;color:#fff;font-size:14px}
+.doc-body h2 b{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#083b37;color:#fff;font-size:14px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{border:1px solid #e4e9e8;border-radius:18px;padding:16px 18px}
 .card h3{margin:0 0 8px;font-size:13px;color:#0f766e;font-weight:800}.row{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-top:1px solid #f2f4f4;font-size:13px}.row:first-of-type{border:0}
 .row span{color:#667473;white-space:nowrap}.row strong{text-align:left;font-weight:800}
@@ -32,7 +32,7 @@ ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}ol.steps li{counter-
 ol.steps label{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 56px 12px 14px}
 ol.steps li:before{content:counter(s,persian);position:absolute;right:14px;top:11px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#e7f1f0;color:#0f766e;font-weight:900}
 .mine{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;border:1px solid #e4e9e8;border-radius:18px;padding:10px 18px;background:#f7faf9}.mine .row{border-top:0;border-bottom:1px solid #eaf0ee;padding:8px 0}
-.ans{margin-top:4px;display:inline-block;padding:2px 14px;border-radius:99px;background:#e7f1f0;color:#0b1f1d;font-size:13.5px;font-weight:700}.ans b{color:#0f766e}
+.ans{margin-top:4px;display:inline-block;padding:2px 14px;border-radius:99px;background:#e7f1f0;color:#083b37;font-size:13.5px;font-weight:700}.ans b{color:#0f766e}
 ol.steps em{flex:none;font-style:normal;font-size:12px;font-weight:800;padding:2px 12px;border-radius:99px;background:#f2f4f4;color:#667473;white-space:nowrap}ol.steps em:after{content:"بررسی نشده"}
 ol.steps li:has(input:checked){border-color:#0f766e;background:#f3f9f8}ol.steps li:has(input:checked) em{background:#0f766e;color:#fff}ol.steps li:has(input:checked) em:after{content:"بررسی شد"}
 .q{padding:10px 0;border-top:1px solid #f2f4f4}.q:first-child{border:0}.q p{margin:0;font-weight:800}.q small{display:block;color:#667473;font-size:12.5px}

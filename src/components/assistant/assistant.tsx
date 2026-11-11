@@ -36,13 +36,13 @@ function TopCard({ r, i }: { r: MatchResult; i: number }) {
   const l = r.listing;
   return (
     <motion.article initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
-      className="group relative flex flex-col overflow-hidden rounded-[1.75rem] border border-border bg-white transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_-32px_rgb(11_31_29/0.4)]">
+      className="group relative flex flex-col overflow-hidden rounded-[1.75rem] border border-border bg-white transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_-32px_rgb(8_59_55/0.4)]">
       <Link href={`/opportunities/${l.id}`} className="absolute inset-0 z-10" aria-label={l.title} />
       <span className="relative m-2 block aspect-[16/10] overflow-hidden rounded-[1.35rem]">
         <Image src={l.image} alt="" fill sizes="30vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
         <span className="absolute inset-0 bg-[linear-gradient(to_top,rgb(0_0_0/0.65),transparent_55%)]" />
         <span className="absolute right-3 top-3 rounded-full bg-white px-2.5 py-0.5 text-[11px] font-black text-ink">پیشنهاد {faNumber(i + 1)}</span>
-        <span className="absolute bottom-3 left-3 rounded-full bg-black/55 p-0.5"><MatchRing score={r.score} light /></span>
+        <span className="absolute bottom-3 left-3 rounded-full bg-pine/55 p-0.5"><MatchRing score={r.score} light /></span>
         {l.city && <span className="absolute bottom-3.5 right-3 flex items-center gap-1 text-xs font-bold text-white"><Location size={14} variant="Bold" />{l.province}، {l.city}</span>}
       </span>
       <div className="flex flex-1 flex-col gap-2.5 px-4 pb-4 pt-1.5">
@@ -58,7 +58,7 @@ function Row({ r, i }: { r: MatchResult; i: number }) {
   const l = r.listing;
   return (
     <motion.li initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 + i * 0.06, duration: 0.45 }}
-      className="group relative flex items-center gap-4 rounded-[1.5rem] border border-border bg-white p-2 pl-4 transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_22px_44px_-32px_rgb(11_31_29/0.4)]">
+      className="group relative flex items-center gap-4 rounded-[1.5rem] border border-border bg-white p-2 pl-4 transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_22px_44px_-32px_rgb(8_59_55/0.4)]">
       <Link href={`/opportunities/${l.id}`} className="absolute inset-0 z-10 rounded-[1.5rem]" aria-label={l.title} />
       <span className="w-6 shrink-0 text-center text-sm font-black text-ink/35">{faNumber(i + 4)}</span>
       <span className="relative h-16 w-24 shrink-0 overflow-hidden rounded-xl"><Image src={l.image} alt="" fill sizes="96px" className="object-cover" /></span>
@@ -104,7 +104,7 @@ function Bubble({ children }: { children: React.ReactNode }) {
   // پیام کاربر سمت چپ، پاسخ دستیار سمت راست
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex justify-end">
-      <p className="max-w-xl rounded-[1.5rem] rounded-tl-md bg-coral px-5 py-3 text-[15px] font-bold leading-8 text-white">{children}</p>
+      <p className="max-w-xl rounded-[1.5rem] rounded-tl-md bg-pine px-5 py-3 text-[15px] font-bold leading-8 text-white">{children}</p>
     </motion.div>
   );
 }
@@ -179,14 +179,14 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave }: { turn: Turn;
                         </div>
                       </div>
                     ) : <div className="surface flex items-center gap-3 rounded-[1.5rem] p-5 text-sm font-bold text-ink/75"><TickCircle size={20} variant="Bulk" className="shrink-0 text-primary" />شرایط اصلی را گفته‌اید؛ اگر شرط دیگری دارید، پایین بنویسید.</div>}
-                    <div className={cn("relative overflow-hidden rounded-[1.5rem] p-5", saved ? "surface" : "bg-coral-soft text-ink")}>
+                    <div className={cn("relative overflow-hidden rounded-[1.5rem] p-5", saved ? "surface" : "bg-pine-soft text-ink")}>
                       {saved ? (
                         <p className="flex items-center gap-2.5 text-sm font-extrabold text-primary"><ArchiveTick size={20} variant="Bulk" />این شرایط ذخیره شده است؛ دفعه بعد از همین‌جا ادامه می‌دهید.</p>
                       ) : (
                         <>
                           <p className="text-[15px] font-black">این شرایط را برایتان نگه دارم؟</p>
                           <p className="mt-1 text-[13px] leading-6 text-ink/70">دفعه بعد لازم نیست دوباره بنویسید؛ با یک ضربه برمی‌گردید و پروژه‌های تازه را جدا می‌بینید.</p>
-                          <Button type="button" onClick={() => onSave(out.criteria)} className="mt-3.5 h-10 gap-2 rounded-full bg-coral px-5 text-[13px] font-extrabold text-white hover:bg-coral-deep"><Save2 size={17} />ذخیره شرایط</Button>
+                          <Button type="button" onClick={() => onSave(out.criteria)} className="mt-3.5 h-10 gap-2 rounded-full bg-pine px-5 text-[13px] font-extrabold text-white hover:bg-pine-deep"><Save2 size={17} />ذخیره شرایط</Button>
                         </>
                       )}
                     </div>
@@ -268,13 +268,13 @@ export function Assistant() {
               </div>
             )}
             <form onSubmit={(e) => { e.preventDefault(); ask(text); }}
-              className="surface flex items-end gap-2 rounded-[1.75rem] p-2 pr-5 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.12),0_24px_50px_-30px_rgb(11_31_29/0.3)]">
+              className="surface flex items-end gap-2 rounded-[1.75rem] p-2 pr-5 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.12),0_24px_50px_-30px_rgb(8_59_55/0.3)]">
               <Textarea ref={box} value={text} onChange={(e) => setText(e.target.value)} rows={1} aria-label="شرایط شما"
                 placeholder={started ? "شرط تازه‌ای دارید؟ بنویسید…" : "مثلاً: ۳۰ میلیارد دارم و دنبال پروژه مسکونی در تهران هستم"}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(text); } }}
                 className="field-sizing-content max-h-40 min-h-12 flex-1 resize-none border-0 bg-transparent px-0 py-3 text-base font-semibold leading-7 text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
               <Button variant="plain" size="auto" type="submit" disabled={!text.trim()} aria-label="بفرست"
-                className="grid size-12 shrink-0 place-items-center rounded-full bg-primary text-white shadow-[0_14px_30px_-12px_var(--primary)] transition-colors hover:bg-deep disabled:bg-ink/15 disabled:shadow-none"><Send2 size={20} variant="Bold" className="-scale-x-100" /></Button>
+                className="grid size-12 shrink-0 place-items-center rounded-full bg-primary text-white shadow-[0_14px_30px_-12px_var(--primary)] transition-colors hover:bg-deep disabled:bg-pine/15 disabled:shadow-none"><Send2 size={20} variant="Bold" className="-scale-x-100" /></Button>
             </form>
           </div>
         </div>

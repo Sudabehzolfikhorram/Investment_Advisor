@@ -49,12 +49,12 @@ export function HeroGallery({ l, index, onIndex }: { l: Listing; index: number; 
             <Image src={p.src} alt="" fill sizes="56px" className="object-cover" />
           </Button>
         ))}
-        <Button type="button" variant="plain" size="auto" onClick={() => setOpen(true)} className="h-14 gap-2 rounded-xl bg-black/45 px-3.5 text-[13px] font-extrabold text-white backdrop-blur hover:bg-black/60"><GalleryIcon size={18} variant="Bulk" />{faNumber(pics.length)} عکس</Button>
+        <Button type="button" variant="plain" size="auto" onClick={() => setOpen(true)} className="h-14 gap-2 rounded-xl bg-pine/45 px-3.5 text-[13px] font-extrabold text-white backdrop-blur hover:bg-pine/60"><GalleryIcon size={18} variant="Bulk" />{faNumber(pics.length)} عکس</Button>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent dir="rtl" aria-describedby={undefined} className="gap-4 rounded-[2rem] bg-ink p-5 text-white sm:max-w-5xl [&_[data-slot=dialog-close-x]]:bg-white/10 [&_[data-slot=dialog-close-x]]:text-white">
+        <DialogContent dir="rtl" aria-describedby={undefined} className="gap-4 rounded-[2rem] bg-pine p-5 text-white sm:max-w-5xl [&_[data-slot=dialog-close-x]]:bg-white/10 [&_[data-slot=dialog-close-x]]:text-white">
           <DialogTitle className="text-base font-extrabold text-white">{l.title}</DialogTitle>
-          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-black">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-pine">
             <AnimatePresence mode="popLayout" initial={false}>
               <motion.div key={pics[index].src} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }} className="absolute inset-0">
                 <Image src={pics[index].src} alt={pics[index].caption} fill sizes="80vw" className="object-cover" />

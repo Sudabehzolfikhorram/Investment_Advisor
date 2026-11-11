@@ -117,7 +117,7 @@ export function ComboList({ options, value, onChange, placeholder, empty, classN
       <CommandList className="max-h-64">
         <CommandEmpty>{empty}</CommandEmpty>
         {groups.map((g) => (
-          <CommandGroup key={g} heading={g || undefined} className="[&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-extrabold [&_[cmdk-group-heading]]:text-coral-deep">
+          <CommandGroup key={g} heading={g || undefined} className="[&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-extrabold [&_[cmdk-group-heading]]:text-pine-deep">
             {options.filter((o) => (o.group ?? "") === g).map((o) => {
               const on = value.includes(o.value);
               return (

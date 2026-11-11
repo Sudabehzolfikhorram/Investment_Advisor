@@ -110,7 +110,7 @@ function SaveInfoDialog({ open, onOpenChange, onSave }: { open: boolean; onOpenC
       <DialogContent className="overflow-hidden rounded-[2rem] bg-white p-0 sm:max-w-[34rem] [&_[data-slot=dialog-close-x]]:bg-white/90">
         <div className="relative">
           <SignaturePhoto src="/images/hero/towers.jpg" alt="" sizes="560px" mark={false} className="h-36" />
-          <span className="absolute bottom-0 right-8 grid size-16 translate-y-1/2 place-items-center rounded-[1.25rem] bg-white text-primary shadow-[0_18px_40px_-18px_rgb(11_31_29/0.5)]"><UserEdit size={30} variant="Bulk" /></span>
+          <span className="absolute bottom-0 right-8 grid size-16 translate-y-1/2 place-items-center rounded-[1.25rem] bg-white text-primary shadow-[0_18px_40px_-18px_rgb(8_59_55/0.5)]"><UserEdit size={30} variant="Bulk" /></span>
         </div>
         <div className="px-8 pb-8 pt-12">
           <DialogTitle className="text-right text-[22px] font-black leading-9 text-ink">اطلاعاتتان را یک بار ذخیره کنید</DialogTitle>
