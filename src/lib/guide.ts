@@ -19,7 +19,7 @@ section{padding:26px 0;border-bottom:1px dashed #e4e9e8}section:last-child{borde
 .row span{color:#667473;white-space:nowrap}.row strong{text-align:left;font-weight:800}
 .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch}.flow .arrow{align-self:center;color:#0f766e;font-size:22px;font-weight:900}
 .flow .card p{margin:0;font-weight:700;line-height:1.9}
-.note{padding:16px 20px;border-radius:18px;background:#faf5ea;border:1px solid #ecdcb9;font-weight:700}
+.note{padding:16px 20px;border-radius:18px;background:#f3f9f8;border:1px solid #dcecea;font-weight:700}
 ul.check{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 input[type=checkbox]{position:absolute;opacity:0;pointer-events:none}label{cursor:pointer}
 ul.check li{border:1px solid #e4e9e8;border-radius:14px;font-size:13.5px;font-weight:600;line-height:1.9;transition:.2s}ul.check li:hover,ol.steps li:hover{border-color:#0f766e}

@@ -179,14 +179,14 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave }: { turn: Turn;
                         </div>
                       </div>
                     ) : <div className="surface flex items-center gap-3 rounded-[1.5rem] p-5 text-sm font-bold text-ink/75"><TickCircle size={20} variant="Bulk" className="shrink-0 text-primary" />شرایط اصلی را گفته‌اید؛ اگر شرط دیگری دارید، پایین بنویسید.</div>}
-                    <div className={cn("relative overflow-hidden rounded-[1.5rem] p-5", saved ? "surface" : "bg-pine-soft text-ink")}>
+                    <div className={cn("relative overflow-hidden rounded-[1.5rem] p-5", saved ? "surface" : "bg-pine text-white")}>
                       {saved ? (
                         <p className="flex items-center gap-2.5 text-sm font-extrabold text-primary"><ArchiveTick size={20} variant="Bulk" />این شرایط ذخیره شده است؛ دفعه بعد از همین‌جا ادامه می‌دهید.</p>
                       ) : (
                         <>
                           <p className="text-[15px] font-black">این شرایط را برایتان نگه دارم؟</p>
-                          <p className="mt-1 text-[13px] leading-6 text-ink/70">دفعه بعد لازم نیست دوباره بنویسید؛ با یک ضربه برمی‌گردید و پروژه‌های تازه را جدا می‌بینید.</p>
-                          <Button type="button" onClick={() => onSave(out.criteria)} className="mt-3.5 h-10 gap-2 rounded-full bg-pine px-5 text-[13px] font-extrabold text-white hover:bg-pine-deep"><Save2 size={17} />ذخیره شرایط</Button>
+                          <p className="mt-1 text-[13px] leading-6 text-white/70">دفعه بعد لازم نیست دوباره بنویسید؛ با یک ضربه برمی‌گردید و پروژه‌های تازه را جدا می‌بینید.</p>
+                          <Button type="button" onClick={() => onSave(out.criteria)} className="mt-3.5 h-10 gap-2 rounded-full bg-coral px-5 text-[13px] font-extrabold text-white shadow-[0_10px_22px_-10px_var(--coral)] hover:bg-coral-deep"><Save2 size={17} />ذخیره شرایط</Button>
                         </>
                       )}
                     </div>

@@ -28,7 +28,7 @@ export function MatchRing({ score, size = 52, light }: { score: number; size?: n
     <span className="relative inline-grid place-items-center" style={{ width: size, height: size }} title={`${faNumber(score)}٪ تطابق`}>
       <svg viewBox="0 0 48 48" className="absolute inset-0 -rotate-90">
         <circle cx="24" cy="24" r={r} fill="none" strokeWidth="3.5" className={light ? "stroke-white/25" : "stroke-primary/15"} />
-        <motion.circle cx="24" cy="24" r={r} fill="none" strokeWidth="3.5" strokeLinecap="round" className={light ? "stroke-white" : score >= 70 ? "stroke-primary" : "stroke-sand"}
+        <motion.circle cx="24" cy="24" r={r} fill="none" strokeWidth="3.5" strokeLinecap="round" className={light ? "stroke-white" : score >= 70 ? "stroke-primary" : "stroke-primary/45"}
           strokeDasharray={c} initial={{ strokeDashoffset: c }} whileInView={{ strokeDashoffset: c * (1 - score / 100) }} viewport={{ once: true }} transition={{ duration: 1.1, ease: "easeOut" }} />
       </svg>
       <span className={`text-[13px] font-extrabold ${light ? "text-white" : "text-ink"}`}>{faNumber(score)}<span className="text-[9px]">٪</span></span>

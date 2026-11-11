@@ -87,7 +87,7 @@ function RiskMeter({ risk }: { risk: string }) {
   const level = { low: 1, medium: 2, high: 3 }[risk] ?? 0;
   return (
     <div>
-      <div className="flex gap-1.5">{[1, 2, 3].map((i) => <span key={i} className={cn("h-2.5 flex-1 rounded-full", i <= level ? (level === 1 ? "bg-primary" : level === 2 ? "bg-sand" : "bg-destructive") : "bg-muted")} />)}</div>
+      <div className="flex gap-1.5">{[1, 2, 3].map((i) => <span key={i} className={cn("h-2.5 flex-1 rounded-full", i <= level ? (level === 1 ? "bg-primary" : level === 2 ? "bg-coral" : "bg-destructive") : "bg-muted")} />)}</div>
       <div className="mt-2 flex justify-between text-[11px] font-semibold text-muted-foreground"><span>کم</span><span>متوسط</span><span>زیاد</span></div>
     </div>
   );
@@ -112,7 +112,7 @@ function Milestones({ o }: { o: Opportunity }) {
         {known.map((m, i) => (
           <li key={m.label} className="relative px-1 text-center">
             {i > 0 && <span aria-hidden className="absolute left-1/2 top-[7px] w-full border-t-2 border-dotted border-ink/20" />}
-            <span className={cn("relative z-10 mx-auto block size-4 rounded-full ring-4 ring-white", i === 0 ? "bg-pine" : m.label.includes("بدبینانه") ? "bg-sand" : "bg-primary")} />
+            <span className={cn("relative z-10 mx-auto block size-4 rounded-full ring-4 ring-white", i === 0 ? "bg-pine" : m.label.includes("بدبینانه") ? "bg-coral" : "bg-primary")} />
             <span className="mt-3 block text-base font-black text-ink">{m.value}</span>
             <span className="mt-0.5 block text-xs font-semibold leading-5 text-muted-foreground">{m.label}</span>
           </li>
@@ -251,34 +251,34 @@ function Contact({ l }: { l: Listing }) {
   const [copied, setCopied] = useState(false);
   const copy = () => { navigator.clipboard?.writeText(expert!.mobile); setCopied(true); toast("شماره کپی شد."); setTimeout(() => setCopied(false), 2000); };
   return (
-    <div id="next-step" className="relative isolate overflow-hidden rounded-[2rem] bg-pine-soft p-6 text-ink">
-      <AlgoPattern className="-left-8 -top-8 -z-10 h-56 w-72 text-pine/25" fade="radial" />
+    <div id="next-step" className="relative isolate overflow-hidden rounded-[2rem] bg-pine p-6 text-white">
+      <AlgoPattern className="-left-8 -top-8 -z-10 h-56 w-72 text-white/[0.07] blur-[1.5px]" fade="radial" />
       {expert ? (
         <>
-          <p className="flex items-center gap-2 text-xs font-bold text-pine-deep"><NodeMark />گام بعدی: با کارشناس پروژه صحبت کنید</p>
+          <p className="flex items-center gap-2 text-xs font-bold text-white/70"><NodeMark />گام بعدی: با کارشناس پروژه صحبت کنید</p>
           <div className="mt-4 flex items-center gap-3">
-            <span className="grid size-14 place-items-center rounded-2xl bg-white text-lg text-pine-deep font-black">{expert.name.trim()[0]}</span>
-            <span><span className="block text-base font-extrabold">{expert.name}</span><span className="block text-xs text-ink/60">کارشناس همین پروژه</span></span>
+            <span className="grid size-14 place-items-center rounded-2xl bg-white/10 text-lg font-black">{expert.name.trim()[0]}</span>
+            <span><span className="block text-base font-extrabold">{expert.name}</span><span className="block text-xs text-white/65">کارشناس همین پروژه</span></span>
           </div>
           <div className="mt-5 flex h-14 items-center gap-1 rounded-full bg-white p-1.5 text-ink">
-            <Button asChild variant="plain" size="auto" className="size-11 shrink-0 rounded-full bg-primary text-white hover:bg-deep"><a href={`tel:${expert.mobile}`} aria-label="تماس با کارشناس"><Call size={19} variant="Bold" /></a></Button>
+            <Button asChild variant="plain" size="auto" className="size-11 shrink-0 rounded-full bg-coral text-white shadow-[0_8px_18px_-8px_var(--coral)] hover:bg-coral-deep"><a href={`tel:${expert.mobile}`} aria-label="تماس با کارشناس"><Call size={19} variant="Bold" /></a></Button>
             <span dir="ltr" className="flex-1 select-all text-center text-base font-black tracking-wide">{formatMobile(expert.mobile)}</span>
             <Button variant="plain" size="auto" type="button" onClick={copy} aria-label="کپی شماره" title="کپی شماره" className={cn("size-11 shrink-0 rounded-full hover:bg-muted", copied ? "text-primary" : "text-ink/55 hover:text-primary")}>{copied ? <CopySuccess size={20} variant="Bold" /> : <Copy size={20} />}</Button>
           </div>
         </>
       ) : (
         <>
-          <p className="flex items-center gap-2 text-xs font-bold text-pine-deep"><NodeMark />گام بعدی: راهنمای اقدام را بگیرید</p>
+          <p className="flex items-center gap-2 text-xs font-bold text-white/70"><NodeMark />گام بعدی: راهنمای اقدام را بگیرید</p>
           <div className="mt-4 flex items-center gap-3">
-            <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white text-pine-deep"><DocumentDownload size={26} variant="Bulk" /></span>
-            <span><span className="block text-base font-extrabold">راهنمای اقدام</span><span className="block text-xs leading-5 text-ink/60">مراحل، مدارک و نکته‌های این پروژه در یک فایل</span></span>
+            <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/10"><DocumentDownload size={26} variant="Bulk" /></span>
+            <span><span className="block text-base font-extrabold">راهنمای اقدام</span><span className="block text-xs leading-5 text-white/65">مراحل، مدارک و نکته‌های این پروژه در یک فایل</span></span>
           </div>
           <Button asChild variant="plain" size="auto" className="mt-5 h-14 w-full justify-between rounded-full bg-white pl-1.5 pr-6 text-base font-extrabold text-ink hover:bg-white/90">
             <Link href={`/guide/${l.id}`}>دیدن راهنما<span className="grid size-11 place-items-center rounded-full bg-primary text-white"><ArrowLeft size={18} /></span></Link>
           </Button>
         </>
       )}
-      <SaveButton id={l.id} label className="mt-2 w-full border-pine/25 !bg-white/70 !text-ink hover:!bg-white" />
+      <SaveButton id={l.id} label className="mt-2 w-full border-white/20 !bg-white/10 !text-white hover:!bg-white/20" />
     </div>
   );
 }
@@ -364,8 +364,8 @@ export function Detail({ id }: { id: string }) {
                     <div className="mt-4"><RiskMeter risk={o.risk} /></div>
                     <p className="mt-5 flex items-center gap-2 border-t border-dashed border-border pt-4 text-sm font-bold text-ink/80"><ShieldSearch size={18} variant="Bulk" className="text-primary" />وضعیت حقوقی: {legalLabel[o.legalStatus] ?? o.legalStatus}</p>
                   </div>
-                  {o.caution && <div className="rounded-[1.75rem] bg-sand/15 p-6 ring-1 ring-sand/40">
-                    <span className="grid size-11 place-items-center rounded-2xl bg-sand/70 text-ink"><Warning2 size={22} variant="Bulk" /></span>
+                  {o.caution && <div className="rounded-[1.75rem] bg-white p-6 ring-1 ring-border">
+                    <span className="grid size-11 place-items-center rounded-2xl bg-coral/10 text-coral"><Warning2 size={22} variant="Bulk" /></span>
                     <h3 className="mt-3 text-sm font-extrabold text-ink">پیش از تصمیم بدانید</h3>
                     <p className="mt-2 text-[15px] font-semibold leading-8 text-ink/85">{o.caution}</p>
                   </div>}
@@ -380,8 +380,8 @@ export function Detail({ id }: { id: string }) {
             {o && advisory && <Chapter n={++n} title="پرسش‌هایی که باید پاسخشان را آماده کنید" note={subtype?.name}><AdvisoryBlock a={advisory} /></Chapter>}
 
             {!o && text.caution && (
-              <div className="flex items-start gap-4 rounded-[1.75rem] bg-sand/15 p-6 ring-1 ring-sand/40">
-                <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-sand/70 text-ink"><Warning2 size={22} variant="Bulk" /></span>
+              <div className="flex items-start gap-4 rounded-[1.75rem] bg-white p-6 ring-1 ring-border">
+                <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-coral/10 text-coral"><Warning2 size={22} variant="Bulk" /></span>
                 <span><span className="block text-sm font-extrabold text-ink">پیش از تصمیم بدانید</span><span className="mt-1 block text-[15px] font-semibold leading-8 text-ink/85">{text.caution}</span></span>
               </div>
             )}
@@ -406,7 +406,7 @@ export function Detail({ id }: { id: string }) {
                   <div className="grid grid-cols-3 gap-3">
                     {([["تضمین بانکی", fund.bank.exists], ["تضمین اصل سرمایه", fund.bank.principal], ["تضمین سود", fund.bank.profit]] as const).map(([t, v]) => (
                       <div key={t} className="surface flex items-center justify-between rounded-[1.5rem] p-5"><span className="text-sm font-bold text-ink">{t}</span>
-                        <span className={cn("inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-extrabold", v ? "bg-primary text-white" : v === false ? "bg-muted text-ink/70" : "bg-sand/30 text-ink")}>{v ? <><TickCircle size={14} variant="Bold" />دارد</> : v === false ? "ندارد" : "نامعلوم"}</span></div>
+                        <span className={cn("inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-extrabold", v ? "bg-primary text-white" : v === false ? "bg-muted text-ink/70" : "bg-muted text-ink/70")}>{v ? <><TickCircle size={14} variant="Bold" />دارد</> : v === false ? "ندارد" : "نامعلوم"}</span></div>
                     ))}
                   </div>
                   {!fund.bank.verified && <p className="mt-3 flex items-center gap-2 text-sm font-semibold text-muted-foreground"><InfoCircle size={16} variant="Bulk" />مستندات تضمین احراز نشده است.</p>}
@@ -415,7 +415,7 @@ export function Detail({ id }: { id: string }) {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="surface rounded-[1.75rem] p-6"><h3 className="text-sm font-extrabold text-primary">پرداخت سود</h3><p className="mt-2 text-xl font-black text-ink">{payoutLabel[fund.payout] ?? fund.payout}</p><p className="mt-1 text-sm text-muted-foreground">مدت: {fund.durationMonths != null ? `${faNumber(fund.durationMonths)} ماه` : NA}</p>
                       <div className="mt-5"><RiskMeter risk={fund.risk} /></div></div>
-                    <div className="rounded-[1.75rem] bg-sand/15 p-6 ring-1 ring-sand/40"><span className="grid size-11 place-items-center rounded-2xl bg-sand/70 text-ink"><Warning2 size={22} variant="Bulk" /></span><h3 className="mt-3 text-sm font-extrabold text-ink">شرایط خروج</h3><p className="mt-2 text-[15px] font-semibold leading-8 text-ink/85">{fund.exit || NA}</p></div>
+                    <div className="rounded-[1.75rem] bg-white p-6 ring-1 ring-border"><span className="grid size-11 place-items-center rounded-2xl bg-coral/10 text-coral"><Warning2 size={22} variant="Bulk" /></span><h3 className="mt-3 text-sm font-extrabold text-ink">شرایط خروج</h3><p className="mt-2 text-[15px] font-semibold leading-8 text-ink/85">{fund.exit || NA}</p></div>
                   </div>
                 </Chapter>
               </>

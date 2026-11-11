@@ -68,7 +68,7 @@ export function ListingCard({ listing: l, score, reasons, index = 0, comparable 
         <div className="flex flex-1 flex-col gap-3.5 p-5 pt-3">
           <h3 className="line-clamp-2 min-h-14 text-[17px] font-extrabold leading-7 text-ink">{l.title}</h3>
           {budget && budget !== "unknown" && (
-            <p className={cn("-mt-1 flex items-center gap-1.5 text-[12px] font-extrabold", budget === "met" ? "text-primary" : "text-amber-700")}>
+            <p className={cn("-mt-1 flex items-center gap-1.5 text-[12px] font-extrabold", budget === "met" ? "text-primary" : "text-coral-deep")}>
               {budget === "met" && <TickCircle size={15} variant="Bold" />}{budget === "met" ? "در بودجه شما" : "بیرون از بودجه شما"}
             </p>
           )}

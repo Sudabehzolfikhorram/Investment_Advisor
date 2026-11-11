@@ -41,13 +41,13 @@ export function HelpSummary({ className }: { className?: string }) {
   const featured = libraryTopics.filter((t) => t.id !== "services").slice(0, 6);
   return (
     <div className={cn("grid grid-cols-[19rem_1fr] gap-8", className)}>
-      <div className="flex flex-col justify-between rounded-[2rem] bg-pine-soft p-7 text-ink">
+      <div className="flex flex-col justify-between rounded-[2rem] bg-pine p-7 text-white">
         <div>
-          <span className="text-[13px] font-extrabold text-pine-deep">شناخت فرصت، پیش از تصمیم</span>
+          <span className="text-[13px] font-extrabold text-white/70">شناخت فرصت، پیش از تصمیم</span>
           <h3 className="mt-2 text-2xl font-black leading-[1.5]">راهنمای همکاری و مستندات</h3>
-          <p className="mt-3 text-sm leading-7 text-ink/70">پرسش‌هایی که پیش از هر همکاری باید جوابشان روشن باشد؛ از مدل قرارداد تا تضمین و حقوق ملک.</p>
+          <p className="mt-3 text-sm leading-7 text-white/70">پرسش‌هایی که پیش از هر همکاری باید جوابشان روشن باشد؛ از مدل قرارداد تا تضمین و حقوق ملک.</p>
         </div>
-        <Button asChild variant="plain" size="auto" className="group mt-8 h-12 w-fit gap-2 rounded-full bg-pine px-5 text-sm font-extrabold text-white hover:bg-pine-deep">
+        <Button asChild variant="plain" size="auto" className="group mt-8 h-12 w-fit gap-2 rounded-full bg-white px-5 text-sm font-extrabold text-ink hover:bg-white/90">
           <Link href="/tools/library">همه راهنماها و منابع<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></Link>
         </Button>
       </div>

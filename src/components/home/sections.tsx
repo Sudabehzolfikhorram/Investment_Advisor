@@ -108,7 +108,7 @@ export function Categories() {
                 )}
               </AnimatePresence>
               <div className={cn("absolute inset-0 transition-colors duration-500", on ? "bg-gradient-to-t from-pine/90 via-pine/45 to-pine/5" : "bg-pine/65 group-hover/panel:bg-pine/45")} />
-              {on && <AlgoPattern className="-left-6 -top-6 h-2/3 w-2/3 text-white/25" fade="radial" scale={0.6} />}
+              {on && <AlgoPattern className="-left-6 -top-6 h-2/3 w-2/3 text-white/15 blur-[1px]" fade="radial" scale={0.6} />}
 
               {/* حالت بسته: آیکون و نام عمودی */}
               <div className={cn("absolute inset-0 flex items-center gap-3 px-5 transition-opacity duration-300 lg:flex-col lg:justify-between lg:px-0 lg:py-5", on ? "pointer-events-none opacity-0" : "opacity-100")}>

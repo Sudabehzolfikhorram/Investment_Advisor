@@ -435,15 +435,15 @@ export function Results() {
                 )}
 
                 {hasCriteria && !isSaved && !nudgeOff && shown.length > 0 && (
-                  <div className="relative mb-5 flex items-center gap-4 overflow-hidden rounded-[1.75rem] bg-pine-soft p-4 pr-5 text-ink">
-                    <AlgoPattern className="-left-10 -top-10 h-48 w-72 text-pine/25" fade="radial" scale={0.6} />
-                    <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-white text-pine-deep"><Save2 size={24} variant="Bulk" /></span>
+                  <div className="relative mb-5 flex items-center gap-4 overflow-hidden rounded-[1.75rem] bg-pine p-4 pr-5 text-white">
+                    <AlgoPattern className="-left-10 -top-10 h-48 w-72 text-white/[0.07] blur-[1.5px]" fade="radial" scale={0.6} />
+                    <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-white/10"><Save2 size={24} variant="Bulk" /></span>
                     <div className="min-w-0 flex-1">
                       <p className="text-base font-extrabold">فیلترهایی را که تنظیم کرده‌اید ذخیره کنید</p>
-                      <p className="mt-0.5 text-[13px] leading-6 text-ink/70">دفعه بعد لازم نیست این مراحل را تکرار کنید؛ با یک کلیک به همین نتایج برمی‌گردید و پروژه‌های تازه را می‌بینید.</p>
+                      <p className="mt-0.5 text-[13px] leading-6 text-white/70">دفعه بعد لازم نیست این مراحل را تکرار کنید؛ با یک کلیک به همین نتایج برمی‌گردید و پروژه‌های تازه را می‌بینید.</p>
                     </div>
-                    <Button type="button" onClick={() => setSaveOpen(true)} className="relative h-11 shrink-0 gap-2 rounded-full bg-pine px-5 font-extrabold text-white hover:bg-pine-deep"><Save2 size={18} />ذخیره این جست‌وجو</Button>
-                    <Button type="button" variant="plain" size="auto" aria-label="بستن" onClick={() => setNudgeOff(true)} className="relative grid size-9 shrink-0 place-items-center rounded-full text-ink/50 hover:bg-white hover:text-ink"><CloseCircle size={20} /></Button>
+                    <Button type="button" onClick={() => setSaveOpen(true)} className="relative h-11 shrink-0 gap-2 rounded-full bg-coral px-5 font-extrabold text-white shadow-[0_10px_22px_-10px_var(--coral)] hover:bg-coral-deep"><Save2 size={18} />ذخیره این جست‌وجو</Button>
+                    <Button type="button" variant="plain" size="auto" aria-label="بستن" onClick={() => setNudgeOff(true)} className="relative grid size-9 shrink-0 place-items-center rounded-full text-white/60 hover:bg-white/10 hover:text-white"><CloseCircle size={20} /></Button>
                   </div>
                 )}
 

@@ -24,7 +24,7 @@ body{background:#f3f5f5!important;color:#083b37;font:15px/2 Vazirmatn,Tahoma,Ari
 .doc-head h1{margin:0;font-size:29px;line-height:1.55;font-weight:900;color:#083b37}.doc-body h1,.doc-body h2,.doc-body h3{color:#083b37;background:none}
 .doc-meta{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}.pill{padding:2px 14px;border-radius:99px;background:#f2f4f4;font-size:12.5px;font-weight:700}
 .doc-body{padding:8px 44px 36px}
-.doc-foot{display:flex;justify-content:space-between;gap:24px;padding:22px 44px;background:#e2edeb;color:#3d5552;font-size:12px;line-height:1.9}
+.doc-foot{display:flex;justify-content:space-between;gap:24px;padding:22px 44px;background:#dcecea;color:#3d5552;font-size:12px;line-height:1.9}
 .doc-foot b{color:#083b37;font-size:13px}.doc-foot .doc-foot-end{text-align:left;white-space:nowrap}
 /* نوشتار عمومی داخل سند */
 .doc-body h2{display:flex;align-items:center;gap:12px;margin:26px 0 12px;font-size:19px;font-weight:900}
@@ -37,7 +37,7 @@ body{background:#f3f5f5!important;color:#083b37;font:15px/2 Vazirmatn,Tahoma,Ari
 .doc-body th{background:#f2f6f5;font-weight:800;width:34%}.doc-body tr:last-child th,.doc-body tr:last-child td{border-bottom:0}
 .doc-body dl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.doc-body dl>div{border:1px solid #e4e9e8;border-radius:14px;padding:10px 14px}
 .doc-body dt{font-size:12px;color:#667473}.doc-body dd{margin:0;font-weight:800}
-.doc-body .ext-note,.doc-body .notice,.doc-body .note{padding:14px 18px;border-radius:16px;background:#faf5ea;border:1px solid #ecdcb9;font-weight:700}
+.doc-body .ext-note,.doc-body .notice,.doc-body .note{padding:14px 18px;border-radius:16px;background:#f3f9f8;border:1px solid #dcecea;font-weight:700}
 .pending{margin-top:10px;padding:10px 14px;border:1px dashed #d5dedd;border-radius:14px;font-size:12.5px;color:#667473;line-height:1.9}.pending b{color:#083b37}
 @media print{body{background:#fff}.sheet{margin:0;border:0;border-radius:0;max-width:none}section{break-inside:avoid}.doc-foot{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 @media(max-width:640px){.doc-head,.doc-body,.doc-foot{padding-inline:22px}.doc-foot{flex-direction:column}.doc-body dl{grid-template-columns:1fr}}
