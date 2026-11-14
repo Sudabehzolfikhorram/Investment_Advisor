@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* سایت فقط حالت روشن دارد؛ حالت تیره سیستم کاربر نباید رنگ فیلدها را خاکستری کند */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --radius: 1rem;
   --background: #fafbfb;

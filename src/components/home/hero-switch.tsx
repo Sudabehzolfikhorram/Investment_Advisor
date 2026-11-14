@@ -18,9 +18,9 @@ export function HeroSwitch() {
   return (
     <>
       {idea ? <idea.C /> : <Hero />}
-      {v && (
+      {(
         <nav aria-label="ایده‌های هیرو" className="glass fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-full p-1.5 shadow-[0_24px_50px_-24px_rgb(8_59_55/0.5)] ring-1 ring-border">
-          <span className="px-3 text-xs font-extrabold text-muted-foreground">ایده هیرو</span>
+          <span className="px-3 text-xs font-extrabold text-muted-foreground">ایده‌های هیرو را ببینید</span>
           {[{ id: "0", name: "فعلی" }, ...ideas].map((i) => (
             <Link key={i.id} href={`/?hero=${i.id}`} scroll={false} className={cn("rounded-full px-4 py-2 text-[13px] font-extrabold transition-colors", (idea?.id ?? "0") === i.id ? "bg-pine text-white" : "text-ink/70 hover:bg-muted")}>{i.id !== "0" && `${i.id}. `}{i.name}</Link>
           ))}

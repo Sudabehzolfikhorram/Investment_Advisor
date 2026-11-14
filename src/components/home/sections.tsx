@@ -98,7 +98,7 @@ export function Categories() {
           return (
             <motion.div key={g.id} data-panel onMouseEnter={() => { setActive(i); setPreview(null); }} onFocusCapture={() => setActive(i)} onClick={() => setActive(i)}
               animate={{ flexGrow: on ? 9 : 1 }} transition={{ type: "spring", stiffness: 190, damping: 26 }}
-              className={cn("group/panel relative isolate min-w-0 shrink-0 cursor-pointer overflow-hidden rounded-[1.75rem] bg-pine text-white transition-[height] duration-500 lg:shrink lg:basis-0", on ? "h-[30rem] lg:h-auto" : "h-[4.5rem] lg:h-auto")}>
+              className={cn("group/panel relative isolate min-w-0 shrink-0 cursor-pointer overflow-hidden rounded-[1.75rem] bg-[#1b1d1d] text-white transition-[height] duration-500 lg:shrink lg:basis-0", on ? "h-[30rem] lg:h-auto" : "h-[4.5rem] lg:h-auto")}>
               <Image src={g.image ?? "/images/hero/field.jpg"} alt="" fill sizes="(max-width:1024px) 100vw, 60vw" className={cn("object-cover transition-all duration-700", on ? "scale-100" : "scale-110 saturate-[0.3]")} />
               <AnimatePresence>
                 {on && preview && (
@@ -107,7 +107,7 @@ export function Categories() {
                   </motion.div>
                 )}
               </AnimatePresence>
-              <div className={cn("absolute inset-0 transition-colors duration-500", on ? "bg-gradient-to-t from-pine/90 via-pine/45 to-pine/5" : "bg-pine/65 group-hover/panel:bg-pine/45")} />
+              <div className={cn("absolute inset-0 transition-colors duration-500", on ? "bg-gradient-to-t from-black/80 via-black/35 to-black/5" : "bg-[#1b1d1d]/60 group-hover/panel:bg-[#1b1d1d]/40")} />
               {on && <AlgoPattern className="-left-6 -top-6 h-2/3 w-2/3 text-white/15 blur-[1px]" fade="radial" scale={0.6} />}
 
               {/* حالت بسته: آیکون و نام عمودی */}

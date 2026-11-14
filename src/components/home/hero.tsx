@@ -163,12 +163,9 @@ export function Hero() {
 
             <TabsContent value="assistant" className="space-y-6">
               <h1 className="text-5xl font-black leading-[1.4] tracking-tight text-ink text-balance">بگویید چه می‌خواهید؛ <span className="text-primary">نزدیک‌ترین پروژه‌ها</span> را با درصد تطابق نشانتان می‌دهیم.</h1>
-              <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) go(prompt); }} className="surface rounded-[2rem] p-2.5">
-                <div className="flex items-center gap-2">
-                  <span className="grid size-12 shrink-0 place-items-center rounded-full bg-primary/10 text-primary"><MagicStar size={24} variant="Bulk" /></span>
-                  <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="۳۰ میلیارد دارم، پروژه مسکونی در تهران می‌خواهم…" aria-label="توضیح شرایط برای دستیار" className="h-14 min-w-0 flex-1 border-0 bg-transparent px-3 text-[15px] font-semibold text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-[15px]" />
-                  <Button type="submit" variant="plain" size="auto" className="group h-14 gap-2 rounded-full bg-primary px-6 font-extrabold text-white hover:bg-deep">پیدا کن <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
-                </div>
+              <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) go(prompt); }} className="surface flex items-center gap-2 rounded-full p-2 pr-7 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.12),0_24px_50px_-30px_rgb(8_59_55/0.3)]">
+                <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="۳۰ میلیارد دارم، پروژه مسکونی در تهران می‌خواهم…" aria-label="توضیح شرایط برای دستیار" className="h-14 min-w-0 flex-1 rounded-none border-0 !bg-transparent px-0 text-base font-semibold text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
+                <Button type="submit" variant="plain" size="auto" className="group h-14 shrink-0 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_14px_30px_-14px_var(--primary)] hover:bg-deep">پیدا کن <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
               </form>
               <div className="flex flex-wrap items-center gap-2">
                 {samplePrompts.map((p) => <Button key={p} variant="plain" size="auto" onClick={() => go(p)} className="h-auto rounded-full border border-border bg-white px-3.5 py-1.5 text-[13px] font-semibold text-ink/75 hover:border-primary/50 hover:text-primary">{p}</Button>)}

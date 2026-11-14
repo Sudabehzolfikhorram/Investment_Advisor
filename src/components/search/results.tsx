@@ -382,7 +382,7 @@ export function Results() {
       payback: (a, b) => ((a.listing.raw as Opportunity).paybackYears ?? 99) - ((b.listing.raw as Opportunity).paybackYears ?? 99),
       newest: (a, b) => b.listing.publishedAt.localeCompare(a.listing.publishedAt),
     };
-    // پروژه‌های با تطابق کمتر جدا نمی‌شوند؛ بعد از پروژه‌های مناسب، هنگام اسکرول می‌آیند
+    // پروژه‌های با تطابق کمتر بعد از پروژه‌های مناسب، هنگام اسکرول می‌آیند؛ درصد روی کارت کافی است و عنوان جدا ندارند
     const rest = hasCriteria ? list.filter((r) => r.score < SUITABLE && r.score > 0) : [];
     return { shown: [...ok].sort(by[sort]), far: [...rest].sort((a, b) => b.score - a.score || by[sort](a, b)) };
   }, [all, q, sort, hasCriteria]);
@@ -470,13 +470,6 @@ export function Results() {
                   <div className={cn("grid grid-cols-2 gap-5 transition-opacity 2xl:grid-cols-3", deferred !== criteria && "opacity-60")}>
                     {feed.slice(0, limit).map((r, i) => (
                       <Fragment key={r.listing.id}>
-                        {i === shown.length && (
-                          <div className="col-span-full mt-4 flex items-center gap-4 first:mt-0">
-                            <span className="h-px flex-1 bg-border" />
-                            <span className="text-center"><span className="block text-base font-extrabold text-ink">پروژه‌های با تطابق کمتر</span><span className="mt-0.5 block text-xs font-semibold text-muted-foreground">با بخشی از خواسته شما جور درمی‌آیند؛ به ترتیب درصد تطابق</span></span>
-                            <span className="h-px flex-1 bg-border" />
-                          </div>
-                        )}
                         <ListingCard listing={r.listing} score={hasCriteria ? r.score : undefined} reasons={hasCriteria ? r.reasons : undefined} index={i % PAGE} comparable />
                       </Fragment>))}
                   </div>

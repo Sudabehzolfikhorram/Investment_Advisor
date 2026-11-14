@@ -359,13 +359,12 @@ export function Assistant() {
               </div>
             )}
             {/* قاب نوشتن با حاشیه رنگی متحرک هنگام تمرکز */}
-            <div className="group/composer rounded-[1.85rem] bg-border p-px transition-colors focus-within:bg-[linear-gradient(90deg,var(--primary),#7cc4bb,var(--pine-soft),#7cc4bb,var(--primary))] focus-within:bg-[length:200%_100%] focus-within:animate-[sheen_3s_linear_infinite] focus-within:shadow-[0_24px_50px_-30px_rgb(8_59_55/0.35)]">
-              <form onSubmit={(e) => { e.preventDefault(); ask(text); }} className="flex items-end gap-2 rounded-[1.8rem] bg-white p-2 pr-3">
-                <span className="mb-2.5 grid size-8 shrink-0 place-items-center rounded-full bg-primary/10 text-primary"><MagicStar size={16} variant="Bulk" /></span>
+            <div className="group/composer rounded-[2rem] bg-border p-px transition-colors focus-within:bg-[linear-gradient(90deg,var(--primary),#7cc4bb,var(--pine-soft),#7cc4bb,var(--primary))] focus-within:bg-[length:200%_100%] focus-within:animate-[sheen_3s_linear_infinite] focus-within:shadow-[0_24px_50px_-30px_rgb(8_59_55/0.35)]">
+              <form onSubmit={(e) => { e.preventDefault(); ask(text); }} className="flex items-end gap-2 rounded-[calc(2rem-1px)] bg-white p-2 pr-6 shadow-[0_18px_40px_-30px_rgb(8_59_55/0.35)]">
                 <Textarea ref={box} value={text} onChange={(e) => setText(e.target.value)} rows={1} aria-label="شرایط شما"
                   placeholder={started ? "شرط تازه‌ای دارید؟ بنویسید…" : "مثلاً: ۳۰ میلیارد دارم و دنبال پروژه مسکونی در تهران هستم"}
                   onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(text); } }}
-                  className="field-sizing-content max-h-40 min-h-12 flex-1 resize-none border-0 bg-transparent px-0 py-3 text-base font-semibold leading-7 text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
+                  className="field-sizing-content max-h-40 min-h-12 flex-1 resize-none rounded-none border-0 !bg-transparent px-0 py-3 text-base font-semibold leading-7 text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
                 <Button variant="plain" size="auto" type="submit" disabled={!text.trim()} aria-label="بفرست"
                   className="grid size-12 shrink-0 place-items-center rounded-full bg-primary text-white shadow-[0_14px_30px_-12px_var(--primary)] transition-[background-color,transform] hover:bg-deep active:scale-95 disabled:bg-pine/15 disabled:shadow-none"><Send2 size={20} variant="Bold" className="-scale-x-100" /></Button>
               </form>

@@ -68,7 +68,7 @@ function TypingHint({ hidden }: { hidden: boolean }) {
     return () => clearTimeout(t);
   }, [n, i, words.length, reduce]);
   if (hidden) return null;
-  return <span aria-hidden className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-[15px] text-muted-foreground">{reduce ? samplePrompts[0] : words.slice(0, n).join(" ")}<span className="ms-0.5 inline-block h-5 w-px animate-pulse bg-primary" /></span>;
+  return <span aria-hidden className="pointer-events-none absolute inset-y-0 right-0 flex items-center text-[15px] text-muted-foreground">{reduce ? samplePrompts[0] : words.slice(0, n).join(" ")}<span className="ms-0.5 inline-block h-5 w-px animate-pulse bg-primary" /></span>;
 }
 
 function CompassRing() {
@@ -105,10 +105,9 @@ export function HeroCompass() {
         </span>{" "}ببرید.
       </h1>
       <p className="mt-5 max-w-lg text-[17px] leading-9 text-ink/65">بگویید چه می‌خواهید؛ پروژه‌های هم‌خوان را با درصد تطابق نشانتان می‌دهیم.</p>
-      <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) ask(prompt); }} className="surface mt-8 flex items-center gap-2 rounded-full p-2 pr-3">
-        <span className="grid size-11 shrink-0 place-items-center rounded-full bg-primary/10 text-primary"><MagicStar size={22} variant="Bulk" /></span>
+      <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) ask(prompt); }} className="surface mt-8 flex items-center gap-2 rounded-full p-2 pr-7 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.12),0_24px_50px_-30px_rgb(8_59_55/0.3)]">
         <span className="relative min-w-0 flex-1">
-          <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} aria-label="شرایط شما برای دستیار" className="h-14 border-0 bg-transparent px-3 text-[15px] font-semibold text-ink shadow-none focus-visible:ring-0 md:text-[15px]" />
+          <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} aria-label="شرایط شما برای دستیار" className="h-14 rounded-none border-0 !bg-transparent px-0 text-[15px] font-semibold text-ink shadow-none focus-visible:ring-0 md:text-[15px]" />
           <TypingHint hidden={!!prompt} />
         </span>
         <Button type="submit" variant="plain" size="auto" className="group h-14 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_18px_36px_-18px_var(--primary)] hover:bg-deep">پیدا کن<ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
