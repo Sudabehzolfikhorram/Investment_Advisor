@@ -140,7 +140,7 @@ export function ToolView({ id }: { id: string }) {
         </SignaturePhoto>
 
         <div className={cn("mt-7 grid items-start gap-7", id === "library" ? "grid-cols-1" : "grid-cols-[1fr_19rem]")}>
-          <Card className="surface relative block min-h-[60dvh] min-w-0 gap-0 overflow-hidden rounded-[2rem] p-9 shadow-none">
+          <Card className="surface relative block min-h-[60dvh] min-w-0 gap-0 overflow-clip rounded-[2rem] p-9 shadow-none">
             <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-gradient-to-l from-primary via-primary/60 to-transparent" />
             <LegacyTool key={id} opener={tool.opener} root={tool.root} />
           </Card>

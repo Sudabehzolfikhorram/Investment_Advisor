@@ -60,7 +60,7 @@ export function ListingCard({ listing: l, score, reasons, index = 0, comparable 
             {score != null && <span className="shrink-0 rounded-full bg-pine/60 p-0.5"><MatchRing score={score} light /></span>}
           </div>
         </SignaturePhoto>
-        <div className="pointer-events-none absolute inset-x-5 top-5 z-20 flex flex-row-reverse [&>*]:pointer-events-auto items-start justify-end gap-2">
+        <div className="pointer-events-none absolute inset-x-5 top-5 z-20 flex flex-row-reverse [&>*]:pointer-events-auto items-center justify-end gap-2">
           {isNew(l) && <Badge className="bg-white px-2.5 py-1 text-[11px] font-extrabold text-primary">جدید</Badge>}
           <SaveButton id={l.id} />
           {comparable && <CompareButton id={l.id} />}

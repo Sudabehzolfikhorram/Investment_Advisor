@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ArrowDown2 } from "@/components/iconsax";
+import { ArrowDown2, ArrowUp2, Trash } from "@/components/iconsax";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { engineFrame } from "@/lib/engine-src";
@@ -98,6 +98,14 @@ function QLabel({ text, required, className }: { text: string; required?: boolea
       <span className="min-w-0">{m[2]}{star}</span>
     </span>);
 }
+/** وضعیت یک فیلد برای پیشرفت فرم: پاسخ داده شده؟ ضروری است؟ */
+function fieldInfo(k: N): { answered: boolean; required: boolean } | null {
+  const cs = controlsIn(k); const c = cs[0]; if (!c) return null;
+  const answered = cs.some((x) => (x.attr.type === "checkbox" || x.attr.type === "radio" ? !!x.checked : !!(x.value && x.value.trim() !== "")));
+  return { answered, required: fieldLabel(textOf(k), c).required };
+}
+const isFieldNode = (k: N) => k.tag === "label" || has(k, "field");
+const scrollToEl = (el: Element | null | undefined) => { if (!el) return; el.scrollIntoView({ behavior: "smooth", block: "center" }); const f = el.querySelector<HTMLElement>("input,textarea,button,[role=combobox]"); window.setTimeout(() => f?.focus({ preventScroll: true }), 450); };
 const isQuestion = (t: string) => /^[۰-۹0-9]+[.)]\s*\S/u.test(t);
 const isControl = (n: N) => n.tag === "input" || n.tag === "select" || n.tag === "textarea";
 const clean = (s: string) => s.replace(/^\s*[←→↓↑]\s*/u, "").replace(/\s*[←→↓↑×]\s*$/u, "").replace(/\s*[—–]\s*/g, "، ").trim();
@@ -199,6 +207,69 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
     : k.tag === "small" ? <small key={k.key} className="block text-xs font-normal leading-6 text-muted-foreground">{inline(k)}</small>
     : find(k, (x) => isControl(x) || x.tag === "button") ? render(k) : <span key={k.key}>{inline(k)}</span>);
 
+  /** فرم بلند: بخش‌های جدا + کارت پیشرفت پرسش‌های ضروری (چسبان بالای فرم) */
+  type Group = { title?: string; optional?: boolean; items: N[] };
+  const longForm = (key: string, groups: Group[]) => {
+    const infos = groups.map((g) => g.items.map((k) => ({ k, f: fieldInfo(k) })).filter((x) => x.f) as { k: N; f: { answered: boolean; required: boolean } }[]);
+    const all = infos.flat(); const req = all.filter((x) => x.f.required); const basis = req.length ? req : all;
+    const done = basis.filter((x) => x.f.answered).length, total = basis.length, left = total - done, pct = total ? Math.round((done / total) * 100) : 100;
+    const next = basis.find((x) => !x.f.answered);
+    const q = (k: N) => [...document.querySelectorAll<HTMLElement>("[data-q]")].find((el) => el.dataset.q === k.key)?.firstElementChild;
+    const secEl = (i: number) => [...document.querySelectorAll<HTMLElement>("[data-sec]")].find((el) => el.dataset.sec === `${key}|${i}`);
+    return (
+      <div key={key} className="col-span-full flex flex-col gap-5">
+        <div className="sticky top-24 z-20 rounded-[1.5rem] border border-border bg-white/95 p-4 shadow-[0_18px_40px_-30px_rgb(8_59_55/0.45)] backdrop-blur">
+          <div className="flex items-center gap-4">
+            <span className={cn("grid size-12 shrink-0 place-items-center rounded-full text-[13px] font-black tabular-nums", left ? "bg-primary/10 text-primary" : "bg-primary text-white")}>{left ? `${faNumber(pct)}٪` : <TickCircle size={24} variant="Bold" />}</span>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-extrabold text-ink">{left ? `${faNumber(done)} از ${faNumber(total)} ${req.length ? "پرسش ضروری" : "پرسش"} پاسخ داده شده` : `همه ${req.length ? "پرسش‌های ضروری" : "پرسش‌ها"} پاسخ داده شده‌اند`}</p>
+              <p className="mt-0.5 text-xs font-semibold text-muted-foreground">{left ? `${faNumber(left)} پرسش مانده تا ادامه` : "می‌توانید به مرحله بعد بروید."}</p>
+              <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-muted"><div className="h-full rounded-full bg-primary transition-[width] duration-500" style={{ width: `${pct}%` }} /></div>
+            </div>
+            {next && <Button type="button" variant="outline" onClick={() => scrollToEl(q(next.k))} className="h-10 shrink-0 gap-1.5 rounded-full bg-white px-4 text-[13px] font-extrabold shadow-none hover:border-primary hover:text-primary">پرسش بعدی بی‌پاسخ<ArrowLeft size={15} /></Button>}
+          </div>
+          {groups.length > 1 && (
+            <div className="mt-3 flex flex-wrap gap-1.5 border-t border-border/70 pt-3">
+              {groups.map((g, i) => { const list = infos[i].filter((x) => !req.length || x.f.required); const d = list.filter((x) => x.f.answered).length; const ok = list.length > 0 && d === list.length;
+                return (
+                  <button key={i} type="button" onClick={() => scrollToEl(secEl(i))} className={cn("flex items-center gap-1.5 rounded-full border px-3 py-1 text-[12px] font-bold transition-colors", ok ? "border-primary/25 bg-primary/[0.06] text-primary" : "border-border bg-white text-ink/70 hover:border-primary/40")}>
+                    {ok && <TickCircle size={14} variant="Bold" />}{g.title ?? `بخش ${faNumber(i + 1)}`}
+                    {!ok && <span className="text-[11px] font-semibold text-muted-foreground tabular-nums">{list.length ? `${faNumber(d)} از ${faNumber(list.length)}` : "اختیاری"}</span>}
+                  </button>); })}
+            </div>
+          )}
+        </div>
+        {groups.map((g, i) => { const list = infos[i].filter((x) => !req.length || x.f.required); const d = list.filter((x) => x.f.answered).length;
+          return (
+            <section key={i} data-sec={`${key}|${i}`} className="scroll-mt-48 rounded-[1.75rem] border border-border/80 bg-[#f8faf9] p-6">
+              <header className="mb-5 flex items-center gap-3 border-b border-border/70 pb-4">
+                <span className="grid size-8 shrink-0 place-items-center rounded-full bg-pine text-[13px] font-black text-white">{faNumber(i + 1)}</span>
+                <h4 className="text-base font-extrabold text-ink">{g.title ?? `بخش ${faNumber(i + 1)} از ${faNumber(groups.length)}`}</h4>
+                {(g.optional || (req.length > 0 && !list.length)) && <span className="rounded-full bg-muted px-2.5 py-0.5 text-[11px] font-bold text-muted-foreground">اختیاری</span>}
+                {list.length > 0 && <span className={cn("mr-auto flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold", d === list.length ? "bg-primary/10 text-primary" : "bg-white text-muted-foreground ring-1 ring-border")}>{d === list.length ? <><TickCircle size={13} variant="Bold" />کامل</> : `${faNumber(list.length - d)} پرسش مانده`}</span>}
+              </header>
+              <div className="grid grid-cols-2 items-start gap-x-5 gap-y-5">{g.items.map((k) => <div key={k.key} data-q={k.key} className="contents">{render(k)}</div>)}</div>
+            </section>); })}
+      </div>);
+  };
+  /** تقسیم فیلدها: با عنوان‌های میانی نسخه مرجع؛ اگر عنوانی نبود، هر چهار پرسش یک بخش */
+  const splitGroups = (items: N[]): Group[] => {
+    const gs: Group[] = [{ items: [] }];
+    for (const k of items) {
+      const t = clean(textOf(k));
+      if ((k.tag === "h3" || k.tag === "h4" || k.tag === "legend" || has(k, "ma-section-title")) && t && !isQuestion(t)) { gs.push({ title: t.replace(/[؛;،,]?\s*اختیاری$/u, ""), optional: /اختیاری$/u.test(t), items: [] }); continue; }
+      gs[gs.length - 1].items.push(k);
+    }
+    let out = gs.filter((g) => g.items.some(isFieldNode));
+    if (out.length === 1 && !out[0].title) {
+      const chunks: Group[] = []; let cur: N[] = []; let n = 0;
+      for (const k of out[0].items) { cur.push(k); if (isFieldNode(k) && ++n % 4 === 0) { chunks.push({ items: cur }); cur = []; } }
+      if (cur.length) { if (cur.filter(isFieldNode).length <= 1 && chunks.length) chunks[chunks.length - 1].items.push(...cur); else chunks.push({ items: cur }); }
+      out = chunks;
+    }
+    return out;
+  };
+
   // برچسب آخرین دراپ‌داون رندرشده، برای راهنمای فیلدهای وابسته
   let lastSelect = "";
   function render(n: N): React.ReactNode {
@@ -246,6 +317,16 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
             className={cn("h-auto flex-col items-start gap-1 whitespace-normal rounded-2xl border p-4 text-right", press ? "border-primary bg-primary/[0.06] ring-1 ring-primary" : "border-border bg-white hover:border-primary/40")}>
             {n.kids.map((k) => k.tag === "strong" ? <strong key={k.key} className="text-[15px] font-extrabold text-ink">{clean(textOf(k))}</strong> : <span key={k.key} className="text-[13px] font-normal leading-6 text-muted-foreground">{clean(textOf(k))}</span>)}
           </Button>);
+        // دکمه‌های ترتیب و حذف در فهرست خدمات بسته: آیکون روشن به جای نماد متنی
+        if (n.ds.lpMove || n.ds.lpRemove != null) {
+          const up = n.ds.direction === "-1", remove = n.ds.lpRemove != null;
+          const name = remove ? "حذف از بسته" : up ? "بالاتر" : "پایین‌تر";
+          return (
+            <Button key={n.key} type="button" variant="plain" size="auto" disabled={n.disabled} aria-label={n.attr["aria-label"] ?? name} title={name} onClick={() => fire(n.key, "click")}
+              className={cn("grid size-9 place-items-center rounded-full border border-border bg-white text-ink/70 transition-colors disabled:opacity-35", remove ? "hover:border-destructive/40 hover:text-destructive" : "hover:border-primary hover:text-primary")}>
+              {remove ? <Trash size={16} /> : up ? <ArrowUp2 size={16} /> : <ArrowDown2 size={16} />}
+            </Button>);
+        }
         const primary = has(n, "primary") || has(n, "jll-button");
         const isDownload = /دانلود|دریافت فایل|خروجی/.test(text);
         return (
@@ -319,31 +400,20 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
         if (has(n, "error") || has(n, "fi-error")) return text ? <p key={n.key} role="alert" className="col-span-full flex items-center gap-2 rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-bold text-destructive"><Warning2 size={18} variant="Bulk" />{text}</p> : null;
         if (allText) return text ? <div key={n.key} className={cn("text-sm leading-7 text-ink/80", n.attr["aria-current"] && "font-extrabold text-primary")}>{inline(n)}</div> : null;
         if (sections && n.id === "ma-fields") {
-          // هر بخش یک کارت جدا با شماره و عنوان؛ عنوان‌های میانی نسخه مرجع جایشان را به عنوان بخش می‌دهند
+          // بخش‌های تعریف‌شده برای این فرم (فیلدها همان فیلدهای نسخه مرجع‌اند)
           const fieldOf = (k: N) => find(k, (x) => !!x.ds?.maField)?.ds.maField;
           const used = new Set<string>();
-          const blocks = sections.map((sec) => { const items = n.kids.filter((k) => { const f = fieldOf(k); return !!f && sec.fields.includes(f); }); items.forEach((k) => used.add(k.key)); return { sec, items }; }).filter((b) => b.items.length);
-          const rest = n.kids.filter((k) => !used.has(k.key) && k.tag !== "h4" && !has(k, "ma-section-title"));
-          return (
-            <div key={n.key} className="col-span-full flex flex-col gap-5">
-              {blocks.map(({ sec, items }, i) => (
-                <section key={sec.title} className="rounded-[1.75rem] border border-border/80 bg-[#f8faf9] p-6">
-                  <header className="mb-5 flex items-center gap-3 border-b border-border/70 pb-4">
-                    <span className="grid size-8 shrink-0 place-items-center rounded-full bg-pine text-[13px] font-black text-white">{faNumber(i + 1)}</span>
-                    <h4 className="text-base font-extrabold text-ink">{sec.title}</h4>
-                    {sec.optional && <span className="rounded-full bg-muted px-2.5 py-0.5 text-[11px] font-bold text-muted-foreground">اختیاری</span>}
-                  </header>
-                  <div className="grid grid-cols-2 items-start gap-x-5 gap-y-5">{items.map((k) => render(k))}</div>
-                </section>
-              ))}
-              {rest.length > 0 && <div className="grid grid-cols-2 items-start gap-x-5 gap-y-5">{rest.map((k) => render(k))}</div>}
-            </div>);
+          const groups = sections.map((sec) => { const items = n.kids.filter((k) => { const f = fieldOf(k); return !!f && sec.fields.includes(f); }); items.forEach((k) => used.add(k.key)); return { title: sec.title, optional: sec.optional, items }; }).filter((g) => g.items.length);
+          const rest = n.kids.filter((k) => !used.has(k.key) && k.tag !== "h4" && !has(k, "ma-section-title") && isFieldNode(k));
+          return longForm(n.key, rest.length ? [...groups, { items: rest }] : groups);
         }
         const fields = n.kids.filter((k) => k.tag === "label" || has(k, "field")).length;
         const grid = has(n, "form-grid") || has(n, "fi-grid") || has(n, "lp-service-grid") || has(n, "ma-checks") || has(n, "fi-checks") || has(n, "ext-evidence") || has(n, "ext-mini-grid") || has(n, "fi-families") || has(n, "fi-three-parts") || (fields >= 2 && fields >= n.kids.length - 1);
         const cards = has(n, "ext-card-grid") || has(n, "fi-provider-grid") || has(n, "cards") || has(n, "ext-source-list");
         const card = has(n, "ext-card") || has(n, "fi-provider") || has(n, "fi-case") || has(n, "ext-source") || has(n, "lp-service-output") || has(n, "dialog-section") || has(n, "lp-package") || has(n, "fi-definition") || has(n, "vivid-idea-result") || has(n, "compare-scroll") || has(n, "charity-impact");
         const multi = n.kids.filter(isCheck).length >= 3;
+        // فرم‌های بلند (شش پرسش یا بیشتر): بخش‌بندی و نمایش پیشرفت
+        if (grid && !multi && !card && !cards && n.kids.filter(isFieldNode).length >= 6 && !has(n, "fi-families") && !has(n, "fi-three-parts")) return longForm(n.key, splitGroups(n.kids));
         return <div key={n.key} className={cn(multi && "col-span-full",
           has(n, "actions") ? "col-span-full mt-2 flex flex-row-reverse items-center justify-between gap-3 border-t border-border pt-6" :
           has(n, "ext-actions") || has(n, "lp-order-actions") || has(n, "ma-context-links") || has(n, "fi-library-filter") || has(n, "ma-source-links") ? "flex flex-wrap items-center gap-2.5" : grid && !multi ? cn("grid grid-cols-2 gap-x-5 gap-y-5", (has(n, "fi-families") || has(n, "fi-three-parts")) && "grid-cols-3", fields >= 2 && !card && "rounded-[1.75rem] border border-border/80 bg-[#f8faf9] p-6") : cards ? "grid grid-cols-2 gap-4" : "flex min-w-0 flex-col gap-4",

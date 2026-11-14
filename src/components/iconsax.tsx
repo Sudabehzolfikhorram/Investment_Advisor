@@ -14,6 +14,7 @@ const wrap = (C: Icon): Icon => {
 export const ArchiveAdd = wrap(I.ArchiveAdd);
 export const ArchiveTick = wrap(I.ArchiveTick);
 export const ArrowDown2 = wrap(I.ArrowDown2);
+export const ArrowUp2 = wrap(I.ArrowUp2);
 export const ArrowLeft = wrap(I.ArrowLeft);
 export const ArrowRight = wrap(I.ArrowRight);
 export const Box = wrap(I.Box);
