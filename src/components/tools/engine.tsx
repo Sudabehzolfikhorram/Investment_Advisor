@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ArrowDown2, ArrowUp2, Trash } from "@/components/iconsax";
+import { ArrowDown2, ArrowUp2, Bank, Global, Trash, TrendUp } from "@/components/iconsax";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { engineFrame } from "@/lib/engine-src";
@@ -100,11 +100,14 @@ function QLabel({ text, required, className }: { text: string; required?: boolea
 }
 /** وضعیت یک فیلد برای پیشرفت فرم: پاسخ داده شده؟ ضروری است؟ */
 function fieldInfo(k: N): { answered: boolean; required: boolean } | null {
-  const cs = controlsIn(k); const c = cs[0]; if (!c) return null;
+  const cs = controlsIn(k);
+  // فهرست خدمات آماده‌سازی زمین: نسخه مرجع حداقل یک انتخاب را لازم می‌داند
+  if (has(k, "lp-services")) return { required: true, answered: cs.some((x) => x.attr.type === "checkbox" && !!x.checked) };
+  const c = cs[0]; if (!c) return null;
   const answered = cs.some((x) => (x.attr.type === "checkbox" || x.attr.type === "radio" ? !!x.checked : !!(x.value && x.value.trim() !== "")));
   return { answered, required: fieldLabel(textOf(k), c).required };
 }
-const isFieldNode = (k: N) => k.tag === "label" || has(k, "field");
+const isFieldNode = (k: N) => k.tag === "label" || has(k, "field") || has(k, "lp-services");
 const scrollToEl = (el: Element | null | undefined) => { if (!el) return; el.scrollIntoView({ behavior: "smooth", block: "center" }); const f = el.querySelector<HTMLElement>("input,textarea,button,[role=combobox]"); window.setTimeout(() => f?.focus({ preventScroll: true }), 450); };
 const isQuestion = (t: string) => /^[۰-۹0-9]+[.)]\s*\S/u.test(t);
 const isControl = (n: N) => n.tag === "input" || n.tag === "select" || n.tag === "textarea";
@@ -200,7 +203,16 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
     return n.kids.map((k, i) => i === first ? <MultiDrop key={`${n.key}/multi`} items={checks.map((l) => { const c = controlsIn(l)[0]; const strong = find(l, (x) => x.tag === "strong"); const small = find(l, (x) => x.tag === "small");
       return { key: c.key, checked: !!c.checked, disabled: !!c.disabled, title: clean(strong ? textOf(strong) : textOf(l)), hint: small ? clean(textOf(small)) : undefined }; })} single={checks.every((l) => controlsIn(l)[0].attr.type === "radio")} onToggle={(key) => fire(key, "click")} /> : isCheck(k) ? null : render(k));
   };
-  const inline = (n: N): React.ReactNode => n.kids.map((k) =>
+  // دو تکه متن کنار هم (مثل «<b>۱۰۸</b><span>رکورد</span>») در نسخه مرجع با CSS جدا می‌شدند؛ این‌جا یک فاصله می‌گیرند
+  const gapBetween = (a: N, b: N) => {
+    if (a.tag === "#text" && b.tag === "#text") return false;
+    if (["small", "br", "input", "select", "button"].includes(a.tag) || ["small", "br", "input", "select", "button"].includes(b.tag)) return false;
+    const at = a.tag === "#text" ? a.text ?? "" : textOf(a), bt = b.tag === "#text" ? b.text ?? "" : textOf(b);
+    if (!at.trim() || !bt.trim()) return false;
+    return !/[\s\u200c(«[]$/.test(at) && !/^[\s\u200c،؛:.!؟?)»\]٪%]/.test(bt);
+  };
+  const inline = (n: N): React.ReactNode => n.kids.map((k, i) => <Fragment key={k.key}>{i > 0 && gapBetween(n.kids[i - 1], k) && " "}{inlineOne(k)}</Fragment>);
+  const inlineOne = (k: N): React.ReactNode => (
     k.tag === "#text" ? <Fragment key={k.key}>{k.text}</Fragment>
     : k.tag === "strong" || k.tag === "b" ? <strong key={k.key} className="font-extrabold text-ink">{inline(k)}</strong>
     : k.tag === "a" ? <a key={k.key} href={k.attr.href} target="_blank" rel="noreferrer" className="font-bold text-primary underline-offset-4 hover:underline">{inline(k)}</a>
@@ -267,6 +279,8 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
       if (cur.length) { if (cur.filter(isFieldNode).length <= 1 && chunks.length) chunks[chunks.length - 1].items.push(...cur); else chunks.push({ items: cur }); }
       out = chunks;
     }
+    // اگر بقیه بخش‌ها نام دارند، بخش بی‌نام اول هم نام بگیرد تا فهرست بخش‌ها یکدست باشد
+    if (out.some((g) => g.title)) out = out.map((g, i) => (g.title ? g : { ...g, title: i === 0 ? "اطلاعات پایه" : "سایر پرسش‌ها" }));
     return out;
   };
 
@@ -331,8 +345,9 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
         const rich = n.kids.some((k) => k.tag === "strong");
         if (rich || has(n, "fi-family")) return (
           <Button key={n.key} type="button" variant="plain" size="auto" disabled={n.disabled} aria-pressed={press} onClick={() => (to ? router.push(to) : fire(n.key, "click"))}
-            className={cn("h-auto flex-col items-start gap-1 whitespace-normal rounded-2xl border p-4 text-right", press ? "border-primary bg-primary/[0.06] ring-1 ring-primary" : "border-border bg-white hover:border-primary/40")}>
-            {n.kids.map((k) => k.tag === "strong" ? <strong key={k.key} className="text-[15px] font-extrabold text-ink">{clean(textOf(k))}</strong> : <span key={k.key} className="text-[13px] font-normal leading-6 text-muted-foreground">{clean(textOf(k))}</span>)}
+            className={cn("h-auto flex-col items-start justify-start gap-1 whitespace-normal rounded-2xl border p-4 text-right", press ? "border-primary bg-primary/[0.06] ring-1 ring-primary" : "border-border bg-white hover:border-primary/40")}>
+            {has(n, "fi-family") && (() => { const I = ({ commercial: TrendUp, finance: Bank, development: Global } as const)[n.ds.fiFamily as "commercial"]; return I ? <span className={cn("mb-2 grid size-10 place-items-center rounded-xl", press ? "bg-primary text-white" : "bg-primary/10 text-primary")}><I size={20} variant="Bulk" /></span> : null; })()}
+            {n.kids.filter((k) => k.tag === "strong" || /[\p{L}\p{N}]/u.test(textOf(k))).map((k) => k.tag === "strong" ? <strong key={k.key} className="text-[15px] font-extrabold text-ink">{clean(textOf(k))}</strong> : <span key={k.key} className="text-[13px] font-normal leading-6 text-muted-foreground">{clean(textOf(k))}</span>)}
           </Button>);
         // دکمه‌های ترتیب و حذف در فهرست خدمات بسته: آیکون روشن به جای نماد متنی
         if (n.ds.lpMove || n.ds.lpRemove != null) {
@@ -409,6 +424,28 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
               {h && <p className="mt-1 text-[17px] font-black leading-8 text-ink">{clean(textOf(h))}</p>}
               {para && <p className="mt-1 text-[13px] leading-7 text-ink/70">{clean(textOf(para))}</p>}
             </div>); }
+        // کارت نهادها و منابع بین‌المللی: زیر هم، با ردیف‌های خوانا به‌جای ستون‌های باریک
+        if (has(n, "fi-provider-grid")) return <div key={n.key} className="col-span-full flex flex-col gap-4">{kids(n)}</div>;
+        if (has(n, "fi-provider")) {
+          const head = n.kids.find((k) => has(k, "fi-provider-head")); const h = head && find(head, (x) => x.tag === "h4"); const st = head && find(head, (x) => has(x, "fi-status"));
+          const role = n.kids.find((k) => has(k, "fi-definition")); const rows = n.kids.find((k) => k.tag === "dl");
+          const date = n.kids.find((k) => k.tag === "small"); const src = n.kids.find((k) => k.tag === "a");
+          return (
+            <article key={n.key} className="rounded-[1.75rem] border border-border bg-white p-6 transition-shadow hover:shadow-[0_22px_48px_-34px_rgb(8_59_55/0.4)]">
+              <div className="flex items-start justify-between gap-4">
+                <h4 className="text-[17px] font-black leading-8 text-ink">{h ? clean(textOf(h)) : ""}</h4>
+                {st && <span className="shrink-0 rounded-full bg-pine-soft px-3 py-1 text-xs font-extrabold text-pine">{clean(textOf(st))}</span>}
+              </div>
+              {role && <p className="mt-2 text-sm leading-7 text-ink/75">{inline(role)}</p>}
+              {rows && <dl className="mt-4 divide-y divide-border rounded-2xl bg-[#f8faf9] px-5">{rows.kids.filter((r) => r.tag === "div").map((r) => { const dt = r.kids.find((c) => c.tag === "dt"), dd = r.kids.find((c) => c.tag === "dd"); return (
+                <div key={r.key} className="grid grid-cols-[9rem_minmax(0,1fr)] gap-4 py-3.5"><dt className="text-[13px] font-extrabold leading-7 text-ink/60">{dt ? clean(textOf(dt)) : ""}</dt><dd className="text-sm leading-7 text-ink/85">{dd ? inline(dd) : ""}</dd></div>); })}</dl>}
+              {(date || src) && <div className="mt-4 flex flex-wrap items-center justify-between gap-3">{date && <small className="text-xs leading-6 text-muted-foreground">{inline(date)}</small>}{src && render(src)}</div>}
+            </article>);
+        }
+        // فهرست پیوندهای منبع: هر پیوند یک برچسب جدا، نه یک خط پیوسته
+        if (has(n, "ma-source-links")) return <div key={n.key} className="flex flex-wrap items-center gap-2">{n.kids.filter((k) => k.tag !== "#text" || k.text?.trim()).map((k) => k.tag === "a" ? <a key={k.key} href={k.attr.href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-border bg-white px-3 py-1.5 text-[13px] font-bold text-primary hover:border-primary">{clean(textOf(k))}</a> : <span key={k.key} className="w-full text-[13px] font-extrabold text-ink">{inline({ ...n, kids: [k] })}</span>)}</div>;
+        // بخش «شفافیت اطلاعات این نسخه» فقط درباره نمونه بودن داده‌هاست و طبق قاعده پروژه نمایش داده نمی‌شود
+        if (has(n, "dialog-section") && /شفافیت اطلاعات این نسخه/.test(textOf(n.kids.find((k) => k.tag === "h3") ?? n))) return null;
         if (has(n, "charity-line")) return text ? <p key={n.key} className="col-span-full -mt-1 border-r-2 border-primary/40 pr-4 text-[13px] font-semibold leading-7 text-ink/70">{text}</p> : null;
         if (has(n, "eyebrow")) return <span key={n.key} className="text-[13px] font-extrabold text-primary">{text}</span>;
         const allText = n.kids.every((k) => k.tag === "#text" || k.tag === "strong" || k.tag === "small" || k.tag === "a" || k.tag === "span" || k.tag === "b") && !find(n, (x) => isControl(x) || x.tag === "button");
