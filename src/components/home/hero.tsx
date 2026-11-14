@@ -29,7 +29,7 @@ export function cityPoints() {
   return [...m.values()];
 }
 
-const ease = [0.22, 1, 0.36, 1] as const;
+export const ease = [0.22, 1, 0.36, 1] as const;
 
 /** تنها جای خالی جمله: دسته‌بندی اصلی (تک‌انتخابی) */
 function RouteBlank() {
@@ -97,12 +97,16 @@ function useFeed() {
   return items;
 }
 
-function MapScene() {
+/** نقشه هیرو. active استان‌های انتخاب‌شده را پررنگ می‌کند؛ focus به‌جای کارت‌های چرخان فقط یک پروژه را نشان می‌دهد. */
+export function MapScene({ active = [], focus, caption = "تازه‌ترین پروژه‌ها از سراسر ایران" }: { active?: string[]; focus?: string; caption?: string }) {
   const points = useMemo(cityPoints, []);
-  const feed = useFeed();
+  const all = useFeed();
+  const feed = focus ? [] : all;
+  const fl = focus ? listings.find((l) => l.id === focus) : null; const fp = fl?.city ? cityXY(fl.city) : null;
   return (
     <motion.div initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.15, ease }} className="relative mx-auto w-full max-w-[620px]">
-      <IranMap points={points} labels={false} links={false}>
+      <IranMap points={points} active={active} labels={false} links={false}>
+        {fp && <g key={focus}><circle cx={fp.x} cy={fp.y} r="6" className="fill-primary" /><circle cx={fp.x} cy={fp.y} r="6" className="fill-none stroke-primary" strokeWidth="1.2" style={{ transformOrigin: `${fp.x}px ${fp.y}px`, animation: "pulse-node 1.8s ease-out infinite" }} /></g>}
         {feed.map((f) => { const l = listings.find((x) => x.id === f.id)!; const p = cityXY(l.city!)!;
           return <g key={f.key}><circle cx={p.x} cy={p.y} r="5" className="fill-primary" /><circle cx={p.x} cy={p.y} r="5" className="fill-none stroke-primary" strokeWidth="1" style={{ transformOrigin: `${p.x}px ${p.y}px`, animation: "pulse-node 1.8s ease-out infinite" }} /></g>; })}
       </IranMap>
@@ -125,7 +129,7 @@ function MapScene() {
           );
         })}
       </AnimatePresence>
-      <p className="mt-1 text-center text-xs font-semibold text-muted-foreground">تازه‌ترین پروژه‌ها از سراسر ایران</p>
+      <p className="mt-1 text-center text-xs font-semibold text-muted-foreground">{caption}</p>
     </motion.div>
   );
 }
