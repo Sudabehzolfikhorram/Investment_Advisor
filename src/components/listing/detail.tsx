@@ -84,12 +84,43 @@ function Facts({ groups }: { groups: FactGroup[] }) {
   );
 }
 
+const riskTone: Record<number, { text: string; stroke: string; soft: string; bar: string }> = {
+  1: { text: "text-primary", stroke: "stroke-primary", soft: "bg-primary/10", bar: "bg-primary" },
+  2: { text: "text-coral", stroke: "stroke-coral", soft: "bg-coral/10", bar: "bg-coral" },
+  3: { text: "text-destructive", stroke: "stroke-destructive", soft: "bg-destructive/10", bar: "bg-destructive" },
+};
+const riskLevel = (risk: string) => ({ low: 1, medium: 2, high: 3 }[risk] ?? 0);
+
+/** نوار سه‌قسمتی فشرده: فقط سطح فعلی رنگ می‌گیرد تا سطح بالا همه نوار را قرمز نکند. */
 function RiskMeter({ risk }: { risk: string }) {
-  const level = { low: 1, medium: 2, high: 3 }[risk] ?? 0;
+  const level = riskLevel(risk);
   return (
     <div>
-      <div className="flex gap-1.5">{[1, 2, 3].map((i) => <span key={i} className={cn("h-2.5 flex-1 rounded-full", i <= level ? (level === 1 ? "bg-primary" : level === 2 ? "bg-coral" : "bg-destructive") : "bg-muted")} />)}</div>
-      <div className="mt-2 flex justify-between text-[11px] font-semibold text-muted-foreground"><span>کم</span><span>متوسط</span><span>زیاد</span></div>
+      <div className="flex gap-1.5">{[1, 2, 3].map((i) => <span key={i} className={cn("h-2 flex-1 rounded-full", i === level ? riskTone[i].bar : i < level ? cn(riskTone[level].bar, "opacity-25") : "bg-muted")} />)}</div>
+      <div className="mt-2 grid grid-cols-3 text-[11px]">{["کم", "متوسط", "زیاد"].map((t, i) => <span key={t} className={cn("text-center first:text-right last:text-left", i + 1 === level ? cn("font-extrabold", riskTone[level].text) : "font-semibold text-muted-foreground")}>{t}</span>)}</div>
+    </div>
+  );
+}
+
+/** عقربه نیم‌دایره: کم در راست، زیاد در چپ (هم‌جهت با خواندن راست‌به‌چپ). */
+function RiskGauge({ risk }: { risk: string }) {
+  const level = riskLevel(risk);
+  const pt = (a: number, r = 80) => [100 + r * Math.cos((a * Math.PI) / 180), 100 - r * Math.sin((a * Math.PI) / 180)];
+  const arc = (a0: number, a1: number) => { const [x0, y0] = pt(a0), [x1, y1] = pt(a1); return `M${x0} ${y0} A80 80 0 0 0 ${x1} ${y1}`; };
+  const segs = [[4, 56], [64, 116], [124, 176]];
+  const angle = [0, 30, 90, 150][level];
+  return (
+    <div className="relative mx-auto w-full max-w-[17rem]">
+      <svg viewBox="0 0 200 112" className="block w-full" aria-hidden>
+        {segs.map(([a0, a1], i) => <path key={i} d={arc(a0, a1)} fill="none" strokeWidth={14} strokeLinecap="round" className={i + 1 === level ? riskTone[level].stroke : "stroke-muted"} />)}
+        {level > 0 && (
+          <motion.g initial={{ rotate: 0 }} whileInView={{ rotate: -angle }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 60, damping: 14, delay: 0.15 }} style={{ originX: 0, originY: 0.5, transformBox: "fill-box" }}>
+            <path d="M100 96 L164 100 L100 104 Z" className="fill-deep" />
+          </motion.g>
+        )}
+        <circle cx={100} cy={100} r={9} className="fill-deep" /><circle cx={100} cy={100} r={3.5} className="fill-white" />
+      </svg>
+      <div className="mt-1 flex justify-between text-[11px] font-semibold text-muted-foreground"><span>کم</span><span>زیاد</span></div>
     </div>
   );
 }
@@ -359,17 +390,23 @@ export function Detail({ id }: { id: string }) {
 
             {o && (
               <Chapter n={++n} title="ریسک و نکته‌های مهم">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="surface rounded-[1.75rem] p-6">
-                    <div className="flex items-center justify-between"><h3 className="text-sm font-extrabold text-ink">سطح ریسک</h3><span className="text-base font-black text-ink">{riskLabel[o.risk] ?? o.risk}</span></div>
-                    <div className="mt-4"><RiskMeter risk={o.risk} /></div>
-                    <p className="mt-5 flex items-center gap-2 border-t border-dashed border-border pt-4 text-sm font-bold text-ink/80"><ShieldSearch size={18} variant="Bulk" className="text-primary" />وضعیت حقوقی: {legalLabel[o.legalStatus] ?? o.legalStatus}</p>
+                <div className="grid grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-4">
+                  <div className="surface flex flex-col items-center rounded-[1.75rem] p-6 text-center">
+                    <h3 className="self-stretch text-right text-sm font-extrabold text-ink">سطح ریسک</h3>
+                    <div className="mt-4 w-full"><RiskGauge risk={o.risk} /></div>
+                    <p className={cn("mt-3 text-2xl font-black", riskTone[riskLevel(o.risk)]?.text ?? "text-ink/60")}>{riskLabel[o.risk] ?? o.risk}</p>
+                    <p className="mt-1 text-xs font-semibold text-muted-foreground">{riskLevel(o.risk) ? `سطح ${faNumber(riskLevel(o.risk))} از ${faNumber(3)}` : "سطح ریسک برای این پروژه ثبت نشده است"}</p>
                   </div>
-                  {o.caution && <div className="rounded-[1.75rem] bg-white p-6 ring-1 ring-border">
-                    <span className="grid size-11 place-items-center rounded-2xl bg-coral/10 text-coral"><Warning2 size={22} variant="Bulk" /></span>
-                    <h3 className="mt-3 text-sm font-extrabold text-ink">پیش از تصمیم بدانید</h3>
-                    <p className="mt-2 text-[15px] font-semibold leading-8 text-ink/85">{o.caution}</p>
-                  </div>}
+                  <div className="flex flex-col gap-4">
+                    <div className="surface flex items-center gap-4 rounded-[1.75rem] p-5">
+                      <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><ShieldSearch size={22} variant="Bulk" /></span>
+                      <span className="min-w-0 flex-1"><span className="block text-xs font-bold text-muted-foreground">وضعیت حقوقی</span><span className="mt-0.5 block text-base font-extrabold text-ink">{legalLabel[o.legalStatus] ?? o.legalStatus}</span></span>
+                    </div>
+                    {o.caution && <div className="flex flex-1 items-start gap-4 rounded-[1.75rem] bg-white p-5 ring-1 ring-border">
+                      <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-coral/10 text-coral"><Warning2 size={22} variant="Bulk" /></span>
+                      <span className="min-w-0 flex-1"><span className="block text-sm font-extrabold text-ink">پیش از تصمیم بدانید</span><span className="mt-1.5 block text-[15px] font-semibold leading-8 text-ink/85">{o.caution}</span></span>
+                    </div>}
+                  </div>
                 </div>
                 {!!o.checks?.length && <>
                   <h3 className="mb-2 mt-6 text-sm font-extrabold text-ink">این موارد را بررسی کنید</h3>

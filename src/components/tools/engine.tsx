@@ -294,11 +294,28 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
       }
       // falls through
       case "p_": return text ? <p key={n.key} className={cn("col-span-full text-sm leading-7 text-ink/75", has(n, "ext-desc") && "text-muted-foreground", has(n, "ext-step-label") && "text-[13px] font-extrabold text-primary", (has(n, "error") || has(n, "fi-error")) && "rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 font-bold text-destructive", (has(n, "ext-note") || has(n, "source-note") || has(n, "ext-status") || has(n, "field-note") || has(n, "results-note")) && "rounded-2xl bg-muted px-4 py-3 font-semibold", has(n, "ext-empty") && "col-span-full rounded-2xl border border-dashed border-border px-4 py-8 text-center")}>{inline(n)}</p> : null;
-      case "ul": case "ol": return <ul key={n.key} className="space-y-2">{n.kids.filter((k) => k.tag === "li").map((li, i) => {
+      case "ul": case "ol": {
+        // گام‌های «عنوان پررنگ + توضیح» (مثل charity-timeline): عنوان در خط خودش، توضیح زیرش، با خط زمانی
+        const lis = n.kids.filter((k) => k.tag === "li");
+        const parts = (li: N) => li.kids.filter((k) => !(k.tag === "#text" && !k.text?.trim()));
+        const titled = lis.length > 1 && lis.every((li) => { const p = parts(li); return p.length >= 2 && (p[0].tag === "strong" || p[0].tag === "b") && !find(li, (x) => x.tag === "button" || isControl(x)); });
+        if (titled) return (
+          <ol key={n.key} className="relative">{lis.map((li, i) => { const [h, ...rest] = parts(li); return (
+            <li key={li.key} className="relative flex gap-4 pb-5 last:pb-0">
+              {i < lis.length - 1 && <span aria-hidden className={cn("absolute bottom-0 w-px bg-primary/20", n.tag === "ol" ? "start-[15.5px] top-9" : "start-[5.5px] top-5")} />}
+              {n.tag === "ol"
+                ? <span className="relative grid size-8 shrink-0 place-items-center rounded-full bg-white text-[13px] font-black text-primary shadow-sm ring-1 ring-primary/25">{faNumber(i + 1)}</span>
+                : <span className="relative mt-2 size-3 shrink-0 rounded-full border-2 border-primary bg-white" />}
+              <div className={cn("min-w-0 flex-1", n.tag === "ol" && "pt-0.5")}>
+                <p className="text-[15px] font-extrabold leading-7 text-ink">{inline(h)}</p>
+                <div className="mt-0.5 space-y-1 text-sm leading-7 text-ink/75">{rest.map((r) => r.tag === "#text" ? <p key={r.key}>{r.text}</p> : <p key={r.key}>{inline(r)}</p>)}</div>
+              </div>
+            </li>); })}</ol>);
+        return <ul key={n.key} className="space-y-2">{lis.map((li, i) => {
         const interactive = !!find(li, (x) => x.tag === "button" || isControl(x));
         return <li key={li.key} className={cn("flex gap-2.5 text-sm leading-7 text-ink/80", interactive && "items-center rounded-2xl border border-border bg-white px-4 py-2")}>
           {!interactive && (n.tag === "ol" ? <span className="mt-1 grid size-5 shrink-0 place-items-center rounded-full bg-primary/10 text-[11px] font-extrabold text-primary">{faNumber(i + 1)}</span> : <span className="mt-3 size-1.5 shrink-0 rounded-full bg-primary" />)}
-          <div className={cn("min-w-0 flex-1", interactive && "flex items-center justify-between gap-3")}>{interactive ? kids(li) : inline(li)}</div></li>; })}</ul>;
+          <div className={cn("min-w-0 flex-1", interactive && "flex items-center justify-between gap-3")}>{interactive ? kids(li) : inline(li)}</div></li>; })}</ul>; }
       case "dl": return <dl key={n.key} className="grid grid-cols-2 gap-3 xl:grid-cols-3">{n.kids.map((row) => row.tag === "div" ? (
         <div key={row.key} className="rounded-2xl border border-border bg-white px-4 py-3">{row.kids.map((c) => c.tag === "dt" ? <dt key={c.key} className="text-xs font-semibold text-muted-foreground">{clean(textOf(c))}</dt> : <dd key={c.key} className="mt-1 text-sm font-extrabold leading-7 text-ink">{inline(c)}</dd>)}</div>) : render(row))}</dl>;
       case "dt": return <dt key={n.key} className="text-xs font-semibold text-muted-foreground">{text}</dt>;
