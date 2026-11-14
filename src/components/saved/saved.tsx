@@ -3,7 +3,15 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { LegacyTool } from "@/components/tools/engine";
+import { LegacyTool, type ToolSection } from "@/components/tools/engine";
+
+// بخش‌های فرم «اطلاعات حرفه‌ای من»؛ فیلدها همان فیلدهای نسخه مرجع‌اند و فقط دسته‌بندی شده‌اند
+const profileSections: ToolSection[] = [
+  { title: "معرفی و نقش حرفه‌ای", fields: ["name", "entity", "roles"] },
+  { title: "حوزه و توان اجرایی", fields: ["province", "specialty", "capacity", "capital"] },
+  { title: "گواهینامه یا صلاحیت مرتبط", fields: ["certificate", "certificateNo", "issuer", "expiry", "validity"], optional: true },
+  { title: "سوابق و تجربه", fields: ["references"] },
+];
 import { toolById } from "@/data/tools";
 import { motion } from "motion/react";
 import { ArchiveTick, ArrowLeft, Login, Setting4, Trash, Notification, UserEdit } from "@/components/iconsax";
@@ -96,7 +104,7 @@ export function Saved() {
               </TabsContent>
               <TabsContent value="profile">
                 <div className="grid grid-cols-[1fr_19rem] items-start gap-7">
-                  <Card className="surface block gap-0 rounded-[2rem] p-8 shadow-none">{tab === "profile" && <LegacyTool opener={profileTool.opener} root={profileTool.root} />}</Card>
+                  <Card className="surface block gap-0 rounded-[2rem] p-8 shadow-none">{tab === "profile" && <LegacyTool opener={profileTool.opener} root={profileTool.root} sections={profileSections} />}</Card>
                   <Card className="surface sticky top-24 gap-3 rounded-[1.75rem] p-6 shadow-none">
                     <span className="grid size-11 place-items-center rounded-2xl bg-primary/10 text-primary"><UserEdit size={22} variant="Bulk" /></span>
                     <h2 className="text-base font-extrabold text-ink">چرا این اطلاعات را ذخیره کنم؟</h2>

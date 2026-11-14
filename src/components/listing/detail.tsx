@@ -70,9 +70,10 @@ function Facts({ groups }: { groups: FactGroup[] }) {
             <h3 className="flex items-center gap-2.5 text-[15px] font-extrabold text-ink"><span className="grid size-9 place-items-center rounded-xl bg-primary/10 text-primary"><I size={18} variant="Bulk" /></span>{g.title}</h3>
             <dl className="mt-3 divide-y divide-border/70">
               {splitPending(g.items).known.map(([k, v]) => (
-                <div key={k} className={cn("py-2.5", v.length <= 22 && "flex items-baseline justify-between gap-3")}>
+                // همه ردیف‌ها یک شکل: عنوان راست، مقدار چپ؛ مقدار بلند در همان ستون چپ می‌شکند
+                <div key={k} className="flex items-baseline justify-between gap-4 py-2.5">
                   <dt className="shrink-0 text-xs font-semibold text-muted-foreground">{k}</dt>
-                  <dd className={cn("text-sm font-extrabold leading-6", v === NA ? "font-semibold text-ink/35" : "text-ink", v.length <= 22 ? "text-left" : "mt-0.5")}>{v}</dd>
+                  <dd className={cn("min-w-0 max-w-[72%] text-left text-sm font-extrabold leading-6", v === NA ? "font-semibold text-ink/35" : "text-ink")}>{v}</dd>
                 </div>
               ))}
             </dl>

@@ -109,6 +109,9 @@
   }
   .soft-shadow { box-shadow: 0 24px 60px -34px rgb(8 59 55 / 0.22); }
   .surface { background: #fff; border: 1px solid var(--border); box-shadow: 0 1px 2px rgb(8 59 55 / 0.03), 0 16px 40px -30px rgb(8 59 55 / 0.16); }
+  /* اسکرول افقی باریک که فقط با هاور دیده می‌شود */
+  .hover-scroll { scrollbar-width: thin; scrollbar-color: transparent transparent; transition: scrollbar-color 0.2s; }
+  .hover-scroll:hover { scrollbar-color: rgb(8 59 55 / 0.22) transparent; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { scrollbar-width: none; }
   .thin-scroll { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }

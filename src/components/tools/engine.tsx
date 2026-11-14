@@ -83,7 +83,7 @@ const isCheck = (n: N) => n.tag === "label" && (() => { const c = controlsIn(n);
 /** برچسب فیلد: واژه «اختیاری» و ستاره متن برداشته می‌شود و ضروری بودن جدا برمی‌گردد */
 function fieldLabel(raw: string, c: N) {
   const optional = /اختیاری/.test(raw) || /اختیاری|خالی بگذارید/.test(c.attr.placeholder ?? "");
-  const text = raw.replace(/[\s،,(]*اختیاری\)?/g, "").replace(/\s*\*\s*/g, "").trim();
+  const text = raw.replace(/[\s،,(]*اختیاری\)?/g, "").replace(/\s*\*\s*/g, "").trim().replace(/[؛;،,:]+$/u, "");
   const required = !optional && (c.attr.required != null || /\*/.test(raw) || (c.tag === "select" && !c.attr.multiple && !!c.options?.some((o) => !o.value)));
   return { text, required };
 }
@@ -102,7 +102,10 @@ const isQuestion = (t: string) => /^[۰-۹0-9]+[.)]\s*\S/u.test(t);
 const isControl = (n: N) => n.tag === "input" || n.tag === "select" || n.tag === "textarea";
 const clean = (s: string) => s.replace(/^\s*[←→↓↑]\s*/u, "").replace(/\s*[←→↓↑×]\s*$/u, "").replace(/\s*[—–]\s*/g, "، ").trim();
 
-export function LegacyTool({ opener, root }: { opener: string; root: string }) {
+/** بخش‌بندی فیلدهای یک فرم (فقط نمایش؛ فیلدها همان فیلدهای نسخه مرجع‌اند) */
+export type ToolSection = { title: string; fields: string[]; optional?: boolean };
+
+export function LegacyTool({ opener, root, sections }: { opener: string; root: string; sections?: ToolSection[] }) {
   const frame = useRef<HTMLIFrameElement>(null);
   const refs = useRef(new Map<string, Element>());
   const [tree, setTree] = useState<N | null>(null);
@@ -315,6 +318,27 @@ export function LegacyTool({ opener, root }: { opener: string; root: string }) {
         if (note) { const warn = has(n, "warn"); return <div key={n.key} className={cn("col-span-full flex gap-3 rounded-2xl px-4 py-3.5 text-sm leading-7", warn ? "bg-white text-ink/85 ring-1 ring-border [&>svg]:text-coral" : "bg-muted text-ink/80")}>{warn ? <Warning2 size={20} variant="Bulk" className="mt-1 shrink-0" /> : <InfoCircle size={20} variant="Bulk" className="mt-1 shrink-0 text-primary" />}<div className="min-w-0 flex-1 space-y-2">{allText ? inline(n) : kids(n)}</div></div>; }
         if (has(n, "error") || has(n, "fi-error")) return text ? <p key={n.key} role="alert" className="col-span-full flex items-center gap-2 rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-bold text-destructive"><Warning2 size={18} variant="Bulk" />{text}</p> : null;
         if (allText) return text ? <div key={n.key} className={cn("text-sm leading-7 text-ink/80", n.attr["aria-current"] && "font-extrabold text-primary")}>{inline(n)}</div> : null;
+        if (sections && n.id === "ma-fields") {
+          // هر بخش یک کارت جدا با شماره و عنوان؛ عنوان‌های میانی نسخه مرجع جایشان را به عنوان بخش می‌دهند
+          const fieldOf = (k: N) => find(k, (x) => !!x.ds?.maField)?.ds.maField;
+          const used = new Set<string>();
+          const blocks = sections.map((sec) => { const items = n.kids.filter((k) => { const f = fieldOf(k); return !!f && sec.fields.includes(f); }); items.forEach((k) => used.add(k.key)); return { sec, items }; }).filter((b) => b.items.length);
+          const rest = n.kids.filter((k) => !used.has(k.key) && k.tag !== "h4" && !has(k, "ma-section-title"));
+          return (
+            <div key={n.key} className="col-span-full flex flex-col gap-5">
+              {blocks.map(({ sec, items }, i) => (
+                <section key={sec.title} className="rounded-[1.75rem] border border-border/80 bg-[#f8faf9] p-6">
+                  <header className="mb-5 flex items-center gap-3 border-b border-border/70 pb-4">
+                    <span className="grid size-8 shrink-0 place-items-center rounded-full bg-pine text-[13px] font-black text-white">{faNumber(i + 1)}</span>
+                    <h4 className="text-base font-extrabold text-ink">{sec.title}</h4>
+                    {sec.optional && <span className="rounded-full bg-muted px-2.5 py-0.5 text-[11px] font-bold text-muted-foreground">اختیاری</span>}
+                  </header>
+                  <div className="grid grid-cols-2 items-start gap-x-5 gap-y-5">{items.map((k) => render(k))}</div>
+                </section>
+              ))}
+              {rest.length > 0 && <div className="grid grid-cols-2 items-start gap-x-5 gap-y-5">{rest.map((k) => render(k))}</div>}
+            </div>);
+        }
         const fields = n.kids.filter((k) => k.tag === "label" || has(k, "field")).length;
         const grid = has(n, "form-grid") || has(n, "fi-grid") || has(n, "lp-service-grid") || has(n, "ma-checks") || has(n, "fi-checks") || has(n, "ext-evidence") || has(n, "ext-mini-grid") || has(n, "fi-families") || has(n, "fi-three-parts") || (fields >= 2 && fields >= n.kids.length - 1);
         const cards = has(n, "ext-card-grid") || has(n, "fi-provider-grid") || has(n, "cards") || has(n, "ext-source-list");

@@ -3,7 +3,10 @@
 // یک یا چند استان انتخاب می‌شود؛ کنار نقشه کارت هر استان با همه شهرهایش می‌آید (شهرهای دارای پروژه اول، با تعداد)
 // و با «روی نقشه» همان استان زوم می‌شود تا شهرها روی مرز شهرستان‌ها هم انتخاب شوند.
 import { useEffect, useMemo, useState } from "react";
-import { Add, ArrowDown2, ArrowLeft, ArrowRight, CloseCircle, Map1, Maximize4, TickCircle } from "@/components/iconsax";
+import { Add, ArrowDown2, ArrowLeft, ArrowRight, CloseCircle, Map1, Maximize4, SearchNormal1, TickCircle } from "@/components/iconsax";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -273,9 +276,73 @@ export function LocationFields({ route, value, onChange }: { route: RouteId; val
       </label>
       <div className="space-y-2">
         <span className="block text-[13px] font-bold text-ink">شهر</span>
-        <MultiCombobox label="شهر" options={cityOptions} value={cityValue} onChange={setCities} disabled={!value.length} placeholder={value.length ? "همه شهرها" : "هنوز گزینه‌ای ندارد"} search="جست‌وجوی شهر…" empty="شهری پیدا نشد" />
+        <CityField provinces={value} options={cityOptions} value={cityValue} onChange={setCities} />
         {!value.length && <small className="block text-xs font-semibold text-primary">ابتدا «استان» را انتخاب کنید.</small>}
       </div>
     </div>
+  );
+}
+
+/** فیلد شهر: ابتدا استان‌های انتخاب‌شده بسته نمایش داده می‌شوند؛ با کلیک روی هر استان، شهرهایش باز می‌شود */
+function CityField({ provinces: provs, options, value, onChange }: { provinces: string[]; options: ComboOption[]; value: string[]; onChange: (v: string[]) => void }) {
+  const [open, setOpen] = useState(false);
+  const [q, setQ] = useState("");
+  const [expanded, setExpanded] = useState<string[]>([]);
+  const query = q.trim();
+  const shown = (p: string) => options.filter((o) => o.group === p && (!query || (o.short ?? o.label).includes(query)));
+  const visible = provs.filter((p) => shown(p).length);
+  const toggle = (key: string) => onChange(value.includes(key) ? value.filter((x) => x !== key) : [...value, key]);
+  const picked = (p: string) => value.filter((k) => k.startsWith(`${p}/`));
+  const disabled = !provs.length;
+  return (
+    <Popover open={open} onOpenChange={(o) => { setOpen(o); if (!o) setQ(""); else setExpanded(provs.length === 1 ? provs : []); }}>
+      <PopoverTrigger asChild>
+        <Button type="button" variant="outline" role="combobox" aria-expanded={open} aria-label="شهر" disabled={disabled}
+          className="h-auto min-h-12 w-full justify-between gap-2 whitespace-normal rounded-2xl bg-white px-3.5 py-2 text-right font-normal shadow-none disabled:border-dashed disabled:bg-muted/40 disabled:opacity-100">
+          <span className={cn("flex flex-wrap gap-1.5", !value.length && "text-muted-foreground")}>
+            {value.length ? value.map((v) => { const o = options.find((x) => x.value === v); return <Badge key={v} variant="secondary" className="bg-primary/10 px-2.5 font-bold text-primary">{o?.short ?? v.split("/")[1]}</Badge>; }) : disabled ? "هنوز گزینه‌ای ندارد" : "همه شهرها"}
+          </span>
+          <ArrowDown2 size={16} className="shrink-0 text-muted-foreground" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent align="start" className="w-(--radix-popover-trigger-width) min-w-72 overflow-hidden rounded-2xl p-0">
+        <div className="flex items-center gap-2 border-b border-border px-3">
+          <SearchNormal1 size={16} className="shrink-0 text-muted-foreground" />
+          <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجوی شهر…" aria-label="جست‌وجوی شهر"
+            className="h-11 rounded-none border-0 bg-transparent px-0 shadow-none focus-visible:ring-0" />
+        </div>
+        <div className="thin-scroll max-h-72 overflow-y-auto px-2 py-1 outline-none">
+          {!visible.length && <p className="py-6 text-center text-sm text-muted-foreground">شهری پیدا نشد</p>}
+          <Accordion type="multiple" value={query ? visible : expanded} onValueChange={(v) => !query && setExpanded(v)}>
+            {visible.map((p) => { const n = picked(p).length;
+              return (
+                <AccordionItem key={p} value={p} className="border-border/70">
+                  <AccordionTrigger className="items-center rounded-xl px-2 py-3 text-right hover:bg-muted/60 hover:no-underline">
+                    <span className="flex flex-1 items-center justify-between gap-2">
+                      <span className="text-sm font-extrabold text-ink">{p}</span>
+                      <span className={cn("rounded-full px-2 py-0.5 text-[11px] font-bold", n ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground")}>{n ? `${faNumber(n)} شهر` : "همه شهرها"}</span>
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-2">
+                    {!query && (
+                      <label className="flex cursor-pointer items-center gap-2.5 rounded-xl px-2 py-2 hover:bg-muted/60">
+                        <Checkbox checked={!n} onCheckedChange={() => n && onChange(value.filter((k) => !k.startsWith(`${p}/`)))} />
+                        <span className={cn("text-sm", !n ? "font-bold text-primary" : "text-ink")}>همه شهرهای {p}</span>
+                      </label>
+                    )}
+                    {shown(p).map((o) => { const on = value.includes(o.value);
+                      return (
+                        <label key={o.value} className="flex cursor-pointer items-center gap-2.5 rounded-xl px-2 py-2 hover:bg-muted/60">
+                          <Checkbox checked={on} onCheckedChange={() => toggle(o.value)} />
+                          <span className={cn("text-sm", on ? "font-bold text-primary" : "text-ink")}>{o.label}</span>
+                        </label>
+                      ); })}
+                  </AccordionContent>
+                </AccordionItem>
+              ); })}
+          </Accordion>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }

@@ -289,10 +289,17 @@ function RouteTabs({ routeCounts, active, onChange }: { routeCounts: Record<stri
     if (a.left < b.left + 48) el.scrollBy({ left: a.left - b.left - 60, behavior: "smooth" }); else if (a.right > b.right - 48) el.scrollBy({ left: a.right - b.right + 60, behavior: "smooth" });
   }, [active]);
   const move = (dir: 1 | -1) => ref.current?.scrollBy({ left: dir * -320, behavior: "smooth" });
-  const arrow = "absolute top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full border border-border bg-white text-ink shadow-md hover:border-primary hover:text-primary";
+  // کشیدن با ماوس برای اسکرول افقی؛ اگر کشیده شد، کلیک روی تب انجام نمی‌شود
+  const drag = useRef<{ x: number; s: number; moved: boolean } | null>(null);
+  const dragged = useRef(false);
+  const arrow = "absolute top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full border border-border bg-white text-ink shadow-md opacity-0 transition-opacity duration-200 group-hover/strip:opacity-100 focus-visible:opacity-100 hover:border-primary hover:text-primary";
   return (
-    <div className="relative">
-      <div ref={ref} role="tablist" aria-label="مسیر ورود" className="no-scrollbar -mx-3 -my-2 flex gap-2 overflow-x-auto px-3 py-4">
+    <div className="group/strip relative">
+      <div ref={ref} role="tablist" aria-label="مسیر ورود" className="hover-scroll -mx-3 -my-2 flex cursor-grab gap-2 overflow-x-auto px-3 py-4 select-none active:cursor-grabbing"
+        onPointerDown={(e) => { if (e.pointerType !== "mouse" || !ref.current) return; drag.current = { x: e.clientX, s: ref.current.scrollLeft, moved: false }; dragged.current = false; }}
+        onPointerMove={(e) => { const d = drag.current, el = ref.current; if (!d || !el) return; const dx = e.clientX - d.x; if (Math.abs(dx) > 5) d.moved = true; if (d.moved) el.scrollLeft = d.s - dx; }}
+        onPointerUp={() => { dragged.current = !!drag.current?.moved; drag.current = null; }} onPointerLeave={() => { drag.current = null; }}
+        onClickCapture={(e) => { if (dragged.current) { e.preventDefault(); e.stopPropagation(); dragged.current = false; } }}>
         {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === active;
           return (
             <Button key={r.id} role="tab" aria-selected={on} type="button" variant="plain" size="auto" onClick={() => onChange(r.id)}

@@ -29,16 +29,19 @@ export function BudgetField({ min, max, step = 1, unit, label, value, onChange, 
   min: number; max: number; step?: number; unit: string; label?: string; value: [number, number] | null | undefined;
   onChange: (v: [number, number] | null) => void; amounts: number[]; basis?: number[]; compact?: boolean;
 }) {
+  // اگر در محدوده انتخابی پروژه‌ای با مبلغ اعلام‌شده نباشد، نمودار و شمارها از همه پروژه‌های مسیر ساخته می‌شوند تا خالی نماند
+  const wide = !amounts.length && !!basis?.length;
+  const src = wide ? basis! : amounts;
   const stops = useMemo(() => { const s = NICE.filter((x) => x > min && x < max && x % step === 0); return [min, ...s, max]; }, [min, max, step]);
   const v = value ?? [min, max];
   const last = stops.length - 1;
   // مقدار → جایگاه روی اسلایدر (با درون‌یابی بین دو گام) و برعکس
   const pos = (x: number) => { for (let i = 0; i < last; i++) if (x <= stops[i + 1]) return i + (x - stops[i]) / (stops[i + 1] - stops[i] || 1); return last; };
-  const bins = useMemo(() => stops.slice(0, -1).map((a, i) => amounts.filter((x) => x >= a && (i === last - 1 ? x <= stops[i + 1] : x < stops[i + 1])).length), [amounts, stops, last]);
+  const bins = useMemo(() => stops.slice(0, -1).map((a, i) => src.filter((x) => x >= a && (i === last - 1 ? x <= stops[i + 1] : x < stops[i + 1])).length), [src, stops, last]);
   const peak = Math.max(1, ...bins);
   const lo = pos(v[0]), hi = pos(v[1]);
   const set = (a: number, b: number) => { const x = Math.max(min, Math.min(max, Math.min(a, b))), y = Math.max(min, Math.min(max, Math.max(a, b))); onChange(x === min && y === max ? null : [x, y]); };
-  const inRange = (a: number, b: number) => amounts.filter((x) => x >= a && x <= b).length;
+  const inRange = (a: number, b: number) => src.filter((x) => x >= a && x <= b).length;
   // چهار بازه آماده بر اساس چارک‌های مبلغ پروژه‌ها، روی نزدیک‌ترین گام
   const presets = useMemo<[number, number][]>(() => {
     const sorted = [...(basis ?? amounts)].sort((a, b) => a - b);
@@ -61,7 +64,7 @@ export function BudgetField({ min, max, step = 1, unit, label, value, onChange, 
       <div>
         <div className="flex h-14 items-end gap-[3px] px-2" aria-hidden>
           {bins.map((n, i) => (
-            <span key={i} className={cn("flex-1 rounded-t-[3px] transition-colors duration-200", i + 1 > lo && i < hi ? "bg-primary/70" : "bg-pine/10")} style={{ height: `${n ? 12 + (n / peak) * 88 : 4}%` }} />
+            <span key={i} title={`${faNumber(n)} پروژه`} className={cn("flex-1 rounded-t-[3px] transition-colors duration-200", i + 1 > lo && i < hi ? (n ? "bg-primary/75" : "bg-primary/20") : n ? "bg-pine/20" : "bg-pine/[0.07]")} style={{ height: `${n ? 14 + (n / peak) * 86 : 5}%` }} />
           ))}
         </div>
         <Slider dir="rtl" min={0} max={last} step={1} value={[lo, hi]} onValueChange={(x) => set(stops[Math.round(x[0])], stops[Math.round(x[1])])} className="-mt-1.5" />
@@ -82,7 +85,7 @@ export function BudgetField({ min, max, step = 1, unit, label, value, onChange, 
       </div>
 
       <div className="flex min-h-7 items-center justify-between text-xs">
-        <span className="font-semibold text-muted-foreground">{label ? `${label}؛ ` : ""}<b className="text-ink">{faNumber(total)} پروژه</b> با مبلغ اعلام‌شده در این بازه</span>
+        <span className="font-semibold text-muted-foreground">{label ? `${label}؛ ` : ""}<b className="text-ink">{faNumber(total)} پروژه</b> {wide ? "در کل ایران " : ""}با مبلغ اعلام‌شده در این بازه</span>
         {value && <Button type="button" variant="ghost" size="xs" onClick={() => onChange(null)} className="font-bold text-muted-foreground hover:text-destructive">پاک کردن بودجه</Button>}
       </div>
     </div>

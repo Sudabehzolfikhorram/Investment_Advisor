@@ -114,7 +114,7 @@ export function ComboList({ options, value, onChange, placeholder, empty, classN
   return (
     <Command className={cn("rounded-2xl", className)}>
       <CommandInput placeholder={placeholder} />
-      <CommandList className="max-h-64">
+      <CommandList className="max-h-64 outline-none">
         <CommandEmpty>{empty}</CommandEmpty>
         {groups.map((g) => (
           <CommandGroup key={g} heading={g || undefined} className="[&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-extrabold [&_[cmdk-group-heading]]:text-pine-deep">
