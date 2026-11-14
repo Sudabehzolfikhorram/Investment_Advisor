@@ -110,13 +110,9 @@ export function HeroCompass() {
           <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} aria-label="شرایط شما برای دستیار" className="h-14 rounded-none border-0 !bg-transparent px-0 text-[15px] font-semibold text-ink shadow-none focus-visible:ring-0 md:text-[15px]" />
           <TypingHint hidden={!!prompt} />
         </span>
-        <Button type="submit" variant="plain" size="auto" className="group h-14 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_18px_36px_-18px_var(--primary)] hover:bg-deep">پیدا کن<ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
+        <Button type="submit" variant="plain" size="auto" className="group h-14 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_18px_36px_-18px_var(--primary)] hover:bg-deep">پیشنهاد بگیرید<ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
       </form>
-      <Button variant="plain" size="auto" onClick={() => browse()} className="group mt-4 gap-1.5 px-3 text-sm font-bold text-ink/60 hover:text-primary">یا خودم میان پروژه‌ها انتخاب می‌کنم<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></Button>
-      <ul className="mt-10 flex items-center gap-6 border-t border-border pt-6">
-        {[[UserSquare, "کارشناس یا راهنمای هر پروژه"], [ShieldSearch, "ریسک و وضعیت حقوقی روشن"], [TickCircle, "دیدن پروژه‌ها بدون ثبت‌نام"]].map(([I, t], i) => { const Ic = I as typeof UserSquare; return (
-          <motion.li key={t as string} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 + i * 0.12 }} className="flex items-center gap-2 text-[13px] font-bold text-ink/70"><Ic size={18} variant="Bulk" className="text-primary" />{t as string}</motion.li>); })}
-      </ul>
+      <Button variant="plain" size="auto" onClick={() => browse()} className="group mt-4 gap-1.5 px-3 text-sm font-bold text-ink/60 hover:text-primary">مشاهده همه پروژه‌ها<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></Button>
     </Shell>
   );
 }

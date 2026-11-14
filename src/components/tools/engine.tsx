@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ArrowDown2, ArrowUp2, Bank, Global, Trash, TrendUp } from "@/components/iconsax";
+import { Add, ArrowDown2, ArrowUp2, Bank, Edit2, Global, Save2, Trash, TrendUp } from "@/components/iconsax";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { engineFrame } from "@/lib/engine-src";
@@ -19,7 +19,7 @@ import { wrapLegacyDoc } from "@/lib/doc-template";
 import { scrub, scrubDeep } from "@/lib/scrub";
 
 // فاصله‌های دو سر متن حفظ می‌شود تا کلمه‌های کنار هم به هم نچسبند
-const scrubText = (t: string) => { if (!/فرضی|آموزشی|این نمونه/.test(t)) return t; const a = /^\s/.test(t) ? " " : "", b = /\s$/.test(t) ? " " : ""; const x = scrub(t); return x ? a + x + b : ""; };
+const scrubText = (t: string) => { if (!/فرضی|آموزشی|این نمونه|HTML/.test(t)) return t; const a = /^\s/.test(t) ? " " : "", b = /\s$/.test(t) ? " " : ""; const x = scrub(t); return x ? a + x + b : ""; };
 import { cn, faNumber } from "@/lib/utils";
 
 interface N {
@@ -360,11 +360,13 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
             </Button>);
         }
         const primary = has(n, "primary") || has(n, "jll-button");
-        const isDownload = /دانلود|دریافت فایل|خروجی/.test(text);
+        const isDownload = /دانلود|دریافت فایل|خروجی|^دریافت (?:گزارش|راهنما|پیش‌نویس|شناسنامه)/.test(text);
+        // آیکون دکمه‌های فرعی تا ردیف چند دکمه‌ای، بی‌متن اضافه خوانا شود
+        const SideIcon = primary || isDownload ? null : /^ذخیره/.test(text) ? Save2 : /^ویرایش/.test(text) ? Edit2 : /طرح دیگر|طرح تازه/.test(text) ? Add : null;
         return (
-          <Button key={n.key} type="button" disabled={n.disabled} aria-pressed={press || undefined} variant={primary ? "default" : has(n, "text-btn") ? "ghost" : "outline"} onClick={() => (to ? router.push(to) : fire(n.key, "click"))}
+          <Button key={n.key} type="button" disabled={n.disabled} aria-pressed={press || undefined} data-text={has(n, "text-btn") || undefined} variant={primary ? "default" : has(n, "text-btn") ? "ghost" : "outline"} onClick={() => (to ? router.push(to) : fire(n.key, "click"))}
             className={cn("h-11 w-fit gap-2 rounded-full px-5 text-sm font-extrabold shadow-none", primary && "h-12 px-6", !primary && !has(n, "text-btn") && "bg-white hover:border-primary hover:text-primary", has(n, "text-btn") && "text-ink/70", press && "border-primary bg-primary text-white hover:bg-primary hover:text-white", text.length <= 2 && "size-9 px-0")}>
-            {isDownload && <DocumentDownload size={18} variant="Bulk" />}{text}{primary && !isDownload && <ArrowLeft size={17} />}
+            {isDownload && <DocumentDownload size={18} variant="Bulk" />}{SideIcon && <SideIcon size={17} />}{text}{primary && !isDownload && <ArrowLeft size={17} />}
           </Button>);
       }
       case "label": {
@@ -470,7 +472,8 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
         if (grid && !multi && !card && !cards && n.kids.filter(isFieldNode).length >= 6 && !has(n, "fi-families") && !has(n, "fi-three-parts")) return longForm(n.key, splitGroups(n.kids));
         return <div key={n.key} className={cn(multi && "col-span-full",
           has(n, "actions") ? "col-span-full mt-2 flex flex-row-reverse items-center justify-between gap-3 border-t border-border pt-6" :
-          has(n, "ext-actions") || has(n, "lp-order-actions") || has(n, "ma-context-links") || has(n, "fi-library-filter") || has(n, "ma-source-links") ? "flex flex-wrap items-center gap-2.5" : grid && !multi ? cn("grid grid-cols-2 gap-x-5 gap-y-5", (has(n, "fi-families") || has(n, "fi-three-parts")) && "grid-cols-3", fields >= 2 && !card && "rounded-[1.75rem] border border-border/80 bg-[#f8faf9] p-6") : cards ? "grid grid-cols-2 gap-4" : "flex min-w-0 flex-col gap-4",
+          has(n, "ext-actions") || has(n, "lp-order-actions") ? "flex flex-wrap items-center gap-2.5 [&>[data-text]:not([data-text]~[data-text])]:ms-auto" :
+          has(n, "ma-context-links") || has(n, "fi-library-filter") || has(n, "ma-source-links") ? "flex flex-wrap items-center gap-2.5" : grid && !multi ? cn("grid grid-cols-2 gap-x-5 gap-y-5", (has(n, "fi-families") || has(n, "fi-three-parts")) && "grid-cols-3", fields >= 2 && !card && "rounded-[1.75rem] border border-border/80 bg-[#f8faf9] p-6") : cards ? "grid grid-cols-2 gap-4" : "flex min-w-0 flex-col gap-4",
           (has(n, "ext-actions") || has(n, "lp-order-actions")) && find(n, (x) => x.tag === "button" && (has(x, "primary") || has(x, "jll-button"))) && "col-span-full mt-2 border-t border-border pt-6",
           card && "rounded-3xl border border-border bg-white p-5", has(n, "full") && "col-span-full", has(n, "ext-actions") && "pt-1", has(n, "lp-services") && "col-span-full")}>{kids(n)}</div>;
       }

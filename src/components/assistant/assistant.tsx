@@ -7,21 +7,22 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArchiveTick, ArrowLeft, Building, Chart, Cpu, DocumentText, Edit2, Home2, Location, MagicStar, MessageQuestion, Save2, Send2, Setting4, Sun1, TickCircle, WalletMoney } from "@/components/iconsax";
+import { ArchiveTick, ArrowLeft, Briefcase, Building, Courthouse, Chart, Cpu, DocumentText, Edit2, Home2, Location, MagicStar, MessageQuestion, Save2, Send2, Setting4, Sun1, TickCircle, WalletMoney } from "@/components/iconsax";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Header } from "@/components/site/header";
 import { MatchRing } from "@/components/brand/reveal";
 import { SaveButton } from "@/components/listing/listing-card";
-import { SaveCriteriaDialog, useProfileStats } from "@/components/search/save-criteria";
+import { SaveCriteriaDialog } from "@/components/search/save-criteria";
 import { routes } from "@/data/routes";
-import { samplePrompts, suggest } from "@/lib/assistant";
+import { readPrompt, samplePrompts, suggest } from "@/lib/assistant";
+import { AttachedProfile, EditProfileDialog, SavedPicker } from "./saved-picker";
 import { describeCriteria } from "@/lib/criteria";
 import { listings } from "@/lib/listings";
 import { rank } from "@/lib/match";
 import { useHydrated, useStore } from "@/lib/store";
-import type { MatchResult, SearchCriteria } from "@/types";
+import type { MatchResult, SavedProfile, SearchCriteria } from "@/types";
 import { cn, faNumber } from "@/lib/utils";
 
 const phases = [
@@ -99,7 +100,7 @@ function Row({ r, i }: { r: MatchResult; i: number }) {
 }
 
 type Turn = { id: number; q: string; criteria?: SearchCriteria };
-const promptIcons = [Building, WalletMoney, Sun1, Home2];
+const promptIcons = [Building, WalletMoney, Sun1, Home2, Briefcase, Courthouse];
 const same = (a: SearchCriteria, b: SearchCriteria) => JSON.stringify(a) === JSON.stringify(b);
 
 /** پاسخ یک نوبت: یا از متن کاربر خوانده می‌شود، یا از شرایط ذخیره‌شده‌ای که کاربر انتخاب کرده */
@@ -268,25 +269,31 @@ export function Assistant() {
   const setCriteria = useStore((s) => s.setCriteria);
   const hydrated = useHydrated();
   const profiles = useStore((s) => s.profiles);
-  const stats = useProfileStats();
   const [text, setText] = useState("");
   const [turns, setTurns] = useState<Turn[]>(initial ? [{ id: 1, q: initial }] : []);
   const [saveOpen, setSaveOpen] = useState(false);
+  // شرایط ذخیره‌شده‌ای که مثل یک ضمیمه به پیام بعدی اضافه شده
+  const [attachedId, setAttachedId] = useState<string | null>(null);
+  const [editing, setEditing] = useState<SavedProfile | null>(null);
+  const attached = hydrated ? profiles.find((p) => p.id === attachedId) ?? null : null;
   const box = useRef<HTMLTextAreaElement>(null);
   const started = turns.length > 0;
   const asked = new Set(turns.map((t) => t.q));
   const left = samplePrompts.filter((p) => !asked.has(p));
-  const mine = hydrated ? profiles.slice(0, 3) : [];
 
   const push = (t: Omit<Turn, "id">) => setTurns((x) => [...x, { id: (x.at(-1)?.id ?? 0) + 1, ...t }]);
-  const ask = (q: string) => { const v = q.trim(); if (!v) return; push({ q: v }); setText(""); };
+  const ask = (q: string) => {
+    const v = q.trim();
+    if (attached) {
+      // متن تازه روی شرایط ذخیره‌شده می‌نشیند: هر چه در متن گفته شده جای همان بخش را می‌گیرد
+      const r = v ? readPrompt(v).criteria : null;
+      const c = attached.criteria;
+      const criteria = r ? { ...c, groups: r.groups.length ? r.groups : c.groups, provinces: r.provinces.length ? r.provinces : c.provinces, amount: r.amount ?? c.amount, filters: { ...c.filters, ...r.filters } } : c;
+      push({ q: v ? `«${attached.name}»، ${v}` : `ادامه با «${attached.name}»`, criteria }); setText(""); setAttachedId(null); return;
+    }
+    if (!v) return; push({ q: v }); setText("");
+  };
   const edit = (q: string) => { setText(q); requestAnimationFrame(() => { const el = box.current; if (el) { el.focus(); el.setSelectionRange(q.length, q.length); } }); };
-
-  const abilities = [
-    { icon: DocumentText, t: "شرایط را از متن خودتان می‌خوانم" },
-    { icon: Cpu, t: "با پروژه‌های هر مسیر تطبیق می‌دهم" },
-    { icon: Chart, t: "تا ۱۰ پیشنهاد با درصد تطابق می‌آورم" },
-  ];
 
   return (
     <>
@@ -297,43 +304,12 @@ export function Assistant() {
           <motion.span animate={{ x: [0, 40, -20, 0], y: [0, 20, -10, 0] }} transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }} className="absolute right-[12%] top-6 size-80 rounded-full bg-primary/[0.13] blur-[90px]" />
           <motion.span animate={{ x: [0, -30, 20, 0], y: [0, -15, 25, 0] }} transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }} className="absolute left-[14%] top-24 size-72 rounded-full bg-[#7cc4bb]/25 blur-[90px]" />
         </div>
-        <div className="relative flex-1">
+        <div className="relative flex flex-1 flex-col">
           {!started ? (
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center pb-4 pt-2 text-center">
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="flex flex-1 flex-col items-center justify-center pb-2 pt-10 text-center">
               <Orb size={60} />
-              <span className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-white/70 px-3 py-1 text-xs font-extrabold text-primary backdrop-blur"><span className="size-1.5 animate-pulse rounded-full bg-primary" />دستیار هوشمند سرمایه‌گذاری</span>
-              <h1 className="mx-auto mt-3 max-w-3xl text-[2.25rem] font-black leading-[1.45] text-ink text-balance">از سرمایه و هدفتان بگویید؛ پروژه مناسب را با هم پیدا می‌کنیم.</h1>
-              <p className="mx-auto mt-3 max-w-xl text-[15px] leading-8 text-muted-foreground">همان‌طور که با یک مشاور حرف می‌زنید بنویسید: چقدر سرمایه دارید، در کدام شهر و در چه کاری. شرایطتان را یک بار ذخیره کنید و دفعه بعد از همین‌جا ادامه دهید.</p>
-              <ul className="mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2">
-                {abilities.map(({ icon: I, t }, i) => (
-                  <motion.li key={t} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 + i * 0.1 }} className="flex items-center gap-2 text-[13px] font-bold text-ink/70">
-                    <span className="grid size-7 place-items-center rounded-full bg-primary/10 text-primary"><I size={15} variant="Bulk" /></span>{t}
-                  </motion.li>
-                ))}
-              </ul>
-              {mine.length > 0 && (
-                <section className={cn("mt-8 w-full text-right", mine.length === 1 ? "max-w-md" : mine.length === 2 ? "max-w-2xl" : "max-w-4xl")}>
-                  <div className="flex items-center justify-between px-1">
-                    <p className="flex items-center gap-2 text-sm font-extrabold text-ink"><ArchiveTick size={18} variant="Bulk" className="text-primary" />خوش برگشتید؛ از جایی که بودید ادامه دهید</p>
-                    <Link href="/saved" className="text-xs font-bold text-primary underline-offset-4 hover:underline">شرایط ذخیره‌شده من</Link>
-                  </div>
-                  <div className={cn("mt-3 grid gap-3", mine.length === 1 ? "grid-cols-1" : mine.length === 2 ? "grid-cols-2" : "grid-cols-3")}>
-                    {mine.map((p, i) => { const chips = describeCriteria(p.criteria); const fresh = stats[p.id]?.fresh ?? 0; return (
-                      <motion.div key={p.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + i * 0.08 }}>
-                        <Button variant="plain" size="auto" type="button" onClick={() => push({ q: `ادامه با «${p.name}»`, criteria: p.criteria })}
-                          className="group flex h-full w-full flex-col items-stretch gap-0 whitespace-normal rounded-[1.5rem] border border-border bg-white/85 p-4 text-right backdrop-blur transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_22px_44px_-30px_rgb(8_59_55/0.45)]">
-                          <span className="flex items-center justify-between gap-2">
-                            <span className="truncate text-[15px] font-extrabold text-ink">{p.name}</span>
-                            {fresh > 0 && <span className="shrink-0 rounded-full bg-primary px-2 py-0.5 text-[11px] font-extrabold text-white">{faNumber(fresh)} تازه</span>}
-                          </span>
-                          <span className="mt-0.5 block text-xs font-semibold text-muted-foreground">{routes.find((r) => r.id === p.criteria.route)?.name}</span>
-                          {chips.length > 0 && <span className="mt-3 flex flex-wrap gap-1.5">{chips.slice(0, 3).map((c) => <span key={c.key} className="rounded-lg bg-muted px-2 py-0.5 text-[11px] font-bold text-ink/75">{c.label}</span>)}{chips.length > 3 && <span className="rounded-lg px-1 py-0.5 text-[11px] font-bold text-muted-foreground">+{faNumber(chips.length - 3)}</span>}</span>}
-                          <span className="mt-auto flex items-center gap-1 pt-3 text-xs font-extrabold text-primary">ادامه گفت‌وگو<ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" /></span>
-                        </Button>
-                      </motion.div>); })}
-                  </div>
-                </section>
-              )}
+              <h1 className="mt-6 text-[2.5rem] font-black leading-[1.4] text-ink">شرایطتان را <span className="text-primary">بگویید.</span></h1>
+              <p className="mt-2 text-[15px] leading-8 text-muted-foreground">پروژه‌های مناسب را با درصد تطابق نشانتان می‌دهیم.</p>
             </motion.div>
           ) : (
             <div className="space-y-12 pb-6">
@@ -360,13 +336,17 @@ export function Assistant() {
             )}
             {/* قاب نوشتن با حاشیه رنگی متحرک هنگام تمرکز */}
             <div className="group/composer rounded-[2rem] bg-border p-px transition-colors focus-within:bg-[linear-gradient(90deg,var(--primary),#7cc4bb,var(--pine-soft),#7cc4bb,var(--primary))] focus-within:bg-[length:200%_100%] focus-within:animate-[sheen_3s_linear_infinite] focus-within:shadow-[0_24px_50px_-30px_rgb(8_59_55/0.35)]">
-              <form onSubmit={(e) => { e.preventDefault(); ask(text); }} className="flex items-end gap-2 rounded-[calc(2rem-1px)] bg-white p-2 pr-6 shadow-[0_18px_40px_-30px_rgb(8_59_55/0.35)]">
-                <Textarea ref={box} value={text} onChange={(e) => setText(e.target.value)} rows={1} aria-label="شرایط شما"
-                  placeholder={started ? "شرط تازه‌ای دارید؟ بنویسید…" : "مثلاً: ۳۰ میلیارد دارم و دنبال پروژه مسکونی در تهران هستم"}
-                  onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(text); } }}
-                  className="field-sizing-content max-h-40 min-h-12 flex-1 resize-none rounded-none border-0 !bg-transparent px-0 py-3 text-base font-semibold leading-7 text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
-                <Button variant="plain" size="auto" type="submit" disabled={!text.trim()} aria-label="بفرست"
-                  className="grid size-12 shrink-0 place-items-center rounded-full bg-primary text-white shadow-[0_14px_30px_-12px_var(--primary)] transition-[background-color,transform] hover:bg-deep active:scale-95 disabled:bg-pine/15 disabled:shadow-none"><Send2 size={20} variant="Bold" className="-scale-x-100" /></Button>
+              <form onSubmit={(e) => { e.preventDefault(); ask(text); }} className="rounded-[calc(2rem-1px)] bg-white p-2 pr-6 shadow-[0_18px_40px_-30px_rgb(8_59_55/0.35)]">
+                {attached && <div className="pt-1.5"><AttachedProfile profile={attached} onEdit={() => setEditing(attached)} onRemove={() => setAttachedId(null)} /></div>}
+                <div className="flex items-end gap-2">
+                  <Textarea ref={box} value={text} onChange={(e) => setText(e.target.value)} rows={1} aria-label="شرایط شما"
+                    placeholder={attached ? "چیزی اضافه کنید یا همین را بفرستید…" : started ? "شرط تازه‌ای دارید؟ بنویسید…" : "مثلاً: ۳۰ میلیارد دارم و دنبال پروژه مسکونی در تهران هستم"}
+                    onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(text); } }}
+                    className="field-sizing-content max-h-40 min-h-12 flex-1 resize-none rounded-none border-0 !bg-transparent px-0 py-3 text-base font-semibold leading-7 text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
+                  {hydrated && profiles.length > 0 && <SavedPicker activeId={attached?.id} onPick={(p) => { setAttachedId(p.id); box.current?.focus(); }} onEdit={setEditing} />}
+                  <Button variant="plain" size="auto" type="submit" disabled={!text.trim() && !attached} aria-label="بفرست"
+                    className="grid size-12 shrink-0 place-items-center rounded-full bg-primary text-white shadow-[0_14px_30px_-12px_var(--primary)] transition-[background-color,transform] hover:bg-deep active:scale-95 disabled:bg-pine/15 disabled:shadow-none"><Send2 size={20} variant="Bold" className="-scale-x-100" /></Button>
+                </div>
               </form>
             </div>
             <p className="mt-2 text-center text-[11px] font-semibold text-muted-foreground">برای فرستادن <kbd className="font-sans font-extrabold">Enter</kbd> و برای خط تازه <kbd className="font-sans font-extrabold">Shift+Enter</kbd></p>
@@ -374,6 +354,7 @@ export function Assistant() {
         </div>
       </main>
       <SaveCriteriaDialog open={saveOpen} onOpenChange={setSaveOpen} />
+      <EditProfileDialog profile={editing} onOpenChange={(o) => !o && setEditing(null)} />
     </>
   );
 }

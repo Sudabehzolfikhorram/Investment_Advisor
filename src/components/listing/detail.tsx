@@ -112,7 +112,16 @@ function RiskGauge({ risk }: { risk: string }) {
   return (
     <div className="relative mx-auto w-full max-w-[17rem]">
       <svg viewBox="0 0 200 112" className="block w-full" aria-hidden>
-        {segs.map(([a0, a1], i) => <path key={i} d={arc(a0, a1)} fill="none" strokeWidth={14} strokeLinecap="round" className={i + 1 === level ? riskTone[level].stroke : "stroke-muted"} />)}
+        {/* هر سطح گرادیان خودش را دارد: کم سبز سازمانی، متوسط نارنجی تیره، زیاد قرمز؛ سطح فعال پررنگ و بقیه کم‌رنگ */}
+        <defs>
+          {[["#3fa293", "#0f766e"], ["#ec9161", "#d4532f"], ["#d9472f", "#a8231a"]].map(([right, left], i) => {
+            const [x0] = pt(segs[i][0]), [x1] = pt(segs[i][1]);
+            return <linearGradient key={i} id={`risk-${i}`} gradientUnits="userSpaceOnUse" x1={x0} y1="0" x2={x1} y2="0"><stop offset="0" stopColor={right} /><stop offset="1" stopColor={left} /></linearGradient>;
+          })}
+          <filter id="risk-glow" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="4" /></filter>
+        </defs>
+        {level > 0 && <path d={arc(segs[level - 1][0], segs[level - 1][1])} fill="none" stroke={`url(#risk-${level - 1})`} strokeWidth={14} strokeLinecap="round" opacity={0.35} filter="url(#risk-glow)" />}
+        {segs.map(([a0, a1], i) => <path key={i} d={arc(a0, a1)} fill="none" stroke={`url(#risk-${i})`} strokeWidth={14} strokeLinecap="round" opacity={!level || i + 1 === level ? 1 : 0.18} />)}
         {level > 0 && (
           <motion.g initial={{ rotate: 0 }} whileInView={{ rotate: -angle }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 60, damping: 14, delay: 0.15 }} style={{ originX: 0, originY: 0.5, transformBox: "fill-box" }}>
             <path d="M100 96 L164 100 L100 104 Z" className="fill-deep" />

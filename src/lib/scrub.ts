@@ -38,11 +38,14 @@ const sentences: [RegExp, string][] = [
   [/مشخصات و شرایط واقعی/g, "مشخصات و شرایط"],
   [/همه فرصت‌ها نمونه‌اند؛[^.]*\.\s*/g, ""],
   [/رکورد آموزشی/g, "رکورد"],
+  // برچسب دکمه‌های دریافت: قالب فایل (HTML) و فلش متنی نوشته نمی‌شود
+  [/دریافت گزارش و چک‌لیست HTML\s*↓?/g, "دریافت گزارش"],
+  [/(دریافت [^\n.،؛]{1,30}?)\s*HTML\s*↓?/g, "$1"],
   [/مثال آموزشی/g, "مثال"],
   [/الگوی آموزشی/g, "الگو"],
 ];
 export function scrub(s: string): string {
-  if (!/فرضی|آموزشی|این نمونه/.test(s)) return s;
+  if (!/فرضی|آموزشی|این نمونه|HTML/.test(s)) return s;
   let out = s;
   for (const [re, to] of sentences) out = out.replace(re, to);
   return out.replace(/\s{2,}/g, " ").replace(/^[\s؛،:—–-]+|[\s؛،:—–-]+$/g, "").replace(/([؛،])\s*\1/g, "$1").replace(/«\s+/g, "«").replace(/\s+»/g, "»");
