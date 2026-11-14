@@ -103,33 +103,49 @@ function RiskMeter({ risk }: { risk: string }) {
 }
 
 /** عقربه نیم‌دایره: کم در راست، زیاد در چپ (هم‌جهت با خواندن راست‌به‌چپ). */
+/** گیج ریسک راست‌به‌چپ: مثل خواندن فارسی از راست (کم) شروع می‌شود و تا سطح پروژه پر می‌شود؛
+ *  رنگ هر نقطه از کمان به جایگاهش بسته است، پس سطح بالاتر یعنی پیمودن رنگ‌های بیشتر. */
+const riskHex = ["#94a3a0", "#0f766e", "#d4532f", "#b4291c"];
 function RiskGauge({ risk }: { risk: string }) {
   const level = riskLevel(risk);
-  const pt = (a: number, r = 80) => [100 + r * Math.cos((a * Math.PI) / 180), 100 - r * Math.sin((a * Math.PI) / 180)];
-  const arc = (a0: number, a1: number) => { const [x0, y0] = pt(a0), [x1, y1] = pt(a1); return `M${x0} ${y0} A80 80 0 0 0 ${x1} ${y1}`; };
-  const segs = [[4, 56], [64, 116], [124, 176]];
-  const angle = [0, 30, 90, 150][level];
+  const frac = level / 3;
+  const pt = (deg: number, r = 80) => [100 + r * Math.cos((deg * Math.PI) / 180), 100 - r * Math.sin((deg * Math.PI) / 180)] as const;
+  const arcD = "M180 100 A80 80 0 0 0 20 100";
+  const [ex, ey] = pt(frac * 180);
+  const labels = ["کم", "متوسط", "زیاد"];
   return (
-    <div className="relative mx-auto w-full max-w-[17rem]">
-      <svg viewBox="0 0 200 112" className="block w-full" aria-hidden>
-        {/* هر سطح گرادیان خودش را دارد: کم سبز سازمانی، متوسط نارنجی تیره، زیاد قرمز؛ سطح فعال پررنگ و بقیه کم‌رنگ */}
+    <div className="relative mx-auto w-full max-w-[18rem]">
+      <svg viewBox="0 -14 200 128" className="block w-full overflow-visible" aria-hidden>
         <defs>
-          {[["#3fa293", "#0f766e"], ["#ec9161", "#d4532f"], ["#d9472f", "#a8231a"]].map(([right, left], i) => {
-            const [x0] = pt(segs[i][0]), [x1] = pt(segs[i][1]);
-            return <linearGradient key={i} id={`risk-${i}`} gradientUnits="userSpaceOnUse" x1={x0} y1="0" x2={x1} y2="0"><stop offset="0" stopColor={right} /><stop offset="1" stopColor={left} /></linearGradient>;
-          })}
-          <filter id="risk-glow" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="4" /></filter>
+          {/* گرادیان از راست به چپ: x1 سمت راست کمان است */}
+          <linearGradient id="risk-rtl" gradientUnits="userSpaceOnUse" x1="180" y1="0" x2="20" y2="0">
+            <stop offset="0" stopColor="#0f766e" /><stop offset="0.3" stopColor="#2a9d8f" />
+            <stop offset="0.46" stopColor="#ec8f5e" /><stop offset="0.72" stopColor="#d4532f" /><stop offset="1" stopColor="#b4291c" />
+          </linearGradient>
+          <filter id="risk-soft" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="3" /></filter>
         </defs>
-        {level > 0 && <path d={arc(segs[level - 1][0], segs[level - 1][1])} fill="none" stroke={`url(#risk-${level - 1})`} strokeWidth={14} strokeLinecap="round" opacity={0.35} filter="url(#risk-glow)" />}
-        {segs.map(([a0, a1], i) => <path key={i} d={arc(a0, a1)} fill="none" stroke={`url(#risk-${i})`} strokeWidth={14} strokeLinecap="round" opacity={!level || i + 1 === level ? 1 : 0.18} />)}
-        {level > 0 && (
-          <motion.g initial={{ rotate: 0 }} whileInView={{ rotate: -angle }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 60, damping: 14, delay: 0.15 }} style={{ originX: 0, originY: 0.5, transformBox: "fill-box" }}>
-            <path d="M100 96 L164 100 L100 104 Z" className="fill-deep" />
+        {/* ریل خاکستری کامل و دو جداکننده سطح */}
+        <path d={arcD} fill="none" strokeWidth={12} strokeLinecap="round" className="stroke-muted" />
+        {[60, 120].map((d) => { const [x0, y0] = pt(d, 72), [x1, y1] = pt(d, 88); return <line key={d} x1={x0} y1={y0} x2={x1} y2={y1} stroke="white" strokeWidth={2.5} />; })}
+        {level > 0 && <>
+          <motion.path d={arcD} fill="none" stroke="url(#risk-rtl)" strokeWidth={12} strokeLinecap="round" opacity={0.35} filter="url(#risk-soft)"
+            initial={{ pathLength: 0 }} whileInView={{ pathLength: frac }} viewport={{ once: true }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }} />
+          <motion.path d={arcD} fill="none" stroke="url(#risk-rtl)" strokeWidth={12} strokeLinecap="round"
+            initial={{ pathLength: 0 }} whileInView={{ pathLength: frac }} viewport={{ once: true }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }} />
+          {[60, 120].filter((d) => d < frac * 180).map((d) => { const [x0, y0] = pt(d, 72), [x1, y1] = pt(d, 88); return <line key={d} x1={x0} y1={y0} x2={x1} y2={y1} stroke="white" strokeWidth={2.5} />; })}
+          <motion.g initial={{ opacity: 0, scale: 0.4 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.95, type: "spring", stiffness: 260, damping: 16 }} style={{ transformBox: "fill-box", transformOrigin: "center" }}>
+            <circle cx={ex} cy={ey} r={10} fill="white" stroke={riskHex[level]} strokeWidth={3.5} />
+            <circle cx={ex} cy={ey} r={3.5} fill={riskHex[level]} />
           </motion.g>
-        )}
-        <circle cx={100} cy={100} r={9} className="fill-deep" /><circle cx={100} cy={100} r={3.5} className="fill-white" />
+        </>}
+        {/* برچسب سه سطح بیرون کمان، از راست به چپ */}
+        {labels.map((t, i) => { const [x, y] = pt(30 + i * 60, 103);
+          return <text key={t} x={x} y={y + 3} textAnchor="middle" fontSize={8} fontWeight={600} fill="#8a9290">{t}</text>; })}
       </svg>
-      <div className="mt-1 flex justify-between text-[11px] font-semibold text-muted-foreground"><span>کم</span><span>زیاد</span></div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center">
+        <span className={cn("font-black leading-none", level ? "text-[1.65rem]" : "text-lg")} style={{ color: riskHex[level] }}>{level ? labels[level - 1] : "ارزیابی‌نشده"}</span>
+        <span className="mt-1.5 text-[11px] font-semibold text-muted-foreground">{level ? `سطح ${faNumber(level)} از ${faNumber(3)}` : "سطح ریسک ثبت نشده است"}</span>
+      </div>
     </div>
   );
 }
@@ -402,9 +418,7 @@ export function Detail({ id }: { id: string }) {
                 <div className="grid grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-4">
                   <div className="surface flex flex-col items-center rounded-[1.75rem] p-6 text-center">
                     <h3 className="self-stretch text-right text-sm font-extrabold text-ink">سطح ریسک</h3>
-                    <div className="mt-4 w-full"><RiskGauge risk={o.risk} /></div>
-                    <p className={cn("mt-3 text-2xl font-black", riskTone[riskLevel(o.risk)]?.text ?? "text-ink/60")}>{riskLabel[o.risk] ?? o.risk}</p>
-                    <p className="mt-1 text-xs font-semibold text-muted-foreground">{riskLevel(o.risk) ? `سطح ${faNumber(riskLevel(o.risk))} از ${faNumber(3)}` : "سطح ریسک برای این پروژه ثبت نشده است"}</p>
+                    <div className="mt-5 w-full"><RiskGauge risk={o.risk} /></div>
                   </div>
                   <div className="flex flex-col gap-4">
                     <div className="surface flex items-center gap-4 rounded-[1.75rem] p-5">

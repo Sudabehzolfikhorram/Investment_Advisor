@@ -138,17 +138,17 @@ function Intake({ count }: { count: number }) {
           </ToggleGroup>
         </Step>
 
-        <Step n={2} title="کجا؟" hint={route.id === "fund" ? undefined : "روی نقشه یا از فهرست، یک یا چند استان انتخاب کنید. بدون انتخاب، همه ایران را می‌بینید."}>
+        {hasTypes && (
+          <Step n={2} title={route.usesProjectGroups ? "در چه حوزه‌ای؟" : "چه نوعی؟"} hint="اختیاری است؛ بدون انتخاب، همه نوع‌ها را می‌بینید.">
+            <TypePicker />
+          </Step>
+        )}
+
+        <Step n={hasTypes ? 3 : 2} title="کجا؟" hint={route.id === "fund" ? undefined : "روی نقشه یا از فهرست، یک یا چند استان انتخاب کنید. بدون انتخاب، همه ایران را می‌بینید."}>
           {route.id === "fund"
             ? <p className="rounded-2xl bg-muted p-4 text-sm font-semibold text-ink/75">صندوق‌ها و طرح‌های جمعی به استان خاصی وابسته نیستند.</p>
             : <ProvincePicker route={route.id} value={criteria.provinces} onChange={(v) => setCriteria({ provinces: v })} />}
         </Step>
-
-        {hasTypes && (
-          <Step n={3} title={route.usesProjectGroups ? "در چه حوزه‌ای؟" : "چه نوعی؟"} hint="اختیاری است؛ بدون انتخاب، همه نوع‌ها را می‌بینید.">
-            <TypePicker />
-          </Step>
-        )}
 
         <Step n={hasTypes ? 4 : 3} title="با چه بودجه‌ای؟" hint={route.amount ? `${route.amount.label} را مشخص کنید.` : undefined}>
           {route.amount
