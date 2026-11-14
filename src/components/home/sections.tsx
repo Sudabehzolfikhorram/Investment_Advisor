@@ -208,7 +208,7 @@ export function Featured() {
     <section className="mx-auto mt-28 max-w-7xl px-4 sm:px-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <SectionHead kicker="پروژه‌ها" title="تازه‌ترین پروژه‌ها" />
-        <Reveal><Link href="/opportunities" className="group inline-flex h-12 items-center gap-2 rounded-full border border-ink/15 bg-white/60 px-5 text-sm font-extrabold text-ink transition-colors hover:border-primary hover:text-primary">همه پروژه‌ها <ArrowLeft size={17} className="transition-transform group-hover:-translate-x-1" /></Link></Reveal>
+        <Reveal><Link href="/opportunities" className="group inline-flex h-12 items-center gap-2 rounded-full border border-pine/15 bg-white/60 px-5 text-sm font-extrabold text-ink transition-colors hover:border-primary hover:text-primary">همه پروژه‌ها <ArrowLeft size={17} className="transition-transform group-hover:-translate-x-1" /></Link></Reveal>
       </div>
       <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{items.map((l, i) => <ListingCard key={l.id} listing={l} index={i} />)}</div>
     </section>

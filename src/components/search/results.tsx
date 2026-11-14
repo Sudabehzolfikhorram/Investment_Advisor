@@ -1,7 +1,7 @@
 "use client";
 // صفحه پروژه‌ها: اول «اطلاعات پایه» (دسته اصلی، محدوده، بودجه) پرسیده می‌شود و بعد نتایج می‌آید.
 // در نتایج: دسته‌های اصلی (تک‌انتخابی) و فیلترهای اصلی بالای صفحه، فیلتر پیشرفته کنار نتایج.
-import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowDown2, ArrowLeft, ArrowRight, Category2, CloseCircle, InfoCircle, Location, Save2, SearchNormal1, Sort, WalletMoney } from "@/components/iconsax";
 import { Header, Footer } from "@/components/site/header";
@@ -12,8 +12,6 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { groupIcons, routeIcons } from "@/components/icons";
@@ -366,7 +364,6 @@ export function Results() {
   const deferred = useDeferredValue(criteria);
   const [sort, setSort] = useState("relevance");
   const [q, setQ] = useState("");
-  const [showAll, setShowAll] = useState(false);
   const [limit, setLimit] = useState(PAGE);
   const [saveOpen, setSaveOpen] = useState(false);
   const route = useRoute();
@@ -375,18 +372,21 @@ export function Results() {
   const isSaved = hydrated && profiles.some((p) => JSON.stringify(p.criteria) === JSON.stringify(criteria));
 
   const all = useMemo(() => (hydrated ? rank(listings, deferred) : []), [hydrated, deferred]);
-  const { shown, hidden } = useMemo(() => {
+  const { shown, far } = useMemo(() => {
     let list = all;
     if (q.trim()) list = list.filter((r) => `${r.listing.title} ${r.listing.city ?? ""} ${r.listing.province ?? ""} ${r.listing.tags.join(" ")}`.includes(q.trim()));
-    const ok = hasCriteria && !showAll ? list.filter((r) => r.score >= SUITABLE) : list;
+    const ok = hasCriteria ? list.filter((r) => r.score >= SUITABLE) : list;
     const by: Record<string, (a: MatchResult, b: MatchResult) => number> = {
       relevance: () => 0,
       capital: (a, b) => (a.listing.amount ?? 1e9) - (b.listing.amount ?? 1e9),
       payback: (a, b) => ((a.listing.raw as Opportunity).paybackYears ?? 99) - ((b.listing.raw as Opportunity).paybackYears ?? 99),
       newest: (a, b) => b.listing.publishedAt.localeCompare(a.listing.publishedAt),
     };
-    return { shown: [...ok].sort(by[sort]), hidden: list.length - ok.length };
-  }, [all, q, sort, showAll, hasCriteria]);
+    // پروژه‌های با تطابق کمتر جدا نمی‌شوند؛ بعد از پروژه‌های مناسب، هنگام اسکرول می‌آیند
+    const rest = hasCriteria ? list.filter((r) => r.score < SUITABLE && r.score > 0) : [];
+    return { shown: [...ok].sort(by[sort]), far: [...rest].sort((a, b) => b.score - a.score || by[sort](a, b)) };
+  }, [all, q, sort, hasCriteria]);
+  const feed = useMemo(() => [...shown, ...far], [shown, far]);
   // شمار پروژه‌های هر مسیر با همین بودجه و استان‌ها، تا کاربر ببیند سرمایه‌اش کجا جواب می‌دهد
   const tabCounts = useMemo(() => {
     if (!hydrated || (!deferred.amount && !deferred.provinces.length)) return routeCounts;
@@ -395,7 +395,14 @@ export function Results() {
   const related = (routeTools[route.id] ?? []).filter((id) => !(route.id === "charity" && id === "charity")).map((id) => toolById(id)!).filter(Boolean);
   const suitable = useMemo(() => (hasCriteria ? all.filter((r) => r.score >= SUITABLE).length : all.length), [all, hasCriteria]);
 
-  useEffect(() => setLimit(PAGE), [deferred, q, sort, showAll]);
+  useEffect(() => setLimit(PAGE), [deferred, q, sort]);
+  // با رسیدن به انتهای فهرست، صفحه بعد خودکار اضافه می‌شود
+  const sentinel = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = sentinel.current; if (!el) return;
+    const io = new IntersectionObserver((e) => { if (e[0].isIntersecting) setLimit((l) => (l < feed.length ? l + PAGE : l)); }, { rootMargin: "600px 0px" });
+    io.observe(el); return () => io.disconnect();
+  }, [feed.length, limit]);
 
   // پیشنهاد ذخیره جست‌وجو: نوار پررنگ بالای نتایج تا وقتی ذخیره یا بسته شود
   const [nudgeOff, setNudgeOff] = useState(false);
@@ -436,11 +443,6 @@ export function Results() {
                 </div>
                 {chips.length > 0 && <div className="mb-5"><ActiveChips chips={chips} /></div>}
 
-                {hasCriteria && (hidden > 0 || showAll) && (
-                  <Label className="mb-5 flex w-fit items-center gap-3 text-sm font-semibold text-ink/75"><Switch dir="rtl" checked={showAll} onCheckedChange={setShowAll} />
-                    پروژه‌های دورتر از خواسته من را هم نشان بده{!showAll && ` (${faNumber(hidden)} مورد)`}</Label>
-                )}
-
                 {hasCriteria && !isSaved && !nudgeOff && shown.length > 0 && (
                   <div className="relative mb-5 flex items-center gap-4 overflow-hidden rounded-[1.75rem] bg-pine p-4 pr-5 text-white">
                     <AlgoPattern className="-left-10 -top-10 h-48 w-72 text-white/[0.07] blur-[1.5px]" fade="radial" scale={0.6} />
@@ -457,25 +459,29 @@ export function Results() {
                 {route.id === "charity" && all.length === 0 ? (
                   // مسیر خیریه در نسخه مرجع پروژه نمونه ندارد و جای آن، فرم همراهی و دورنمای اثر است
                   <Card className="surface block rounded-[2rem] p-7 shadow-none"><LegacyTool opener={toolById("charity")!.opener} root={toolById("charity")!.root} /></Card>
-                ) : shown.length === 0 ? (
+                ) : feed.length === 0 ? (
                   <Card className="surface grid place-items-center gap-0 rounded-[2rem] px-6 py-20 text-center shadow-none">
                     <span className="grid size-16 place-items-center rounded-full bg-primary/10 text-primary"><SearchNormal1 size={28} variant="Bulk" /></span>
                     <h2 className="mt-5 text-xl font-extrabold text-ink">{all.length === 0 ? "در این مسیر هنوز پروژه‌ای نیست." : "با این فیلترها پروژه‌ای پیدا نشد."}</h2>
                     <p className="mt-2 max-w-md text-sm leading-7 text-muted-foreground">{all.length === 0 ? "این جست‌وجو را ذخیره کنید تا پروژه‌های تازه را دفعه بعد همین‌جا ببینید." : "یکی دو فیلتر را بردارید تا نتایج بیشتری ببینید."}</p>
-                    {all.length > 0 && hidden > 0 && <Button onClick={() => setShowAll(true)} className="mt-6 h-12 rounded-full px-6 font-bold">دیدن {faNumber(hidden)} پروژه نزدیک</Button>}
                     {all.length === 0 && <Button onClick={() => setSaveOpen(true)} className="mt-6 h-12 gap-2 rounded-full px-6 font-bold"><Save2 size={18} />ذخیره جست‌وجو</Button>}
                   </Card>
                 ) : (
                   <div className={cn("grid grid-cols-2 gap-5 transition-opacity 2xl:grid-cols-3", deferred !== criteria && "opacity-60")}>
-                    {shown.slice(0, limit).map((r, i) => <ListingCard key={r.listing.id} listing={r.listing} score={hasCriteria ? r.score : undefined} reasons={hasCriteria ? r.reasons : undefined} index={i % PAGE} comparable />)}
+                    {feed.slice(0, limit).map((r, i) => (
+                      <Fragment key={r.listing.id}>
+                        {i === shown.length && (
+                          <div className="col-span-full mt-4 flex items-center gap-4 first:mt-0">
+                            <span className="h-px flex-1 bg-border" />
+                            <span className="text-center"><span className="block text-base font-extrabold text-ink">پروژه‌های با تطابق کمتر</span><span className="mt-0.5 block text-xs font-semibold text-muted-foreground">با بخشی از خواسته شما جور درمی‌آیند؛ به ترتیب درصد تطابق</span></span>
+                            <span className="h-px flex-1 bg-border" />
+                          </div>
+                        )}
+                        <ListingCard listing={r.listing} score={hasCriteria ? r.score : undefined} reasons={hasCriteria ? r.reasons : undefined} index={i % PAGE} comparable />
+                      </Fragment>))}
                   </div>
                 )}
-                {shown.length > limit && (
-                  <div className="mt-10 flex flex-col items-center gap-2">
-                    <Button variant="outline" onClick={() => setLimit(limit + PAGE)} className="h-12 rounded-full bg-white px-8 font-extrabold shadow-none hover:border-primary hover:text-primary">پروژه‌های بیشتر</Button>
-                    <span className="text-xs text-muted-foreground">{faNumber(Math.min(limit, shown.length))} از {faNumber(shown.length)}</span>
-                  </div>
-                )}
+                {feed.length > limit && <div ref={sentinel} aria-hidden className="mt-8 flex justify-center"><span className="size-6 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>}
                 {related.length > 0 && (
                   <div className="mt-12 flex flex-wrap items-center gap-2.5 border-t border-border pt-6">
                     <span className="ml-1 text-[13px] font-extrabold text-ink">خدمات مرتبط با این مسیر</span>

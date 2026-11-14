@@ -4,7 +4,7 @@
 :root {
   --radius: 1rem;
   --background: #fafbfb;
-  --foreground: #083b37;
+  --foreground: #2f3533; /* متن: زغالی خنثی با ته‌مایه بسیار کم سبز، کنتراست ۱۲٫۵ روی سفید */
   --card: #ffffff;
   --card-foreground: #083b37;
   --popover: #ffffff;
@@ -14,14 +14,14 @@
   --secondary: #f1f4f4;
   --secondary-foreground: #0b3b37;
   --muted: #f2f4f4;
-  --muted-foreground: #667473;
+  --muted-foreground: #646a68;
   --accent: #eef2f2;
   --accent-foreground: #0b3b37;
   --destructive: #c2410c;
   --border: #e4e9e8;
   --input: #e4e9e8;
   --ring: #0f766e;
-  --ink: #083b37;
+  --ink: #2f3533;
   --deep: #083b37;
   /* سطح‌های تیره (به جای مشکی) */
   --pine: #083b37;

@@ -143,7 +143,7 @@ function Milestones({ o }: { o: Opportunity }) {
       <ol className="grid" style={{ gridTemplateColumns: `repeat(${known.length}, minmax(0, 1fr))` }}>
         {known.map((m, i) => (
           <li key={m.label} className="relative px-1 text-center">
-            {i > 0 && <span aria-hidden className="absolute left-1/2 top-[7px] w-full border-t-2 border-dotted border-ink/20" />}
+            {i > 0 && <span aria-hidden className="absolute left-1/2 top-[7px] w-full border-t-2 border-dotted border-pine/20" />}
             <span className={cn("relative z-10 mx-auto block size-4 rounded-full ring-4 ring-white", i === 0 ? "bg-pine" : m.label.includes("بدبینانه") ? "bg-coral" : "bg-primary")} />
             <span className="mt-3 block text-base font-black text-ink">{m.value}</span>
             <span className="mt-0.5 block text-xs font-semibold leading-5 text-muted-foreground">{m.label}</span>

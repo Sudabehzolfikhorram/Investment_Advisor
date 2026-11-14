@@ -18,7 +18,7 @@ export const IranMap = memo(function IranMap({
   const max = Math.max(1, ...pts.map((p) => p.count));
   return (
     <svg viewBox="0 0 360 330" className={cn("h-auto w-full overflow-visible", className)} role="img" aria-label="نقشه ایران و شهرهای دارای پروژه">
-      <path d={iranPath} className="fill-primary/[0.03] stroke-ink/20" strokeWidth="0.5" strokeLinejoin="round" />
+      <path d={iranPath} className="fill-primary/[0.03] stroke-pine/20" strokeWidth="0.5" strokeLinejoin="round" />
       {links && hub && pts.length > 1 && (
         <g fill="none" className="stroke-primary/25" strokeWidth="0.6">
           {pts.filter((p) => p !== hub).map((p) => {
@@ -34,7 +34,7 @@ export const IranMap = memo(function IranMap({
           <g key={p.city} onClick={onToggle ? () => onToggle(p.province) : undefined} className={cn(onToggle && "cursor-pointer")} role={onToggle ? "button" : undefined} aria-pressed={onToggle ? on : undefined} aria-label={`${p.province}، ${p.city}، ${p.count} پروژه`}>
             {pulse && i % 3 === 0 && <circle cx={p.x} cy={p.y} r={r} className="fill-primary" style={{ transformOrigin: `${p.x}px ${p.y}px`, animation: "pulse-node 3.2s ease-out infinite", animationDelay: `${(i % 5) * 0.6}s` }} />}
             {on && <circle cx={p.x} cy={p.y} r={r + 5} className="fill-primary/15 stroke-primary" strokeWidth="0.8" />}
-            <circle cx={p.x} cy={p.y} r={r} className={cn("transition-colors", on ? "fill-primary" : onToggle ? "fill-ink/45 hover:fill-primary" : "fill-primary")} />
+            <circle cx={p.x} cy={p.y} r={r} className={cn("transition-colors", on ? "fill-primary" : onToggle ? "fill-pine/45 hover:fill-primary" : "fill-primary")} />
             <circle cx={p.x} cy={p.y} r={r + 8} fill="transparent" />
             {labels && !pts.some((q) => q !== p && q.count > p.count && Math.hypot(q.x - p.x, q.y - p.y) < 14) && (
               <text x={p.x} y={p.y - r - 4} textAnchor="middle" className={cn("text-[8px] font-bold", on ? "fill-primary" : "fill-ink/70")}>
@@ -67,7 +67,7 @@ export function LocationMap({ city, province, className }: { city: string; provi
       {[...all].filter((c) => c !== county).sort((a, b) => b.a - a.a).slice(0, 5).map((c) => <text key={c.name} x={c.c[0]} y={c.c[1] + 1 * u} textAnchor="middle" style={{ fontSize: 3.4 * u }} strokeWidth={1.2 * u} strokeLinejoin="round" className="pointer-events-none fill-muted-foreground font-semibold [paint-order:stroke] stroke-white">{c.name}</text>)}
       <path d={shape} fill="none" strokeWidth={0.9 * u} strokeLinejoin="round" className="stroke-primary" />
       {county && <path d={county.d} fill="none" strokeWidth={0.9 * u} strokeLinejoin="round" clipPath={`url(#loc-${b.join("-")})`} className="stroke-primary" />}
-      {cc && all.length > 0 && <text x={cc.x} y={cc.y + 1.8 * u} textAnchor="middle" style={{ fontSize: 5 * u }} strokeWidth={1.6 * u} strokeLinejoin="round" className="fill-deep font-extrabold [paint-order:stroke] stroke-white">{city}</text>}
+      {cc && all.length > 0 && <text x={cc.x} y={cc.y + 1.8 * u} textAnchor="middle" style={{ fontSize: 5 * u }} strokeWidth={1.6 * u} strokeLinejoin="round" className="fill-ink font-extrabold [paint-order:stroke] stroke-white">{city}</text>}
     </svg>
   );
 }

@@ -93,7 +93,7 @@ function CodeBoxes({ value, onChange }: { value: string; onChange: (v: string) =
       <div className="grid grid-cols-5 gap-2.5" aria-hidden>
         {Array.from({ length: 5 }, (_, i) => (
           <span key={i} className={cn("grid h-14 place-items-center rounded-2xl border bg-white text-2xl font-black text-ink transition-colors",
-            focus && i === Math.min(value.length, 4) ? "border-primary ring-[3px] ring-primary/15" : value[i] ? "border-ink/25" : "border-border")}>{value[i] ? faDigits(value[i]) : ""}</span>
+            focus && i === Math.min(value.length, 4) ? "border-primary ring-[3px] ring-primary/15" : value[i] ? "border-pine/25" : "border-border")}>{value[i] ? faDigits(value[i]) : ""}</span>
         ))}
       </div>
       <Input ref={ref} inputMode="numeric" autoComplete="one-time-code" value={value} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}

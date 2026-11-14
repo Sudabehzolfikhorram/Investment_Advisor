@@ -84,7 +84,7 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
                 <path key={p} d={provincePaths[p]} role="button" aria-pressed={on} aria-label={`استان ${p}${count ? `، ${count} پروژه` : ""}`}
                   onClick={() => !focus && toggle(p)} onMouseEnter={() => { setHover(p); loadCounties(p); }}
                   strokeWidth={(on ? 1.1 : 0.55) / k} strokeLinejoin="round"
-                  className={cn("transition-[fill,stroke,opacity] duration-500", !focus && "cursor-pointer", on && !dim ? (focus ? "fill-primary/10 stroke-primary" : "fill-primary/15 stroke-primary") : dim ? "pointer-events-none fill-muted/60 stroke-ink/15 opacity-0" : count ? "fill-white stroke-ink/30 hover:fill-primary/10 hover:stroke-primary" : "fill-white stroke-ink/30 hover:fill-primary/10 hover:stroke-primary")} />
+                  className={cn("transition-[fill,stroke,opacity] duration-500", !focus && "cursor-pointer", on && !dim ? (focus ? "fill-primary/10 stroke-primary" : "fill-primary/15 stroke-primary") : dim ? "pointer-events-none fill-muted/60 stroke-pine/15 opacity-0" : count ? "fill-white stroke-pine/30 hover:fill-primary/10 hover:stroke-primary" : "fill-white stroke-pine/30 hover:fill-primary/10 hover:stroke-primary")} />
               );
             })}
             {/* استان انتخاب‌شده یا زیر نشانگر با عکس شاخص همان استان پر می‌شود */}
@@ -110,7 +110,7 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
                     return (
                       <path key={c.name} d={c.d} role="button" aria-pressed={on} aria-label={`شهرستان ${c.name}`} strokeWidth={(on ? 1.6 : live ? 1 : 0.6) / k} strokeLinejoin="round"
                         onClick={() => city.set(on ? city.value.filter((x) => !names.includes(x)) : [...city.value, ...names.filter((x) => !city.value.includes(x))])}
-                        className={cn("cursor-pointer transition-colors duration-300", on ? "fill-primary/40 stroke-primary" : live ? "fill-primary/[0.12] stroke-primary hover:fill-primary/25" : "fill-white stroke-ink/25 hover:fill-primary/10")} />
+                        className={cn("cursor-pointer transition-colors duration-300", on ? "fill-primary/40 stroke-primary" : live ? "fill-primary/[0.12] stroke-primary hover:fill-primary/25" : "fill-white stroke-pine/25 hover:fill-primary/10")} />
                     );
                   })}
                 </g>

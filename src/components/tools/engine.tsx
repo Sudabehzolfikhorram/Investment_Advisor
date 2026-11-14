@@ -188,7 +188,7 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
     }
     if (n.tag === "textarea") return <Textarea key={n.key} value={n.value ?? ""} placeholder={n.attr.placeholder} aria-label={label} rows={Number(n.attr.rows ?? 3)} onChange={(e) => fire(n.key, "input", (el) => { el.value = e.target.value; })} onBlur={() => fire(n.key, "change")} className="min-h-24 rounded-2xl bg-white px-4 py-3 text-sm font-semibold leading-7 shadow-none" />;
     const type = n.attr.type ?? "text";
-    if (type === "checkbox" || type === "radio") return <Checkbox key={n.key} checked={!!n.checked} disabled={n.disabled} aria-label={label} onCheckedChange={() => fire(n.key, "click")} className={cn("size-5 border-ink/25 bg-white", type === "radio" ? "rounded-full" : "rounded-md")} />;
+    if (type === "checkbox" || type === "radio") return <Checkbox key={n.key} checked={!!n.checked} disabled={n.disabled} aria-label={label} onCheckedChange={() => fire(n.key, "click")} className={cn("size-5 border-pine/25 bg-white", type === "radio" ? "rounded-full" : "rounded-md")} />;
     if (type === "file") return <FileField key={n.key} accept={n.attr.accept} label={label} onFiles={(files) => fire(n.key, "change", (el) => { const W = el.ownerDocument.defaultView as unknown as { DataTransfer: typeof DataTransfer }; const dt = new W.DataTransfer(); for (const f of files) dt.items.add(f); el.files = dt.files; })} />;
     if (type === "hidden") return null;
     return <Input key={n.key} type={type === "number" ? "text" : type} inputMode={type === "number" ? "decimal" : undefined} dir={type === "number" || type === "tel" || type === "email" || type === "url" ? "ltr" : undefined} value={n.value ?? ""} disabled={n.disabled} placeholder={n.attr.placeholder} aria-label={label}
@@ -520,7 +520,7 @@ function FileField({ accept, label, onFiles }: { accept?: string; label?: string
   const ref = useRef<HTMLInputElement>(null);
   const [names, setNames] = useState<string[]>([]);
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-dashed border-ink/20 bg-white p-3">
+    <div className="flex items-center gap-3 rounded-2xl border border-dashed border-pine/20 bg-white p-3">
       <input ref={ref} type="file" multiple accept={accept} aria-label={label} className="sr-only" onChange={(e) => { const f = [...(e.target.files ?? [])]; setNames(f.map((x) => x.name)); onFiles(f); }} />
       <Button type="button" variant="outline" onClick={() => ref.current?.click()} className="h-10 gap-2 rounded-full bg-white px-4 text-[13px] font-extrabold shadow-none hover:border-primary hover:text-primary"><DocumentDownload size={17} variant="Bulk" className="rotate-180" />انتخاب فایل</Button>
       <span className="min-w-0 truncate text-[13px] font-semibold text-muted-foreground" dir="auto">{names.length ? names.join("، ") : "فایلی انتخاب نشده است"}</span>
@@ -544,7 +544,7 @@ function MultiDrop({ items, onToggle, single }: { items: { key: string; checked:
       <PopoverContent align="start" className="thin-scroll max-h-80 w-(--radix-popover-trigger-width) overflow-y-auto rounded-2xl p-1.5">
         {items.map((i) => (
           <label key={i.key} className={cn("flex cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-primary/5", i.checked && "bg-primary/[0.06]")}>
-            <Checkbox role={single ? "radio" : undefined} checked={i.checked} disabled={i.disabled} onCheckedChange={() => { if (single && i.checked) return; onToggle(i.key); if (single) setOpen(false); }} className={cn("mt-0.5 size-5 border-ink/25 bg-white", single ? "rounded-full" : "rounded-md")} />
+            <Checkbox role={single ? "radio" : undefined} checked={i.checked} disabled={i.disabled} onCheckedChange={() => { if (single && i.checked) return; onToggle(i.key); if (single) setOpen(false); }} className={cn("mt-0.5 size-5 border-pine/25 bg-white", single ? "rounded-full" : "rounded-md")} />
             <span className="min-w-0"><span className="block text-sm font-bold leading-6 text-ink">{i.title}</span>{i.hint && <span className="block text-xs leading-5 text-muted-foreground">{i.hint}</span>}</span>
           </label>
         ))}
