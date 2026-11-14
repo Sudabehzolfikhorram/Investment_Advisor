@@ -30,6 +30,7 @@ import { useHydrated, useStore } from "@/lib/store";
 import type { MatchResult, Opportunity, RouteId } from "@/types";
 import { cn, faNumber } from "@/lib/utils";
 import { AdvancedFilter } from "./advanced-filter";
+import { GroupTypePicker } from "./type-picker";
 import { Chip } from "./controls";
 import { BudgetField } from "./budget-field";
 import { LocationFields, ProvincePicker } from "./province-picker";
@@ -67,7 +68,7 @@ function Budget() {
 }
 
 /** حوزه و نوع دقیق پروژه: نوع دقیق فقط بعد از انتخاب حوزه باز می‌شود */
-function TypePicker() {
+function TypePicker({ compact }: { compact?: boolean }) {
   const { criteria, setCriteria, setFilter } = useStore();
   const route = useRoute();
   const subs = routeSubcategories[route.id];
@@ -80,41 +81,8 @@ function TypePicker() {
     if (!subs) return null;
     return <div className="flex flex-wrap gap-2">{subs.map((s) => { const on = subValue.includes(s.id); return <Chip key={s.id} active={on} onClick={() => setFilter(sKey, on ? subValue.filter((x) => x !== s.id) : [...subValue, s.id])}>{s.name}</Chip>; })}</div>;
   }
-  const chosen = projectGroups.filter((g) => criteria.groups.includes(g.id));
-  const toggleGroup = (id: string) => {
-    const next = criteria.groups.includes(id) ? criteria.groups.filter((x) => x !== id) : [...criteria.groups, id];
-    setCriteria({ groups: next });
-    // نوع‌های دقیقِ حوزه‌ای که برداشته شد هم حذف می‌شوند
-    const keep = projectGroups.filter((g) => next.includes(g.id)).flatMap((g) => g.subtypes.map((s) => s.id));
-    if (types.length) setFilter("subtypes", types.filter((t) => keep.includes(t)));
-  };
-  return (
-    <div className="space-y-5">
-      <div>
-        <p className="mb-2.5 text-[13px] font-bold text-ink/80">حوزه</p>
-        <div className="flex flex-wrap gap-2">
-          {projectGroups.map((g) => { const I = groupIcons[g.id]; const on = criteria.groups.includes(g.id);
-            return <Chip key={g.id} active={on} onClick={() => toggleGroup(g.id)}><I size={15} variant="Bulk" />{g.name}{counts[g.id] ? <span className="opacity-60">({faNumber(counts[g.id])})</span> : null}</Chip>; })}
-        </div>
-      </div>
-      <div>
-        <p className="mb-2.5 text-[13px] font-bold text-ink/80">نوع دقیق پروژه</p>
-        {chosen.length === 0 ? (
-          <p className="flex items-center gap-2 rounded-2xl border border-dashed border-border px-4 py-3 text-[13px] font-semibold text-muted-foreground"><InfoCircle size={16} variant="Bulk" className="shrink-0 text-primary" />اول حوزه را انتخاب کنید تا نوع‌های دقیق همان حوزه این‌جا بیاید.</p>
-        ) : (
-          <div className="space-y-3">
-            {chosen.map((g) => (
-              <div key={g.id} className="flex flex-wrap items-center gap-2">
-                {chosen.length > 1 && <span className="ml-1 min-w-16 text-xs font-extrabold text-muted-foreground">{g.name}</span>}
-                {g.subtypes.map((s) => { const on = types.includes(s.id);
-                  return <Chip key={s.id} active={on} onClick={() => setFilter("subtypes", on ? types.filter((x) => x !== s.id) : [...types, s.id])} className="px-3 py-1 text-xs">{s.name}{counts[`s:${s.id}`] ? <span className="opacity-60">({faNumber(counts[`s:${s.id}`])})</span> : null}</Chip>; })}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  return <GroupTypePicker groups={criteria.groups} types={types} counts={counts} compact={compact}
+    onChange={(groups, subtypes) => { setCriteria({ groups }); setFilter("subtypes", subtypes.length ? subtypes : undefined); }} />;
 }
 
 /* ——— گام اول: اطلاعات پایه ——— */
@@ -223,7 +191,7 @@ function FilterBar() {
   const sKey = subKey[route.id];
   const subValue = (criteria.filters[sKey] as string[]) ?? [];
   const groupText = route.usesProjectGroups
-    ? criteria.groups.length ? criteria.groups.map((g) => projectGroups.find((x) => x.id === g)?.name).join("، ") + ((criteria.filters.subtypes as string[] | undefined)?.length ? `، ${faNumber((criteria.filters.subtypes as string[]).length)} نوع` : "") : "همه حوزه‌ها"
+    ? criteria.groups.length ? (() => { const n = criteria.groups.map((g) => projectGroups.find((x) => x.id === g)?.name); return n.length > 2 ? `${n.slice(0, 2).join("، ")} و ${faNumber(n.length - 2)} حوزه دیگر` : n.join("، "); })() + ((criteria.filters.subtypes as string[] | undefined)?.length ? `، ${faNumber((criteria.filters.subtypes as string[]).length)} نوع` : "") : "همه حوزه‌ها"
     : subs ? (subValue.length ? subValue.map((s) => subs.find((x) => x.id === s)?.name).join("، ") : "همه") : "";
   return (
     <div className="surface flex items-center gap-1 rounded-full p-1">
@@ -240,8 +208,8 @@ function FilterBar() {
         <span className="h-7 w-px shrink-0 bg-border" />
       </>}
       {(route.usesProjectGroups || subs) && (
-        <BarItem icon={<Category2 size={20} variant="Bulk" />} label={route.usesProjectGroups ? "حوزه و نوع" : "نوع"} value={groupText} active={route.usesProjectGroups ? criteria.groups.length > 0 : subValue.length > 0} width="w-[38rem]">
-          <TypePicker />
+        <BarItem icon={<Category2 size={20} variant="Bulk" />} label={route.usesProjectGroups ? "حوزه و نوع" : "نوع"} value={groupText} active={route.usesProjectGroups ? criteria.groups.length > 0 : subValue.length > 0} width="w-[46rem]">
+          <TypePicker compact />
         </BarItem>
       )}
     </div>
