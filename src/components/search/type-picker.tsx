@@ -102,7 +102,7 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
                   </span>
                   <span className={cn("min-w-0 flex-1 truncate text-[13.5px]", active || on ? "font-extrabold text-ink" : "font-semibold text-ink/75")}>{x.name}</span>
                   {query ? <span className="shrink-0 text-[11px] font-bold text-ink">{mc ? faNumber(mc) : ""}</span>
-                    : on ? <span className="shrink-0 rounded-full bg-ink px-2 py-0.5 text-[10.5px] font-extrabold text-white">{nt ? `${faNumber(nt)} نوع` : "همه"}</span>
+                    : on ? <span className="shrink-0 rounded-full bg-cobalt px-2 py-0.5 text-[10.5px] font-extrabold text-white">{nt ? `${faNumber(nt)} نوع` : "همه"}</span>
                     : <span className="shrink-0 text-[11px] font-semibold tabular-nums text-muted-foreground">{faNumber(x.subtypes.length)} نوع</span>}
                   <ArrowLeft2 size={14} className={cn("shrink-0 transition-all duration-300", active ? "-translate-x-0.5 text-ink" : "text-ink/25")} />
                 </button>

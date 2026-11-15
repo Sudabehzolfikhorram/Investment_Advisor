@@ -29,7 +29,7 @@ export function AddSearchButton({ variant = "icon" }: { variant?: "icon" | "tile
       {variant === "icon" ? (
         <Button type="button" variant="plain" size="auto" onClick={start} aria-label="افزودن فیلتر تازه" title="افزودن و ذخیره فیلتر تازه"
           className="group h-12 gap-2.5 rounded-full border border-border bg-white pl-5 pr-1.5 text-[13.5px] font-extrabold text-ink shadow-[0_10px_26px_-20px_rgb(20_30_45/0.5)] transition-colors hover:border-ink/30">
-          <span className="grid size-9 place-items-center rounded-full bg-coral text-white transition-transform duration-300 group-hover:rotate-90"><FilterAdd size={18} variant="Bold" /></span>فیلتر تازه
+          <span className="grid size-9 place-items-center rounded-full bg-cobalt text-white transition-transform duration-300 group-hover:rotate-90"><FilterAdd size={18} variant="Bold" /></span>فیلتر تازه
         </Button>
       ) : (
         <button type="button" onClick={start} className="group grid min-h-[15rem] place-items-center rounded-[2rem] border-2 border-dashed border-border bg-white/50 p-6 text-center transition-colors hover:border-ink/30 hover:bg-white">
@@ -73,7 +73,7 @@ function AddSearchDialog({ open, onOpenChange }: { open: boolean; onOpenChange: 
               {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === c.route;
                 return (
                   <button key={r.id} type="button" onClick={() => setRoute(r.id)} aria-pressed={on}
-                    className={cn("flex min-h-[4.5rem] flex-col items-start justify-between gap-1.5 rounded-2xl border p-2.5 text-right transition-colors", on ? "border-ink bg-ink text-white" : "border-border bg-white text-ink hover:border-ink/30")}>
+                    className={cn("flex min-h-[4.5rem] flex-col items-start justify-between gap-1.5 rounded-2xl border p-2.5 text-right transition-colors", on ? "border-cobalt bg-cobalt text-white" : "border-border bg-white text-ink hover:border-ink/30")}>
                     <I size={17} variant="Bulk" className={on ? "text-white" : "text-ink/60"} />
                     <span className="text-[12px] font-extrabold leading-5">{r.name}</span>
                   </button>

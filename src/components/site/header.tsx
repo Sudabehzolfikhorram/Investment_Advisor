@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Element3, Lovely, Login, Logout, MagicStar, ProfileCircle } from "@/components/iconsax";
+import { Convertshape2, Element3, Lovely, Login, Logout, MagicStar, ProfileCircle } from "@/components/iconsax";
 import { Logo } from "@/components/brand/algo-pattern";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -12,13 +12,14 @@ const links = [
   { href: "/opportunities", label: "پروژه‌ها" },
   { href: "/tools", label: "جذب سرمایه", icon: Element3 },
   { href: "/assistant", label: "دستیار", icon: MagicStar },
+  { href: "/compare", label: "مقایسه", icon: Convertshape2 },
   { href: "/saved", label: "علاقه‌مندی‌ها", icon: Lovely },
 ];
 
 export function Header({ overlay = false }: { overlay?: boolean }) {
   const path = usePathname();
   const hydrated = useHydrated();
-  const { user, saved, openLogin, logout } = useStore();
+  const { user, saved, compare, openLogin, logout } = useStore();
   return (
     <header className={cn("z-40 w-full", overlay ? "absolute inset-x-0 top-0" : "sticky top-0")}>
       <div className="mx-auto max-w-7xl px-4 pt-4 sm:px-6">
@@ -30,6 +31,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
                 <Link href={l.href} className={cn("flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-colors", overlay ? "text-white/85 hover:bg-white/10 hover:text-white" : "text-ink/65 hover:bg-ink/[0.04] hover:text-ink", path.startsWith(l.href) && (overlay ? "bg-white/15 text-white" : "bg-ink/[0.06] font-bold text-ink"))}>
                   {l.icon && <l.icon size={17} variant="Bulk" />}{l.label}
                   {l.href === "/saved" && hydrated && saved.length > 0 && <span className="grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1 text-[11px] font-bold text-white">{faNumber(saved.length)}</span>}
+                  {l.href === "/compare" && hydrated && compare.length > 0 && <span className="grid h-5 min-w-5 place-items-center rounded-full bg-cobalt px-1 text-[11px] font-bold text-white">{faNumber(compare.length)}</span>}
                 </Link>
               </li>
             ))}

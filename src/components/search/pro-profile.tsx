@@ -98,7 +98,7 @@ function QuickProfile({ open, onOpenChange, initial, onSaved }: { open: boolean;
             <p className="mb-2 text-[13px] font-extrabold text-ink">با چه نقشی کار می‌کنید؟</p>
             <div className="grid grid-cols-4 gap-1.5">
               {quickRoles.map(([id, l]) => <Button key={id} type="button" variant="plain" size="auto" aria-pressed={role === id} onClick={() => setRole(id)}
-                className={cn("h-10 rounded-xl border text-[12.5px] font-bold transition-colors", role === id ? "border-ink bg-ink text-white" : "border-border bg-white text-ink hover:border-ink/30")}>{l}</Button>)}
+                className={cn("h-10 rounded-xl border text-[12.5px] font-bold transition-colors", role === id ? "border-cobalt bg-cobalt text-white" : "border-border bg-white text-ink hover:border-ink/30")}>{l}</Button>)}
             </div>
           </div>
           <div>
@@ -187,7 +187,7 @@ export function ProProfileBar({ className }: { className?: string }) {
         <div className="no-scrollbar flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto">
           {facts.map((f) => (
             <button key={f.id} type="button" aria-pressed={f.on} onClick={() => setCriteria(f.patch)} disabled={f.id === "route" && f.on}
-              className={cn("inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3 text-[12px] font-bold transition-colors", f.on ? "bg-ink text-white" : "border border-dashed border-ink/25 text-ink hover:border-ink/50")}>
+              className={cn("inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3 text-[12px] font-bold transition-colors", f.on ? "bg-cobalt text-white" : "border border-dashed border-ink/25 text-ink hover:border-ink/50")}>
               {f.on ? <TickCircle size={14} variant="Bold" /> : <span className="text-[14px] leading-none">+</span>}{f.value}
             </button>
           ))}

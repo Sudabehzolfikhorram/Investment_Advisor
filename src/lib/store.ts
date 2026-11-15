@@ -15,9 +15,11 @@ interface State {
   criteria: SearchCriteria;
   /** آیا کاربر گام «اطلاعات پایه» را در صفحه پروژه‌ها گذرانده است */
   started: boolean;
-  /** پروژه‌های انتخاب‌شده برای مقایسه (حداکثر سه) */
+  /** پروژه‌های انتخاب‌شده برای مقایسه (حداکثر چهار) */
   compare: string[];
   toggleCompare: (id: string) => void;
+  /** جایگزینی کامل فهرست مقایسه (مثلاً «مقایسه علاقه‌مندی‌ها») */
+  setCompare: (ids: string[]) => void;
   clearCompare: () => void;
   setStarted: (v: boolean) => void;
   /** شروع تازه از یک دسته اصلی یا گروه؛ گام اطلاعات پایه دوباره نمایش داده می‌شود */
@@ -45,7 +47,8 @@ export const useStore = create<State>()(
   persist(
     (set, get) => ({
       user: null, saved: [], profiles: [], criteria: emptyCriteria, started: false, loginOpen: false, pending: null, compare: [],
-      toggleCompare: (id) => set((s) => ({ compare: s.compare.includes(id) ? s.compare.filter((x) => x !== id) : s.compare.length >= 3 ? s.compare : [...s.compare, id] })),
+      toggleCompare: (id) => set((s) => ({ compare: s.compare.includes(id) ? s.compare.filter((x) => x !== id) : s.compare.length >= 4 ? s.compare : [...s.compare, id] })),
+      setCompare: (ids) => set({ compare: [...new Set(ids)].slice(0, 4) }),
       clearCompare: () => set({ compare: [] }),
       setStarted: (started) => set({ started }),
       begin: (c) => set({ criteria: { ...emptyCriteria, ...c }, started: false }),
@@ -81,7 +84,7 @@ export const useStore = create<State>()(
       updateProfile: (id, patch) => set((s) => ({ profiles: s.profiles.map((p) => (p.id === id ? { ...p, ...patch } : p)) })),
       touchProfile: (id) => set((s) => ({ profiles: s.profiles.map((p) => (p.id === id ? { ...p, lastSeenAt: "2026-11-10" } : p)) })),
     }),
-    { name: "hamsarmaye", partialize: (s) => ({ user: s.user, saved: s.saved, profiles: s.profiles, criteria: s.criteria, started: s.started }) },
+    { name: "hamsarmaye", partialize: (s) => ({ user: s.user, saved: s.saved, profiles: s.profiles, criteria: s.criteria, started: s.started, compare: s.compare }) },
   ),
 );
 

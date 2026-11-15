@@ -7,6 +7,9 @@ import { ArrowDown2, ArrowLeft, ArrowRight, Category2, CloseCircle, InfoCircle, 
 import { Header, Footer } from "@/components/site/header";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { ListingCard } from "@/components/listing/listing-card";
+import { CompareTray } from "@/components/compare/tray";
+import { SentenceIntake } from "./sentence-intake";
+import { QuickFilters } from "./quick-filters";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -20,10 +23,8 @@ import { convertAmount, routes, routeSubcategories, routeTools } from "@/data/ro
 import { LegacyTool } from "@/components/tools/engine";
 import { toolById } from "@/data/tools";
 import Link from "next/link";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { listingById } from "@/lib/listings";
 import { projectGroups } from "@/data/taxonomy";
-import { describeCriteria, hasAnyCriteria, type CriteriaChip } from "@/lib/criteria";
+import { describeCriteria, hasAnyCriteria, withoutChip, type CriteriaChip } from "@/lib/criteria";
 import { listings } from "@/lib/listings";
 import { forRoute, rank } from "@/lib/match";
 import { useHydrated, useStore } from "@/lib/store";
@@ -106,11 +107,22 @@ function Intake({ count }: { count: number }) {
   const stats = useProfileStats();
   const route = useRoute();
   const hasTypes = route.usesProjectGroups || !!routeSubcategories[route.id];
+  // دو راه برای همان اطلاعات پایه: یک جمله (پیش‌فرض، سریع‌تر) یا همان چهار گام قبلی
+  const [mode, setMode] = useState<"sentence" | "steps">("sentence");
+  const go = () => { setStarted(true); requestAnimationFrame(() => window.scrollTo({ top: 0 })); };
   return (
     <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mx-auto max-w-5xl">
-      <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-primary"><NodeMark />گام ۱ از ۲</span>
-      <h1 className="mt-2 text-4xl font-black leading-[1.4] text-ink">{hasTypes ? "چهار" : "سه"} پرسش کوتاه، بعد پروژه‌های مناسب شما.</h1>
-      <p className="mt-2 text-[15px] leading-7 text-muted-foreground">جزئیات بیشتر را بعداً کنار نتایج تنظیم می‌کنید.</p>
+      <div className="flex items-end justify-between gap-6">
+        <div>
+          <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-cobalt"><NodeMark />گام ۱ از ۲</span>
+          <h1 className="mt-2 text-4xl font-black leading-[1.4] text-ink">{mode === "sentence" ? "در یک جمله بگویید چه می‌خواهید." : `${hasTypes ? "چهار" : "سه"} پرسش کوتاه، بعد پروژه‌های مناسب شما.`}</h1>
+          <p className="mt-2 text-[15px] leading-7 text-muted-foreground">{mode === "sentence" ? "روی بخش‌های آبی بزنید و عوضشان کنید؛ نتیجه همان لحظه به‌روز می‌شود." : "جزئیات بیشتر را بعداً کنار نتایج تنظیم می‌کنید."}</p>
+        </div>
+        <ToggleGroup type="single" value={mode} onValueChange={(v) => v && setMode(v as typeof mode)} className="shrink-0 rounded-full border border-border bg-white p-1">
+          <ToggleGroupItem value="sentence" className="h-9 rounded-full px-4 text-[13px] font-bold text-ink/65 data-[state=on]:bg-cobalt data-[state=on]:text-white">در یک جمله</ToggleGroupItem>
+          <ToggleGroupItem value="steps" className="h-9 rounded-full px-4 text-[13px] font-bold text-ink/65 data-[state=on]:bg-cobalt data-[state=on]:text-white">گام‌به‌گام</ToggleGroupItem>
+        </ToggleGroup>
+      </div>
 
       {profiles.length > 0 && (
         <div className="surface mt-6 flex flex-wrap items-center gap-2 rounded-3xl p-4">
@@ -125,14 +137,15 @@ function Intake({ count }: { count: number }) {
 
       <ProProfileBar className="mt-5" />
 
+      {mode === "sentence" ? <div className="mt-6"><SentenceIntake count={count} onGo={go} /></div> : (
       <Card className="surface mt-6 block gap-0 rounded-[2rem] p-8 shadow-none">
         <Step n={1} title="چطور وارد می‌شوید؟" hint="یک مسیر را انتخاب کنید؛ پروژه‌ها و فیلترهای هر مسیر فرق دارد.">
           <ToggleGroup type="single" spacing={2} value={criteria.route} onValueChange={(v) => v && changeRoute(v as RouteId)} className="grid w-full grid-cols-4 items-stretch">
             {routes.map((r) => { const I = routeIcons[r.id];
               return (
-                <ToggleGroupItem key={r.id} value={r.id} className="group/r h-full min-h-[6.5rem] min-w-0 flex-col items-start justify-between gap-2 whitespace-normal rounded-2xl border border-border bg-white p-3.5 text-right shadow-none hover:border-ink/25 hover:bg-white data-[state=on]:border-ink data-[state=on]:bg-ink/[0.03]">
+                <ToggleGroupItem key={r.id} value={r.id} className="group/r h-full min-h-[6.5rem] min-w-0 flex-col items-start justify-between gap-2 whitespace-normal rounded-2xl border border-border bg-white p-3.5 text-right shadow-none hover:border-ink/25 hover:bg-white data-[state=on]:border-cobalt data-[state=on]:bg-cobalt-soft/50">
                   <span className="flex w-full items-center justify-between">
-                    <span className="grid size-9 place-items-center rounded-xl bg-muted text-ink/70 group-data-[state=on]/r:bg-ink group-data-[state=on]/r:text-white"><I size={18} variant="Bulk" /></span>
+                    <span className="grid size-9 place-items-center rounded-xl bg-muted text-ink/70 group-data-[state=on]/r:bg-cobalt group-data-[state=on]/r:text-white"><I size={18} variant="Bulk" /></span>
                     <span className="text-[11px] font-semibold text-muted-foreground">{faNumber(routeCounts[r.id])} پروژه</span>
                   </span>
                   <span className="text-[13px] font-extrabold leading-5 text-ink">{r.name}</span>
@@ -160,12 +173,12 @@ function Intake({ count }: { count: number }) {
         </Step>
 
         <div className="flex items-center gap-4 border-t border-border pt-7">
-          <Button variant="plain" size="auto" onClick={() => { setStarted(true); requestAnimationFrame(() => window.scrollTo({ top: 0 })); }} className="group h-14 gap-3 rounded-full bg-primary pl-2 pr-7 text-base font-extrabold text-white shadow-[0_18px_40px_-20px_var(--primary)] hover:bg-deep">
+          <Button variant="plain" size="auto" onClick={go} className="group h-14 gap-3 rounded-full bg-primary pl-2 pr-7 text-base font-extrabold text-white shadow-[0_18px_40px_-20px_var(--primary)] hover:bg-deep">
             دیدن {faNumber(count)} پروژه<span className="grid size-10 place-items-center rounded-full bg-white/15 transition-transform group-hover:-translate-x-1"><ArrowLeft size={18} /></span>
           </Button>
-          <Button variant="ghost" onClick={() => { setCriteria({ provinces: [], amount: null }); setStarted(true); requestAnimationFrame(() => window.scrollTo({ top: 0 })); }} className="h-12 rounded-full px-5 font-bold text-ink/70">بعداً مشخص می‌کنم</Button>
+          <Button variant="ghost" onClick={() => { setCriteria({ provinces: [], amount: null }); go(); }} className="h-12 rounded-full px-5 font-bold text-ink/70">بعداً مشخص می‌کنم</Button>
         </div>
-      </Card>
+      </Card>)}
     </motion.div>
   );
 }
@@ -219,27 +232,42 @@ function FilterBar() {
   );
 }
 
-function ActiveChips({ chips }: { chips: CriteriaChip[] }) {
+/* ——— فیلترهای فعال: کنار هر فیلتر نوشته می‌شود برداشتنش چند پروژه اضافه می‌کند ——— */
+function ActiveChips({ chips, suitable }: { chips: CriteriaChip[]; suitable: number }) {
   const { criteria, setCriteria, setFilter, resetFilters } = useStore();
+  const gain = useMemo(() => Object.fromEntries(chips.map((c) => [c.key, rank(listings, withoutChip(criteria, c)).filter((r) => r.score >= SUITABLE).length - suitable])), [chips, criteria, suitable]);
   if (!chips.length) return <span />;
   const remove = (c: CriteriaChip) =>
     c.kind === "group" ? setCriteria({ groups: criteria.groups.filter((x) => x !== c.value) })
     : c.kind === "province" ? setCriteria({ provinces: criteria.provinces.filter((x) => x !== c.value) })
     : c.kind === "amount" ? setCriteria({ amount: null }) : setFilter(c.value!, undefined);
+  // وقتی نتیجه کم است، فیلتری را پیشنهاد می‌دهیم که برداشتنش بیشترین نتیجه را اضافه می‌کند
+  const best = [...chips].sort((x, y) => gain[y.key] - gain[x.key])[0];
+  const relax = suitable < 6 && best && gain[best.key] > 0 ? best : null;
   return (
-    <div className="mt-3 flex flex-wrap items-center gap-2">
-            {chips.map((c) => (
-        <Badge key={c.key} variant="outline" className="gap-1 border-ink/25 bg-ink/[0.03] py-1 pl-1 pr-3 text-[12px] font-bold text-ink">
-          {c.label}
-          <Button variant="plain" size="auto" aria-label={`حذف ${c.label}`} onClick={() => remove(c)} className="grid size-5 place-items-center rounded-full text-ink/50 hover:bg-destructive/10 hover:text-destructive"><CloseCircle size={15} variant="Bold" /></Button>
-        </Badge>
-      ))}
-      <Button variant="ghost" size="xs" onClick={resetFilters} className="font-bold text-destructive hover:bg-destructive/10 hover:text-destructive">پاک کردن همه</Button>
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center gap-2">
+        {chips.map((c) => (
+          <Badge key={c.key} variant="outline" className="gap-1.5 border-cobalt/25 bg-cobalt-soft/70 py-1 pl-1 pr-3 text-[12px] font-bold text-cobalt-deep">
+            {c.label}
+            {gain[c.key] > 0 && <span className="rounded-full bg-white px-1.5 text-[10.5px] font-extrabold text-cobalt" title={`با برداشتن این فیلتر ${faNumber(gain[c.key])} پروژه دیگر می‌بینید`}>+{faNumber(gain[c.key])}</span>}
+            <Button variant="plain" size="auto" aria-label={`حذف ${c.label}`} onClick={() => remove(c)} className="grid size-5 place-items-center rounded-full text-cobalt-deep/50 hover:bg-destructive/10 hover:text-destructive"><CloseCircle size={15} variant="Bold" /></Button>
+          </Badge>
+        ))}
+        <Button variant="ghost" size="xs" onClick={resetFilters} className="font-bold text-muted-foreground hover:bg-destructive/10 hover:text-destructive">پاک کردن همه</Button>
+      </div>
+      {relax && (
+        <div className="flex items-center gap-3 rounded-2xl border border-cobalt/20 bg-white px-4 py-3 text-[13.5px] font-semibold text-ink">
+          <InfoCircle size={20} variant="Bulk" className="shrink-0 text-cobalt" />
+          <p className="flex-1 leading-7">فقط {faNumber(suitable)} پروژه پیدا شد. با برداشتن «{relax.label}» {faNumber(gain[relax.key])} پروژه دیگر هم می‌بینید.</p>
+          <Button type="button" variant="plain" size="auto" onClick={() => remove(relax)} className="h-9 shrink-0 rounded-full bg-cobalt px-4 text-[13px] font-extrabold text-white hover:bg-cobalt-deep">برداشتن این فیلتر</Button>
+        </div>
+      )}
     </div>
   );
 }
 
-/** تب مسیرها: یک ردیف با اسکرول افقی؛ چرخ ماوس، کشیدن و دکمه‌های کناری همه کار می‌کنند */
+
 function RouteTabs({ routeCounts, active, onChange }: { routeCounts: Record<string, number>; active: RouteId; onChange: (r: RouteId) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const [edge, setEdge] = useState({ start: false, end: false });
@@ -272,7 +300,7 @@ function RouteTabs({ routeCounts, active, onChange }: { routeCounts: Record<stri
         {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === active;
           return (
             <Button key={r.id} role="tab" aria-selected={on} type="button" variant="plain" size="auto" onClick={() => onChange(r.id)}
-              className={cn("h-11 flex-none gap-2 whitespace-nowrap rounded-full border px-4 text-[13px] font-extrabold transition-[background-color,border-color,color,box-shadow]", on ? "border-ink bg-ink text-white shadow-[0_6px_14px_-6px_rgb(20_30_45/0.45)]" : "border-border bg-white text-ink/70 hover:border-ink/25 hover:text-ink")}>
+              className={cn("h-11 flex-none gap-2 whitespace-nowrap rounded-full border px-4 text-[13px] font-extrabold transition-[background-color,border-color,color,box-shadow]", on ? "border-cobalt bg-cobalt text-white shadow-[0_8px_18px_-10px_var(--cobalt)]" : "border-border bg-white text-ink/70 hover:border-ink/25 hover:text-ink")}>
               <I size={17} variant="Bulk" className="shrink-0" />{r.name}
               {/* عرض ثابت به اندازه بزرگ‌ترین عدد، تا با تغییر عدد یا انتخاب، اندازه دکمه عوض نشود */}
               <span style={{ width: `${countDigits + 1.2}ch` }} className={cn("inline-block shrink-0 rounded-full text-center text-[11px] font-bold tabular-nums", on ? "bg-white/20 text-white" : "bg-muted text-ink/60")}>{faNumber(routeCounts[r.id])}</span>
@@ -282,50 +310,6 @@ function RouteTabs({ routeCounts, active, onChange }: { routeCounts: Record<stri
       {edge.start && <><span className="pointer-events-none absolute inset-y-0 -right-2 w-20 bg-gradient-to-l from-background to-transparent" /><Button type="button" variant="plain" size="auto" aria-label="مسیرهای قبلی" onClick={() => move(-1)} className={cn(arrow, "-right-1")}><ArrowRight size={17} /></Button></>}
       {edge.end && <><span className="pointer-events-none absolute inset-y-0 -left-2 w-20 bg-gradient-to-r from-background to-transparent" /><Button type="button" variant="plain" size="auto" aria-label="مسیرهای بعدی" onClick={() => move(1)} className={cn(arrow, "-left-1")}><ArrowLeft size={17} /></Button></>}
     </div>
-  );
-}
-
-/* ——— مقایسه: تا سه پروژه کنار هم ——— */
-function CompareBar() {
-  const { compare, toggleCompare, clearCompare } = useStore();
-  const [open, setOpen] = useState(false);
-  const items = compare.map((id) => listingById(id)).filter(Boolean) as NonNullable<ReturnType<typeof listingById>>[];
-  useEffect(() => { if (items.length < 2) setOpen(false); }, [items.length]);
-  if (!items.length) return null;
-  const labels = [...new Set(items.flatMap((l) => l.stats.map((s) => s.label)))];
-  const rows: [string, (string | undefined)[]][] = [
-    ["محل", items.map((l) => (l.city ? `${l.province}، ${l.city}` : l.province ?? undefined))],
-    ...labels.map((lab) => [lab, items.map((l) => l.stats.find((s) => s.label === lab)?.value || undefined)] as [string, (string | undefined)[]]),
-    ["ویژگی‌ها", items.map((l) => l.tags.join("، ") || undefined)],
-  ];
-  return (
-    <>
-      <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="fixed inset-x-0 bottom-5 z-40 mx-auto flex w-fit items-center gap-3 rounded-full bg-pine p-2 pr-5 text-white shadow-[0_18px_40px_-16px_rgb(22_32_48/0.6)]">
-        <span className="text-sm font-extrabold">{faNumber(items.length)} پروژه برای مقایسه</span>
-        <Button type="button" disabled={items.length < 2} onClick={() => setOpen(true)} className="h-10 rounded-full bg-primary px-5 font-extrabold text-white hover:bg-primary/90 disabled:opacity-60">{items.length < 2 ? "یک پروژه دیگر انتخاب کنید" : "مقایسه"}</Button>
-        <Button type="button" variant="plain" size="auto" aria-label="پاک کردن مقایسه" onClick={clearCompare} className="grid size-10 place-items-center rounded-full text-ink/50 hover:bg-white hover:text-ink"><CloseCircle size={20} /></Button>
-      </motion.div>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent dir="rtl" aria-describedby={undefined} className="thin-scroll max-h-[88dvh] overflow-y-auto rounded-[2rem] p-7 sm:max-w-5xl">
-          <DialogTitle className="text-xl font-black text-ink">مقایسه پروژه‌ها</DialogTitle>
-          <div className="mt-2 grid gap-x-4" style={{ gridTemplateColumns: `9rem repeat(${items.length}, minmax(0, 1fr))` }}>
-            <span />
-            {items.map((l) => (
-              <div key={l.id} className="pb-4">
-                <Link href={`/opportunities/${l.id}`} className="line-clamp-2 min-h-12 text-[15px] font-extrabold leading-6 text-ink hover:text-ink">{l.title}</Link>
-                <Button type="button" variant="ghost" size="xs" onClick={() => toggleCompare(l.id)} className="-mr-2 mt-1 font-bold text-muted-foreground hover:text-destructive">حذف</Button>
-              </div>
-            ))}
-            {rows.map(([lab, vals]) => (
-              <div key={lab} className="col-span-full grid grid-cols-subgrid border-t border-border py-3 text-sm">
-                <span className="text-[13px] font-semibold text-muted-foreground">{lab}</span>
-                {vals.map((v, i) => <span key={i} className={cn("font-extrabold leading-7", v ? "text-ink" : "font-semibold text-ink/40")}>{v ?? "ثبت نشده"}</span>)}
-              </div>
-            ))}
-          </div>
-        </DialogContent>
-      </Dialog>
-    </>
   );
 }
 
@@ -394,7 +378,7 @@ export function Results() {
 
             <div className="mt-7 grid grid-cols-[21rem_1fr] gap-7">
               <aside>
-                <Card className="surface thin-scroll sticky top-24 block max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[1.75rem] p-5 shadow-none"><ProProfileCard className="mb-5" /><AdvancedFilter /></Card>
+                <Card className="surface thin-scroll sticky top-24 block max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[1.75rem] p-5 shadow-none"><ProProfileCard className="mb-5" /><QuickFilters /><AdvancedFilter /></Card>
               </aside>
 
               <section className="min-w-0">
@@ -412,18 +396,14 @@ export function Results() {
                     </Select>
                   </div>
                 </div>
-                {chips.length > 0 && <div className="mb-5"><ActiveChips chips={chips} /></div>}
+                {chips.length > 0 && <div className="mb-5"><ActiveChips chips={chips} suitable={suitable} /></div>}
 
                 {hasCriteria && !isSaved && !nudgeOff && shown.length > 0 && (
-                  <div className="relative mb-5 flex items-center gap-4 overflow-hidden rounded-[1.75rem] bg-pine p-4 pr-5 text-white">
-                    <AlgoPattern className="-left-10 -top-10 h-48 w-72 text-white/[0.07] blur-[1.5px]" fade="radial" scale={0.6} />
-                    <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-white/10"><Save2 size={24} variant="Bulk" /></span>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-base font-extrabold">فیلترهایی را که تنظیم کرده‌اید ذخیره کنید</p>
-                      <p className="mt-0.5 text-[13px] leading-6 text-white/70">دفعه بعد لازم نیست این مراحل را تکرار کنید؛ با یک کلیک به همین نتایج برمی‌گردید و پروژه‌های تازه را می‌بینید.</p>
-                    </div>
-                    <Button type="button" onClick={() => setSaveOpen(true)} className="relative h-11 shrink-0 gap-2 rounded-full bg-coral px-5 font-extrabold text-white shadow-[0_10px_22px_-10px_var(--coral)] hover:bg-coral-deep"><Save2 size={18} />ذخیره این جست‌وجو</Button>
-                    <Button type="button" variant="plain" size="auto" aria-label="بستن" onClick={() => setNudgeOff(true)} className="relative grid size-9 shrink-0 place-items-center rounded-full text-white/60 hover:bg-white/10 hover:text-white"><CloseCircle size={20} /></Button>
+                  <div className="mb-5 flex items-center gap-3 rounded-2xl border border-border bg-white/80 py-2 pl-2 pr-4 backdrop-blur">
+                    <Save2 size={19} variant="Bulk" className="shrink-0 text-ink/60" />
+                    <p className="min-w-0 flex-1 text-[13px] font-semibold leading-6 text-ink/75">این جست‌وجو را ذخیره کنید تا دفعه بعد با یک کلیک برگردید و پروژه‌های تازه‌اش را ببینید.</p>
+                    <Button type="button" variant="plain" size="auto" onClick={() => setSaveOpen(true)} className="h-9 shrink-0 gap-1.5 rounded-full border border-cobalt/30 px-4 text-[13px] font-extrabold text-cobalt-deep hover:bg-cobalt hover:text-white"><Save2 size={16} />ذخیره جست‌وجو</Button>
+                    <Button type="button" variant="plain" size="auto" aria-label="بستن" onClick={() => setNudgeOff(true)} className="grid size-9 shrink-0 place-items-center rounded-full text-ink/40 hover:bg-muted hover:text-ink"><CloseCircle size={18} /></Button>
                   </div>
                 )}
 
@@ -454,7 +434,7 @@ export function Results() {
                 )}
               </section>
             </div>
-            <CompareBar />
+            <CompareTray />
           </>
         )}
         <SaveCriteriaDialog open={saveOpen} onOpenChange={setSaveOpen} />

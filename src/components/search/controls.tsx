@@ -21,7 +21,7 @@ export const amountPresets = (min: number, max: number): [number, number][] => {
   return [[min, a], [a, b], [b, c], [c, max]];
 };
 
-const pill = "h-auto min-w-0 rounded-full border border-border bg-white px-3.5 py-1.5 text-[13px] font-semibold text-ink/75 shadow-none transition-all duration-200 hover:border-ink/25 hover:bg-white hover:text-ink data-[state=on]:border-ink data-[state=on]:bg-ink data-[state=on]:text-white data-[state=on]:shadow-[0_8px_20px_-10px_var(--primary)]";
+const pill = "h-auto min-w-0 rounded-full border border-border bg-white px-3.5 py-1.5 text-[13px] font-semibold text-ink/75 shadow-none transition-all duration-200 hover:border-ink/25 hover:bg-white hover:text-ink data-[state=on]:border-cobalt data-[state=on]:bg-cobalt data-[state=on]:text-white data-[state=on]:shadow-[0_8px_20px_-10px_var(--cobalt)]";
 
 export function Chip({ active, children, onClick, className }: { active?: boolean; children: React.ReactNode; onClick?: () => void; className?: string }) {
   return <Toggle pressed={!!active} onPressedChange={() => onClick?.()} className={cn(pill, "gap-1.5", className)}>{children}</Toggle>;

@@ -9,6 +9,8 @@ import { ArrowLeft, Book1, Call, WalletMoney, Building4, CloseCircle, Courthouse
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { CountUp, MatchRing, Reveal } from "@/components/brand/reveal";
 import { ListingCard } from "@/components/listing/listing-card";
+import { CompareTray } from "@/components/compare/tray";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { groupIcons, routeIcons } from "@/components/icons";
 import { projectGroups } from "@/data/taxonomy";
 import { routes, routeSubcategories } from "@/data/routes";
@@ -17,7 +19,7 @@ import { listings } from "@/lib/listings";
 import { forRoute, matchListing } from "@/lib/match";
 import { libraryTopics } from "@/data/library";
 import { tools } from "@/data/tools";
-import type { Opportunity, SearchCriteria } from "@/types";
+import type { Opportunity, RouteId, SearchCriteria } from "@/types";
 import { useStore } from "@/lib/store";
 import { cn, faNumber } from "@/lib/utils";
 
@@ -58,9 +60,9 @@ export function HelpCenter() {
               <li key={x.id}>
                 <button type="button" onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)} aria-pressed={on}
                   className={cn("relative flex w-full items-center gap-4 rounded-[1.4rem] px-4 py-3.5 text-right transition-colors duration-300", on ? "bg-white shadow-[0_18px_40px_-28px_rgb(22_32_48/0.45)] ring-1 ring-border" : "hover:bg-white/60")}>
-                  {on && <motion.span layoutId="help-bar" className="absolute inset-y-3 right-0 w-[3px] rounded-full bg-ink" />}
+                  {on && <motion.span layoutId="help-bar" className="absolute inset-y-3 right-0 w-[3px] rounded-full bg-cobalt" />}
                   <span className={cn("w-7 shrink-0 text-[1.35rem] font-black tabular-nums transition-colors", on ? "text-ink" : "text-ink/20")}>{faNumber(i + 1)}</span>
-                  <span className={cn("grid size-10 shrink-0 place-items-center rounded-2xl transition-colors", on ? "bg-ink text-white" : "bg-muted text-ink/60")}><I size={19} variant="Bulk" /></span>
+                  <span className={cn("grid size-10 shrink-0 place-items-center rounded-2xl transition-colors", on ? "bg-cobalt text-white" : "bg-muted text-ink/60")}><I size={19} variant="Bulk" /></span>
                   <span className={cn("min-w-0 flex-1 text-[14.5px] leading-7", on ? "font-extrabold text-ink" : "font-bold text-ink/75")}>{x.title}</span>
                   <ArrowLeft size={16} className={cn("shrink-0 text-ink transition-all duration-300", on ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0")} />
                 </button>
@@ -134,7 +136,7 @@ function StatsCard() {
                 <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-ink text-white"><I size={21} variant="Bulk" /></span>
                 <span className="min-w-0">
                   <span className="block truncate text-[15px] font-extrabold text-ink">{cur.name}</span>
-                  <span className="block text-[12.5px] font-semibold text-muted-foreground"><b className="font-extrabold text-coral-deep">{faNumber(cur.n)}</b> پروژه · {faNumber(cur.provinces.size)} استان</span>
+                  <span className="block text-[12.5px] font-semibold text-muted-foreground"><b className="font-extrabold text-cobalt-deep">{faNumber(cur.n)}</b> پروژه · {faNumber(cur.provinces.size)} استان</span>
                 </span>
               </motion.div>
             </AnimatePresence>
@@ -146,7 +148,7 @@ function StatsCard() {
                 return (
                   <motion.button key={g.id} type="button" aria-label={`${g.name}: ${faNumber(g.n)} پروژه`} onMouseEnter={() => setPin(i)} onFocus={() => setPin(i)}
                     initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 + i * 0.05, duration: 0.6, ease }}
-                    style={{ flexGrow: g.n, originX: 1 }} className={cn("min-w-[6px] basis-0 rounded-full transition-colors duration-300", on ? "bg-coral" : "bg-ink/[0.12] hover:bg-ink/25")} />
+                    style={{ flexGrow: g.n, originX: 1 }} className={cn("min-w-[6px] basis-0 rounded-full transition-colors duration-300", on ? "bg-cobalt" : "bg-ink/[0.12] hover:bg-ink/25")} />
                 ); })}
             </div>
             <p className="mt-2.5 flex items-center justify-between text-[11.5px] font-bold text-muted-foreground">
@@ -162,7 +164,7 @@ function StatsCard() {
             return <path key={name} d={d} strokeWidth="0.7" strokeLinejoin="round" className={cn("stroke-white transition-[fill] duration-500", hot ? "fill-ink/80" : has ? "fill-ink/[0.14]" : "fill-ink/[0.05]")} />;
           })}
           {[...cur.provinces].map((name, i) => { const xy = provinceLabel[name]; if (!xy) return null;
-            return <motion.circle key={cur.id + name} cx={xy[0]} cy={xy[1]} r="3.4" className="fill-coral stroke-white" strokeWidth="1.2" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.15 + i * 0.05, type: "spring", stiffness: 420, damping: 16 }} style={{ transformOrigin: `${xy[0]}px ${xy[1]}px` }} />; })}
+            return <motion.circle key={cur.id + name} cx={xy[0]} cy={xy[1]} r="3.4" className="fill-cobalt stroke-white" strokeWidth="1.2" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.15 + i * 0.05, type: "spring", stiffness: 420, damping: 16 }} style={{ transformOrigin: `${xy[0]}px ${xy[1]}px` }} />; })}
         </svg>
       </div>
     </div>
@@ -200,7 +202,7 @@ export function Categories() {
         return (
           <Button key={r.id} type="button" variant="plain" size="auto" aria-pressed={on} onClick={() => setRouteId(r.id)}
             className={cn("relative h-auto w-[13.5rem] flex-col items-start gap-0.5 whitespace-normal rounded-[1.05rem] px-4 py-3 text-right transition-colors", on ? "text-white" : "text-ink hover:bg-muted")}>
-            {on && <motion.span layoutId="cat-route" className="absolute inset-0 rounded-[1.05rem] bg-ink" transition={{ type: "spring", stiffness: 300, damping: 30 }} />}
+            {on && <motion.span layoutId="cat-route" className="absolute inset-0 rounded-[1.05rem] bg-cobalt" transition={{ type: "spring", stiffness: 300, damping: 30 }} />}
             <span className="relative flex w-full items-center gap-2 text-[13.5px] font-extrabold"><I size={17} variant="Bulk" />{r.name}<span className={cn("mr-auto text-[11px] font-bold tabular-nums", on ? "text-white/55" : "text-muted-foreground")}>{faNumber(forRoute(listings, r.id).length)}</span></span>
             <span className={cn("relative text-[11.5px] font-semibold leading-5", on ? "text-white/70" : "text-muted-foreground")}>آورده: {role.bring}</span>
           </Button>
@@ -243,7 +245,7 @@ export function Categories() {
                     <div className="flex items-center justify-between gap-4">
                       <span className="grid size-12 place-items-center rounded-2xl bg-white/15 text-white backdrop-blur-sm"><I size={24} variant="Bulk" /></span>
                       <Button variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id); }} className="group/all h-12 gap-3 rounded-full bg-white pl-1.5 pr-5 text-[14.5px] font-extrabold text-ink shadow-[0_12px_30px_-14px_rgb(0_0_0/0.6)] hover:bg-white/90">
-                        همه پروژه‌های {g.name}<span className="grid size-9 place-items-center rounded-full bg-coral text-white transition-transform group-hover/all:-translate-x-1"><ArrowLeft size={17} /></span>
+                        همه پروژه‌های {g.name}<span className="grid size-9 place-items-center rounded-full bg-cobalt text-white transition-transform group-hover/all:-translate-x-1"><ArrowLeft size={17} /></span>
                       </Button>
                     </div>
                     <div className="min-w-0">
@@ -262,7 +264,7 @@ export function Categories() {
                             <Button data-sub variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id, s.id); }}
                               onMouseEnter={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })} onFocus={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })}
                               className="group/sub h-11 gap-2.5 rounded-full border border-white/25 bg-white/10 px-4 text-[14.5px] font-bold text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-ink">
-                              <span className="size-1.5 rounded-full bg-white/80 transition-all duration-300 group-hover/sub:w-4 group-hover/sub:bg-coral" />
+                              <span className="size-1.5 rounded-full bg-white/80 transition-all duration-300 group-hover/sub:w-4 group-hover/sub:bg-cobalt" />
                               {s.name}
                               <span className="text-[12px] font-semibold tabular-nums opacity-60">{faNumber(counts.t[`${g.id}/${s.id}`] ?? 0)}</span>
                             </Button>
@@ -326,7 +328,7 @@ function OneRowBadges({ items }: { items: string[] }) {
       <span data-plus aria-hidden className={cn(badge, "invisible absolute")}>+{faNumber(items.length)}</span>
       <div className="flex gap-1.5 overflow-hidden" title={items.join("، ")}>
         {items.slice(0, n).map((x) => <span key={x} className={cn(badge, "min-w-0 truncate")}>{x}</span>)}
-        {n < items.length && <span className={cn(badge, "border-coral-soft bg-coral-soft font-extrabold text-coral-deep")}>+{faNumber(items.length - n)}</span>}
+        {n < items.length && <span className={cn(badge, "border-cobalt-soft bg-cobalt-soft font-extrabold text-cobalt-deep")}>+{faNumber(items.length - n)}</span>}
       </div>
     </div>
   );
@@ -346,29 +348,52 @@ const routeShort: Record<string, string> = {
 
 /* ——— دسته‌بندی‌های اصلی (هشت مسیر) ——— */
 // تک‌انتخابی‌اند چون هر کدام فیلترهای خودش را دارد؛ تعدادها از داده واقعی شمرده می‌شود.
+/** «آورده شما چیست؟»: به‌جای خواندن هشت کارت، اول بگویید چه دارید تا مسیرهای مرتبط پررنگ شوند (بقیه کم‌رنگ می‌مانند و حذف نمی‌شوند) */
+const assets: { id: string; label: string; routes: RouteId[] | null }[] = [
+  { id: "all", label: "همه مسیرها", routes: null },
+  { id: "cash", label: "پول نقد دارم", routes: ["investor", "fund", "buyer", "heritage", "charity"] },
+  { id: "skill", label: "توان اجرایی یا تخصص دارم", routes: ["contractor", "operator", "heritage"] },
+  { id: "space", label: "دنبال ملک یا فضا هستم", routes: ["buyer", "lessee"] },
+];
+
 export function MainCategories() {
   const router = useRouter();
   const begin = useStore((s) => s.begin);
+  const [asset, setAsset] = useState("all");
+  const fit = assets.find((a) => a.id === asset)!.routes;
   return (
     <section id="routes" className="relative mx-auto mt-20 max-w-7xl px-6">
-      <SectionHead kicker="هشت مسیر ورود" title={<>سرمایه، تخصص یا توان اجرایی؛<br />با کدام وارد می‌شوید؟</>} text="هر مسیر پروژه‌ها و شرایط خودش را دارد؛ مسیرتان را انتخاب کنید." aside={<StatsCard />} />
-      <div className="mt-8 grid grid-cols-4 gap-4">
+      <SectionHead kicker="هشت مسیر ورود" title={<>سرمایه، تخصص یا توان اجرایی؛<br />با کدام وارد می‌شوید؟</>} text="هر مسیر پروژه‌ها و شرایط خودش را دارد؛ اول بگویید چه دارید تا مسیرهای مناسب را نشانتان دهیم." aside={<StatsCard />} />
+      <div className="mt-8 flex items-center gap-4">
+        <span className="shrink-0 text-[14px] font-extrabold text-ink">آورده شما چیست؟</span>
+        <ToggleGroup type="single" value={asset} onValueChange={(v) => v && setAsset(v)} className="flex flex-wrap gap-2">
+          {assets.map((a) => (
+            <ToggleGroupItem key={a.id} value={a.id} className="h-10 rounded-full border border-border bg-white px-4 text-[13px] font-bold text-ink/70 shadow-none hover:border-ink/25 hover:bg-white hover:text-ink data-[state=on]:border-cobalt data-[state=on]:bg-cobalt data-[state=on]:text-white">{a.label}</ToggleGroupItem>
+          ))}
+        </ToggleGroup>
+        <AnimatePresence mode="wait">
+          {fit && <motion.span key={asset} initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className="mr-auto text-[13px] font-bold text-muted-foreground">{faNumber(fit.length)} مسیر با آورده شما جور است</motion.span>}
+        </AnimatePresence>
+      </div>
+      <div className="mt-5 grid grid-cols-4 gap-4">
         {routes.map((r, i) => {
           const I = routeIcons[r.id]; const n = forRoute(listings, r.id).length;
           const subs = r.usesProjectGroups ? projectGroups.map((g) => g.name) : (routeSubcategories[r.id] ?? []).map((x) => x.name);
+          const on = !fit || fit.includes(r.id);
           return (
             <Reveal key={r.id} delay={(i % 4) * 0.06} className="h-full">
               <Button variant="plain" size="auto" type="button" onClick={() => { begin({ route: r.id }); router.push("/opportunities"); }}
-                className="group surface relative isolate flex h-full min-h-[15.5rem] w-full flex-col items-stretch justify-start gap-0 overflow-hidden whitespace-normal rounded-[1.6rem] p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:border-ink/20 hover:shadow-[0_26px_50px_-30px_rgb(20_30_45/0.32)]">
+                className={cn("group surface relative isolate flex h-full min-h-[15.5rem] w-full flex-col items-stretch justify-start gap-0 overflow-hidden whitespace-normal rounded-[1.6rem] p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:border-ink/20 hover:shadow-[0_26px_50px_-30px_rgb(20_30_45/0.32)]",
+                  fit && on && "border-cobalt/45 shadow-[0_0_0_3px_rgb(33_82_224/0.08),0_26px_50px_-34px_rgb(33_82_224/0.45)]", !on && "opacity-40 saturate-0 hover:opacity-100 hover:saturate-100")}>
                 {/* سرِ کارت فقط آیکون؛ شمار پروژه به پاورقی رفت تا بالای کارت خلوت بماند */}
-                <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-muted text-ink transition-colors duration-300 group-hover:bg-ink group-hover:text-white"><I size={23} variant="Bulk" /></span>
+                <span className={cn("grid size-12 shrink-0 place-items-center rounded-2xl bg-muted text-ink transition-colors duration-300 group-hover:bg-ink group-hover:text-white", fit && on && "bg-cobalt-soft text-cobalt-deep")}><I size={23} variant="Bulk" /></span>
                 <span className="mt-6 block text-[17.5px] font-extrabold leading-7 text-ink">{r.name}</span>
                 <span className="mt-1.5 block truncate text-[13.5px] leading-6 text-muted-foreground">{routeShort[r.id] ?? r.description}</span>
                 {subs.length > 0 && <span className="mt-5 block"><OneRowBadges items={subs} /></span>}
                 {/* پاورقی همیشه پایین کارت؛ چه کارت بج داشته باشد چه نه */}
                 <span className="mt-auto flex items-center justify-between pt-6">
                   <span className="text-[13px] font-bold text-muted-foreground">{n ? <><b className="font-black text-ink tabular-nums">{faNumber(n)}</b> پروژه</> : "به‌زودی"}</span>
-                  <span className="grid size-9 place-items-center rounded-full border border-border text-ink transition-all duration-300 group-hover:border-coral group-hover:bg-coral group-hover:text-white"><ArrowLeft size={16} className="transition-transform group-hover:-translate-x-0.5" /></span>
+                  <span className="grid size-9 place-items-center rounded-full border border-border text-ink transition-all duration-300 group-hover:border-cobalt group-hover:bg-cobalt group-hover:text-white"><ArrowLeft size={16} className="transition-transform group-hover:-translate-x-0.5" /></span>
                 </span>
               </Button>
             </Reveal>
@@ -386,7 +411,8 @@ export function Featured() {
     <section className={sectionCls}>
       <SectionHead kicker="پروژه‌ها" title="تازه‌ترین پروژه‌ها" text="فرصت‌هایی که به‌تازگی اضافه شده‌اند، با شرایط ورود و جزئیات کامل."
         aside={<Link href="/opportunities" className="group inline-flex h-12 items-center gap-2 rounded-full border border-pine/15 bg-white/60 px-5 text-sm font-extrabold text-ink transition-colors hover:border-ink/25 hover:text-ink">همه پروژه‌ها <ArrowLeft size={17} className="transition-transform group-hover:-translate-x-1" /></Link>} />
-      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{items.map((l, i) => <ListingCard key={l.id} listing={l} index={i} />)}</div>
+      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{items.map((l, i) => <ListingCard key={l.id} listing={l} index={i} comparable />)}</div>
+      <CompareTray />
     </section>
   );
 }
@@ -403,7 +429,7 @@ const steps = [
 const STEP_MS = 5200;
 const demoCriteria: SearchCriteria = { route: "investor", groups: ["energy"], provinces: ["یزد"], amount: [100, 150], filters: { horizon: 8 } };
 const reasonIcon = { met: TickCircle, unmet: CloseCircle, unknown: InfoCircle } as const;
-const statusCls = { met: "text-primary", unmet: "text-coral-deep", unknown: "text-ink/35" } as const;
+const statusCls = { met: "text-primary", unmet: "text-warn-deep", unknown: "text-ink/35" } as const;
 
 /** هر پروژه یک نقطه؛ نقطه‌هایی که از فیلتر رد نشده‌اند پررنگ می‌مانند */
 function DotField({ ids, alive, hit }: { ids: string[]; alive: Set<string>; hit: string }) {
@@ -411,7 +437,7 @@ function DotField({ ids, alive, hit }: { ids: string[]; alive: Set<string>; hit:
     <div className="grid grid-cols-[repeat(30,minmax(0,1fr))] gap-[6px]" aria-hidden>
       {ids.map((id, i) => { const on = alive.has(id); const h = id === hit;
         return <motion.span key={id} initial={false} animate={{ opacity: on ? 1 : 0.18, scale: h && alive.size <= 3 ? 2.2 : on ? 1 : 0.7 }} transition={{ duration: 0.5, delay: on ? 0 : (i % 30) * 0.006 }}
-          className={cn("aspect-square rounded-full", h && alive.size <= 3 ? "bg-coral" : on ? "bg-ink/75" : "bg-ink/30")} />; })}
+          className={cn("aspect-square rounded-full", h && alive.size <= 3 ? "bg-cobalt" : on ? "bg-ink/75" : "bg-ink/30")} />; })}
     </div>
   );
 }
@@ -471,7 +497,7 @@ export function HowItWorks() {
                 <button type="button" onMouseEnter={() => { setStep(i); setHold(true); }} onFocus={() => { setStep(i); setHold(true); }} onClick={() => setStep(i)} aria-pressed={on}
                   className={cn("relative block w-full overflow-hidden rounded-[1.4rem] px-6 py-5 text-right transition-colors duration-500", on ? "bg-white shadow-[0_18px_44px_-30px_rgb(20_30_45/0.4)]" : "hover:bg-white/50")}>
                   <span className="flex items-baseline gap-4">
-                    <span className={cn("w-6 shrink-0 text-[15px] font-black tabular-nums transition-colors duration-500", on ? "text-coral-deep" : "text-ink/25")}>{faNumber(i + 1)}</span>
+                    <span className={cn("w-6 shrink-0 text-[15px] font-black tabular-nums transition-colors duration-500", on ? "text-cobalt-deep" : "text-ink/25")}>{faNumber(i + 1)}</span>
                     <span className="min-w-0">
                       <span className={cn("block text-[17px] font-extrabold leading-7 transition-colors duration-500", on ? "text-ink" : "text-ink/45")}>{s.t}</span>
                       <motion.span initial={false} animate={{ height: on ? "auto" : 0, opacity: on ? 1 : 0 }} transition={{ duration: 0.45, ease }} className="block overflow-hidden">
@@ -495,7 +521,7 @@ export function HowItWorks() {
                   <div className="flex flex-wrap items-center gap-1.5">
                     {tokens.map(([T, v], i) => (
                       <motion.span key={v} initial={{ opacity: 0.25 }} animate={{ opacity: phase > i ? 1 : 0.3 }} transition={{ duration: 0.35 }}
-                        className={cn("inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-[12.5px] font-bold transition-colors duration-300", phase > i ? "bg-ink text-white" : "bg-white text-ink/60")}>
+                        className={cn("inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-[12.5px] font-bold transition-colors duration-300", phase > i ? "bg-cobalt text-white" : "bg-white text-ink/60")}>
                         <T size={14} variant="Bulk" />{v}
                       </motion.span>
                     ))}
@@ -525,7 +551,7 @@ export function HowItWorks() {
                   <p className="mt-auto flex items-center gap-4 text-[11.5px] font-bold text-muted-foreground">
                     <span>{faNumber(metN)} از {faNumber(demo.m.reasons.length)} شرط می‌خواند</span>
                     <span className="mr-auto flex items-center gap-1"><TickCircle size={13} variant="Bold" className="text-primary" />می‌خواند</span>
-                    <span className="flex items-center gap-1"><CloseCircle size={13} variant="Bold" className="text-coral-deep" />نمی‌خواند</span>
+                    <span className="flex items-center gap-1"><CloseCircle size={13} variant="Bold" className="text-warn-deep" />نمی‌خواند</span>
                     <span className="flex items-center gap-1"><InfoCircle size={13} variant="Bold" className="text-ink/35" />نامعلوم</span>
                   </p>
                 </motion.div>

@@ -192,7 +192,7 @@ function Table({ head, rows }: { head: string[]; rows: string[][] }) {
         <tbody>
           {rows.map((r) => (
             <tr key={r[0]} className="border-t border-border align-top">
-              {r.map((c, j) => <td key={j} className={cn("px-4 py-3 text-[13.5px] leading-7", j === 0 ? "w-44 font-extrabold text-ink" : "font-semibold text-ink/85", c === "حدس" && "text-coral-deep")}>{c}</td>)}
+              {r.map((c, j) => <td key={j} className={cn("px-4 py-3 text-[13.5px] leading-7", j === 0 ? "w-44 font-extrabold text-ink" : "font-semibold text-ink/85", c === "حدس" && "text-cobalt-deep")}>{c}</td>)}
             </tr>
           ))}
         </tbody>

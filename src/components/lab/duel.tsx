@@ -128,7 +128,7 @@ export function DuelIdea() {
     <div className="rounded-[2rem] border border-border bg-[linear-gradient(180deg,#fff,#f7f9fc)] p-8">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2" aria-label={`دور ${faNumber(Math.min(step + 1, pairs.length))} از ${faNumber(pairs.length)}`}>
-          {pairs.map((_, i) => <span key={i} className={cn("grid size-7 place-items-center rounded-full border-2 text-[11px] font-black transition-colors", i < step ? "border-ink bg-ink text-white" : i === step ? "border-coral text-coral-deep" : "border-ink/15 text-ink/30")}>{faNumber(i + 1)}</span>)}
+          {pairs.map((_, i) => <span key={i} className={cn("grid size-7 place-items-center rounded-full border-2 text-[11px] font-black transition-colors", i < step ? "border-cobalt bg-cobalt text-white" : i === step ? "border-cobalt text-cobalt-deep" : "border-ink/15 text-ink/30")}>{faNumber(i + 1)}</span>)}
         </div>
         {step > 0 && <Button type="button" variant="ghost" onClick={restart} className="h-9 gap-1.5 rounded-full text-[13px] font-bold"><Refresh2 size={16} />از اول</Button>}
       </div>
@@ -155,7 +155,7 @@ export function DuelIdea() {
                 {traits.map((t) => { const isOff = off.includes(t.key); return (
                   <li key={t.key}>
                     <Button type="button" variant="plain" size="auto" onClick={() => setOff(isOff ? off.filter((k) => k !== t.key) : [...off, t.key])} aria-pressed={!isOff}
-                      className={cn("h-10 gap-2 rounded-full border px-4 text-[13.5px] font-bold transition-colors", isOff ? "border-dashed border-ink/20 text-ink/40 line-through" : "border-ink bg-ink text-white")}>
+                      className={cn("h-10 gap-2 rounded-full border px-4 text-[13.5px] font-bold transition-colors", isOff ? "border-dashed border-ink/20 text-ink/40 line-through" : "border-cobalt bg-cobalt text-white")}>
                       {t.label}{!isOff && <CloseCircle size={16} />}
                     </Button>
                   </li>); })}

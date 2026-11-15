@@ -36,7 +36,7 @@ function Slot({ label, children, className }: { label: React.ReactNode; children
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button type="button" variant="plain" size="auto"
-          className="mx-1 inline h-auto whitespace-normal rounded-xl border-b-[2.5px] border-dashed border-ink/30 bg-white/60 px-2.5 pb-0.5 align-baseline text-[0.8em] font-black leading-[1.7] text-ink transition-colors hover:border-coral hover:bg-white data-[state=open]:border-solid data-[state=open]:border-ink data-[state=open]:bg-white">
+          className="mx-1 inline h-auto whitespace-normal rounded-xl border-b-[2.5px] border-dashed border-ink/30 bg-white/60 px-2.5 pb-0.5 align-baseline text-[0.8em] font-black leading-[1.7] text-ink transition-colors hover:border-cobalt hover:bg-white data-[state=open]:border-solid data-[state=open]:border-ink data-[state=open]:bg-white">
           {label}
         </Button>
       </PopoverTrigger>
@@ -48,7 +48,7 @@ function Slot({ label, children, className }: { label: React.ReactNode; children
 function Option({ on, children, onClick }: { on: boolean; children: React.ReactNode; onClick: () => void }) {
   return (
     <Button type="button" variant="plain" size="auto" onClick={onClick}
-      className={cn("flex h-11 w-full items-center justify-between rounded-xl px-3 text-[14px] font-bold", on ? "bg-ink text-white" : "text-ink hover:bg-muted")}>
+      className={cn("flex h-11 w-full items-center justify-between rounded-xl px-3 text-[14px] font-bold", on ? "bg-cobalt text-white" : "text-ink hover:bg-muted")}>
       {children}{on && <TickCircle size={18} variant="Bold" />}
     </Button>
   );
@@ -89,7 +89,7 @@ export function SentenceIdea() {
               <Slider dir="rtl" min={0} max={STOPS.length - 1} step={1} value={[STOPS.indexOf(amount)]} onValueChange={([i]) => setAmount(STOPS[i])} aria-label="مبلغ" />
               <div className="flex flex-wrap gap-1.5">
                 {[10, 30, 50, 100, 300].map((x) => (
-                  <Button key={x} type="button" variant="plain" size="auto" onClick={() => setAmount(x)} className={cn("h-8 rounded-full border px-3 text-[12.5px] font-bold", amount === x ? "border-ink bg-ink text-white" : "border-border text-ink hover:border-ink/30")}>{faNumber(x)} میلیارد</Button>
+                  <Button key={x} type="button" variant="plain" size="auto" onClick={() => setAmount(x)} className={cn("h-8 rounded-full border px-3 text-[12.5px] font-bold", amount === x ? "border-cobalt bg-cobalt text-white" : "border-border text-ink hover:border-ink/30")}>{faNumber(x)} میلیارد</Button>
                 ))}
               </div>
             </div>

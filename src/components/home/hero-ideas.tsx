@@ -100,7 +100,7 @@ export function HeroCompass() {
         <span className="relative inline-block text-ink">
           سمت درست
           <svg aria-hidden viewBox="0 0 300 20" preserveAspectRatio="none" className="absolute -bottom-2 left-0 h-4 w-full">
-            <motion.path d="M4 14 C 80 4, 200 4, 296 12" fill="none" strokeWidth="5" strokeLinecap="round" className="stroke-coral/70" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.1, delay: 0.7, ease }} />
+            <motion.path d="M4 14 C 80 4, 200 4, 296 12" fill="none" strokeWidth="5" strokeLinecap="round" className="stroke-cobalt/70" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.1, delay: 0.7, ease }} />
           </svg>
         </span>{" "}ببرید.
       </h1>
@@ -197,7 +197,7 @@ const STAY = 5600;
 
 function RiskBars({ risk }: { risk: string }) {
   const lv = { low: 1, medium: 2, high: 3 }[risk] ?? 0;
-  const tone = lv === 1 ? "bg-primary" : lv === 2 ? "bg-coral" : "bg-destructive";
+  const tone = lv === 1 ? "bg-primary" : lv === 2 ? "bg-warn" : "bg-destructive";
   return <span className="mt-1.5 flex gap-1">{[1, 2, 3].map((i) => <span key={i} className={cn("h-1.5 w-5 rounded-full", i === lv ? tone : "bg-muted")} />)}</span>;
 }
 

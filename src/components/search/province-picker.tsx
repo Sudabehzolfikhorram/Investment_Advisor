@@ -82,8 +82,8 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
         <span className="shrink-0 text-[12px] font-semibold text-muted-foreground">{value.length ? `${faNumber(value.length)} استان انتخاب شده` : "بدون انتخاب، همه ایران"}</span>
         {multi && (
           <div className="no-scrollbar mr-auto flex min-w-0 items-center gap-1.5 overflow-x-auto">
-            <Button type="button" variant="outline" size="xs" onClick={() => zoomTo(null)} className={cn("shrink-0 rounded-full bg-white font-bold", !focus && "border-ink bg-ink text-white hover:bg-ink hover:text-white")}><Maximize4 size={14} />کل ایران</Button>
-            {value.map((p) => <Button key={p} type="button" variant="outline" size="xs" onClick={() => zoomTo(p)} title="دیدن شهرهای این استان" className={cn("shrink-0 rounded-full bg-white font-bold", focus === p && "border-ink bg-ink text-white hover:bg-ink hover:text-white")}>{focus === p ? `شهرهای ${p}` : p}</Button>)}
+            <Button type="button" variant="outline" size="xs" onClick={() => zoomTo(null)} className={cn("shrink-0 rounded-full bg-white font-bold", !focus && "border-cobalt bg-cobalt text-white hover:bg-cobalt-deep hover:text-white")}><Maximize4 size={14} />کل ایران</Button>
+            {value.map((p) => <Button key={p} type="button" variant="outline" size="xs" onClick={() => zoomTo(p)} title="دیدن شهرهای این استان" className={cn("shrink-0 rounded-full bg-white font-bold", focus === p && "border-cobalt bg-cobalt text-white hover:bg-cobalt-deep hover:text-white")}>{focus === p ? `شهرهای ${p}` : p}</Button>)}
           </div>
         )}
       </div>

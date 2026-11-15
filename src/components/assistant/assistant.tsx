@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArchiveTick, ArrowLeft, Briefcase, Building, Courthouse, Chart, Cpu, DocumentText, Edit2, Home2, Location, MagicStar, MessageQuestion, Save2, Send2, Setting4, Sun1, TickCircle, WalletMoney } from "@/components/iconsax";
+import { ArchiveTick, ArrowLeft, Briefcase, CloseCircle, Convertshape2, Building, Courthouse, Chart, Cpu, DocumentText, Edit2, Home2, Location, MagicStar, MessageQuestion, Save2, Send2, Setting4, Sun1, TickCircle, WalletMoney } from "@/components/iconsax";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,7 +19,7 @@ import { SaveCriteriaDialog } from "@/components/search/save-criteria";
 import { routes } from "@/data/routes";
 import { readPrompt, samplePrompts, suggest } from "@/lib/assistant";
 import { AttachedProfile, EditProfileDialog, SavedPicker } from "./saved-picker";
-import { describeCriteria } from "@/lib/criteria";
+import { describeCriteria, withoutChip } from "@/lib/criteria";
 import { listings } from "@/lib/listings";
 import { rank } from "@/lib/match";
 import { useHydrated, useStore } from "@/lib/store";
@@ -33,7 +33,7 @@ const phases = [
 ];
 
 /** نشانه دستیار: گوی زنده با حلقه چرخان؛ هنگام فکر کردن تندتر می‌چرخد. */
-function Orb({ size = 40, busy = false }: { size?: number; busy?: boolean }) {
+export function Orb({ size = 40, busy = false }: { size?: number; busy?: boolean }) {
   return (
     <span className="relative grid shrink-0 place-items-center rounded-full shadow-[0_14px_30px_-14px_rgb(20_30_45/0.6)]" style={{ width: size, height: size }}>
       <span className={cn("absolute inset-0 animate-spin rounded-full bg-[conic-gradient(from_0deg,#2f3533,#8fa3bd,#e6ebf2,#2f3533)]", busy ? "[animation-duration:1.4s]" : "[animation-duration:9s]")} />
@@ -44,7 +44,7 @@ function Orb({ size = 40, busy = false }: { size?: number; busy?: boolean }) {
 }
 
 /** متن پاسخ کلمه‌به‌کلمه نوشته می‌شود؛ با «کاهش حرکت» یک‌باره نمایش داده می‌شود. */
-function Typed({ text, className }: { text: string; className?: string }) {
+export function Typed({ text, className }: { text: string; className?: string }) {
   const reduce = useReducedMotion();
   const words = useMemo(() => text.split(" "), [text]);
   const [n, setN] = useState(reduce ? words.length : 0);
@@ -154,7 +154,7 @@ function Steps({ phase, notes }: { phase: number; notes: string[] }) {
 }
 
 /** یک نوبت گفت‌وگو: پیام شما، مراحل بررسی، پاسخ و (در آخرین نوبت) گام بعد */
-function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave }: { turn: Turn; last: boolean; onAsk: (q: string) => void; onEdit: (q: string) => void; onRefine: (c: SearchCriteria) => void; onSave: (c: SearchCriteria) => void }) {
+function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave, onAdjust, onCompare }: { turn: Turn; last: boolean; onAsk: (q: string) => void; onEdit: (q: string) => void; onRefine: (c: SearchCriteria) => void; onSave: (c: SearchCriteria) => void; onAdjust: (q: string, c: SearchCriteria) => void; onCompare: (ids: string[]) => void }) {
   const out = useMemo(() => answerOf(turn), [turn]);
   const [phase, setPhase] = useState(0);
   const done = phase >= phases.length;
@@ -173,6 +173,8 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave }: { turn: Turn;
     out.results.length ? `${faNumber(out.results.length)} پیشنهاد به ترتیب تطابق چیده شد` : "پیشنهادی با تطابق کافی پیدا نشد",
   ];
   const best = out.results[0];
+  const chips = describeCriteria(out.criteria);
+  const compareIds = out.results.filter((r) => r.listing.kind === "project").slice(0, 3).map((r) => r.listing.id);
   return (
     <div ref={ref} className="scroll-mt-28 space-y-5">
       <Bubble>{turn.q}</Bubble>
@@ -208,12 +210,17 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave }: { turn: Turn;
                     </AccordionItem>
                   </Accordion>
 
-                  <p className="mt-4 flex items-center gap-2 text-[13px] font-extrabold text-ink"><MagicStar size={16} variant="Bulk" className="text-primary" />برداشت من از درخواست شما</p>
+                  <p className="mt-4 flex items-center gap-2 text-[13px] font-extrabold text-ink"><MagicStar size={16} variant="Bulk" className="text-cobalt" />برداشت من از درخواست شما</p>
+                  <p className="mt-0.5 text-[12px] font-semibold text-muted-foreground">اگر چیزی را اشتباه فهمیده‌ام، همان را بردارید؛ لازم نیست دوباره بنویسید.</p>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    {out.understood.length ? out.understood.map((u, i) => (
-                      <motion.span key={u.label + u.value} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.06 }} className="flex items-center gap-1.5 rounded-xl border border-ink/25 bg-ink/[0.03] px-3 py-1.5 text-[13px] font-extrabold text-ink">
-                        <span className="size-1.5 rounded-full bg-primary" />{u.label && <span className="text-xs font-semibold text-muted-foreground">{u.label}</span>}{u.value}</motion.span>
-                    )) : <span className="text-sm font-semibold text-muted-foreground">شرط مشخصی پیدا نکردم؛ پروژه‌های پرتطابق همه مسیرها را آورده‌ام.</span>}
+                    {routeName && <span className="flex items-center gap-1.5 rounded-xl bg-ink/[0.05] px-3 py-1.5 text-[13px] font-extrabold text-ink"><span className="text-xs font-semibold text-muted-foreground">مسیر</span>{routeName}</span>}
+                    {chips.map((c, i) => (
+                      <motion.span key={c.key} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.06 }} className="flex items-center gap-1 rounded-xl border border-cobalt/25 bg-cobalt-soft/70 py-1 pl-1 pr-3 text-[13px] font-extrabold text-cobalt-deep">
+                        {c.label}
+                        {last && <Button type="button" variant="plain" size="auto" aria-label={`برداشتن ${c.label}`} title="برداشتن این شرط" onClick={() => onAdjust(`بدون «${c.label}»`, withoutChip(out.criteria, c))} className="grid size-6 place-items-center rounded-lg text-cobalt-deep/45 hover:bg-white hover:text-destructive"><CloseCircle size={15} variant="Bold" /></Button>}
+                      </motion.span>
+                    ))}
+                    {!chips.length && <span className="text-sm font-semibold text-muted-foreground">شرط مشخصی پیدا نکردم؛ پروژه‌های پرتطابق همه مسیرها را آورده‌ام.</span>}
                   </div>
                   <div className="mt-4 flex items-center justify-between gap-3 border-t border-dashed border-border pt-4">
                     <div className="min-w-0">
@@ -222,6 +229,7 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave }: { turn: Turn;
                     </div>
                     <div className="flex shrink-0 gap-2">
                       {!turn.criteria && <Button type="button" variant="ghost" onClick={() => onEdit(turn.q)} className="h-10 gap-1.5 rounded-full px-4 text-[13px] font-bold text-ink/70"><Edit2 size={16} />تغییر درخواست</Button>}
+                      {compareIds.length >= 2 && <Button type="button" variant="outline" onClick={() => onCompare(compareIds)} className="h-10 gap-1.5 rounded-full bg-white px-4 text-[13px] font-extrabold shadow-none hover:border-cobalt/40 hover:text-cobalt-deep"><Convertshape2 size={16} />مقایسه {faNumber(compareIds.length)} پیشنهاد اول</Button>}
                       <Button type="button" variant="outline" onClick={() => onRefine(out.criteria)} className="h-10 gap-1.5 rounded-full bg-white px-4 text-[13px] font-extrabold shadow-none hover:border-ink/25 hover:text-ink"><Setting4 size={16} />دقیق‌تر کردن با فیلترها</Button>
                     </div>
                   </div>
@@ -249,7 +257,7 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave }: { turn: Turn;
                           <span aria-hidden className="pointer-events-none absolute -left-10 -top-12 size-40 rounded-full bg-primary/40 blur-3xl" />
                           <p className="relative text-[15px] font-black">این شرایط را برایتان نگه دارم؟</p>
                           <p className="relative mt-1 text-[13px] leading-6 text-white/70">دفعه بعد لازم نیست دوباره بنویسید؛ با یک ضربه برمی‌گردید و پروژه‌های تازه را جدا می‌بینید.</p>
-                          <Button type="button" onClick={() => onSave(out.criteria)} className="relative mt-3.5 h-10 gap-2 rounded-full bg-coral px-5 text-[13px] font-extrabold text-white shadow-[0_10px_22px_-10px_var(--coral)] hover:bg-coral-deep"><Save2 size={17} />ذخیره شرایط</Button>
+                          <Button type="button" onClick={() => onSave(out.criteria)} className="relative mt-3.5 h-10 gap-2 rounded-full bg-cobalt px-5 text-[13px] font-extrabold text-white shadow-[0_10px_22px_-10px_var(--cobalt)] hover:bg-cobalt-deep"><Save2 size={17} />ذخیره شرایط</Button>
                         </>
                       )}
                     </div>
@@ -320,6 +328,8 @@ export function Assistant() {
           ) : (
             <div className="space-y-12 pb-6">
               {turns.map((t, i) => <TurnView key={t.id} turn={t} last={i === turns.length - 1} onAsk={ask} onEdit={edit}
+                onAdjust={(q, c) => push({ q, criteria: c })}
+                onCompare={(ids) => { useStore.getState().setCompare(ids); router.push("/compare"); }}
                 onRefine={(c) => { setCriteria(c); useStore.getState().setStarted(true); router.push("/opportunities"); }}
                 onSave={(c) => { setCriteria(c); setSaveOpen(true); }} />)}
             </div>

@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { toast } from "sonner";
 import { ArchiveAdd, ArchiveTick, Convertshape2, Location, TickCircle } from "@/components/iconsax";
@@ -31,13 +32,19 @@ export function SaveButton({ id, className, label }: { id: string; className?: s
 }
 
 function CompareButton({ id }: { id: string }) {
+  const router = useRouter();
   const { compare, toggleCompare } = useStore();
-  const on = compare.includes(id), full = !on && compare.length >= 3;
+  const hydrated = useHydrated();
+  const on = hydrated && compare.includes(id), full = !on && compare.length >= 4;
   return (
-    <Button variant="plain" size="auto" type="button" aria-pressed={on} aria-label={on ? "حذف از مقایسه" : "افزودن به مقایسه"} title={full ? "حداکثر سه پروژه" : on ? "حذف از مقایسه" : "مقایسه"}
-      onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (full) return toast("حداکثر سه پروژه را می‌توانید مقایسه کنید."); toggleCompare(id); }}
-      className={cn("inline-flex size-10 items-center justify-center rounded-full transition-all active:scale-95", on ? "bg-primary text-white" : "bg-pine/55 text-white hover:bg-pine/70")}>
-      <Convertshape2 size={19} variant={on ? "Bold" : "Linear"} />
+    <Button variant="plain" size="auto" type="button" aria-pressed={on} title={full ? "حداکثر چهار پروژه" : undefined}
+      onClick={(e) => { e.preventDefault(); e.stopPropagation();
+        if (full) return toast("حداکثر چهار پروژه را می‌توانید مقایسه کنید.", { action: { label: "دیدن مقایسه", onClick: () => router.push("/compare") } });
+        toggleCompare(id);
+        const count = compare.length + (on ? -1 : 1);
+        if (!on && count >= 2) toast(`${count === 4 ? "چهار" : count === 3 ? "سه" : "دو"} پروژه برای مقایسه آماده است.`, { action: { label: "مقایسه کنید", onClick: () => router.push("/compare") } }); }}
+      className={cn("inline-flex h-10 items-center gap-1.5 rounded-full px-3.5 text-[12.5px] font-extrabold text-white transition-all active:scale-95", on ? "bg-cobalt shadow-[0_8px_18px_-8px_var(--cobalt)]" : "bg-pine/55 backdrop-blur-sm hover:bg-pine/70")}>
+      {on ? <TickCircle size={17} variant="Bold" /> : <Convertshape2 size={17} />}{on ? "در مقایسه" : "مقایسه"}
     </Button>
   );
 }
@@ -63,12 +70,12 @@ export function ListingCard({ listing: l, score, reasons, index = 0, comparable 
         <div className="pointer-events-none absolute inset-x-5 top-5 z-20 flex flex-row-reverse [&>*]:pointer-events-auto items-center justify-end gap-2">
           {isNew(l) && <Badge className="bg-white px-2.5 py-1 text-[11px] font-extrabold text-primary">جدید</Badge>}
           <SaveButton id={l.id} />
-          {comparable && <CompareButton id={l.id} />}
+          {comparable && l.kind === "project" && <CompareButton id={l.id} />}
         </div>
         <div className="flex flex-1 flex-col gap-3.5 p-5 pt-3">
           <h3 className="line-clamp-2 min-h-14 text-[17px] font-extrabold leading-7 text-ink">{l.title}</h3>
           {budget && budget !== "unknown" && (
-            <p className={cn("-mt-1 flex items-center gap-1.5 text-[12px] font-extrabold", budget === "met" ? "text-primary" : "text-coral-deep")}>
+            <p className={cn("-mt-1 flex items-center gap-1.5 text-[12px] font-extrabold", budget === "met" ? "text-primary" : "text-warn-deep")}>
               {budget === "met" && <TickCircle size={15} variant="Bold" />}{budget === "met" ? "در بودجه شما" : "بیرون از بودجه شما"}
             </p>
           )}

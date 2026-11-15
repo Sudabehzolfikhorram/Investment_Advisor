@@ -112,3 +112,7 @@ export const Lifebuoy = wrap(I.Lifebuoy);
 export const UserEdit = wrap(I.UserEdit);
 export const ArrowLeft2 = wrap(I.ArrowLeft2);
 export const Gallery = wrap(I.Gallery);
+export const Messages2 = wrap(I.Messages2);
+export const Eye = wrap(I.Eye);
+export const AddCircle = wrap(I.AddCircle);
+export const Ranking = wrap(I.Ranking);

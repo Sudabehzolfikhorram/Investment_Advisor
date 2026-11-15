@@ -61,7 +61,7 @@ export function Spectrum({ at, total = 4 }: { at: number; total?: number }) {
   return (
     <span className="inline-flex items-center gap-2 text-[12px] font-bold text-muted-foreground" aria-label={`جایگاه ${faNumber(at + 1)} از ${faNumber(total)} روی طیف مطمئن تا جسورانه`}>
       مطمئن
-      <span className="flex gap-1">{Array.from({ length: total }, (_, i) => <span key={i} className={cn("h-1.5 w-6 rounded-full", i === at ? "bg-coral" : i < at ? "bg-ink/25" : "bg-ink/10")} />)}</span>
+      <span className="flex gap-1">{Array.from({ length: total }, (_, i) => <span key={i} className={cn("h-1.5 w-6 rounded-full", i === at ? "bg-cobalt" : i < at ? "bg-ink/25" : "bg-ink/10")} />)}</span>
       جسورانه
     </span>
   );

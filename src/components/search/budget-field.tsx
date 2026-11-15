@@ -73,7 +73,7 @@ export function BudgetField({ min, max, step = 1, unit, label, value, onChange, 
         {presets.map(([a, b]) => { const on = v[0] === a && v[1] === b; const n = inRange(a, b);
           return (
             <Button key={`${a}-${b}`} type="button" variant="outline" onClick={() => set(a, b)} aria-pressed={on}
-              className={cn("h-auto flex-col items-start gap-0.5 rounded-2xl bg-white px-3 py-2.5 text-right shadow-none hover:border-ink/25 hover:bg-white", on && "border-ink bg-ink/[0.03] hover:bg-ink/[0.03]")}>
+              className={cn("h-auto flex-col items-start gap-0.5 rounded-2xl bg-white px-3 py-2.5 text-right shadow-none hover:border-ink/25 hover:bg-white", on && "border-cobalt bg-cobalt-soft hover:bg-cobalt-soft")}>
               <span className={cn("text-[13px] font-extrabold", "text-ink")}>{a === min ? `تا ${faNumber(b)}` : b === max ? `بیش از ${faNumber(a)}` : `${faNumber(a)} تا ${faNumber(b)}`}</span>
               <span className="text-[11px] font-semibold text-muted-foreground">{n ? `${faNumber(n)} پروژه` : "بدون پروژه"}</span>
             </Button>

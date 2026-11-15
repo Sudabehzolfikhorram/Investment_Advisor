@@ -1,13 +1,15 @@
 "use client";
 // صفحه جزئیات: روایت پروژه به‌جای متن پشت‌سرهم. همه فیلدهای داده نمایش داده می‌شوند؛
 // هر جا داده‌ای نیست «ثبت نشده» می‌آید تا ساختار صفحه برای همه پروژه‌ها یکسان بماند.
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
 import { motion } from "motion/react";
 import { toast } from "sonner";
 import {
   ArrowLeft, ArrowRight, Call, Copy, CopySuccess, DocumentDownload, Location, Warning2, ShieldSearch, WalletMoney, MoneyRecive, Key,
-  Timer1, Lock1, Chart, Calendar, Building, TickCircle, InfoCircle, Danger, type Icon,
+  Timer1, Lock1, Chart, Calendar, Building, TickCircle, InfoCircle, Danger, Convertshape2, AddCircle, type Icon,
 } from "@/components/iconsax";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -24,7 +26,9 @@ import { galleryOf, listingById, listings, payoutLabel } from "@/lib/listings";
 import { dossier, factGroups, splitPending, type DossierSection, type FactGroup } from "@/lib/facts";
 import { projectGroups } from "@/data/taxonomy";
 import { advisories } from "@/data/advisories";
-import { useStore } from "@/lib/store";
+import { useHydrated, useStore } from "@/lib/store";
+import { ReturnTimeline } from "@/components/compare/timeline";
+import { CompareTray } from "@/components/compare/tray";
 import type { Advisory, Fund, Listing, Opportunity, RouteId, SaleItem } from "@/types";
 import { routeSteps } from "@/data/routes";
 import { cn, faNumber, formatMobile, incomeLabel, legalLabel, riskLabel } from "@/lib/utils";
@@ -86,7 +90,7 @@ function Facts({ groups }: { groups: FactGroup[] }) {
 
 const riskTone: Record<number, { text: string; stroke: string; soft: string; bar: string }> = {
   1: { text: "text-primary", stroke: "stroke-primary", soft: "bg-ink/[0.06]", bar: "bg-primary" },
-  2: { text: "text-coral", stroke: "stroke-coral", soft: "bg-coral/10", bar: "bg-coral" },
+  2: { text: "text-warn", stroke: "stroke-warn", soft: "bg-warn/10", bar: "bg-warn" },
   3: { text: "text-destructive", stroke: "stroke-destructive", soft: "bg-destructive/10", bar: "bg-destructive" },
 };
 const riskLevel = (risk: string) => ({ low: 1, medium: 2, high: 3 }[risk] ?? 0);
@@ -169,7 +173,7 @@ function Milestones({ o }: { o: Opportunity }) {
         {known.map((m, i) => (
           <li key={m.label} className="relative px-1 text-center">
             {i > 0 && <span aria-hidden className="absolute left-1/2 top-[7px] w-full border-t-2 border-dotted border-pine/20" />}
-            <span className={cn("relative z-10 mx-auto block size-4 rounded-full ring-4 ring-white", i === 0 ? "bg-pine" : m.label.includes("بدبینانه") ? "bg-coral" : "bg-primary")} />
+            <span className={cn("relative z-10 mx-auto block size-4 rounded-full ring-4 ring-white", i === 0 ? "bg-pine" : m.label.includes("بدبینانه") ? "bg-warn" : "bg-primary")} />
             <span className="mt-3 block text-base font-black text-ink">{m.value}</span>
             <span className="mt-0.5 block text-xs font-semibold leading-5 text-muted-foreground">{m.label}</span>
           </li>
@@ -318,7 +322,7 @@ function Contact({ l }: { l: Listing }) {
             <span><span className="block text-base font-extrabold">{expert.name}</span><span className="block text-xs text-white/65">کارشناس همین پروژه</span></span>
           </div>
           <div className="mt-5 flex h-14 items-center gap-1 rounded-full bg-white p-1.5 text-ink">
-            <Button asChild variant="plain" size="auto" className="size-11 shrink-0 rounded-full bg-coral text-white shadow-[0_8px_18px_-8px_var(--coral)] hover:bg-coral-deep"><a href={`tel:${expert.mobile}`} aria-label="تماس با کارشناس"><Call size={19} variant="Bold" /></a></Button>
+            <Button asChild variant="plain" size="auto" className="size-11 shrink-0 rounded-full bg-cobalt text-white shadow-[0_8px_18px_-8px_var(--cobalt)] hover:bg-cobalt-deep"><a href={`tel:${expert.mobile}`} aria-label="تماس با کارشناس"><Call size={19} variant="Bold" /></a></Button>
             <span dir="ltr" className="flex-1 select-all text-center text-base font-black tracking-wide">{formatMobile(expert.mobile)}</span>
             <Button variant="plain" size="auto" type="button" onClick={copy} aria-label="کپی شماره" title="کپی شماره" className={cn("size-11 shrink-0 rounded-full hover:bg-muted", copied ? "text-primary" : "text-ink/55 hover:text-ink")}>{copied ? <CopySuccess size={20} variant="Bold" /> : <Copy size={20} />}</Button>
           </div>
@@ -336,6 +340,34 @@ function Contact({ l }: { l: Listing }) {
         </>
       )}
       <SaveButton id={l.id} label className="mt-2 w-full border-white/20 !bg-white/10 !text-white hover:!bg-white/20" />
+    </div>
+  );
+}
+
+/** مقایسه از همین صفحه: با یک کلیک، این پروژه و دو پروژه مشابه کنار هم */
+function CompareCard({ l, similar }: { l: Listing; similar: Listing[] }) {
+  const router = useRouter();
+  const { compare, toggleCompare, setCompare } = useStore();
+  const hydrated = useHydrated();
+  const on = hydrated && compare.includes(l.id);
+  const pair = similar.slice(0, 2);
+  return (
+    <div className="surface rounded-[1.75rem] p-5">
+      <p className="flex items-center gap-2 text-[13px] font-extrabold text-ink"><Convertshape2 size={18} variant="Bulk" className="text-cobalt" />کنار پروژه‌های دیگر بسنجید</p>
+      {pair.length > 0 && (
+        <Button type="button" variant="plain" size="auto" onClick={() => { setCompare([l.id, ...pair.map((x) => x.id)]); router.push("/compare"); }}
+          className="group mt-4 flex h-auto w-full items-center gap-3 rounded-2xl border border-border bg-white p-2.5 pl-3 text-right transition-[border-color,box-shadow] hover:border-cobalt/40 hover:shadow-[0_14px_28px_-22px_var(--cobalt)]">
+          <span className="flex shrink-0 -space-x-3 space-x-reverse">
+            {[l, ...pair].map((x, i) => <span key={x.id} className="relative size-10 overflow-hidden rounded-xl ring-2 ring-white" style={{ zIndex: 3 - i }}><Image src={x.image} alt="" fill sizes="40px" className="object-cover" /></span>)}
+          </span>
+          <span className="min-w-0 flex-1"><span className="block text-[13.5px] font-extrabold text-ink">مقایسه با {faNumber(pair.length)} پروژه مشابه</span><span className="block text-[11.5px] font-semibold text-muted-foreground">هم‌گروه و با مبلغ نزدیک</span></span>
+          <ArrowLeft size={17} className="shrink-0 text-cobalt transition-transform group-hover:-translate-x-1" />
+        </Button>
+      )}
+      <Button type="button" variant="plain" size="auto" aria-pressed={on} onClick={() => { if (!on && compare.length >= 4) return toast("حداکثر چهار پروژه را می‌توانید مقایسه کنید."); toggleCompare(l.id); }}
+        className={cn("mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-full text-[13px] font-extrabold transition-colors", on ? "bg-cobalt-soft text-cobalt-deep" : "text-ink/70 hover:bg-muted hover:text-ink")}>
+        {on ? <><TickCircle size={17} variant="Bold" />در فهرست مقایسه است</> : <><AddCircle size={17} />افزودن به فهرست مقایسه</>}
+      </Button>
     </div>
   );
 }
@@ -410,7 +442,12 @@ export function Detail({ id }: { id: string }) {
 
             <Chapter n={++n} title="شناسنامه پروژه"><Facts groups={groups} /></Chapter>
 
-            {o && hasTime && <Chapter n={++n} title="پول شما در طول زمان"><Milestones o={o} /></Chapter>}
+            {o && hasTime && (
+              <Chapter n={++n} title="پول شما در طول زمان" note="درصد سرمایه‌ای که در هر زمان به شما برگشته است">
+                {o.paybackYears != null && <div className="surface mb-4 rounded-[1.75rem] p-6"><ReturnTimeline items={[l]} single /></div>}
+                <Milestones o={o} />
+              </Chapter>
+            )}
             {hasFlow && <Chapter n={++n} title="مسیر پول"><MoneyFlow o={text} /></Chapter>}
 
             {o && (
@@ -426,7 +463,7 @@ export function Detail({ id }: { id: string }) {
                       <span className="min-w-0 flex-1"><span className="block text-xs font-bold text-muted-foreground">وضعیت حقوقی</span><span className="mt-0.5 block text-base font-extrabold text-ink">{legalLabel[o.legalStatus] ?? o.legalStatus}</span></span>
                     </div>
                     {o.caution && <div className="flex flex-1 items-start gap-4 rounded-[1.75rem] bg-white p-5 ring-1 ring-border">
-                      <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-coral/10 text-coral"><Warning2 size={22} variant="Bulk" /></span>
+                      <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-warn/10 text-warn"><Warning2 size={22} variant="Bulk" /></span>
                       <span className="min-w-0 flex-1"><span className="block text-sm font-extrabold text-ink">پیش از تصمیم بدانید</span><span className="mt-1.5 block text-[15px] font-semibold leading-8 text-ink/85">{o.caution}</span></span>
                     </div>}
                   </div>
@@ -442,7 +479,7 @@ export function Detail({ id }: { id: string }) {
 
             {!o && text.caution && (
               <div className="flex items-start gap-4 rounded-[1.75rem] bg-white p-6 ring-1 ring-border">
-                <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-coral/10 text-coral"><Warning2 size={22} variant="Bulk" /></span>
+                <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-warn/10 text-warn"><Warning2 size={22} variant="Bulk" /></span>
                 <span><span className="block text-sm font-extrabold text-ink">پیش از تصمیم بدانید</span><span className="mt-1 block text-[15px] font-semibold leading-8 text-ink/85">{text.caution}</span></span>
               </div>
             )}
@@ -476,7 +513,7 @@ export function Detail({ id }: { id: string }) {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="surface rounded-[1.75rem] p-6"><h3 className="text-sm font-extrabold text-primary">پرداخت سود</h3><p className="mt-2 text-xl font-black text-ink">{payoutLabel[fund.payout] ?? fund.payout}</p><p className="mt-1 text-sm text-muted-foreground">مدت: {fund.durationMonths != null ? `${faNumber(fund.durationMonths)} ماه` : NA}</p>
                       <div className="mt-5"><RiskMeter risk={fund.risk} /></div></div>
-                    <div className="rounded-[1.75rem] bg-white p-6 ring-1 ring-border"><span className="grid size-11 place-items-center rounded-2xl bg-coral/10 text-coral"><Warning2 size={22} variant="Bulk" /></span><h3 className="mt-3 text-sm font-extrabold text-ink">شرایط خروج</h3><p className="mt-2 text-[15px] font-semibold leading-8 text-ink/85">{fund.exit || NA}</p></div>
+                    <div className="rounded-[1.75rem] bg-white p-6 ring-1 ring-border"><span className="grid size-11 place-items-center rounded-2xl bg-warn/10 text-warn"><Warning2 size={22} variant="Bulk" /></span><h3 className="mt-3 text-sm font-extrabold text-ink">شرایط خروج</h3><p className="mt-2 text-[15px] font-semibold leading-8 text-ink/85">{fund.exit || NA}</p></div>
                   </div>
                 </Chapter>
               </>
@@ -485,6 +522,7 @@ export function Detail({ id }: { id: string }) {
 
           <aside className="sticky top-24 space-y-4 self-start">
             <Contact l={l} />
+            {o && <CompareCard l={l} similar={similar} />}
             {l.city && (
               <div className="surface overflow-hidden rounded-[1.75rem]">
                 <div className="flex items-center gap-3 p-4">
@@ -502,9 +540,10 @@ export function Detail({ id }: { id: string }) {
         {similar.length > 0 && (
           <section className="mt-24">
             <h2 className="mb-6 flex items-center gap-3 text-xl font-black text-ink"><NodeMark className="text-primary" />پروژه‌های مشابه</h2>
-            <div className="grid grid-cols-3 gap-5">{similar.map((s, i) => <ListingCard key={s.id} listing={s} index={i} />)}</div>
+            <div className="grid grid-cols-3 gap-5">{similar.map((s, i) => <ListingCard key={s.id} listing={s} index={i} comparable />)}</div>
           </section>
         )}
+        <CompareTray />
       </main>
       <Footer />
     </>

@@ -98,8 +98,8 @@ export function MoneyFilmIdea() {
           <path d={path(down)} fill="none" className="stroke-ink/50" strokeWidth="2" strokeDasharray="7 6" />
           <path d={path(pb)} fill="none" className="stroke-ink" strokeWidth="3.5" strokeLinejoin="round" />
         </g>
-        <line x1={x(m)} x2={x(m)} y1={TOP - 4} y2={BOT + 30} className="stroke-coral" strokeWidth="1.5" />
-        <circle cx={x(m)} cy={y(value(m, pb))} r="7" className="fill-coral stroke-white" strokeWidth="3" />
+        <line x1={x(m)} x2={x(m)} y1={TOP - 4} y2={BOT + 30} className="stroke-cobalt" strokeWidth="1.5" />
+        <circle cx={x(m)} cy={y(value(m, pb))} r="7" className="fill-cobalt stroke-white" strokeWidth="3" />
       </svg>
       <div className="flex items-center gap-3">
         <Button type="button" variant="plain" size="auto" onClick={play} aria-label="پخش دوباره" className="grid size-9 shrink-0 place-items-center rounded-full border border-border text-ink hover:border-ink/30"><Refresh2 size={17} /></Button>
@@ -119,7 +119,7 @@ export function MoneyFilmIdea() {
           <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/15"><div className="h-full rounded-full bg-white" style={{ width: `${(back / amount) * 100}%` }} /></div>
           <p className="mt-2 text-[12px] font-semibold text-white/60">در حالت بدبینانه: {billion(backDown)} تومان</p>
         </div>
-        <div className={cn("flex flex-col justify-between rounded-2xl border p-5 transition-colors", mi < lock ? "border-coral/40 bg-coral-soft text-coral-deep" : "border-border text-ink")}>
+        <div className={cn("flex flex-col justify-between rounded-2xl border p-5 transition-colors", mi < lock ? "border-warn/40 bg-warn-soft text-warn-deep" : "border-border text-ink")}>
           <Lock1 size={22} variant="Bold" />
           <p className="mt-3 text-[14px] font-extrabold leading-7">{mi < lock ? `سرمایه تا ماه ${faNumber(lock)} قفل است و نمی‌توانید خارج شوید.` : "قفل سرمایه باز شده است."}</p>
         </div>

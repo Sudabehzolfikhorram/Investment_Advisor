@@ -60,11 +60,11 @@ function QuickCheck() {
   const done = group && (group === "docs" || group === "more" || (band != null && ready != null));
   const rec = done ? recommend(group!, ready ?? 1) : null;
   const R = rec ? toolIcons[rec.id] : null;
-  const opt = (on: boolean) => cn("h-10 rounded-xl border px-3 text-[12.5px] font-bold transition-colors", on ? "border-ink bg-ink text-white" : "border-border bg-white text-ink hover:border-ink/30");
+  const opt = (on: boolean) => cn("h-10 rounded-xl border px-3 text-[12.5px] font-bold transition-colors", on ? "border-cobalt bg-cobalt text-white" : "border-border bg-white text-ink hover:border-ink/30");
   return (
     <div id="check" className="relative scroll-mt-28 overflow-hidden rounded-[2rem] bg-white p-7 shadow-[0_30px_70px_-44px_rgb(20_30_45/0.45)] ring-1 ring-border">
       <div className="flex items-center justify-between">
-        <p className="flex items-center gap-2 text-[13px] font-extrabold text-ink"><Flash size={17} variant="Bold" className="text-coral" />ارزیابی ۳۰ ثانیه‌ای</p>
+        <p className="flex items-center gap-2 text-[13px] font-extrabold text-ink"><Flash size={17} variant="Bold" className="text-cobalt" />ارزیابی ۳۰ ثانیه‌ای</p>
         <span className="text-[12px] font-bold tabular-nums text-muted-foreground">{faNumber([group, needsMoney ? band != null : group, needsMoney ? ready != null : group].filter(Boolean).length)} از ۳</span>
       </div>
       <div className="mt-5 space-y-5">
@@ -121,7 +121,7 @@ export function ToolsIndex() {
         <section className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-center gap-14">
           <div>
             <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-ink/55"><NodeMark className="text-primary" />جذب سرمایه · برای صاحبان طرح، زمین و ملک</span>
-            <h1 className="mt-4 text-[2.75rem] font-black leading-[1.45] tracking-tight text-ink">پروژه‌تان را جلوی چشم<br /><span className="relative inline-block">سرمایه‌گذار<svg aria-hidden viewBox="0 0 300 20" preserveAspectRatio="none" className="absolute -bottom-1.5 left-0 h-3.5 w-full"><motion.path d="M4 14 C 80 4, 200 4, 296 12" fill="none" strokeWidth="5" strokeLinecap="round" className="stroke-coral/70" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 0.5 }} /></svg></span> بگذارید.</h1>
+            <h1 className="mt-4 text-[2.75rem] font-black leading-[1.45] tracking-tight text-ink">پروژه‌تان را جلوی چشم<br /><span className="relative inline-block">سرمایه‌گذار<svg aria-hidden viewBox="0 0 300 20" preserveAspectRatio="none" className="absolute -bottom-1.5 left-0 h-3.5 w-full"><motion.path d="M4 14 C 80 4, 200 4, 296 12" fill="none" strokeWidth="5" strokeLinecap="round" className="stroke-cobalt/70" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 0.5 }} /></svg></span> بگذارید.</h1>
             <p className="mt-5 max-w-xl text-[16px] leading-8 text-muted-foreground">سرمایه‌گذار پیش از هر تماسی چند چیز را می‌پرسد: آورده، نیاز مالی، وضعیت حقوقی و بازگشت سرمایه. پرونده‌ای که به همین‌ها جواب بدهد، اینجا در چند پرسش کوتاه آماده می‌شود.</p>
             <div className="mt-8 flex items-center gap-3">
               <a href="#check" className="group inline-flex h-13 items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-[15px] font-extrabold text-white shadow-[0_18px_36px_-20px_var(--primary)] hover:bg-primary/90">شروع ارزیابی<ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" /></a>
@@ -149,7 +149,7 @@ export function ToolsIndex() {
               return (
                 <motion.li key={x.t} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 + i * 0.15, duration: 0.5 }} className="relative">
                   <span className={cn("relative grid size-12 place-items-center rounded-2xl ring-4 ring-background", i === 0 ? "bg-ink text-white" : "bg-white text-ink shadow-[0_8px_20px_-14px_rgb(20_30_45/0.5)]")}><I size={21} variant="Bulk" /></span>
-                  <p className="mt-5 flex items-center gap-2 text-[16px] font-extrabold text-ink">{x.t}<span className="rounded-full bg-coral-soft px-2.5 py-0.5 text-[11px] font-extrabold text-coral-deep">{x.time}</span></p>
+                  <p className="mt-5 flex items-center gap-2 text-[16px] font-extrabold text-ink">{x.t}<span className="rounded-full bg-cobalt-soft px-2.5 py-0.5 text-[11px] font-extrabold text-cobalt-deep">{x.time}</span></p>
                   <p className="mt-1.5 text-[13.5px] leading-7 text-muted-foreground">{x.d}</p>
                 </motion.li>
               ); })}
@@ -186,7 +186,7 @@ export function ToolsIndex() {
                               <span className="block truncate text-[13.5px] font-extrabold text-ink">{t.name}</span>
                               <span className="block truncate text-[11.5px] text-muted-foreground">{t.description}</span>
                             </span>
-                            <ArrowLeft size={15} className="shrink-0 text-ink/25 transition-all group-hover:-translate-x-0.5 group-hover:text-coral" />
+                            <ArrowLeft size={15} className="shrink-0 text-ink/25 transition-all group-hover:-translate-x-0.5 group-hover:text-cobalt" />
                           </Link>
                         </li>
                       ); })}
@@ -206,7 +206,7 @@ export function ToolsIndex() {
           <ol className="grid grid-cols-2 gap-4">
             {investorAsks.map((q, i) => (
               <motion.li key={q.t} initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="rounded-[1.5rem] bg-white p-6 ring-1 ring-border">
-                <span className="text-[13px] font-black text-coral-deep">{faNumber(i + 1)}</span>
+                <span className="text-[13px] font-black text-cobalt-deep">{faNumber(i + 1)}</span>
                 <p className="mt-2 text-[16px] font-extrabold text-ink">{q.t}</p>
                 <p className="mt-1.5 text-[13px] leading-7 text-muted-foreground">{q.d}</p>
               </motion.li>
