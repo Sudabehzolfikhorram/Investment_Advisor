@@ -35,9 +35,9 @@ const phases = [
 /** نشانه دستیار: گوی زنده با حلقه چرخان؛ هنگام فکر کردن تندتر می‌چرخد. */
 function Orb({ size = 40, busy = false }: { size?: number; busy?: boolean }) {
   return (
-    <span className="relative grid shrink-0 place-items-center rounded-full shadow-[0_14px_30px_-14px_var(--primary)]" style={{ width: size, height: size }}>
-      <span className={cn("absolute inset-0 animate-spin rounded-full bg-[conic-gradient(from_0deg,var(--primary),#7cc4bb,var(--pine-soft),var(--primary))]", busy ? "[animation-duration:1.4s]" : "[animation-duration:9s]")} />
-      <span className="absolute inset-[3px] rounded-full bg-[radial-gradient(circle_at_35%_28%,#3aa597,var(--primary)_52%,var(--pine)_100%)]" />
+    <span className="relative grid shrink-0 place-items-center rounded-full shadow-[0_14px_30px_-14px_rgb(20_30_45/0.6)]" style={{ width: size, height: size }}>
+      <span className={cn("absolute inset-0 animate-spin rounded-full bg-[conic-gradient(from_0deg,#2f3533,#8fa3bd,#e6ebf2,#2f3533)]", busy ? "[animation-duration:1.4s]" : "[animation-duration:9s]")} />
+      <span className="absolute inset-[3px] rounded-full bg-[radial-gradient(circle_at_35%_28%,#5b6675,#2f3533_55%,#1d2228_100%)]" />
       <MagicStar size={Math.round(size * 0.44)} variant="Bold" className={cn("relative text-white", busy && "animate-pulse")} />
     </span>
   );
@@ -52,7 +52,7 @@ function Typed({ text, className }: { text: string; className?: string }) {
   return <p className={className}>{words.slice(0, n).join(" ")}{n < words.length && <span aria-hidden className="ms-1 inline-block h-[1.1em] w-[2px] translate-y-[3px] animate-pulse rounded-full bg-primary" />}</p>;
 }
 
-const shimmer = "bg-[linear-gradient(90deg,var(--muted)_25%,#eef6f5_50%,var(--muted)_75%)] bg-[length:200%_100%] animate-[sheen_1.6s_linear_infinite]";
+const shimmer = "bg-[linear-gradient(90deg,var(--muted)_25%,#f6f8fb_50%,var(--muted)_75%)] bg-[length:200%_100%] animate-[sheen_1.6s_linear_infinite]";
 
 const metOf = (r: MatchResult) => r.reasons.filter((x) => x.status === "met").slice(0, 3);
 
@@ -60,7 +60,7 @@ function TopCard({ r, i }: { r: MatchResult; i: number }) {
   const l = r.listing;
   return (
     <motion.article initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
-      className="group relative flex flex-col overflow-hidden rounded-[1.75rem] border border-border bg-white transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_-32px_rgb(8_59_55/0.4)]">
+      className="group relative flex flex-col overflow-hidden rounded-[1.75rem] border border-border bg-white transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_-32px_rgb(22_32_48/0.4)]">
       <Link href={`/opportunities/${l.id}`} className="absolute inset-0 z-10" aria-label={l.title} />
       <span className="relative m-2 block aspect-[16/10] overflow-hidden rounded-[1.35rem]">
         <Image src={l.image} alt="" fill sizes="30vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
@@ -72,7 +72,7 @@ function TopCard({ r, i }: { r: MatchResult; i: number }) {
       <div className="flex flex-1 flex-col gap-2.5 px-4 pb-4 pt-1.5">
         <h3 className="line-clamp-2 min-h-12 text-[15px] font-extrabold leading-6 text-ink">{l.title}</h3>
         <p className="text-xs font-semibold text-muted-foreground">{l.stats[0].label}: <b className="text-ink">{l.stats[0].value}</b></p>
-        {metOf(r).length > 0 && <div className="mt-auto flex flex-wrap gap-1.5">{metOf(r).map((m) => <span key={m.label} className="flex items-center gap-1 rounded-full bg-primary/[0.07] px-2 py-0.5 text-[11px] font-bold text-primary"><TickCircle size={12} variant="Bold" />{m.label}</span>)}</div>}
+        {metOf(r).length > 0 && <div className="mt-auto flex flex-wrap gap-1.5">{metOf(r).map((m) => <span key={m.label} className="flex items-center gap-1 rounded-full bg-ink/[0.05] px-2 py-0.5 text-[11px] font-bold text-primary"><TickCircle size={12} variant="Bold" />{m.label}</span>)}</div>}
       </div>
     </motion.article>
   );
@@ -82,7 +82,7 @@ function Row({ r, i }: { r: MatchResult; i: number }) {
   const l = r.listing;
   return (
     <motion.li initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 + i * 0.06, duration: 0.45 }}
-      className="group relative flex items-center gap-4 rounded-[1.5rem] border border-border bg-white p-2 pl-4 transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_22px_44px_-32px_rgb(8_59_55/0.4)]">
+      className="group relative flex items-center gap-4 rounded-[1.5rem] border border-border bg-white p-2 pl-4 transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-ink/25 hover:shadow-[0_22px_44px_-32px_rgb(22_32_48/0.4)]">
       <Link href={`/opportunities/${l.id}`} className="absolute inset-0 z-10 rounded-[1.5rem]" aria-label={l.title} />
       <span className="w-6 shrink-0 text-center text-sm font-black text-ink/35">{faNumber(i + 4)}</span>
       <span className="relative h-16 w-24 shrink-0 overflow-hidden rounded-xl"><Image src={l.image} alt="" fill sizes="96px" className="object-cover" /></span>
@@ -140,12 +140,12 @@ function Steps({ phase, notes }: { phase: number; notes: string[] }) {
       {phases.map((p, i) => { const I = p.icon; const state = i < phase ? "done" : i === phase ? "now" : "next"; return (
         <li key={p.title} className="relative flex items-start gap-3">
           {i < phases.length - 1 && <span aria-hidden className={cn("absolute start-[13.5px] top-8 h-[calc(100%-1.25rem)] w-px", i < phase ? "bg-primary/40" : "bg-border")} />}
-          <span className={cn("relative grid size-7 shrink-0 place-items-center rounded-full transition-colors duration-300", state === "done" ? "bg-primary text-white" : state === "now" ? "bg-primary/10 text-primary ring-1 ring-primary/30" : "bg-muted text-ink/30")}>
+          <span className={cn("relative grid size-7 shrink-0 place-items-center rounded-full transition-colors duration-300", state === "done" ? "bg-primary text-white" : state === "now" ? "bg-ink/[0.06] text-primary ring-1 ring-ink/10" : "bg-muted text-ink/30")}>
             {state === "done" ? <TickCircle size={16} variant="Bold" /> : <I size={15} variant="Bulk" />}
             {state === "now" && <span className="absolute inset-0 animate-ping rounded-full ring-1 ring-primary/40" />}
           </span>
           <span className="min-w-0 pt-0.5">
-            <span className={cn("block text-sm font-extrabold", state === "next" ? "text-ink/35" : state === "now" ? "bg-[linear-gradient(90deg,var(--ink)_30%,var(--primary)_50%,var(--ink)_70%)] bg-[length:200%_100%] bg-clip-text text-transparent animate-[sheen_1.8s_linear_infinite]" : "text-ink")}>{p.title}</span>
+            <span className={cn("block text-sm font-extrabold", state === "next" ? "text-ink/35" : state === "now" ? "bg-[linear-gradient(90deg,var(--ink)_30%,#8fa3bd_50%,var(--ink)_70%)] bg-[length:200%_100%] bg-clip-text text-transparent animate-[sheen_1.8s_linear_infinite]" : "text-ink")}>{p.title}</span>
             {state === "done" && notes[i] && <motion.span initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="mt-0.5 block text-xs font-semibold text-muted-foreground">{notes[i]}</motion.span>}
           </span>
         </li>); })}
@@ -201,7 +201,7 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave }: { turn: Turn;
                   {/* گام‌های بررسی، جمع‌شده؛ با یک ضربه دیده می‌شود چطور به این پیشنهادها رسیدیم */}
                   <Accordion type="single" collapsible>
                     <AccordionItem value="steps" className="border-0">
-                      <AccordionTrigger className="w-fit flex-none gap-2 rounded-full bg-primary/[0.07] px-3 py-1.5 text-xs font-extrabold text-primary hover:no-underline">
+                      <AccordionTrigger className="w-fit flex-none gap-2 rounded-full bg-ink/[0.05] px-3 py-1.5 text-xs font-extrabold text-primary hover:no-underline">
                         <span className="flex items-center gap-1.5"><TickCircle size={14} variant="Bold" />بررسی در {faNumber(phases.length)} گام انجام شد</span>
                       </AccordionTrigger>
                       <AccordionContent className="pb-0 pt-4"><Steps phase={phases.length} notes={notes} /></AccordionContent>
@@ -211,7 +211,7 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave }: { turn: Turn;
                   <p className="mt-4 flex items-center gap-2 text-[13px] font-extrabold text-ink"><MagicStar size={16} variant="Bulk" className="text-primary" />برداشت من از درخواست شما</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {out.understood.length ? out.understood.map((u, i) => (
-                      <motion.span key={u.label + u.value} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.06 }} className="flex items-center gap-1.5 rounded-xl border border-primary/15 bg-primary/[0.05] px-3 py-1.5 text-[13px] font-extrabold text-ink">
+                      <motion.span key={u.label + u.value} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.06 }} className="flex items-center gap-1.5 rounded-xl border border-ink/25 bg-ink/[0.03] px-3 py-1.5 text-[13px] font-extrabold text-ink">
                         <span className="size-1.5 rounded-full bg-primary" />{u.label && <span className="text-xs font-semibold text-muted-foreground">{u.label}</span>}{u.value}</motion.span>
                     )) : <span className="text-sm font-semibold text-muted-foreground">شرط مشخصی پیدا نکردم؛ پروژه‌های پرتطابق همه مسیرها را آورده‌ام.</span>}
                   </div>
@@ -222,7 +222,7 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave }: { turn: Turn;
                     </div>
                     <div className="flex shrink-0 gap-2">
                       {!turn.criteria && <Button type="button" variant="ghost" onClick={() => onEdit(turn.q)} className="h-10 gap-1.5 rounded-full px-4 text-[13px] font-bold text-ink/70"><Edit2 size={16} />تغییر درخواست</Button>}
-                      <Button type="button" variant="outline" onClick={() => onRefine(out.criteria)} className="h-10 gap-1.5 rounded-full bg-white px-4 text-[13px] font-extrabold shadow-none hover:border-primary hover:text-primary"><Setting4 size={16} />دقیق‌تر کردن با فیلترها</Button>
+                      <Button type="button" variant="outline" onClick={() => onRefine(out.criteria)} className="h-10 gap-1.5 rounded-full bg-white px-4 text-[13px] font-extrabold shadow-none hover:border-ink/25 hover:text-ink"><Setting4 size={16} />دقیق‌تر کردن با فیلترها</Button>
                     </div>
                   </div>
                 </div>
@@ -237,7 +237,7 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave }: { turn: Turn;
                         <p className="flex items-center gap-2 text-sm font-extrabold text-ink"><MessageQuestion size={18} variant="Bulk" className="text-primary" />{ask.title}</p>
                         <p className="mt-1 text-xs font-semibold text-muted-foreground">با یک ضربه به درخواستتان اضافه می‌شود.</p>
                         <div className="mt-3 flex flex-wrap gap-2">
-                          {ask.chips.map((c) => <Button key={c} type="button" variant="outline" onClick={() => onAsk(`${turn.q}، ${c}`)} className="h-9 gap-1.5 rounded-full bg-white px-4 text-[13px] font-bold shadow-none hover:border-primary hover:text-primary"><MagicStar size={14} variant="Bulk" className="text-primary" />{c}</Button>)}
+                          {ask.chips.map((c) => <Button key={c} type="button" variant="outline" onClick={() => onAsk(`${turn.q}، ${c}`)} className="h-9 gap-1.5 rounded-full bg-white px-4 text-[13px] font-bold shadow-none hover:border-ink/25 hover:text-ink"><MagicStar size={14} variant="Bulk" className="text-primary" />{c}</Button>)}
                         </div>
                       </div>
                     ) : <div className="surface flex items-center gap-3 rounded-[1.5rem] p-5 text-sm font-bold text-ink/75"><TickCircle size={20} variant="Bulk" className="shrink-0 text-primary" />شرایط اصلی را گفته‌اید؛ اگر شرط دیگری دارید، پایین بنویسید.</div>}
@@ -301,17 +301,20 @@ export function Assistant() {
       <Header />
       <main className="relative mx-auto flex min-h-[calc(100dvh-6rem)] max-w-5xl flex-col px-6 pt-8">
         {/* پس‌زمینه: ته‌رنگ سرد خاکستری–آبی و چند تکه از پترن هویت؛ بدون هاله سبز */}
-        <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[linear-gradient(180deg,#eef2f7_0%,#f4f6fa_45%,var(--background)_100%)]">
-          <AlgoPattern animated className="-right-10 top-16 h-[24rem] w-[34rem] text-ink/[0.11]" fade="radial" scale={0.9} />
-          <AlgoPattern className="-left-16 top-[38%] h-[22rem] w-[30rem] text-ink/[0.09]" fade="radial" scale={0.75} />
-          <AlgoPattern animated className="bottom-0 right-[30%] h-[18rem] w-[28rem] text-ink/[0.07]" fade="radial" scale={0.6} />
-          <AlgoPattern className="left-[22%] top-4 h-[14rem] w-[22rem] text-ink/[0.07]" fade="radial" scale={0.5} />
+        <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[radial-gradient(60%_50%_at_85%_10%,rgb(143_163_189/0.28),transparent_70%),radial-gradient(50%_45%_at_10%_70%,rgb(143_163_189/0.22),transparent_70%),linear-gradient(180deg,#e7ecf3_0%,#edf1f6_50%,#f1f4f8_100%)]">
+          {/* پترن تکه‌تکه: چند قطعه‌ی پراکنده با شدت‌های مختلف، نه یک لایه یکنواخت */}
+          <AlgoPattern animated className="-right-10 top-16 h-[26rem] w-[36rem] text-[#4a5a70]/[0.16]" fade="radial" scale={0.9} />
+          <AlgoPattern className="-left-16 top-[36%] h-[24rem] w-[32rem] text-[#4a5a70]/[0.13]" fade="radial" scale={0.75} />
+          <AlgoPattern animated className="bottom-4 right-[28%] h-[18rem] w-[28rem] text-[#4a5a70]/[0.11]" fade="radial" scale={0.6} />
+          <AlgoPattern className="left-[24%] top-6 h-[14rem] w-[22rem] text-[#4a5a70]/[0.1]" fade="radial" scale={0.5} />
+          <AlgoPattern className="right-[8%] top-[55%] h-[12rem] w-[18rem] text-[#4a5a70]/[0.12]" fade="radial" scale={0.45} />
+          <AlgoPattern className="left-[4%] top-[8%] h-[10rem] w-[16rem] text-[#4a5a70]/[0.1]" fade="radial" scale={0.4} />
         </div>
         <div className="relative flex flex-1 flex-col">
           {!started ? (
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="flex flex-1 flex-col items-center justify-center pb-2 pt-10 text-center">
               <Orb size={60} />
-              <h1 className="mt-6 text-[2.5rem] font-black leading-[1.4] text-ink">شرایطتان را <span className="text-primary">بگویید.</span></h1>
+              <h1 className="mt-6 text-[2.5rem] font-black leading-[1.4] text-ink">شرایطتان را بگویید.</h1>
               <p className="mt-2 text-[15px] leading-8 text-muted-foreground">پروژه‌های مناسب را با درصد تطابق نشانتان می‌دهیم.</p>
             </motion.div>
           ) : (
@@ -324,22 +327,22 @@ export function Assistant() {
         </div>
 
         {/* جای نوشتن: همیشه پایین صفحه؛ نمونه‌ها درست بالای آن و پس از استفاده حذف می‌شوند */}
-        <div className="sticky bottom-0 z-30 -mx-6 bg-gradient-to-t from-background via-background via-75% to-transparent px-6 pb-6 pt-10">
+        <div className="sticky bottom-0 z-30 -mx-6 bg-gradient-to-t from-[#eff2f7] via-[#eff2f7]/80 via-55% to-transparent px-6 pb-6 pt-10">
           <div className="mx-auto max-w-3xl">
             {left.length > 0 && (
               <div className="mb-3 flex flex-wrap justify-center gap-2 p-1">
                 {left.map((p) => { const I = promptIcons[samplePrompts.indexOf(p) % promptIcons.length];
                   return (
                     <Button variant="plain" size="auto" key={p} type="button" onClick={() => ask(p)}
-                      className={cn("group gap-2 border border-border bg-white/90 text-[13px] font-bold text-ink/75 backdrop-blur transition-[color,border-color,box-shadow] hover:border-primary/40 hover:text-primary",
-                        "rounded-full py-2 pl-4 pr-2.5 hover:shadow-[0_14px_28px_-24px_rgb(8_59_55/0.5)]")}>
-                      <span className="grid size-6 shrink-0 place-items-center rounded-full bg-primary/10 text-primary"><I size={14} variant="Bold" /></span>{p}
+                      className={cn("group gap-2 border border-border bg-white/90 text-[13px] font-bold text-ink/75 backdrop-blur transition-[color,border-color,box-shadow] hover:border-ink/25 hover:text-ink",
+                        "rounded-full py-2 pl-4 pr-2.5 hover:shadow-[0_14px_28px_-24px_rgb(22_32_48/0.5)]")}>
+                      <span className="grid size-6 shrink-0 place-items-center rounded-full bg-ink/[0.06] text-primary"><I size={14} variant="Bold" /></span>{p}
                     </Button>); })}
               </div>
             )}
             {/* قاب نوشتن با حاشیه رنگی متحرک هنگام تمرکز */}
-            <div className="group/composer rounded-[2rem] bg-border p-px transition-colors focus-within:bg-[linear-gradient(90deg,var(--primary),#7cc4bb,var(--pine-soft),#7cc4bb,var(--primary))] focus-within:bg-[length:200%_100%] focus-within:animate-[sheen_3s_linear_infinite] focus-within:shadow-[0_24px_50px_-30px_rgb(8_59_55/0.35)]">
-              <form onSubmit={(e) => { e.preventDefault(); ask(text); }} className="rounded-[calc(2rem-1px)] bg-white p-2 pr-6 shadow-[0_18px_40px_-30px_rgb(8_59_55/0.35)]">
+            <div className="group/composer rounded-[2rem] bg-border p-px transition-colors focus-within:bg-[linear-gradient(90deg,#2f3533,#8fa3bd,#e6ebf2,#8fa3bd,#2f3533)] focus-within:bg-[length:200%_100%] focus-within:animate-[sheen_3s_linear_infinite] focus-within:shadow-[0_24px_50px_-30px_rgb(22_32_48/0.35)]">
+              <form onSubmit={(e) => { e.preventDefault(); ask(text); }} className="rounded-[calc(2rem-1px)] bg-white p-2 pr-6 shadow-[0_18px_40px_-30px_rgb(22_32_48/0.35)]">
                 {attached && <div className="pt-1.5"><AttachedProfile profile={attached} onEdit={() => setEditing(attached)} onRemove={() => setAttachedId(null)} /></div>}
                 <div className="flex items-end gap-2">
                   <Textarea ref={box} value={text} onChange={(e) => setText(e.target.value)} rows={1} aria-label="شرایط شما"

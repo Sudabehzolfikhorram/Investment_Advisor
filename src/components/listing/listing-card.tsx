@@ -23,7 +23,7 @@ export function SaveButton({ id, className, label }: { id: string; className?: s
       onClick={(e) => { e.preventDefault(); e.stopPropagation();
         if (!user) return openLogin({ type: "save-listing", id });
         toggleSaved(id); toast(on ? "از ذخیره‌شده‌ها حذف شد." : "پروژه ذخیره شد."); }}
-      className={cn("inline-flex items-center justify-center gap-2 rounded-full transition-all active:scale-95", label ? "h-12 px-5 font-bold" : "size-10", on ? "bg-primary text-white" : label ? "border border-border bg-white text-ink hover:border-primary hover:text-primary" : "bg-pine/55 text-white hover:bg-pine/70", className)}>
+      className={cn("inline-flex items-center justify-center gap-2 rounded-full transition-all active:scale-95", label ? "h-12 px-5 font-bold" : "size-10", on ? "bg-primary text-white" : label ? "border border-border bg-white text-ink hover:border-ink/25 hover:text-ink" : "bg-pine/55 text-white hover:bg-pine/70", className)}>
       {on ? <ArchiveTick size={20} variant="Bold" /> : <ArchiveAdd size={20} />}
       {label && <span>{on ? "ذخیره شد" : "ذخیره پروژه"}</span>}
     </Button>
@@ -48,7 +48,7 @@ export function ListingCard({ listing: l, score, reasons, index = 0, comparable 
   const gallery = useHoverGallery(l);
   return (
     <motion.article className="h-full" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: Math.min(index, 5) * 0.04 }}>
-      <Card {...gallery.bind} className="group relative h-full gap-0 overflow-hidden rounded-[1.75rem] border border-border bg-white py-0 shadow-[0_16px_40px_-32px_rgb(8_59_55/0.25)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_-32px_rgb(8_59_55/0.4)]">
+      <Card {...gallery.bind} className="group relative h-full gap-0 overflow-hidden rounded-[1.75rem] border border-border bg-white py-0 shadow-[0_16px_40px_-32px_rgb(22_32_48/0.25)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_-32px_rgb(22_32_48/0.4)]">
         <Link href={`/opportunities/${l.id}`} className="absolute inset-0 z-10" aria-label={l.title} />
         <SignaturePhoto src={l.image} srcs={gallery.srcs} active={gallery.active} alt={l.title} className="m-2 aspect-[16/9] rounded-[1.35rem]">
           {gallery.dots}

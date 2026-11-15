@@ -44,7 +44,7 @@ function ProfileCard({ p, i }: { p: SavedProfile; i: number }) {
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}><Card className="surface relative h-full gap-5 overflow-hidden rounded-[2rem] p-6 shadow-none">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
-          <span className="grid size-12 place-items-center rounded-2xl bg-primary/10 text-primary"><I size={24} variant="Bulk" /></span>
+          <span className="grid size-12 place-items-center rounded-2xl bg-muted text-ink"><I size={24} variant="Bulk" /></span>
           <div><h3 className="text-lg font-extrabold text-ink">{p.name}</h3><p className="text-xs font-semibold text-muted-foreground">{route.name}</p></div>
         </div>
         <Button variant="plain" size="auto" type="button" aria-label="حذف جست‌وجو" onClick={() => removeProfile(p.id)} className="grid size-9 place-items-center rounded-full text-muted-foreground hover:bg-destructive/10 hover:text-destructive"><Trash size={17} /></Button>
@@ -52,7 +52,7 @@ function ProfileCard({ p, i }: { p: SavedProfile; i: number }) {
       <div className="flex flex-wrap gap-1.5">{chips.length ? chips.map((c) => <Badge key={c} variant="outline" className="border-black/[0.06] bg-white px-3 py-1 font-bold text-ink/80">{c}</Badge>) : <span className="text-xs text-muted-foreground">بدون فیلتر</span>}</div>
       <div className="mt-auto flex items-center justify-between gap-3 border-t border-dashed border-border pt-4">
         <span className="text-sm font-bold text-ink">{faNumber(matches.length)} پروژه متناسب
-          {fresh > 0 && <span className="mr-2 inline-flex items-center gap-1 rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-extrabold text-white"><Notification size={12} variant="Bold" />{faNumber(fresh)} تازه</span>}</span>
+          {fresh > 0 && <span className="mr-2 inline-flex items-center gap-1 rounded-full bg-coral px-2.5 py-0.5 text-[11px] font-extrabold text-white"><Notification size={12} variant="Bold" />{faNumber(fresh)} تازه</span>}</span>
         <Button variant="plain" size="auto" type="button" onClick={() => { applyProfile(p.id); router.push("/opportunities"); }} className="group inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 text-sm font-extrabold text-white hover:bg-deep">نمایش <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></Button>
       </div>
     </Card></motion.div>
@@ -71,18 +71,24 @@ export function Saved() {
     read(); window.addEventListener("hs-saved-tab", read); return () => window.removeEventListener("hs-saved-tab", read);
   }, []);
   const items = listings.filter((l) => saved.includes(l.id));
-  const tabs = [["projects", "پروژه‌های موردعلاقه", Lovely, items.length], ["criteria", "جست‌وجوهای من", Setting4, profiles.length], ["profile", "پروفایل حرفه‌ای", UserEdit, null]] as const;
+  const tabs = [["projects", "پروژه‌های موردعلاقه", Lovely, items.length], ["criteria", "فیلترهای من", Setting4, profiles.length], ["profile", "پروفایل حرفه‌ای", UserEdit, null]] as const;
   const profileTool = toolById("ma-profile")!;
   return (
     <>
       <Header />
       <main className="relative mx-auto min-h-[70dvh] max-w-7xl px-4 pt-10 sm:px-6">
-        <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-primary"><NodeMark />حساب شما</span>
-        <h1 className="mt-2 text-3xl font-black text-ink sm:text-4xl">علاقه‌مندی‌ها</h1>
+        <div className="flex items-end justify-between gap-6">
+          <div>
+            <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-ink/55"><NodeMark className="text-primary" />حساب شما</span>
+            <h1 className="mt-2 text-3xl font-black text-ink sm:text-4xl">علاقه‌مندی‌ها</h1>
+            <p className="mt-2 text-[15px] text-muted-foreground">پروژه‌هایی که نشان کرده‌اید و فیلترهایی که پروژه‌های تازه‌شان را دنبال می‌کنید.</p>
+          </div>
+          <AddSearchButton />
+        </div>
 
         {hydrated && !user ? (
           <Card className="surface mt-8 grid place-items-center gap-0 rounded-[2rem] px-6 py-20 text-center">
-            <span className="grid size-16 place-items-center rounded-full bg-primary/10 text-primary"><ArchiveTick size={30} variant="Bulk" /></span>
+            <span className="grid size-16 place-items-center rounded-full bg-muted text-ink"><ArchiveTick size={30} variant="Bulk" /></span>
             <h2 className="mt-5 text-xl font-extrabold text-ink">برای دیدن علاقه‌مندی‌ها وارد شوید.</h2>
             <p className="mt-2 max-w-md text-sm leading-7 text-muted-foreground">پروژه‌ها و جست‌وجوهایی که ذخیره می‌کنید با شماره موبایل شما نگه داشته می‌شود.</p>
             <Button variant="plain" size="auto" type="button" onClick={() => openLogin()} className="mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-primary px-7 font-extrabold text-white hover:bg-deep"><Login size={18} />ورود با موبایل</Button>
@@ -93,20 +99,18 @@ export function Saved() {
               <div className="flex items-center justify-between gap-4">
               <TabsList className="surface h-auto bg-white rounded-full p-1 group-data-[orientation=horizontal]/tabs:h-auto">
                 {tabs.map(([k, label, I, n]) => (
-                  <TabsTrigger key={k} value={k} className="group/t h-auto gap-2 rounded-full border-0 px-4 py-2.5 text-sm font-bold text-ink/70 data-[state=active]:bg-pine data-[state=active]:text-white sm:px-5">
-                    <I size={17} variant="Bulk" />{label}{n != null && <Badge className="h-5 min-w-5 bg-pine/10 px-1 text-[11px] text-ink group-data-[state=active]/t:bg-white">{faNumber(n)}</Badge>}
+                  <TabsTrigger key={k} value={k} className="group/t h-auto gap-2 rounded-full border-0 px-4 py-2.5 text-sm font-bold text-ink/70 data-[state=active]:bg-ink data-[state=active]:text-white sm:px-5">
+                    <I size={17} variant="Bulk" />{label}{n != null && <Badge className="h-5 min-w-5 bg-ink/10 px-1 text-[11px] text-ink group-data-[state=active]/t:bg-white">{faNumber(n)}</Badge>}
                   </TabsTrigger>
                 ))}
               </TabsList>
-              <AddSearchButton />
               </div>
               <TabsContent value="projects">
                 {items.length ? <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{items.map((l, i) => <ListingCard key={l.id} listing={l} index={i} />)}</div>
                   : <Empty text="هنوز پروژه‌ای ذخیره نکرده‌اید." cta="دیدن پروژه‌ها" />}
               </TabsContent>
               <TabsContent value="criteria">
-                {profiles.length ? <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{profiles.map((p, i) => <ProfileCard key={p.id} p={p} i={i} />)}</div>
-                  : <Empty text="هنوز جست‌وجویی ذخیره نکرده‌اید. با «جست‌وجوی تازه» همین‌جا شرایط را بسازید، یا در صفحه پروژه‌ها فیلترها را ذخیره کنید." cta="رفتن به پروژه‌ها" />}
+                <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3"><AddSearchButton variant="tile" />{profiles.map((p, i) => <ProfileCard key={p.id} p={p} i={i} />)}</div>
               </TabsContent>
               <TabsContent value="profile">
                 <div className="grid grid-cols-[1fr_19rem] items-start gap-7">
@@ -115,7 +119,7 @@ export function Saved() {
                     <h2 className="text-base font-extrabold text-ink">بعد از ثبت پروفایل</h2>
                     <ol className="space-y-3.5">
                       {[["یک‌بار ثبت می‌کنید", "نقش، استان، تخصص و سرمایه‌ی قابل تخصیص روی همین دستگاه می‌ماند."],
-                        ["در فیلترها می‌بینید", "در صفحه پروژه‌ها و فرم شروع، کارت «پروفایل حرفه‌ای» نقش و استانتان را با یک کلیک روی فیلترها می‌گذارد."],
+                        ["در فیلترها می‌بینید", "بالای فرم شروع و ستون فیلترهای صفحه پروژه‌ها، نقش، استان و سرمایه‌تان جدا جدا روی نتایج روشن یا خاموش می‌شود."],
                         ["پروژه‌های متناسب را دنبال می‌کنید", "همان شرایط را به‌عنوان جست‌وجو ذخیره کنید تا پروژه‌های تازه‌اش اینجا بیاید."]].map(([t, d], i) => (
                         <li key={t} className="flex gap-3">
                           <span className="grid size-7 shrink-0 place-items-center rounded-full border border-border text-[12px] font-black text-ink">{faNumber(i + 1)}</span>
@@ -138,7 +142,7 @@ export function Saved() {
 
 function Empty({ text, cta }: { text: string; cta: string }) {
   return (
-    <div className="grid place-items-center rounded-[2rem] border border-dashed border-primary/30 px-6 py-16 text-center">
+    <div className="grid place-items-center rounded-[2rem] border border-dashed border-border px-6 py-16 text-center">
       <p className="max-w-md text-sm font-semibold leading-7 text-muted-foreground">{text}</p>
       <Link href="/opportunities" className="mt-5 inline-flex h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-extrabold text-white hover:bg-deep">{cta}<ArrowLeft size={16} /></Link>
     </div>

@@ -37,7 +37,7 @@ export function SavedPicker({ onPick, onEdit, activeId }: { onPick: (p: SavedPro
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button type="button" variant="plain" size="auto" aria-label="شرایط ذخیره‌شده من"
-          className={cn("relative h-12 shrink-0 gap-2 rounded-full border border-border bg-white px-4 text-[13px] font-extrabold text-ink/75 transition-colors hover:border-primary/40 hover:text-primary", open && "border-primary/40 text-primary")}>
+          className={cn("relative h-12 shrink-0 gap-2 rounded-full border border-border bg-white px-4 text-[13px] font-extrabold text-ink/75 transition-colors hover:border-ink/25 hover:text-ink", open && "border-primary/40 text-primary")}>
           <ArchiveTick size={18} variant="Bulk" className="text-primary" />شرایط من
           <span className="grid min-w-5 place-items-center rounded-full bg-muted px-1.5 text-[11px] tabular-nums">{faNumber(profiles.length)}</span>
           {fresh > 0 && <span className="absolute -top-0.5 left-1 size-2.5 rounded-full bg-primary ring-2 ring-white" />}
@@ -46,21 +46,21 @@ export function SavedPicker({ onPick, onEdit, activeId }: { onPick: (p: SavedPro
       <PopoverContent side="top" align="end" sideOffset={12} className="w-[24rem] overflow-hidden rounded-3xl p-0 shadow-2xl">
         <div className="flex items-center justify-between border-b border-border px-4 py-3">
           <p className="text-sm font-extrabold text-ink">شرایط ذخیره‌شده</p>
-          <Link href="/saved?tab=criteria" className="flex items-center gap-1 text-xs font-bold text-muted-foreground hover:text-primary"><Setting4 size={14} />مدیریت</Link>
+          <Link href="/saved?tab=criteria" className="flex items-center gap-1 text-xs font-bold text-muted-foreground hover:text-ink"><Setting4 size={14} />مدیریت</Link>
         </div>
         <ul className="thin-scroll max-h-80 overflow-y-auto p-1.5">
           {profiles.map((p) => { const chips = describeCriteria(p.criteria); const n = stats[p.id]?.fresh ?? 0; const on = p.id === activeId;
             return (
-              <li key={p.id} className={cn("group/row flex items-center gap-1 rounded-2xl transition-colors", on ? "bg-primary/[0.07]" : "hover:bg-muted/70")}>
+              <li key={p.id} className={cn("group/row flex items-center gap-1 rounded-2xl transition-colors", on ? "bg-ink/[0.05]" : "hover:bg-muted/70")}>
                 <button type="button" onClick={() => { onPick(p); setOpen(false); }} className="flex min-w-0 flex-1 items-center gap-3 px-3 py-2.5 text-right">
-                  <span className={cn("grid size-9 shrink-0 place-items-center rounded-xl", on ? "bg-primary text-white" : "bg-primary/10 text-primary")}><ArchiveTick size={17} variant="Bulk" /></span>
+                  <span className={cn("grid size-9 shrink-0 place-items-center rounded-xl", on ? "bg-primary text-white" : "bg-ink/[0.06] text-primary")}><ArchiveTick size={17} variant="Bulk" /></span>
                   <span className="min-w-0 flex-1">
                     <span className="flex items-center gap-2"><span className="truncate text-[13px] font-extrabold text-ink">{p.name}</span>{n > 0 && <span className="shrink-0 rounded-full bg-primary px-1.5 text-[10px] font-extrabold text-white">{faNumber(n)} تازه</span>}</span>
                     <span className="block truncate text-[11px] font-semibold text-muted-foreground">{[routeName(p.criteria), ...chips.map((c) => c.label)].join(" · ")}</span>
                   </span>
                 </button>
                 <button type="button" onClick={() => { setOpen(false); onEdit(p); }} aria-label={`ویرایش ${p.name}`} title="ویرایش"
-                  className="ml-2 grid size-8 shrink-0 place-items-center rounded-full text-muted-foreground opacity-0 transition-opacity hover:bg-white hover:text-primary focus-visible:opacity-100 group-hover/row:opacity-100"><Edit2 size={15} /></button>
+                  className="ml-2 grid size-8 shrink-0 place-items-center rounded-full text-muted-foreground opacity-0 transition-opacity hover:bg-white hover:text-ink focus-visible:opacity-100 group-hover/row:opacity-100"><Edit2 size={15} /></button>
               </li>
             ); })}
         </ul>
@@ -73,14 +73,14 @@ export function SavedPicker({ onPick, onEdit, activeId }: { onPick: (p: SavedPro
 export function AttachedProfile({ profile, onEdit, onRemove }: { profile: SavedProfile; onEdit: () => void; onRemove: () => void }) {
   const chips = describeCriteria(profile.criteria);
   return (
-    <span className="inline-flex max-w-full items-center gap-2 rounded-2xl border border-primary/25 bg-primary/[0.06] py-1.5 pl-1.5 pr-2.5">
+    <span className="inline-flex max-w-full items-center gap-2 rounded-2xl border border-ink/25 bg-ink/[0.04] py-1.5 pl-1.5 pr-2.5">
       <ArchiveTick size={16} variant="Bulk" className="shrink-0 text-primary" />
       <span className="min-w-0 text-right">
         <span className="block truncate text-[12px] font-extrabold text-primary">{profile.name}</span>
         <span className="block max-w-[26rem] truncate text-[11px] font-semibold text-ink/60">{[routeName(profile.criteria), ...chips.map((c) => c.label)].join(" · ")}</span>
       </span>
-      <button type="button" onClick={onEdit} aria-label="ویرایش شرایط" title="ویرایش" className="grid size-7 shrink-0 place-items-center rounded-full text-primary/70 hover:bg-white hover:text-primary"><Edit2 size={14} /></button>
-      <button type="button" onClick={onRemove} aria-label="برداشتن شرایط" title="برداشتن" className="grid size-7 shrink-0 place-items-center rounded-full text-primary/60 hover:bg-white hover:text-primary"><CloseCircle size={16} variant="Bulk" /></button>
+      <button type="button" onClick={onEdit} aria-label="ویرایش شرایط" title="ویرایش" className="grid size-7 shrink-0 place-items-center rounded-full text-primary/70 hover:bg-white hover:text-ink"><Edit2 size={14} /></button>
+      <button type="button" onClick={onRemove} aria-label="برداشتن شرایط" title="برداشتن" className="grid size-7 shrink-0 place-items-center rounded-full text-primary/60 hover:bg-white hover:text-ink"><CloseCircle size={16} variant="Bulk" /></button>
     </span>
   );
 }

@@ -40,7 +40,7 @@ function RouteBlank() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="plain" size="auto" className={cn("mx-2 inline-flex h-auto max-w-full items-center gap-2 whitespace-normal rounded-2xl border-b-2 border-primary bg-white px-4 py-0.5 align-baseline text-[0.85em] font-black leading-[1.5] text-primary shadow-[0_18px_40px_-24px_rgb(8_59_55/0.35)] transition-all duration-300 hover:-translate-y-0.5", open && "ring-4 ring-primary/10")}>
+        <Button variant="plain" size="auto" className={cn("mx-2 inline-flex h-auto max-w-full items-center gap-2 whitespace-normal rounded-2xl border-b-2 border-primary bg-white px-4 py-0.5 align-baseline text-[0.85em] font-black leading-[1.5] text-primary shadow-[0_18px_40px_-24px_rgb(22_32_48/0.35)] transition-all duration-300 hover:-translate-y-0.5", open && "ring-4 ring-ink/10")}>
           <span className="text-right">{current.name}</span>
           <ArrowDown2 size={20} className={cn("shrink-0 transition-transform", open && "rotate-180")} />
         </Button>
@@ -51,7 +51,7 @@ function RouteBlank() {
           {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === route;
             return (
               <Button key={r.id} variant="plain" size="auto" onClick={() => { begin({ route: r.id }); setOpen(false); }}
-                className={cn("h-auto justify-start gap-3 whitespace-normal rounded-2xl border p-3 text-right", on ? "border-primary bg-primary/[0.06]" : "border-transparent hover:bg-muted")}>
+                className={cn("h-auto justify-start gap-3 whitespace-normal rounded-2xl border p-3 text-right", on ? "border-primary bg-ink/[0.04]" : "border-transparent hover:bg-muted")}>
                 <span className={cn("grid size-9 shrink-0 place-items-center rounded-xl", on ? "bg-primary text-white" : "bg-muted text-ink/70")}><I size={18} variant="Bulk" /></span>
                 <span className="text-[13px] font-bold leading-5 text-ink">{r.name}</span>
                 {on && <TickCircle size={18} variant="Bold" className="mr-auto shrink-0 text-primary" />}
@@ -163,12 +163,12 @@ export function Hero() {
 
             <TabsContent value="assistant" className="space-y-6">
               <h1 className="text-5xl font-black leading-[1.4] tracking-tight text-ink text-balance">بگویید چه می‌خواهید؛ <span className="text-primary">نزدیک‌ترین پروژه‌ها</span> را با درصد تطابق نشانتان می‌دهیم.</h1>
-              <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) go(prompt); }} className="surface flex items-center gap-2 rounded-full p-2 pr-7 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.12),0_24px_50px_-30px_rgb(8_59_55/0.3)]">
+              <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) go(prompt); }} className="surface flex items-center gap-2 rounded-full p-2 pr-7 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.12),0_24px_50px_-30px_rgb(22_32_48/0.3)]">
                 <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="۳۰ میلیارد دارم، پروژه مسکونی در تهران می‌خواهم…" aria-label="توضیح شرایط برای دستیار" className="h-14 min-w-0 flex-1 rounded-none border-0 !bg-transparent px-0 text-base font-semibold text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
-                <Button type="submit" variant="plain" size="auto" className="group h-14 shrink-0 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_14px_30px_-14px_var(--primary)] hover:bg-deep">پیدا کن <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
+                <Button type="submit" variant="plain" size="auto" className="group h-14 shrink-0 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_14px_30px_-14px_rgb(20_30_45/0.6)] hover:bg-deep">پیدا کن <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
               </form>
               <div className="flex flex-wrap items-center gap-2">
-                {samplePrompts.map((p) => <Button key={p} variant="plain" size="auto" onClick={() => go(p)} className="h-auto rounded-full border border-border bg-white px-3.5 py-1.5 text-[13px] font-semibold text-ink/75 hover:border-primary/50 hover:text-primary">{p}</Button>)}
+                {samplePrompts.map((p) => <Button key={p} variant="plain" size="auto" onClick={() => go(p)} className="h-auto rounded-full border border-border bg-white px-3.5 py-1.5 text-[13px] font-semibold text-ink/75 hover:border-ink/25 hover:text-ink">{p}</Button>)}
               </div>
             </TabsContent>
 

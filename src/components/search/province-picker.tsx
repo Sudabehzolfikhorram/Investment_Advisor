@@ -83,12 +83,12 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
         {multi && (
           <div className="no-scrollbar mr-auto flex min-w-0 items-center gap-1.5 overflow-x-auto">
             <Button type="button" variant="outline" size="xs" onClick={() => zoomTo(null)} className={cn("shrink-0 rounded-full bg-white font-bold", !focus && "border-ink bg-ink text-white hover:bg-ink hover:text-white")}><Maximize4 size={14} />کل ایران</Button>
-            {value.map((p) => <Button key={p} type="button" variant="outline" size="xs" onClick={() => zoomTo(p)} title="دیدن شهرهای این استان" className={cn("shrink-0 rounded-full bg-white font-bold", focus === p && "border-primary bg-primary text-white hover:bg-primary hover:text-white")}>{focus === p ? `شهرهای ${p}` : p}</Button>)}
+            {value.map((p) => <Button key={p} type="button" variant="outline" size="xs" onClick={() => zoomTo(p)} title="دیدن شهرهای این استان" className={cn("shrink-0 rounded-full bg-white font-bold", focus === p && "border-ink bg-ink text-white hover:bg-ink hover:text-white")}>{focus === p ? `شهرهای ${p}` : p}</Button>)}
           </div>
         )}
       </div>
-      <div className="relative bg-[radial-gradient(rgb(20_30_45/0.07)_1px,transparent_1px)] p-4 [background-size:16px_16px]">
-        <svg viewBox={`0 0 ${W} ${H}`} className="mx-auto block h-[40rem] w-auto max-w-full" role="img" aria-label="نقشه ایران برای انتخاب استان و شهر" onMouseLeave={() => setHover(null)}>
+      <div className="relative bg-[linear-gradient(180deg,#f7f9fc,#eef2f7)] px-4 py-6">
+        <svg viewBox={`0 0 ${W} ${H}`} className="mx-auto block h-[46rem] w-auto max-w-full" role="img" aria-label="نقشه ایران برای انتخاب استان و شهر" onMouseLeave={() => setHover(null)}>
           <g style={{ transform: `translate(${W / 2 - cx * k}px, ${H / 2 - cy * k}px) scale(${k})`, transformOrigin: "0 0", transition: "transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)" }}>
             {provinces.map((p) => {
               const on = value.includes(p), count = city.counts[p] ?? 0, dim = !!focus && p !== focus;
@@ -96,7 +96,7 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
                 <path key={p} d={provincePaths[p]} role="button" aria-pressed={on} aria-label={`استان ${p}${count ? `، ${count} پروژه` : ""}`}
                   onClick={() => !focus && toggle(p)} onMouseEnter={() => { setHover(p); loadCounties(p); }}
                   strokeWidth={(on ? 1.1 : 0.55) / k} strokeLinejoin="round"
-                  className={cn("transition-[fill,stroke,opacity] duration-500", !focus && "cursor-pointer", on && !dim ? (focus ? "fill-primary/10 stroke-primary" : "fill-primary/15 stroke-primary") : dim ? "pointer-events-none fill-muted/60 stroke-pine/15 opacity-0" : count ? "fill-white stroke-pine/30 hover:fill-primary/10 hover:stroke-primary" : "fill-white stroke-pine/30 hover:fill-primary/10 hover:stroke-primary")} />
+                  className={cn("transition-[fill,stroke,opacity] duration-500", !focus && "cursor-pointer", on && !dim ? (focus ? "fill-ink/[0.06] stroke-ink" : "fill-ink/10 stroke-ink") : dim ? "pointer-events-none fill-muted/60 stroke-ink/15 opacity-0" : count ? "fill-white stroke-ink/25 hover:fill-ink/[0.06] hover:stroke-ink" : "fill-white stroke-ink/25 hover:fill-ink/[0.06] hover:stroke-ink")} />
               );
             })}
             {/* استان انتخاب‌شده یا زیر نشانگر با عکس شاخص همان استان پر می‌شود */}
@@ -107,7 +107,7 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
                   <image href={withBase(provincePhotos[p].src)} x={b[0]} y={b[1]} width={b[2] - b[0]} height={b[3] - b[1]} preserveAspectRatio="xMidYMid slice" clipPath={`url(#${id})`} />
                 </g>
               ); })}
-            {(focus ? [focus] : value).map((p) => <path key={p} d={provincePaths[p]} fill="none" strokeWidth={1.2 / k} strokeLinejoin="round" className="pointer-events-none stroke-primary" />)}
+            {(focus ? [focus] : value).map((p) => <path key={p} d={provincePaths[p]} fill="none" strokeWidth={1.2 / k} strokeLinejoin="round" className="pointer-events-none stroke-ink" />)}
             {/* نام همه استان‌ها؛ اندازه نام با وسعت استان تنظیم می‌شود */}
             {!focus && provinces.map((p) => { const [x, y] = provinceLabel[p]; const on = value.includes(p); const fs = Math.max(4.6, Math.min(6.8, Math.sqrt(provinceArea[p]) * 0.21));
               return <text key={p} x={x} y={y + fs * 0.35} textAnchor="middle" style={{ fontSize: fs }} strokeWidth={fs * 0.32} strokeLinejoin="round" className={cn("pointer-events-none font-extrabold [paint-order:stroke] stroke-white", on ? "fill-deep" : "fill-ink/75")}>{p}</text>; })}
@@ -161,7 +161,7 @@ export function CityPicker({ route, provinces: selected }: { route: RouteId; pro
       <PopoverTrigger asChild>
         <Button type="button" variant="outline" role="combobox" aria-expanded={open} className="h-auto min-h-11 w-full justify-between gap-2 whitespace-normal rounded-2xl bg-white px-3.5 py-2 text-right font-normal shadow-none">
           <span className={cn("flex flex-wrap gap-1.5", !city.value.length && "text-muted-foreground")}>
-            {city.value.length ? city.value.map((v) => <Badge key={v} variant="secondary" className="bg-primary/10 px-2.5 font-bold text-primary">{v}</Badge>) : "انتخاب کنید"}
+            {city.value.length ? city.value.map((v) => <Badge key={v} variant="secondary" className="bg-ink/[0.06] px-2.5 font-bold text-primary">{v}</Badge>) : "انتخاب کنید"}
           </span>
           <ArrowDown2 size={16} className="shrink-0 text-muted-foreground" />
         </Button>
@@ -245,7 +245,7 @@ function CityField({ provinces: provs, options, value, onChange }: { provinces: 
         <Button type="button" variant="outline" role="combobox" aria-expanded={open} aria-label="شهر" disabled={disabled}
           className="h-auto min-h-12 w-full justify-between gap-2 whitespace-normal rounded-2xl bg-white px-3.5 py-2 text-right font-normal shadow-none disabled:border-dashed disabled:bg-muted/40 disabled:opacity-100">
           <span className={cn("flex flex-wrap gap-1.5", !value.length && "text-muted-foreground")}>
-            {value.length ? value.map((v) => { const o = options.find((x) => x.value === v); return <Badge key={v} variant="secondary" className="bg-primary/10 px-2.5 font-bold text-primary">{o?.short ?? v.split("/")[1]}</Badge>; }) : disabled ? "هنوز گزینه‌ای ندارد" : "همه شهرها"}
+            {value.length ? value.map((v) => { const o = options.find((x) => x.value === v); return <Badge key={v} variant="secondary" className="bg-ink/[0.06] px-2.5 font-bold text-primary">{o?.short ?? v.split("/")[1]}</Badge>; }) : disabled ? "هنوز گزینه‌ای ندارد" : "همه شهرها"}
           </span>
           <ArrowDown2 size={16} className="shrink-0 text-muted-foreground" />
         </Button>
@@ -265,7 +265,7 @@ function CityField({ provinces: provs, options, value, onChange }: { provinces: 
                   <AccordionTrigger className="items-center rounded-xl px-2 py-3 text-right hover:bg-muted/60 hover:no-underline">
                     <span className="flex flex-1 items-center justify-between gap-2">
                       <span className="text-sm font-extrabold text-ink">{p}</span>
-                      <span className={cn("rounded-full px-2 py-0.5 text-[11px] font-bold", n ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground")}>{n ? `${faNumber(n)} شهر` : "همه شهرها"}</span>
+                      <span className={cn("rounded-full px-2 py-0.5 text-[11px] font-bold", n ? "bg-ink/[0.06] text-primary" : "bg-muted text-muted-foreground")}>{n ? `${faNumber(n)} شهر` : "همه شهرها"}</span>
                     </span>
                   </AccordionTrigger>
                   <AccordionContent className="pb-2">

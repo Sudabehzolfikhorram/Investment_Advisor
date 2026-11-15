@@ -49,7 +49,7 @@ function Chapter({ n, title, note, children }: { n: number; title: string; note?
 function Tile({ I, label, value, sub }: { I: Icon; label: string; value: string; sub?: string }) {
   return (
     <Card className="surface gap-3 rounded-[1.5rem] p-5 shadow-none">
-      <span className="grid size-10 place-items-center rounded-xl bg-primary/10 text-primary"><I size={20} variant="Bulk" /></span>
+      <span className="grid size-10 place-items-center rounded-xl bg-ink/[0.06] text-primary"><I size={20} variant="Bulk" /></span>
       <span>
         <span className="block text-xs font-semibold text-muted-foreground">{label}</span>
         <span className="mt-1 block text-xl font-black leading-8 text-ink">{value}</span>
@@ -67,7 +67,7 @@ function Facts({ groups }: { groups: FactGroup[] }) {
       {groups.map((g) => { const I = groupIcon[g.id];
         return (
           <div key={g.id} className="surface rounded-[1.75rem] p-5">
-            <h3 className="flex items-center gap-2.5 text-[15px] font-extrabold text-ink"><span className="grid size-9 place-items-center rounded-xl bg-primary/10 text-primary"><I size={18} variant="Bulk" /></span>{g.title}</h3>
+            <h3 className="flex items-center gap-2.5 text-[15px] font-extrabold text-ink"><span className="grid size-9 place-items-center rounded-xl bg-ink/[0.06] text-primary"><I size={18} variant="Bulk" /></span>{g.title}</h3>
             <dl className="mt-3 divide-y divide-border/70">
               {splitPending(g.items).known.map(([k, v]) => (
                 // همه ردیف‌ها یک شکل: عنوان راست، مقدار چپ؛ مقدار بلند در همان ستون چپ می‌شکند
@@ -85,7 +85,7 @@ function Facts({ groups }: { groups: FactGroup[] }) {
 }
 
 const riskTone: Record<number, { text: string; stroke: string; soft: string; bar: string }> = {
-  1: { text: "text-primary", stroke: "stroke-primary", soft: "bg-primary/10", bar: "bg-primary" },
+  1: { text: "text-primary", stroke: "stroke-primary", soft: "bg-ink/[0.06]", bar: "bg-primary" },
   2: { text: "text-coral", stroke: "stroke-coral", soft: "bg-coral/10", bar: "bg-coral" },
   3: { text: "text-destructive", stroke: "stroke-destructive", soft: "bg-destructive/10", bar: "bg-destructive" },
 };
@@ -196,7 +196,7 @@ function MoneyFlow({ o }: { o: { finance?: string; repay?: string; ownership?: s
             </span>
           )}
           <div className="surface flex-1 rounded-[1.75rem] p-6">
-            <span className="grid size-12 place-items-center rounded-2xl bg-primary/10 text-primary"><x.I size={24} variant="Bulk" /></span>
+            <span className="grid size-12 place-items-center rounded-2xl bg-ink/[0.06] text-primary"><x.I size={24} variant="Bulk" /></span>
             <h3 className="mt-4 text-sm font-extrabold text-primary">{x.t}</h3>
             <p className="mt-2 text-[15px] font-semibold leading-8 text-ink">{x.d}</p>
           </div>
@@ -216,8 +216,8 @@ function Steps({ steps }: { steps: string[] }) {
         return (
           <li key={s} className="min-w-0">
             <div className="flex items-center gap-3">
-              <span className={cn("grid size-11 shrink-0 place-items-center rounded-full text-base font-black", i === 0 ? "bg-primary text-white shadow-[0_10px_24px_-12px_var(--primary)]" : "bg-primary/10 text-primary")}>{faNumber(i + 1)}</span>
-              {!lastInRow && <span aria-hidden className="h-px flex-1 border-t-2 border-dashed border-primary/25" />}
+              <span className={cn("grid size-11 shrink-0 place-items-center rounded-full text-base font-black", i === 0 ? "bg-primary text-white shadow-[0_10px_24px_-12px_var(--primary)]" : "bg-ink/[0.06] text-primary")}>{faNumber(i + 1)}</span>
+              {!lastInRow && <span aria-hidden className="h-px flex-1 border-t-2 border-dashed border-ink/25" />}
               {!lastInRow && <ArrowLeft size={14} className="-mr-2 shrink-0 text-primary/40" />}
             </div>
             <p className="mt-3 text-xs font-extrabold text-primary">گام {ordinal[i] ?? faNumber(i + 1)}</p>
@@ -320,7 +320,7 @@ function Contact({ l }: { l: Listing }) {
           <div className="mt-5 flex h-14 items-center gap-1 rounded-full bg-white p-1.5 text-ink">
             <Button asChild variant="plain" size="auto" className="size-11 shrink-0 rounded-full bg-coral text-white shadow-[0_8px_18px_-8px_var(--coral)] hover:bg-coral-deep"><a href={`tel:${expert.mobile}`} aria-label="تماس با کارشناس"><Call size={19} variant="Bold" /></a></Button>
             <span dir="ltr" className="flex-1 select-all text-center text-base font-black tracking-wide">{formatMobile(expert.mobile)}</span>
-            <Button variant="plain" size="auto" type="button" onClick={copy} aria-label="کپی شماره" title="کپی شماره" className={cn("size-11 shrink-0 rounded-full hover:bg-muted", copied ? "text-primary" : "text-ink/55 hover:text-primary")}>{copied ? <CopySuccess size={20} variant="Bold" /> : <Copy size={20} />}</Button>
+            <Button variant="plain" size="auto" type="button" onClick={copy} aria-label="کپی شماره" title="کپی شماره" className={cn("size-11 shrink-0 rounded-full hover:bg-muted", copied ? "text-primary" : "text-ink/55 hover:text-ink")}>{copied ? <CopySuccess size={20} variant="Bold" /> : <Copy size={20} />}</Button>
           </div>
         </>
       ) : (
@@ -374,7 +374,7 @@ export function Detail({ id }: { id: string }) {
     <>
       <Header />
       <main className="mx-auto max-w-7xl px-6 pt-6">
-        <Link href="/opportunities" className="mb-4 inline-flex items-center gap-2 text-sm font-bold text-ink/70 hover:text-primary"><ArrowRight size={18} />بازگشت به پروژه‌ها</Link>
+        <Link href="/opportunities" className="mb-4 inline-flex items-center gap-2 text-sm font-bold text-ink/70 hover:text-ink"><ArrowRight size={18} />بازگشت به پروژه‌ها</Link>
 
         {/* پرده اول: تصویر و عنوان */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }}>
@@ -422,7 +422,7 @@ export function Detail({ id }: { id: string }) {
                   </div>
                   <div className="flex flex-col gap-4">
                     <div className="surface flex items-center gap-4 rounded-[1.75rem] p-5">
-                      <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><ShieldSearch size={22} variant="Bulk" /></span>
+                      <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-ink/[0.06] text-primary"><ShieldSearch size={22} variant="Bulk" /></span>
                       <span className="min-w-0 flex-1"><span className="block text-xs font-bold text-muted-foreground">وضعیت حقوقی</span><span className="mt-0.5 block text-base font-extrabold text-ink">{legalLabel[o.legalStatus] ?? o.legalStatus}</span></span>
                     </div>
                     {o.caution && <div className="flex flex-1 items-start gap-4 rounded-[1.75rem] bg-white p-5 ring-1 ring-border">
@@ -452,7 +452,7 @@ export function Detail({ id }: { id: string }) {
             {nextSteps && nextSteps.length > 0 && (
               <Chapter n={++n} title="مراحل ورود و اسناد لازم" note="به همین ترتیب پیش بروید؛ هر گام پیش‌نیاز گام بعدی است">
                 <div className="surface rounded-[1.75rem] p-7"><Steps steps={nextSteps} /></div>
-                <div className="mt-5 flex items-center justify-between gap-4 rounded-[1.75rem] bg-primary/[0.07] p-5 pr-7">
+                <div className="mt-5 flex items-center justify-between gap-4 rounded-[1.75rem] bg-ink/[0.05] p-5 pr-7">
                   <p className="text-[15px] font-extrabold text-ink">{o?.expert ? `برای شروع، با ${o.expert.name} تماس بگیرید.` : "این گام‌ها را در راهنمای اقدام تیک بزنید و همراه خود داشته باشید."}</p>
                   {o?.expert
                     ? <Button asChild className="h-12 gap-2 rounded-full px-6 font-extrabold"><a href={`tel:${o.expert.mobile}`}><Call size={18} variant="Bold" />تماس با کارشناس</a></Button>
@@ -488,12 +488,12 @@ export function Detail({ id }: { id: string }) {
             {l.city && (
               <div className="surface overflow-hidden rounded-[1.75rem]">
                 <div className="flex items-center gap-3 p-4">
-                  <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><Location size={22} variant="Bulk" /></span>
+                  <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-ink/[0.06] text-primary"><Location size={22} variant="Bulk" /></span>
                   <p className="min-w-0 flex-1 text-base font-extrabold leading-6 text-ink">{l.city}<span className="block text-xs font-semibold text-muted-foreground">استان {l.province}{sale?.neighborhood ? `، ${sale.neighborhood}` : ""}</span></p>
                 </div>
                 <LocationMap city={l.city} province={l.province!} className="h-40 border-t border-border" />
                 <Link href="/opportunities" onClick={() => { useStore.getState().begin({ route: l.routes[0] as never, provinces: [l.province!] }); useStore.getState().setStarted(true); }}
-                  className="flex items-center justify-between border-t border-border px-5 py-3 text-[13px] font-bold text-primary hover:bg-primary/[0.05]">پروژه‌های دیگر در {l.province}<ArrowLeft size={16} /></Link>
+                  className="flex items-center justify-between border-t border-border px-5 py-3 text-[13px] font-bold text-primary hover:bg-ink/[0.03]">پروژه‌های دیگر در {l.province}<ArrowLeft size={16} /></Link>
               </div>
             )}
           </aside>

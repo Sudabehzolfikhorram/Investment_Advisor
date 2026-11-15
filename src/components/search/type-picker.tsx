@@ -5,11 +5,10 @@
 import { useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowLeft2, CloseCircle, SearchNormal1 } from "@/components/iconsax";
+import { ArrowLeft2, CloseCircle, SearchNormal1, TickCircle } from "@/components/iconsax";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { groupIcons } from "@/components/icons";
 import { projectGroups } from "@/data/taxonomy";
 import { cn, faNumber } from "@/lib/utils";
 
@@ -53,19 +52,24 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
     : []), [query]);
   const matchCount = (gid: string) => matches.find((m) => m.g.id === gid)?.subs.length ?? 0;
 
-  const typeItem = (s: (typeof g.subtypes)[number]) => {
+  const typeItem = (s: (typeof g.subtypes)[number], gid = g.id) => {
     const on = types.includes(s.id); const n = counts[`s:${s.id}`] ?? 0;
+    const img = s.image ?? projectGroups.find((x) => x.id === gid)?.image;
     return (
-      <label key={s.id} className={cn("group/t flex cursor-pointer items-start gap-2.5 rounded-2xl border px-3 py-2 transition-colors", on ? "border-primary/50 bg-primary/[0.06]" : "border-transparent hover:bg-muted/70")}>
-        <Checkbox checked={on} onCheckedChange={() => toggleType(s.id)} className="mt-1 bg-white" />
+      <button key={s.id} type="button" role="checkbox" aria-checked={on} onClick={() => toggleType(s.id)}
+        className={cn("group/t relative flex items-center gap-3 rounded-2xl border bg-white p-2 pl-3 text-right transition-all duration-200", on ? "border-ink shadow-[0_10px_24px_-18px_rgb(20_30_45/0.6)]" : "border-border hover:-translate-y-0.5 hover:border-ink/25")}>
+        <span className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-muted">
+          {img && <Image src={img} alt="" fill sizes="48px" className={cn("object-cover transition-all duration-300", on ? "" : "grayscale-[60%] group-hover/t:grayscale-0")} />}
+        </span>
         <span className="min-w-0 flex-1">
           <span className="flex items-center gap-1.5">
-            <span className={cn("text-[13px] font-bold", on ? "text-primary" : "text-ink")}>{s.name}</span>
-            {n > 0 && <span className="rounded-full bg-muted px-1.5 text-[10px] font-bold tabular-nums text-muted-foreground">{faNumber(n)}</span>}
+            <span className="truncate text-[13.5px] font-extrabold text-ink">{s.name}</span>
+            {n > 0 && <span className="text-[11px] font-bold tabular-nums text-muted-foreground">{faNumber(n)} پروژه</span>}
           </span>
-          {s.examples && <span className="mt-0.5 line-clamp-2 text-[11px] leading-5 text-muted-foreground" title={s.examples}>{s.examples}</span>}
+          {s.examples && <span className="mt-0.5 line-clamp-1 text-[11.5px] leading-5 text-muted-foreground" title={s.examples}>{s.examples}</span>}
         </span>
-      </label>
+        {on ? <TickCircle size={21} variant="Bold" className="shrink-0 text-ink" /> : <span className="size-[18px] shrink-0 rounded-full border-[1.5px] border-ink/20" />}
+      </button>
     );
   };
 
@@ -73,7 +77,7 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2 rounded-full border border-border bg-white px-4 transition-shadow focus-within:border-primary/50 focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.1)]">
+      <div className="flex items-center gap-2 rounded-full border border-border bg-white px-4 transition-shadow focus-within:border-ink/25 focus-within:shadow-[0_0_0_4px_rgb(20_30_45/0.06)]">
         <SearchNormal1 size={16} className="shrink-0 text-muted-foreground" />
         <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجو در همه نوع‌ها، مثلاً «هتل» یا «مترو»" aria-label="جست‌وجوی نوع پروژه"
           className="h-11 rounded-none border-0 !bg-transparent px-0 text-[13px] shadow-none focus-visible:ring-0" />
@@ -82,23 +86,25 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
 
       <div className={cn("grid grid-cols-[17rem_minmax(0,1fr)] overflow-hidden rounded-3xl border border-border bg-white", height)}>
         {/* حوزه‌ها */}
-        <div className="flex min-h-0 flex-col border-l border-border bg-muted/50">
-        <p className="shrink-0 px-4 pb-1.5 pt-3 text-[11px] font-bold text-muted-foreground">حوزه را بزنید تا نوع‌هایش را ببینید</p>
-        <ul className="thin-scroll min-h-0 flex-1 space-y-0.5 overflow-y-auto p-2 pt-0" onMouseLeave={() => window.clearTimeout(hoverT.current)}>
+        <div className="flex min-h-0 flex-col border-l border-border bg-[#f5f7fa]">
+        <p className="flex shrink-0 items-center gap-1.5 px-4 pb-2 pt-3.5 text-[11.5px] font-bold text-muted-foreground"><ArrowLeft2 size={13} />روی هر حوزه بروید؛ نوع‌هایش کنارش باز می‌شود</p>
+        <ul className="thin-scroll min-h-0 flex-1 space-y-1 overflow-y-auto p-2 pt-0" onMouseLeave={() => window.clearTimeout(hoverT.current)}>
           {projectGroups.map((x) => {
-            const I = groupIcons[x.id]; const on = groups.includes(x.id); const active = !query && focus === x.id; const nt = typesOf(x.id).length; const mc = matchCount(x.id);
+            const on = groups.includes(x.id); const active = !query && focus === x.id; const nt = typesOf(x.id).length; const mc = matchCount(x.id);
             const dim = !!query && !mc;
             return (
-              <li key={x.id} onMouseEnter={() => peek(x.id)} className={cn("relative flex items-center gap-2 rounded-2xl pr-2.5 transition-colors", active ? "-ml-2 rounded-l-none bg-white pl-2 shadow-[0_6px_18px_-12px_rgb(20_30_45/0.3)]" : "hover:bg-white/70", dim && "opacity-40")}>
-                {active && <motion.span layoutId="type-focus" className="absolute inset-y-2 right-0 w-[3px] rounded-full bg-primary" />}
-                <Checkbox checked={on} onCheckedChange={() => toggleGroup(x.id)} aria-label={`حوزه ${x.name}`} className="bg-white" />
-                <button type="button" onClick={() => { setFocus(x.id); setQ(""); }} className="flex min-w-0 flex-1 items-center gap-2 py-1.5 pl-2 text-right">
-                  <I size={16} variant="Bulk" className={cn("shrink-0", on ? "text-primary" : "text-ink/45")} />
-                  <span className={cn("min-w-0 flex-1 truncate text-[13px]", on ? "font-extrabold text-ink" : "font-semibold text-ink/80")}>{x.name}</span>
-                  {query ? <span className="shrink-0 text-[11px] font-bold text-primary">{mc ? faNumber(mc) : ""}</span>
-                    : nt ? <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-extrabold text-primary">{faNumber(nt)} نوع</span>
-                    : <span className="shrink-0 text-[11px] font-semibold text-muted-foreground tabular-nums">{faNumber(x.subtypes.length)} نوع</span>}
-                  <ArrowLeft2 size={13} className={cn("shrink-0 transition-all", active ? "text-ink" : "text-ink/30")} />
+              <li key={x.id} onMouseEnter={() => peek(x.id)} className={cn("relative", dim && "opacity-40")}>
+                {active && <motion.span layoutId="type-focus" className="absolute inset-0 -ml-2 rounded-2xl rounded-l-none bg-white shadow-[0_8px_22px_-14px_rgb(20_30_45/0.35)]" transition={{ type: "spring", stiffness: 420, damping: 36 }} />}
+                <button type="button" onClick={() => { setFocus(x.id); setQ(""); }} aria-expanded={active} className="relative flex w-full items-center gap-2.5 rounded-2xl p-1.5 pl-2 text-right">
+                  <span className="relative size-9 shrink-0 overflow-hidden rounded-xl bg-muted">
+                    {x.image && <Image src={x.image} alt="" fill sizes="36px" className={cn("object-cover transition-all duration-300", active || on ? "" : "grayscale")} />}
+                    {on && <span className="absolute inset-0 grid place-items-center bg-ink/55"><TickCircle size={18} variant="Bold" className="text-white" /></span>}
+                  </span>
+                  <span className={cn("min-w-0 flex-1 truncate text-[13.5px]", active || on ? "font-extrabold text-ink" : "font-semibold text-ink/75")}>{x.name}</span>
+                  {query ? <span className="shrink-0 text-[11px] font-bold text-ink">{mc ? faNumber(mc) : ""}</span>
+                    : on ? <span className="shrink-0 rounded-full bg-ink px-2 py-0.5 text-[10.5px] font-extrabold text-white">{nt ? `${faNumber(nt)} نوع` : "همه"}</span>
+                    : <span className="shrink-0 text-[11px] font-semibold tabular-nums text-muted-foreground">{faNumber(x.subtypes.length)} نوع</span>}
+                  <ArrowLeft2 size={14} className={cn("shrink-0 transition-all duration-300", active ? "-translate-x-0.5 text-ink" : "text-ink/25")} />
                 </button>
               </li>
             );
@@ -107,7 +113,7 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
         </div>
 
         {/* نوع‌ها */}
-        <div className="thin-scroll overflow-y-auto p-3">
+        <div className="thin-scroll overflow-y-auto p-4">
           <AnimatePresence mode="wait" initial={false}>
             {query ? (
               <motion.div key="q" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="space-y-4">
@@ -115,22 +121,22 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
                 {matches.map(({ g: x, subs }) => (
                   <div key={x.id}>
                     <p className="mb-1.5 px-1 text-[11px] font-extrabold text-muted-foreground">{x.name}</p>
-                    <div className="grid grid-cols-2 gap-1">{subs.map((s) => typeItem(s))}</div>
+                    <div className="grid grid-cols-2 gap-2">{subs.map((s) => typeItem(s, x.id))}</div>
                   </div>
                 ))}
               </motion.div>
             ) : (
               <motion.div key={g.id} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 8 }} transition={{ duration: 0.18 }}>
-                <div className="relative isolate -mx-3 -mt-3 mb-3 flex h-20 items-end justify-between gap-3 overflow-hidden px-4 pb-3">
+                <div className="relative isolate -mx-4 -mt-4 mb-4 flex h-28 items-end justify-between gap-3 overflow-hidden px-5 pb-4">
                   {g.image && <Image src={g.image} alt="" fill sizes="40rem" className="-z-10 object-cover" />}
                   <span className="absolute inset-0 -z-10 bg-[linear-gradient(to_left,rgb(12_13_14/0.82),rgb(12_13_14/0.45))]" />
-                  <p className="text-[15px] font-extrabold text-white">{g.name}<span className="mr-2 text-[11px] font-semibold text-white/70">{faNumber(g.subtypes.length)} نوع{counts[g.id] ? ` · ${faNumber(counts[g.id])} پروژه` : ""}</span></p>
+                  <p className="text-[1.35rem] font-black text-white">{g.name}<span className="mr-2.5 text-[12px] font-semibold text-white/70">{faNumber(g.subtypes.length)} نوع{counts[g.id] ? ` · ${faNumber(counts[g.id])} پروژه` : ""}</span></p>
                   <label className={cn("flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1.5 text-[12px] font-bold backdrop-blur-sm transition-colors", groups.includes(g.id) && !typesOf(g.id).length ? "border-white bg-white text-ink" : "border-white/40 bg-white/10 text-white hover:bg-white/20")}>
                     <Checkbox checked={groups.includes(g.id) && !typesOf(g.id).length} onCheckedChange={(c) => (c ? allOf(g.id) : toggleGroup(g.id))} className="bg-white" />
                     همه نوع‌های {g.name}
                   </label>
                 </div>
-                <div className="grid grid-cols-2 gap-1">{g.subtypes.map((s) => typeItem(s))}</div>
+                <div className="grid grid-cols-2 gap-2">{g.subtypes.map((s) => typeItem(s))}</div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -146,11 +152,11 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
           <span className="ml-1 text-[12px] font-bold text-muted-foreground">انتخاب‌ها:</span>
           {picked.map((x) => { const ts = typesOf(x.id).map((t) => x.subtypes.find((s) => s.id === t)?.name);
             return (
-              <span key={x.id} className="inline-flex max-w-full items-center gap-1 rounded-full bg-primary/10 py-1 pl-1.5 pr-3 text-[12px] font-bold text-primary">
+              <span key={x.id} className="inline-flex max-w-full items-center gap-1 rounded-full bg-ink/[0.06] py-1 pl-1.5 pr-3 text-[12px] font-bold text-ink">
                 <button type="button" onClick={() => { setFocus(x.id); setQ(""); }} className="min-w-0 truncate" title={ts.join("، ")}>
-                  {x.name}<span className="font-semibold text-primary/75">: {ts.length ? (ts.length > 2 ? `${ts.slice(0, 2).join("، ")} و ${faNumber(ts.length - 2)} نوع دیگر` : ts.join("، ")) : "همه نوع‌ها"}</span>
+                  {x.name}<span className="font-semibold text-ink/60">: {ts.length ? (ts.length > 2 ? `${ts.slice(0, 2).join("، ")} و ${faNumber(ts.length - 2)} نوع دیگر` : ts.join("، ")) : "همه نوع‌ها"}</span>
                 </button>
-                <button type="button" onClick={() => toggleGroup(x.id)} aria-label={`حذف ${x.name}`} className="shrink-0 rounded-full text-primary/60 hover:text-primary"><CloseCircle size={15} variant="Bulk" /></button>
+                <button type="button" onClick={() => toggleGroup(x.id)} aria-label={`حذف ${x.name}`} className="shrink-0 rounded-full text-ink/40 hover:text-ink"><CloseCircle size={15} variant="Bulk" /></button>
               </span>
             ); })}
           <Button variant="ghost" size="sm" onClick={() => onChange([], [])} className="h-8 rounded-full px-3 text-[12px] font-bold text-muted-foreground">پاک کردن همه</Button>

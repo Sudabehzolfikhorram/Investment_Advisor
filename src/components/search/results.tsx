@@ -34,7 +34,7 @@ import { GroupTypePicker } from "./type-picker";
 import { Chip } from "./controls";
 import { BudgetField } from "./budget-field";
 import { LocationFields, ProvincePicker } from "./province-picker";
-import { ProProfileCard } from "./pro-profile";
+import { ProProfileBar, ProProfileCard } from "./pro-profile";
 import { SaveCriteriaDialog, SavedCriteriaMenu, useProfileStats } from "./save-criteria";
 
 const PAGE = 12;
@@ -116,23 +116,23 @@ function Intake({ count }: { count: number }) {
         <div className="surface mt-6 flex flex-wrap items-center gap-2 rounded-3xl p-4">
           <span className="ml-1 text-[13px] font-bold text-ink">از جست‌وجوهای ذخیره‌شده ادامه دهید:</span>
           {profiles.map((p) => (
-            <Button key={p.id} variant="outline" onClick={() => applyProfile(p.id)} className="h-10 gap-2 rounded-full bg-white px-4 text-[13px] font-bold shadow-none hover:border-primary hover:text-primary">
+            <Button key={p.id} variant="outline" onClick={() => applyProfile(p.id)} className="h-10 gap-2 rounded-full bg-white px-4 text-[13px] font-bold shadow-none hover:border-ink/25 hover:text-ink">
               {p.name}{(stats[p.id]?.fresh ?? 0) > 0 && <Badge className="px-2 text-[11px]">{faNumber(stats[p.id].fresh)} تازه</Badge>}
             </Button>
           ))}
         </div>
       )}
 
-      <ProProfileCard className="mt-4" />
+      <ProProfileBar className="mt-5" />
 
       <Card className="surface mt-6 block gap-0 rounded-[2rem] p-8 shadow-none">
         <Step n={1} title="چطور وارد می‌شوید؟" hint="یک مسیر را انتخاب کنید؛ پروژه‌ها و فیلترهای هر مسیر فرق دارد.">
           <ToggleGroup type="single" spacing={2} value={criteria.route} onValueChange={(v) => v && changeRoute(v as RouteId)} className="grid w-full grid-cols-4 items-stretch">
             {routes.map((r) => { const I = routeIcons[r.id];
               return (
-                <ToggleGroupItem key={r.id} value={r.id} className="group/r h-full min-h-[6.5rem] min-w-0 flex-col items-start justify-between gap-2 whitespace-normal rounded-2xl border border-border bg-white p-3.5 text-right shadow-none hover:border-primary/40 hover:bg-white data-[state=on]:border-primary data-[state=on]:bg-primary/[0.05]">
+                <ToggleGroupItem key={r.id} value={r.id} className="group/r h-full min-h-[6.5rem] min-w-0 flex-col items-start justify-between gap-2 whitespace-normal rounded-2xl border border-border bg-white p-3.5 text-right shadow-none hover:border-ink/25 hover:bg-white data-[state=on]:border-ink data-[state=on]:bg-ink/[0.03]">
                   <span className="flex w-full items-center justify-between">
-                    <span className="grid size-9 place-items-center rounded-xl bg-muted text-ink/70 group-data-[state=on]/r:bg-primary group-data-[state=on]/r:text-white"><I size={18} variant="Bulk" /></span>
+                    <span className="grid size-9 place-items-center rounded-xl bg-muted text-ink/70 group-data-[state=on]/r:bg-ink group-data-[state=on]/r:text-white"><I size={18} variant="Bulk" /></span>
                     <span className="text-[11px] font-semibold text-muted-foreground">{faNumber(routeCounts[r.id])} پروژه</span>
                   </span>
                   <span className="text-[13px] font-extrabold leading-5 text-ink">{r.name}</span>
@@ -229,7 +229,7 @@ function ActiveChips({ chips }: { chips: CriteriaChip[] }) {
   return (
     <div className="mt-3 flex flex-wrap items-center gap-2">
             {chips.map((c) => (
-        <Badge key={c.key} variant="outline" className="gap-1 border-primary/25 bg-primary/[0.05] py-1 pl-1 pr-3 text-[12px] font-bold text-ink">
+        <Badge key={c.key} variant="outline" className="gap-1 border-ink/25 bg-ink/[0.03] py-1 pl-1 pr-3 text-[12px] font-bold text-ink">
           {c.label}
           <Button variant="plain" size="auto" aria-label={`حذف ${c.label}`} onClick={() => remove(c)} className="grid size-5 place-items-center rounded-full text-ink/50 hover:bg-destructive/10 hover:text-destructive"><CloseCircle size={15} variant="Bold" /></Button>
         </Badge>
@@ -261,7 +261,7 @@ function RouteTabs({ routeCounts, active, onChange }: { routeCounts: Record<stri
   // کشیدن با ماوس برای اسکرول افقی؛ اگر کشیده شد، کلیک روی تب انجام نمی‌شود
   const drag = useRef<{ x: number; s: number; moved: boolean } | null>(null);
   const dragged = useRef(false);
-  const arrow = "absolute top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full border border-border bg-white text-ink shadow-md opacity-0 transition-opacity duration-200 group-hover/strip:opacity-100 focus-visible:opacity-100 hover:border-primary hover:text-primary";
+  const arrow = "absolute top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full border border-border bg-white text-ink shadow-md opacity-0 transition-opacity duration-200 group-hover/strip:opacity-100 focus-visible:opacity-100 hover:border-ink/25 hover:text-ink";
   return (
     <div className="group/strip relative">
       <div ref={ref} role="tablist" aria-label="مسیر ورود" className="hover-scroll -mx-3 -my-2 flex cursor-grab gap-2 overflow-x-auto px-3 py-4 select-none active:cursor-grabbing"
@@ -272,7 +272,7 @@ function RouteTabs({ routeCounts, active, onChange }: { routeCounts: Record<stri
         {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === active;
           return (
             <Button key={r.id} role="tab" aria-selected={on} type="button" variant="plain" size="auto" onClick={() => onChange(r.id)}
-              className={cn("h-11 flex-none gap-2 whitespace-nowrap rounded-full border px-4 text-[13px] font-extrabold transition-[background-color,border-color,color,box-shadow]", on ? "border-primary bg-primary text-white shadow-[0_6px_14px_-6px_rgb(15_118_110/0.55)]" : "border-border bg-white text-ink/70 hover:border-primary/40 hover:text-primary")}>
+              className={cn("h-11 flex-none gap-2 whitespace-nowrap rounded-full border px-4 text-[13px] font-extrabold transition-[background-color,border-color,color,box-shadow]", on ? "border-ink bg-ink text-white shadow-[0_6px_14px_-6px_rgb(20_30_45/0.45)]" : "border-border bg-white text-ink/70 hover:border-ink/25 hover:text-ink")}>
               <I size={17} variant="Bulk" className="shrink-0" />{r.name}
               {/* عرض ثابت به اندازه بزرگ‌ترین عدد، تا با تغییر عدد یا انتخاب، اندازه دکمه عوض نشود */}
               <span style={{ width: `${countDigits + 1.2}ch` }} className={cn("inline-block shrink-0 rounded-full text-center text-[11px] font-bold tabular-nums", on ? "bg-white/20 text-white" : "bg-muted text-ink/60")}>{faNumber(routeCounts[r.id])}</span>
@@ -300,7 +300,7 @@ function CompareBar() {
   ];
   return (
     <>
-      <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="fixed inset-x-0 bottom-5 z-40 mx-auto flex w-fit items-center gap-3 rounded-full bg-pine p-2 pr-5 text-white shadow-[0_18px_40px_-16px_rgb(8_59_55/0.6)]">
+      <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="fixed inset-x-0 bottom-5 z-40 mx-auto flex w-fit items-center gap-3 rounded-full bg-pine p-2 pr-5 text-white shadow-[0_18px_40px_-16px_rgb(22_32_48/0.6)]">
         <span className="text-sm font-extrabold">{faNumber(items.length)} پروژه برای مقایسه</span>
         <Button type="button" disabled={items.length < 2} onClick={() => setOpen(true)} className="h-10 rounded-full bg-primary px-5 font-extrabold text-white hover:bg-primary/90 disabled:opacity-60">{items.length < 2 ? "یک پروژه دیگر انتخاب کنید" : "مقایسه"}</Button>
         <Button type="button" variant="plain" size="auto" aria-label="پاک کردن مقایسه" onClick={clearCompare} className="grid size-10 place-items-center rounded-full text-ink/50 hover:bg-white hover:text-ink"><CloseCircle size={20} /></Button>
@@ -312,7 +312,7 @@ function CompareBar() {
             <span />
             {items.map((l) => (
               <div key={l.id} className="pb-4">
-                <Link href={`/opportunities/${l.id}`} className="line-clamp-2 min-h-12 text-[15px] font-extrabold leading-6 text-ink hover:text-primary">{l.title}</Link>
+                <Link href={`/opportunities/${l.id}`} className="line-clamp-2 min-h-12 text-[15px] font-extrabold leading-6 text-ink hover:text-ink">{l.title}</Link>
                 <Button type="button" variant="ghost" size="xs" onClick={() => toggleCompare(l.id)} className="-mr-2 mt-1 font-bold text-muted-foreground hover:text-destructive">حذف</Button>
               </div>
             ))}
@@ -432,7 +432,7 @@ export function Results() {
                   <Card className="surface block rounded-[2rem] p-7 shadow-none"><LegacyTool opener={toolById("charity")!.opener} root={toolById("charity")!.root} /></Card>
                 ) : feed.length === 0 ? (
                   <Card className="surface grid place-items-center gap-0 rounded-[2rem] px-6 py-20 text-center shadow-none">
-                    <span className="grid size-16 place-items-center rounded-full bg-primary/10 text-primary"><SearchNormal1 size={28} variant="Bulk" /></span>
+                    <span className="grid size-16 place-items-center rounded-full bg-ink/[0.06] text-primary"><SearchNormal1 size={28} variant="Bulk" /></span>
                     <h2 className="mt-5 text-xl font-extrabold text-ink">{all.length === 0 ? "در این مسیر هنوز پروژه‌ای نیست." : "با این فیلترها پروژه‌ای پیدا نشد."}</h2>
                     <p className="mt-2 max-w-md text-sm leading-7 text-muted-foreground">{all.length === 0 ? "این جست‌وجو را ذخیره کنید تا پروژه‌های تازه را دفعه بعد همین‌جا ببینید." : "یکی دو فیلتر را بردارید تا نتایج بیشتری ببینید."}</p>
                     {all.length === 0 && <Button onClick={() => setSaveOpen(true)} className="mt-6 h-12 gap-2 rounded-full px-6 font-bold"><Save2 size={18} />ذخیره جست‌وجو</Button>}
@@ -449,7 +449,7 @@ export function Results() {
                 {related.length > 0 && (
                   <div className="mt-12 flex flex-wrap items-center gap-2.5 border-t border-border pt-6">
                     <span className="ml-1 text-[13px] font-extrabold text-ink">خدمات مرتبط با این مسیر</span>
-                    {related.map((t) => <Button key={t.id} asChild variant="outline" className="h-10 rounded-full bg-white px-4 text-[13px] font-bold shadow-none hover:border-primary hover:text-primary"><Link href={`/tools/${t.id}`}>{t.name}</Link></Button>)}
+                    {related.map((t) => <Button key={t.id} asChild variant="outline" className="h-10 rounded-full bg-white px-4 text-[13px] font-bold shadow-none hover:border-ink/25 hover:text-ink"><Link href={`/tools/${t.id}`}>{t.name}</Link></Button>)}
                   </div>
                 )}
               </section>

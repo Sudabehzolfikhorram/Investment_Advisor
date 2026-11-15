@@ -27,7 +27,7 @@ export function SaveCriteriaDialog({ open, onOpenChange }: { open: boolean; onOp
     const n = name.trim() || "جست‌وجوی من";
     onOpenChange(false);
     if (!user) return openLogin({ type: "save-criteria", name: n });
-    saveProfile(n); toast.success("جست‌وجو ذخیره شد.", { description: "دفعه بعد از «جست‌وجوهای من» با یک کلیک برگردید." });
+    saveProfile(n); toast.success("جست‌وجو ذخیره شد.", { description: "دفعه بعد از «فیلترهای من» در علاقه‌مندی‌ها با یک کلیک برگردید." });
   };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -76,7 +76,7 @@ export function SavedCriteriaMenu({ onSave, saved }: { onSave: () => void; saved
     <DropdownMenu dir="rtl">
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="h-11 gap-2 rounded-full bg-white px-4 text-sm font-bold text-ink shadow-none">
-          <ArchiveTick size={18} variant="Bulk" className="text-primary" />جست‌وجوهای من
+          <ArchiveTick size={18} variant="Bulk" className="text-ink" />فیلترهای من
           {list.length > 0 && <Badge className="h-5 min-w-5 px-1 text-[11px]">{faNumber(list.length)}</Badge>}
           <ArrowDown2 size={14} className="text-muted-foreground" />
         </Button>

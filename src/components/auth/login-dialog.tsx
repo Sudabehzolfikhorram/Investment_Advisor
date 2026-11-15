@@ -54,7 +54,7 @@ export function LoginDialog() {
             </div>
           </SignaturePhoto>
           <div className="flex flex-col p-8 pt-10">
-            <span className="grid size-12 place-items-center rounded-2xl bg-primary/10 text-primary">{step === "mobile" ? <Mobile size={24} variant="Bulk" /> : <ShieldTick size={24} variant="Bulk" />}</span>
+            <span className="grid size-12 place-items-center rounded-2xl bg-ink/[0.06] text-primary">{step === "mobile" ? <Mobile size={24} variant="Bulk" /> : <ShieldTick size={24} variant="Bulk" />}</span>
             <DialogTitle className="mt-5 text-right text-[22px] font-black leading-9 text-ink">{step === "mobile" ? "ورود با شماره موبایل" : "کد تأیید را وارد کنید"}</DialogTitle>
             <DialogDescription className="mt-1 text-right text-[13px] leading-7 text-muted-foreground">
               {step === "mobile" ? `${reason} فقط شماره موبایل لازم است؛ نام و رمز نمی‌خواهیم.` : `کد پنج‌رقمی به ${faDigits(mobile)} فرستاده شد.`}
@@ -69,7 +69,7 @@ export function LoginDialog() {
               <Button type="submit" disabled={step === "mobile" ? !validMobile : code.length !== 5} className="h-12 w-full rounded-2xl text-base font-bold">
                 {step === "mobile" ? "دریافت کد" : "ورود"}
               </Button>
-              {step === "code" && <Button variant="plain" size="auto" type="button" onClick={() => setStep("mobile")} className="w-full text-center text-sm font-semibold text-muted-foreground hover:text-primary">ویرایش شماره</Button>}
+              {step === "code" && <Button variant="plain" size="auto" type="button" onClick={() => setStep("mobile")} className="w-full text-center text-sm font-semibold text-muted-foreground hover:text-ink">ویرایش شماره</Button>}
             </form>
             <p className="mt-auto flex items-center gap-2 pt-6 text-xs font-semibold text-muted-foreground"><Lock1 size={15} variant="Bulk" className="shrink-0 text-primary" />شماره شما فقط برای ورود استفاده می‌شود.</p>
           </div>
@@ -93,7 +93,7 @@ function CodeBoxes({ value, onChange }: { value: string; onChange: (v: string) =
       <div className="grid grid-cols-5 gap-2.5" aria-hidden>
         {Array.from({ length: 5 }, (_, i) => (
           <span key={i} className={cn("grid h-14 place-items-center rounded-2xl border bg-white text-2xl font-black text-ink transition-colors",
-            focus && i === Math.min(value.length, 4) ? "border-primary ring-[3px] ring-primary/15" : value[i] ? "border-pine/25" : "border-border")}>{value[i] ? faDigits(value[i]) : ""}</span>
+            focus && i === Math.min(value.length, 4) ? "border-primary ring-[3px] ring-ink/10" : value[i] ? "border-pine/25" : "border-border")}>{value[i] ? faDigits(value[i]) : ""}</span>
         ))}
       </div>
       <Input ref={ref} inputMode="numeric" autoComplete="one-time-code" value={value} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}
@@ -110,7 +110,7 @@ function SaveInfoDialog({ open, onOpenChange, onSave }: { open: boolean; onOpenC
       <DialogContent className="overflow-hidden rounded-[2rem] bg-white p-0 sm:max-w-[34rem] [&_[data-slot=dialog-close-x]]:bg-white/90">
         <div className="relative">
           <SignaturePhoto src="/images/hero/towers.jpg" alt="" sizes="560px" mark={false} className="h-36" />
-          <span className="absolute bottom-0 right-8 grid size-16 translate-y-1/2 place-items-center rounded-[1.25rem] bg-white text-primary shadow-[0_18px_40px_-18px_rgb(8_59_55/0.5)]"><UserEdit size={30} variant="Bulk" /></span>
+          <span className="absolute bottom-0 right-8 grid size-16 translate-y-1/2 place-items-center rounded-[1.25rem] bg-white text-primary shadow-[0_18px_40px_-18px_rgb(22_32_48/0.5)]"><UserEdit size={30} variant="Bulk" /></span>
         </div>
         <div className="px-8 pb-8 pt-12">
           <DialogTitle className="text-right text-[22px] font-black leading-9 text-ink">اطلاعاتتان را یک بار ذخیره کنید</DialogTitle>
@@ -118,7 +118,7 @@ function SaveInfoDialog({ open, onOpenChange, onSave }: { open: boolean; onOpenC
           <ul className="mt-6 space-y-3">
             {perks.slice(1).concat({ I: Lock1, t: "فقط روی همین دستگاه می‌ماند", d: "هر وقت خواستید از «ذخیره‌شده‌ها» ویرایش یا پاکش کنید." }).map(({ I, t, d }) => (
               <li key={t} className="flex items-start gap-3.5 rounded-2xl border border-border bg-[#f8faf9] p-3.5">
-                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><I size={20} variant="Bulk" /></span>
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-ink/[0.06] text-primary"><I size={20} variant="Bulk" /></span>
                 <span className="min-w-0"><b className="block text-sm font-extrabold leading-6 text-ink">{t}</b><span className="text-[12.5px] leading-6 text-muted-foreground">{d}</span></span>
               </li>
             ))}

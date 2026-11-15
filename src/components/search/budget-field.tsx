@@ -16,7 +16,7 @@ function NumberBox({ label, value, onCommit }: { label: string; value: number; o
   useEffect(() => setText(faNumber(value)), [value]);
   const commit = () => { const n = Number(toLatin(text)); if (Number.isFinite(n) && text.trim() !== "") onCommit(n); else setText(faNumber(value)); };
   return (
-    <label className="flex h-14 min-w-0 flex-1 flex-col justify-center rounded-2xl border border-border bg-white px-4 transition-colors focus-within:border-primary">
+    <label className="flex h-14 min-w-0 flex-1 flex-col justify-center rounded-2xl border border-border bg-white px-4 transition-colors focus-within:border-ink/40">
       <span className="text-[11px] font-semibold text-muted-foreground">{label}</span>
       <Input value={text} inputMode="decimal" onChange={(e) => setText(e.target.value)} onBlur={commit} onKeyDown={(e) => e.key === "Enter" && commit()}
         className="h-6 rounded-none border-0 bg-transparent p-0 text-base font-extrabold text-ink shadow-none focus-visible:ring-0" />
@@ -73,8 +73,8 @@ export function BudgetField({ min, max, step = 1, unit, label, value, onChange, 
         {presets.map(([a, b]) => { const on = v[0] === a && v[1] === b; const n = inRange(a, b);
           return (
             <Button key={`${a}-${b}`} type="button" variant="outline" onClick={() => set(a, b)} aria-pressed={on}
-              className={cn("h-auto flex-col items-start gap-0.5 rounded-2xl bg-white px-3 py-2.5 text-right shadow-none hover:border-primary/40 hover:bg-white", on && "border-primary bg-primary/[0.05] hover:bg-primary/[0.05]")}>
-              <span className={cn("text-[13px] font-extrabold", on ? "text-primary" : "text-ink")}>{a === min ? `تا ${faNumber(b)}` : b === max ? `بیش از ${faNumber(a)}` : `${faNumber(a)} تا ${faNumber(b)}`}</span>
+              className={cn("h-auto flex-col items-start gap-0.5 rounded-2xl bg-white px-3 py-2.5 text-right shadow-none hover:border-ink/25 hover:bg-white", on && "border-ink bg-ink/[0.03] hover:bg-ink/[0.03]")}>
+              <span className={cn("text-[13px] font-extrabold", "text-ink")}>{a === min ? `تا ${faNumber(b)}` : b === max ? `بیش از ${faNumber(a)}` : `${faNumber(a)} تا ${faNumber(b)}`}</span>
               <span className="text-[11px] font-semibold text-muted-foreground">{n ? `${faNumber(n)} پروژه` : "بدون پروژه"}</span>
             </Button>
           ); })}
@@ -106,14 +106,14 @@ function BudgetArea({ bins, peak, lo, hi, last }: { bins: number[]; peak: number
   return (
     <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="block h-16 w-full px-2" aria-hidden>
       <defs>
-        <linearGradient id={`g${id}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="var(--primary)" stopOpacity="0.55" /><stop offset="1" stopColor="var(--primary)" stopOpacity="0.08" /></linearGradient>
+        <linearGradient id={`g${id}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#4a5a70" stopOpacity="0.5" /><stop offset="1" stopColor="#4a5a70" stopOpacity="0.06" /></linearGradient>
         <clipPath id={`c${id}`}><rect x={x1} y="0" width={Math.max(0, x2 - x1)} height={H} style={{ transition: "x 0.2s, width 0.2s" }} /></clipPath>
       </defs>
       <path d={area} fill="rgb(47 53 51 / 0.07)" />
       <path d={d} fill="none" stroke="rgb(47 53 51 / 0.22)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
       <g clipPath={`url(#c${id})`}>
         <path d={area} fill={`url(#g${id})`} />
-        <path d={d} fill="none" stroke="var(--primary)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+        <path d={d} fill="none" stroke="#2f3533" strokeWidth="2" vectorEffect="non-scaling-stroke" />
       </g>
     </svg>
   );

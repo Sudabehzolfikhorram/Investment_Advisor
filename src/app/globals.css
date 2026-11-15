@@ -6,30 +6,30 @@
 
 :root {
   --radius: 1rem;
-  --background: #f6f8fb; /* سفید با ته‌مایه آبی */
+  --background: #f3f6fa; /* سفید با ته‌مایه آبی (نه سبز) */
   --foreground: #2f3533; /* متن: زغالی خنثی با ته‌مایه بسیار کم سبز، کنتراست ۱۲٫۵ روی سفید */
   --card: #ffffff;
-  --card-foreground: #083b37;
+  --card-foreground: #2f3533;
   --popover: #ffffff;
-  --popover-foreground: #083b37;
+  --popover-foreground: #2f3533;
   --primary: #0f766e; /* بازآفرینی */
   --primary-foreground: #ffffff;
-  --secondary: #f1f4f8;
-  --secondary-foreground: #0b3b37;
-  --muted: #f1f4f8;
-  --muted-foreground: #626a75;
+  --secondary: #eef2f7;
+  --secondary-foreground: #2f3533;
+  --muted: #eef2f7;
+  --muted-foreground: #5f6875;
   --accent: #eef2f7;
-  --accent-foreground: #0b3b37;
+  --accent-foreground: #2f3533;
   --destructive: #c2410c;
-  --border: #e3e8ef;
-  --input: #e3e8ef;
-  --ring: #0f766e;
+  --border: #e1e7ef;
+  --input: #e1e7ef;
+  --ring: #4a5a70;
   --ink: #2f3533;
-  --deep: #083b37;
-  /* سطح‌های تیره (به جای مشکی) */
-  --pine: #083b37;
-  --pine-soft: #dcecea; /* تینت ۱۰۰ */
-  --pine-deep: #0e5049;
+  --deep: #262c33;
+  /* سطح‌های تیره: زغالی با ته‌مایه آبی (دور ۱۸: سبزِ تیره برداشته شد تا طرح تمیز و خنثی بماند) */
+  --pine: #262c33;
+  --pine-soft: #e6ebf2;
+  --pine-deep: #1d2228;
   /* نارنجی تیره: فقط برای چند دکمه کلیدی (ذخیره و تماس) */
   --coral: #e0603f;
   --coral-deep: #c64d2f;
@@ -97,14 +97,14 @@
     backdrop-filter: blur(24px) saturate(140%);
     -webkit-backdrop-filter: blur(24px) saturate(140%);
     border: 1px solid rgb(255 255 255 / 0.75);
-    box-shadow: 0 1px 0 rgb(255 255 255 / 0.8) inset, 0 18px 50px -26px rgb(8 59 55 / 0.18);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.8) inset, 0 18px 50px -26px rgb(22 32 48 / 0.18);
   }
   .glass-strong {
     background: linear-gradient(135deg, rgb(255 255 255 / 0.96), rgb(255 255 255 / 0.88));
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     border: 1px solid rgb(255 255 255 / 0.9);
-    box-shadow: 0 1px 0 #fff inset, 0 30px 70px -34px rgb(8 59 55 / 0.28);
+    box-shadow: 0 1px 0 #fff inset, 0 30px 70px -34px rgb(22 32 48 / 0.28);
   }
   .glass-dark {
     background: linear-gradient(135deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.06));
@@ -112,11 +112,11 @@
     -webkit-backdrop-filter: blur(18px) saturate(140%);
     border: 1px solid rgb(255 255 255 / 0.22);
   }
-  .soft-shadow { box-shadow: 0 24px 60px -34px rgb(8 59 55 / 0.22); }
-  .surface { background: #fff; border: 1px solid var(--border); box-shadow: 0 1px 2px rgb(8 59 55 / 0.03), 0 16px 40px -30px rgb(8 59 55 / 0.16); }
+  .soft-shadow { box-shadow: 0 24px 60px -34px rgb(22 32 48 / 0.22); }
+  .surface { background: #fff; border: 1px solid var(--border); box-shadow: 0 1px 2px rgb(22 32 48 / 0.03), 0 16px 40px -30px rgb(22 32 48 / 0.16); }
   /* اسکرول افقی باریک که فقط با هاور دیده می‌شود */
   .hover-scroll { scrollbar-width: thin; scrollbar-color: transparent transparent; transition: scrollbar-color 0.2s; }
-  .hover-scroll:hover { scrollbar-color: rgb(8 59 55 / 0.22) transparent; }
+  .hover-scroll:hover { scrollbar-color: rgb(22 32 48 / 0.22) transparent; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { scrollbar-width: none; }
   .thin-scroll { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
