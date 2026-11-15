@@ -50,7 +50,7 @@ export function HelpCenter() {
     <section className={sectionCls}>
       <SectionHead kicker="راهنما" title="پیش از تصمیم، این پرسش‌ها را روشن کنید" text="پاسخ کوتاه پرسش‌های رایج درباره قرارداد، تضمین و حقوق ملک."
         aside={<Link href="/tools/library" className="group inline-flex h-12 items-center gap-2 rounded-full border border-pine/15 bg-white/60 px-5 text-sm font-extrabold text-ink transition-colors hover:border-primary hover:text-primary">همه راهنماها و منابع<ArrowLeft size={17} className="transition-transform group-hover:-translate-x-1" /></Link>} />
-      <Reveal className="mt-10 grid grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] gap-6">
+      <Reveal className="mt-8 grid grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] gap-6">
         {/* پرسش‌ها */}
         <ol className="space-y-1.5">
           {topics.map((x, i) => { const I = topicIcons[x.id] ?? MessageQuestion; const on = i === active;
@@ -211,44 +211,46 @@ export function Categories() {
               <div className={cn("absolute inset-0 transition-colors duration-500", on ? "bg-[linear-gradient(to_left,rgb(10_11_12/0.88),rgb(10_11_12/0.55)_45%,rgb(10_11_12/0.15))]" : "bg-[#141618]/75 group-hover/panel:bg-[#141618]/60")} />
 
               {/* حالت بسته: آیکون و نام افقی */}
-              <div className={cn("absolute inset-0 flex items-center gap-3 px-5 transition-opacity duration-300", on ? "pointer-events-none opacity-0" : "opacity-100")}>
-                <I size={19} variant="Bulk" className="shrink-0 text-white/80" />
-                <span className="text-[14px] font-extrabold">{g.name}</span>
-                <span className="text-[11px] font-bold text-white/50">{faNumber(g.subtypes.length)} نوع</span>
-                <span className="mr-auto text-[12px] font-bold text-white/70">{faNumber(counts.g[g.id] ?? 0)} پروژه</span>
+              <div className={cn("absolute inset-0 flex items-center gap-3 px-6 transition-opacity duration-300", on ? "pointer-events-none opacity-0" : "opacity-100")}>
+                <I size={20} variant="Bulk" className="shrink-0 text-white/80" />
+                <span className="text-[15px] font-extrabold">{g.name}</span>
+                <span className="text-[12px] font-bold text-white/50">{faNumber(g.subtypes.length)} نوع</span>
+                <span className="mr-auto text-[13px] font-bold text-white/70">{faNumber(counts.g[g.id] ?? 0)} پروژه</span>
               </div>
 
-              {/* حالت باز: زیردسته‌ها */}
+              {/* حالت باز: بالا آیکون و دکمه «همه پروژه‌ها»، پایین تیتر و نوع‌ها در یک ردیف */}
               <AnimatePresence>
                 {on && (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.18 } }} exit={{ opacity: 0, transition: { duration: 0.1 } }} className="absolute inset-0 flex min-h-[18rem] flex-col justify-between p-7">
-                    <div className="flex items-start justify-between gap-3">
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.18 } }} exit={{ opacity: 0, transition: { duration: 0.1 } }} className="absolute inset-0 flex min-h-[17rem] flex-col justify-between p-8">
+                    <div className="flex items-center justify-between gap-4">
                       <span className="grid size-12 place-items-center rounded-2xl bg-white/15 text-white backdrop-blur-sm"><I size={24} variant="Bulk" /></span>
-                      <AnimatePresence mode="wait">
-                        <motion.span key={preview?.name ?? "g"} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="glass-dark max-w-[24rem] truncate rounded-full px-3.5 py-1.5 text-xs font-bold">
-                          {preview ? preview.name : `${faNumber(counts.g[g.id] ?? 0)} پروژه`}
-                        </motion.span>
-                      </AnimatePresence>
+                      <Button variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id); }} className="group/all h-12 gap-3 rounded-full bg-white pl-1.5 pr-5 text-[14.5px] font-extrabold text-ink shadow-[0_12px_30px_-14px_rgb(0_0_0/0.6)] hover:bg-white/90">
+                        همه پروژه‌های {g.name}<span className="grid size-9 place-items-center rounded-full bg-coral text-white transition-transform group-hover/all:-translate-x-1"><ArrowLeft size={17} /></span>
+                      </Button>
                     </div>
-                    <div className="max-w-3xl">
-                      <p className="mb-1 flex items-center gap-1.5 text-xs font-bold text-white/70">{route.name}<ArrowLeft size={13} />حوزه</p>
-                      <motion.h3 initial={{ y: 16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.22, duration: 0.5 }} className="text-3xl font-black">{g.name}</motion.h3>
-                      <ul className="mt-4 flex flex-wrap gap-2">
+                    <div className="min-w-0">
+                      <p className="flex items-center gap-1.5 text-[14px] font-bold text-white/70">{route.name}<ArrowLeft size={14} />حوزه</p>
+                      <div className="mt-1 flex items-end gap-4">
+                        <motion.h3 initial={{ y: 16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.22, duration: 0.5 }} className="text-[2.4rem] font-black leading-[1.35]">{g.name}</motion.h3>
+                        <AnimatePresence mode="wait">
+                          <motion.span key={preview?.name ?? "g"} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mb-2 max-w-[30rem] truncate text-[15px] font-semibold text-white/75">
+                            {preview ? preview.name : `${faNumber(counts.g[g.id] ?? 0)} پروژه در ${faNumber(g.subtypes.length)} نوع`}
+                          </motion.span>
+                        </AnimatePresence>
+                      </div>
+                      <ChipRow className="mt-5">
                         {g.subtypes.map((s, k) => (
-                          <motion.li key={s.id} initial={{ opacity: 0, y: 14, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.28 + k * 0.045, duration: 0.4 }}>
+                          <motion.li key={s.id} className="shrink-0" initial={{ opacity: 0, y: 14, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.28 + k * 0.045, duration: 0.4 }}>
                             <Button data-sub variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id, s.id); }}
                               onMouseEnter={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })} onFocus={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })}
-                              className="group/sub h-auto gap-2 rounded-full border border-white/25 bg-white/10 px-3.5 py-2 text-[13px] font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:border-white hover:bg-white hover:text-ink">
-                              <span className="size-1.5 rounded-full bg-white transition-all duration-300 group-hover/sub:w-4 group-hover/sub:bg-ink" />
+                              className="group/sub h-11 gap-2.5 rounded-full border border-white/25 bg-white/10 px-4 text-[14.5px] font-bold text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-ink">
+                              <span className="size-1.5 rounded-full bg-white/80 transition-all duration-300 group-hover/sub:w-4 group-hover/sub:bg-coral" />
                               {s.name}
-                              <span className="text-[11px] font-semibold opacity-60">{faNumber(counts.t[`${g.id}/${s.id}`] ?? 0)}</span>
+                              <span className="text-[12px] font-semibold tabular-nums opacity-60">{faNumber(counts.t[`${g.id}/${s.id}`] ?? 0)}</span>
                             </Button>
                           </motion.li>
                         ))}
-                      </ul>
-                      <Button variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id); }} className="group/all mt-5 h-12 gap-3 rounded-full bg-white pl-1.5 pr-5 text-sm font-extrabold text-ink hover:bg-white/90">
-                        همه پروژه‌های {g.name}<span className="grid size-9 place-items-center rounded-full bg-ink text-white transition-transform group-hover/all:-translate-x-1"><ArrowLeft size={16} /></span>
-                      </Button>
+                      </ChipRow>
                     </div>
                   </motion.div>
                 )}
@@ -258,6 +260,24 @@ export function Categories() {
         })}
       </div>
     </section>
+  );
+}
+
+/** نوع‌های یک حوزه در یک ردیف؛ اگر جا نشود افقی اسکرول می‌شود و لبه چپ محو می‌شود */
+function ChipRow({ children, className }: { children: ReactNode; className?: string }) {
+  const ref = useRef<HTMLUListElement>(null);
+  const [fade, setFade] = useState(false);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const check = () => setFade(el.scrollWidth - el.clientWidth - Math.abs(el.scrollLeft) > 4);
+    check(); el.addEventListener("scroll", check, { passive: true }); const ro = new ResizeObserver(check); ro.observe(el);
+    return () => { el.removeEventListener("scroll", check); ro.disconnect(); };
+  }, []);
+  return (
+    <ul ref={ref}
+      className={cn("no-scrollbar -my-2 flex gap-2.5 overflow-x-auto py-2", fade && "[mask-image:linear-gradient(to_left,#000_88%,transparent)]", className)}>
+      {children}
+    </ul>
   );
 }
 
@@ -281,14 +301,14 @@ function OneRowBadges({ items }: { items: string[] }) {
     };
     fit(); const ro = new ResizeObserver(fit); ro.observe(el); return () => ro.disconnect();
   }, [items]);
-  const badge = "shrink-0 rounded-md border border-border px-2 py-[3px] text-[11px] font-semibold text-ink/65";
+  const badge = "inline-flex h-7 shrink-0 items-center rounded-full bg-muted px-3 text-[12px] font-semibold text-ink/70 transition-colors duration-300 group-hover:bg-primary/[0.07]";
   return (
     <div ref={ref} className="relative overflow-hidden">
       <div data-measure aria-hidden className="invisible absolute flex w-max gap-1.5">{items.map((x) => <span key={x} className={badge}>{x}</span>)}</div>
       <span data-plus aria-hidden className={cn(badge, "invisible absolute")}>+{faNumber(items.length)}</span>
       <div className="flex gap-1.5 overflow-hidden" title={items.join("، ")}>
         {items.slice(0, n).map((x) => <span key={x} className={cn(badge, "min-w-0 truncate")}>{x}</span>)}
-        {n < items.length && <span className={cn(badge, "font-extrabold text-ink")}>+{faNumber(items.length - n)}</span>}
+        {n < items.length && <span className={cn(badge, "bg-coral-soft font-extrabold text-coral-deep group-hover:bg-coral-soft")}>+{faNumber(items.length - n)}</span>}
       </div>
     </div>
   );
@@ -314,21 +334,31 @@ export function MainCategories() {
   return (
     <section id="routes" className="relative mx-auto mt-20 max-w-7xl px-6">
       <SectionHead kicker="هشت مسیر ورود" title={<>سرمایه، تخصص یا توان اجرایی؛<br />با کدام وارد می‌شوید؟</>} text="هر مسیر پروژه‌ها و شرایط خودش را دارد؛ مسیرتان را انتخاب کنید." aside={<StatsCard />} />
-      <div className="mt-10 grid grid-cols-4 gap-4">
+      <div className="mt-8 grid grid-cols-4 gap-4">
         {routes.map((r, i) => {
           const I = routeIcons[r.id]; const n = forRoute(listings, r.id).length;
           const subs = r.usesProjectGroups ? projectGroups.map((g) => g.name) : (routeSubcategories[r.id] ?? []).map((x) => x.name);
           return (
             <Reveal key={r.id} delay={(i % 4) * 0.06} className="h-full">
               <Button variant="plain" size="auto" type="button" onClick={() => { begin({ route: r.id }); router.push("/opportunities"); }}
-                className="group flex h-full w-full flex-col items-stretch justify-start gap-0 whitespace-normal rounded-[1.4rem] border border-border bg-white p-5 text-right transition-all duration-300 hover:-translate-y-0.5 hover:border-ink/20 hover:shadow-[0_22px_44px_-30px_rgb(20_30_45/0.3)]">
-                <span className="grid size-10 place-items-center rounded-xl bg-muted text-ink/70 transition-colors duration-300 group-hover:bg-ink group-hover:text-white"><I size={20} variant="Bulk" /></span>
-                <span className="mt-4 block text-[15.5px] font-extrabold leading-7 text-ink">{r.name}</span>
-                <span className="block truncate text-[12.5px] leading-6 text-muted-foreground">{routeShort[r.id] ?? r.description}</span>
-                {subs.length > 0 && <span className="mt-3 block"><OneRowBadges items={subs} /></span>}
-                <span className="mt-auto flex items-center justify-between border-t border-border pt-3.5 text-[12px] font-bold">
-                  <span className={n ? "text-ink" : "text-muted-foreground"}>{n ? `${faNumber(n)} پروژه` : "به‌زودی"}</span>
-                  <span className="grid size-8 place-items-center rounded-full text-ink/50 transition-all duration-300 group-hover:bg-primary group-hover:text-white"><ArrowLeft size={16} className="transition-transform group-hover:-translate-x-0.5" /></span>
+                className="group surface relative isolate flex h-full w-full flex-col items-stretch justify-start gap-0 overflow-hidden whitespace-normal rounded-[1.6rem] p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_26px_50px_-30px_rgb(20_30_45/0.32)]">
+                <span aria-hidden className="absolute inset-x-0 top-0 -z-10 h-28 bg-gradient-to-b from-primary/[0.06] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                {/* سرِ کارت: آیکون و شمار پروژه روی یک خط */}
+                <span className="flex items-center justify-between gap-3">
+                  <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-primary/[0.08] text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white"><I size={22} variant="Bulk" /></span>
+                  {n > 0
+                    ? <span className="inline-flex h-7 items-center rounded-full bg-coral-soft px-3 text-[12px] font-extrabold tabular-nums text-coral-deep">{faNumber(n)} پروژه</span>
+                    : <span className="inline-flex h-7 items-center rounded-full bg-muted px-3 text-[12px] font-bold text-muted-foreground">به‌زودی</span>}
+                </span>
+                <span className="mt-5 block text-[17px] font-extrabold leading-7 text-ink">{r.name}</span>
+                <span className="mt-1 block truncate text-[13px] leading-6 text-muted-foreground">{routeShort[r.id] ?? r.description}</span>
+                {subs.length > 0 && <span className="mt-4 block"><OneRowBadges items={subs} /></span>}
+                {/* پاورقی همیشه پایین کارت؛ فاصله با pt تا mt-auto کار کند */}
+                <span className="mt-auto block pt-5">
+                  <span className="flex items-center justify-between border-t border-dashed border-border pt-4 text-[13px] font-extrabold text-primary">
+                    <NodeMark className="text-ink/20 transition-colors duration-300 group-hover:text-primary" />
+                    <span className="flex items-center gap-1.5">{n ? "دیدن پروژه‌ها" : "دیدن مسیر"}<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></span>
+                  </span>
                 </span>
               </Button>
             </Reveal>
@@ -346,7 +376,7 @@ export function Featured() {
     <section className={sectionCls}>
       <SectionHead kicker="پروژه‌ها" title="تازه‌ترین پروژه‌ها" text="فرصت‌هایی که به‌تازگی اضافه شده‌اند، با شرایط ورود و جزئیات کامل."
         aside={<Link href="/opportunities" className="group inline-flex h-12 items-center gap-2 rounded-full border border-pine/15 bg-white/60 px-5 text-sm font-extrabold text-ink transition-colors hover:border-primary hover:text-primary">همه پروژه‌ها <ArrowLeft size={17} className="transition-transform group-hover:-translate-x-1" /></Link>} />
-      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{items.map((l, i) => <ListingCard key={l.id} listing={l} index={i} />)}</div>
+      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{items.map((l, i) => <ListingCard key={l.id} listing={l} index={i} />)}</div>
     </section>
   );
 }
@@ -395,9 +425,9 @@ export function HowItWorks() {
   return (
     <section className={sectionCls}>
       <SectionHead kicker="روش کار" title="چرا این پروژه‌ها را به شما نشان می‌دهیم؟" text="هر پیشنهاد از سه مرحله می‌گذرد و دلیلش را کنار همان پروژه می‌بینید." />
-      <div ref={ref} className="mt-10 grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] items-stretch gap-10">
+      <div ref={ref} className="mt-8 grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] items-start gap-12">
         {/* خط زمانی مرحله‌ها */}
-        <ol className="relative flex flex-col justify-center" onMouseLeave={() => setHold(false)}>
+        <ol className="relative flex flex-col pt-3" onMouseLeave={() => setHold(false)}>
           {steps.map((s, i) => { const on = step === i; const done = i < step;
             return (
               <li key={s.t} className="relative flex gap-5 pb-9 last:pb-0">
