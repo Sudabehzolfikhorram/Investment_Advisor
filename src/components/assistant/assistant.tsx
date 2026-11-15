@@ -327,7 +327,7 @@ export function Assistant() {
         </div>
 
         {/* جای نوشتن: همیشه پایین صفحه؛ نمونه‌ها درست بالای آن و پس از استفاده حذف می‌شوند */}
-        <div className="sticky bottom-0 z-30 -mx-6 bg-gradient-to-t from-[#eff2f7] via-[#eff2f7]/80 via-55% to-transparent px-6 pb-6 pt-10">
+        <div className="sticky bottom-0 z-30 isolate -mx-6 px-6 pb-6 pt-10 before:pointer-events-none before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-gradient-to-t before:from-[#eff2f7] before:via-[#eff2f7]/80 before:via-55% before:to-transparent">
           <div className="mx-auto max-w-3xl">
             {left.length > 0 && (
               <div className="mb-3 flex flex-wrap justify-center gap-2 p-1">
