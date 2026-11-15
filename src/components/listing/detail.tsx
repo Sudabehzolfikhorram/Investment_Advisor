@@ -383,7 +383,7 @@ export function Detail({ id }: { id: string }) {
             <div className="absolute right-5 top-5 z-10"><SaveButton id={l.id} className="size-12" /></div>
             <div className="absolute inset-x-10 bottom-9 text-white">
               <div className="flex flex-wrap gap-2">
-                {l.tags.map((t) => <Badge key={t} variant="outline" className="border-white/30 bg-pine/25 px-3.5 py-1.5 font-bold text-white">{t}</Badge>)}
+                {l.tags.map((t) => <Badge key={t} variant="outline" className="border-white/30 bg-black/25 px-3.5 py-1.5 font-bold text-white">{t}</Badge>)}
                 {text.stage && <Badge className="bg-white px-3.5 py-1.5 font-extrabold text-ink">{text.stage}</Badge>}
               </div>
               <h1 className="mt-4 max-w-4xl text-4xl font-black leading-[1.3] text-balance">{l.title}</h1>

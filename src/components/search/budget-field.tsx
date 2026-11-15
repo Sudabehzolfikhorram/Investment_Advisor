@@ -1,7 +1,7 @@
 "use client";
 // انتخاب بودجه: دو ورودی عددی، نمودار پراکندگی مبلغ پروژه‌ها، اسلایدر با گام‌های غیرخطی و بازه‌های آماده.
 // گام‌ها غیرخطی‌اند تا مبلغ‌های کوچک (که بیشتر پروژه‌ها در آن‌اند) فضای کافی روی اسلایدر داشته باشند.
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
@@ -56,17 +56,13 @@ export function BudgetField({ min, max, step = 1, unit, label, value, onChange, 
     <div className={cn("space-y-4", compact && "space-y-3.5")}>
       <div className="flex items-center gap-2.5">
         <NumberBox label="از" value={v[0]} onCommit={(n) => set(n, v[1])} />
-        <span className="h-px w-4 shrink-0 bg-pine/25" />
+        <span className="h-px w-4 shrink-0 bg-ink/20" />
         <NumberBox label="تا" value={v[1]} onCommit={(n) => set(v[0], n)} />
         <span className="shrink-0 text-xs font-bold text-muted-foreground">{unit}</span>
       </div>
 
       <div>
-        <div className="flex h-14 items-end gap-[3px] px-2" aria-hidden>
-          {bins.map((n, i) => (
-            <span key={i} title={`${faNumber(n)} پروژه`} className={cn("flex-1 rounded-t-[3px] transition-colors duration-200", i + 1 > lo && i < hi ? (n ? "bg-primary/75" : "bg-primary/20") : n ? "bg-pine/20" : "bg-pine/[0.07]")} style={{ height: `${n ? 14 + (n / peak) * 86 : 5}%` }} />
-          ))}
-        </div>
+        <BudgetArea bins={bins} peak={peak} lo={lo} hi={hi} last={last} />
         <Slider dir="rtl" min={0} max={last} step={1} value={[lo, hi]} onValueChange={(x) => set(stops[Math.round(x[0])], stops[Math.round(x[1])])} className="-mt-1.5" />
         <div className="mt-2 flex justify-between text-[11px] font-semibold text-muted-foreground">
           <span>{faNumber(min)}</span><span>{faNumber(stops[Math.round(last / 2)])}</span><span>{faNumber(max)}</span>
@@ -89,5 +85,36 @@ export function BudgetField({ min, max, step = 1, unit, label, value, onChange, 
         {value && <Button type="button" variant="ghost" size="xs" onClick={() => onChange(null)} className="font-bold text-muted-foreground hover:text-destructive">پاک کردن بودجه</Button>}
       </div>
     </div>
+  );
+}
+
+/** نمودار پُر پراکندگی مبلغ‌ها؛ راست‌به‌چپ مثل اسلایدر. بخش داخل بازه انتخابی پررنگ می‌شود. */
+function BudgetArea({ bins, peak, lo, hi, last }: { bins: number[]; peak: number; lo: number; hi: number; last: number }) {
+  const id = useId().replace(/:/g, "");
+  const W = 1000, H = 100, n = bins.length;
+  // نقطه‌ها: وسط هر بازه، از راست به چپ؛ دو سر نمودار تا لبه‌ها ادامه پیدا می‌کند
+  const pts = bins.map((v, i) => [W - ((i + 0.5) / n) * W, H - (v ? 10 + (v / peak) * 84 : 3)] as const);
+  const all = [[W, pts[0]?.[1] ?? H] as const, ...pts, [0, pts.at(-1)?.[1] ?? H] as const];
+  let d = `M${all[0][0]},${all[0][1]}`;
+  for (let i = 0; i < all.length - 1; i++) {
+    const p0 = all[i - 1] ?? all[i], p1 = all[i], p2 = all[i + 1], p3 = all[i + 2] ?? p2;
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6], c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += ` C${c1[0]},${Math.min(H, c1[1])} ${c2[0]},${Math.min(H, c2[1])} ${p2[0]},${p2[1]}`;
+  }
+  const area = `${d} L0,${H} L${W},${H} Z`;
+  const x1 = W * (1 - hi / last), x2 = W * (1 - lo / last);
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="block h-16 w-full px-2" aria-hidden>
+      <defs>
+        <linearGradient id={`g${id}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="var(--primary)" stopOpacity="0.55" /><stop offset="1" stopColor="var(--primary)" stopOpacity="0.08" /></linearGradient>
+        <clipPath id={`c${id}`}><rect x={x1} y="0" width={Math.max(0, x2 - x1)} height={H} style={{ transition: "x 0.2s, width 0.2s" }} /></clipPath>
+      </defs>
+      <path d={area} fill="rgb(47 53 51 / 0.07)" />
+      <path d={d} fill="none" stroke="rgb(47 53 51 / 0.22)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+      <g clipPath={`url(#c${id})`}>
+        <path d={area} fill={`url(#g${id})`} />
+        <path d={d} fill="none" stroke="var(--primary)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+      </g>
+    </svg>
   );
 }

@@ -2,7 +2,8 @@
 // انتخاب حوزه و نوع دقیق پروژه به شکل «فهرست و جزئیات»:
 // سمت راست همه حوزه‌ها با شمار پروژه و شمار نوع‌های انتخاب‌شده، سمت چپ فقط نوع‌های حوزه‌ی در حال دیدن.
 // با انتخاب چند حوزه، فهرست بلند نمی‌شود؛ خلاصه انتخاب‌ها پایین پنل می‌آید و جست‌وجو در همه نوع‌ها کار می‌کند.
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft2, CloseCircle, SearchNormal1 } from "@/components/iconsax";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -25,11 +26,14 @@ type Props = {
 
 const typeGroup = Object.fromEntries(projectGroups.flatMap((g) => g.subtypes.map((s) => [s.id, g.id])));
 
-export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[24.5rem]", compact }: Props) {
+export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[27rem]", compact }: Props) {
   const [focus, setFocus] = useState(() => groups[0] ?? projectGroups[0].id);
   const [q, setQ] = useState("");
   const query = q.trim();
   const g = projectGroups.find((x) => x.id === focus)!;
+  // با نگه داشتن نشانگر روی یک حوزه، نوع‌هایش کنار آن باز می‌شود؛ کلیک هم همین کار را می‌کند
+  const hoverT = useRef<number | undefined>(undefined);
+  const peek = (gid: string) => { window.clearTimeout(hoverT.current); hoverT.current = window.setTimeout(() => { setFocus(gid); setQ(""); }, 140); };
 
   const typesOf = (gid: string) => types.filter((t) => typeGroup[t] === gid);
   const toggleGroup = (gid: string) => {
@@ -78,12 +82,14 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
 
       <div className={cn("grid grid-cols-[17rem_minmax(0,1fr)] overflow-hidden rounded-3xl border border-border bg-white", height)}>
         {/* حوزه‌ها */}
-        <ul className="thin-scroll space-y-0.5 overflow-y-auto border-l border-border bg-muted/40 p-2">
+        <div className="flex min-h-0 flex-col border-l border-border bg-muted/50">
+        <p className="shrink-0 px-4 pb-1.5 pt-3 text-[11px] font-bold text-muted-foreground">حوزه را بزنید تا نوع‌هایش را ببینید</p>
+        <ul className="thin-scroll min-h-0 flex-1 space-y-0.5 overflow-y-auto p-2 pt-0" onMouseLeave={() => window.clearTimeout(hoverT.current)}>
           {projectGroups.map((x) => {
             const I = groupIcons[x.id]; const on = groups.includes(x.id); const active = !query && focus === x.id; const nt = typesOf(x.id).length; const mc = matchCount(x.id);
             const dim = !!query && !mc;
             return (
-              <li key={x.id} className={cn("relative flex items-center gap-2 rounded-2xl pr-2.5 transition-colors", active ? "bg-white shadow-[0_6px_18px_-12px_rgb(8_59_55/0.35)]" : "hover:bg-white/70", dim && "opacity-40")}>
+              <li key={x.id} onMouseEnter={() => peek(x.id)} className={cn("relative flex items-center gap-2 rounded-2xl pr-2.5 transition-colors", active ? "-ml-2 rounded-l-none bg-white pl-2 shadow-[0_6px_18px_-12px_rgb(20_30_45/0.3)]" : "hover:bg-white/70", dim && "opacity-40")}>
                 {active && <motion.span layoutId="type-focus" className="absolute inset-y-2 right-0 w-[3px] rounded-full bg-primary" />}
                 <Checkbox checked={on} onCheckedChange={() => toggleGroup(x.id)} aria-label={`حوزه ${x.name}`} className="bg-white" />
                 <button type="button" onClick={() => { setFocus(x.id); setQ(""); }} className="flex min-w-0 flex-1 items-center gap-2 py-1.5 pl-2 text-right">
@@ -91,13 +97,14 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
                   <span className={cn("min-w-0 flex-1 truncate text-[13px]", on ? "font-extrabold text-ink" : "font-semibold text-ink/80")}>{x.name}</span>
                   {query ? <span className="shrink-0 text-[11px] font-bold text-primary">{mc ? faNumber(mc) : ""}</span>
                     : nt ? <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-extrabold text-primary">{faNumber(nt)} نوع</span>
-                    : <span className="shrink-0 text-[11px] font-semibold text-muted-foreground tabular-nums">{counts[x.id] ? faNumber(counts[x.id]) : ""}</span>}
-                  <ArrowLeft2 size={12} className={cn("shrink-0 text-muted-foreground transition-opacity", active ? "opacity-100" : "opacity-0")} />
+                    : <span className="shrink-0 text-[11px] font-semibold text-muted-foreground tabular-nums">{faNumber(x.subtypes.length)} نوع</span>}
+                  <ArrowLeft2 size={13} className={cn("shrink-0 transition-all", active ? "text-ink" : "text-ink/30")} />
                 </button>
               </li>
             );
           })}
         </ul>
+        </div>
 
         {/* نوع‌ها */}
         <div className="thin-scroll overflow-y-auto p-3">
@@ -114,9 +121,11 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
               </motion.div>
             ) : (
               <motion.div key={g.id} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 8 }} transition={{ duration: 0.18 }}>
-                <div className="mb-2 flex items-center justify-between gap-3 px-1">
-                  <p className="text-sm font-extrabold text-ink">{g.name}<span className="mr-2 text-[11px] font-semibold text-muted-foreground">{faNumber(g.subtypes.length)} نوع</span></p>
-                  <label className={cn("flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1.5 text-[12px] font-bold transition-colors", groups.includes(g.id) && !typesOf(g.id).length ? "border-primary bg-primary/[0.06] text-primary" : "border-border text-ink/70 hover:border-primary/40")}>
+                <div className="relative isolate -mx-3 -mt-3 mb-3 flex h-20 items-end justify-between gap-3 overflow-hidden px-4 pb-3">
+                  {g.image && <Image src={g.image} alt="" fill sizes="40rem" className="-z-10 object-cover" />}
+                  <span className="absolute inset-0 -z-10 bg-[linear-gradient(to_left,rgb(12_13_14/0.82),rgb(12_13_14/0.45))]" />
+                  <p className="text-[15px] font-extrabold text-white">{g.name}<span className="mr-2 text-[11px] font-semibold text-white/70">{faNumber(g.subtypes.length)} نوع{counts[g.id] ? ` · ${faNumber(counts[g.id])} پروژه` : ""}</span></p>
+                  <label className={cn("flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1.5 text-[12px] font-bold backdrop-blur-sm transition-colors", groups.includes(g.id) && !typesOf(g.id).length ? "border-white bg-white text-ink" : "border-white/40 bg-white/10 text-white hover:bg-white/20")}>
                     <Checkbox checked={groups.includes(g.id) && !typesOf(g.id).length} onCheckedChange={(c) => (c ? allOf(g.id) : toggleGroup(g.id))} className="bg-white" />
                     همه نوع‌های {g.name}
                   </label>

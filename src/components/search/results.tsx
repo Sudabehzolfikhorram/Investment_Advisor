@@ -34,6 +34,7 @@ import { GroupTypePicker } from "./type-picker";
 import { Chip } from "./controls";
 import { BudgetField } from "./budget-field";
 import { LocationFields, ProvincePicker } from "./province-picker";
+import { ProProfileCard } from "./pro-profile";
 import { SaveCriteriaDialog, SavedCriteriaMenu, useProfileStats } from "./save-criteria";
 
 const PAGE = 12;
@@ -122,6 +123,8 @@ function Intake({ count }: { count: number }) {
         </div>
       )}
 
+      <ProProfileCard className="mt-4" />
+
       <Card className="surface mt-6 block gap-0 rounded-[2rem] p-8 shadow-none">
         <Step n={1} title="چطور وارد می‌شوید؟" hint="یک مسیر را انتخاب کنید؛ پروژه‌ها و فیلترهای هر مسیر فرق دارد.">
           <ToggleGroup type="single" spacing={2} value={criteria.route} onValueChange={(v) => v && changeRoute(v as RouteId)} className="grid w-full grid-cols-4 items-stretch">
@@ -144,7 +147,7 @@ function Intake({ count }: { count: number }) {
           </Step>
         )}
 
-        <Step n={hasTypes ? 3 : 2} title="کجا؟" hint={route.id === "fund" ? undefined : "روی نقشه یا از فهرست، یک یا چند استان انتخاب کنید. بدون انتخاب، همه ایران را می‌بینید."}>
+        <Step n={hasTypes ? 3 : 2} title="کجا؟" hint={route.id === "fund" ? undefined : "روی نقشه یک یا چند استان را بزنید؛ بدون انتخاب، همه ایران را می‌بینید."}>
           {route.id === "fund"
             ? <p className="rounded-2xl bg-muted p-4 text-sm font-semibold text-ink/75">صندوق‌ها و طرح‌های جمعی به استان خاصی وابسته نیستند.</p>
             : <ProvincePicker route={route.id} value={criteria.provinces} onChange={(v) => setCriteria({ provinces: v })} />}
@@ -391,7 +394,7 @@ export function Results() {
 
             <div className="mt-7 grid grid-cols-[21rem_1fr] gap-7">
               <aside>
-                <Card className="surface thin-scroll sticky top-24 block max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[1.75rem] p-5 shadow-none"><AdvancedFilter /></Card>
+                <Card className="surface thin-scroll sticky top-24 block max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[1.75rem] p-5 shadow-none"><ProProfileCard className="mb-5" /><AdvancedFilter /></Card>
               </aside>
 
               <section className="min-w-0">

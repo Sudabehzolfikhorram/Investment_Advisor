@@ -2,6 +2,7 @@
 // دستیار: متن کاربر را می‌خواند، برداشتش را نشان می‌دهد و حداکثر ۱۰ پروژه با درصد تطابق پیشنهاد می‌کند.
 // چیدمان مثل یک چت است: گفت‌وگو از بالا به پایین می‌آید و جای نوشتن همیشه پایین صفحه ثابت است؛
 // نمونه‌ها هم کنار همان جای نوشتن‌اند تا انتخاب هر نمونه، درست بالای آن به‌عنوان پیام شما دیده شود.
+import { AlgoPattern } from "@/components/brand/algo-pattern";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -65,7 +66,7 @@ function TopCard({ r, i }: { r: MatchResult; i: number }) {
         <Image src={l.image} alt="" fill sizes="30vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
         <span className="absolute inset-0 bg-[linear-gradient(to_top,rgb(0_0_0/0.65),transparent_55%)]" />
         <span className="absolute right-3 top-3 rounded-full bg-white px-2.5 py-0.5 text-[11px] font-black text-ink">پیشنهاد {faNumber(i + 1)}</span>
-        <span className="absolute bottom-3 left-3 rounded-full bg-pine/55 p-0.5"><MatchRing score={r.score} light /></span>
+        <span className="absolute bottom-3 left-3 rounded-full bg-black/45 p-0.5"><MatchRing score={r.score} light /></span>
         {l.city && <span className="absolute bottom-3.5 right-3 flex items-center gap-1 text-xs font-bold text-white"><Location size={14} variant="Bold" />{l.province}، {l.city}</span>}
       </span>
       <div className="flex flex-1 flex-col gap-2.5 px-4 pb-4 pt-1.5">
@@ -299,10 +300,12 @@ export function Assistant() {
     <>
       <Header />
       <main className="relative mx-auto flex min-h-[calc(100dvh-6rem)] max-w-5xl flex-col px-6 pt-8">
-        {/* هاله ملایم پشت صفحه: حس زنده بودن دستیار، بدون رقابت با محتوا */}
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[36rem] overflow-hidden">
-          <motion.span animate={{ x: [0, 40, -20, 0], y: [0, 20, -10, 0] }} transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }} className="absolute right-[12%] top-6 size-80 rounded-full bg-primary/[0.13] blur-[90px]" />
-          <motion.span animate={{ x: [0, -30, 20, 0], y: [0, -15, 25, 0] }} transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }} className="absolute left-[14%] top-24 size-72 rounded-full bg-[#7cc4bb]/25 blur-[90px]" />
+        {/* پس‌زمینه: ته‌رنگ سرد خاکستری–آبی و چند تکه از پترن هویت؛ بدون هاله سبز */}
+        <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[linear-gradient(180deg,#eef2f7_0%,#f4f6fa_45%,var(--background)_100%)]">
+          <AlgoPattern animated className="-right-10 top-16 h-[24rem] w-[34rem] text-ink/[0.11]" fade="radial" scale={0.9} />
+          <AlgoPattern className="-left-16 top-[38%] h-[22rem] w-[30rem] text-ink/[0.09]" fade="radial" scale={0.75} />
+          <AlgoPattern animated className="bottom-0 right-[30%] h-[18rem] w-[28rem] text-ink/[0.07]" fade="radial" scale={0.6} />
+          <AlgoPattern className="left-[22%] top-4 h-[14rem] w-[22rem] text-ink/[0.07]" fade="radial" scale={0.5} />
         </div>
         <div className="relative flex flex-1 flex-col">
           {!started ? (

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArchiveTick, Element3, Login, Logout, MagicStar, ProfileCircle } from "@/components/iconsax";
+import { Element3, Lovely, Login, Logout, MagicStar, ProfileCircle } from "@/components/iconsax";
 import { Logo } from "@/components/brand/algo-pattern";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -10,9 +10,9 @@ import { cn, faDigits, faNumber } from "@/lib/utils";
 
 const links = [
   { href: "/opportunities", label: "پروژه‌ها" },
-  { href: "/tools", label: "خدمات", icon: Element3 },
+  { href: "/tools", label: "جذب سرمایه", icon: Element3 },
   { href: "/assistant", label: "دستیار", icon: MagicStar },
-  { href: "/saved", label: "ذخیره‌شده‌ها", icon: ArchiveTick },
+  { href: "/saved", label: "علاقه‌مندی‌ها", icon: Lovely },
 ];
 
 export function Header({ overlay = false }: { overlay?: boolean }) {
@@ -42,7 +42,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52 rounded-2xl p-1.5">
-                <DropdownMenuItem asChild className="rounded-xl"><Link href="/saved"><ArchiveTick size={17} variant="Bulk" />ذخیره‌شده‌ها</Link></DropdownMenuItem>
+                <DropdownMenuItem asChild className="rounded-xl"><Link href="/saved"><Lovely size={17} variant="Bulk" />علاقه‌مندی‌ها</Link></DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={logout} variant="destructive" className="rounded-xl"><Logout size={17} />خروج</DropdownMenuItem>
               </DropdownMenuContent>

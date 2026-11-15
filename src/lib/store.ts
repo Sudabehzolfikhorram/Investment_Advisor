@@ -34,6 +34,8 @@ interface State {
   logout: () => void;
   toggleSaved: (id: string) => void;
   saveProfile: (name: string) => void;
+  /** افزودن جست‌وجوی تازه از صفحه علاقه‌مندی‌ها، بدون دست زدن به فیلترهای فعلی */
+  addProfile: (name: string, criteria: SearchCriteria) => void;
   removeProfile: (id: string) => void;
   updateProfile: (id: string, patch: { name?: string; criteria?: SearchCriteria }) => void;
   touchProfile: (id: string) => void;
@@ -74,6 +76,7 @@ export const useStore = create<State>()(
             ...s.profiles,
           ],
         })),
+      addProfile: (name, criteria) => set((s) => ({ profiles: [{ id: String(Date.now()) + "-" + String(s.profiles.length + 1), name, criteria, createdAt: "2026-11-10", lastSeenAt: "2026-11-01" }, ...s.profiles] })),
       removeProfile: (id) => set((s) => ({ profiles: s.profiles.filter((p) => p.id !== id) })),
       updateProfile: (id, patch) => set((s) => ({ profiles: s.profiles.map((p) => (p.id === id ? { ...p, ...patch } : p)) })),
       touchProfile: (id) => set((s) => ({ profiles: s.profiles.map((p) => (p.id === id ? { ...p, lastSeenAt: "2026-11-10" } : p)) })),

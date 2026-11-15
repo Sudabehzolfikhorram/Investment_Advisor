@@ -4,14 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { ArrowLeft, Book1, Building4, Buildings, Category2, CloseCircle, Courthouse, FilterSearch, Hierarchy, InfoCircle, Key, Location, Lovely, Map1, MessageQuestion, People, Routing2, ShieldTick, TickCircle, type Icon } from "@/components/iconsax";
+import { AnimatePresence, motion, useInView } from "motion/react";
+import { ArrowLeft, Book1, Call, WalletMoney, Building4, CloseCircle, Courthouse, Hierarchy, InfoCircle, Key, Location, Lovely, MessageQuestion, People, ShieldTick, TickCircle, type Icon } from "@/components/iconsax";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { CountUp, MatchRing, Reveal } from "@/components/brand/reveal";
 import { ListingCard } from "@/components/listing/listing-card";
 import { groupIcons, routeIcons } from "@/components/icons";
 import { projectGroups } from "@/data/taxonomy";
 import { routes, routeSubcategories } from "@/data/routes";
+import { provinces as provinceList } from "@/data/provinces";
 import { listings } from "@/lib/listings";
 import { forRoute, matchListing } from "@/lib/match";
 import { libraryTopics } from "@/data/library";
@@ -25,7 +26,7 @@ export function SectionHead({ kicker, title, text, aside, className, light }: { 
   return (
     <div className={cn("flex items-end justify-between gap-10", className)}>
       <Reveal className="min-w-0 max-w-[38rem]">
-        <span className={cn("inline-flex items-center gap-2 text-[13px] font-extrabold", light ? "text-white" : "text-primary")}><NodeMark />{kicker}</span>
+        <span className={cn("inline-flex items-center gap-2 text-[13px] font-extrabold", light ? "text-white" : "text-ink/55")}><NodeMark className={light ? "" : "text-primary"} />{kicker}</span>
         <h2 className={cn("mt-2.5 text-[1.85rem] font-black leading-[1.5] tracking-tight text-balance", light ? "text-white" : "text-ink")}>{title}</h2>
         <p className={cn("mt-1.5 text-[15px] leading-7", light ? "text-white/70" : "text-muted-foreground")}>{text}</p>
       </Reveal>
@@ -57,23 +58,23 @@ export function HelpCenter() {
               <li key={x.id}>
                 <button type="button" onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)} aria-pressed={on}
                   className={cn("relative flex w-full items-center gap-4 rounded-[1.4rem] px-4 py-3.5 text-right transition-colors duration-300", on ? "bg-white shadow-[0_18px_40px_-28px_rgb(8_59_55/0.45)] ring-1 ring-border" : "hover:bg-white/60")}>
-                  {on && <motion.span layoutId="help-bar" className="absolute inset-y-3 right-0 w-[3px] rounded-full bg-primary" />}
-                  <span className={cn("w-7 shrink-0 text-[1.35rem] font-black tabular-nums transition-colors", on ? "text-primary" : "text-ink/20")}>{faNumber(i + 1)}</span>
-                  <span className={cn("grid size-10 shrink-0 place-items-center rounded-2xl transition-colors", on ? "bg-primary text-white" : "bg-primary/[0.08] text-primary")}><I size={19} variant="Bulk" /></span>
+                  {on && <motion.span layoutId="help-bar" className="absolute inset-y-3 right-0 w-[3px] rounded-full bg-ink" />}
+                  <span className={cn("w-7 shrink-0 text-[1.35rem] font-black tabular-nums transition-colors", on ? "text-ink" : "text-ink/20")}>{faNumber(i + 1)}</span>
+                  <span className={cn("grid size-10 shrink-0 place-items-center rounded-2xl transition-colors", on ? "bg-ink text-white" : "bg-muted text-ink/60")}><I size={19} variant="Bulk" /></span>
                   <span className={cn("min-w-0 flex-1 text-[14.5px] leading-7", on ? "font-extrabold text-ink" : "font-bold text-ink/75")}>{x.title}</span>
-                  <ArrowLeft size={16} className={cn("shrink-0 text-primary transition-all duration-300", on ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0")} />
+                  <ArrowLeft size={16} className={cn("shrink-0 text-ink transition-all duration-300", on ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0")} />
                 </button>
               </li>
             ); })}
         </ol>
         {/* پاسخ */}
-        <div className="relative isolate min-h-[30rem] overflow-hidden rounded-[2rem] bg-pine text-white">
+        <div className="relative isolate min-h-[30rem] overflow-hidden rounded-[2rem] bg-[#16181a] text-white">
           <AnimatePresence initial={false}>
             <motion.div key={t.id} initial={{ opacity: 0, scale: 1.06 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.7 }} className="absolute inset-0 -z-10">
               <Image src={topicImages[t.id] ?? "/images/hero/office.jpg"} alt="" fill sizes="50vw" className="object-cover" />
             </motion.div>
           </AnimatePresence>
-          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-pine via-pine/85 to-pine/30" />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#111315] via-[#111315]/80 to-[#111315]/25" />
           <AlgoPattern className="-left-10 -top-10 -z-10 h-2/3 w-2/3 text-white/15" fade="radial" scale={0.6} />
           <span aria-hidden className="pointer-events-none absolute -top-10 left-6 -z-10 select-none text-[13rem] font-black leading-none text-white/[0.07]">؟</span>
           <AnimatePresence mode="wait" initial={false}>
@@ -97,23 +98,71 @@ export function HelpCenter() {
   );
 }
 
-/** آمار کلی سایت، برای کنار تیتر مسیرها */
-function useLandingStats() {
-  const provinces = new Set(listings.map((l) => l.province).filter(Boolean)).size;
-  return [
-    { n: listings.length, label: "پروژه و فرصت", icon: Buildings },
-    { n: projectGroups.length, label: "گروه پروژه", icon: Category2 },
-    { n: routes.length, label: "مسیر ورود", icon: Routing2 },
-    { n: provinces, label: "استان", icon: Map1 },
-  ];
+/* ——— آمار کلی: کارت داده با نمودار کوچک ——— */
+// عدد اصلی با نمودار پراکندگی پروژه‌ها در گروه‌ها (راست به چپ)، و سه عدد دیگر هر کدام با نمایش تصویری خودش
+const ease = [0.22, 1, 0.36, 1] as const;
+function StatsCard() {
+  const [hover, setHover] = useState<number | null>(null);
+  const byGroup = projectGroups.map((g) => ({ name: g.name, n: listings.filter((l) => l.group === g.id).length }));
+  const max = Math.max(...byGroup.map((x) => x.n), 1);
+  const has = new Set(listings.map((l) => l.province).filter(Boolean));
+  const active = provinceList.filter((p) => has.has(p)).length;
+  return (
+    <div className="surface w-[34rem] rounded-[1.6rem] p-5">
+      <div className="flex items-end gap-6">
+        <div className="shrink-0">
+          <p className="text-[12px] font-bold text-muted-foreground">پروژه و فرصت</p>
+          <p className="mt-1 text-[2.8rem] font-black leading-none tracking-tight text-ink"><CountUp value={listings.length} /></p>
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex h-16 items-end gap-1.5" onMouseLeave={() => setHover(null)}>
+            {byGroup.map((g, i) => (
+              <motion.span key={g.name} onMouseEnter={() => setHover(i)} title={`${g.name}: ${faNumber(g.n)}`}
+                initial={{ height: 0 }} whileInView={{ height: `${Math.max(6, (g.n / max) * 100)}%` }} viewport={{ once: true }} transition={{ delay: 0.2 + i * 0.05, duration: 0.8, ease }}
+                className={cn("flex-1 cursor-default rounded-t-[5px] transition-colors duration-200", hover === i || (hover == null && g.n === max) ? "bg-primary" : hover == null ? "bg-ink/[0.1]" : "bg-ink/[0.06]")} />
+            ))}
+          </div>
+          <p className="mt-2 h-4 truncate text-[11px] font-bold text-muted-foreground">
+            {(() => { const k = hover ?? byGroup.findIndex((x) => x.n === max); return <>{hover == null && "بیشترین: "}<span className="text-ink">{byGroup[k].name}</span> · {faNumber(byGroup[k].n)} پروژه</>; })()}
+          </p>
+        </div>
+      </div>
+      <div className="mt-4 grid grid-cols-3 border-t border-border pt-4">
+        <div className="pl-4">
+          <p className="flex items-baseline gap-1.5"><span className="text-[1.45rem] font-black leading-none text-ink"><CountUp value={active} /></span><span className="text-[11px] font-bold text-muted-foreground">استان از {faNumber(provinceList.length)}</span></p>
+          <div className="mt-2.5 grid w-fit grid-cols-[repeat(11,auto)] gap-[3px]">
+            {provinceList.map((p, i) => (
+              <motion.span key={p} title={p} initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 + i * 0.02, type: "spring", stiffness: 400, damping: 18 }}
+                className={cn("size-[7px] rounded-full", has.has(p) ? "bg-primary" : "bg-ink/10")} />
+            ))}
+          </div>
+        </div>
+        <div className="border-r border-border px-4">
+          <p className="flex items-baseline gap-1.5"><span className="text-[1.45rem] font-black leading-none text-ink"><CountUp value={projectGroups.length} /></span><span className="text-[11px] font-bold text-muted-foreground">گروه پروژه</span></p>
+          <div className="mt-2.5 grid w-fit grid-cols-6 gap-x-1.5 gap-y-1">
+            {projectGroups.map((g, i) => { const I = groupIcons[g.id];
+              return <motion.span key={g.id} title={g.name} initial={{ opacity: 0, y: 6 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.35 + i * 0.04 }} className="grid size-[13px] place-items-center text-ink/45"><I size={13} variant="Bulk" /></motion.span>; })}
+          </div>
+        </div>
+        <div className="border-r border-border pr-4">
+          <p className="flex items-baseline gap-1.5"><span className="text-[1.45rem] font-black leading-none text-ink"><CountUp value={routes.length} /></span><span className="text-[11px] font-bold text-muted-foreground">مسیر ورود</span></p>
+          <div className="mt-2.5 flex items-center">
+            {routes.map((r, i) => (
+              <motion.span key={r.id} title={r.name} initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 + i * 0.06, duration: 0.35 }} style={{ originX: 1 }} className="flex items-center">
+                <span className="size-[7px] rounded-full border-[1.5px] border-primary bg-white" />{i < routes.length - 1 && <span className="h-px w-[9px] bg-primary/40" />}
+              </motion.span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 const groupRoutes = routes.filter((r) => r.usesProjectGroups);
-/** دو ردیف شش‌تایی: یازده حوزه و یک کارت «همه حوزه‌ها» */
-const groupRows = [projectGroups.slice(0, 6), projectGroups.slice(6)];
 
-/* ——— گروه‌های پروژه: کارت‌های ایستاده و بازشونده ——— */
-// هر کارت با هاور در عرض باز می‌شود (همان انیمیشن فنری)؛ در هر لحظه فقط یک کارت باز است و همه کارت‌ها یک ارتفاع دارند.
+/* ——— گروه‌های پروژه: نوارهای بازشونده از بالا به پایین ——— */
+// همان پنل‌های قبلی، چرخیده: هر نوار با هاور در ارتفاع باز می‌شود (همان انیمیشن فنری) و فقط یکی باز است.
 export function Categories() {
   const router = useRouter();
   const begin = useStore((s) => s.begin);
@@ -126,16 +175,15 @@ export function Categories() {
     for (const l of forRoute(listings, routeId)) if (l.group) { g[l.group] = (g[l.group] ?? 0) + 1; t[`${l.group}/${l.subtype}`] = (t[`${l.group}/${l.subtype}`] ?? 0) + 1; }
     return { g, t };
   }, [routeId]);
-  const total = forRoute(listings, routeId).length;
-  const open = (group?: string, subtype?: string) => { begin({ route: routeId, groups: group ? [group] : [], filters: subtype ? { subtypes: [subtype] } : {} }); router.push("/opportunities"); };
+  const open = (group: string, subtype?: string) => { begin({ route: routeId, groups: [group], filters: subtype ? { subtypes: [subtype] } : {} }); router.push("/opportunities"); };
 
   const routeSwitch = (
-    <div role="group" aria-label="مسیر" className="flex items-center gap-1 rounded-full border border-border bg-white/80 p-1 shadow-[0_10px_30px_-24px_rgb(8_59_55/0.4)] backdrop-blur">
+    <div role="group" aria-label="مسیر" className="flex items-center gap-1 rounded-full border border-border bg-white p-1">
       {groupRoutes.map((r) => { const I = routeIcons[r.id]; const on = r.id === routeId;
         return (
           <Button key={r.id} type="button" variant="plain" size="auto" aria-pressed={on} onClick={() => setRouteId(r.id)}
-            className={cn("relative h-10 gap-2 rounded-full px-4 text-[13px] font-extrabold transition-colors", on ? "text-white" : "text-ink/70 hover:text-primary")}>
-            {on && <motion.span layoutId="cat-route" className="absolute inset-0 -z-0 rounded-full bg-pine shadow-[0_10px_22px_-12px_rgb(8_59_55/0.75)]" transition={{ type: "spring", stiffness: 300, damping: 30 }} />}
+            className={cn("relative h-10 gap-2 rounded-full px-4 text-[13px] font-extrabold transition-colors", on ? "text-white" : "text-ink/65 hover:text-ink")}>
+            {on && <motion.span layoutId="cat-route" className="absolute inset-0 rounded-full bg-ink" transition={{ type: "spring", stiffness: 300, damping: 30 }} />}
             <span className="relative flex items-center gap-2"><I size={17} variant="Bulk" />{r.name}<span className={cn("text-[11px] font-bold", on ? "text-white/60" : "text-muted-foreground")}>{faNumber(forRoute(listings, r.id).length)}</span></span>
           </Button>
         ); })}
@@ -144,92 +192,70 @@ export function Categories() {
 
   return (
     <section id="categories" className={sectionCls}>
-      <SectionHead kicker="زیردسته‌های هر مسیر" title={<>حوزه‌های مسیر «{route.name}»</>} text={`${faNumber(projectGroups.length)} حوزه، هر کدام با انواع پروژه‌اش؛ روی هر حوزه بروید تا انواعش را ببینید.`} aside={routeSwitch} />
-      <div className="mt-8 space-y-2.5" onMouseLeave={() => setPreview(null)}>
-        {groupRows.map((row, ri) => (
-          <div key={ri} className="flex h-[17rem] gap-2.5">
-            {row.map((g) => {
-              const i = projectGroups.indexOf(g); const I = groupIcons[g.id]; const on = i === active;
-              return (
-                <motion.div key={g.id} data-panel onMouseEnter={() => { setActive(i); setPreview(null); }} onFocusCapture={() => setActive(i)} onClick={() => setActive(i)}
-                  animate={{ flexGrow: on ? 5 : 1 }} transition={{ type: "spring", stiffness: 190, damping: 26 }}
-                  className="group/panel relative isolate min-w-0 basis-0 cursor-pointer overflow-hidden rounded-[1.6rem] bg-[#1b1d1d] text-white">
-                  <Image src={g.image ?? "/images/hero/field.jpg"} alt="" fill sizes="(max-width:1024px) 100vw, 50vw" className={cn("object-cover transition-all duration-700", on ? "scale-100" : "scale-110 saturate-[0.3]")} />
-                  <AnimatePresence>
-                    {on && preview && (
-                      <motion.div key={preview.image} initial={{ opacity: 0, scale: 1.08 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="absolute inset-0">
-                        <Image src={preview.image} alt="" fill sizes="50vw" className="object-cover" />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                  <div className={cn("absolute inset-0 transition-colors duration-500", on ? "bg-[linear-gradient(to_top,rgb(0_0_0/0.85),rgb(0_0_0/0.4)_45%,rgb(0_0_0/0.25)_70%,rgb(0_0_0/0.6))]" : "bg-gradient-to-t from-[#1b1d1d]/90 via-[#1b1d1d]/55 to-[#1b1d1d]/35 group-hover/panel:via-[#1b1d1d]/40")} />
-                  {on && <AlgoPattern className="-left-6 -top-6 h-2/3 w-2/3 text-white/15 blur-[1px]" fade="radial" scale={0.6} />}
+      <SectionHead kicker="زیردسته‌های هر مسیر" title={<>حوزه‌های مسیر «{route.name}»</>} text={route.description} aside={routeSwitch} />
+      <div className="mt-8 flex h-[52rem] flex-col gap-2" onMouseLeave={() => setPreview(null)}>
+        {projectGroups.map((g, i) => {
+          const I = groupIcons[g.id]; const on = i === active;
+          return (
+            <motion.div key={g.id} data-panel onPointerMove={(e) => { if (i !== active && (e.movementX || e.movementY)) { setActive(i); setPreview(null); } }} onFocusCapture={() => setActive(i)} onClick={() => setActive(i)}
+              animate={{ flexGrow: on ? 6.5 : 1 }} transition={{ type: "spring", stiffness: 190, damping: 26 }}
+              className="group/panel relative isolate min-h-0 basis-0 cursor-pointer overflow-hidden rounded-[1.4rem] bg-[#1b1d1f] text-white">
+              <Image src={g.image ?? "/images/hero/field.jpg"} alt="" fill sizes="90vw" className={cn("object-cover transition-all duration-700", on ? "scale-100" : "scale-110 grayscale")} />
+              <AnimatePresence>
+                {on && preview && (
+                  <motion.div key={preview.image} initial={{ opacity: 0, scale: 1.08 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="absolute inset-0">
+                    <Image src={preview.image} alt="" fill sizes="90vw" className="object-cover" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <div className={cn("absolute inset-0 transition-colors duration-500", on ? "bg-[linear-gradient(to_left,rgb(10_11_12/0.88),rgb(10_11_12/0.55)_45%,rgb(10_11_12/0.15))]" : "bg-[#141618]/75 group-hover/panel:bg-[#141618]/60")} />
 
-                  {/* حالت بسته: آیکون بالا، نام افقی پایین */}
-                  <div className={cn("absolute inset-0 flex flex-col justify-between p-4 transition-opacity duration-300", on ? "pointer-events-none opacity-0" : "opacity-100")}>
-                    <span className="grid size-10 place-items-center rounded-2xl bg-white/12 text-white backdrop-blur-sm"><I size={20} variant="Bulk" /></span>
-                    <span>
-                      <span className="block text-[14px] font-extrabold leading-6">{g.name}</span>
-                      <span className="mt-1 block text-[11px] font-bold text-white/60">{faNumber(g.subtypes.length)} نوع{counts.g[g.id] ? ` · ${faNumber(counts.g[g.id])} پروژه` : ""}</span>
-                    </span>
-                  </div>
+              {/* حالت بسته: آیکون و نام افقی */}
+              <div className={cn("absolute inset-0 flex items-center gap-3 px-5 transition-opacity duration-300", on ? "pointer-events-none opacity-0" : "opacity-100")}>
+                <I size={19} variant="Bulk" className="shrink-0 text-white/80" />
+                <span className="text-[14px] font-extrabold">{g.name}</span>
+                <span className="text-[11px] font-bold text-white/50">{faNumber(g.subtypes.length)} نوع</span>
+                <span className="mr-auto text-[12px] font-bold text-white/70">{faNumber(counts.g[g.id] ?? 0)} پروژه</span>
+              </div>
 
-                  {/* حالت باز: زیردسته‌ها */}
-                  <AnimatePresence>
-                    {on && (
-                      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.18 } }} exit={{ opacity: 0, transition: { duration: 0.1 } }} className="absolute inset-0 flex min-w-[30rem] flex-col justify-between p-5">
-                        <div className="flex items-start justify-between gap-3">
-                          <span className="flex items-center gap-3">
-                            <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-white/15 text-white"><I size={22} variant="Bulk" /></span>
-                            <span>
-                              <span className="flex items-center gap-1.5 text-[11px] font-bold text-white/65">{route.name}<ArrowLeft size={12} />حوزه</span>
-                              <motion.h3 initial={{ y: 14, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.22, duration: 0.45 }} className="text-[1.6rem] font-black leading-tight">{g.name}</motion.h3>
-                            </span>
-                          </span>
-                          <AnimatePresence mode="wait">
-                            <motion.span key={preview?.name ?? "g"} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="glass-dark max-w-[15rem] truncate rounded-full px-3.5 py-1.5 text-xs font-bold">
-                              {preview ? preview.name : `${faNumber(counts.g[g.id] ?? 0)} پروژه`}
-                            </motion.span>
-                          </AnimatePresence>
-                        </div>
-                        <ul className="flex flex-wrap gap-1.5">
-                          {g.subtypes.map((s, k) => (
-                            <motion.li key={s.id} initial={{ opacity: 0, y: 14, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.28 + k * 0.045, duration: 0.4 }}>
-                              <Button data-sub variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id, s.id); }}
-                                onMouseEnter={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })} onFocus={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })}
-                                className="group/sub h-auto gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[12px] font-bold text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-ink">
-                                <span className="size-1.5 rounded-full bg-white transition-all duration-300 group-hover/sub:w-3.5 group-hover/sub:bg-primary" />
-                                {s.name}
-                                <span className="text-[10.5px] font-semibold opacity-60">{faNumber(counts.t[`${g.id}/${s.id}`] ?? 0)}</span>
-                              </Button>
-                            </motion.li>
-                          ))}
-                          <motion.li initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 + g.subtypes.length * 0.045 }}>
-                            <Button variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id); }} className="group/all h-auto gap-2 rounded-full bg-white py-1 pl-1 pr-3.5 text-[12px] font-extrabold text-ink hover:bg-white/90">
-                              همه پروژه‌های {g.name}<span className="grid size-6 place-items-center rounded-full bg-pine text-white transition-transform group-hover/all:-translate-x-0.5"><ArrowLeft size={13} /></span>
+              {/* حالت باز: زیردسته‌ها */}
+              <AnimatePresence>
+                {on && (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.18 } }} exit={{ opacity: 0, transition: { duration: 0.1 } }} className="absolute inset-0 flex min-h-[18rem] flex-col justify-between p-7">
+                    <div className="flex items-start justify-between gap-3">
+                      <span className="grid size-12 place-items-center rounded-2xl bg-white/15 text-white backdrop-blur-sm"><I size={24} variant="Bulk" /></span>
+                      <AnimatePresence mode="wait">
+                        <motion.span key={preview?.name ?? "g"} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="glass-dark max-w-[24rem] truncate rounded-full px-3.5 py-1.5 text-xs font-bold">
+                          {preview ? preview.name : `${faNumber(counts.g[g.id] ?? 0)} پروژه`}
+                        </motion.span>
+                      </AnimatePresence>
+                    </div>
+                    <div className="max-w-3xl">
+                      <p className="mb-1 flex items-center gap-1.5 text-xs font-bold text-white/70">{route.name}<ArrowLeft size={13} />حوزه</p>
+                      <motion.h3 initial={{ y: 16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.22, duration: 0.5 }} className="text-3xl font-black">{g.name}</motion.h3>
+                      <ul className="mt-4 flex flex-wrap gap-2">
+                        {g.subtypes.map((s, k) => (
+                          <motion.li key={s.id} initial={{ opacity: 0, y: 14, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.28 + k * 0.045, duration: 0.4 }}>
+                            <Button data-sub variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id, s.id); }}
+                              onMouseEnter={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })} onFocus={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })}
+                              className="group/sub h-auto gap-2 rounded-full border border-white/25 bg-white/10 px-3.5 py-2 text-[13px] font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:border-white hover:bg-white hover:text-ink">
+                              <span className="size-1.5 rounded-full bg-white transition-all duration-300 group-hover/sub:w-4 group-hover/sub:bg-ink" />
+                              {s.name}
+                              <span className="text-[11px] font-semibold opacity-60">{faNumber(counts.t[`${g.id}/${s.id}`] ?? 0)}</span>
                             </Button>
                           </motion.li>
-                        </ul>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              );
-            })}
-            {/* کارت پایانی ردیف دوم: همه حوزه‌های مسیر */}
-            {ri === groupRows.length - 1 && (
-              <motion.button type="button" onClick={() => open()} animate={{ flexGrow: 1 }} className="group/allg relative isolate flex min-w-0 basis-0 flex-col justify-between overflow-hidden rounded-[1.6rem] border border-primary/25 bg-primary/[0.06] p-4 text-right transition-colors hover:border-primary hover:bg-primary hover:text-white">
-                <AlgoPattern className="inset-0 -z-10 h-full w-full text-primary/25 group-hover/allg:text-white/25" fade="radial" scale={0.5} />
-                <span className="grid size-10 place-items-center rounded-2xl bg-primary text-white transition-colors group-hover/allg:bg-white group-hover/allg:text-primary"><Category2 size={20} variant="Bulk" /></span>
-                <span>
-                  <span className="block text-[1.6rem] font-black leading-none text-primary group-hover/allg:text-white">{faNumber(total)}</span>
-                  <span className="mt-2 block text-[14px] font-extrabold leading-6 text-ink group-hover/allg:text-white">همه حوزه‌ها</span>
-                  <span className="mt-1 flex items-center gap-1 text-[11px] font-bold text-primary group-hover/allg:text-white/80">دیدن پروژه‌ها<ArrowLeft size={13} className="transition-transform group-hover/allg:-translate-x-1" /></span>
-                </span>
-              </motion.button>
-            )}
-          </div>
-        ))}
+                        ))}
+                      </ul>
+                      <Button variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id); }} className="group/all mt-5 h-12 gap-3 rounded-full bg-white pl-1.5 pr-5 text-sm font-extrabold text-ink hover:bg-white/90">
+                        همه پروژه‌های {g.name}<span className="grid size-9 place-items-center rounded-full bg-ink text-white transition-transform group-hover/all:-translate-x-1"><ArrowLeft size={16} /></span>
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          );
+        })}
       </div>
     </section>
   );
@@ -255,14 +281,14 @@ function OneRowBadges({ items }: { items: string[] }) {
     };
     fit(); const ro = new ResizeObserver(fit); ro.observe(el); return () => ro.disconnect();
   }, [items]);
-  const badge = "shrink-0 rounded-full bg-muted px-2.5 py-1 text-[11px] font-semibold text-ink/70 transition-colors group-hover:bg-primary/[0.08]";
+  const badge = "shrink-0 rounded-md border border-border px-2 py-[3px] text-[11px] font-semibold text-ink/65";
   return (
     <div ref={ref} className="relative overflow-hidden">
       <div data-measure aria-hidden className="invisible absolute flex w-max gap-1.5">{items.map((x) => <span key={x} className={badge}>{x}</span>)}</div>
       <span data-plus aria-hidden className={cn(badge, "invisible absolute")}>+{faNumber(items.length)}</span>
       <div className="flex gap-1.5 overflow-hidden" title={items.join("، ")}>
         {items.slice(0, n).map((x) => <span key={x} className={cn(badge, "min-w-0 truncate")}>{x}</span>)}
-        {n < items.length && <span className={cn(badge, "font-extrabold text-primary")}>+{faNumber(items.length - n)}</span>}
+        {n < items.length && <span className={cn(badge, "font-extrabold text-ink")}>+{faNumber(items.length - n)}</span>}
       </div>
     </div>
   );
@@ -285,27 +311,9 @@ const routeShort: Record<string, string> = {
 export function MainCategories() {
   const router = useRouter();
   const begin = useStore((s) => s.begin);
-  const stats = useLandingStats();
-  const statsStrip = (
-    <dl className="surface flex items-stretch gap-1 rounded-[1.6rem] p-1.5">
-      {stats.map((s, i) => { const I = s.icon;
-        return (
-          <div key={s.label} className={cn("relative isolate flex w-[8.25rem] flex-col justify-between gap-3 overflow-hidden rounded-[1.2rem] px-4 py-3.5", i === 0 ? "bg-pine text-white" : "bg-muted/45")}>
-            {i === 0 && <AlgoPattern className="-left-6 -top-6 -z-10 h-[150%] w-[150%] text-white/15" fade="radial" scale={0.45} />}
-            <I size={18} variant="Bulk" className={i === 0 ? "text-white/80" : "text-primary"} />
-            <span>
-              <dd className={cn("text-[1.7rem] font-black leading-none tracking-tight", i === 0 ? "text-white" : "text-ink")}><CountUp value={s.n} /></dd>
-              <dt className={cn("mt-1.5 text-[12px] font-bold", i === 0 ? "text-white/70" : "text-muted-foreground")}>{s.label}</dt>
-            </span>
-          </div>
-        ); })}
-    </dl>
-  );
   return (
     <section id="routes" className="relative mx-auto mt-20 max-w-7xl px-6">
-      <AlgoPattern animated className="-left-24 -top-16 -z-10 h-[26rem] w-[40rem] text-ink/[0.07]" fade="radial" />
-      <AlgoPattern animated className="-bottom-24 -right-20 -z-10 h-[22rem] w-[34rem] text-primary/[0.09]" fade="radial" scale={0.8} />
-      <SectionHead kicker="هشت مسیر ورود" title={<>سرمایه، تخصص یا توان اجرایی؛<br />با کدام وارد می‌شوید؟</>} text="هر مسیر پروژه‌ها و شرایط خودش را دارد؛ مسیرتان را انتخاب کنید." aside={statsStrip} />
+      <SectionHead kicker="هشت مسیر ورود" title={<>سرمایه، تخصص یا توان اجرایی؛<br />با کدام وارد می‌شوید؟</>} text="هر مسیر پروژه‌ها و شرایط خودش را دارد؛ مسیرتان را انتخاب کنید." aside={<StatsCard />} />
       <div className="mt-10 grid grid-cols-4 gap-4">
         {routes.map((r, i) => {
           const I = routeIcons[r.id]; const n = forRoute(listings, r.id).length;
@@ -313,18 +321,14 @@ export function MainCategories() {
           return (
             <Reveal key={r.id} delay={(i % 4) * 0.06} className="h-full">
               <Button variant="plain" size="auto" type="button" onClick={() => { begin({ route: r.id }); router.push("/opportunities"); }}
-                className="group surface relative isolate flex h-full w-full flex-col items-stretch justify-start gap-0 overflow-hidden whitespace-normal rounded-[1.6rem] p-5 text-right transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_26px_50px_-30px_rgb(8_59_55/0.35)]">
-                <span aria-hidden className="absolute inset-x-0 top-0 -z-10 h-24 bg-gradient-to-b from-primary/[0.07] to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <span className="flex items-center justify-between gap-3">
-                  <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-primary/[0.08] text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white"><I size={22} variant="Bulk" /></span>
-                  {n > 0 && <span className="rounded-full bg-pine-soft px-2.5 py-1 text-[11px] font-extrabold tabular-nums text-pine">{faNumber(n)} پروژه</span>}
-                </span>
-                <span className="mt-4 block text-[16px] font-extrabold leading-7 text-ink">{r.name}</span>
-                <span className="mt-0.5 block truncate text-[12.5px] font-normal leading-6 text-muted-foreground">{routeShort[r.id] ?? r.description}</span>
-                <span className="mt-3.5 block"><OneRowBadges items={subs} /></span>
-                <span className="mt-auto flex items-center justify-between border-t border-dashed border-border pt-3.5 text-xs font-bold text-primary" style={{ marginTop: 16 }}>
-                  <NodeMark className="text-ink/20 transition-colors duration-300 group-hover:text-primary" />
-                  <span className="flex items-center gap-1">{n ? "دیدن پروژه‌ها" : "به‌زودی"}<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></span>
+                className="group flex h-full w-full flex-col items-stretch justify-start gap-0 whitespace-normal rounded-[1.4rem] border border-border bg-white p-5 text-right transition-all duration-300 hover:-translate-y-0.5 hover:border-ink/20 hover:shadow-[0_22px_44px_-30px_rgb(20_30_45/0.3)]">
+                <span className="grid size-10 place-items-center rounded-xl bg-muted text-ink/70 transition-colors duration-300 group-hover:bg-ink group-hover:text-white"><I size={20} variant="Bulk" /></span>
+                <span className="mt-4 block text-[15.5px] font-extrabold leading-7 text-ink">{r.name}</span>
+                <span className="block truncate text-[12.5px] leading-6 text-muted-foreground">{routeShort[r.id] ?? r.description}</span>
+                {subs.length > 0 && <span className="mt-3 block"><OneRowBadges items={subs} /></span>}
+                <span className="mt-auto flex items-center justify-between border-t border-border pt-3.5 text-[12px] font-bold">
+                  <span className={n ? "text-ink" : "text-muted-foreground"}>{n ? `${faNumber(n)} پروژه` : "به‌زودی"}</span>
+                  <span className="grid size-8 place-items-center rounded-full text-ink/50 transition-all duration-300 group-hover:bg-primary group-hover:text-white"><ArrowLeft size={16} className="transition-transform group-hover:-translate-x-0.5" /></span>
                 </span>
               </Button>
             </Reveal>
@@ -347,87 +351,140 @@ export function Featured() {
   );
 }
 
-/* ——— روش کار: سه مرحله در راست، یک نمونه واقعی از نتیجه در چپ ——— */
+/* ——— روش کار: سه مرحله روی یک خط زمانی در راست، صحنه‌ی متحرک همان مرحله در چپ ——— */
 const steps = [
-  { t: "شرایط شما با هر پروژه سنجیده می‌شود", d: "مسیر، حوزه، محل و بودجه‌ای که وارد می‌کنید با شرایط ورود هر پروژه مقایسه می‌شود.", icon: FilterSearch, tags: ["مسیر", "حوزه", "استان و شهر", "بودجه"] },
-  { t: "دلیل هر پیشنهاد کنارش نوشته شده", d: "می‌بینید کدام شرط می‌خواند، کدام نمی‌خواند و کدام هنوز نامعلوم است؛ عددی را که نداریم صفر حساب نمی‌کنیم.", icon: TickCircle, tags: ["می‌خواند", "نمی‌خواند", "نامعلوم"] },
-  { t: "قدم بعدی از همان ابتدا روشن است", d: "مدل قرارداد، منبع پول، نحوه دریافت عایدی و گام‌های بعدی هر پروژه را یک‌جا می‌بینید.", icon: Routing2, tags: ["مدل قرارداد", "منبع پول", "دریافت عایدی", "گام بعدی"] },
+  { t: "شرایط شما با هر پروژه سنجیده می‌شود", d: "مسیر، حوزه، محل و بودجه‌ای که وارد می‌کنید با شرایط ورود هر پروژه مقایسه می‌شود." },
+  { t: "دلیل هر پیشنهاد کنارش نوشته شده", d: "می‌بینید کدام شرط می‌خواند، کدام نمی‌خواند و کدام هنوز نامعلوم است؛ عددی را که نداریم صفر حساب نمی‌کنیم." },
+  { t: "قدم بعدی از همان ابتدا روشن است", d: "مدل قرارداد، منبع پول، نحوه دریافت عایدی و گام‌های بعدی هر پروژه را یک‌جا می‌بینید." },
 ];
+const STEP_MS = 4200;
 const demoCriteria: SearchCriteria = { route: "investor", groups: ["energy"], provinces: ["یزد"], amount: [100, 150], filters: { horizon: 8 } };
 const reasonIcon = { met: TickCircle, unmet: CloseCircle, unknown: InfoCircle } as const;
+const statusText = { met: "می‌خواند", unmet: "نمی‌خواند", unknown: "نامعلوم" } as const;
+const statusCls = { met: "text-primary", unmet: "text-coral-deep", unknown: "text-ink/40" } as const;
 
 export function HowItWorks() {
   const [step, setStep] = useState(0);
   const [hold, setHold] = useState(false);
-  useEffect(() => { if (hold) return; const id = setInterval(() => setStep((s) => (s + 1) % steps.length), 3800); return () => clearInterval(id); }, [hold]);
-  const demo = useMemo(() => { const l = listings.find((x) => x.id === "PL-RENEWABLE-01") ?? listings[0]; return { l, m: matchListing(l, demoCriteria), o: l.raw as Opportunity }; }, []);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { margin: "-120px" });
+  useEffect(() => { if (hold || !inView) return; const id = setTimeout(() => setStep((s) => (s + 1) % steps.length), STEP_MS); return () => clearTimeout(id); }, [hold, inView, step]);
+  const demo = useMemo(() => {
+    const l = listings.find((x) => x.id === "PL-RENEWABLE-01") ?? listings[0];
+    const pool = listings.filter((x) => x.group === l.group && x.id !== l.id).slice(0, 3);
+    return { l, m: matchListing(l, demoCriteria), o: l.raw as Opportunity, pool: [pool[0], l, pool[1], pool[2]].filter(Boolean) };
+  }, []);
   const groupName = projectGroups.find((g) => g.id === demo.l.group)?.name ?? "";
-  const dim = (i: number) => cn("transition-all duration-500", step === i ? "opacity-100" : "opacity-35");
+  const criteria = [
+    ["مسیر", routes.find((r) => r.id === demoCriteria.route)?.name ?? ""],
+    ["حوزه", groupName],
+    ["استان", demoCriteria.provinces[0]],
+    ["بودجه", `${faNumber(demoCriteria.amount![0])} تا ${faNumber(demoCriteria.amount![1])} میلیارد تومان`],
+  ];
+  const card = (compact?: boolean) => (
+    <motion.div layoutId="how-card" transition={{ type: "spring", stiffness: 260, damping: 30 }} className="flex items-center gap-3.5 rounded-2xl border border-border bg-white p-3 shadow-[0_18px_40px_-30px_rgb(20_30_45/0.35)]">
+      <motion.span layout className={cn("relative shrink-0 overflow-hidden rounded-xl", compact ? "size-12" : "size-16")}><Image src={demo.l.image} alt="" fill sizes="64px" className="object-cover" /></motion.span>
+      <motion.span layout className="min-w-0 flex-1">
+        <span className="block truncate text-[14px] font-extrabold text-ink">{demo.l.title}</span>
+        <span className="mt-0.5 flex items-center gap-1 text-[12px] font-semibold text-muted-foreground"><Location size={13} />{demo.l.city}، {demo.l.province}</span>
+      </motion.span>
+      <motion.span layout><MatchRing score={demo.m.score} size={compact ? 46 : 54} /></motion.span>
+    </motion.div>
+  );
 
   return (
     <section className={sectionCls}>
       <SectionHead kicker="روش کار" title="چرا این پروژه‌ها را به شما نشان می‌دهیم؟" text="هر پیشنهاد از سه مرحله می‌گذرد و دلیلش را کنار همان پروژه می‌بینید." />
-      <div className="mt-10 grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-6" onMouseLeave={() => setHold(false)}>
-        {/* مرحله‌ها */}
-        <ol className="flex flex-col gap-3">
-          {steps.map((s, i) => { const I = s.icon; const on = step === i;
+      <div ref={ref} className="mt-10 grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] items-stretch gap-10">
+        {/* خط زمانی مرحله‌ها */}
+        <ol className="relative flex flex-col justify-center" onMouseLeave={() => setHold(false)}>
+          {steps.map((s, i) => { const on = step === i; const done = i < step;
             return (
-              <Reveal key={s.t} delay={i * 0.1} className="flex-1">
-                <button type="button" onMouseEnter={() => { setStep(i); setHold(true); }} onFocus={() => { setStep(i); setHold(true); }} onClick={() => setStep(i)} aria-pressed={on}
-                  className={cn("relative isolate flex h-full w-full items-center gap-5 overflow-hidden rounded-[1.6rem] border p-5 text-right transition-all duration-500", on ? "border-primary/30 bg-white shadow-[0_24px_50px_-34px_rgb(8_59_55/0.5)]" : "border-transparent bg-white/45 hover:bg-white/70")}>
-                  <span className={cn("w-8 shrink-0 text-center text-[2.6rem] font-black leading-none tabular-nums transition-colors duration-500", on ? "text-primary" : "text-ink/15")}>{faNumber(i + 1)}</span>
-                  <span className="min-w-0 flex-1">
-                    <span className="flex items-center gap-2">
-                      <I size={18} variant="Bulk" className={on ? "text-primary" : "text-ink/40"} />
-                      <span className="text-[16px] font-extrabold leading-7 text-ink">{s.t}</span>
-                    </span>
-                    <span className="mt-1.5 block text-[13px] leading-7 text-muted-foreground">{s.d}</span>
-                    <span className="mt-3 flex flex-wrap gap-1.5">{s.tags.map((x) => <span key={x} className={cn("rounded-full px-2.5 py-1 text-[11px] font-bold transition-colors duration-500", on ? "bg-primary/[0.08] text-primary" : "bg-muted text-ink/55")}>{x}</span>)}</span>
+              <li key={s.t} className="relative flex gap-5 pb-9 last:pb-0">
+                {i < steps.length - 1 && (
+                  <span className="absolute right-[1.2rem] top-11 bottom-1 w-px bg-border">
+                    <motion.span className="absolute inset-x-0 top-0 origin-top bg-ink" initial={false} animate={{ height: done ? "100%" : on && !hold ? "100%" : "0%" }} transition={{ duration: on && !hold ? STEP_MS / 1000 : 0.4, ease: "linear" }} />
                   </span>
-                  {on && !hold && <motion.span key={`p${i}`} className="absolute bottom-0 right-0 h-[3px] bg-primary" initial={{ width: 0 }} animate={{ width: "100%" }} transition={{ duration: 3.8, ease: "linear" }} />}
+                )}
+                <button type="button" onMouseEnter={() => { setStep(i); setHold(true); }} onFocus={() => { setStep(i); setHold(true); }} onClick={() => setStep(i)} aria-pressed={on} className="flex gap-5 text-right">
+                  <span className={cn("relative grid size-10 shrink-0 place-items-center rounded-full border text-[15px] font-black transition-all duration-500", on ? "border-ink bg-ink text-white" : done ? "border-ink/30 bg-white text-ink" : "border-border bg-white text-ink/35")}>
+                    {on && <motion.span layoutId="how-ring" className="absolute -inset-1.5 rounded-full border border-ink/15" />}
+                    {faNumber(i + 1)}
+                  </span>
+                  <span className="pt-1.5">
+                    <span className={cn("block text-[17px] font-extrabold leading-7 transition-colors duration-500", on ? "text-ink" : "text-ink/45")}>{s.t}</span>
+                    <motion.span initial={false} animate={{ height: on ? "auto" : 0, opacity: on ? 1 : 0 }} transition={{ duration: 0.45, ease }} className="block overflow-hidden">
+                      <span className="block pt-1.5 text-[13.5px] leading-7 text-muted-foreground">{s.d}</span>
+                    </motion.span>
+                  </span>
                 </button>
-              </Reveal>
+              </li>
             ); })}
         </ol>
 
-        {/* نمونه نتیجه */}
-        <Reveal delay={0.15} className="h-full">
-          <div className="relative isolate flex h-full flex-col gap-4 overflow-hidden rounded-[2rem] bg-pine p-6 text-white">
-            <AlgoPattern animated className="-left-16 -top-16 -z-10 h-[80%] w-[90%] text-white/[0.12]" fade="radial" scale={0.7} />
-            <span className="glass-dark w-fit rounded-full px-3 py-1 text-[11px] font-bold">یک نمونه از نتیجه</span>
-            {/* ۱: شرایط شما */}
-            <div className={dim(0)}>
-              <p className="mb-2 text-[11px] font-bold text-white/60">شرایطی که وارد کرده‌اید</p>
-              <div className="flex flex-wrap gap-1.5 text-[12px] font-bold">
-                {[routes.find((r) => r.id === demoCriteria.route)?.name, `حوزه ${groupName}`, `استان ${demoCriteria.provinces[0]}`, `بودجه ${faNumber(demoCriteria.amount![0])} تا ${faNumber(demoCriteria.amount![1])} میلیارد تومان`, `بازگشت تا ${faNumber(8)} سال`].map((x) => <span key={x} className="rounded-full bg-white/10 px-3 py-1.5 ring-1 ring-white/15">{x}</span>)}
-              </div>
-            </div>
-            {/* کارت پروژه */}
-            <div className="glass-strong flex items-center gap-3.5 rounded-[1.4rem] p-3 text-ink">
-              <span className="relative size-16 shrink-0 overflow-hidden rounded-2xl"><Image src={demo.l.image} alt="" fill sizes="64px" className="object-cover" /><span className="absolute inset-0 bg-pine/25" /></span>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-[14px] font-extrabold">{demo.l.title}</span>
-                <span className="mt-0.5 flex items-center gap-1 text-[12px] font-semibold text-muted-foreground"><Location size={13} />{demo.l.city}، {demo.l.province}</span>
-              </span>
-              <MatchRing score={demo.m.score} size={56} />
-            </div>
-            {/* ۲: دلیل‌ها */}
-            <div className={dim(1)}>
-              <p className="mb-2 text-[11px] font-bold text-white/60">چرا این پروژه؟</p>
-              <ul className="grid grid-cols-2 gap-1.5">
-                {demo.m.reasons.map((r) => { const R = reasonIcon[r.status];
-                  return <li key={r.label} className="flex items-center gap-2 rounded-xl bg-white/[0.07] px-3 py-2 text-[12px] font-bold"><R size={16} variant="Bulk" className={r.status === "met" ? "text-[#7dd3c8]" : r.status === "unmet" ? "text-[#f2a07b]" : "text-white/55"} />{r.label}<span className="mr-auto text-[11px] font-semibold text-white/55">{r.status === "met" ? "می‌خواند" : r.status === "unmet" ? "نمی‌خواند" : "نامعلوم"}</span></li>; })}
-              </ul>
-            </div>
-            {/* ۳: قدم بعدی */}
-            <div className={cn(dim(2), "mt-auto")}>
-              <p className="mb-2 text-[11px] font-bold text-white/60">قدم بعدی</p>
-              <dl className="divide-y divide-white/10 rounded-2xl bg-white/[0.07] px-4 text-[12px]">
-                <div className="flex items-center justify-between gap-4 py-2.5"><dt className="text-white/60">مدل قرارداد</dt><dd className="font-bold">{demo.o.model}</dd></div>
-                <div className="flex items-center justify-between gap-4 py-2.5"><dt className="shrink-0 text-white/60">منبع پول</dt><dd className="truncate font-bold">{demo.o.finance.split("؛")[0]}</dd></div>
-                {demo.o.expert && <div className="flex items-center justify-between gap-4 py-2.5"><dt className="text-white/60">کارشناس پروژه</dt><dd className="font-bold">{demo.o.expert.name}</dd></div>}
-              </dl>
-            </div>
+        {/* صحنه */}
+        <Reveal delay={0.1}>
+          <div className="relative isolate h-[24.5rem] overflow-hidden rounded-[1.75rem] border border-border bg-[radial-gradient(rgb(20_30_45/0.09)_1px,transparent_1px)] bg-white p-7 [background-size:18px_18px]">
+            <span className="absolute left-6 top-6 text-[11px] font-bold text-muted-foreground">نمونه با داده‌ی یک پروژه</span>
+            <AnimatePresence mode="popLayout" initial={false}>
+              {step === 0 && (
+                <motion.div key="s0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-7 top-14 grid grid-cols-[1fr_1fr] gap-6">
+                  <div className="space-y-2">
+                    <p className="mb-3 text-[12px] font-extrabold text-ink">شرایط شما</p>
+                    {criteria.map(([k, v], i) => (
+                      <motion.div key={k} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 + i * 0.18, duration: 0.45, ease }} className="flex items-center justify-between gap-3 rounded-xl border border-border bg-white px-3.5 py-2.5 text-[12.5px]">
+                        <span className="text-muted-foreground">{k}</span><span className="truncate font-bold text-ink">{v}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                  <div className="relative space-y-2">
+                    <p className="mb-3 text-[12px] font-extrabold text-ink">{faNumber(listings.length)} پروژه</p>
+                    {demo.pool.map((l, i) => { const hit = l.id === demo.l.id;
+                      return (
+                        <motion.div key={l.id} initial={{ opacity: 0 }} animate={{ opacity: hit ? 1 : [1, 1, 0.35] }} transition={{ delay: 0.2 + i * 0.1, duration: 2.2, times: [0, 0.6, 1] }}
+                          className={cn("flex items-center gap-2.5 rounded-xl border bg-white p-2 transition-colors", hit ? "border-ink/25" : "border-border")}>
+                          <span className="relative size-9 shrink-0 overflow-hidden rounded-lg"><Image src={l.image} alt="" fill sizes="36px" className="object-cover grayscale" /></span>
+                          <span className="min-w-0 flex-1 truncate text-[12px] font-bold text-ink/80">{l.title}</span>
+                          {hit && <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.6, type: "spring", stiffness: 400, damping: 15 }}><TickCircle size={17} variant="Bold" className="text-primary" /></motion.span>}
+                        </motion.div>
+                      ); })}
+                    <motion.span aria-hidden className="pointer-events-none absolute inset-x-0 h-10 bg-gradient-to-b from-transparent via-primary/15 to-transparent" initial={{ top: "1.5rem", opacity: 0 }} animate={{ top: ["1.5rem", "100%"], opacity: [0, 1, 0] }} transition={{ delay: 0.3, duration: 1.6, ease: "easeInOut" }} />
+                  </div>
+                </motion.div>
+              )}
+              {step === 1 && (
+                <motion.div key="s1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-7 top-14 flex flex-col gap-4">
+                  {card()}
+                  <div>
+                    <p className="mb-2.5 text-[12px] font-extrabold text-ink">چرا این پروژه؟</p>
+                    <ul className="divide-y divide-border rounded-2xl border border-border bg-white">
+                      {demo.m.reasons.map((r, i) => { const R = reasonIcon[r.status];
+                        return (
+                          <motion.li key={r.label} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 + i * 0.16, duration: 0.4, ease }} className="flex items-center gap-2.5 px-4 py-2.5 text-[12.5px] font-bold text-ink">
+                            <R size={17} variant="Bulk" className={statusCls[r.status]} />{r.label}<span className={cn("mr-auto text-[11.5px] font-semibold", statusCls[r.status])}>{statusText[r.status]}</span>
+                          </motion.li>
+                        ); })}
+                    </ul>
+                  </div>
+                </motion.div>
+              )}
+              {step === 2 && (
+                <motion.div key="s2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-7 top-14 flex flex-col gap-4">
+                  {card(true)}
+                  <div>
+                    <p className="mb-2.5 text-[12px] font-extrabold text-ink">قدم بعدی</p>
+                    <div className="space-y-2">
+                      {[["مدل قرارداد", demo.o.model, Hierarchy], ["منبع پول", demo.o.finance.split("؛")[0], WalletMoney], ...(demo.o.expert ? [["کارشناس پروژه", demo.o.expert.name, Call] as const] : [])].map(([k, v, I], i) => (
+                        <motion.div key={k as string} initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 + i * 0.15, duration: 0.5, ease }} className="flex items-center gap-3 rounded-xl border border-border bg-white px-3.5 py-3 text-[12.5px]">
+                          {(() => { const C = I as Icon; return <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-muted text-ink/70"><C size={16} variant="Bulk" /></span>; })()}
+                          <span className="text-muted-foreground">{k as string}</span><span className="mr-auto truncate font-bold text-ink">{v as string}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </Reveal>
       </div>

@@ -57,7 +57,7 @@ export function ListingCard({ listing: l, score, reasons, index = 0, comparable 
               {tag && <span className="inline-block max-w-full truncate rounded-full bg-white px-2.5 py-1 text-[11px] font-extrabold text-ink">{tag}</span>}
               {l.city && <p className="flex items-center gap-1 text-[13px] font-bold text-white [text-shadow:0_1px_3px_rgb(0_0_0/0.7)]"><Location size={15} variant="Bold" />{l.province}، {l.city}</p>}
             </div>
-            {score != null && <span className="shrink-0 rounded-full bg-pine/60 p-0.5"><MatchRing score={score} light /></span>}
+            {score != null && <span className="shrink-0 rounded-full bg-black/45 p-0.5"><MatchRing score={score} light /></span>}
           </div>
         </SignaturePhoto>
         <div className="pointer-events-none absolute inset-x-5 top-5 z-20 flex flex-row-reverse [&>*]:pointer-events-auto items-center justify-end gap-2">

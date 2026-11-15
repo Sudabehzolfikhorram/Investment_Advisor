@@ -49,7 +49,7 @@ export function HeroGallery({ l, index, onIndex }: { l: Listing; index: number; 
             <Image src={p.src} alt="" fill sizes="56px" className="object-cover" />
           </Button>
         ))}
-        <Button type="button" variant="plain" size="auto" onClick={() => setOpen(true)} className="h-14 gap-2 rounded-xl bg-pine/45 px-3.5 text-[13px] font-extrabold text-white backdrop-blur hover:bg-pine/60"><GalleryIcon size={18} variant="Bulk" />{faNumber(pics.length)} عکس</Button>
+        <Button type="button" variant="plain" size="auto" onClick={() => setOpen(true)} className="h-14 gap-2 rounded-xl bg-black/45 px-3.5 text-[13px] font-extrabold text-white backdrop-blur hover:bg-pine/60"><GalleryIcon size={18} variant="Bulk" />{faNumber(pics.length)} عکس</Button>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent dir="rtl" aria-describedby={undefined} className="gap-4 rounded-[2rem] bg-pine p-5 text-white sm:max-w-5xl [&_[data-slot=dialog-close-x]]:bg-white/10 [&_[data-slot=dialog-close-x]]:text-white">
