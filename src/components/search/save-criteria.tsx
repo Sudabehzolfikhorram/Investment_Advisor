@@ -81,7 +81,7 @@ export function SavedCriteriaMenu({ onSave, saved }: { onSave: () => void; saved
       <DropdownMenuTrigger asChild {...h.hover}>
         <Button variant="plain" size="auto" aria-label="فیلترهای ذخیره‌شده" title="فیلترهای ذخیره‌شده" className="surface relative grid size-14 shrink-0 place-items-center rounded-full data-[state=open]:bg-muted">
           <ArchiveTick size={22} variant="Bulk" className={list.length ? "text-cobalt" : "text-ink/45"} />
-          {list.length > 0 && <span className={cn("absolute -left-0.5 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full px-1 text-[10.5px] font-black text-white ring-2 ring-white", fresh ? "bg-cobalt" : "bg-ink/60")}>{faNumber(fresh || list.length)}</span>}
+          {list.length > 0 && <span className={cn("absolute -left-0.5 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full px-1 text-[10.5px] font-black text-white ring-2 ring-white", fresh ? "bg-cobalt" : "bg-teal-700")}>{faNumber(fresh || list.length)}</span>}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={8} className="w-80 rounded-2xl p-1.5" {...h.hover}>

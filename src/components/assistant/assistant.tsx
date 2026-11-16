@@ -66,7 +66,7 @@ function TopCard({ r, i }: { r: MatchResult; i: number }) {
         <Image src={l.image} alt="" fill sizes="30vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
         <span className="absolute inset-0 bg-[linear-gradient(to_top,rgb(0_0_0/0.65),transparent_55%)]" />
         <span className="absolute right-3 top-3 rounded-full bg-white px-2.5 py-0.5 text-[11px] font-black text-ink">پیشنهاد {faNumber(i + 1)}</span>
-        <span className="absolute bottom-3 left-3 rounded-full bg-black/45 p-0.5"><MatchRing score={r.score} light /></span>
+        <span className="absolute bottom-3 left-3 rounded-full bg-teal-900/50 p-0.5"><MatchRing score={r.score} light /></span>
         {l.city && <span className="absolute bottom-3.5 right-3 flex items-center gap-1 text-xs font-bold text-white"><Location size={14} variant="Bold" />{l.province}، {l.city}</span>}
       </span>
       <div className="flex flex-1 flex-col gap-2.5 px-4 pb-4 pt-1.5">
@@ -128,7 +128,7 @@ function Bubble({ children }: { children: React.ReactNode }) {
   // پیام کاربر سمت راست، پاسخ دستیار سمت چپ
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex justify-start">
-      <p className="max-w-xl rounded-[1.5rem] rounded-tr-md bg-pine px-5 py-3 text-[15px] font-bold leading-8 text-white shadow-[0_18px_36px_-24px_var(--pine)]">{children}</p>
+      <p className="max-w-xl rounded-[1.5rem] rounded-tr-md bg-teal-800 px-5 py-3 text-[15px] font-bold leading-8 text-white shadow-[0_18px_36px_-24px_var(--pine)]">{children}</p>
     </motion.div>
   );
 }
@@ -249,7 +249,7 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave, onAdjust, onCom
                         </div>
                       </div>
                     ) : <div className="surface flex items-center gap-3 rounded-[1.5rem] p-5 text-sm font-bold text-ink/75"><TickCircle size={20} variant="Bulk" className="shrink-0 text-primary-ink" />شرایط اصلی را گفته‌اید، اگر شرط دیگری دارید، پایین بنویسید.</div>}
-                    <div className={cn("relative overflow-hidden rounded-[1.5rem] p-5", saved ? "surface" : "bg-pine text-white")}>
+                    <div className={cn("relative overflow-hidden rounded-[1.5rem] p-5", saved ? "surface" : "bg-teal-800 text-white")}>
                       {saved ? (
                         <p className="flex items-center gap-2.5 text-sm font-extrabold text-primary-ink"><ArchiveTick size={20} variant="Bulk" />این شرایط ذخیره شده است، دفعه بعد از همین‌جا ادامه می‌دهید.</p>
                       ) : (
@@ -361,7 +361,7 @@ export function Assistant() {
                     className="field-sizing-content max-h-40 min-h-12 flex-1 resize-none rounded-none border-0 !bg-transparent px-0 py-3 text-base font-semibold leading-7 text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
                   {hydrated && profiles.length > 0 && <SavedPicker activeId={attached?.id} onPick={(p) => { setAttachedId(p.id); box.current?.focus(); }} onEdit={setEditing} />}
                   <Button variant="plain" size="auto" type="submit" disabled={!text.trim() && !attached} aria-label="بفرست"
-                    className="grid size-12 shrink-0 place-items-center rounded-full bg-primary text-white shadow-[0_14px_30px_-12px_var(--primary)] transition-[background-color,transform] hover:bg-deep active:scale-95 disabled:bg-pine/15 disabled:shadow-none"><Send2 size={20} variant="Bold" className="-scale-x-100" /></Button>
+                    className="grid size-12 shrink-0 place-items-center rounded-full bg-primary text-white shadow-[0_14px_30px_-12px_var(--primary)] transition-[background-color,transform] hover:bg-teal-700 active:scale-95 disabled:bg-pine/15 disabled:shadow-none"><Send2 size={20} variant="Bold" className="-scale-x-100" /></Button>
                 </div>
               </form>
             </div>

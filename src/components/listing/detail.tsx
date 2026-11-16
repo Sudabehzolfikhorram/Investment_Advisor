@@ -302,7 +302,7 @@ function Contact({ l }: { l: Listing }) {
   const [copied, setCopied] = useState(false);
   const copy = () => { navigator.clipboard?.writeText(expert!.mobile); setCopied(true); toast("شماره کپی شد."); setTimeout(() => setCopied(false), 2000); };
   return (
-    <div id="next-step" className="relative isolate overflow-hidden rounded-[2rem] bg-pine p-6 text-white">
+    <div id="next-step" className="relative isolate overflow-hidden rounded-[2rem] bg-teal-800 p-6 text-white">
       <AlgoPattern className="-left-8 -top-8 -z-10 h-56 w-72 text-white/[0.07] blur-[1.5px]" fade="radial" />
       {expert ? (
         <>
@@ -702,12 +702,21 @@ export function Detail({ id }: { id: string }) {
 
             <Chapter title="شناسنامه پروژه"><Facts groups={groups} /></Chapter>
 
-            {/* ساختار یکسان همه پروژه‌ها: همین بخش‌ها با همین ترتیب، داده‌ای که نیست «اعلام نشده» نوشته می‌شود */}
+            {/* ساختار یکسان همه صفحه‌ها، به همین ترتیب: شناسنامه، پول، مقایسه بازگشت، ریسک، پرسش‌ها، پرونده، اطلاعات تکمیلی، گام‌ها، موارد مشابه.
+                بخشی که برای یک نوع (پروژه، صندوق، ملک) داده ندارد حذف می‌شود و بقیه جایشان را حفظ می‌کنند. */}
             {o && <Chapter title="سرمایه شما در طول زمان"><MoneyTime o={o} l={l} text={text} probable={probable} /></Chapter>}
+            {hasFlow && !o && <Chapter title="مسیر پول"><div className="surface rounded-[1.75rem] px-6 py-2"><MoneyFlow o={text} /></div></Chapter>}
+            {fund && (
+              <Chapter title="دریافت سود و خروج">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="surface rounded-[1.75rem] p-6"><h3 className="text-sm font-extrabold text-primary-ink">پرداخت سود</h3><p className="mt-2 text-xl font-black text-ink">{payoutLabel[fund.payout] ?? fund.payout}</p><p className="mt-1 text-sm text-muted-foreground">مدت: {fund.durationMonths != null ? `${faNumber(fund.durationMonths)} ماه` : NA}</p></div>
+                  <div className="rounded-[1.75rem] bg-white p-6 ring-1 ring-border"><span className="grid size-11 place-items-center rounded-2xl bg-warn/10 text-warn"><Warning2 size={22} variant="Bulk" /></span><h3 className="mt-3 text-sm font-extrabold text-ink">شرایط خروج</h3><p className="mt-2 text-[15px] font-semibold leading-8 text-ink/85">{fund.exit || NA}</p></div>
+                </div>
+              </Chapter>
+            )}
             {o && peers.length > 0 && (
               <Chapter title="بازگشت سرمایه در برابر پروژه‌های مشابه"><PeerReturn l={l} peers={peers} /></Chapter>
             )}
-            {hasFlow && !o && <Chapter title="مسیر پول"><div className="surface rounded-[1.75rem] px-6 py-2"><MoneyFlow o={text} /></div></Chapter>}
 
             {o && (
               <Chapter title="ریسک و نکته‌های مهم">
@@ -734,18 +743,37 @@ export function Detail({ id }: { id: string }) {
               </Chapter>
             )}
 
-            {o && advisory && <Chapter title="پرسش‌هایی که باید پاسخشان را آماده کنید"><AdvisoryBlock a={advisory} /></Chapter>}
-
-            {!o && text.caution && (
-              <div className="flex items-start gap-4 rounded-[1.75rem] bg-white p-6 ring-1 ring-border">
-                <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-warn/10 text-warn"><Warning2 size={22} variant="Bulk" /></span>
-                <span><span className="block text-sm font-extrabold text-ink">پیش از تصمیم بدانید</span><span className="mt-1 block text-[15px] font-semibold leading-8 text-ink/85">{text.caution}</span></span>
-              </div>
+            {/* صندوق و ملک: همان جای بخش ریسک پروژه‌ها */}
+            {!o && (fund || text.caution) && (
+              <Chapter title="ریسک و نکته‌های مهم">
+                <div className={cn("grid gap-4", fund && text.caution ? "grid-cols-[minmax(0,5fr)_minmax(0,7fr)]" : "grid-cols-1")}>
+                  {fund && <div className="surface rounded-[1.75rem] p-6"><h3 className="text-sm font-extrabold text-ink">سطح ریسک</h3><div className="mt-5"><RiskMeter risk={fund.risk} /></div></div>}
+                  {text.caution && (
+                    <div className="flex items-start gap-4 rounded-[1.75rem] bg-white p-6 ring-1 ring-border">
+                      <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-warn/10 text-warn"><Warning2 size={22} variant="Bulk" /></span>
+                      <span><span className="block text-sm font-extrabold text-ink">پیش از تصمیم بدانید</span><span className="mt-1 block text-[15px] font-semibold leading-8 text-ink/85">{text.caution}</span></span>
+                    </div>
+                  )}
+                </div>
+              </Chapter>
             )}
+            {fund && (
+              <Chapter title="تضمین بانکی">
+                <div className="grid grid-cols-3 gap-3">
+                  {([["تضمین بانکی", fund.bank.exists], ["تضمین اصل سرمایه", fund.bank.principal], ["تضمین سود", fund.bank.profit]] as const).map(([t, v]) => (
+                    <div key={t} className="surface flex items-center justify-between rounded-[1.5rem] p-5"><span className="text-sm font-bold text-ink">{t}</span>
+                      <span className={cn("inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-extrabold", v ? "bg-primary text-white" : v === false ? "bg-muted text-ink/70" : "bg-muted text-ink/70")}>{v ? <><TickCircle size={14} variant="Bold" />دارد</> : v === false ? "ندارد" : "نامعلوم"}</span></div>
+                  ))}
+                </div>
+                {!fund.bank.verified && <p className="mt-3 flex items-center gap-2 text-sm font-semibold text-muted-foreground"><InfoCircle size={16} variant="Bulk" />مستندات تضمین احراز نشده است.</p>}
+              </Chapter>
+            )}
+
+            {o && advisory && <Chapter title="پرسش‌هایی که باید پاسخشان را آماده کنید"><AdvisoryBlock a={advisory} /></Chapter>}
 
             <Chapter title="پرونده کامل"><Dossier sections={sections} /></Chapter>
 
-            {o && <Chapter title="اطلاعات تکمیلی"><InfoCompleteness l={l} /></Chapter>}
+            <Chapter title="اطلاعات تکمیلی"><InfoCompleteness l={l} /></Chapter>
 
             {nextSteps && nextSteps.length > 0 && (
               <Chapter title="گام‌های ورود و مدارک لازم">
@@ -757,27 +785,6 @@ export function Detail({ id }: { id: string }) {
                     : <Button asChild className="h-12 gap-2 rounded-full px-6 font-extrabold"><Link href={`/guide/${l.id}`}><DocumentDownload size={18} variant="Bold" />دیدن راهنمای اقدام</Link></Button>}
                 </div>
               </Chapter>
-            )}
-
-            {fund && (
-              <>
-                <Chapter title="تضمین بانکی">
-                  <div className="grid grid-cols-3 gap-3">
-                    {([["تضمین بانکی", fund.bank.exists], ["تضمین اصل سرمایه", fund.bank.principal], ["تضمین سود", fund.bank.profit]] as const).map(([t, v]) => (
-                      <div key={t} className="surface flex items-center justify-between rounded-[1.5rem] p-5"><span className="text-sm font-bold text-ink">{t}</span>
-                        <span className={cn("inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-extrabold", v ? "bg-primary text-white" : v === false ? "bg-muted text-ink/70" : "bg-muted text-ink/70")}>{v ? <><TickCircle size={14} variant="Bold" />دارد</> : v === false ? "ندارد" : "نامعلوم"}</span></div>
-                    ))}
-                  </div>
-                  {!fund.bank.verified && <p className="mt-3 flex items-center gap-2 text-sm font-semibold text-muted-foreground"><InfoCircle size={16} variant="Bulk" />مستندات تضمین احراز نشده است.</p>}
-                </Chapter>
-                <Chapter title="دریافت سود و خروج">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="surface rounded-[1.75rem] p-6"><h3 className="text-sm font-extrabold text-primary-ink">پرداخت سود</h3><p className="mt-2 text-xl font-black text-ink">{payoutLabel[fund.payout] ?? fund.payout}</p><p className="mt-1 text-sm text-muted-foreground">مدت: {fund.durationMonths != null ? `${faNumber(fund.durationMonths)} ماه` : NA}</p>
-                      <div className="mt-5"><RiskMeter risk={fund.risk} /></div></div>
-                    <div className="rounded-[1.75rem] bg-white p-6 ring-1 ring-border"><span className="grid size-11 place-items-center rounded-2xl bg-warn/10 text-warn"><Warning2 size={22} variant="Bulk" /></span><h3 className="mt-3 text-sm font-extrabold text-ink">شرایط خروج</h3><p className="mt-2 text-[15px] font-semibold leading-8 text-ink/85">{fund.exit || NA}</p></div>
-                  </div>
-                </Chapter>
-              </>
             )}
 
             {/* پروژه‌های مشابه، پایین صفحه */}

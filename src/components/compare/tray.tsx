@@ -54,7 +54,7 @@ export function CompareTray() {
               );
             })}
           </ul>
-          <Button asChild={ready} type="button" disabled={!ready} className={cn("h-12 shrink-0 gap-2 rounded-[1.1rem] px-5 font-extrabold", ready ? "bg-primary text-white shadow-[0_14px_28px_-16px_var(--primary)] hover:bg-deep" : "bg-muted text-ink/40")}>
+          <Button asChild={ready} type="button" disabled={!ready} className={cn("h-12 shrink-0 gap-2 rounded-[1.1rem] px-5 font-extrabold", ready ? "bg-primary text-white shadow-[0_14px_28px_-16px_var(--primary)] hover:bg-teal-700" : "bg-muted text-ink/40")}>
             {ready ? <Link href="/compare">مقایسه کنید<ArrowLeft size={16} /></Link> : <span>یکی دیگر انتخاب کنید</span>}
           </Button>
           <Button type="button" variant="plain" size="auto" aria-label="پاک کردن مقایسه" title="پاک کردن همه" onClick={clearCompare} className="grid size-10 shrink-0 place-items-center rounded-full text-ink/40 hover:bg-destructive/10 hover:text-destructive"><CloseCircle size={20} /></Button>

@@ -134,7 +134,7 @@ export function ProProfileCard({ className, onApplied }: { className?: string; o
         <p className="min-w-0 flex-1 text-[12.5px] leading-6 text-muted-foreground"><b className="block text-[13.5px] font-extrabold text-ink">فیلترها را از پروفایلتان پر کنید</b>نقش، استان و سرمایه را یک‌بار بگویید، هر بار همین‌جا با یک کلیک روی نتایج می‌نشیند.</p>
       </div>
       <div className="mt-3 flex items-center gap-2">
-        <Button type="button" variant="plain" size="auto" onClick={() => setQuick(true)} className="h-9 flex-1 rounded-full bg-ink text-[12.5px] font-extrabold text-white hover:bg-ink/90">ساخت سریع پروفایل</Button>
+        <Button type="button" variant="plain" size="auto" onClick={() => setQuick(true)} className="h-9 flex-1 rounded-full bg-teal-800 text-[12.5px] font-extrabold text-white hover:bg-teal-900">ساخت سریع پروفایل</Button>
         <Button type="button" variant="ghost" size="xs" onClick={() => openProfileTab(router.push)} className="shrink-0 text-[12px] font-bold text-muted-foreground">فرم کامل</Button>
       </div>
       {dialog}
@@ -145,7 +145,7 @@ export function ProProfileCard({ className, onApplied }: { className?: string; o
   return (
     <div className={cn("rounded-2xl border border-border bg-white p-4", className)}>
       <div className="flex items-center gap-3">
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-ink text-white"><UserEdit size={19} variant="Bulk" /></span>
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-teal-800 text-white"><UserEdit size={19} variant="Bulk" /></span>
         <span className="min-w-0 flex-1">
           <span className="block truncate text-[13.5px] font-extrabold text-ink">{p.name || "پروفایل حرفه‌ای من"}</span>
           <span className="block text-[11.5px] font-semibold text-muted-foreground">{faNumber(facts.filter((f) => f.on).length)} از {faNumber(facts.length)} مورد روی نتایج</span>
@@ -166,7 +166,7 @@ export function ProProfileCard({ className, onApplied }: { className?: string; o
           </li>
         ))}
       </ul>
-      {!allOn && <Button type="button" variant="plain" size="auto" onClick={() => applyAll(p)} className="mt-3 h-9 w-full rounded-full bg-ink text-[12.5px] font-extrabold text-white hover:bg-ink/90">اعمال همه روی فیلترها</Button>}
+      {!allOn && <Button type="button" variant="plain" size="auto" onClick={() => applyAll(p)} className="mt-3 h-9 w-full rounded-full bg-teal-800 text-[12.5px] font-extrabold text-white hover:bg-teal-900">اعمال همه روی فیلترها</Button>}
       {dialog}
     </div>
   );
@@ -181,7 +181,7 @@ export function ProProfileBar({ className }: { className?: string }) {
   const facts = p ? profileFacts(p, criteria) : [];
   return (
     <div className={cn("flex items-center gap-3 rounded-2xl bg-white/70 p-2.5 pr-3 ring-1 ring-border", className)}>
-      <span className={cn("grid size-9 shrink-0 place-items-center rounded-xl", p ? "bg-ink text-white" : "bg-muted text-ink")}><UserEdit size={18} variant="Bulk" /></span>
+      <span className={cn("grid size-9 shrink-0 place-items-center rounded-xl", p ? "bg-teal-800 text-white" : "bg-muted text-ink")}><UserEdit size={18} variant="Bulk" /></span>
       {p ? <>
         <span className="shrink-0 text-[13px] font-extrabold text-ink">از پروفایل شما:</span>
         <div className="no-scrollbar flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto">
@@ -195,7 +195,7 @@ export function ProProfileBar({ className }: { className?: string }) {
         <Button type="button" variant="ghost" size="xs" onClick={() => setQuick(true)} className="shrink-0 text-[12px] font-bold text-muted-foreground">ویرایش</Button>
       </> : <>
         <p className="min-w-0 flex-1 text-[12.5px] text-muted-foreground"><b className="font-extrabold text-ink">پروفایل حرفه‌ای</b> بسازید تا نقش، استان و سرمایه‌تان خودکار روی همین پرسش‌ها بنشیند.</p>
-        <Button type="button" variant="plain" size="auto" onClick={() => setQuick(true)} className="h-9 shrink-0 rounded-full bg-ink px-4 text-[12.5px] font-extrabold text-white hover:bg-ink/90">ساخت سریع</Button>
+        <Button type="button" variant="plain" size="auto" onClick={() => setQuick(true)} className="h-9 shrink-0 rounded-full bg-teal-800 px-4 text-[12.5px] font-extrabold text-white hover:bg-teal-900">ساخت سریع</Button>
       </>}
       {dialog}
     </div>

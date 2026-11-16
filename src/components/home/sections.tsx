@@ -68,7 +68,7 @@ function HelpAccordion({ topics, active, setActive }: { topics: Topic[]; active:
             <button type="button" onClick={() => setActive(on ? -1 : i)} aria-expanded={on} className="flex w-full items-center gap-4 px-7 py-5 text-right">
               <span className={cn("grid size-10 shrink-0 place-items-center rounded-2xl transition-colors", on ? "bg-cobalt text-white" : "bg-muted text-ink/60")}><I size={19} variant="Bulk" /></span>
               <span className={cn("min-w-0 flex-1 text-[16px] leading-7 transition-colors", on ? "font-extrabold text-ink" : "font-bold text-ink/75")}>{x.title}</span>
-              <span className={cn("relative grid size-9 shrink-0 place-items-center rounded-full border transition-colors duration-300", on ? "border-ink bg-ink text-white" : "border-border text-ink")}>
+              <span className={cn("relative grid size-9 shrink-0 place-items-center rounded-full border transition-colors duration-300", on ? "border-teal-800 bg-teal-800 text-white" : "border-border text-ink")}>
                 <span className="absolute h-[2px] w-3.5 rounded-full bg-current" />
                 <span className={cn("absolute h-3.5 w-[2px] rounded-full bg-current transition-transform duration-300", on && "scale-y-0")} />
               </span>
@@ -132,7 +132,7 @@ function StatsCard() {
           <div className="relative h-[3.25rem] overflow-hidden">
             <AnimatePresence mode="popLayout" initial={false}>
               <motion.div key={cur.id} initial={{ y: "100%", opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: "-100%", opacity: 0 }} transition={{ duration: 0.55, ease }} className="absolute inset-0 flex items-center gap-3">
-                <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-ink text-white"><I size={21} variant="Bulk" /></span>
+                <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-teal-800 text-white"><I size={21} variant="Bulk" /></span>
                 <span className="min-w-0">
                   <span className="block truncate text-[15px] font-extrabold text-ink">{cur.name}</span>
                   <span className="block text-[12.5px] font-semibold text-muted-foreground"><b className="font-extrabold text-cobalt-deep">{faNumber(cur.n)}</b> پروژه · {faNumber(cur.provinces.size)} استان</span>
@@ -364,7 +364,7 @@ export function MainCategories() {
           return (
             <Reveal key={r.id} delay={(i % 4) * 0.06} className="h-full">
               <Button variant="plain" size="auto" type="button" onClick={() => { begin({ route: r.id }); router.push("/opportunities"); }}
-                className={cn("group surface relative isolate flex h-full min-h-[15.5rem] !bg-[radial-gradient(90%_70%_at_100%_0%,rgb(0_173_171/0.10),transparent_60%),linear-gradient(#fff,#fff)] w-full flex-col items-stretch justify-start gap-0 overflow-hidden whitespace-normal rounded-[1.6rem] p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:!border-primary/40 hover:!bg-[radial-gradient(90%_70%_at_100%_0%,rgb(0_173_171/0.16),transparent_60%),linear-gradient(#fff,#fff)] hover:shadow-[0_26px_50px_-30px_rgb(0_173_171/0.45)]",
+                className={cn("group surface relative isolate flex h-full min-h-[15.5rem] !bg-[radial-gradient(90%_70%_at_100%_0%,rgb(30_64_175/0.08),transparent_60%),linear-gradient(#fff,#fff)] w-full flex-col items-stretch justify-start gap-0 overflow-hidden whitespace-normal rounded-[1.6rem] p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:!border-primary/40 hover:!bg-[radial-gradient(90%_70%_at_100%_0%,rgb(30_64_175/0.13),transparent_60%),linear-gradient(#fff,#fff)] hover:shadow-[0_26px_50px_-30px_rgb(30_64_175/0.4)]",
                   fit && on && "border-cobalt/45 shadow-[0_0_0_3px_rgb(30_64_175/0.08),0_26px_50px_-34px_rgb(30_64_175/0.45)]", !on && "opacity-40 saturate-0 hover:opacity-100 hover:saturate-100")}>
                 {/* سرِ کارت فقط آیکون، شمار پروژه به پاورقی رفت تا بالای کارت خلوت بماند */}
                 <span className={cn("grid size-12 shrink-0 place-items-center rounded-2xl bg-cobalt-soft text-cobalt transition-colors duration-300 group-hover:bg-cobalt group-hover:text-white", fit && on && "bg-cobalt text-white")}><I size={23} variant="Bulk" /></span>
@@ -492,7 +492,7 @@ export function HowItWorks() {
                     </span>
                   </span>
                   {/* نوار زمان مرحله */}
-                  {on && <motion.span key={`${i}-${hold}`} className="absolute inset-x-6 bottom-0 h-[2px] origin-right rounded-full bg-ink/80" initial={{ scaleX: hold ? 1 : 0 }} animate={{ scaleX: 1 }} transition={{ duration: hold ? 0 : STEP_MS / 1000, ease: "linear" }} />}
+                  {on && <motion.span key={`${i}-${hold}`} className="absolute inset-x-6 bottom-0 h-[2px] origin-right rounded-full bg-teal-700" initial={{ scaleX: hold ? 1 : 0 }} animate={{ scaleX: 1 }} transition={{ duration: hold ? 0 : STEP_MS / 1000, ease: "linear" }} />}
                 </button>
               </li>
             ); })}
@@ -556,7 +556,7 @@ export function HowItWorks() {
                     {[["مدل قرارداد", demo.o.model, Hierarchy], ["منبع پول", demo.o.finance.split("،")[0], WalletMoney], ...(demo.o.expert ? [["کارشناس پروژه", demo.o.expert.name, Call] as const] : [])].map(([k, v, I], i) => { const C = I as Icon;
                       return (
                         <motion.li key={k as string} initial={{ opacity: 0, x: -18 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 + i * 0.22, duration: 0.5, ease }} className="relative flex items-center gap-3">
-                          <motion.span className="absolute -right-[2.05rem] grid size-[18px] place-items-center rounded-full border-2 border-white bg-ink" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.3 + i * 0.22, type: "spring", stiffness: 400, damping: 15 }} />
+                          <motion.span className="absolute -right-[2.05rem] grid size-[18px] place-items-center rounded-full border-2 border-white bg-teal-700" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.3 + i * 0.22, type: "spring", stiffness: 400, damping: 15 }} />
                           <span className="flex min-w-0 flex-1 items-center gap-3 rounded-xl bg-[#f5f7fa] px-3.5 py-3 text-[12.5px]">
                             <C size={17} variant="Bulk" className="shrink-0 text-ink/60" />
                             <span className="text-muted-foreground">{k as string}</span><span className="mr-auto truncate font-bold text-ink">{v as string}</span>

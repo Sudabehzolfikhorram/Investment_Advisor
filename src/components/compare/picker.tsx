@@ -132,7 +132,7 @@ export function ComparePicker({ className }: { className?: string }) {
       <div className="mt-5 flex items-center gap-3">
         <ToggleGroup type="single" spacing={2} value={query ? "" : tab} onValueChange={(v) => { if (v) { setTab(v as typeof tab); setQ(""); setLimit(12); } }} className="flex">
           {tabs.map(([id, label, n]) => (
-            <ToggleGroupItem key={id} value={id} className="h-9 gap-1.5 rounded-full border border-border bg-white px-3.5 text-[12.5px] font-bold text-ink/70 shadow-none hover:border-ink/25 hover:bg-white hover:text-ink data-[state=on]:border-ink data-[state=on]:bg-ink data-[state=on]:text-white">
+            <ToggleGroupItem key={id} value={id} className="h-9 gap-1.5 rounded-full border border-border bg-white px-3.5 text-[12.5px] font-bold text-ink/70 shadow-none hover:border-ink/25 hover:bg-white hover:text-ink data-[state=on]:border-teal-800 data-[state=on]:bg-teal-800 data-[state=on]:text-white">
               {label}{n != null && <span className="text-[11px] font-semibold opacity-70">{faNumber(n)}</span>}
             </ToggleGroupItem>
           ))}

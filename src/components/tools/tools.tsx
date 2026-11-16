@@ -93,7 +93,7 @@ function QuickCheck() {
       <AnimatePresence mode="wait" initial={false}>
         {rec && R ? (
           <motion.div key={rec.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }} className="mt-6 flex items-center gap-4 rounded-2xl bg-[#f3f6fa] p-4">
-            <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-ink text-white"><R size={22} variant="Bulk" /></span>
+            <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-teal-800 text-white"><R size={22} variant="Bulk" /></span>
             <span className="min-w-0 flex-1">
               <span className="block text-[11.5px] font-bold text-muted-foreground">پیشنهاد برای شما</span>
               <span className="block truncate text-[15px] font-extrabold text-ink">{rec.name}</span>
@@ -195,7 +195,7 @@ export function ToolsIndex() {
             {process.map((x, i) => { const I = x.icon;
               return (
                 <motion.li key={x.t} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 + i * 0.15, duration: 0.5 }} className="relative">
-                  <span className={cn("relative grid size-12 place-items-center rounded-2xl ring-4 ring-background", i === 0 ? "bg-ink text-white" : "bg-white text-ink shadow-[0_8px_20px_-14px_rgb(20_30_45/0.5)]")}><I size={21} variant="Bulk" /></span>
+                  <span className={cn("relative grid size-12 place-items-center rounded-2xl ring-4 ring-background", i === 0 ? "bg-teal-800 text-white" : "bg-white text-ink shadow-[0_8px_20px_-14px_rgb(20_30_45/0.5)]")}><I size={21} variant="Bulk" /></span>
                   <p className="mt-5 flex items-center gap-2 text-[16px] font-extrabold text-ink">{x.t}<span className="rounded-full bg-cobalt-soft px-2.5 py-0.5 text-[11px] font-extrabold text-cobalt-deep">{x.time}</span></p>
                   <p className="mt-1.5 text-[13.5px] leading-7 text-muted-foreground">{x.d}</p>
                 </motion.li>

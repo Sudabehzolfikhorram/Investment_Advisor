@@ -92,7 +92,7 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
                 <button type="button" onClick={() => { setFocus(x.id); setQ(""); }} aria-expanded={active} className="relative flex w-full items-center gap-2.5 rounded-2xl p-1.5 pl-2 text-right">
                   <span className="relative size-9 shrink-0 overflow-hidden rounded-xl bg-muted">
                     {x.image && <Image src={x.image} alt="" fill sizes="36px" className={cn("object-cover transition-all duration-300", active || on ? "" : "grayscale")} />}
-                    {on && <span className="absolute inset-0 grid place-items-center bg-ink/55"><TickCircle size={18} variant="Bold" className="text-white" /></span>}
+                    {on && <span className="absolute inset-0 grid place-items-center bg-teal-900/55"><TickCircle size={18} variant="Bold" className="text-white" /></span>}
                   </span>
                   <span className={cn("min-w-0 flex-1 truncate text-[12.5px]", active || on ? "font-extrabold text-ink" : "font-semibold text-ink/75")}>{x.name}</span>
                   <ArrowLeft2 size={14} className={cn("shrink-0 transition-all duration-300", active ? "-translate-x-0.5 text-ink" : "text-ink/25")} />
@@ -121,7 +121,7 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
                 {/* سرِ ساده بدون عکس و پس‌زمینه تیره */}
                 <div className="mb-3 flex items-center justify-between gap-3 border-b border-border pb-3">
                   <p className="text-[15px] font-black text-ink">{g.name}</p>
-                  <label className={cn("flex shrink-0 cursor-pointer items-center gap-2 rounded-full border px-3 py-1.5 text-[11.5px] font-bold transition-colors", groups.includes(g.id) && !typesOf(g.id).length ? "border-ink bg-ink text-white" : "border-border bg-white text-ink/75 hover:border-ink/30")}>
+                  <label className={cn("flex shrink-0 cursor-pointer items-center gap-2 rounded-full border px-3 py-1.5 text-[11.5px] font-bold transition-colors", groups.includes(g.id) && !typesOf(g.id).length ? "border-teal-800 bg-teal-800 text-white" : "border-border bg-white text-ink/75 hover:border-ink/30")}>
                     <Checkbox checked={groups.includes(g.id) && !typesOf(g.id).length} onCheckedChange={(c) => (c ? allOf(g.id) : toggleGroup(g.id))} className="size-3.5 bg-white" />
                     همه زیردسته‌های {g.name}
                   </label>

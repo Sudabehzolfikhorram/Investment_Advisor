@@ -39,7 +39,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
           {hydrated && user ? (
             <DropdownMenu dir="rtl">
               <DropdownMenuTrigger asChild>
-                <Button variant="plain" size="auto" className={cn("h-10 rounded-full px-4 text-sm font-bold", overlay ? "bg-white text-ink" : "bg-pine text-white hover:bg-pine-deep")}>
+                <Button variant="plain" size="auto" className={cn("h-10 rounded-full px-4 text-sm font-bold", overlay ? "bg-white text-ink" : "bg-teal-800 text-white hover:bg-teal-900")}>
                   <ProfileCircle size={20} variant="Bulk" /><span dir="ltr">{faDigits(user.mobile)}</span>
                 </Button>
               </DropdownMenuTrigger>
@@ -50,7 +50,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button onClick={() => openLogin()} className={cn("h-10 rounded-full px-5 font-bold", overlay ? "bg-white text-ink hover:bg-white/90" : "bg-pine text-white hover:bg-pine-deep")}>
+            <Button onClick={() => openLogin()} className={cn("h-10 rounded-full px-5 font-bold", overlay ? "bg-white text-ink hover:bg-white/90" : "bg-teal-800 text-white hover:bg-teal-900")}>
               <Login size={18} /> ورود
             </Button>
           )}

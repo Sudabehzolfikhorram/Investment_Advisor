@@ -55,7 +55,7 @@ export function InfoTip({ text }: { text: string }) {
 function Section({ id, title, count, info, children }: { id: string; title: string; count: number; info?: string; children: React.ReactNode }) {
   return (
     // بخش باز با زمینه آبی کم‌رنگ و عنوان آبی مشخص می‌شود، شمار فیلترهای انتخاب‌شده هر بخش کنار عنوانش
-    <AccordionItem value={id} className="group/sec -mx-2 rounded-2xl border-border px-2 transition-colors data-[state=open]:border-transparent data-[state=open]:bg-cobalt-50 data-[state=open]:ring-1 data-[state=open]:ring-cobalt/15 data-[state=open]:[&_[data-slot=slider-track]]:bg-cobalt/15 [&+&]:mt-1">
+    <AccordionItem value={id} className="group/sec -mx-2 rounded-2xl border-border px-2 transition-colors data-[state=open]:border-transparent data-[state=open]:bg-cobalt-50/55 data-[state=open]:[&_[data-slot=slider-track]]:bg-cobalt/10 [&+&]:mt-1">
       <AccordionTrigger className="items-center rounded-xl py-4 text-right text-[15px] font-extrabold text-ink hover:no-underline focus-visible:ring-2 focus-visible:ring-cobalt/40 data-[state=open]:text-cobalt-deep">
         <span className="flex items-center gap-2">{title}{info && <InfoTip text={info} />}{count > 0 && <Badge className="h-5 min-w-5 bg-cobalt px-1.5 text-[11px] font-bold text-white">{faNumber(count)} انتخاب</Badge>}</span>
       </AccordionTrigger>

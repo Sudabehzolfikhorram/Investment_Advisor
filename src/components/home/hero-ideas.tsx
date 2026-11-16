@@ -110,7 +110,7 @@ export function HeroCompass() {
           <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} aria-label="شرایط شما برای دستیار" className="h-14 rounded-none border-0 !bg-transparent px-0 text-[15px] font-semibold text-ink shadow-none focus-visible:ring-0 md:text-[15px]" />
           <TypingHint hidden={!!prompt} />
         </span>
-        <Button type="submit" variant="plain" size="auto" className="group h-14 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_18px_36px_-18px_var(--primary)] hover:bg-deep">پیشنهاد بگیرید<ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
+        <Button type="submit" variant="plain" size="auto" className="group h-14 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_18px_36px_-18px_var(--primary)] hover:bg-teal-700">پیشنهاد بگیرید<ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
       </form>
       <Button variant="plain" size="auto" onClick={() => browse()} className="group mt-4 gap-1.5 px-3 text-sm font-bold text-ink/60 hover:text-ink">مشاهده همه پروژه‌ها<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></Button>
     </Shell>
@@ -185,7 +185,7 @@ export function HeroSentence() {
           <span className="block text-[13px] font-semibold text-muted-foreground">با همین شرایط پیدا شد</span>
         </span>
         <Button variant="plain" size="auto" disabled={!matches.length} onClick={() => browse({ provinces: province ? [province] : [], groups: group ? [group] : [], amount: amount ? [a.min, amount] : null })}
-          className="group h-14 gap-2 rounded-full bg-primary px-6 font-extrabold text-white shadow-[0_18px_36px_-18px_var(--primary)] hover:bg-deep disabled:bg-pine/15">دیدن پروژه‌ها<ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
+          className="group h-14 gap-2 rounded-full bg-primary px-6 font-extrabold text-white shadow-[0_18px_36px_-18px_var(--primary)] hover:bg-teal-700 disabled:bg-pine/15">دیدن پروژه‌ها<ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
       </div>
       <Button variant="plain" size="auto" onClick={() => ask("")} className="group mt-4 gap-1.5 px-3 text-sm font-bold text-ink/60 hover:text-ink"><MagicStar size={16} variant="Bulk" className="text-primary-ink" />ترجیح می‌دهم با دستیار بنویسم<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></Button>
     </Shell>
@@ -246,7 +246,7 @@ export function HeroDossier() {
       </div>
 
       <div className="mt-10 flex items-center gap-3">
-        <Button variant="plain" size="auto" onClick={() => ask("")} className="group h-14 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_18px_36px_-18px_var(--primary)] hover:bg-deep"><MagicStar size={20} variant="Bulk" />شرایطم را به دستیار می‌گویم</Button>
+        <Button variant="plain" size="auto" onClick={() => ask("")} className="group h-14 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_18px_36px_-18px_var(--primary)] hover:bg-teal-700"><MagicStar size={20} variant="Bulk" />شرایطم را به دستیار می‌گویم</Button>
         <Button variant="plain" size="auto" onClick={() => browse()} className="group h-14 gap-2 rounded-full border border-border bg-white px-6 font-extrabold text-ink hover:border-ink/25 hover:text-ink">همه پروژه‌ها<ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" /></Button>
         <span className="mr-2 flex items-center gap-1.5 text-xs font-bold text-ink/55"><ShieldTick size={16} variant="Bulk" className="text-primary-ink" />بدون ثبت‌نام</span>
       </div>

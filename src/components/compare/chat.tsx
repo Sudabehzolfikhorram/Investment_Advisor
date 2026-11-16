@@ -36,7 +36,7 @@ function Reply({ turn, items, stale, onAsk, onShowRows }: { turn: Turn; items: L
     <div className="space-y-4">
       {/* پرسش شما سمت راست، پاسخ دستیار سمت چپ */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="flex justify-start">
-        <p className="max-w-[88%] rounded-[1.3rem] rounded-tr-md bg-ink px-4 py-2 text-[13px] font-bold leading-6 text-white">{turn.q}</p>
+        <p className="max-w-[88%] rounded-[1.3rem] rounded-tr-md bg-teal-800 px-4 py-2 text-[13px] font-bold leading-6 text-white">{turn.q}</p>
       </motion.div>
       <div className="flex flex-row-reverse items-start gap-3">
         <Orb size={28} busy={phase !== "done"} />
@@ -149,7 +149,7 @@ export function CompareChat({ items, onShowRows, className }: { items: Listing[]
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(text); } }}
             className="field-sizing-content max-h-28 min-h-10 flex-1 resize-none rounded-none border-0 !bg-transparent px-0 py-2 text-[13.5px] font-semibold leading-6 text-ink shadow-none focus-visible:ring-0 disabled:cursor-not-allowed placeholder:font-normal md:text-[13.5px]" />
           <Button type="submit" variant="plain" size="auto" disabled={!ready || !text.trim()} aria-label="بفرست"
-            className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-white transition-[background-color,transform] hover:bg-deep active:scale-95 disabled:bg-pine/15"><Send2 size={18} variant="Bold" className="-scale-x-100" /></Button>
+            className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-white transition-[background-color,transform] hover:bg-teal-700 active:scale-95 disabled:bg-pine/15"><Send2 size={18} variant="Bold" className="-scale-x-100" /></Button>
         </form>
         <p className="mt-2 text-center text-[10.5px] font-semibold leading-5 text-muted-foreground">پاسخ‌ها از داده‌های همین پروژه‌هاست و توصیه قطعی نیست.</p>
       </div>

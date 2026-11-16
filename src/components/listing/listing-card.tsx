@@ -23,7 +23,7 @@ export function SaveButton({ id, className, label }: { id: string; className?: s
       onClick={(e) => { e.preventDefault(); e.stopPropagation();
         if (!user) return openLogin({ type: "save-listing", id });
         toggleSaved(id); toast(on ? "از ذخیره‌شده‌ها حذف شد." : "پروژه ذخیره شد."); }}
-      className={cn("inline-flex items-center justify-center gap-2 rounded-full transition-all active:scale-95", label ? "h-12 px-5 font-bold" : "size-10", on ? "bg-primary text-white" : label ? "border border-border bg-white text-ink hover:border-ink/25 hover:text-ink" : "bg-pine/55 text-white hover:bg-pine/70", className)}>
+      className={cn("inline-flex items-center justify-center gap-2 rounded-full transition-all active:scale-95", label ? "h-12 px-5 font-bold" : "size-10", on ? "bg-primary text-white" : label ? "border border-border bg-white text-ink hover:border-ink/25 hover:text-ink" : "bg-teal-900/50 text-white hover:bg-teal-800/75", className)}>
       {on ? <ArchiveTick size={20} variant="Bold" /> : <ArchiveAdd size={20} />}
       {label && <span>{on ? "ذخیره شد" : "ذخیره پروژه"}</span>}
     </Button>
@@ -43,7 +43,7 @@ function CompareButton({ id }: { id: string }) {
         const count = compare.length + (on ? -1 : 1);
         if (!on && count >= 2) toast(`${count === 4 ? "چهار" : count === 3 ? "سه" : "دو"} پروژه برای مقایسه آماده است.`, { action: { label: "مقایسه کنید", onClick: () => router.push("/compare") } }); }}
       aria-label={on ? "حذف از مقایسه" : "افزودن به مقایسه"}
-      className={cn("inline-flex h-10 items-center justify-center gap-1.5 rounded-full text-[12.5px] font-extrabold text-white transition-all active:scale-95", on ? "bg-cobalt px-3.5 shadow-[0_8px_18px_-8px_var(--cobalt)]" : "w-10 bg-pine/55 backdrop-blur-sm hover:bg-pine/70")}>
+      className={cn("inline-flex h-10 items-center justify-center gap-1.5 rounded-full text-[12.5px] font-extrabold text-white transition-all active:scale-95", on ? "bg-cobalt px-3.5 shadow-[0_8px_18px_-8px_var(--cobalt)]" : "w-10 bg-teal-900/50 backdrop-blur-sm hover:bg-teal-800/75")}>
       {/* پیش از انتخاب فقط آیکون، بعد از افزودن کلمه «در مقایسه» دیده می‌شود */}
       {on ? <><TickCircle size={17} variant="Bold" />در مقایسه</> : <Convertshape2 size={18} />}
     </Button>
@@ -53,7 +53,7 @@ function CompareButton({ id }: { id: string }) {
 /** بج درصد تطابق: هم‌قد دکمه ذخیره، در همان ردیف بالای کارت */
 function MatchBadge({ score }: { score: number }) {
   return (
-    <span title="تطابق با شرایط شما" className="inline-flex h-10 shrink-0 items-center rounded-full bg-black/45 px-3.5 text-[12.5px] font-extrabold tabular-nums text-white backdrop-blur-sm">
+    <span title="تطابق با شرایط شما" className="inline-flex h-10 shrink-0 items-center rounded-full bg-teal-900/50 px-3.5 text-[12.5px] font-extrabold tabular-nums text-white backdrop-blur-sm">
       {faNumber(score)}٪ تطابق
     </span>
   );

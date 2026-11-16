@@ -136,7 +136,7 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
           </g>
         </svg>
         {tip && (
-          <span className="pointer-events-none absolute bottom-3 right-3 flex items-center gap-2.5 rounded-2xl bg-ink p-1.5 pl-4 text-white shadow-[0_10px_24px_-10px_rgb(20_30_45/0.6)]">
+          <span className="pointer-events-none absolute bottom-3 right-3 flex items-center gap-2.5 rounded-2xl bg-teal-800 p-1.5 pl-4 text-white shadow-[0_10px_24px_-10px_rgb(20_30_45/0.6)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             {provincePhotos[tip] && <img src={withBase(provincePhotos[tip].src)} alt="" className="size-11 rounded-xl object-cover" />}
             <span className={cn("text-xs font-extrabold leading-5", !provincePhotos[tip] && "py-1.5 pr-2.5")}>{tip}<span className="block text-[11px] font-semibold text-white/85">{provincePhotos[tip]?.place}<span className="block text-white">{city.counts[tip] ? `${faNumber(city.counts[tip])} پروژه` : "بدون پروژه در این مسیر"}</span></span></span>

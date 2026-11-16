@@ -156,7 +156,7 @@ export function Hero() {
               <Badge variant="outline" className="gap-2.5 border-border bg-white px-4 py-2 text-[13px] font-bold text-ink"><span><NodeMark className="text-primary-ink" /></span>مشاور سرمایه‌گذاری</Badge>
               <TabsList className="h-auto rounded-full bg-pine/[0.05] p-1 group-data-[orientation=horizontal]/tabs:h-auto">
                 {([["assistant", "از دستیار بپرس", MagicStar], ["form", "خودم انتخاب می‌کنم", Category2]] as const).map(([k, label, I]) => (
-                  <TabsTrigger key={k} value={k} className="h-auto gap-1.5 rounded-full border-0 px-4 py-2 text-sm font-bold text-ink/65 data-[state=active]:bg-pine data-[state=active]:text-white data-[state=active]:shadow-none"><I size={16} variant="Bulk" />{label}</TabsTrigger>
+                  <TabsTrigger key={k} value={k} className="h-auto gap-1.5 rounded-full border-0 px-4 py-2 text-sm font-bold text-ink/65 data-[state=active]:bg-teal-800 data-[state=active]:text-white data-[state=active]:shadow-none"><I size={16} variant="Bulk" />{label}</TabsTrigger>
                 ))}
               </TabsList>
             </div>
@@ -165,7 +165,7 @@ export function Hero() {
               <h1 className="text-5xl font-black leading-[1.4] tracking-tight text-ink text-balance">بگویید چه می‌خواهید، <span className="text-primary-ink">نزدیک‌ترین پروژه‌ها</span> را با درصد تطابق نشانتان می‌دهیم.</h1>
               <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) go(prompt); }} className="surface flex items-center gap-2 rounded-full p-2 pr-7 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(0_173_171/0.12),0_24px_50px_-30px_rgb(22_32_48/0.3)]">
                 <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="۳۰ میلیارد دارم، پروژه مسکونی در تهران می‌خواهم…" aria-label="توضیح شرایط برای دستیار" className="h-14 min-w-0 flex-1 rounded-none border-0 !bg-transparent px-0 text-base font-semibold text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
-                <Button type="submit" variant="plain" size="auto" className="group h-14 shrink-0 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_14px_30px_-14px_rgb(20_30_45/0.6)] hover:bg-deep">پیدا کن <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
+                <Button type="submit" variant="plain" size="auto" className="group h-14 shrink-0 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_14px_30px_-14px_rgb(20_30_45/0.6)] hover:bg-teal-700">پیدا کن <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
               </form>
               <div className="flex flex-wrap items-center gap-2">
                 {samplePrompts.map((p) => <Button key={p} variant="plain" size="auto" onClick={() => go(p)} className="h-auto rounded-full border border-border bg-white px-3.5 py-1.5 text-[13px] font-semibold text-ink/75 hover:border-ink/25 hover:text-ink">{p}</Button>)}
@@ -175,7 +175,7 @@ export function Hero() {
             <TabsContent value="form" className="space-y-8">
               <h1 className="text-[3.1rem] font-black leading-[1.9] tracking-tight text-ink">می‌خواهم از مسیر<RouteBlank />وارد شوم.</h1>
               <div className="flex flex-wrap items-center gap-4">
-                <Button variant="plain" size="auto" onClick={() => { begin({ route }); router.push("/opportunities"); }} className="group h-16 gap-3 rounded-full bg-primary pl-2.5 pr-7 text-lg font-extrabold text-white shadow-[0_22px_44px_-22px_var(--primary)] hover:bg-deep">
+                <Button variant="plain" size="auto" onClick={() => { begin({ route }); router.push("/opportunities"); }} className="group h-16 gap-3 rounded-full bg-primary pl-2.5 pr-7 text-lg font-extrabold text-white shadow-[0_22px_44px_-22px_var(--primary)] hover:bg-teal-700">
                   دیدن {hydrated ? faNumber(count) : "…"} پروژه
                   <span className="grid size-11 place-items-center rounded-full bg-white/15 transition-transform group-hover:-translate-x-1"><ArrowLeft size={20} /></span>
                 </Button>

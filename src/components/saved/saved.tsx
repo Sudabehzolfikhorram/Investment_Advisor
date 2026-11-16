@@ -140,7 +140,7 @@ export function Saved() {
             <span className="grid size-16 place-items-center rounded-full bg-muted text-ink"><ArchiveTick size={30} variant="Bulk" /></span>
             <h2 className="mt-5 text-xl font-extrabold text-ink">برای دیدن علاقه‌مندی‌ها وارد شوید.</h2>
             <p className="mt-2 max-w-md text-sm leading-7 text-muted-foreground">پروژه‌ها و جست‌وجوهایی که ذخیره می‌کنید با شماره موبایل شما نگه داشته می‌شود.</p>
-            <Button variant="plain" size="auto" type="button" onClick={() => openLogin()} className="mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-primary px-7 font-extrabold text-white hover:bg-deep"><Login size={18} />ورود با موبایل</Button>
+            <Button variant="plain" size="auto" type="button" onClick={() => openLogin()} className="mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-primary px-7 font-extrabold text-white hover:bg-teal-700"><Login size={18} />ورود با موبایل</Button>
           </Card>
         ) : hydrated && (
           <>
@@ -209,7 +209,7 @@ function Empty({ text, cta }: { text: string; cta: string }) {
   return (
     <div className="grid place-items-center rounded-[2rem] border border-dashed border-border px-6 py-16 text-center">
       <p className="max-w-md text-sm font-semibold leading-7 text-muted-foreground">{text}</p>
-      <Link href="/opportunities" className="mt-5 inline-flex h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-extrabold text-white hover:bg-deep">{cta}<ArrowLeft size={16} /></Link>
+      <Link href="/opportunities" className="mt-5 inline-flex h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-extrabold text-white hover:bg-teal-700">{cta}<ArrowLeft size={16} /></Link>
     </div>
   );
 }

@@ -111,7 +111,7 @@ export function EditProfileDialog({ profile, onOpenChange }: { profile: SavedPro
           <div className="space-y-2.5">
             <p className="text-[13px] font-bold text-ink">شرط‌ها</p>
             <div className="flex flex-wrap gap-1.5">
-              {criteria && <span className="rounded-full bg-pine px-3 py-1.5 text-[12px] font-bold text-white">{routeName(criteria)}</span>}
+              {criteria && <span className="rounded-full bg-teal-800 px-3 py-1.5 text-[12px] font-bold text-white">{routeName(criteria)}</span>}
               {chips.map((c) => (
                 <span key={c.key} className="inline-flex items-center gap-1 rounded-full border border-border bg-white py-1 pl-1 pr-3 text-[12px] font-semibold text-ink/80">
                   {c.label}

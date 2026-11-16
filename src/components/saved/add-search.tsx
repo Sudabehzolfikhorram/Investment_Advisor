@@ -37,7 +37,7 @@ export function AddSearchButton({ variant = "icon" }: { variant?: "icon" | "tile
       ) : (
         <button type="button" onClick={start} className="group grid min-h-[15rem] place-items-center rounded-[2rem] border-2 border-dashed border-border bg-white/50 p-6 text-center transition-colors hover:border-ink/30 hover:bg-white">
           <span>
-            <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-ink text-white transition-transform duration-300 group-hover:scale-105"><FilterAdd size={26} variant="Bulk" /></span>
+            <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-teal-800 text-white transition-transform duration-300 group-hover:scale-105"><FilterAdd size={26} variant="Bulk" /></span>
             <span className="mt-4 block text-[15px] font-extrabold text-ink">فیلتر تازه بسازید</span>
             <span className="mt-1 block text-[12.5px] leading-6 text-muted-foreground">مسیر، حوزه، استان و بودجه را بگویید،<br />پروژه‌های تازه‌اش همین‌جا می‌آید.</span>
           </span>
