@@ -58,14 +58,14 @@ export function Dropdown({ options, value, onChange, placeholder = "انتخاب
   );
 }
 
-export function RangeField({ min, max, step = 1, unit, value, onChange, presets }: { min: number; max: number; step?: number; unit?: string; value: [number, number] | undefined; onChange: (v: [number, number]) => void; presets?: [number, number][] }) {
+export function RangeField({ min, max, step = 1, unit, value, onChange, presets, bare }: { min: number; max: number; step?: number; unit?: string; value: [number, number] | undefined; onChange: (v: [number, number]) => void; presets?: [number, number][]; bare?: boolean }) {
   const v = value ?? [min, max];
   return (
     <div className="space-y-4">
-      <div className="flex items-end justify-between text-sm">
+      {!bare && <div className="flex items-end justify-between text-sm">
         <span className="font-extrabold text-ink">از {faNumber(v[0])} تا {faNumber(v[1])}</span>
         <span className="text-xs text-muted-foreground">{unit}</span>
-      </div>
+      </div>}
       <Slider dir="rtl" min={min} max={max} step={step} value={v} onValueChange={(x) => onChange([x[0], x[1]] as [number, number])} />
       {presets && (
         <div className="flex flex-wrap gap-2">
@@ -76,13 +76,13 @@ export function RangeField({ min, max, step = 1, unit, value, onChange, presets 
   );
 }
 
-export function SliderField({ min = 0, max = 100, step = 1, unit, value, onChange }: { min?: number; max?: number; step?: number; unit?: string; value: number | undefined; onChange: (v: number | undefined) => void }) {
+export function SliderField({ min = 0, max = 100, step = 1, unit, value, onChange, bare }: { min?: number; max?: number; step?: number; unit?: string; value: number | undefined; onChange: (v: number | undefined) => void; bare?: boolean }) {
   return (
     <div className="space-y-3">
-      <div className="flex h-6 items-center justify-between text-sm">
+      {!bare && <div className="flex h-6 items-center justify-between text-sm">
         <span className={cn("font-extrabold", value == null ? "text-muted-foreground" : "text-ink")}>{value == null ? "انتخاب نشده" : `${faNumber(value)} ${unit ?? ""}`}</span>
         {value != null && <Button type="button" variant="ghost" size="xs" onClick={() => onChange(undefined)} className="text-muted-foreground hover:text-destructive">حذف</Button>}
-      </div>
+      </div>}
       <Slider dir="rtl" min={min} max={max} step={step} value={[value ?? min]} onValueChange={(x) => onChange(x[0])} className={cn(value == null && "opacity-50")} />
     </div>
   );
@@ -135,7 +135,7 @@ export function ComboList({ options, value, onChange, placeholder, empty, classN
 }
 
 /** رندر عمومی یک فیلد بر اساس طرح‌واره data/fields.ts */
-export function FieldControl({ field, value, onChange, options }: { field: FieldDef; value: FilterValue; onChange: (v: FilterValue) => void; options?: FieldOption[] }) {
+export function FieldControl({ field, value, onChange, options, bare }: { field: FieldDef; value: FilterValue; onChange: (v: FilterValue) => void; options?: FieldOption[]; bare?: boolean }) {
   const opts = options ?? field.options ?? [];
   switch (field.control) {
     // گزینه‌های زیاد یا بلند در نوار باریک روی هم می‌افتند؛ در آن حالت دراپ‌داون می‌شوند
@@ -143,8 +143,8 @@ export function FieldControl({ field, value, onChange, options }: { field: Field
     case "segmented": return opts.length > 3 || opts.reduce((n, o) => n + o.label.length, 0) > 24 ? <Dropdown options={opts} value={value as string} onChange={onChange} /> : <Segmented options={opts} value={value as string} onChange={onChange} />;
     case "multi-chips": return opts.length > 8 ? <MultiCombobox options={opts} value={(value as string[]) ?? []} onChange={onChange} placeholder="انتخاب کنید" /> : <Chips options={opts} value={value as string[]} onChange={onChange} />;
     case "multi-combobox": return <MultiCombobox options={opts} value={(value as string[]) ?? []} onChange={onChange} placeholder="انتخاب کنید" />;
-    case "range": return <RangeField min={field.min ?? 0} max={field.max ?? 100} step={field.step} unit={field.unit} value={value as [number, number]} onChange={onChange} />;
-    case "slider": return <SliderField min={field.min} max={field.max} step={field.step} unit={field.unit} value={value as number} onChange={onChange} />;
+    case "range": return <RangeField min={field.min ?? 0} max={field.max ?? 100} step={field.step} unit={field.unit} value={value as [number, number]} onChange={onChange} bare={bare} />;
+    case "slider": return <SliderField min={field.min} max={field.max} step={field.step} unit={field.unit} value={value as number} onChange={onChange} bare={bare} />;
     case "switch": return <Switch dir="rtl" checked={value === true} onCheckedChange={(c) => onChange(c || undefined)} />;
     case "textarea": return <Textarea value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value || undefined)} rows={2} className="rounded-2xl bg-white" />;
     default: return <Input value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value || undefined)} className="h-11 rounded-2xl bg-white" />;

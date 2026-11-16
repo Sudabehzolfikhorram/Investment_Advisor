@@ -47,56 +47,56 @@ const toolName = (id: string) => tools.find((t) => t.id === id && !t.hidden)?.na
 export function HelpCenter() {
   const topics = libraryTopics.filter((t) => t.id !== "services").slice(0, 6);
   const [active, setActive] = useState(0);
-  const t = topics[active];
   return (
     <section className={sectionCls}>
       <SectionHead kicker="راهنما" title="پیش از تصمیم، این پرسش‌ها را روشن کنید" text="پاسخ کوتاه پرسش‌های رایج درباره قرارداد، تضمین و حقوق ملک."
         aside={<Link href="/tools/library" className="group inline-flex h-12 items-center gap-2 rounded-full border border-pine/15 bg-white/60 px-5 text-sm font-extrabold text-ink transition-colors hover:border-ink/25 hover:text-ink">همه راهنماها و منابع<ArrowLeft size={17} className="transition-transform group-hover:-translate-x-1" /></Link>} />
-      <Reveal className="mt-8 grid grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] gap-6">
-        {/* پرسش‌ها */}
-        <ol className="space-y-1.5">
-          {topics.map((x, i) => { const I = topicIcons[x.id] ?? MessageQuestion; const on = i === active;
-            return (
-              <li key={x.id}>
-                <button type="button" onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)} aria-pressed={on}
-                  className={cn("relative flex w-full items-center gap-4 rounded-[1.4rem] px-4 py-3.5 text-right transition-colors duration-300", on ? "bg-white shadow-[0_18px_40px_-28px_rgb(22_32_48/0.45)] ring-1 ring-border" : "hover:bg-white/60")}>
-                  {on && <motion.span layoutId="help-bar" className="absolute inset-y-3 right-0 w-[3px] rounded-full bg-cobalt" />}
-                  <span className={cn("w-7 shrink-0 text-[1.35rem] font-black tabular-nums transition-colors", on ? "text-ink" : "text-ink/20")}>{faNumber(i + 1)}</span>
-                  <span className={cn("grid size-10 shrink-0 place-items-center rounded-2xl transition-colors", on ? "bg-cobalt text-white" : "bg-muted text-ink/60")}><I size={19} variant="Bulk" /></span>
-                  <span className={cn("min-w-0 flex-1 text-[14.5px] leading-7", on ? "font-extrabold text-ink" : "font-bold text-ink/75")}>{x.title}</span>
-                  <ArrowLeft size={16} className={cn("shrink-0 text-ink transition-all duration-300", on ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0")} />
-                </button>
-              </li>
-            ); })}
-        </ol>
-        {/* پاسخ */}
-        <div className="relative isolate min-h-[30rem] overflow-hidden rounded-[2rem] bg-[#16181a] text-white">
-          <AnimatePresence initial={false}>
-            <motion.div key={t.id} initial={{ opacity: 0, scale: 1.06 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.7 }} className="absolute inset-0 -z-10">
-              <Image src={topicImages[t.id] ?? "/images/hero/office.jpg"} alt="" fill sizes="50vw" className="object-cover" />
-            </motion.div>
-          </AnimatePresence>
-          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#111315] via-[#111315]/80 to-[#111315]/25" />
-          <AlgoPattern className="-left-10 -top-10 -z-10 h-2/3 w-2/3 text-white/15" fade="radial" scale={0.6} />
-          <span aria-hidden className="pointer-events-none absolute -top-10 left-6 -z-10 select-none text-[13rem] font-black leading-none text-white/[0.07]">؟</span>
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div key={t.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35 }} className="flex h-full flex-col justify-end p-8">
-              <span className="glass-dark w-fit rounded-full px-3.5 py-1.5 text-xs font-bold">پرسش {faNumber(active + 1)} از {faNumber(topics.length)}</span>
-              <h3 className="mt-4 text-[1.45rem] font-black leading-[1.6]">{t.title}</h3>
-              <div className="mt-3 space-y-2 text-[14px] leading-8 text-white/80">
-                {t.body.map((b, i) => <p key={i}>{b.lead && <b className="font-extrabold text-white">{b.lead} </b>}{b.text}</p>)}
-              </div>
-              {!!t.tools?.length && (
-                <div className="mt-6 flex flex-wrap items-center gap-2 border-t border-white/15 pt-5">
-                  <span className="ml-1 text-xs font-bold text-white/60">خدمات مرتبط:</span>
-                  {t.tools.map((id) => toolName(id) && <Link key={id} href={`/tools/${id}`} className="rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[12px] font-bold transition-colors hover:bg-white hover:text-ink">{toolName(id)}</Link>)}
-                </div>
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </Reveal>
+      <HelpAccordion topics={topics} active={active} setActive={setActive} />
     </section>
+  );
+}
+
+type Topic = (typeof libraryTopics)[number];
+/** راهنما: پرسش و پاسخ بازشونده، متفاوت با چیدمان حوزه‌ها. هر ردیف یک پرسش است و پاسخ در همان ردیف باز می‌شود */
+function HelpAccordion({ topics, active, setActive }: { topics: Topic[]; active: number; setActive: (i: number) => void }) {
+  return (
+    <Reveal className="mt-8 overflow-hidden rounded-[1.75rem] border border-border bg-white/80 backdrop-blur-xl">
+      {topics.map((x, i) => { const I = topicIcons[x.id] ?? MessageQuestion; const on = i === active;
+        return (
+          <div key={x.id} className={cn("relative border-b border-border transition-colors duration-300 last:border-b-0", on ? "bg-white" : "hover:bg-white/70")}>
+            {on && <motion.span layoutId="help-bar" className="absolute inset-y-0 right-0 w-[3px] bg-cobalt" />}
+            <button type="button" onClick={() => setActive(on ? -1 : i)} aria-expanded={on} className="flex w-full items-center gap-4 px-7 py-5 text-right">
+              <span className={cn("w-7 shrink-0 text-[15px] font-black tabular-nums transition-colors", on ? "text-cobalt-deep" : "text-ink/30")}>{faNumber(i + 1).padStart(2, "۰")}</span>
+              <span className={cn("grid size-10 shrink-0 place-items-center rounded-2xl transition-colors", on ? "bg-cobalt text-white" : "bg-muted text-ink/60")}><I size={19} variant="Bulk" /></span>
+              <span className={cn("min-w-0 flex-1 text-[16px] leading-7 transition-colors", on ? "font-extrabold text-ink" : "font-bold text-ink/75")}>{x.title}</span>
+              <span className={cn("relative grid size-9 shrink-0 place-items-center rounded-full border transition-colors duration-300", on ? "border-ink bg-ink text-white" : "border-border text-ink")}>
+                <span className="absolute h-[2px] w-3.5 rounded-full bg-current" />
+                <span className={cn("absolute h-3.5 w-[2px] rounded-full bg-current transition-transform duration-300", on && "scale-y-0")} />
+              </span>
+            </button>
+            <motion.div initial={false} animate={{ height: on ? "auto" : 0, opacity: on ? 1 : 0 }} transition={{ duration: 0.45, ease }} className="overflow-hidden">
+              <div className="grid grid-cols-[minmax(0,1fr)_18rem] gap-10 pb-7 pl-7 pr-[6.75rem]">
+                <div className="min-w-0">
+                  <div className="space-y-2.5 text-[14.5px] leading-8 text-ink/75">
+                    {x.body.map((b, k) => <p key={k}>{b.lead && <b className="font-extrabold text-ink">{b.lead} </b>}{b.text}</p>)}
+                  </div>
+                  {!!x.tools?.length && (
+                    <div className="mt-5 flex flex-wrap items-center gap-2">
+                      <span className="ml-1 text-xs font-bold text-muted-foreground">خدمات مرتبط:</span>
+                      {x.tools.map((id) => toolName(id) && <Link key={id} href={`/tools/${id}`} className="inline-flex h-8 items-center rounded-full border border-border bg-[#f7f9fc] px-3 text-[12px] font-bold text-ink/80 transition-colors hover:border-cobalt hover:bg-cobalt hover:text-white">{toolName(id)}</Link>)}
+                    </div>
+                  )}
+                </div>
+                <div className="relative isolate h-40 overflow-hidden rounded-[1.25rem] bg-[#16181a]">
+                  <Image src={topicImages[x.id] ?? "/images/hero/office.jpg"} alt="" fill sizes="18rem" className="object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <span className="absolute bottom-3 right-4 text-[12px] font-bold text-white">پرسش {faNumber(i + 1)} از {faNumber(topics.length)}</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        ); })}
+    </Reveal>
   );
 }
 
@@ -122,15 +122,16 @@ function StatsCard() {
   const cur = data.byGroup[pin ?? k];
   const I = groupIcons[cur.id];
   return (
-    <div ref={ref} className="surface relative w-[38rem] overflow-hidden rounded-[1.6rem] p-6" onMouseLeave={() => setPin(null)}>
-      <div className="grid grid-cols-[minmax(0,1fr)_15rem] items-center gap-6">
-        <div className="flex min-h-[12rem] min-w-0 flex-col">
-          <p className="flex items-baseline gap-2">
+    <div ref={ref} className="surface relative mt-5 w-full overflow-hidden rounded-[1.6rem] px-7 py-4" onMouseLeave={() => setPin(null)}>
+      {/* نوار کم‌ارتفاع زیر کارت‌های مسیر: عدد کل، حوزه‌ی در حال نمایش، سهم حوزه‌ها و نقشه‌ی کوچک در یک ردیف */}
+      <div className="grid grid-cols-[auto_17rem_minmax(0,1fr)_7rem] items-center gap-8">
+        <div className="contents">
+          <p className="flex items-baseline gap-2 border-l border-border pl-8">
             <span className="text-[2.6rem] font-black leading-none tracking-tight text-ink"><CountUp value={listings.length} /></span>
             <span className="text-[13px] font-bold text-muted-foreground">پروژه در <b className="font-extrabold text-ink">{faNumber(data.all.size)}</b> استان</span>
           </p>
           {/* حوزه‌ی در حال نمایش: ورق می‌خورد */}
-          <div className="relative mt-4 h-[3.25rem] overflow-hidden">
+          <div className="relative h-[3.25rem] overflow-hidden">
             <AnimatePresence mode="popLayout" initial={false}>
               <motion.div key={cur.id} initial={{ y: "100%", opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: "-100%", opacity: 0 }} transition={{ duration: 0.55, ease }} className="absolute inset-0 flex items-center gap-3">
                 <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-ink text-white"><I size={21} variant="Bulk" /></span>
@@ -142,7 +143,7 @@ function StatsCard() {
             </AnimatePresence>
           </div>
           {/* سهم هر حوزه؛ با هاور حوزه ثابت می‌ماند */}
-          <div className="mt-auto pt-4">
+          <div className="min-w-0">
             <div className="flex h-2.5 gap-[3px]">
               {data.byGroup.map((g, i) => { const on = (pin ?? k) === i;
                 return (
@@ -197,14 +198,14 @@ export function Categories() {
 
   // تفاوت سه مسیر در یک نگاه: شما چه می‌آورید و چه می‌گیرید
   const routeSwitch = (
-    <div role="group" aria-label="مسیر" className="flex items-stretch gap-1 rounded-[1.4rem] border border-border bg-white p-1.5">
-      {groupRoutes.map((r) => { const I = routeIcons[r.id]; const on = r.id === routeId; const role = routeRole[r.id];
+    <div role="group" aria-label="مسیر" className="flex items-center gap-2">
+      {groupRoutes.map((r) => { const I = routeIcons[r.id]; const on = r.id === routeId;
         return (
-          <Button key={r.id} type="button" variant="plain" size="auto" aria-pressed={on} onClick={() => setRouteId(r.id)}
-            className={cn("relative h-auto w-[13.5rem] flex-col items-start gap-0.5 whitespace-normal rounded-[1.05rem] px-4 py-3 text-right transition-colors", on ? "text-white" : "text-ink hover:bg-muted")}>
-            {on && <motion.span layoutId="cat-route" className="absolute inset-0 rounded-[1.05rem] bg-cobalt" transition={{ type: "spring", stiffness: 300, damping: 30 }} />}
-            <span className="relative flex w-full items-center gap-2 text-[13.5px] font-extrabold"><I size={17} variant="Bulk" />{r.name}<span className={cn("mr-auto text-[11px] font-bold tabular-nums", on ? "text-white/55" : "text-muted-foreground")}>{faNumber(forRoute(listings, r.id).length)}</span></span>
-            <span className={cn("relative text-[11.5px] font-semibold leading-5", on ? "text-white/70" : "text-muted-foreground")}>آورده: {role.bring}</span>
+          <Button key={r.id} type="button" variant="plain" size="auto" aria-pressed={on} onClick={() => setRouteId(r.id)} title={`آورده: ${routeRole[r.id].bring}`}
+            className={cn("relative h-9 gap-1.5 rounded-full border px-3.5 text-[13px] font-bold transition-colors", on ? "border-cobalt text-white" : "border-border bg-white text-ink/75 hover:border-ink/25 hover:text-ink")}>
+            {on && <motion.span layoutId="cat-route" className="absolute inset-0 rounded-full bg-cobalt" transition={{ type: "spring", stiffness: 300, damping: 30 }} />}
+            <I size={15} variant="Bulk" className="relative" /><span className="relative">{r.name}</span>
+            <span className={cn("relative text-[11px] font-bold tabular-nums", on ? "text-white/70" : "text-muted-foreground")}>{faNumber(forRoute(listings, r.id).length)}</span>
           </Button>
         ); })}
     </div>
@@ -213,91 +214,74 @@ export function Categories() {
   return (
     <section id="categories" className={sectionCls}>
       <SectionHead kicker="زیردسته‌های هر مسیر" title={<>حوزه‌های مسیر «{route.name}»</>} text={`${routeRole[routeId].bring} می‌آورید و ${routeRole[routeId].get}.`} aside={routeSwitch} />
-      <div className="mt-8 flex h-[52rem] flex-col gap-2" onMouseLeave={() => setPreview(null)}>
-        {projectGroups.map((g, i) => {
-          const I = groupIcons[g.id]; const on = i === active;
-          return (
-            <motion.div key={g.id} data-panel onPointerMove={(e) => { if (i !== active && (e.movementX || e.movementY)) { setActive(i); setPreview(null); } }} onFocusCapture={() => setActive(i)} onClick={() => setActive(i)}
-              animate={{ flexGrow: on ? 6.5 : 1 }} transition={{ type: "spring", stiffness: 190, damping: 26 }}
-              className="group/panel relative isolate min-h-0 basis-0 cursor-pointer overflow-hidden rounded-[1.4rem] bg-[#1b1d1f] text-white">
-              <Image src={g.image ?? "/images/hero/field.jpg"} alt="" fill sizes="90vw" className={cn("object-cover transition-all duration-700", on ? "scale-100" : "scale-110 grayscale")} />
-              <AnimatePresence>
-                {on && preview && (
-                  <motion.div key={preview.image} initial={{ opacity: 0, scale: 1.08 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="absolute inset-0">
-                    <Image src={preview.image} alt="" fill sizes="90vw" className="object-cover" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              <div className={cn("absolute inset-0 transition-colors duration-500", on ? "bg-[linear-gradient(to_left,rgb(10_11_12/0.88),rgb(10_11_12/0.55)_45%,rgb(10_11_12/0.15))]" : "bg-[#141618]/75 group-hover/panel:bg-[#141618]/60")} />
-
-              {/* حالت بسته: آیکون و نام افقی */}
-              <div className={cn("absolute inset-0 flex items-center gap-3 px-6 transition-opacity duration-300", on ? "pointer-events-none opacity-0" : "opacity-100")}>
-                <I size={20} variant="Bulk" className="shrink-0 text-white/80" />
-                <span className="text-[15px] font-extrabold">{g.name}</span>
-                <span className="text-[12px] font-bold text-white/50">{faNumber(g.subtypes.length)} نوع</span>
-                <span className="mr-auto text-[13px] font-bold text-white/70">{faNumber(counts.g[g.id] ?? 0)} پروژه</span>
-              </div>
-
-              {/* حالت باز: بالا آیکون و دکمه «همه پروژه‌ها»، پایین تیتر و نوع‌ها در یک ردیف */}
-              <AnimatePresence>
-                {on && (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.18 } }} exit={{ opacity: 0, transition: { duration: 0.1 } }} className="absolute inset-0 flex min-h-[17rem] flex-col justify-between p-8">
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="grid size-12 place-items-center rounded-2xl bg-white/15 text-white backdrop-blur-sm"><I size={24} variant="Bulk" /></span>
-                      <Button variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id); }} className="group/all h-12 gap-3 rounded-full bg-white pl-1.5 pr-5 text-[14.5px] font-extrabold text-ink shadow-[0_12px_30px_-14px_rgb(0_0_0/0.6)] hover:bg-white/90">
-                        همه پروژه‌های {g.name}<span className="grid size-9 place-items-center rounded-full bg-cobalt text-white transition-transform group-hover/all:-translate-x-1"><ArrowLeft size={17} /></span>
-                      </Button>
-                    </div>
-                    <div className="min-w-0">
-                      <p className="flex items-center gap-1.5 text-[14px] font-bold text-white/70">{route.name}<ArrowLeft size={14} />حوزه</p>
-                      <div className="mt-1 flex items-end gap-4">
-                        <motion.h3 initial={{ y: 16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.22, duration: 0.5 }} className="text-[2.4rem] font-black leading-[1.35]">{g.name}</motion.h3>
-                        <AnimatePresence mode="wait">
-                          <motion.span key={preview?.name ?? "g"} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mb-2 max-w-[30rem] truncate text-[15px] font-semibold text-white/75">
-                            {preview ? preview.name : `${faNumber(counts.g[g.id] ?? 0)} پروژه در ${faNumber(g.subtypes.length)} نوع`}
-                          </motion.span>
-                        </AnimatePresence>
-                      </div>
-                      <ChipRow className="mt-5">
-                        {g.subtypes.map((s, k) => (
-                          <motion.li key={s.id} className="shrink-0" initial={{ opacity: 0, y: 14, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.28 + k * 0.045, duration: 0.4 }}>
-                            <Button data-sub variant="plain" size="auto" onClick={(e) => { e.stopPropagation(); open(g.id, s.id); }}
-                              onMouseEnter={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })} onFocus={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })}
-                              className="group/sub h-11 gap-2.5 rounded-full border border-white/25 bg-white/10 px-4 text-[14.5px] font-bold text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-ink">
-                              <span className="size-1.5 rounded-full bg-white/80 transition-all duration-300 group-hover/sub:w-4 group-hover/sub:bg-cobalt" />
-                              {s.name}
-                              <span className="text-[12px] font-semibold tabular-nums opacity-60">{faNumber(counts.t[`${g.id}/${s.id}`] ?? 0)}</span>
-                            </Button>
-                          </motion.li>
-                        ))}
-                      </ChipRow>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          );
-        })}
-      </div>
+      {/* چیدمان راهنما: فهرست حوزه‌ها در راست، عکس و نوع‌های حوزه‌ی فعال در چپ */}
+      <Reveal className="mt-8 grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-6">
+        <ol className="space-y-1">
+          {projectGroups.map((g, i) => { const I = groupIcons[g.id]; const on = i === active; const n = counts.g[g.id] ?? 0;
+            return (
+              <li key={g.id}>
+                <button type="button" onMouseEnter={() => { setActive(i); setPreview(null); }} onFocus={() => { setActive(i); setPreview(null); }} onClick={() => open(g.id)} aria-pressed={on}
+                  className={cn("relative flex w-full items-center gap-4 rounded-[1.25rem] px-4 py-2.5 text-right transition-colors duration-300", on ? "bg-white shadow-[0_18px_40px_-28px_rgb(22_32_48/0.45)] ring-1 ring-border" : "hover:bg-white/60")}>
+                  {on && <motion.span layoutId="cat-bar" className="absolute inset-y-2.5 right-0 w-[3px] rounded-full bg-cobalt" />}
+                  <span className={cn("w-6 shrink-0 text-[15px] font-black tabular-nums transition-colors", on ? "text-ink" : "text-ink/25")}>{faNumber(i + 1)}</span>
+                  <span className={cn("grid size-9 shrink-0 place-items-center rounded-xl transition-colors", on ? "bg-cobalt text-white" : "bg-muted text-ink/60")}><I size={18} variant="Bulk" /></span>
+                  <span className={cn("min-w-0 flex-1 truncate text-[15px] leading-7", on ? "font-extrabold text-ink" : "font-bold text-ink/75")}>{g.name}</span>
+                  <span className={cn("shrink-0 text-[12.5px] font-bold tabular-nums", on ? "text-cobalt-deep" : "text-muted-foreground")}>{n ? `${faNumber(n)} پروژه` : "به‌زودی"}</span>
+                  <ArrowLeft size={16} className={cn("shrink-0 text-ink transition-all duration-300", on ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0")} />
+                </button>
+              </li>
+            ); })}
+        </ol>
+        <GroupPanel g={projectGroups[active]} routeName={route.name} counts={counts} preview={preview} setPreview={setPreview} open={open} />
+      </Reveal>
     </section>
   );
 }
 
-/** نوع‌های یک حوزه در یک ردیف؛ اگر جا نشود افقی اسکرول می‌شود و لبه چپ محو می‌شود */
-function ChipRow({ children, className }: { children: ReactNode; className?: string }) {
-  const ref = useRef<HTMLUListElement>(null);
-  const [fade, setFade] = useState(false);
-  useEffect(() => {
-    const el = ref.current; if (!el) return;
-    const check = () => setFade(el.scrollWidth - el.clientWidth - Math.abs(el.scrollLeft) > 4);
-    check(); el.addEventListener("scroll", check, { passive: true }); const ro = new ResizeObserver(check); ro.observe(el);
-    return () => { el.removeEventListener("scroll", check); ro.disconnect(); };
-  }, []);
+type Group = (typeof projectGroups)[number];
+/** پنل حوزه‌ی فعال: عکس با لایه‌ی مشکی، نام حوزه و نوع‌ها به‌صورت بج؛ هاور روی هر نوع عکس همان نوع را نشان می‌دهد */
+function GroupPanel({ g, routeName, counts, preview, setPreview, open }: { g: Group; routeName: string; counts: { g: Record<string, number>; t: Record<string, number> }; preview: { image: string; name: string } | null; setPreview: (p: { image: string; name: string } | null) => void; open: (group: string, subtype?: string) => void }) {
+  const I = groupIcons[g.id];
+  const img = preview?.image || g.image || "/images/hero/field.jpg";
   return (
-    <ul ref={ref}
-      className={cn("no-scrollbar -my-2 flex gap-2.5 overflow-x-auto py-2", fade && "[mask-image:linear-gradient(to_left,#000_88%,transparent)]", className)}>
-      {children}
-    </ul>
+    <div className="relative isolate min-h-[34rem] overflow-hidden rounded-[2rem] bg-[#16181a] text-white" onMouseLeave={() => setPreview(null)}>
+      <AnimatePresence initial={false}>
+        <motion.div key={img} initial={{ opacity: 0, scale: 1.06 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.7 }} className="absolute inset-0 -z-10">
+          <Image src={img} alt="" fill sizes="50vw" className="object-cover" />
+        </motion.div>
+      </AnimatePresence>
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#111315] via-[#111315]/75 to-[#111315]/15" />
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div key={g.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35 }} className="absolute inset-0 flex flex-col justify-between p-8">
+          <div className="flex items-center justify-between gap-4">
+            <span className="glass-dark inline-flex h-9 items-center gap-2 rounded-full px-3.5 text-[13px] font-bold"><I size={17} variant="Bulk" />{routeName}<ArrowLeft size={13} />حوزه</span>
+            <Button variant="plain" size="auto" onClick={() => open(g.id)} className="group/all h-11 gap-2.5 rounded-full bg-white pl-1.5 pr-4 text-[13.5px] font-extrabold text-ink hover:bg-white/90">
+              همه پروژه‌ها<span className="grid size-8 place-items-center rounded-full bg-cobalt text-white transition-transform group-hover/all:-translate-x-1"><ArrowLeft size={16} /></span>
+            </Button>
+          </div>
+          <div className="min-w-0">
+            <h3 className="text-[1.9rem] font-black leading-[1.4]">{g.name}</h3>
+            <AnimatePresence mode="wait">
+              <motion.p key={preview?.name ?? "g"} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-1 truncate text-[14px] font-semibold text-white/75">
+                {preview ? preview.name : `${faNumber(counts.g[g.id] ?? 0)} پروژه در ${faNumber(g.subtypes.length)} نوع`}
+              </motion.p>
+            </AnimatePresence>
+            <ul className="mt-5 flex flex-wrap gap-2 border-t border-white/15 pt-5">
+              {g.subtypes.map((s, k) => (
+                <motion.li key={s.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + k * 0.035, duration: 0.35 }}>
+                  <Button variant="plain" size="auto" onClick={() => open(g.id, s.id)}
+                    onMouseEnter={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })} onFocus={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })}
+                    className="h-9 gap-2 rounded-full border border-white/25 bg-white/10 px-3.5 text-[13px] font-bold text-white backdrop-blur-sm transition-colors duration-200 hover:border-white hover:bg-white hover:text-ink">
+                    {s.name}
+                    <span className="text-[11.5px] font-semibold tabular-nums opacity-60">{faNumber(counts.t[`${g.id}/${s.id}`] ?? 0)}</span>
+                  </Button>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 }
 
@@ -321,7 +305,7 @@ function OneRowBadges({ items }: { items: string[] }) {
     };
     fit(); const ro = new ResizeObserver(fit); ro.observe(el); return () => ro.disconnect();
   }, [items]);
-  const badge = "inline-flex h-7 shrink-0 items-center rounded-full border border-border bg-[#f7f9fc] px-3 text-[12px] font-semibold text-ink/75";
+  const badge = "inline-flex h-8 shrink-0 items-center rounded-full border border-ink/10 bg-white/80 px-3.5 text-[12.5px] font-bold text-ink/75";
   return (
     <div ref={ref} className="relative overflow-hidden">
       <div data-measure aria-hidden className="invisible absolute flex w-max gap-1.5">{items.map((x) => <span key={x} className={badge}>{x}</span>)}</div>
@@ -363,7 +347,7 @@ export function MainCategories() {
   const fit = assets.find((a) => a.id === asset)!.routes;
   return (
     <section id="routes" className="relative mx-auto mt-20 max-w-7xl px-6">
-      <SectionHead kicker="هشت مسیر ورود" title={<>سرمایه، تخصص یا توان اجرایی؛<br />با کدام وارد می‌شوید؟</>} text="هر مسیر پروژه‌ها و شرایط خودش را دارد؛ اول بگویید چه دارید تا مسیرهای مناسب را نشانتان دهیم." aside={<StatsCard />} />
+      <SectionHead kicker="هشت مسیر ورود" title={<>سرمایه، تخصص یا توان اجرایی؛<br />با کدام وارد می‌شوید؟</>} text="هر مسیر پروژه‌ها و شرایط خودش را دارد؛ اول بگویید چه دارید تا مسیرهای مناسب را نشانتان دهیم." />
       <div className="mt-8 flex items-center gap-4">
         <span className="shrink-0 text-[14px] font-extrabold text-ink">آورده شما چیست؟</span>
         <ToggleGroup type="single" value={asset} onValueChange={(v) => v && setAsset(v)} className="flex flex-wrap gap-2">
@@ -383,7 +367,7 @@ export function MainCategories() {
           return (
             <Reveal key={r.id} delay={(i % 4) * 0.06} className="h-full">
               <Button variant="plain" size="auto" type="button" onClick={() => { begin({ route: r.id }); router.push("/opportunities"); }}
-                className={cn("group surface relative isolate flex h-full min-h-[15.5rem] w-full flex-col items-stretch justify-start gap-0 overflow-hidden whitespace-normal rounded-[1.6rem] p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:border-ink/20 hover:shadow-[0_26px_50px_-30px_rgb(20_30_45/0.32)]",
+                className={cn("group surface relative isolate flex h-full min-h-[15.5rem] !bg-[radial-gradient(120%_85%_at_0%_100%,rgb(33_82_224/0.14),transparent_62%),radial-gradient(90%_70%_at_100%_0%,rgb(15_118_110/0.10),transparent_60%),linear-gradient(#fff,#fff)] w-full flex-col items-stretch justify-start gap-0 overflow-hidden whitespace-normal rounded-[1.6rem] p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:border-ink/20 hover:shadow-[0_26px_50px_-30px_rgb(20_30_45/0.32)]",
                   fit && on && "border-cobalt/45 shadow-[0_0_0_3px_rgb(33_82_224/0.08),0_26px_50px_-34px_rgb(33_82_224/0.45)]", !on && "opacity-40 saturate-0 hover:opacity-100 hover:saturate-100")}>
                 {/* سرِ کارت فقط آیکون؛ شمار پروژه به پاورقی رفت تا بالای کارت خلوت بماند */}
                 <span className={cn("grid size-12 shrink-0 place-items-center rounded-2xl bg-muted text-ink transition-colors duration-300 group-hover:bg-ink group-hover:text-white", fit && on && "bg-cobalt-soft text-cobalt-deep")}><I size={23} variant="Bulk" /></span>
@@ -400,6 +384,7 @@ export function MainCategories() {
           );
         })}
       </div>
+      <StatsCard />
     </section>
   );
 }
@@ -434,7 +419,7 @@ const statusCls = { met: "text-primary", unmet: "text-warn-deep", unknown: "text
 /** هر پروژه یک نقطه؛ نقطه‌هایی که از فیلتر رد نشده‌اند پررنگ می‌مانند */
 function DotField({ ids, alive, hit }: { ids: string[]; alive: Set<string>; hit: string }) {
   return (
-    <div className="grid grid-cols-[repeat(30,minmax(0,1fr))] gap-[6px]" aria-hidden>
+    <div className="grid grid-cols-[repeat(30,minmax(0,1fr))] gap-x-[7px] gap-y-[6px]" aria-hidden>
       {ids.map((id, i) => { const on = alive.has(id); const h = id === hit;
         return <motion.span key={id} initial={false} animate={{ opacity: on ? 1 : 0.18, scale: h && alive.size <= 3 ? 2.2 : on ? 1 : 0.7 }} transition={{ duration: 0.5, delay: on ? 0 : (i % 30) * 0.006 }}
           className={cn("aspect-square rounded-full", h && alive.size <= 3 ? "bg-cobalt" : on ? "bg-ink/75" : "bg-ink/30")} />; })}
@@ -514,7 +499,17 @@ export function HowItWorks() {
 
         {/* صحنه: کوچک، خاکستری‌آبی و آرام؛ تمرکز روی متن مرحله‌ها می‌ماند */}
         <Reveal delay={0.1}>
-          <div className="relative isolate h-[21rem] overflow-hidden rounded-[1.75rem] bg-[#e9eef5] p-6">
+          {/* صحنه: کارت سفید شیشه‌ای با سربرگ مرحله؛ محتوای هر مرحله روی زمینه‌ی خاکستری‌آبی ملایم داخل آن */}
+          <div className="surface overflow-hidden rounded-[1.75rem] p-2">
+          <div className="flex items-center gap-3 px-4 pb-3 pt-2.5">
+            <span className="flex gap-1.5" aria-hidden><span className="size-2.5 rounded-full bg-ink/15" /><span className="size-2.5 rounded-full bg-ink/15" /><span className="size-2.5 rounded-full bg-ink/15" /></span>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span key={step} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.25 }} className="text-[12.5px] font-extrabold text-ink">مرحله {faNumber(step + 1)}: <span className="font-bold text-muted-foreground">{["سنجش شرایط", "دلیل پیشنهاد", "قدم بعدی"][step]}</span></motion.span>
+            </AnimatePresence>
+            <span className="mr-auto flex gap-1">{steps.map((_, i) => <span key={i} className={cn("h-1.5 rounded-full transition-all duration-500", i === step ? "w-6 bg-cobalt" : i < step ? "w-3 bg-ink/40" : "w-3 bg-ink/12")} />)}</span>
+          </div>
+          <div className="relative isolate h-[22rem] overflow-hidden rounded-[1.35rem] bg-[linear-gradient(160deg,#eef2f8,#e6ecf6)] p-6">
+            <AlgoPattern className="inset-0 -z-10 h-full w-full text-ink/[0.06]" fade="radial" scale={0.8} />
             <AnimatePresence mode="popLayout" initial={false}>
               {step === 0 && (
                 <motion.div key="s0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-6 flex flex-col">
@@ -575,6 +570,7 @@ export function HowItWorks() {
                 </motion.div>
               )}
             </AnimatePresence>
+          </div>
           </div>
         </Reveal>
       </div>

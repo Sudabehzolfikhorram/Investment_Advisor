@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Danger, InfoCircle, Refresh2, Setting4 } from "@/components/iconsax";
+import { CloseCircle, Danger, InfoCircle, Refresh2, Setting4 } from "@/components/iconsax";
 import { advancedFields, advancedSections, profileFields } from "@/data/fields";
 import { routes, routeSubcategories } from "@/data/routes";
 import { projectGroups } from "@/data/taxonomy";
@@ -15,6 +15,8 @@ import { useStore } from "@/lib/store";
 import type { FieldDef, FieldOption, FilterValue, RouteId } from "@/types";
 import { cn, faNumber } from "@/lib/utils";
 import { Dropdown, FieldControl } from "./controls";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { hasQuickFilters } from "./quick-filters";
 import { CityPicker } from "./province-picker";
 
 const noLocation: RouteId[] = ["fund"];
@@ -37,13 +39,25 @@ function visible(f: FieldDef, route: RouteId, filters: Record<string, FilterValu
   return true;
 }
 
-function Section({ id, title, count, children }: { id: string; title: string; count: number; children: React.ReactNode }) {
+/** آیکون راهنما کنار عنوان؛ متن راهنما با هاور یا فوکوس دیده می‌شود (به‌جای خط توضیح زیر فیلد) */
+export function InfoTip({ text }: { text: string }) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button type="button" aria-label={text} onClick={(e) => e.stopPropagation()} className="inline-grid size-5 shrink-0 place-items-center rounded-full text-ink/35 transition-colors hover:text-cobalt focus-visible:text-cobalt"><InfoCircle size={15} variant="Bold" /></button>
+      </TooltipTrigger>
+      <TooltipContent side="top" className="max-w-64 text-right text-[12px] font-semibold leading-6">{text}</TooltipContent>
+    </Tooltip>
+  );
+}
+
+function Section({ id, title, count, info, children }: { id: string; title: string; count: number; info?: string; children: React.ReactNode }) {
   return (
     <AccordionItem value={id} className="border-border">
-      <AccordionTrigger className="items-center py-3.5 text-right text-[15px] font-extrabold text-ink hover:no-underline">
-        <span className="flex items-center gap-2">{title}{count > 0 && <Badge className="h-5 min-w-5 px-1 text-[11px] font-bold">{faNumber(count)}</Badge>}</span>
+      <AccordionTrigger className="items-center py-4 text-right text-[15px] font-extrabold text-ink hover:no-underline">
+        <span className="flex items-center gap-2">{title}{info && <InfoTip text={info} />}{count > 0 && <Badge className="h-5 min-w-5 px-1 text-[11px] font-bold">{faNumber(count)}</Badge>}</span>
       </AccordionTrigger>
-      <AccordionContent className="space-y-5 px-0.5 pb-5">{children}</AccordionContent>
+      <AccordionContent className="space-y-7 px-0.5 pb-6 pt-1">{children}</AccordionContent>
     </AccordionItem>
   );
 }
@@ -76,7 +90,7 @@ function AdvisoryQuestions({ subtypes }: { subtypes: string[] }) {
   );
 }
 
-export function AdvancedFilter({ className }: { className?: string }) {
+export function AdvancedFilter({ className, quick }: { className?: string; quick?: React.ReactNode }) {
   const { criteria, setFilter } = useStore();
   const route = routes.find((r) => r.id === criteria.route)!;
   const f = criteria.filters;
@@ -95,6 +109,7 @@ export function AdvancedFilter({ className }: { className?: string }) {
   const fields = advancedFields.filter((x) => visible(x, route.id, f));
   // فیلدهای وابسته‌ای که هنوز بسته‌اند؛ زیر فیلد والد یک خط راهنما می‌گیرند
   const waiting = advancedFields.filter((x) => x.showWhen && inRoute(x, route.id) && !visible(x, route.id, f));
+  // راهنمای فیلدهای وابسته: به‌جای خط زیر فیلد، در آیکون راهنمای کنار عنوان می‌آید
   const hintFor = (x: FieldDef) => {
     const deps = waiting.filter((d) => d.showWhen!.field === x.id); if (!deps.length) return null;
     const byCond = new Map<string, FieldDef[]>();
@@ -103,8 +118,15 @@ export function AdvancedFilter({ className }: { className?: string }) {
       const when = list[0].showWhen!;
       const opts = when.in?.map((v) => x.options?.find((o) => o.value === v)?.label ?? v) ?? [];
       const cond = when.filled ? `با تعیین «${x.label}»` : `با انتخاب ${opts.map((o) => `«${o}»`).join(" یا ")}`;
-      return <p key={`${x.id}-${list[0].id}-hint`} className="-mt-2 flex items-start gap-1.5 text-xs font-semibold leading-6 text-muted-foreground"><InfoCircle size={14} variant="Bold" className="mt-1 shrink-0 text-primary" /><span>{cond}، {list.map((d) => `«${d.label}»`).join("، ")} هم باز می‌شود.</span></p>;
-    });
+      return `${cond}، ${list.map((d) => `«${d.label}»`).join("، ")} هم باز می‌شود.`;
+    }).join(" ");
+  };
+  // مقدار اسلایدر و بازه در انتهای ردیف عنوان؛ با × پاک می‌شود (ردیف جدای «حذف» برداشته شد)
+  const valueOf = (x: FieldDef) => {
+    const v = f[x.id];
+    if (x.control === "slider" && typeof v === "number") return `${faNumber(v)} ${x.unit ?? ""}`.trim();
+    if (x.control === "range" && Array.isArray(v) && typeof v[0] === "number") return `${faNumber(v[0] as number)} تا ${faNumber(v[1] as number)} ${x.unit ?? ""}`.trim();
+    return null;
   };
 
   const profile = profileFields.filter((x) => !x.routes || x.routes.includes(route.id));
@@ -115,15 +137,26 @@ export function AdvancedFilter({ className }: { className?: string }) {
   const subtypes = (f.subtypes as string[] | undefined) ?? [];
   const clear = () => Object.keys(f).forEach((k) => setFilter(k, undefined));
 
-  const row = (x: FieldDef) => (
-    <div key={x.id} className={cn(x.control === "switch" && "flex items-center justify-between gap-3")}>
-      <p className={cn("text-[13px] font-bold text-ink/80", x.control !== "switch" && "mb-2")}>{x.label}</p>
-      {x.id === "cities" ? <CityPicker route={route.id} provinces={criteria.provinces} />
-        : <FieldControl field={x.id === "subtypes" && many ? { ...x, control: "multi-combobox" } : x} value={f[x.id]} onChange={(v) => setFilter(x.id, v)} options={dynamicOptions[x.id]} />}
-    </div>
-  );
+  const row = (x: FieldDef) => {
+    const hint = hintFor(x); const val = valueOf(x); const slide = x.control === "slider" || x.control === "range";
+    return (
+      <div key={x.id} className={cn(x.control === "switch" && "flex items-center justify-between gap-3")}>
+        <div className={cn("flex min-h-6 items-center gap-1.5", x.control !== "switch" && (slide ? "mb-3.5" : "mb-2.5"))}>
+          <p className="text-[13.5px] font-bold leading-6 text-ink/85">{x.label}</p>
+          {hint && <InfoTip text={hint} />}
+          {slide && (val
+            ? <span className="mr-auto inline-flex h-6 shrink-0 items-center gap-1 rounded-full bg-cobalt-soft pr-2.5 pl-1 text-[12px] font-extrabold tabular-nums text-cobalt-deep">{val}
+                <button type="button" aria-label={`پاک کردن ${x.label}`} onClick={() => setFilter(x.id, undefined)} className="grid size-4 place-items-center rounded-full text-cobalt-deep/60 hover:bg-cobalt hover:text-white"><CloseCircle size={14} variant="Bold" /></button></span>
+            : <span className="mr-auto shrink-0 text-[12px] font-semibold text-muted-foreground">همه</span>)}
+        </div>
+        {x.id === "cities" ? <CityPicker route={route.id} provinces={criteria.provinces} />
+          : <FieldControl bare field={x.id === "subtypes" && many ? { ...x, control: "multi-combobox" } : x} value={f[x.id]} onChange={(v) => setFilter(x.id, v)} options={dynamicOptions[x.id]} />}
+      </div>
+    );
+  };
 
   return (
+    <TooltipProvider delayDuration={150}>
     <div className={className}>
       <div className="flex items-center justify-between pb-1">
         <h2 className="flex items-center gap-2 text-lg font-black text-ink"><Setting4 size={20} variant="Bulk" className="text-primary" />فیلترهای بیشتر</h2>
@@ -134,18 +167,22 @@ export function AdvancedFilter({ className }: { className?: string }) {
         {advancedSections.map((s) => {
           const list = fields.filter((x) => x.section === s.id);
           if (!list.length) return null;
-          return <Section key={s.id} id={s.id} title={sectionName[s.id] ?? s.name} count={activeIn(list)}>{list.flatMap((x) => [row(x), hintFor(x)])}</Section>;
+          return <Section key={s.id} id={s.id} title={sectionName[s.id] ?? s.name} count={activeIn(list)}>{list.map(row)}</Section>;
         })}
         {route.usesProjectGroups && (
           <Section id="advisory" title="پرسش‌های تخصصی" count={advKeys.length}><AdvisoryQuestions subtypes={subtypes} /></Section>
         )}
         {profile.length > 0 && (
-          <Section id="profile" title="درباره شما" count={activeIn(profile)}>
-            <p className="text-xs leading-6 text-muted-foreground">یک‌بار وارد کنید؛ همراه جست‌وجو ذخیره می‌شود.</p>
+          <Section id="profile" title="درباره شما" count={activeIn(profile)} info="یک‌بار وارد کنید؛ همراه جست‌وجو ذخیره می‌شود.">
             {profile.map(row)}
           </Section>
         )}
+        {/* فیلترهای سریع: آخرین بخش فیلترهای اختیاری */}
+        {quick && hasQuickFilters(route.id) && (
+          <Section id="quick" title="فیلترهای سریع" count={0} info="با یک کلیک یک شرط رایج اضافه می‌شود؛ عدد کنار هر کدام، شمار پروژه‌هایی است که پس از زدنش می‌ماند.">{quick}</Section>
+        )}
       </Accordion>
     </div>
+    </TooltipProvider>
   );
 }

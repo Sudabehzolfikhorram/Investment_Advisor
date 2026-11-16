@@ -3,7 +3,7 @@
 // در نتایج: دسته‌های اصلی (تک‌انتخابی) و فیلترهای اصلی بالای صفحه، فیلتر پیشرفته کنار نتایج.
 import { Fragment, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowDown2, ArrowLeft, ArrowRight, Category2, CloseCircle, InfoCircle, Location, Save2, SearchNormal1, Sort, WalletMoney } from "@/components/iconsax";
+import { ArrowDown2, ArrowLeft, Category2, CloseCircle, InfoCircle, Location, Save2, SearchNormal1, Sort, WalletMoney } from "@/components/iconsax";
 import { Header, Footer } from "@/components/site/header";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { ListingCard } from "@/components/listing/listing-card";
@@ -43,7 +43,6 @@ const SUITABLE = 50;
 const subKey: Record<string, string> = { fund: "fundType", buyer: "saleCategory", charity: "charityType" };
 const routeCounts = Object.fromEntries(routes.map((r) => [r.id, forRoute(listings, r.id).length])) as Record<RouteId, number>;
 // بیشترین تعداد رقم شمارنده مسیرها (عرض ثابت برچسب شمارنده)
-const countDigits = Math.max(2, ...Object.values(routeCounts).map((n) => String(n).length));
 
 function useRoute() {
   const id = useStore((s) => s.criteria.route);
@@ -270,45 +269,19 @@ function ActiveChips({ chips, suitable }: { chips: CriteriaChip[]; suitable: num
 
 function RouteTabs({ routeCounts, active, onChange }: { routeCounts: Record<string, number>; active: RouteId; onChange: (r: RouteId) => void }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [edge, setEdge] = useState({ start: false, end: false });
-  useEffect(() => {
-    const el = ref.current; if (!el) return;
-    // در RTL مقدار scrollLeft صفر یا منفی است
-    const update = () => { const x = Math.abs(el.scrollLeft), max = el.scrollWidth - el.clientWidth; setEdge({ start: x > 4, end: x < max - 4 }); };
-    const wheel = (e: WheelEvent) => { if (el.scrollWidth <= el.clientWidth || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; e.preventDefault(); el.scrollLeft -= e.deltaY; };
-    update(); el.addEventListener("scroll", update, { passive: true }); el.addEventListener("wheel", wheel, { passive: false }); window.addEventListener("resize", update);
-    return () => { el.removeEventListener("scroll", update); el.removeEventListener("wheel", wheel); window.removeEventListener("resize", update); };
-  }, []);
-  // تب فعال اگر بیرون از دید باشد فقط افقی به داخل می‌آید (بدون جابه‌جایی عمودی صفحه)
-  useEffect(() => {
-    const el = ref.current, t = el?.querySelector<HTMLElement>('[aria-selected="true"]'); if (!el || !t) return;
-    const a = t.getBoundingClientRect(), b = el.getBoundingClientRect();
-    if (a.left < b.left + 48) el.scrollBy({ left: a.left - b.left - 60, behavior: "smooth" }); else if (a.right > b.right - 48) el.scrollBy({ left: a.right - b.right + 60, behavior: "smooth" });
-  }, [active]);
-  const move = (dir: 1 | -1) => ref.current?.scrollBy({ left: dir * -320, behavior: "smooth" });
-  // کشیدن با ماوس برای اسکرول افقی؛ اگر کشیده شد، کلیک روی تب انجام نمی‌شود
-  const drag = useRef<{ x: number; s: number; moved: boolean } | null>(null);
-  const dragged = useRef(false);
-  const arrow = "absolute top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full border border-border bg-white text-ink shadow-md opacity-0 transition-opacity duration-200 group-hover/strip:opacity-100 focus-visible:opacity-100 hover:border-ink/25 hover:text-ink";
   return (
-    <div className="group/strip relative">
-      <div ref={ref} role="tablist" aria-label="مسیر ورود" className="hover-scroll -mx-3 -my-2 flex cursor-grab gap-2 overflow-x-auto px-3 py-4 select-none active:cursor-grabbing"
-        onPointerDown={(e) => { if (e.pointerType !== "mouse" || !ref.current) return; drag.current = { x: e.clientX, s: ref.current.scrollLeft, moved: false }; dragged.current = false; }}
-        onPointerMove={(e) => { const d = drag.current, el = ref.current; if (!d || !el) return; const dx = e.clientX - d.x; if (Math.abs(dx) > 5) d.moved = true; if (d.moved) el.scrollLeft = d.s - dx; }}
-        onPointerUp={() => { dragged.current = !!drag.current?.moved; drag.current = null; }} onPointerLeave={() => { drag.current = null; }}
-        onClickCapture={(e) => { if (dragged.current) { e.preventDefault(); e.stopPropagation(); dragged.current = false; } }}>
+    <div className="relative">
+      {/* هشت مسیر در دو ردیف چهارتایی؛ همه یک‌جا دیده می‌شوند و اسکرول افقی ندارند */}
+      <div ref={ref} role="tablist" aria-label="مسیر ورود" className="grid grid-cols-4 gap-2">
         {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === active;
           return (
             <Button key={r.id} role="tab" aria-selected={on} type="button" variant="plain" size="auto" onClick={() => onChange(r.id)}
-              className={cn("h-11 flex-none gap-2 whitespace-nowrap rounded-full border px-4 text-[13px] font-extrabold transition-[background-color,border-color,color,box-shadow]", on ? "border-cobalt bg-cobalt text-white shadow-[0_8px_18px_-10px_var(--cobalt)]" : "border-border bg-white text-ink/70 hover:border-ink/25 hover:text-ink")}>
-              <I size={17} variant="Bulk" className="shrink-0" />{r.name}
-              {/* عرض ثابت به اندازه بزرگ‌ترین عدد، تا با تغییر عدد یا انتخاب، اندازه دکمه عوض نشود */}
-              <span style={{ width: `${countDigits + 1.2}ch` }} className={cn("inline-block shrink-0 rounded-full text-center text-[11px] font-bold tabular-nums", on ? "bg-white/20 text-white" : "bg-muted text-ink/60")}>{faNumber(routeCounts[r.id])}</span>
+              className={cn("h-12 min-w-0 justify-start gap-2.5 whitespace-nowrap rounded-2xl border px-4 text-[13.5px] font-extrabold transition-[background-color,border-color,color,box-shadow]", on ? "border-cobalt bg-cobalt text-white shadow-[0_8px_18px_-10px_var(--cobalt)]" : "border-border bg-white text-ink/70 hover:border-ink/25 hover:text-ink")}>
+              <I size={18} variant="Bulk" className="shrink-0" /><span className="min-w-0 truncate">{r.name}</span>
+              <span className={cn("mr-auto inline-block shrink-0 rounded-full px-2 py-0.5 text-center text-[11px] font-bold tabular-nums", on ? "bg-white/20 text-white" : "bg-muted text-ink/60")}>{faNumber(routeCounts[r.id])}</span>
             </Button>
           ); })}
       </div>
-      {edge.start && <><span className="pointer-events-none absolute inset-y-0 -right-2 w-20 bg-gradient-to-l from-background to-transparent" /><Button type="button" variant="plain" size="auto" aria-label="مسیرهای قبلی" onClick={() => move(-1)} className={cn(arrow, "-right-1")}><ArrowRight size={17} /></Button></>}
-      {edge.end && <><span className="pointer-events-none absolute inset-y-0 -left-2 w-20 bg-gradient-to-r from-background to-transparent" /><Button type="button" variant="plain" size="auto" aria-label="مسیرهای بعدی" onClick={() => move(1)} className={cn(arrow, "-left-1")}><ArrowLeft size={17} /></Button></>}
     </div>
   );
 }
@@ -378,7 +351,7 @@ export function Results() {
 
             <div className="mt-7 grid grid-cols-[21rem_1fr] gap-7">
               <aside>
-                <Card className="surface thin-scroll sticky top-24 block max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[1.75rem] p-5 shadow-none"><ProProfileCard className="mb-5" /><QuickFilters /><AdvancedFilter /></Card>
+                <Card className="surface thin-scroll sticky top-24 block max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[1.75rem] p-5 shadow-none"><ProProfileCard className="mb-5" /><AdvancedFilter quick={<QuickFilters />} /></Card>
               </aside>
 
               <section className="min-w-0">

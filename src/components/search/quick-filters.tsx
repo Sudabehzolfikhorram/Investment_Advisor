@@ -3,7 +3,7 @@
 // همان فیلدهای فیلتر پیشرفته‌اند (چیزی اضافه نشده)؛ فقط به‌جای اسلایدر، یک مقدار رایج با یک کلیک تنظیم می‌شود.
 import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { Flash, TickCircle } from "@/components/iconsax";
+import { TickCircle } from "@/components/iconsax";
 import { listings } from "@/lib/listings";
 import { rank } from "@/lib/match";
 import { useStore } from "@/lib/store";
@@ -24,18 +24,18 @@ const presets: Partial<Record<RouteId, Preset[]>> = {
 };
 presets.heritage = presets.investor!.slice(0, 4);
 
-const same = (a: FilterValue, b: FilterValue) => JSON.stringify(a) === JSON.stringify(b);
+export const hasQuickFilters = (route: RouteId) => !!presets[route]?.length;
+const same =(a: FilterValue, b: FilterValue) => JSON.stringify(a) === JSON.stringify(b);
 
 export function QuickFilters() {
   const { criteria, setFilter } = useStore();
   const list = presets[criteria.route];
   const counts = useMemo(() => (list ?? []).map((p) => rank(listings, { ...criteria, filters: { ...criteria.filters, [p.field]: p.value } }).filter((r) => r.score >= 50).length), [list, criteria]);
   if (!list?.length) return null;
+  // به‌عنوان آخرین بخش فیلترهای اختیاری نمایش داده می‌شود (عنوان و توضیحش در همان بخش است)
   return (
-    <div className="mb-6 border-b border-border pb-6">
-      <p className="flex items-center gap-2 text-[14px] font-extrabold text-ink"><Flash size={17} variant="Bulk" className="text-cobalt" />فیلتر یک‌کلیکی</p>
-      <p className="mt-1 text-[12px] font-semibold leading-6 text-muted-foreground">عدد کنار هر کدام، شمار پروژه‌هایی است که پس از زدنش می‌ماند.</p>
-      <div className="mt-3 flex flex-wrap gap-2">
+    <div>
+      <div className="flex flex-wrap gap-2">
         {list.map((p, i) => {
           const on = same(criteria.filters[p.field], p.value);
           return (

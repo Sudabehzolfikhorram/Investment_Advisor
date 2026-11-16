@@ -49,41 +49,46 @@ function CompareButton({ id }: { id: string }) {
   );
 }
 
+/** کارت پروژه: قابِ کارت خودِ عکس است؛ از پایین به بالا لایه‌ی مشکی و بلر می‌نشیند و نام، برچسب و داده‌ها روی همان پایینِ عکس می‌آیند */
 export function ListingCard({ listing: l, score, reasons, index = 0, comparable = false }: { listing: Listing; score?: number; reasons?: MatchReason[]; index?: number; comparable?: boolean }) {
   const tag = l.tags[l.tags.length - 1];
   const budget = reasons?.find((r) => r.label === "مبلغ در بازه شما")?.status;
   const gallery = useHoverGallery(l);
+  const stats = l.stats.slice(0, 4).filter((s) => s.value);
   return (
     <motion.article className="h-full" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: Math.min(index, 5) * 0.04 }}>
-      <Card {...gallery.bind} className="group relative h-full gap-0 overflow-hidden rounded-[1.75rem] border border-border bg-white py-0 shadow-[0_16px_40px_-32px_rgb(22_32_48/0.25)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_-32px_rgb(22_32_48/0.4)]">
+      <Card {...gallery.bind} className="group relative isolate h-full min-h-[27rem] gap-0 overflow-hidden rounded-[1.75rem] border-0 bg-[#16181a] py-0 text-white shadow-[0_18px_44px_-30px_rgb(10_12_16/0.55)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgb(10_12_16/0.7)]">
         <Link href={`/opportunities/${l.id}`} className="absolute inset-0 z-10" aria-label={l.title} />
-        <SignaturePhoto src={l.image} srcs={gallery.srcs} active={gallery.active} alt={l.title} className="m-2 aspect-[16/9] rounded-[1.35rem]">
+        <SignaturePhoto src={l.image} srcs={gallery.srcs} active={gallery.active} alt={l.title} className="absolute inset-0 -z-10 rounded-none transition-transform duration-700 group-hover:scale-[1.04]">
           {gallery.dots}
-          <div className="absolute inset-x-4 bottom-3.5 flex items-end justify-between gap-3 text-white">
-            <div className="min-w-0 space-y-1.5">
-              {tag && <span className="inline-block max-w-full truncate rounded-full bg-white px-2.5 py-1 text-[11px] font-extrabold text-ink">{tag}</span>}
-              {l.city && <p className="flex items-center gap-1 text-[13px] font-bold text-white [text-shadow:0_1px_3px_rgb(0_0_0/0.7)]"><Location size={15} variant="Bold" />{l.province}، {l.city}</p>}
-            </div>
-            {score != null && <span className="shrink-0 rounded-full bg-black/45 p-0.5"><MatchRing score={score} light /></span>}
-          </div>
         </SignaturePhoto>
+        {/* بلر و لایه‌ی مشکی از پایین به بالا */}
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[72%] backdrop-blur-md [mask-image:linear-gradient(to_top,#000_50%,transparent)]" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[86%] bg-[linear-gradient(to_top,rgb(8_9_10/0.95)_0%,rgb(8_9_10/0.8)_42%,rgb(8_9_10/0)_100%)]" />
         <div className="pointer-events-none absolute inset-x-5 top-5 z-20 flex flex-row-reverse [&>*]:pointer-events-auto items-center justify-end gap-2">
           {isNew(l) && <Badge className="bg-white px-2.5 py-1 text-[11px] font-extrabold text-primary">جدید</Badge>}
           <SaveButton id={l.id} />
           {comparable && l.kind === "project" && <CompareButton id={l.id} />}
         </div>
-        <div className="flex flex-1 flex-col gap-3.5 p-5 pt-3">
-          <h3 className="line-clamp-2 min-h-14 text-[17px] font-extrabold leading-7 text-ink">{l.title}</h3>
+        <div className="mt-auto flex flex-col gap-3 p-5">
+          <div className="flex items-center gap-2.5">
+            {tag && <span className="inline-block max-w-[55%] shrink-0 truncate rounded-full bg-white px-2.5 py-1 text-[11px] font-extrabold text-ink">{tag}</span>}
+            {l.city && <p className="flex min-w-0 items-center gap-1 text-[12.5px] font-bold text-white/85"><Location size={14} variant="Bold" className="shrink-0" /><span className="truncate">{l.province}، {l.city}</span></p>}
+            {score != null && <span className="mr-auto shrink-0 rounded-full bg-black/45 p-0.5"><MatchRing score={score} light /></span>}
+          </div>
+          <h3 className="line-clamp-2 text-[17px] font-extrabold leading-7 text-white">{l.title}</h3>
           {budget && budget !== "unknown" && (
-            <p className={cn("-mt-1 flex items-center gap-1.5 text-[12px] font-extrabold", budget === "met" ? "text-primary" : "text-warn-deep")}>
+            <p className={cn("-mt-1 flex items-center gap-1.5 text-[12px] font-extrabold", budget === "met" ? "text-[#7fe0d2]" : "text-[#ffb19c]")}>
               {budget === "met" && <TickCircle size={15} variant="Bold" />}{budget === "met" ? "در بودجه شما" : "بیرون از بودجه شما"}
             </p>
           )}
-          <dl className="mt-auto grid grid-cols-2 gap-x-4 gap-y-3 border-t border-dashed border-border pt-3.5">
-            {l.stats.slice(0, 4).filter((s) => s.value).map((s) => (
-              <div key={s.label} className="min-w-0"><dt className="text-[11px] font-semibold text-muted-foreground">{s.label}</dt><dd className="truncate text-[15px] font-extrabold text-ink">{s.value}</dd></div>
-            ))}
-          </dl>
+          {stats.length > 0 && (
+            <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5 border-t border-white/15 pt-3.5">
+              {stats.map((s) => (
+                <div key={s.label} className="min-w-0"><dt className="text-[11px] font-semibold text-white/60">{s.label}</dt><dd className="truncate text-[14.5px] font-extrabold text-white">{s.value}</dd></div>
+              ))}
+            </dl>
+          )}
         </div>
       </Card>
     </motion.article>
