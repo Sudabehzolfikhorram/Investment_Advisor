@@ -113,7 +113,7 @@ export function PeerStrip({ p, className }: { p: PeerSet; className?: string }) 
         {h && <span className="pointer-events-none absolute bottom-0 z-10 max-w-[16rem] translate-x-1/2 truncate rounded-xl border border-[var(--cv-grid)] bg-[var(--cv-surface)] px-3 py-1 text-[11.5px] font-bold text-[var(--cv-ink)] shadow-[0_12px_28px_-16px_rgb(16_24_40/0.45)]" style={{ right: `${Math.min(85, Math.max(15, x(h.v)))}%` }}>{h.title}: {faNumber(h.v)}</span>}
       </div>
       <div className="relative h-5">
-        {ticks.map((t) => <span key={t} className="absolute translate-x-1/2 text-[11px] font-bold tabular-nums text-[var(--cv-ink)]/55" style={{ right: `${x(t)}%` }}>{faNumber(t)}</span>)}
+        {ticks.map((t, ti) => <span key={`${t}-${ti}`} className="absolute translate-x-1/2 text-[11px] font-bold tabular-nums text-[var(--cv-ink)]/55" style={{ right: `${x(t)}%` }}>{faNumber(t)}</span>)}
       </div>
       <p className="mt-2 text-[12.5px] font-semibold leading-6 text-[var(--cv-ink)]/65">
         {p.label} این پروژه از {faNumber(share)}٪ پروژه‌های {p.scope} بیشتر است ({faNumber(p.values.length)} پروژه، واحد {p.unit}{log ? "، مقیاس لگاریتمی" : ""}).

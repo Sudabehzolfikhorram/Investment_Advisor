@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CloseCircle, Danger, InfoCircle, Refresh2, Setting4 } from "@/components/iconsax";
+import { CloseCircle, Danger, InfoCircle, Refresh2, Save2, TickCircle } from "@/components/iconsax";
 import { advancedFields, advancedSections, profileFields } from "@/data/fields";
 import { routes, routeSubcategories } from "@/data/routes";
 import { projectGroups } from "@/data/taxonomy";
@@ -44,7 +44,8 @@ export function InfoTip({ text }: { text: string }) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <button type="button" aria-label={text} onClick={(e) => e.stopPropagation()} className="inline-grid size-5 shrink-0 place-items-center rounded-full text-ink/35 transition-colors hover:text-cobalt focus-visible:text-cobalt"><InfoCircle size={15} variant="Bold" /></button>
+        {/* span نه button: داخل دکمه آکاردئون می‌نشیند و دکمه تودرتو مجاز نیست */}
+        <span role="img" tabIndex={0} aria-label={text} onClick={(e) => e.stopPropagation()} className="inline-grid size-5 shrink-0 cursor-help place-items-center rounded-full text-ink/35 outline-none transition-colors hover:text-cobalt focus-visible:text-cobalt"><InfoCircle size={15} variant="Bold" /></span>
       </TooltipTrigger>
       <TooltipContent side="top" className="max-w-64 text-right text-[12px] font-semibold leading-6">{text}</TooltipContent>
     </Tooltip>
@@ -90,7 +91,18 @@ function AdvisoryQuestions({ subtypes }: { subtypes: string[] }) {
   );
 }
 
-export function AdvancedFilter({ className, quick }: { className?: string; quick?: React.ReactNode }) {
+/** بج ذخیره جست‌وجو کنار «حذف همه» در سرِ فیلترها (جای نوار پیشنهاد ذخیره بالای نتایج) */
+function SaveBadge({ onSave, saved }: { onSave: () => void; saved?: boolean }) {
+  if (saved) return <span className="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-primary/10 px-2.5 text-[11.5px] font-extrabold text-primary"><TickCircle size={14} variant="Bold" />ذخیره شده</span>;
+  return (
+    <Button type="button" variant="plain" size="auto" onClick={onSave} title="این جست‌وجو را ذخیره کنید تا دفعه بعد با یک کلیک برگردید و پروژه‌های تازه‌اش را ببینید."
+      className="h-7 shrink-0 gap-1 rounded-full bg-cobalt-soft px-2.5 text-[11.5px] font-extrabold text-cobalt-deep ring-1 ring-cobalt/20 transition-colors hover:bg-cobalt hover:text-white">
+      <Save2 size={14} variant="Bulk" />ذخیره جست‌وجو
+    </Button>
+  );
+}
+
+export function AdvancedFilter({ className, quick, profileCard, onSave, saved }: { className?: string; quick?: React.ReactNode; profileCard?: React.ReactNode; onSave?: () => void; saved?: boolean }) {
   const { criteria, setFilter } = useStore();
   const route = routes.find((r) => r.id === criteria.route)!;
   const f = criteria.filters;
@@ -158,9 +170,12 @@ export function AdvancedFilter({ className, quick }: { className?: string; quick
   return (
     <TooltipProvider delayDuration={150}>
     <div className={className}>
-      <div className="flex items-center justify-between pb-1">
-        <h2 className="flex items-center gap-2 text-lg font-black text-ink"><Setting4 size={20} variant="Bulk" className="text-primary" />فیلترهای بیشتر</h2>
-        {total > 0 && <Button variant="ghost" size="xs" type="button" onClick={clear} className="font-bold text-muted-foreground hover:text-destructive"><Refresh2 size={14} />حذف ({faNumber(total)})</Button>}
+      <div className="flex items-center gap-1.5 pb-1">
+        <h2 className="shrink-0 text-[16px] font-black text-ink">فیلترهای بیشتر</h2>
+        <span className="mr-auto flex items-center gap-1">
+          {onSave && <SaveBadge onSave={onSave} saved={saved} />}
+          {total > 0 && <Button variant="ghost" size="xs" type="button" onClick={clear} className="h-7 gap-1 px-2 text-[11.5px] font-bold text-muted-foreground hover:bg-destructive/10 hover:text-destructive"><Refresh2 size={13} />حذف همه</Button>}
+        </span>
       </div>
 
       <Accordion key={route.id} type="single" collapsible defaultValue={fields.some((x) => x.section === "amount") ? "amount" : "project"}>
@@ -172,9 +187,11 @@ export function AdvancedFilter({ className, quick }: { className?: string; quick
         {route.usesProjectGroups && (
           <Section id="advisory" title="پرسش‌های تخصصی" count={advKeys.length}><AdvisoryQuestions subtypes={subtypes} /></Section>
         )}
-        {profile.length > 0 && (
+        {(profile.length > 0 || profileCard) && (
           <Section id="profile" title="درباره شما" count={activeIn(profile)} info="یک‌بار وارد کنید؛ همراه جست‌وجو ذخیره می‌شود.">
             {profile.map(row)}
+            {/* پروفایل حرفه‌ای (ساخت سریع) آخرین مورد «درباره شما» */}
+            {profileCard}
           </Section>
         )}
         {/* فیلترهای سریع: آخرین بخش فیلترهای اختیاری */}

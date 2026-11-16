@@ -223,7 +223,6 @@ export function Categories() {
                 <button type="button" onMouseEnter={() => { setActive(i); setPreview(null); }} onFocus={() => { setActive(i); setPreview(null); }} onClick={() => open(g.id)} aria-pressed={on}
                   className={cn("relative flex w-full items-center gap-4 rounded-[1.25rem] px-4 py-2.5 text-right transition-colors duration-300", on ? "bg-white shadow-[0_18px_40px_-28px_rgb(22_32_48/0.45)] ring-1 ring-border" : "hover:bg-white/60")}>
                   {on && <motion.span layoutId="cat-bar" className="absolute inset-y-2.5 right-0 w-[3px] rounded-full bg-cobalt" />}
-                  <span className={cn("w-6 shrink-0 text-[15px] font-black tabular-nums transition-colors", on ? "text-ink" : "text-ink/25")}>{faNumber(i + 1)}</span>
                   <span className={cn("grid size-9 shrink-0 place-items-center rounded-xl transition-colors", on ? "bg-cobalt text-white" : "bg-muted text-ink/60")}><I size={18} variant="Bulk" /></span>
                   <span className={cn("min-w-0 flex-1 truncate text-[15px] leading-7", on ? "font-extrabold text-ink" : "font-bold text-ink/75")}>{g.name}</span>
                   <span className={cn("shrink-0 text-[12.5px] font-bold tabular-nums", on ? "text-cobalt-deep" : "text-muted-foreground")}>{n ? `${faNumber(n)} پروژه` : "به‌زودی"}</span>
@@ -244,13 +243,14 @@ function GroupPanel({ g, routeName, counts, preview, setPreview, open }: { g: Gr
   const I = groupIcons[g.id];
   const img = preview?.image || g.image || "/images/hero/field.jpg";
   return (
-    <div className="relative isolate min-h-[34rem] overflow-hidden rounded-[2rem] bg-[#16181a] text-white" onMouseLeave={() => setPreview(null)}>
+    <div className="relative isolate min-h-[34rem] overflow-hidden rounded-[2rem] bg-[#16181a] text-white [clip-path:inset(0_round_2rem)] [transform:translateZ(0)]" onMouseLeave={() => setPreview(null)}>
       <AnimatePresence initial={false}>
         <motion.div key={img} initial={{ opacity: 0, scale: 1.06 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.7 }} className="absolute inset-0 -z-10">
           <Image src={img} alt="" fill sizes="50vw" className="object-cover" />
         </motion.div>
       </AnimatePresence>
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#111315] via-[#111315]/75 to-[#111315]/15" />
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgb(17_19_21/0.9)_0%,rgb(17_19_21/0.66)_26%,rgb(17_19_21/0.12)_55%,transparent_70%)]" />
+      <div className="absolute inset-x-0 top-0 -z-10 h-28 bg-gradient-to-b from-black/30 to-transparent" />
       <AnimatePresence mode="wait" initial={false}>
         <motion.div key={g.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35 }} className="absolute inset-0 flex flex-col justify-between p-8">
           <div className="flex items-center justify-between gap-4">
@@ -260,20 +260,22 @@ function GroupPanel({ g, routeName, counts, preview, setPreview, open }: { g: Gr
             </Button>
           </div>
           <div className="min-w-0">
-            <h3 className="text-[1.9rem] font-black leading-[1.4]">{g.name}</h3>
-            <AnimatePresence mode="wait">
-              <motion.p key={preview?.name ?? "g"} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-1 truncate text-[14px] font-semibold text-white/75">
-                {preview ? preview.name : `${faNumber(counts.g[g.id] ?? 0)} پروژه در ${faNumber(g.subtypes.length)} نوع`}
-              </motion.p>
-            </AnimatePresence>
+            {/* زیرعنوان (شمار پروژه‌ها) روبه‌روی عنوان، در همان سطر */}
+            <div className="flex min-w-0 items-baseline gap-3">
+              <h3 className="shrink-0 text-[1.9rem] font-black leading-[1.4]">{g.name}</h3>
+              <AnimatePresence mode="wait">
+                <motion.p key={preview?.name ?? "g"} initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className="min-w-0 truncate text-[14px] font-semibold text-white/75">
+                  {preview ? preview.name : `${faNumber(counts.g[g.id] ?? 0)} پروژه در ${faNumber(g.subtypes.length)} نوع`}
+                </motion.p>
+              </AnimatePresence>
+            </div>
             <ul className="mt-5 flex flex-wrap gap-2 border-t border-white/15 pt-5">
               {g.subtypes.map((s, k) => (
                 <motion.li key={s.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + k * 0.035, duration: 0.35 }}>
                   <Button variant="plain" size="auto" onClick={() => open(g.id, s.id)}
                     onMouseEnter={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })} onFocus={() => setPreview({ image: s.image ?? g.image ?? "", name: s.examples || s.name })}
-                    className="h-9 gap-2 rounded-full border border-white/25 bg-white/10 px-3.5 text-[13px] font-bold text-white backdrop-blur-sm transition-colors duration-200 hover:border-white hover:bg-white hover:text-ink">
+                    className="h-8 rounded-full border border-white/25 bg-white/10 px-3.5 text-[11px] font-normal text-white backdrop-blur-sm transition-colors duration-200 hover:border-white hover:bg-white hover:text-ink">
                     {s.name}
-                    <span className="text-[11.5px] font-semibold tabular-nums opacity-60">{faNumber(counts.t[`${g.id}/${s.id}`] ?? 0)}</span>
                   </Button>
                 </motion.li>
               ))}
@@ -350,7 +352,7 @@ export function MainCategories() {
       <SectionHead kicker="هشت مسیر ورود" title={<>سرمایه، تخصص یا توان اجرایی؛<br />با کدام وارد می‌شوید؟</>} text="هر مسیر پروژه‌ها و شرایط خودش را دارد؛ اول بگویید چه دارید تا مسیرهای مناسب را نشانتان دهیم." />
       <div className="mt-8 flex items-center gap-4">
         <span className="shrink-0 text-[14px] font-extrabold text-ink">آورده شما چیست؟</span>
-        <ToggleGroup type="single" value={asset} onValueChange={(v) => v && setAsset(v)} className="flex flex-wrap gap-2">
+        <ToggleGroup type="single" spacing={2} value={asset} onValueChange={(v) => v && setAsset(v)} className="flex flex-wrap">
           {assets.map((a) => (
             <ToggleGroupItem key={a.id} value={a.id} className="h-10 rounded-full border border-border bg-white px-4 text-[13px] font-bold text-ink/70 shadow-none hover:border-ink/25 hover:bg-white hover:text-ink data-[state=on]:border-cobalt data-[state=on]:bg-cobalt data-[state=on]:text-white">{a.label}</ToggleGroupItem>
           ))}
@@ -367,17 +369,17 @@ export function MainCategories() {
           return (
             <Reveal key={r.id} delay={(i % 4) * 0.06} className="h-full">
               <Button variant="plain" size="auto" type="button" onClick={() => { begin({ route: r.id }); router.push("/opportunities"); }}
-                className={cn("group surface relative isolate flex h-full min-h-[15.5rem] !bg-[radial-gradient(120%_85%_at_0%_100%,rgb(33_82_224/0.14),transparent_62%),radial-gradient(90%_70%_at_100%_0%,rgb(15_118_110/0.10),transparent_60%),linear-gradient(#fff,#fff)] w-full flex-col items-stretch justify-start gap-0 overflow-hidden whitespace-normal rounded-[1.6rem] p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:border-ink/20 hover:shadow-[0_26px_50px_-30px_rgb(20_30_45/0.32)]",
+                className={cn("group surface relative isolate flex h-full min-h-[15.5rem] !bg-[radial-gradient(90%_70%_at_100%_0%,rgb(15_118_110/0.10),transparent_60%),linear-gradient(#fff,#fff)] w-full flex-col items-stretch justify-start gap-0 overflow-hidden whitespace-normal rounded-[1.6rem] p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:!border-primary/40 hover:!bg-[radial-gradient(90%_70%_at_100%_0%,rgb(15_118_110/0.16),transparent_60%),linear-gradient(#fff,#fff)] hover:shadow-[0_26px_50px_-30px_rgb(15_118_110/0.45)]",
                   fit && on && "border-cobalt/45 shadow-[0_0_0_3px_rgb(14_83_200/0.08),0_26px_50px_-34px_rgb(14_83_200/0.45)]", !on && "opacity-40 saturate-0 hover:opacity-100 hover:saturate-100")}>
                 {/* سرِ کارت فقط آیکون؛ شمار پروژه به پاورقی رفت تا بالای کارت خلوت بماند */}
-                <span className={cn("grid size-12 shrink-0 place-items-center rounded-2xl bg-muted text-ink transition-colors duration-300 group-hover:bg-ink group-hover:text-white", fit && on && "bg-cobalt-soft text-cobalt-deep")}><I size={23} variant="Bulk" /></span>
-                <span className="mt-6 block text-[17.5px] font-extrabold leading-7 text-ink">{r.name}</span>
+                <span className={cn("grid size-12 shrink-0 place-items-center rounded-2xl bg-muted text-ink transition-colors duration-300 group-hover:bg-primary group-hover:text-white", fit && on && "bg-cobalt-soft text-cobalt-deep")}><I size={23} variant="Bulk" /></span>
+                <span title={r.name} className="mt-6 block truncate whitespace-nowrap text-[17px] font-extrabold leading-7 text-ink">{r.name}</span>
                 <span className="mt-1.5 block truncate text-[13.5px] leading-6 text-muted-foreground">{routeShort[r.id] ?? r.description}</span>
                 {subs.length > 0 && <span className="mt-5 block"><OneRowBadges items={subs} /></span>}
                 {/* پاورقی همیشه پایین کارت؛ چه کارت بج داشته باشد چه نه */}
                 <span className="mt-auto flex items-center justify-between pt-6">
                   <span className="text-[13px] font-bold text-muted-foreground">{n ? <><b className="font-black text-ink tabular-nums">{faNumber(n)}</b> پروژه</> : "به‌زودی"}</span>
-                  <span className="grid size-9 place-items-center rounded-full border border-border text-ink transition-all duration-300 group-hover:border-cobalt group-hover:bg-cobalt group-hover:text-white"><ArrowLeft size={16} className="transition-transform group-hover:-translate-x-0.5" /></span>
+                  <span className="grid size-9 place-items-center rounded-full border border-border text-ink transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-white"><ArrowLeft size={16} className="transition-transform group-hover:-translate-x-0.5" /></span>
                 </span>
               </Button>
             </Reveal>

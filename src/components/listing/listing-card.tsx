@@ -4,16 +4,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { toast } from "sonner";
-import { ArchiveAdd, ArchiveTick, Convertshape2, Location, TickCircle } from "@/components/iconsax";
+import { ArchiveAdd, ArchiveTick, Convertshape2, TickCircle } from "@/components/iconsax";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SignaturePhoto } from "./signature-photo";
 import { useHoverGallery } from "./gallery";
-import { MatchRing } from "@/components/brand/reveal";
 import { useHydrated, useStore } from "@/lib/store";
 import { isNew } from "@/lib/listings";
 import type { Listing, MatchReason } from "@/types";
-import { cn } from "@/lib/utils";
+import { cn, faNumber } from "@/lib/utils";
 
 export function SaveButton({ id, className, label }: { id: string; className?: string; label?: boolean }) {
   const { user, saved, toggleSaved, openLogin } = useStore();
@@ -49,43 +48,58 @@ function CompareButton({ id }: { id: string }) {
   );
 }
 
-/** کارت پروژه: قابِ کارت خودِ عکس است؛ از پایین به بالا لایه‌ی مشکی و بلر می‌نشیند و نام، برچسب و داده‌ها روی همان پایینِ عکس می‌آیند */
+/** بج درصد تطابق: هم‌قد دکمه ذخیره، در همان ردیف بالای کارت */
+function MatchBadge({ score }: { score: number }) {
+  const tone = score >= 75 ? "bg-[#5fd4c4]" : score >= 50 ? "bg-[#9fb6f5]" : "bg-white/50";
+  return (
+    <span title="تطابق با شرایط شما" className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-black/45 px-3 text-[12.5px] font-extrabold tabular-nums text-white backdrop-blur-sm">
+      <span className={cn("size-2 rounded-full", tone)} />{faNumber(score)}٪ تطابق
+    </span>
+  );
+}
+
+/** کارت پروژه: قابِ کارت خودِ عکس است؛ از پایین به بالا لایه‌ی مشکی و بلر می‌نشیند.
+ *  بالای کارت: ذخیره، مقایسه و درصد تطابق در یک ردیف. پایین: عنوان، برچسب نوع زیر عنوان و چهار داده (موقعیت یکی از آن‌هاست). */
 export function ListingCard({ listing: l, score, reasons, index = 0, comparable = false }: { listing: Listing; score?: number; reasons?: MatchReason[]; index?: number; comparable?: boolean }) {
   const tag = l.tags[l.tags.length - 1];
   const budget = reasons?.find((r) => r.label === "مبلغ در بازه شما")?.status;
   const gallery = useHoverGallery(l);
-  const stats = l.stats.slice(0, 4).filter((s) => s.value);
+  // موقعیت جای «محدوده» (یا آخرین داده) می‌نشیند تا مکان هم یکی از چهار داده‌ی پایین کارت باشد
+  const place = l.city ? `${l.province}، ${l.city}` : null;
+  const base = l.stats.filter((s) => s.value && !(place && s.label === "محدوده"));
+  const stats = (place ? [...base.slice(0, 3), { label: "موقعیت", value: place }] : base.slice(0, 4));
   return (
     <motion.article className="h-full" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: Math.min(index, 5) * 0.04 }}>
-      <Card {...gallery.bind} className="group relative isolate h-full min-h-[27rem] gap-0 overflow-hidden rounded-[1.75rem] border-0 bg-[#16181a] py-0 text-white shadow-[0_18px_44px_-30px_rgb(10_12_16/0.55)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgb(10_12_16/0.7)]">
+      <Card {...gallery.bind} className="group relative isolate h-full min-h-[21rem] gap-0 overflow-hidden rounded-[1.75rem] border-0 bg-[#16181a] py-0 text-white shadow-[0_18px_44px_-30px_rgb(10_12_16/0.55)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgb(10_12_16/0.7)]">
         <Link href={`/opportunities/${l.id}`} className="absolute inset-0 z-10" aria-label={l.title} />
-        <SignaturePhoto src={l.image} srcs={gallery.srcs} active={gallery.active} alt={l.title} className="absolute inset-0 -z-10 rounded-none transition-transform duration-700 group-hover:scale-[1.04]">
+        <SignaturePhoto src={l.image} srcs={gallery.srcs} active={gallery.active} alt={l.title} mark={false} className="absolute inset-0 -z-10 rounded-none transition-transform duration-700 group-hover:scale-[1.04]">
           {gallery.dots}
         </SignaturePhoto>
         {/* بلر و لایه‌ی مشکی از پایین به بالا */}
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[72%] backdrop-blur-md [mask-image:linear-gradient(to_top,#000_50%,transparent)]" />
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[86%] bg-[linear-gradient(to_top,rgb(8_9_10/0.95)_0%,rgb(8_9_10/0.8)_42%,rgb(8_9_10/0)_100%)]" />
-        <div className="pointer-events-none absolute inset-x-5 top-5 z-20 flex flex-row-reverse [&>*]:pointer-events-auto items-center justify-end gap-2">
-          {isNew(l) && <Badge className="bg-white px-2.5 py-1 text-[11px] font-extrabold text-primary">جدید</Badge>}
-          <SaveButton id={l.id} />
-          {comparable && l.kind === "project" && <CompareButton id={l.id} />}
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[58%] backdrop-blur-md [mask-image:linear-gradient(to_top,#000_50%,transparent)]" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[78%] bg-[linear-gradient(to_top,rgb(18_20_23/0.8)_0%,rgb(18_20_23/0.58)_42%,rgb(18_20_23/0)_100%)]" />
+        <div className="pointer-events-none absolute inset-x-4 top-4 z-20 flex items-center gap-2 [&>*]:pointer-events-auto">
+          {score != null && <MatchBadge score={score} />}
+          {isNew(l) && <Badge className="h-7 bg-white px-2.5 text-[11px] font-extrabold text-primary">جدید</Badge>}
+          <span className="pointer-events-none mr-auto flex items-center gap-2 [&>*]:pointer-events-auto">
+            {comparable && l.kind === "project" && <CompareButton id={l.id} />}
+            <SaveButton id={l.id} />
+          </span>
         </div>
-        <div className="mt-auto flex flex-col gap-3 p-5">
-          <div className="flex items-center gap-2.5">
-            {tag && <span className="inline-block max-w-[55%] shrink-0 truncate rounded-full bg-white px-2.5 py-1 text-[11px] font-extrabold text-ink">{tag}</span>}
-            {l.city && <p className="flex min-w-0 items-center gap-1 text-[12.5px] font-bold text-white/85"><Location size={14} variant="Bold" className="shrink-0" /><span className="truncate">{l.province}، {l.city}</span></p>}
-            {score != null && <span className="mr-auto shrink-0 rounded-full bg-black/45 p-0.5"><MatchRing score={score} light /></span>}
-          </div>
+        <div className="mt-auto flex flex-col p-5 pt-0">
           <h3 className="line-clamp-2 text-[17px] font-extrabold leading-7 text-white">{l.title}</h3>
-          {budget && budget !== "unknown" && (
-            <p className={cn("-mt-1 flex items-center gap-1.5 text-[12px] font-extrabold", budget === "met" ? "text-[#7fe0d2]" : "text-[#ffb19c]")}>
-              {budget === "met" && <TickCircle size={15} variant="Bold" />}{budget === "met" ? "در بودجه شما" : "بیرون از بودجه شما"}
-            </p>
-          )}
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            {tag && <span className="inline-block max-w-full truncate rounded-full bg-white/15 px-2.5 py-1 text-[11.5px] font-bold text-white ring-1 ring-white/20 backdrop-blur-sm">{tag}</span>}
+            {budget && budget !== "unknown" && (
+              <span className={cn("inline-flex items-center gap-1 text-[11.5px] font-extrabold", budget === "met" ? "text-[#7fe0d2]" : "text-[#ffb19c]")}>
+                {budget === "met" && <TickCircle size={14} variant="Bold" />}{budget === "met" ? "در بودجه شما" : "بیرون از بودجه شما"}
+              </span>
+            )}
+          </div>
           {stats.length > 0 && (
-            <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5 border-t border-white/15 pt-3.5">
+            <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-white/15 pt-3.5">
               {stats.map((s) => (
-                <div key={s.label} className="min-w-0"><dt className="text-[11px] font-semibold text-white/60">{s.label}</dt><dd className="truncate text-[14.5px] font-extrabold text-white">{s.value}</dd></div>
+                <div key={s.label} className="min-w-0"><dt className="text-[11px] font-semibold text-white/60">{s.label}</dt><dd className="truncate text-[14px] font-extrabold text-white">{s.value}</dd></div>
               ))}
             </dl>
           )}

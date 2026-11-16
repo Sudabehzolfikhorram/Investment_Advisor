@@ -4,7 +4,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Fragment, useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { toast } from "sonner";
 import {
@@ -27,11 +27,14 @@ import { dossier, factGroups, splitPending, type DossierSection, type FactGroup 
 import { projectGroups } from "@/data/taxonomy";
 import { advisories } from "@/data/advisories";
 import { useHydrated, useStore } from "@/lib/store";
-import { ReturnTimeline } from "@/components/compare/timeline";
+import { ReturnTimeline, type Marker } from "@/components/compare/timeline";
+import { COMPARE_MAX, compareListings, oppOf } from "@/lib/compare";
+import { hasAnyCriteria } from "@/lib/criteria";
+import { rank } from "@/lib/match";
 import { CompareTray } from "@/components/compare/tray";
 import type { Advisory, Fund, Listing, Opportunity, RouteId, SaleItem } from "@/types";
 import { routeSteps } from "@/data/routes";
-import { cn, faNumber, formatMobile, incomeLabel, legalLabel, riskLabel } from "@/lib/utils";
+import { cn, faNumber, formatMobile, incomeLabel, legalLabel } from "@/lib/utils";
 import { chartList } from "@/components/concepts/charts";
 import { sheetOf } from "@/lib/sheet";
 
@@ -41,14 +44,13 @@ const cv = { "--cv-accent": "#0e53c8", "--cv-soft": "#e6eefc", "--cv-ink": "#2f3
 const ease = [0.22, 1, 0.36, 1] as const;
 const NA = "ثبت نشده";
 
-function Chapter({ n, title, note, children }: { n: number; title: string; note?: string; children: React.ReactNode }) {
+/** عنوان هر فصل: بدون شماره و بدون زیرعنوان روبه‌رو */
+function Chapter({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <Reveal className="relative">
       <div className="mb-5 flex items-center gap-3">
-        <span className="grid size-9 place-items-center rounded-full bg-pine text-sm font-black text-white">{faNumber(n)}</span>
         <h2 className="text-xl font-black text-ink">{title}</h2>
         <span className="h-px flex-1 bg-gradient-to-l from-border to-transparent" />
-        {note && <span className="text-xs font-semibold text-muted-foreground">{note}</span>}
       </div>
       {children}
     </Reveal>
@@ -68,28 +70,36 @@ function Tile({ I, label, value, sub }: { I: Icon; label: string; value: string;
   );
 }
 
-/** شناسنامه: سه کارت موضوعی با آیکون؛ فقط داده‌های ثبت‌شده. متن بلند زیر برچسبش می‌شکند. */
+/** شناسنامه: بخش‌های تمام‌عرض بازشونده (فلش برای باز و بسته)، هر ردیف «عنوان | مقدار»؛ اولی پیش‌فرض باز است.
+ *  ارتفاع به متن وابسته نیست چون کارت‌ها کنار هم نیستند. */
 const groupIcon: Record<string, Icon> = { project: Building, money: WalletMoney, status: ShieldSearch };
 function Facts({ groups }: { groups: FactGroup[] }) {
   return (
-    <div className="grid grid-cols-3 gap-4">
-      {groups.map((g) => { const I = groupIcon[g.id];
+    <Accordion type="multiple" defaultValue={groups[0] ? [groups[0].id] : []} className="space-y-3">
+      {groups.map((g) => { const I = groupIcon[g.id] ?? Building; const { known, pending } = splitPending(g.items);
         return (
-          <div key={g.id} className="surface rounded-[1.75rem] p-5">
-            <h3 className="flex items-center gap-2.5 text-[15px] font-extrabold text-ink"><span className="grid size-9 place-items-center rounded-xl bg-ink/[0.06] text-primary"><I size={18} variant="Bulk" /></span>{g.title}</h3>
-            <dl className="mt-3 divide-y divide-border/70">
-              {splitPending(g.items).known.map(([k, v]) => (
-                // همه ردیف‌ها یک شکل: عنوان راست، مقدار چپ؛ مقدار بلند در همان ستون چپ می‌شکند
-                <div key={k} className="flex items-baseline justify-between gap-4 py-2.5">
-                  <dt className="shrink-0 text-xs font-semibold text-muted-foreground">{k}</dt>
-                  <dd className={cn("min-w-0 max-w-[72%] text-left text-sm font-extrabold leading-6", v === NA ? "font-semibold text-ink/35" : "text-ink")}>{v}</dd>
-                </div>
-              ))}
-            </dl>
-            {splitPending(g.items).pending.length > 0 && <p className="mt-2 border-t border-dashed border-border pt-2.5 text-xs leading-6 text-muted-foreground"><b className="font-extrabold text-ink/70">ثبت نشده: </b>{splitPending(g.items).pending.join("، ")}</p>}
-          </div>
+          <AccordionItem key={g.id} value={g.id} className="surface overflow-hidden rounded-[1.5rem] border-0 last:border-b-0">
+            <AccordionTrigger className="items-center px-6 py-4 text-right hover:no-underline [&>svg]:size-5 [&>svg]:text-ink/50">
+              <span className="flex items-center gap-3">
+                <span className="grid size-9 place-items-center rounded-xl bg-ink/[0.05] text-primary"><I size={18} variant="Bulk" /></span>
+                <span className="text-[15px] font-extrabold text-ink">{g.title}</span>
+                <span className="text-[12px] font-semibold text-muted-foreground">{faNumber(known.length)} مورد</span>
+              </span>
+            </AccordionTrigger>
+            <AccordionContent className="border-t border-border/80 px-6 pb-3 pt-0">
+              <dl className="divide-y divide-border/70">
+                {known.map(([k, v]) => (
+                  <div key={k} className="grid grid-cols-[13rem_minmax(0,1fr)] items-baseline gap-6 py-3">
+                    <dt className="text-[13px] font-semibold text-muted-foreground">{k}</dt>
+                    <dd className={cn("text-[14px] font-bold leading-7", v === NA ? "font-semibold text-ink/35" : "text-ink")}>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+              {pending.length > 0 && <p className="mb-1 mt-1 border-t border-dashed border-border pt-3 text-[12.5px] leading-6 text-muted-foreground"><b className="font-extrabold text-ink/70">ثبت نشده: </b>{pending.join("، ")}</p>}
+            </AccordionContent>
+          </AccordionItem>
         ); })}
-    </div>
+    </Accordion>
   );
 }
 
@@ -173,7 +183,7 @@ function Milestones({ o }: { o: Opportunity }) {
   const known = all.filter((m) => m.at != null).sort((a, b) => a.at! - b.at!);
   if (known.length < 2) return null;
   return (
-    <div className="surface rounded-[1.75rem] p-6">
+    <div>
       <ol className="grid" style={{ gridTemplateColumns: `repeat(${known.length}, minmax(0, 1fr))` }}>
         {known.map((m, i) => (
           <li key={m.label} className="relative px-1 text-center">
@@ -188,7 +198,7 @@ function Milestones({ o }: { o: Opportunity }) {
   );
 }
 
-/** مسیر پول: تأمین مالی ← بازگشت ← مالکیت؛ کارت‌ها با فلش به هم وصل‌اند */
+/** مسیر پول به شکل ردیف‌های «عنوان | متن» (مثل شناسنامه)، داخل همان کارت «پول شما در طول زمان» */
 function MoneyFlow({ o }: { o: { finance?: string; repay?: string; ownership?: string | null } }) {
   const nodes = [
     { I: WalletMoney, t: "پول از کجا می‌آید", d: o.finance },
@@ -196,43 +206,46 @@ function MoneyFlow({ o }: { o: { finance?: string; repay?: string; ownership?: s
     { I: Key, t: "مالکیت و سهم", d: o.ownership },
   ].filter((x) => x.d);
   return (
-    <div className="flex items-stretch gap-2">
-      {nodes.map((x, i) => (
-        <Fragment key={x.t}>
-          {i > 0 && (
-            <span aria-hidden className="flex w-12 shrink-0 items-center text-primary">
-              <span className="h-0.5 flex-1 bg-primary/30" /><ArrowLeft size={20} className="-mr-1.5" />
-            </span>
-          )}
-          <div className="surface flex-1 rounded-[1.75rem] p-6">
-            <span className="grid size-12 place-items-center rounded-2xl bg-ink/[0.06] text-primary"><x.I size={24} variant="Bulk" /></span>
-            <h3 className="mt-4 text-sm font-extrabold text-primary">{x.t}</h3>
-            <p className="mt-2 text-[15px] font-semibold leading-8 text-ink">{x.d}</p>
-          </div>
-        </Fragment>
+    <dl className="divide-y divide-border/70">
+      {nodes.map((x) => (
+        <div key={x.t} className="grid grid-cols-[13rem_minmax(0,1fr)] items-start gap-6 py-3.5">
+          <dt className="flex items-center gap-2.5 text-[13px] font-bold text-ink/70"><span className="grid size-8 shrink-0 place-items-center rounded-lg bg-ink/[0.05] text-primary"><x.I size={17} variant="Bulk" /></span>{x.t}</dt>
+          <dd className="pt-1 text-[14.5px] font-semibold leading-7 text-ink">{x.d}</dd>
+        </div>
       ))}
-    </div>
+    </dl>
   );
 }
 
-/** «مراحل ورود و اسناد لازم» (بخش جزئیات پروژه در نسخه مرجع): مسیر خطی و غیرقابل‌کلیک، با ترتیب روشن گام‌ها */
+/** نقاط عطف زمانی روی محور نمودار بازگشت (به‌جای ردیف جدای زیر نمودار) */
+const when = (m: number) => (m >= 12 && m % 12 === 0 ? `سال ${faNumber(m / 12)}` : `ماه ${faNumber(m)}`);
+function markersOf(o: Opportunity): Marker[] {
+  const out: (Marker | false)[] = [
+    o.firstIncomeMonths != null && o.firstIncomeMonths > 0 && { at: o.firstIncomeMonths, label: "اولین دریافت", value: when(o.firstIncomeMonths) },
+    o.executionMonths != null && { at: o.executionMonths, label: "پایان اجرا", value: when(o.executionMonths) },
+    o.lockupMonths != null && { at: o.lockupMonths, label: "پایان قفل سرمایه", value: when(o.lockupMonths) },
+    o.paybackYears != null && { at: o.paybackYears * 12, label: "بازگشت سرمایه", value: `سال ${faNumber(o.paybackYears)}` },
+    o.paybackDownsideYears != null && o.paybackDownsideYears !== o.paybackYears && { at: o.paybackDownsideYears * 12, label: "بازگشت بدبینانه", value: `سال ${faNumber(o.paybackDownsideYears)}`, warn: true },
+    o.durationYears != null && { at: o.durationYears * 12, label: "پایان طرح", value: `سال ${faNumber(o.durationYears)}` },
+  ];
+  return (out.filter(Boolean) as Marker[]).sort((a, b) => a.at - b.at);
+}
+
+/** «مراحل ورود و اسناد لازم» نسخه مرجع با نام «گام‌های ورود و مدارک لازم»: عمودی و زیر هم، با خط پیوسته بین گام‌ها */
 const ordinal = ["اول", "دوم", "سوم", "چهارم", "پنجم", "ششم", "هفتم", "هشتم", "نهم", "دهم"];
 function Steps({ steps }: { steps: string[] }) {
-  const cols = Math.min(steps.length, 4);
   return (
-    <ol className="grid gap-x-3 gap-y-9" style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}>
-      {steps.map((s, i) => { const lastInRow = (i + 1) % cols === 0 || i === steps.length - 1;
-        return (
-          <li key={s} className="min-w-0">
-            <div className="flex items-center gap-3">
-              <span className={cn("grid size-11 shrink-0 place-items-center rounded-full text-base font-black", i === 0 ? "bg-primary text-white shadow-[0_10px_24px_-12px_var(--primary)]" : "bg-ink/[0.06] text-primary")}>{faNumber(i + 1)}</span>
-              {!lastInRow && <span aria-hidden className="h-px flex-1 border-t-2 border-dashed border-ink/25" />}
-              {!lastInRow && <ArrowLeft size={14} className="-mr-2 shrink-0 text-primary/40" />}
-            </div>
-            <p className="mt-3 text-xs font-extrabold text-primary">گام {ordinal[i] ?? faNumber(i + 1)}</p>
-            <p className="mt-1 pl-4 text-[15px] font-bold leading-7 text-ink">{s}</p>
-          </li>
-        ); })}
+    <ol>
+      {steps.map((s, i) => (
+        <li key={s} className="relative flex gap-4 pb-3 last:pb-0">
+          {i < steps.length - 1 && <span aria-hidden className="absolute bottom-0 right-[1.375rem] top-11 border-r-2 border-dashed border-ink/15" />}
+          <span className={cn("relative z-10 grid size-11 shrink-0 place-items-center rounded-full text-base font-black", i === 0 ? "bg-primary text-white shadow-[0_10px_24px_-12px_var(--primary)]" : "bg-white text-primary ring-1 ring-border")}>{faNumber(i + 1)}</span>
+          <div className="surface min-w-0 flex-1 rounded-2xl px-5 py-3.5">
+            <p className="text-[12px] font-extrabold text-primary">گام {ordinal[i] ?? faNumber(i + 1)}</p>
+            <p className="mt-0.5 text-[15px] font-bold leading-7 text-ink">{s}</p>
+          </div>
+        </li>
+      ))}
     </ol>
   );
 }
@@ -349,30 +362,89 @@ function Contact({ l }: { l: Listing }) {
   );
 }
 
-/** مقایسه از همین صفحه: با یک کلیک، این پروژه و دو پروژه مشابه کنار هم */
-function CompareCard({ l, similar }: { l: Listing; similar: Listing[] }) {
-  const router = useRouter();
-  const { compare, toggleCompare, setCompare } = useStore();
+/** پروژه‌های نزدیک: هم‌گروه و هم‌مسیر، با مبلغ نزدیک؛ اگر کاربر شرایطی وارد کرده، تطابق با آن هم وزن دارد */
+function useNearby(l: Listing, needPayback = false) {
   const hydrated = useHydrated();
-  const on = hydrated && compare.includes(l.id);
-  const pair = similar.slice(0, 2);
+  const criteria = useStore((st) => st.criteria);
+  return useMemo(() => {
+    if (l.kind !== "project") return [];
+    const withCrit = hydrated && hasAnyCriteria(criteria);
+    const fit = withCrit ? Object.fromEntries(rank(compareListings, criteria).map((r) => [r.listing.id, r.score])) : {};
+    const span = Math.max(1, ...compareListings.map((x) => x.amount ?? 0));
+    return compareListings
+      .filter((x) => x.id !== l.id && (!needPayback || oppOf(x).paybackYears != null))
+      .map((x) => ({ x, s: (x.group === l.group ? 3 : 0) + (x.subtype === l.subtype ? 1 : 0) + (x.routes.some((r) => l.routes.includes(r)) ? 1 : 0) + (withCrit ? (fit[x.id] ?? 0) / 40 : 0) - Math.abs((x.amount ?? span) - (l.amount ?? 0)) / span }))
+      .sort((a, b) => b.s - a.s).slice(0, 3).map((e) => e.x);
+  }, [l, needPayback, hydrated, criteria]);
+}
+
+/** کنار پروژه‌های نزدیک بسنجید: در ستون کناری و کم‌اولویت‌تر از تماس؛ هر پروژه جدا به مقایسه اضافه می‌شود */
+function CompareCard({ l, near }: { l: Listing; near: Listing[] }) {
+  const router = useRouter();
+  const { compare, toggleCompare, setCompare, criteria } = useStore();
+  const hydrated = useHydrated();
+  const inList = (id: string) => hydrated && compare.includes(id);
+  const add = (id: string) => { if (!inList(id) && compare.length >= COMPARE_MAX) return toast("حداکثر چهار پروژه را می‌توانید مقایسه کنید."); toggleCompare(id); };
+  if (!near.length) return null;
   return (
     <div className="surface rounded-[1.75rem] p-5">
-      <p className="flex items-center gap-2 text-[13px] font-extrabold text-ink"><Convertshape2 size={18} variant="Bulk" className="text-cobalt" />کنار پروژه‌های دیگر بسنجید</p>
-      {pair.length > 0 && (
-        <Button type="button" variant="plain" size="auto" onClick={() => { setCompare([l.id, ...pair.map((x) => x.id)]); router.push("/compare"); }}
-          className="group mt-4 flex h-auto w-full items-center gap-3 rounded-2xl border border-border bg-white p-2.5 pl-3 text-right transition-[border-color,box-shadow] hover:border-cobalt/40 hover:shadow-[0_14px_28px_-22px_var(--cobalt)]">
-          <span className="flex shrink-0 -space-x-3 space-x-reverse">
-            {[l, ...pair].map((x, i) => <span key={x.id} className="relative size-10 overflow-hidden rounded-xl ring-2 ring-white" style={{ zIndex: 3 - i }}><Image src={x.image} alt="" fill sizes="40px" className="object-cover" /></span>)}
-          </span>
-          <span className="min-w-0 flex-1"><span className="block text-[13.5px] font-extrabold text-ink">مقایسه با {faNumber(pair.length)} پروژه مشابه</span><span className="block text-[11.5px] font-semibold text-muted-foreground">هم‌گروه و با مبلغ نزدیک</span></span>
-          <ArrowLeft size={17} className="shrink-0 text-cobalt transition-transform group-hover:-translate-x-1" />
-        </Button>
-      )}
-      <Button type="button" variant="plain" size="auto" aria-pressed={on} onClick={() => { if (!on && compare.length >= 4) return toast("حداکثر چهار پروژه را می‌توانید مقایسه کنید."); toggleCompare(l.id); }}
-        className={cn("mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-full text-[13px] font-extrabold transition-colors", on ? "bg-cobalt-soft text-cobalt-deep" : "text-ink/70 hover:bg-muted hover:text-ink")}>
-        {on ? <><TickCircle size={17} variant="Bold" />در فهرست مقایسه است</> : <><AddCircle size={17} />افزودن به فهرست مقایسه</>}
+      <p className="flex items-center gap-2 text-[13.5px] font-extrabold text-ink"><Convertshape2 size={18} variant="Bulk" className="text-cobalt" />با پروژه‌های نزدیک بسنجید</p>
+      <p className="mt-1 text-[11.5px] font-semibold leading-5 text-muted-foreground">{hydrated && hasAnyCriteria(criteria) ? "نزدیک به شرایط شما و هم‌گروه همین پروژه" : "هم‌گروه و با مبلغ نزدیک"}</p>
+      <ul className="mt-3 space-y-1">
+        {near.map((x) => { const ox = oppOf(x); const on = inList(x.id);
+          return (
+            <li key={x.id} className="flex items-center gap-2.5 rounded-2xl p-1.5 transition-colors hover:bg-muted/60">
+              <Link href={`/opportunities/${x.id}`} className="relative size-11 shrink-0 overflow-hidden rounded-xl bg-muted"><Image src={x.image} alt="" fill sizes="44px" className="object-cover" /></Link>
+              <Link href={`/opportunities/${x.id}`} className="min-w-0 flex-1">
+                <span className="block truncate text-[12.5px] font-extrabold text-ink" title={x.title}>{x.title}</span>
+                <span className="block truncate text-[11px] font-semibold text-muted-foreground">{ox.minCapital != null ? `ورود از ${faNumber(ox.minCapital)} میلیارد` : x.city}{ox.paybackYears != null && ` · بازگشت ${faNumber(ox.paybackYears)} سال`}</span>
+              </Link>
+              <Button type="button" variant="plain" size="auto" aria-pressed={on} onClick={() => add(x.id)} aria-label={on ? `برداشتن ${x.title} از مقایسه` : `افزودن ${x.title} به مقایسه`} title={on ? "در مقایسه است" : "افزودن به مقایسه"}
+                className={cn("grid size-8 shrink-0 place-items-center rounded-full transition-colors", on ? "bg-cobalt text-white" : "border border-border text-ink/50 hover:border-cobalt/40 hover:text-cobalt")}>
+                {on ? <TickCircle size={16} variant="Bold" /> : <AddCircle size={16} />}
+              </Button>
+            </li>
+          ); })}
+      </ul>
+      <Button type="button" variant="plain" size="auto" onClick={() => { setCompare([l.id, ...near.map((x) => x.id)]); router.push("/compare"); }}
+        className="group mt-3 flex h-11 w-full items-center justify-center gap-2 rounded-full bg-cobalt-soft text-[13px] font-extrabold text-cobalt-deep transition-colors hover:bg-cobalt hover:text-white">
+        مقایسه این پروژه با هر {near.length === 3 ? "سه" : near.length === 2 ? "دو" : "یک"}<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
       </Button>
+    </div>
+  );
+}
+
+/** نمودار بازگشت این پروژه در برابر پروژه‌های مشابه؛ با دکمه دیدن همین پروژه‌ها در صفحه پروژه‌ها یا مقایسه کامل */
+function PeerReturn({ l, peers }: { l: Listing; peers: Listing[] }) {
+  const router = useRouter();
+  const { setCompare, setPinned, begin, setStarted } = useStore();
+  const mine = oppOf(l).paybackYears;
+  const known = peers.map((p) => oppOf(p).paybackYears).filter((v): v is number => v != null);
+  const avg = known.length ? Math.round((known.reduce((a, b) => a + b, 0) / known.length) * 10) / 10 : null;
+  const diff = mine != null && avg != null ? Math.round((avg - mine) * 10) / 10 : null;
+  const showInList = () => {
+    begin({ route: l.routes[0] as RouteId, groups: l.group ? [l.group] : [] });
+    setStarted(true);
+    setPinned({ from: l.title, ids: [l.id, ...peers.map((p) => p.id)] });
+    router.push("/opportunities");
+  };
+  return (
+    <div className="surface rounded-[1.75rem] p-6">
+      {mine != null && avg != null && (
+        <div className="mb-5 grid grid-cols-3 gap-3">
+          <div className="rounded-2xl bg-[#eef3fc] p-4"><p className="text-[12px] font-bold text-cobalt-deep">همین پروژه</p><p className="mt-1 text-[1.4rem] font-black text-ink">{faNumber(mine)} <span className="text-[13px] font-bold text-ink/60">سال</span></p></div>
+          <div className="rounded-2xl bg-muted/70 p-4"><p className="text-[12px] font-bold text-ink/60">میانگین {faNumber(known.length)} پروژه مشابه</p><p className="mt-1 text-[1.4rem] font-black text-ink">{faNumber(avg)} <span className="text-[13px] font-bold text-ink/60">سال</span></p></div>
+          <div className={cn("rounded-2xl p-4", diff != null && diff > 0 ? "bg-primary/10" : diff != null && diff < 0 ? "bg-warn/10" : "bg-muted/70")}>
+            <p className="text-[12px] font-bold text-ink/60">نتیجه</p>
+            <p className={cn("mt-1 text-[15px] font-black leading-7", diff != null && diff > 0 ? "text-primary" : diff != null && diff < 0 ? "text-warn" : "text-ink")}>{diff == null || diff === 0 ? "هم‌اندازه مشابه‌ها" : diff > 0 ? `${faNumber(diff)} سال زودتر از میانگین` : `${faNumber(-diff)} سال دیرتر از میانگین`}</p>
+          </div>
+        </div>
+      )}
+      <ReturnTimeline items={[l, ...peers]} />
+      <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-border pt-5">
+        <Button type="button" onClick={showInList} className="group h-12 gap-2 rounded-full px-6 text-[14px] font-extrabold">پروژه‌های مشابه را در فهرست ببینید<ArrowLeft size={17} className="transition-transform group-hover:-translate-x-1" /></Button>
+        <Button type="button" variant="outline" onClick={() => { setCompare([l.id, ...peers.map((p) => p.id)]); router.push("/compare"); }} className="h-12 gap-2 rounded-full bg-white px-5 text-[13.5px] font-extrabold shadow-none"><Convertshape2 size={18} />مقایسه کامل این {faNumber(peers.length + 1)} پروژه</Button>
+      </div>
     </div>
   );
 }
@@ -388,7 +460,8 @@ export function Detail({ id }: { id: string }) {
   const advisory = o ? advisories[o.subtype] : undefined;
   const similar = listings.filter((x) => x.id !== l.id && x.kind === l.kind && (l.kind !== "project" || x.group === l.group))
     .sort((a, b) => Math.abs((a.amount ?? 1e9) - (l.amount ?? 0)) - Math.abs((b.amount ?? 1e9) - (l.amount ?? 0))).slice(0, 3);
-  let n = 0;
+  const near = useNearby(l);
+  const peers = useNearby(l, true);
 
   const tiles: { I: Icon; label: string; value: string; sub?: string }[] = o
     ? [
@@ -448,30 +521,41 @@ export function Detail({ id }: { id: string }) {
 
             {subtype?.examples && <p className="-mt-8 flex items-start gap-2.5 rounded-2xl bg-muted px-5 py-3.5 text-sm font-semibold leading-7 text-ink/75"><InfoCircle size={18} variant="Bulk" className="mt-1 shrink-0 text-primary" /><span><b className="text-ink">{subtype.name} یعنی: </b>{subtype.examples}</span></p>}
 
-            <Chapter n={++n} title="شناسنامه پروژه"><Facts groups={groups} /></Chapter>
+            <Chapter title="شناسنامه پروژه"><Facts groups={groups} /></Chapter>
 
             {o && hasTime && (
-              <Chapter n={++n} title="پول شما در طول زمان" note="درصد سرمایه‌ای که در هر زمان به شما برگشته است">
-                {o.paybackYears != null && <div className="surface mb-4 rounded-[1.75rem] p-6"><ReturnTimeline items={[l]} single /></div>}
-                <Milestones o={o} />
+              <Chapter title="پول شما در طول زمان">
+                {/* نمودار و نقاط عطف در یک کارت؛ مسیر پول هم ردیف‌به‌ردیف زیر همان نمودار */}
+                <div className="surface rounded-[1.75rem] p-6">
+                  {o.paybackYears != null ? <ReturnTimeline items={[l]} single markers={markersOf(o)} /> : <Milestones o={o} />}
+                  {hasFlow && (
+                    <div className="mt-6 border-t border-border pt-5">
+                      <h3 className="text-[15px] font-extrabold text-ink">مسیر پول</h3>
+                      <MoneyFlow o={text} />
+                    </div>
+                  )}
+                </div>
               </Chapter>
             )}
+            {o && o.paybackYears != null && peers.length > 0 && (
+              <Chapter title="بازگشت سرمایه در برابر پروژه‌های مشابه"><PeerReturn l={l} peers={peers} /></Chapter>
+            )}
             {peerCharts.length > 0 && (
-              <Chapter n={++n} title="در کنار موارد مشابه" note="هر نقطه یک مورد است؛ نقطه پررنگ همین مورد">
+              <Chapter title="در کنار موارد مشابه">
                 <div style={cv} className={cn("grid gap-4", peerCharts.length > 1 && "grid-cols-2")}>
                   {peerCharts.map((c) => <div key={c.id} className="surface rounded-[1.75rem] p-6"><h3 className="mb-5 text-sm font-extrabold text-ink">{c.title}</h3>{c.node}</div>)}
                 </div>
               </Chapter>
             )}
-            {hasFlow && <Chapter n={++n} title="مسیر پول"><MoneyFlow o={text} /></Chapter>}
-            <Chapter n={++n} title="داده‌ها و الگوی دریافت" note="عدد نامعلوم صفر فرض نمی‌شود">
+            {hasFlow && !(o && hasTime) && <Chapter title="مسیر پول"><div className="surface rounded-[1.75rem] px-6 py-2"><MoneyFlow o={text} /></div></Chapter>}
+            <Chapter title="داده‌ها و الگوی دریافت">
               <div style={cv} className={cn("grid gap-4", shapeCharts.length > 1 && "grid-cols-2", shapeCharts.length > 2 && "grid-cols-3")}>
                 {shapeCharts.map((c) => <div key={c.id} className="surface rounded-[1.75rem] p-6"><h3 className="mb-5 text-sm font-extrabold text-ink">{c.title}</h3>{c.node}</div>)}
               </div>
             </Chapter>
 
             {o && (
-              <Chapter n={++n} title="ریسک و نکته‌های مهم">
+              <Chapter title="ریسک و نکته‌های مهم">
                 <div className="grid grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-4">
                   <div className="surface flex flex-col items-center rounded-[1.75rem] p-6 text-center">
                     <h3 className="self-stretch text-right text-sm font-extrabold text-ink">سطح ریسک</h3>
@@ -495,7 +579,7 @@ export function Detail({ id }: { id: string }) {
               </Chapter>
             )}
 
-            {o && advisory && <Chapter n={++n} title="پرسش‌هایی که باید پاسخشان را آماده کنید" note={subtype?.name}><AdvisoryBlock a={advisory} /></Chapter>}
+            {o && advisory && <Chapter title="پرسش‌هایی که باید پاسخشان را آماده کنید"><AdvisoryBlock a={advisory} /></Chapter>}
 
             {!o && text.caution && (
               <div className="flex items-start gap-4 rounded-[1.75rem] bg-white p-6 ring-1 ring-border">
@@ -504,11 +588,11 @@ export function Detail({ id }: { id: string }) {
               </div>
             )}
 
-            <Chapter n={++n} title="پرونده کامل" note="همه اطلاعات ثبت‌شده و آنچه هنوز باید احراز شود"><Dossier sections={sections} /></Chapter>
+            <Chapter title="پرونده کامل"><Dossier sections={sections} /></Chapter>
 
             {nextSteps && nextSteps.length > 0 && (
-              <Chapter n={++n} title="مراحل ورود و اسناد لازم" note="به همین ترتیب پیش بروید؛ هر گام پیش‌نیاز گام بعدی است">
-                <div className="surface rounded-[1.75rem] p-7"><Steps steps={nextSteps} /></div>
+              <Chapter title="گام‌های ورود و مدارک لازم">
+                <Steps steps={nextSteps} />
                 <div className="mt-5 flex items-center justify-between gap-4 rounded-[1.75rem] bg-ink/[0.05] p-5 pr-7">
                   <p className="text-[15px] font-extrabold text-ink">{o?.expert ? `برای شروع، با ${o.expert.name} تماس بگیرید.` : "این گام‌ها را در راهنمای اقدام تیک بزنید و همراه خود داشته باشید."}</p>
                   {o?.expert
@@ -520,7 +604,7 @@ export function Detail({ id }: { id: string }) {
 
             {fund && (
               <>
-                <Chapter n={++n} title="تضمین بانکی">
+                <Chapter title="تضمین بانکی">
                   <div className="grid grid-cols-3 gap-3">
                     {([["تضمین بانکی", fund.bank.exists], ["تضمین اصل سرمایه", fund.bank.principal], ["تضمین سود", fund.bank.profit]] as const).map(([t, v]) => (
                       <div key={t} className="surface flex items-center justify-between rounded-[1.5rem] p-5"><span className="text-sm font-bold text-ink">{t}</span>
@@ -529,7 +613,7 @@ export function Detail({ id }: { id: string }) {
                   </div>
                   {!fund.bank.verified && <p className="mt-3 flex items-center gap-2 text-sm font-semibold text-muted-foreground"><InfoCircle size={16} variant="Bulk" />مستندات تضمین احراز نشده است.</p>}
                 </Chapter>
-                <Chapter n={++n} title="دریافت سود و خروج">
+                <Chapter title="دریافت سود و خروج">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="surface rounded-[1.75rem] p-6"><h3 className="text-sm font-extrabold text-primary">پرداخت سود</h3><p className="mt-2 text-xl font-black text-ink">{payoutLabel[fund.payout] ?? fund.payout}</p><p className="mt-1 text-sm text-muted-foreground">مدت: {fund.durationMonths != null ? `${faNumber(fund.durationMonths)} ماه` : NA}</p>
                       <div className="mt-5"><RiskMeter risk={fund.risk} /></div></div>
@@ -542,7 +626,7 @@ export function Detail({ id }: { id: string }) {
 
           <aside className="sticky top-24 space-y-4 self-start">
             <Contact l={l} />
-            {o && <CompareCard l={l} similar={similar} />}
+            {o && <CompareCard l={l} near={near} />}
             {l.city && (
               <div className="surface overflow-hidden rounded-[1.75rem]">
                 <div className="flex items-center gap-3 p-4">

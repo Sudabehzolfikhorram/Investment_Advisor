@@ -52,23 +52,17 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
     : []), [query]);
   const matchCount = (gid: string) => matches.find((m) => m.g.id === gid)?.subs.length ?? 0;
 
-  const typeItem = (s: (typeof g.subtypes)[number], gid = g.id) => {
-    const on = types.includes(s.id); const n = counts[`s:${s.id}`] ?? 0;
-    const img = s.image ?? projectGroups.find((x) => x.id === gid)?.image;
+  // زیردسته: بدون عکس و بدون عدد، تا نام کامل دیده شود
+  const typeItem = (s: (typeof g.subtypes)[number]) => {
+    const on = types.includes(s.id);
     return (
       <button key={s.id} type="button" role="checkbox" aria-checked={on} onClick={() => toggleType(s.id)}
-        className={cn("group/t relative flex items-center gap-3 rounded-2xl border bg-white p-2 pl-3 text-right transition-all duration-200", on ? "border-ink shadow-[0_10px_24px_-18px_rgb(20_30_45/0.6)]" : "border-border hover:-translate-y-0.5 hover:border-ink/25")}>
-        <span className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-muted">
-          {img && <Image src={img} alt="" fill sizes="48px" className={cn("object-cover transition-all duration-300", on ? "" : "grayscale-[60%] group-hover/t:grayscale-0")} />}
-        </span>
+        className={cn("group/t relative flex items-start gap-2.5 rounded-xl border bg-white px-3 py-2.5 text-right transition-all duration-200", on ? "border-ink bg-ink/[0.03] shadow-[0_10px_24px_-20px_rgb(20_30_45/0.6)]" : "border-border hover:-translate-y-0.5 hover:border-ink/25")}>
         <span className="min-w-0 flex-1">
-          <span className="flex items-center gap-1.5">
-            <span className="truncate text-[13.5px] font-extrabold text-ink">{s.name}</span>
-            {n > 0 && <span className="text-[11px] font-bold tabular-nums text-muted-foreground">{faNumber(n)} پروژه</span>}
-          </span>
-          {s.examples && <span className="mt-0.5 line-clamp-1 text-[11.5px] leading-5 text-muted-foreground" title={s.examples}>{s.examples}</span>}
+          <span className="block text-[12.5px] font-extrabold leading-5 text-ink">{s.name}</span>
+          {s.examples && <span className="mt-0.5 line-clamp-1 text-[11px] leading-5 text-muted-foreground" title={s.examples}>{s.examples}</span>}
         </span>
-        {on ? <TickCircle size={21} variant="Bold" className="shrink-0 text-ink" /> : <span className="size-[18px] shrink-0 rounded-full border-[1.5px] border-ink/20" />}
+        {on ? <TickCircle size={18} variant="Bold" className="mt-px shrink-0 text-ink" /> : <span className="mt-0.5 size-4 shrink-0 rounded-full border-[1.5px] border-ink/20" />}
       </button>
     );
   };
@@ -80,7 +74,7 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
       <div className="flex items-center gap-2 rounded-full border border-border bg-white px-4 transition-shadow focus-within:border-ink/25 focus-within:shadow-[0_0_0_4px_rgb(20_30_45/0.06)]">
         <SearchNormal1 size={16} className="shrink-0 text-muted-foreground" />
         <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجو در همه نوع‌ها، مثلاً «هتل» یا «مترو»" aria-label="جست‌وجوی نوع پروژه"
-          className="h-11 rounded-none border-0 !bg-transparent px-0 text-[13px] shadow-none focus-visible:ring-0" />
+          className="h-10 rounded-none border-0 !bg-transparent px-0 text-[12.5px] shadow-none focus-visible:ring-0" />
         {q && <button type="button" onClick={() => setQ("")} aria-label="پاک کردن جست‌وجو" className="shrink-0 text-muted-foreground hover:text-ink"><CloseCircle size={16} variant="Bulk" /></button>}
       </div>
 
@@ -90,7 +84,7 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
         <p className="flex shrink-0 items-center gap-1.5 px-4 pb-2 pt-3.5 text-[11.5px] font-bold text-muted-foreground"><ArrowLeft2 size={13} />روی هر حوزه بروید؛ نوع‌هایش کنارش باز می‌شود</p>
         <ul className="thin-scroll min-h-0 flex-1 space-y-1 overflow-y-auto p-2 pt-0" onMouseLeave={() => window.clearTimeout(hoverT.current)}>
           {projectGroups.map((x) => {
-            const on = groups.includes(x.id); const active = !query && focus === x.id; const nt = typesOf(x.id).length; const mc = matchCount(x.id);
+            const on = groups.includes(x.id); const active = !query && focus === x.id; const mc = matchCount(x.id);
             const dim = !!query && !mc;
             return (
               <li key={x.id} onMouseEnter={() => peek(x.id)} className={cn("relative", dim && "opacity-40")}>
@@ -100,10 +94,7 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
                     {x.image && <Image src={x.image} alt="" fill sizes="36px" className={cn("object-cover transition-all duration-300", active || on ? "" : "grayscale")} />}
                     {on && <span className="absolute inset-0 grid place-items-center bg-ink/55"><TickCircle size={18} variant="Bold" className="text-white" /></span>}
                   </span>
-                  <span className={cn("min-w-0 flex-1 truncate text-[13.5px]", active || on ? "font-extrabold text-ink" : "font-semibold text-ink/75")}>{x.name}</span>
-                  {query ? <span className="shrink-0 text-[11px] font-bold text-ink">{mc ? faNumber(mc) : ""}</span>
-                    : on ? <span className="shrink-0 rounded-full bg-cobalt px-2 py-0.5 text-[10.5px] font-extrabold text-white">{nt ? `${faNumber(nt)} نوع` : "همه"}</span>
-                    : <span className="shrink-0 text-[11px] font-semibold tabular-nums text-muted-foreground">{faNumber(x.subtypes.length)} نوع</span>}
+                  <span className={cn("min-w-0 flex-1 truncate text-[12.5px]", active || on ? "font-extrabold text-ink" : "font-semibold text-ink/75")}>{x.name}</span>
                   <ArrowLeft2 size={14} className={cn("shrink-0 transition-all duration-300", active ? "-translate-x-0.5 text-ink" : "text-ink/25")} />
                 </button>
               </li>
@@ -121,19 +112,18 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
                 {matches.map(({ g: x, subs }) => (
                   <div key={x.id}>
                     <p className="mb-1.5 px-1 text-[11px] font-extrabold text-muted-foreground">{x.name}</p>
-                    <div className="grid grid-cols-2 gap-2">{subs.map((s) => typeItem(s, x.id))}</div>
+                    <div className="grid grid-cols-2 gap-2">{subs.map((s) => typeItem(s))}</div>
                   </div>
                 ))}
               </motion.div>
             ) : (
               <motion.div key={g.id} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 8 }} transition={{ duration: 0.18 }}>
-                <div className="relative isolate -mx-4 -mt-4 mb-4 flex h-28 items-end justify-between gap-3 overflow-hidden px-5 pb-4">
-                  {g.image && <Image src={g.image} alt="" fill sizes="40rem" className="-z-10 object-cover" />}
-                  <span className="absolute inset-0 -z-10 bg-[linear-gradient(to_left,rgb(12_13_14/0.82),rgb(12_13_14/0.45))]" />
-                  <p className="text-[1.35rem] font-black text-white">{g.name}<span className="mr-2.5 text-[12px] font-semibold text-white/70">{faNumber(g.subtypes.length)} نوع{counts[g.id] ? ` · ${faNumber(counts[g.id])} پروژه` : ""}</span></p>
-                  <label className={cn("flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1.5 text-[12px] font-bold backdrop-blur-sm transition-colors", groups.includes(g.id) && !typesOf(g.id).length ? "border-white bg-white text-ink" : "border-white/40 bg-white/10 text-white hover:bg-white/20")}>
-                    <Checkbox checked={groups.includes(g.id) && !typesOf(g.id).length} onCheckedChange={(c) => (c ? allOf(g.id) : toggleGroup(g.id))} className="bg-white" />
-                    همه نوع‌های {g.name}
+                {/* سرِ ساده بدون عکس و پس‌زمینه تیره */}
+                <div className="mb-3 flex items-center justify-between gap-3 border-b border-border pb-3">
+                  <p className="text-[15px] font-black text-ink">{g.name}</p>
+                  <label className={cn("flex shrink-0 cursor-pointer items-center gap-2 rounded-full border px-3 py-1.5 text-[11.5px] font-bold transition-colors", groups.includes(g.id) && !typesOf(g.id).length ? "border-ink bg-ink text-white" : "border-border bg-white text-ink/75 hover:border-ink/30")}>
+                    <Checkbox checked={groups.includes(g.id) && !typesOf(g.id).length} onCheckedChange={(c) => (c ? allOf(g.id) : toggleGroup(g.id))} className="size-3.5 bg-white" />
+                    همه زیردسته‌های {g.name}
                   </label>
                 </div>
                 <div className="grid grid-cols-2 gap-2">{g.subtypes.map((s) => typeItem(s))}</div>
@@ -146,7 +136,8 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
       {/* خلاصه انتخاب‌ها: هر حوزه یک برچسب، نه یک فهرست بلند */}
       <div className="flex min-h-9 flex-wrap items-center gap-1.5">
         {compact && picked.length ? <>
-          <span className="text-[12px] font-bold text-ink/75">{faNumber(picked.length)} حوزه{types.length ? `، ${faNumber(types.length)} نوع دقیق` : "، همه نوع‌ها"} انتخاب شده</span>
+          {/* جمع‌بندی کلی: شمار دسته‌های اصلی و زیردسته‌ها (حوزه‌ای بدون زیردسته انتخابی، همه زیردسته‌هایش را می‌شمارد) */}
+          <span className="text-[12px] font-bold text-ink/75">{faNumber(picked.length)} دسته اصلی انتخاب شده<span className="mx-1.5 text-ink/30">·</span>{faNumber(picked.reduce((n, x) => n + (typesOf(x.id).length || x.subtypes.length), 0))} زیردسته</span>
           <Button variant="ghost" size="sm" onClick={() => onChange([], [])} className="h-8 rounded-full px-3 text-[12px] font-bold text-muted-foreground">پاک کردن همه</Button>
         </> : picked.length ? <>
           <span className="ml-1 text-[12px] font-bold text-muted-foreground">انتخاب‌ها:</span>

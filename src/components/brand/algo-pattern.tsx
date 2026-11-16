@@ -12,7 +12,7 @@ const movers = [
  * پترن هویت بصری الگونت (نود، خط، نقطه). همیشه کم‌رنگ و تکه‌تکه استفاده می‌شود:
  * با mask محو می‌شود تا فقط گوشه‌ای از آن دیده شود. با animated نودها آرام حرکت می‌کنند.
  */
-export function AlgoPattern({ className, fade = "radial", scale = 1, animated }: { className?: string; fade?: "radial" | "left" | "right" | "bottom" | "none"; scale?: number; animated?: boolean }) {
+export function AlgoPattern({ className, fade = "radial", scale = 1, animated, seamless }: { className?: string; fade?: "radial" | "left" | "right" | "bottom" | "none"; scale?: number; animated?: boolean; /** کاشی بدون فاصله: اندازه کاشی همان اندازه طرح است (پس‌زمینه یکپارچه صفحه) */ seamless?: boolean }) {
   const id = useId();
   const mask =
     fade === "radial" ? "radial-gradient(ellipse at center, #000 0%, transparent 72%)"
@@ -22,7 +22,7 @@ export function AlgoPattern({ className, fade = "radial", scale = 1, animated }:
   return (
     <svg aria-hidden className={cn("pointer-events-none absolute", className)} style={{ maskImage: mask, WebkitMaskImage: mask }}>
       <defs>
-        <pattern id={id} width={320 * scale} height={240 * scale} patternUnits="userSpaceOnUse" patternTransform={`scale(${scale})`}>
+        <pattern id={id} width={seamless ? 320 : 320 * scale} height={seamless ? 240 : 240 * scale} patternUnits="userSpaceOnUse" patternTransform={`scale(${scale})`}>
           <g fill="none" stroke="currentColor" strokeWidth="1">
             <path d="M0 40H320M0 95H160M0 180H295M0 235H320" />
             <path d="M30 40V235M80 0V240M160 0V240M245 40V240" />

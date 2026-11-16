@@ -6,8 +6,8 @@ import { Footer } from "@/components/site/header";
 export default function Home() {
   return (
     <main className="relative isolate">
-      {/* پترن هویت در کل پس‌زمینه صفحه: بسیار کم‌رنگ تا شلوغ نشود */}
-      <AlgoPattern className="inset-0 -z-10 h-full w-full text-ink/[0.05]" fade="none" scale={1.5} />
+      {/* پترن هویت ثابت پشت صفحه: محتوا رویش اسکرول می‌خورد؛ کاشی یکپارچه، کوچک و ۵٪ کدری */}
+      <AlgoPattern className="!fixed inset-0 -z-10 h-dvh w-full text-ink/[0.05]" fade="none" scale={1.1} seamless />
       <HeroCompass />
       <MainCategories />
       <Categories />

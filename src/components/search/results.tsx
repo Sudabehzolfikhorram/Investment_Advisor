@@ -1,9 +1,9 @@
 "use client";
 // صفحه پروژه‌ها: اول «اطلاعات پایه» (دسته اصلی، محدوده، بودجه) پرسیده می‌شود و بعد نتایج می‌آید.
 // در نتایج: دسته‌های اصلی (تک‌انتخابی) و فیلترهای اصلی بالای صفحه، فیلتر پیشرفته کنار نتایج.
-import { Fragment, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowDown2, ArrowLeft, Category2, CloseCircle, InfoCircle, Location, Save2, SearchNormal1, Sort, WalletMoney } from "@/components/iconsax";
+import { ArrowDown2, ArrowLeft, Category2, CloseCircle, Convertshape2, Location, Save2, SearchNormal1, Sort, WalletMoney } from "@/components/iconsax";
 import { Header, Footer } from "@/components/site/header";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { ListingCard } from "@/components/listing/listing-card";
@@ -23,9 +23,10 @@ import { convertAmount, routes, routeSubcategories, routeTools } from "@/data/ro
 import { LegacyTool } from "@/components/tools/engine";
 import { toolById } from "@/data/tools";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { projectGroups } from "@/data/taxonomy";
 import { describeCriteria, hasAnyCriteria, withoutChip, type CriteriaChip } from "@/lib/criteria";
-import { listings } from "@/lib/listings";
+import { listingById, listings } from "@/lib/listings";
 import { forRoute, rank } from "@/lib/match";
 import { useHydrated, useStore } from "@/lib/store";
 import type { MatchResult, Opportunity, RouteId } from "@/types";
@@ -188,7 +189,7 @@ function BarItem({ icon, label, value, active, width = "w-[22rem]", children }: 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="plain" size="auto" className={cn("h-14 min-w-0 flex-1 justify-start gap-2.5 rounded-full px-4 text-right hover:bg-muted", open && "bg-muted")}>
+        <Button variant="plain" size="auto" className={cn("h-12 min-w-0 flex-1 justify-start gap-2.5 rounded-full px-4 text-right hover:bg-muted", open && "bg-muted")}>
           <span className={cn("shrink-0", active ? "text-primary" : "text-ink/45")}>{icon}</span>
           <span className="min-w-0 flex-1"><span className="block text-[11px] font-semibold text-muted-foreground">{label}</span><span className="block truncate text-sm font-extrabold text-ink">{value}</span></span>
           <ArrowDown2 size={15} className={cn("shrink-0 text-muted-foreground transition-transform", open && "rotate-180")} />
@@ -240,32 +241,84 @@ function ActiveChips({ chips, suitable }: { chips: CriteriaChip[]; suitable: num
     c.kind === "group" ? setCriteria({ groups: criteria.groups.filter((x) => x !== c.value) })
     : c.kind === "province" ? setCriteria({ provinces: criteria.provinces.filter((x) => x !== c.value) })
     : c.kind === "amount" ? setCriteria({ amount: null }) : setFilter(c.value!, undefined);
-  // وقتی نتیجه کم است، فیلتری را پیشنهاد می‌دهیم که برداشتنش بیشترین نتیجه را اضافه می‌کند
-  const best = [...chips].sort((x, y) => gain[y.key] - gain[x.key])[0];
-  const relax = suitable < 6 && best && gain[best.key] > 0 ? best : null;
+  const chip = (c: CriteriaChip) => (
+    <Badge key={c.key} variant="outline" className="shrink-0 gap-1.5 border-cobalt/25 bg-cobalt-soft/70 py-1 pl-1 pr-3 text-[12px] font-bold text-cobalt-deep">
+      {c.label}
+      {gain[c.key] > 0 && <span className="rounded-full bg-white px-1.5 text-[10.5px] font-extrabold text-cobalt" title={`با برداشتن این فیلتر ${faNumber(gain[c.key])} پروژه دیگر می‌بینید`}>+{faNumber(gain[c.key])}</span>}
+      <Button variant="plain" size="auto" aria-label={`حذف ${c.label}`} onClick={() => remove(c)} className="grid size-5 place-items-center rounded-full text-cobalt-deep/50 hover:bg-destructive/10 hover:text-destructive"><CloseCircle size={15} variant="Bold" /></Button>
+    </Badge>
+  );
+  return <ChipRow chips={chips} chip={chip} onClear={resetFilters} />;
+}
+
+/** فیلترهای فعال در یک سطر: هر چه جا نشود پشت «…» می‌رود و «پاک کردن همه» ته سطر ثابت است */
+function ChipRow({ chips, chip, onClear }: { chips: CriteriaChip[]; chip: (c: CriteriaChip) => React.ReactNode; onClear: () => void }) {
+  const box = useRef<HTMLDivElement>(null);
+  const measure = useRef<HTMLDivElement>(null);
+  const [fit, setFit] = useState(chips.length);
+  useLayoutEffect(() => {
+    const el = box.current, m = measure.current; if (!el || !m) return;
+    const calc = () => {
+      const widths = [...m.children].map((x) => (x as HTMLElement).offsetWidth);
+      const gap = 8, more = 64, room = el.clientWidth;
+      let used = 0, n = 0;
+      for (let i = 0; i < widths.length; i++) {
+        const next = used + (i ? gap : 0) + widths[i];
+        const left = i < widths.length - 1 ? gap + more : 0;
+        if (next + left > room) break;
+        used = next; n = i + 1;
+      }
+      setFit(n);
+    };
+    calc();
+    const ro = new ResizeObserver(calc); ro.observe(el);
+    return () => ro.disconnect();
+  }, [chips]);
+  const rest = chips.slice(fit);
   return (
-    <div className="space-y-3">
-      <div className="flex flex-wrap items-center gap-2">
-        {chips.map((c) => (
-          <Badge key={c.key} variant="outline" className="gap-1.5 border-cobalt/25 bg-cobalt-soft/70 py-1 pl-1 pr-3 text-[12px] font-bold text-cobalt-deep">
-            {c.label}
-            {gain[c.key] > 0 && <span className="rounded-full bg-white px-1.5 text-[10.5px] font-extrabold text-cobalt" title={`با برداشتن این فیلتر ${faNumber(gain[c.key])} پروژه دیگر می‌بینید`}>+{faNumber(gain[c.key])}</span>}
-            <Button variant="plain" size="auto" aria-label={`حذف ${c.label}`} onClick={() => remove(c)} className="grid size-5 place-items-center rounded-full text-cobalt-deep/50 hover:bg-destructive/10 hover:text-destructive"><CloseCircle size={15} variant="Bold" /></Button>
-          </Badge>
-        ))}
-        <Button variant="ghost" size="xs" onClick={resetFilters} className="font-bold text-muted-foreground hover:bg-destructive/10 hover:text-destructive">پاک کردن همه</Button>
+    <div className="flex h-8 items-center gap-3">
+      <div ref={box} className="relative flex min-w-0 flex-1 items-center gap-2 overflow-hidden">
+        {/* لایه اندازه‌گیری: همه چیپ‌ها نامرئی، برای محاسبه این‌که چندتا در سطر جا می‌شود */}
+        <div ref={measure} aria-hidden className="pointer-events-none invisible absolute right-0 top-0 flex w-max gap-2">{chips.map(chip)}</div>
+        {chips.slice(0, fit).map(chip)}
+        {rest.length > 0 && (
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="plain" size="auto" aria-label={`${faNumber(rest.length)} فیلتر دیگر`} className="h-7 shrink-0 gap-1 rounded-full border border-cobalt/25 bg-white px-2.5 text-[12px] font-extrabold text-cobalt-deep hover:bg-cobalt-soft data-[state=open]:bg-cobalt-soft">
+                <span className="tracking-widest">…</span>+{faNumber(rest.length)}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent align="start" sideOffset={8} className="w-80 rounded-2xl p-3">
+              <p className="mb-2.5 px-1 text-[12px] font-bold text-muted-foreground">فیلترهای فعال دیگر</p>
+              <div className="flex flex-wrap gap-2">{rest.map(chip)}</div>
+            </PopoverContent>
+          </Popover>
+        )}
       </div>
-      {relax && (
-        <div className="flex items-center gap-3 rounded-2xl border border-cobalt/20 bg-white px-4 py-3 text-[13.5px] font-semibold text-ink">
-          <InfoCircle size={20} variant="Bulk" className="shrink-0 text-cobalt" />
-          <p className="flex-1 leading-7">فقط {faNumber(suitable)} پروژه پیدا شد. با برداشتن «{relax.label}» {faNumber(gain[relax.key])} پروژه دیگر هم می‌بینید.</p>
-          <Button type="button" variant="plain" size="auto" onClick={() => remove(relax)} className="h-9 shrink-0 rounded-full bg-cobalt px-4 text-[13px] font-extrabold text-white hover:bg-cobalt-deep">برداشتن این فیلتر</Button>
-        </div>
-      )}
+      <Button variant="ghost" size="xs" onClick={onClear} className="shrink-0 font-bold text-muted-foreground hover:bg-destructive/10 hover:text-destructive">پاک کردن همه</Button>
     </div>
   );
 }
 
+
+/** ترتیب نمایش: هم‌شکل نوار فیلترهای بالا (برچسب کوچک + مقدار) */
+function SortField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  return (
+    <Select dir="rtl" value={value} onValueChange={onChange}>
+      <SelectTrigger aria-label="ترتیب نمایش" className="surface group h-14 w-[12.5rem] shrink-0 gap-2.5 rounded-full border-border bg-white px-4 text-right data-[size=default]:h-14 data-[state=open]:bg-muted [&>svg:last-child]:hidden">
+        <Sort size={20} variant="Bulk" className={cn("shrink-0", value !== "relevance" ? "text-primary" : "text-ink/45")} />
+        <span className="min-w-0 flex-1">
+          <span className="block text-[11px] font-semibold text-muted-foreground">ترتیب نمایش</span>
+          <span className="block truncate text-sm font-extrabold text-ink"><SelectValue /></span>
+        </span>
+        <ArrowDown2 size={15} className="shrink-0 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
+      </SelectTrigger>
+      <SelectContent align="end" className="rounded-2xl">
+        {sortOptions.map((o) => <SelectItem key={o.value} value={o.value} className="rounded-xl">{o.label}</SelectItem>)}
+      </SelectContent>
+    </Select>
+  );
+}
 
 function RouteTabs({ routeCounts, active, onChange }: { routeCounts: Record<string, number>; active: RouteId; onChange: (r: RouteId) => void }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -288,7 +341,9 @@ function RouteTabs({ routeCounts, active, onChange }: { routeCounts: Record<stri
 
 export function Results() {
   const hydrated = useHydrated();
-  const { criteria, started, profiles } = useStore();
+  const { criteria, started, profiles, pinned, setPinned, setCompare } = useStore();
+  const router = useRouter();
+  const pinnedList = useMemo(() => (pinned ? pinned.ids.map((id) => listingById(id)).filter((x): x is NonNullable<typeof x> => !!x) : []), [pinned]);
   const deferred = useDeferredValue(criteria);
   const [sort, setSort] = useState("relevance");
   const [q, setQ] = useState("");
@@ -332,9 +387,6 @@ export function Results() {
     io.observe(el); return () => io.disconnect();
   }, [feed.length, limit]);
 
-  // پیشنهاد ذخیره جست‌وجو: نوار پررنگ بالای نتایج تا وقتی ذخیره یا بسته شود
-  const [nudgeOff, setNudgeOff] = useState(false);
-
   return (
     <>
       <Header />
@@ -344,14 +396,18 @@ export function Results() {
             {/* مسیرها: تک‌انتخابی، یک ردیف با اسکرول افقی */}
             <RouteTabs routeCounts={tabCounts} active={criteria.route} onChange={changeRoute} />
 
+            {/* نوار بالا: محدوده، بودجه و حوزه؛ کنارش ترتیب نمایش و فیلترهای ذخیره‌شده، همه ۵۶ پیکسل */}
             <div className="relative z-30 mt-4 flex items-center gap-3">
               <div className="min-w-0 flex-1"><FilterBar /></div>
+              <SortField value={sort} onChange={setSort} />
               <SavedCriteriaMenu onSave={() => setSaveOpen(true)} saved={isSaved} />
             </div>
 
             <div className="mt-7 grid grid-cols-[21rem_1fr] gap-7">
               <aside>
-                <Card className="surface thin-scroll sticky top-24 block max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[1.75rem] p-5 shadow-none"><ProProfileCard className="mb-5" /><AdvancedFilter quick={<QuickFilters />} /></Card>
+                <Card className="surface thin-scroll sticky top-24 block max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[1.75rem] p-5 shadow-none">
+                  <AdvancedFilter quick={<QuickFilters />} profileCard={<ProProfileCard />} onSave={hasCriteria ? () => setSaveOpen(true) : undefined} saved={isSaved} />
+                </Card>
               </aside>
 
               <section className="min-w-0">
@@ -361,23 +417,26 @@ export function Results() {
                     <div className="flex h-10 items-center gap-2 rounded-full border border-border bg-white px-3.5"><SearchNormal1 size={16} className="text-muted-foreground" />
                       <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجو در نتایج" aria-label="جست‌وجو در نتایج" className="h-8 w-36 border-0 !bg-transparent px-0 text-sm font-semibold shadow-none focus-visible:ring-0 placeholder:font-normal" />
                       {q && <Button variant="plain" size="auto" type="button" onClick={() => setQ("")} aria-label="پاک کردن"><CloseCircle size={16} className="text-muted-foreground" /></Button>}</div>
-                    <Select dir="rtl" value={sort} onValueChange={setSort}>
-                      <SelectTrigger aria-label="مرتب‌سازی" className="h-10 gap-2 rounded-full bg-white px-3.5 text-sm font-bold text-ink shadow-none data-[size=default]:h-10"><Sort size={16} className="text-primary" /><SelectValue /></SelectTrigger>
-                      <SelectContent align="end" className="rounded-2xl">
-                        {sortOptions.map((o) => <SelectItem key={o.value} value={o.value} className="rounded-xl">{o.label}</SelectItem>)}
-                      </SelectContent>
-                    </Select>
                   </div>
                 </div>
                 {chips.length > 0 && <div className="mb-5"><ActiveChips chips={chips} suitable={suitable} /></div>}
 
-                {hasCriteria && !isSaved && !nudgeOff && shown.length > 0 && (
-                  <div className="mb-5 flex items-center gap-3 rounded-2xl border border-border bg-white/80 py-2 pl-2 pr-4 backdrop-blur">
-                    <Save2 size={19} variant="Bulk" className="shrink-0 text-ink/60" />
-                    <p className="min-w-0 flex-1 text-[13px] font-semibold leading-6 text-ink/75">این جست‌وجو را ذخیره کنید تا دفعه بعد با یک کلیک برگردید و پروژه‌های تازه‌اش را ببینید.</p>
-                    <Button type="button" variant="plain" size="auto" onClick={() => setSaveOpen(true)} className="h-9 shrink-0 gap-1.5 rounded-full border border-cobalt/30 px-4 text-[13px] font-extrabold text-cobalt-deep hover:bg-cobalt hover:text-white"><Save2 size={16} />ذخیره جست‌وجو</Button>
-                    <Button type="button" variant="plain" size="auto" aria-label="بستن" onClick={() => setNudgeOff(true)} className="grid size-9 shrink-0 place-items-center rounded-full text-ink/40 hover:bg-muted hover:text-ink"><CloseCircle size={18} /></Button>
-                  </div>
+                {/* پروژه‌هایی که از نمودار «بازگشت در برابر مشابه‌ها» در صفحه جزئیات آمده‌اند؛ بالای نتایج سنجاق می‌شوند */}
+                {pinnedList.length > 0 && (
+                  <section className="mb-7 rounded-[1.75rem] border border-cobalt/20 bg-[#eef3fc]/70 p-4">
+                    <div className="mb-4 flex items-center gap-3 px-1">
+                      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white text-cobalt shadow-[0_6px_16px_-10px_rgb(20_30_45/0.4)]"><Convertshape2 size={20} variant="Bulk" /></span>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-[14.5px] font-extrabold text-ink">پروژه‌های نمودار بازگشت «{pinned!.from}»</p>
+                        <p className="text-[12px] font-semibold text-muted-foreground">همان {faNumber(pinnedList.length)} پروژه‌ای که در صفحه جزئیات کنار هم دیدید</p>
+                      </div>
+                      <Button type="button" variant="plain" size="auto" onClick={() => { setCompare(pinnedList.map((x) => x.id)); router.push("/compare"); }} className="h-10 shrink-0 gap-1.5 rounded-full bg-cobalt px-4 text-[13px] font-extrabold text-white hover:bg-cobalt-deep"><Convertshape2 size={16} />مقایسه همه</Button>
+                      <Button type="button" variant="ghost" size="sm" onClick={() => setPinned(null)} className="h-10 shrink-0 rounded-full px-3 text-[12.5px] font-bold text-muted-foreground">بستن</Button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 2xl:grid-cols-4">
+                      {pinnedList.map((x, i) => <ListingCard key={x.id} listing={x} index={i} comparable />)}
+                    </div>
+                  </section>
                 )}
 
                 {route.id === "charity" && all.length === 0 ? (

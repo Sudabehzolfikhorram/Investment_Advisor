@@ -15,7 +15,7 @@ import { describeCriteria } from "@/lib/criteria";
 import { listings } from "@/lib/listings";
 import { rank } from "@/lib/match";
 import { useHydrated, useStore } from "@/lib/store";
-import { faNumber } from "@/lib/utils";
+import { cn, faNumber } from "@/lib/utils";
 
 export function SaveCriteriaDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
   const { user, criteria, openLogin, saveProfile } = useStore();
@@ -27,7 +27,7 @@ export function SaveCriteriaDialog({ open, onOpenChange }: { open: boolean; onOp
     const n = name.trim() || "جست‌وجوی من";
     onOpenChange(false);
     if (!user) return openLogin({ type: "save-criteria", name: n });
-    saveProfile(n); toast.success("جست‌وجو ذخیره شد.", { description: "دفعه بعد از «فیلترهای من» در علاقه‌مندی‌ها با یک کلیک برگردید." });
+    saveProfile(n); toast.success("جست‌وجو ذخیره شد.", { description: "دفعه بعد از «فیلترهای ذخیره‌شده» کنار نوار فیلترها با یک کلیک برگردید." });
   };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -72,13 +72,18 @@ export function SavedCriteriaMenu({ onSave, saved }: { onSave: () => void; saved
   const { profiles, applyProfile } = useStore();
   const stats = useProfileStats();
   const list = hydrated ? profiles : [];
+  const fresh = list.reduce((n, p) => n + (stats[p.id]?.fresh ?? 0), 0);
   return (
     <DropdownMenu dir="rtl">
+      {/* هم‌قد نوار فیلترهای بالا (۵۶ پیکسل)؛ برچسب کوچک + مقدار، مثل همان نوار */}
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="h-11 gap-2 rounded-full bg-white px-4 text-sm font-bold text-ink shadow-none">
-          <ArchiveTick size={18} variant="Bulk" className="text-ink" />فیلترهای من
-          {list.length > 0 && <Badge className="h-5 min-w-5 px-1 text-[11px]">{faNumber(list.length)}</Badge>}
-          <ArrowDown2 size={14} className="text-muted-foreground" />
+        <Button variant="plain" size="auto" className="surface group h-14 w-[13.5rem] shrink-0 justify-start gap-2.5 rounded-full px-4 text-right data-[state=open]:bg-muted">
+          <ArchiveTick size={20} variant="Bulk" className={cn("shrink-0", list.length ? "text-primary" : "text-ink/45")} />
+          <span className="min-w-0 flex-1">
+            <span className="block text-[11px] font-semibold text-muted-foreground">فیلترهای ذخیره‌شده</span>
+            <span className="block truncate text-sm font-extrabold text-ink">{list.length ? `${faNumber(list.length)} جست‌وجو${fresh ? `، ${faNumber(fresh)} تازه` : ""}` : "هنوز ذخیره نکرده‌اید"}</span>
+          </span>
+          <ArrowDown2 size={15} className="shrink-0 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-80 rounded-2xl p-1.5">

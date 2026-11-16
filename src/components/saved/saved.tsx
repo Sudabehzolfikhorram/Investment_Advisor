@@ -79,7 +79,7 @@ export function Saved() {
   const scored = items.map((l) => ({ l, score: fits ? matchListing(l, criteria).score : undefined })).sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
   const projects = items.filter((l) => l.kind === "project");
   const fresh = profiles.reduce((n, p) => n + rank(listings, p.criteria).filter((r) => r.score >= 50 && r.listing.publishedAt > p.lastSeenAt).length, 0);
-  const tabs = [["projects", "پروژه‌های موردعلاقه", Lovely, items.length], ["criteria", "فیلترهای من", Setting4, profiles.length], ["profile", "پروفایل حرفه‌ای", UserEdit, null]] as const;
+  const tabs = [["projects", "پروژه‌های موردعلاقه", Lovely, items.length], ["criteria", "فیلترهای ذخیره‌شده", Setting4, profiles.length], ["profile", "پروفایل حرفه‌ای", UserEdit, null]] as const;
   const profileTool = toolById("ma-profile")!;
   return (
     <>

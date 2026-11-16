@@ -21,6 +21,9 @@ interface State {
   /** جایگزینی کامل فهرست مقایسه (مثلاً «مقایسه علاقه‌مندی‌ها») */
   setCompare: (ids: string[]) => void;
   clearCompare: () => void;
+  /** پروژه‌هایی که از صفحه جزئیات («دیدن پروژه‌های پیشنهادی») به صفحه پروژه‌ها فرستاده شده‌اند؛ بالای نتایج سنجاق می‌شوند */
+  pinned: { from: string; ids: string[] } | null;
+  setPinned: (p: { from: string; ids: string[] } | null) => void;
   setStarted: (v: boolean) => void;
   /** شروع تازه از یک دسته اصلی یا گروه؛ گام اطلاعات پایه دوباره نمایش داده می‌شود */
   begin: (c: Partial<SearchCriteria>) => void;
@@ -46,7 +49,8 @@ interface State {
 export const useStore = create<State>()(
   persist(
     (set, get) => ({
-      user: null, saved: [], profiles: [], criteria: emptyCriteria, started: false, loginOpen: false, pending: null, compare: [],
+      user: null, saved: [], profiles: [], criteria: emptyCriteria, started: false, loginOpen: false, pending: null, compare: [], pinned: null,
+      setPinned: (pinned) => set({ pinned }),
       toggleCompare: (id) => set((s) => ({ compare: s.compare.includes(id) ? s.compare.filter((x) => x !== id) : s.compare.length >= 4 ? s.compare : [...s.compare, id] })),
       setCompare: (ids) => set({ compare: [...new Set(ids)].slice(0, 4) }),
       clearCompare: () => set({ compare: [] }),

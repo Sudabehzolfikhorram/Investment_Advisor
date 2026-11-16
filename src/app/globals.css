@@ -6,7 +6,7 @@
 
 :root {
   --radius: 1rem;
-  --background: #f3f6fa; /* سفید با ته‌مایه آبی (نه سبز) */
+  --background: #f8fafc; /* نزدیک سفید با ته‌مایه آبی خیلی کم (نه #fff) */
   --foreground: #2f3533; /* متن: زغالی خنثی با ته‌مایه بسیار کم سبز، کنتراست ۱۲٫۵ روی سفید */
   --card: #ffffff;
   --card-foreground: #2f3533;

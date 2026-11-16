@@ -10,7 +10,15 @@ import { cn, faNumber } from "@/lib/utils";
 
 const W = 880, H = 290, L = 28, R = 828, TOP = 24, BOT = 250;
 
-export function ReturnTimeline({ items, single = false }: { items: Listing[]; single?: boolean }) {
+export type Marker = { at: number; label: string; value: string; warn?: boolean };
+
+/** ردیف برچسب‌های نقاط عطف زیر محور زمان؛ برچسب‌های نزدیک به هم در ردیف بعدی می‌نشینند تا روی هم نیفتند */
+function lanes(ms: Marker[], pos: (m: number) => number) {
+  const last: number[] = [];
+  return ms.map((m) => { const p = pos(m.at); let r = 0; while (last[r] != null && Math.abs(p - last[r]) < 13) r++; last[r] = p; return r; });
+}
+
+export function ReturnTimeline({ items, single = false, markers = [] }: { items: Listing[]; single?: boolean; markers?: Marker[] }) {
   const reduce = useReducedMotion();
   const box = useRef<SVGSVGElement>(null);
   const [hover, setHover] = useState<number | null>(null);
@@ -20,7 +28,7 @@ export function ReturnTimeline({ items, single = false }: { items: Listing[]; si
     return { i, l, first: o.firstIncomeMonths, pay: o.paybackYears != null ? o.paybackYears * 12 : null, down: o.paybackDownsideYears != null ? o.paybackDownsideYears * 12 : null };
   });
   const plotted = lines.filter((x) => x.pay != null);
-  const T = useMemo(() => Math.max(24, Math.ceil(Math.max(0, ...plotted.map((x) => Math.max(x.pay!, x.down ?? 0))) / 12) * 12 + 12), [plotted]);
+  const T = useMemo(() => Math.max(24, Math.ceil(Math.max(0, ...plotted.map((x) => Math.max(x.pay!, x.down ?? 0)), ...markers.map((m) => m.at)) / 12) * 12 + 12), [plotted, markers]);
   const x = (m: number) => R - (m / T) * (R - L);
   const y = (p: number) => BOT - (p / 100) * (BOT - TOP);
   const pct = (ln: (typeof lines)[number], m: number, down = false) => {
@@ -95,6 +103,13 @@ export function ReturnTimeline({ items, single = false }: { items: Listing[]; si
                 </g>
               );
             })}
+            {/* نقاط عطف (اولین دریافت، پایان اجرا، پایان قفل، بازگشت، پایان طرح) روی همان محور زمان */}
+            {markers.map((m) => (
+              <g key={m.label}>
+                <line x1={x(m.at)} x2={x(m.at)} y1={TOP} y2={BOT} className={m.warn ? "stroke-warn/35" : "stroke-ink/15"} strokeDasharray="2 4" />
+                <circle cx={x(m.at)} cy={BOT} r={5} fill="white" className={m.warn ? "stroke-warn" : "stroke-ink/60"} strokeWidth={2} />
+              </g>
+            ))}
             {hover != null && <line x1={x(hover)} x2={x(hover)} y1={TOP - 8} y2={BOT} className="stroke-ink/30" strokeWidth={1} />}
           </svg>
           {hover != null && (
@@ -106,6 +121,15 @@ export function ReturnTimeline({ items, single = false }: { items: Listing[]; si
               </ul>
             </div>
           )}
+          {markers.length > 0 && (() => { const pos = (m: number) => (x(m) / W) * 100; const ln = lanes(markers, pos); const rowsN = Math.max(...ln) + 1; return (
+            <div className="relative mt-1 [direction:ltr]" style={{ height: rowsN * 44 + 6 }}>
+              {markers.map((m, k) => (
+                <div key={m.label} className="absolute flex -translate-x-1/2 flex-col items-center text-center [direction:rtl]" style={{ left: `${pos(m.at)}%`, top: ln[k] * 44 }}>
+                  <span className={cn("whitespace-nowrap rounded-full px-2.5 py-0.5 text-[12px] font-black", m.warn ? "bg-warn/10 text-warn" : "bg-ink/[0.06] text-ink")}>{m.value}</span>
+                  <span className="mt-0.5 whitespace-nowrap text-[11px] font-semibold text-muted-foreground">{m.label}</span>
+                </div>
+              ))}
+            </div>); })()}
           <p className="mt-1 text-[12px] font-semibold leading-6 text-muted-foreground">
             نقطه کوچک روی خط صفر، زمان اولین درآمد است و دایره شماره‌دار، زمان بازگشت کامل سرمایه. سود پس از بازگشت سرمایه در داده‌ها اعلام نشده، پس خط پس از آن صاف می‌ماند.
             {missing.length > 0 && ` ${missing.map((m) => `«${m.l.title}»`).join("، ")} به دلیل نبودن دوره بازگشت روی نمودار نیست.`}

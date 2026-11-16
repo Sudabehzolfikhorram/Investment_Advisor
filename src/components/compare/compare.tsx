@@ -3,9 +3,9 @@
 // نمودار زمانی نشان می‌دهد سرمایه هر پروژه کی برمی‌گردد و در پایان می‌توان درباره همین پروژه‌ها از دستیار پرسید.
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion, useInView } from "motion/react";
-import { AddCircle, ArchiveTick, Award, Chart, CloseCircle, Convertshape2, InfoCircle, Location, MagicStar, Messages2, Trash } from "@/components/iconsax";
+import { useEffect, useMemo, useState } from "react";
+import { motion } from "motion/react";
+import { AddCircle, ArchiveTick, Award, Chart, CloseCircle, Convertshape2, InfoCircle, Location, MagicStar, Trash } from "@/components/iconsax";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -19,7 +19,8 @@ import { matchListing, rank } from "@/lib/match";
 import { useHydrated, useStore } from "@/lib/store";
 import type { Listing } from "@/types";
 import { cn, faNumber } from "@/lib/utils";
-import { ProjectPicker } from "./picker";
+import { ComparePicker, ProjectPicker } from "./picker";
+import { MetricCharts } from "./metric-charts";
 import { ReturnTimeline, SeriesDot } from "./timeline";
 import { CompareChat } from "./chat";
 
@@ -33,17 +34,17 @@ function sampleSet() {
 
 function Slot({ l, i, onRemove }: { l: Listing; i: number; onRemove: () => void }) {
   return (
-    <div className="group relative flex items-center gap-3 rounded-2xl border border-border bg-white p-2 pl-3">
+    <div className="group relative flex items-center gap-2.5 rounded-2xl border border-border bg-white p-2 pl-2">
       <span className="absolute inset-x-3 -top-px h-[3px] rounded-b-full" style={{ background: SERIES[i] }} />
-      <Link href={`/opportunities/${l.id}`} target="_blank" className="relative size-14 shrink-0 overflow-hidden rounded-xl bg-muted">
-        <Image src={l.image} alt="" fill sizes="56px" className="object-cover" />
+      <Link href={`/opportunities/${l.id}`} target="_blank" className="relative size-11 shrink-0 overflow-hidden rounded-xl bg-muted">
+        <Image src={l.image} alt="" fill sizes="44px" className="object-cover" />
         <SeriesDot i={i} className="absolute bottom-1 right-1 ring-2 ring-white" />
       </Link>
       <div className="min-w-0 flex-1">
-        <Link href={`/opportunities/${l.id}`} target="_blank" className="line-clamp-2 text-[13.5px] font-extrabold leading-6 text-ink hover:text-cobalt-deep">{l.title}</Link>
+        <Link href={`/opportunities/${l.id}`} target="_blank" title={l.title} className="line-clamp-2 text-[12.5px] font-extrabold leading-[1.35rem] text-ink hover:text-cobalt-deep">{l.title}</Link>
         <p className="mt-0.5 flex items-center gap-1 truncate text-[11.5px] font-semibold text-muted-foreground"><Location size={13} variant="Bold" />{l.province}، {l.city}</p>
       </div>
-      <Button type="button" variant="plain" size="auto" onClick={onRemove} aria-label={`حذف ${l.title} از مقایسه`} className="grid size-8 shrink-0 place-items-center self-start rounded-full text-ink/35 transition-colors hover:bg-destructive/10 hover:text-destructive"><CloseCircle size={18} /></Button>
+      <Button type="button" variant="plain" size="auto" onClick={onRemove} aria-label={`حذف ${l.title} از مقایسه`} className="grid size-6 shrink-0 place-items-center self-start rounded-full text-ink/35 transition-colors hover:bg-destructive/10 hover:text-destructive"><CloseCircle size={18} /></Button>
     </div>
   );
 }
@@ -57,36 +58,44 @@ function AddSlot({ onClick, big }: { onClick: () => void; big?: boolean }) {
   );
 }
 
-/** حالت خالی: کمتر از دو پروژه انتخاب شده. سه راه سریع برای شروع به‌جای فرستادن کاربر به صفحه دیگر */
-function Empty({ items, onAdd }: { items: Listing[]; onAdd: () => void }) {
-  const { saved, criteria, started, setCompare, toggleCompare } = useStore();
+/** حالت خالی: بدون چهار کارت خالی؛ یک پیام کوتاه «تا چهار پروژه» با راه‌های سریع، و زیرش انتخاب پروژه روی همین صفحه */
+function EmptyHero({ items }: { items: Listing[] }) {
+  const { saved, criteria, setCompare, toggleCompare } = useStore();
   const fav = compareListings.filter((l) => saved.includes(l.id)).map((l) => l.id);
-  const fit = started && hasAnyCriteria(criteria) ? rank(compareListings, criteria, 3).filter((r) => r.score >= 50).map((r) => r.listing.id) : [];
+  const fit = hasAnyCriteria(criteria) ? rank(compareListings, criteria, 3).filter((r) => r.score >= 50).map((r) => r.listing.id) : [];
   const quick = [
-    fav.length >= 2 && { title: "علاقه‌مندی‌هایم", body: `${faNumber(Math.min(fav.length, 4))} پروژه‌ای که ذخیره کرده‌اید`, icon: ArchiveTick, ids: fav },
-    fit.length >= 2 && { title: "متناسب با شرایطم", body: `${faNumber(fit.length)} پروژه با بیشترین تطابق`, icon: Award, ids: fit },
-    { title: "یک نمونه آماده", body: "سه پروژه با داده کامل از سه حوزه", icon: MagicStar, ids: sampleSet() },
-  ].filter(Boolean) as { title: string; body: string; icon: typeof Award; ids: string[] }[];
+    { title: "یک نمونه آماده", icon: MagicStar, ids: sampleSet() },
+    fit.length >= 2 && { title: "سه پروژه نزدیک به جست‌وجویم", icon: Award, ids: fit },
+    fav.length >= 2 && { title: "از علاقه‌مندی‌هایم", icon: ArchiveTick, ids: fav.slice(0, COMPARE_MAX) },
+  ].filter(Boolean) as { title: string; icon: typeof Award; ids: string[] }[];
   return (
-    <div className="surface rounded-[2rem] p-8">
-      <div className="grid grid-cols-4 gap-4">
-        {Array.from({ length: COMPARE_MAX }, (_, i) => items[i]
-          ? <div key={items[i].id} className="h-full"><Slot l={items[i]} i={i} onRemove={() => toggleCompare(items[i].id)} /></div>
-          : <AddSlot key={`add-${i}`} big onClick={onAdd} />)}
-      </div>
-      <div className="mt-8 flex items-center gap-4 border-t border-dashed border-border pt-7">
-        <p className="shrink-0 text-[14px] font-extrabold text-ink">یا سریع شروع کنید:</p>
-        <div className="flex flex-1 flex-wrap gap-3">
-          {quick.map((q) => (
-            <Button key={q.title} type="button" variant="plain" size="auto" onClick={() => setCompare(q.ids)}
-              className="group flex h-auto items-center gap-3 rounded-2xl border border-border bg-white py-2.5 pl-5 pr-2.5 text-right transition-[border-color,box-shadow] hover:border-cobalt/40 hover:shadow-[0_14px_28px_-22px_var(--cobalt)]">
-              <span className="grid size-10 place-items-center rounded-xl bg-cobalt-soft text-cobalt-deep"><q.icon size={20} variant="Bulk" /></span>
-              <span><span className="block text-[14px] font-extrabold text-ink">{q.title}</span><span className="block text-[12px] font-semibold text-muted-foreground">{q.body}</span></span>
-            </Button>
-          ))}
+    <section className="surface relative isolate overflow-hidden rounded-[1.75rem] p-7">
+      <div aria-hidden className="absolute -left-24 -top-24 -z-10 size-72 rounded-full bg-[radial-gradient(circle,rgb(14_83_200/0.08),transparent_65%)]" />
+      <div className="flex items-center gap-7">
+        {/* چهار حلقه: هر پروژه انتخاب‌شده حلقه‌ی رنگ خودش را پر می‌کند */}
+        <div className="flex shrink-0 items-center" aria-hidden>
+          {Array.from({ length: COMPARE_MAX }, (_, i) => { const l = items[i]; return (
+            <span key={i} className={cn("relative grid size-[4.5rem] place-items-center overflow-hidden rounded-full border-[3px] bg-white", i && "-mr-4", !l && "border-dashed")} style={{ borderColor: l ? SERIES[i] : "rgb(47 53 51 / 0.14)", zIndex: COMPARE_MAX - i }}>
+              {l ? <Image src={l.image} alt="" fill sizes="72px" className="object-cover" /> : <span className="text-[13px] font-black text-ink/25">{faNumber(i + 1)}</span>}
+            </span>
+          ); })}
+        </div>
+        <div className="min-w-0 flex-1">
+          <h2 className="text-[1.45rem] font-black leading-[1.6] text-ink">تا چهار پروژه را کنار هم مقایسه کنید</h2>
+          <p className="mt-1 max-w-2xl text-[13.5px] font-semibold leading-7 text-muted-foreground">
+            {items.length === 1 ? <>«{items[0].title}» انتخاب شده؛ یک پروژه دیگر کافی است تا مقایسه شروع شود.</> : "دست‌کم دو پروژه انتخاب کنید؛ مبلغ ورود، بازده، زمان بازگشت و ریسکشان روی نمودار کنار هم می‌آید و دستیار کنار صفحه به پرسش‌هایتان جواب می‌دهد."}
+          </p>
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <span className="ml-1 text-[12.5px] font-bold text-ink/70">شروع سریع:</span>
+            {quick.map((q) => (
+              <Button key={q.title} type="button" variant="plain" size="auto" onClick={() => setCompare(q.ids)}
+                className="h-9 gap-1.5 rounded-full border border-border bg-white px-3.5 text-[12.5px] font-extrabold text-ink transition-colors hover:border-cobalt/40 hover:bg-cobalt-soft/60 hover:text-cobalt-deep"><q.icon size={16} variant="Bulk" />{q.title}</Button>
+            ))}
+            {items.length === 1 && <Button type="button" variant="ghost" size="xs" onClick={() => toggleCompare(items[0].id)} className="font-bold text-muted-foreground hover:text-destructive">برداشتن انتخاب</Button>}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -115,12 +124,10 @@ export function Compare() {
   const [picker, setPicker] = useState(false);
   const [onlyDiff, setOnlyDiff] = useState(false);
   const [flash, setFlash] = useState<string[]>([]);
-  const chatRef = useRef<HTMLDivElement>(null);
-  const chatVisible = useInView(chatRef, { margin: "0px 0px -30% 0px" });
   const n = items.length;
   const ready = n >= COMPARE_MIN;
   const cols = n + (n < COMPARE_MAX ? 1 : 0);
-  const grid = { gridTemplateColumns: `13rem repeat(${cols}, minmax(0, 1fr))` };
+  const grid = { gridTemplateColumns: `10.5rem repeat(${cols}, minmax(0, 1fr))` };
   const st = useMemo(() => strengths(items), [items]);
   const fits = started && hasAnyCriteria(criteria);
 
@@ -141,12 +148,11 @@ export function Compare() {
   return (
     <TooltipProvider delayDuration={150}>
       <Header />
-      <main className="mx-auto max-w-7xl px-6 pt-10">
+      <main className="mx-auto max-w-[90rem] px-6 pt-10">
         <div className="flex items-end justify-between gap-6">
           <div>
             <p className="flex items-center gap-2 text-[13px] font-extrabold text-cobalt"><Convertshape2 size={17} variant="Bold" />مقایسه پروژه‌ها</p>
-            <h1 className="mt-2 text-[2.1rem] font-black leading-[1.5] text-ink">پروژه‌ها را کنار هم ببینید</h1>
-            <p className="mt-1 max-w-2xl text-[15px] font-semibold leading-8 text-muted-foreground">دو تا چهار پروژه انتخاب کنید. بهترین مقدار هر ردیف آبی می‌شود و در پایان صفحه می‌توانید درباره همین پروژه‌ها از دستیار بپرسید.</p>
+            <h1 className="mt-2 text-[2rem] font-black leading-[1.5] text-ink">پروژه‌ها را کنار هم ببینید</h1>
           </div>
           {ready && (
             <div className="flex shrink-0 items-center gap-2">
@@ -158,15 +164,23 @@ export function Compare() {
           )}
         </div>
 
-        <div className="mt-8">
-          {!hydrated ? <div className="h-72 animate-pulse rounded-[2rem] bg-muted" /> : !ready ? <Empty items={items} onAdd={() => setPicker(true)} /> : (
+        {/* دو ستون: دستیار سمت راست، ثابت هنگام پیمایش؛ مقایسه در ستون اصلی */}
+        <div className="mt-7 grid grid-cols-[23rem_minmax(0,1fr)] items-start gap-7">
+          <aside className="sticky top-24 h-[calc(100dvh-7.5rem)] min-h-[32rem]">
+            {hydrated && <CompareChat items={items} onShowRows={showRows} className="h-full" />}
+          </aside>
+
+          <div className="min-w-0">
+          {!hydrated ? <div className="h-72 animate-pulse rounded-[2rem] bg-muted" /> : !ready ? (
+            <div className="space-y-5"><EmptyHero items={items} /><ComparePicker /></div>
+          ) : (
             <>
               {/* سرستون‌ها: هنگام پیمایش جدول بالای صفحه می‌مانند */}
-              <div className="sticky top-[5rem] z-30 -mx-3 rounded-b-[1.5rem] bg-background/95 px-3 pb-3 pt-3 backdrop-blur-md">
+              <div className="sticky top-[5rem] z-30 -mx-3 rounded-b-[1.5rem] bg-background/95 px-3 pb-3 pt-1 backdrop-blur-md">
                 <div className="grid gap-3" style={grid}>
                   <div className="flex flex-col justify-center pr-1">
                     <p className="text-[13px] font-extrabold text-ink">{faNumber(n)} از {faNumber(COMPARE_MAX)} پروژه</p>
-                    <p className="mt-0.5 text-[12px] font-semibold text-muted-foreground">{onlyDiff && hiddenCount ? `${faNumber(hiddenCount)} ردیف یکسان پنهان شد` : "روی نام هر پروژه بزنید تا جزئیاتش باز شود"}</p>
+                    <p className="mt-0.5 text-[12px] font-semibold text-muted-foreground">{onlyDiff && hiddenCount ? `${faNumber(hiddenCount)} ردیف یکسان پنهان شد` : n < COMPARE_MAX ? "حداکثر چهار پروژه" : "روی نام هر پروژه بزنید"}</p>
                   </div>
                   {items.map((l, i) => <Slot key={l.id} l={l} i={i} onRemove={() => toggleCompare(l.id)} />)}
                   {n < COMPARE_MAX && <AddSlot onClick={() => setPicker(true)} />}
@@ -183,37 +197,44 @@ export function Compare() {
                   {items.map((l, i) => { const c = completeness(l); const m = fits ? matchListing(l, criteria).score : null; return (
                     <div key={l.id} className="flex flex-col gap-3 rounded-2xl bg-muted/50 p-3.5">
                       <div className="flex flex-wrap gap-1.5">
-                        {st[i].length ? st[i].map((s) => <span key={s} className="rounded-full bg-white px-2.5 py-1 text-[11.5px] font-extrabold text-cobalt-deep shadow-[inset_0_0_0_1px_rgb(33_82_224/0.18)]">{s}</span>)
+                        {st[i].length ? st[i].map((s) => <span key={s} className="rounded-full bg-white px-2.5 py-1 text-[11.5px] font-extrabold text-cobalt-deep shadow-[inset_0_0_0_1px_rgb(14_83_200/0.18)]">{s}</span>)
                           : <span className="text-[12px] font-semibold leading-6 text-muted-foreground">در داده‌های اعلام‌شده برتری روشنی ندارد</span>}
                       </div>
                       <div className="mt-auto flex items-center justify-between gap-2">
                         <div className="min-w-0">
-                          <p className="text-[11px] font-bold text-muted-foreground">داده‌های کلیدی اعلام‌شده</p>
+                          <p className="text-[11px] font-bold text-muted-foreground">داده‌های کلیدی</p>
                           <div className="mt-1.5 flex items-center gap-1.5">
-                            <span className="flex gap-0.5">{Array.from({ length: c.total }, (_, k) => <span key={k} className={cn("h-1.5 w-3.5 rounded-full", k < c.done ? "bg-ink/70" : "bg-ink/10")} />)}</span>
-                            <span className="text-[11.5px] font-extrabold text-ink">{faNumber(c.done)} از {faNumber(c.total)}</span>
+                            <span className="flex gap-0.5">{Array.from({ length: c.total }, (_, k) => <span key={k} className={cn("h-1.5 w-2 rounded-full", k < c.done ? "bg-ink/70" : "bg-ink/10")} />)}</span>
+                            <span className="whitespace-nowrap text-[11px] font-extrabold text-ink">{faNumber(c.done)}/{faNumber(c.total)}</span>
                           </div>
                         </div>
-                        {m != null && <span className="shrink-0" title="تطابق با شرایط شما"><MatchRing score={m} size={42} /></span>}
+                        {m != null && <span className="shrink-0" title="تطابق با شرایط شما"><MatchRing score={m} size={36} /></span>}
                       </div>
                     </div>); })}
                   {n < COMPARE_MAX && <span />}
                 </div>
               </section>
 
+              {/* مقایسه روی نمودار: هر شاخص عددی یک نمودار کوچک */}
+              <section className="surface mt-4 rounded-[1.75rem] p-6">
+                <div className="mb-5">
+                  <h2 className="flex items-center gap-2 text-[1.15rem] font-black text-ink"><Chart size={20} variant="Bulk" className="text-cobalt" />مقایسه روی نمودار</h2>
+                  <p className="mt-1 text-[13px] font-semibold text-muted-foreground">هر رنگ یک پروژه است؛ نشان جایزه یعنی بهترین مقدار همان شاخص.</p>
+                </div>
+                <MetricCharts items={items} />
+              </section>
+
               {/* نمودار بازگشت سرمایه */}
-              <section className="surface mt-4 rounded-[1.75rem] p-7">
-                <div className="mb-5 flex items-start justify-between gap-4">
-                  <div>
-                    <h2 className="flex items-center gap-2 text-[1.2rem] font-black text-ink"><Chart size={20} variant="Bulk" className="text-cobalt" />سرمایه شما کی برمی‌گردد؟</h2>
-                    <p className="mt-1 text-[13px] font-semibold text-muted-foreground">درصد سرمایه‌ای که در هر زمان به شما برگشته است؛ نشانگر را روی نمودار نگه دارید.</p>
-                  </div>
+              <section className="surface mt-4 rounded-[1.75rem] p-6">
+                <div className="mb-5">
+                  <h2 className="flex items-center gap-2 text-[1.15rem] font-black text-ink"><Chart size={20} variant="Bulk" className="text-cobalt" />سرمایه شما کی برمی‌گردد؟</h2>
+                  <p className="mt-1 text-[13px] font-semibold text-muted-foreground">درصد سرمایه‌ای که در هر زمان به شما برگشته است؛ نشانگر را روی نمودار نگه دارید.</p>
                 </div>
                 <ReturnTimeline items={items} />
               </section>
 
-              {/* جدول مقایسه، گروه‌بندی‌شده */}
-              <section className="mt-4 space-y-4">
+              {/* جدول کامل، گروه‌بندی‌شده */}
+              <section className="mt-4 space-y-4 pb-6">
                 {groups.map((g) => {
                   const gr = visible.filter((r) => r.group === g.id);
                   if (!gr.length) return null;
@@ -228,7 +249,7 @@ export function Compare() {
                         const max = Math.max(0, ...items.map((l) => r.num(oppOf(l)) ?? 0));
                         const on = flash.includes(r.id);
                         return (
-                          <div key={r.id} id={`row-${r.id}`} className={cn("grid scroll-mt-48 items-start gap-3 rounded-2xl border-t border-border/70 py-1 transition-[background-color,box-shadow] duration-500 first-of-type:border-t-0", on && "bg-cobalt-soft shadow-[inset_0_0_0_2px_rgb(33_82_224/0.35)]")} style={grid}>
+                          <div key={r.id} id={`row-${r.id}`} className={cn("grid scroll-mt-48 items-start gap-3 rounded-2xl border-t border-border/70 py-1 transition-[background-color,box-shadow] duration-500 first-of-type:border-t-0", on && "bg-cobalt-soft shadow-[inset_0_0_0_2px_rgb(14_83_200/0.35)]")} style={grid}>
                             <div className="flex items-center gap-1.5 px-3 py-3">
                               <span className="text-[13px] font-bold text-ink/70">{r.label}</span>
                               {r.hint && (
@@ -248,26 +269,11 @@ export function Compare() {
                 })}
                 {empty.length > 0 && <p className="px-4 text-[12.5px] font-semibold leading-7 text-muted-foreground">برای هیچ‌کدام از این پروژه‌ها اعلام نشده و از جدول برداشته شد: {empty.map((r) => r.label).join("، ")}.</p>}
               </section>
-
-              {/* گفت‌وگو با دستیار درباره همین پروژه‌ها */}
-              <section ref={chatRef} id="ask" className="mt-10 scroll-mt-28">
-                <CompareChat items={items} onShowRows={showRows} />
-              </section>
             </>
           )}
+          </div>
         </div>
       </main>
-
-      <AnimatePresence>
-        {ready && !chatVisible && (
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 16 }} className="fixed bottom-6 left-6 z-40">
-            <Button type="button" variant="plain" size="auto" onClick={() => document.getElementById("ask")?.scrollIntoView({ behavior: "smooth" })}
-              className="inline-flex h-12 items-center gap-2.5 rounded-full bg-ink pl-5 pr-2 text-[14px] font-extrabold text-white shadow-[0_18px_40px_-16px_rgb(22_32_48/0.6)] hover:bg-ink/90">
-              <span className="grid size-8 place-items-center rounded-full bg-cobalt"><Messages2 size={17} variant="Bold" /></span>درباره این پروژه‌ها بپرسید
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
       <ProjectPicker open={picker} onOpenChange={setPicker} />
       <Footer />
     </TooltipProvider>
