@@ -50,7 +50,7 @@ export function MoneyFilmIdea() {
   ].filter((k) => k.m > 0).reduce<Record<number, { m: number; label: string }>>((acc, k) => { acc[k.m] = acc[k.m] ? { m: k.m, label: `${acc[k.m].label} و ${k.label}` } : k; return acc; }, {})).sort((a, b) => a.m - b.m);
 
   const phase = mi < first ? 0 : back < amount ? 1 : 2;
-  const status = mi < first ? `هنوز دریافتی ندارید؛ اولین دریافت حدود ماه ${faNumber(first)} است.`
+  const status = mi < first ? `هنوز دریافتی ندارید، اولین دریافت حدود ماه ${faNumber(first)} است.`
     : back < amount ? `حدود ${billion(back)} از ${billion(amount)} تومان برگشته است.`
     : "اصل پول برگشته و از اینجا به بعد سود شماست.";
 
@@ -108,8 +108,8 @@ export function MoneyFilmIdea() {
       <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12.5px] font-semibold text-muted-foreground">
         <span className="flex items-center gap-2"><span className="h-[3px] w-6 rounded-full bg-ink" />حالت پایه</span>
         <span className="flex items-center gap-2"><span className="w-6 border-t-2 border-dashed border-ink/50" />حالت بدبینانه</span>
-        <span className="flex items-center gap-2"><span className="w-6 border-t-[3px] border-dotted border-primary/70" />بعد از برگشت اصل پول؛ مقدار سود اعلام نشده</span>
-        <span className="mr-auto">نقطه‌های علامت‌خورده داده‌ی پروژه است؛ خط بین آن‌ها تقریبی است و پیش‌بینی سود نیست.</span>
+        <span className="flex items-center gap-2"><span className="w-6 border-t-[3px] border-dotted border-primary/70" />بعد از برگشت اصل پول، مقدار سود اعلام نشده</span>
+        <span className="mr-auto">نقطه‌های علامت‌خورده داده‌ی پروژه است، خط بین آن‌ها تقریبی است و پیش‌بینی سود نیست.</span>
       </div>
 
       <div className="mt-6 grid grid-cols-[1.4fr_1fr_1fr] gap-3">

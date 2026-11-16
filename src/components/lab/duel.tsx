@@ -1,5 +1,5 @@
 "use client";
-// ایده ۴ «این یا آن؟»: مثل معاینه‌ی چشم («کدام واضح‌تر است؟ ۱ یا ۲؟»). کاربر فیلتر پر نمی‌کند؛
+// ایده ۴ «این یا آن؟»: مثل معاینه‌ی چشم («کدام واضح‌تر است؟ ۱ یا ۲؟»). کاربر فیلتر پر نمی‌کند،
 // در پنج دور بین دو پروژه یکی را انتخاب می‌کند. در هر دور دو پروژه فقط در یک ویژگی فرق جدی دارند و همان ویژگی واضح دیده می‌شود.
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -137,7 +137,7 @@ export function DuelIdea() {
         {!done ? (
           <motion.div key={step} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-6">
             <h3 className="text-center text-[1.6rem] font-black text-ink">{rounds[step].q}</h3>
-            <p className="mt-1 text-center text-[13.5px] font-semibold text-muted-foreground">دو پروژه در «{facts(pairs[step][0]).find((f) => f.dim === rounds[step].dim)!.label}» فرق دارند؛ بقیه‌ی ویژگی‌ها نزدیک به هم است.</p>
+            <p className="mt-1 text-center text-[13.5px] font-semibold text-muted-foreground">دو پروژه در «{facts(pairs[step][0]).find((f) => f.dim === rounds[step].dim)!.label}» فرق دارند، بقیه‌ی ویژگی‌ها نزدیک به هم است.</p>
             <div className="relative mt-6 grid grid-cols-2 gap-10">
               <DuelCard l={pairs[step][0]} focus={rounds[step].dim} side="a" onPick={() => setPicks([...picks, pairs[step][0]])} />
               <span className="absolute left-1/2 top-1/2 z-10 grid size-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-4 border-[#f7f9fc] bg-white text-[15px] font-black text-ink shadow-[0_10px_30px_-14px_rgb(22_32_48/0.5)]">یا</span>
@@ -149,9 +149,9 @@ export function DuelIdea() {
           <motion.div key="result" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mt-6 grid grid-cols-[1fr_1.1fr] gap-8">
             <div>
               <h3 className="text-[1.6rem] font-black leading-[1.6] text-ink">از انتخاب‌هایتان این را فهمیدیم</h3>
-              <p className="mt-1 text-[13.5px] font-semibold leading-7 text-muted-foreground">هر مورد را که درست نیست بردارید؛ نتیجه‌ها همان لحظه عوض می‌شود.</p>
+              <p className="mt-1 text-[13.5px] font-semibold leading-7 text-muted-foreground">هر مورد را که درست نیست بردارید، نتیجه‌ها همان لحظه عوض می‌شود.</p>
               <ul className="mt-5 flex flex-wrap gap-2">
-                {traits.length === 0 && <li className="text-[14px] font-semibold text-muted-foreground">ترجیح مشخصی پیدا نشد؛ همه‌ی پروژه‌ها را می‌بینید.</li>}
+                {traits.length === 0 && <li className="text-[14px] font-semibold text-muted-foreground">ترجیح مشخصی پیدا نشد، همه‌ی پروژه‌ها را می‌بینید.</li>}
                 {traits.map((t) => { const isOff = off.includes(t.key); return (
                   <li key={t.key}>
                     <Button type="button" variant="plain" size="auto" onClick={() => setOff(isOff ? off.filter((k) => k !== t.key) : [...off, t.key])} aria-pressed={!isOff}

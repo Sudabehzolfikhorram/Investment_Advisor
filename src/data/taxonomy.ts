@@ -1,5 +1,5 @@
-// گروه‌ها و زیردسته‌های پروژه: از نسخه HTML مرجع، بدون ادغام؛ همه گروه‌ها و زیردسته‌ها مطابق مرجع.
-// sources = شناسه زیردسته‌های اصلی که در این مورد ادغام شده‌اند؛ includes = نام کامل آن‌ها (هیچ موردی حذف نشده).
+// گروه‌ها و زیردسته‌های پروژه: از نسخه HTML مرجع، بدون ادغام، همه گروه‌ها و زیردسته‌ها مطابق مرجع.
+// sources = شناسه زیردسته‌های اصلی که در این مورد ادغام شده‌اند، includes = نام کامل آن‌ها (هیچ موردی حذف نشده).
 import type { ProjectGroup } from "@/types";
 
 export const projectGroups: ProjectGroup[] = [
@@ -328,7 +328,7 @@ export const projectGroups: ProjectGroup[] = [
     "id": "energy",
     "name": "انرژی",
     "fullNames": [
-      "پروژه‌های انرژی و تأسیسات"
+      "پروژه‌های انرژی و تاسیسات"
     ],
     "icon": "Flash",
     "image": "/images/types/powerplant.webp",
@@ -383,13 +383,13 @@ export const projectGroups: ProjectGroup[] = [
       },
       {
         "id": "renewable",
-        "name": "تأسیسات انرژی خورشیدی و بادی",
+        "name": "تاسیسات انرژی خورشیدی و بادی",
         "examples": "",
         "sources": [
           "renewable"
         ],
         "includes": [
-          "تأسیسات انرژی خورشیدی و بادی"
+          "تاسیسات انرژی خورشیدی و بادی"
         ],
         "image": "/images/types/renewable.webp"
       },
@@ -502,13 +502,13 @@ export const projectGroups: ProjectGroup[] = [
       },
       {
         "id": "mineral",
-        "name": "تأسیسات فرآوری مواد معدنی",
+        "name": "تاسیسات فرآوری مواد معدنی",
         "examples": "",
         "sources": [
           "mineral"
         ],
         "includes": [
-          "تأسیسات فرآوری مواد معدنی"
+          "تاسیسات فرآوری مواد معدنی"
         ],
         "image": "/images/types/mineral.webp"
       }

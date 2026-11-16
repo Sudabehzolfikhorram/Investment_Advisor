@@ -39,7 +39,7 @@ function visible(f: FieldDef, route: RouteId, filters: Record<string, FilterValu
   return true;
 }
 
-/** آیکون راهنما کنار عنوان؛ متن راهنما با هاور یا فوکوس دیده می‌شود (به‌جای خط توضیح زیر فیلد) */
+/** آیکون راهنما کنار عنوان، متن راهنما با هاور یا فوکوس دیده می‌شود (به‌جای خط توضیح زیر فیلد) */
 export function InfoTip({ text }: { text: string }) {
   return (
     <Tooltip>
@@ -63,7 +63,7 @@ function Section({ id, title, count, info, children }: { id: string; title: stri
   );
 }
 
-/** پرسش‌های تخصصی نوع پروژه (از نسخه مرجع)؛ فقط برای نوع‌های انتخاب‌شده نمایش داده می‌شود */
+/** پرسش‌های تخصصی نوع پروژه (از نسخه مرجع)، فقط برای نوع‌های انتخاب‌شده نمایش داده می‌شود */
 function AdvisoryQuestions({ subtypes }: { subtypes: string[] }) {
   const { criteria, setFilter } = useStore();
   const names = useMemo(() => Object.fromEntries(projectGroups.flatMap((g) => g.subtypes).map((s) => [s.id, s.name])), []);
@@ -92,12 +92,13 @@ function AdvisoryQuestions({ subtypes }: { subtypes: string[] }) {
 }
 
 /** بج ذخیره جست‌وجو کنار «حذف همه» در سرِ فیلترها (جای نوار پیشنهاد ذخیره بالای نتایج) */
+/** ذخیره جست‌وجو فقط با آیکون، متن کامل در راهنمای شناور و برچسب دسترسی */
 function SaveBadge({ onSave, saved }: { onSave: () => void; saved?: boolean }) {
-  if (saved) return <span className="inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-primary/10 px-2.5 text-[11.5px] font-extrabold text-primary"><TickCircle size={14} variant="Bold" />ذخیره شده</span>;
+  if (saved) return <span role="img" aria-label="این جست‌وجو ذخیره شده" title="این جست‌وجو ذخیره شده" className="grid size-8 shrink-0 place-items-center rounded-full bg-primary/10 text-primary"><TickCircle size={17} variant="Bold" /></span>;
   return (
-    <Button type="button" variant="plain" size="auto" onClick={onSave} title="این جست‌وجو را ذخیره کنید تا دفعه بعد با یک کلیک برگردید و پروژه‌های تازه‌اش را ببینید."
-      className="h-7 shrink-0 gap-1 rounded-full bg-cobalt-soft px-2.5 text-[11.5px] font-extrabold text-cobalt-deep ring-1 ring-cobalt/20 transition-colors hover:bg-cobalt hover:text-white">
-      <Save2 size={14} variant="Bulk" />ذخیره جست‌وجو
+    <Button type="button" variant="plain" size="auto" onClick={onSave} aria-label="ذخیره جست‌وجو" title="ذخیره جست‌وجو: دفعه بعد با یک کلیک برمی‌گردید و پروژه‌های تازه‌اش را می‌بینید."
+      className="grid size-8 shrink-0 place-items-center rounded-full bg-cobalt-soft text-cobalt-deep ring-1 ring-cobalt/20 transition-colors hover:bg-cobalt hover:text-white">
+      <Save2 size={17} variant="Bulk" />
     </Button>
   );
 }
@@ -119,7 +120,7 @@ export function AdvancedFilter({ className, quick, profileCard, onSave, saved }:
   }, [criteria.groups, criteria.provinces]);
 
   const fields = advancedFields.filter((x) => visible(x, route.id, f));
-  // فیلدهای وابسته‌ای که هنوز بسته‌اند؛ زیر فیلد والد یک خط راهنما می‌گیرند
+  // فیلدهای وابسته‌ای که هنوز بسته‌اند، زیر فیلد والد یک خط راهنما می‌گیرند
   const waiting = advancedFields.filter((x) => x.showWhen && inRoute(x, route.id) && !visible(x, route.id, f));
   // راهنمای فیلدهای وابسته: به‌جای خط زیر فیلد، در آیکون راهنمای کنار عنوان می‌آید
   const hintFor = (x: FieldDef) => {
@@ -133,8 +134,8 @@ export function AdvancedFilter({ className, quick, profileCard, onSave, saved }:
       return `${cond}، ${list.map((d) => `«${d.label}»`).join("، ")} هم باز می‌شود.`;
     }).join(" ");
   };
-  // مقدار اسلایدر و بازه در انتهای ردیف عنوان؛ با × پاک می‌شود (ردیف جدای «حذف» برداشته شد)
-  // فقط عدد (یا درصد با ٪) تا عنوان یک‌خطی بماند؛ واحد کامل در راهنمای هاور پیل می‌آید
+  // مقدار اسلایدر و بازه در انتهای ردیف عنوان، با × پاک می‌شود (ردیف جدای «حذف» برداشته شد)
+  // فقط عدد (یا درصد با ٪) تا عنوان یک‌خطی بماند، واحد کامل در راهنمای هاور پیل می‌آید
   const num = (n: number, x: FieldDef) => (x.unit === "درصد" ? `${faNumber(n)}٪` : faNumber(n));
   const valueOf = (x: FieldDef) => {
     const v = f[x.id];
@@ -191,7 +192,7 @@ export function AdvancedFilter({ className, quick, profileCard, onSave, saved }:
           <Section id="advisory" title="پرسش‌های تخصصی" count={advKeys.length}><AdvisoryQuestions subtypes={subtypes} /></Section>
         )}
         {(profile.length > 0 || profileCard) && (
-          <Section id="profile" title="درباره شما" count={activeIn(profile)} info="یک‌بار وارد کنید؛ همراه جست‌وجو ذخیره می‌شود.">
+          <Section id="profile" title="درباره شما" count={activeIn(profile)} info="یک‌بار وارد کنید، همراه جست‌وجو ذخیره می‌شود.">
             {profile.map(row)}
             {/* پروفایل حرفه‌ای (ساخت سریع) آخرین مورد «درباره شما» */}
             {profileCard}
@@ -199,7 +200,7 @@ export function AdvancedFilter({ className, quick, profileCard, onSave, saved }:
         )}
         {/* فیلترهای سریع: آخرین بخش فیلترهای اختیاری */}
         {quick && hasQuickFilters(route.id) && (
-          <Section id="quick" title="فیلترهای سریع" count={0} info="با یک کلیک یک شرط رایج اضافه می‌شود؛ عدد کنار هر کدام، شمار پروژه‌هایی است که پس از زدنش می‌ماند.">{quick}</Section>
+          <Section id="quick" title="فیلترهای سریع" count={0} info="با یک کلیک یک شرط رایج اضافه می‌شود، عدد کنار هر کدام، شمار پروژه‌هایی است که پس از زدنش می‌ماند.">{quick}</Section>
         )}
       </Accordion>
     </div>

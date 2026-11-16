@@ -52,7 +52,7 @@ export const phaseLabel: Record<string, string> = { new: "احداث جدید", 
 export const ownerLabel: Record<string, string> = { public: "عمومی یا دولتی", private: "خصوصی" };
 export const revenueLabel: Record<string, string> = { sale: "فروش", rent: "اجاره", public: "پرداخت قراردادی دستگاه عمومی", mixed: "ترکیبی", service: "خدمات", product: "محصول", operate: "مدیریت بهره‌برداری" };
 
-/** شرایط بدون یک چیپ؛ برای «برداشتن این فیلتر» و نشان دادن اثرش پیش از برداشتن */
+/** شرایط بدون یک چیپ، برای «برداشتن این فیلتر» و نشان دادن اثرش پیش از برداشتن */
 export function withoutChip(c: SearchCriteria, chip: CriteriaChip): SearchCriteria {
   if (chip.kind === "group") return { ...c, groups: c.groups.filter((x) => x !== chip.value) };
   if (chip.kind === "province") return { ...c, provinces: c.provinces.filter((x) => x !== chip.value) };

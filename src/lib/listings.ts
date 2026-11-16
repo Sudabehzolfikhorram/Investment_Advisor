@@ -101,7 +101,7 @@ export const isNew = (l: Listing, since = "2026-11-01") => l.publishedAt >= sinc
 
 /**
  * عکس‌های هر پروژه (حالت چندعکسی): عکس اصلی، عکس شاخص استان و عکس نوع‌های هم‌خانواده.
- * داده نمونه عکس اختصاصی ندارد؛ این عکس‌ها نماینده موقعیت و نوع پروژه‌اند.
+ * داده نمونه عکس اختصاصی ندارد، این عکس‌ها نماینده موقعیت و نوع پروژه‌اند.
  */
 const allTypeImages = [...new Set(projectGroups.flatMap((g) => [g.image, ...g.subtypes.map((s) => s.image)]).filter(Boolean) as string[])];
 const galleryCache = new Map<string, { src: string; caption: string }[]>();

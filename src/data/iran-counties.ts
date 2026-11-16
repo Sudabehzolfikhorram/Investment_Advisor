@@ -1,4 +1,4 @@
-// مرز و نام فارسی همه شهرستان‌ها؛ هر استان فایل جدا دارد و فقط هنگام نیاز بارگذاری می‌شود.
+// مرز و نام فارسی همه شهرستان‌ها، هر استان فایل جدا دارد و فقط هنگام نیاز بارگذاری می‌شود.
 // cities: شهرهای دارای پروژه که در این شهرستان‌اند.
 export interface County { name: string; d: string; c: [number, number]; a: number; cities: string[] }
 export interface ProvinceCounties { counties: County[]; outline: string }

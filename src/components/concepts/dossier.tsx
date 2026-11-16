@@ -1,6 +1,6 @@
 "use client";
 // کانسپت ۳ «شناسنامه»: جهان سند رسمی. کاغذ امنیتی با نقش گیوشه (همان خط و گره الگونت، این بار حکاکی‌شده)،
-// فیلدهای شماره‌دار با خط‌های مویی، مهر گرد کبالت با نشان الگونت، و دکمه تأیید سبز.
+// فیلدهای شماره‌دار با خط‌های مویی، مهر گرد کبالت با نشان الگونت، و دکمه تایید سبز.
 // هر بخش لندینگ یک «پیوست» پرونده است و صفحه جزئیات، شناسنامه کامل یک پروژه با بندهای نموداری.
 import Image from "next/image";
 import Link from "next/link";
@@ -66,7 +66,7 @@ function GuillocheBand({ className, lines = 9 }: { className?: string; lines?: n
   return <svg viewBox="0 0 1200 60" preserveAspectRatio="none" className={className} aria-hidden fill="none" stroke="currentColor">{paths.map((d, j) => <path key={j} d={d} strokeWidth="1" vectorEffect="non-scaling-stroke" />)}</svg>;
 }
 
-/** مهر گرد کبالت با نشان الگونت؛ با هر تغییر «کوبیده» می‌شود */
+/** مهر گرد کبالت با نشان الگونت، با هر تغییر «کوبیده» می‌شود */
 function Stamp({ value, label, ring, size = 128, className, slam = "0", tilt = -12 }: { value: ReactNode; label: string; ring: string; size?: number; className?: string; slam?: string; tilt?: number }) {
   const pid = "st" + useId().replace(/[^a-zA-Z0-9]/g, "");
   const reduce = useReducedMotion();
@@ -167,7 +167,7 @@ function DossierForm() {
               <motion.p initial={reduce ? false : { clipPath: "inset(0 0 0 100%)" }} animate={{ clipPath: "inset(0 0 0 0%)" }} transition={{ duration: 1.2, delay: 0.4, ease }} className="text-[1.45rem] font-black text-[#2f3533]">شناسنامه سرمایه‌گذاری شما</motion.p>
               <p className="mt-1 text-[12.5px] font-bold text-[#2f3533]/55">{date ? `تنظیم: ${date}` : " "} · پرونده {faNumber(totalCount)} فرصت</p>
             </div>
-            <Stamp slam={`${route}-${province}-${group}`} value={faNumber(pool.length)} label="فرصت جور" ring="سرمایه‌نما • شناسنامه سرمایه‌گذاری • سرمایه‌نما •" size={118} className="-mt-12" />
+            <Stamp slam={`${route}-${province}-${group}`} value={faNumber(pool.length)} label="فرصت جور" ring="سرمایه‌گزین • شناسنامه سرمایه‌گذاری • سرمایه‌گزین •" size={118} className="-mt-12" />
           </div>
           <div className="mt-2">
             <Field n={1} label={directSearch.fields.route}>
@@ -241,7 +241,7 @@ function Stories() {
             className="group relative flex flex-col overflow-hidden rounded-[14px] bg-white p-3 text-right ring-1 ring-[#d7dee9] transition-shadow hover:shadow-[0_30px_60px_-36px_rgb(14_40_90/0.5)]">
             <div className="relative h-56 overflow-hidden rounded-[9px]"><Image src={s.image} alt="" fill sizes="30vw" className="object-cover grayscale transition-[filter,transform] duration-700 group-hover:scale-105 group-hover:grayscale-0" /></div>
             <div className="relative px-3 pb-2 pt-4">
-              <div className="absolute -top-9 left-4"><Stamp value={faNumber(s.n)} label="زاویه" ring="سرمایه‌نما • سرمایه‌نما • سرمایه‌نما •" size={64} tilt={-8} className="bg-white/0 [&_span]:text-[13px]" /></div>
+              <div className="absolute -top-9 left-4"><Stamp value={faNumber(s.n)} label="زاویه" ring="سرمایه‌گزین • سرمایه‌گزین • سرمایه‌گزین •" size={64} tilt={-8} className="bg-white/0 [&_span]:text-[13px]" /></div>
               <p className="text-[1.3rem] font-black text-[#2f3533]">{s.name}</p>
               <dl className="mt-3 divide-y divide-[#d7dee9] border-y border-[#d7dee9]">
                 {s.routes.map((id) => <div key={id} className="flex items-center justify-between py-2 text-[13px]"><dt className="font-bold text-[#2f3533]/80">{goals.find((g) => g.id === id)?.name}</dt><dd className="font-black tabular-nums text-[#2f3533]/55">{goals.find((g) => g.id === id)?.count ? faNumber(goals.find((g) => g.id === id)!.count) : "به‌زودی"}</dd></div>)}
@@ -335,7 +335,7 @@ function Goals() {
               <div className="mt-auto flex items-center justify-between pt-5">
                 <span className="inline-flex items-center gap-2 text-[14px] font-extrabold text-[#2f3533]">{g.route ? (g.count ? `${faNumber(g.count)} فرصت` : "به‌زودی") : g.cta}<ArrowLeft size={17} className="transition-transform group-hover:-translate-x-1" /></span>
               </div>
-              <AnimatePresence>{hover === g.id && g.route && g.count > 0 && <div className="absolute bottom-3 left-5"><Stamp slam={g.id} value={faNumber(g.count)} label="فرصت" ring="سرمایه‌نما • بررسی شد • سرمایه‌نما •" size={84} /></div>}</AnimatePresence>
+              <AnimatePresence>{hover === g.id && g.route && g.count > 0 && <div className="absolute bottom-3 left-5"><Stamp slam={g.id} value={faNumber(g.count)} label="فرصت" ring="سرمایه‌گزین • بررسی شد • سرمایه‌گزین •" size={84} /></div>}</AnimatePresence>
             </motion.button>
           );
         })}
@@ -468,7 +468,7 @@ function Method() {
   const reduce = useReducedMotion();
   return (
     <section className={cn(W, "mt-28")}>
-      <Head n={5} title="روش کار سرمایه‌نما" />
+      <Head n={5} title="روش کار سرمایه‌گزین" />
       <div className="mt-10 grid grid-cols-3 gap-6">
         {method.map((m, i) => (
           <div key={m.en} className="relative rounded-[14px] bg-white p-7 ring-1 ring-[#d7dee9]">
@@ -579,9 +579,9 @@ function Detail({ l }: { l: Listing }) {
   const reduce = useReducedMotion();
   const known = s.known.filter((k) => k.ok).length;
   const steps = s.steps.length ? s.steps : s.checks;
-  const { first, rest } = arrange(chartList(s, { time: "زمان‌بندی پول", timeNote: "هر نوار از امروز شروع می‌شود؛ نشانگر را روی نمودار ببرید.", ladder: "وضعیت پرونده" }));
+  const { first, rest } = arrange(chartList(s, { time: "زمان‌بندی پول", timeNote: "هر نوار از امروز شروع می‌شود، نشانگر را روی نمودار ببرید.", ladder: "وضعیت پرونده" }));
   const spans = spans12(rest.length);
-  const terms = [["مدل قرارداد", o.model], ["تأمین مالی", o.finance], ["شیوه بازپرداخت", o.repay], ["مالکیت و سهم", o.ownership], ["شرایط خروج", o.exit]].filter(([, v]) => v) as [string, string][];
+  const terms = [["مدل قرارداد", o.model], ["تامین مالی", o.finance], ["شیوه بازپرداخت", o.repay], ["مالکیت و سهم", o.ownership], ["شرایط خروج", o.exit]].filter(([, v]) => v) as [string, string][];
   let n = 1;
   return (
     <main className="min-h-screen overflow-x-clip bg-[#f5f7fb] text-[#2f3533] selection:bg-[#1e3a8a] selection:text-white" style={vars}>
@@ -609,7 +609,7 @@ function Detail({ l }: { l: Listing }) {
                   </div>
                 ))}
               </dl>
-              {!s.lanes.length && <p className="mt-3 text-[12.5px] font-semibold text-[#2f3533]/55">هیچ‌کدام از زمان‌های این مورد اعلام نشده است؛ برای همین نمودار زمانی ندارد.</p>}
+              {!s.lanes.length && <p className="mt-3 text-[12.5px] font-semibold text-[#2f3533]/55">هیچ‌کدام از زمان‌های این مورد اعلام نشده است، برای همین نمودار زمانی ندارد.</p>}
               <div className="mt-7 flex items-center gap-3">
                 <SaveButton id={l.id} label className="h-12 rounded-lg bg-[#0f766e] px-6 font-extrabold text-white hover:bg-[#0d5f59]" />
                 <CompareToggle id={l.id} className="rounded-lg border-2 border-[#2f3533]/15 text-[#2f3533]" onClass="border-[#1e3a8a] bg-[#1e3a8a] text-white" />
@@ -622,7 +622,7 @@ function Detail({ l }: { l: Listing }) {
                 <div className="relative aspect-[4/5] overflow-hidden rounded-[6px]"><Image src={l.image} alt="" fill sizes="20rem" className="object-cover" priority /></div>
                 <span className="absolute -top-3 left-1/2 h-6 w-16 -translate-x-1/2 rounded-sm bg-[#1e3a8a]/80" aria-hidden />
               </motion.div>
-              <div className="absolute -bottom-6 -right-8"><Stamp value={`${faNumber(known)}/${faNumber(s.known.length)}`} label="داده اعلام‌شده" ring="سرمایه‌نما • شناسنامه پروژه • سرمایه‌نما •" size={124} /></div>
+              <div className="absolute -bottom-6 -right-8"><Stamp value={`${faNumber(known)}/${faNumber(s.known.length)}`} label="داده اعلام‌شده" ring="سرمایه‌گزین • شناسنامه پروژه • سرمایه‌گزین •" size={124} /></div>
             </div>
           </div>
         </motion.div>

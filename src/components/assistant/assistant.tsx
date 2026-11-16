@@ -1,6 +1,6 @@
 "use client";
 // دستیار: متن کاربر را می‌خواند، برداشتش را نشان می‌دهد و حداکثر ۱۰ پروژه با درصد تطابق پیشنهاد می‌کند.
-// چیدمان مثل یک چت است: گفت‌وگو از بالا به پایین می‌آید و جای نوشتن همیشه پایین صفحه ثابت است؛
+// چیدمان مثل یک چت است: گفت‌وگو از بالا به پایین می‌آید و جای نوشتن همیشه پایین صفحه ثابت است،
 // نمونه‌ها هم کنار همان جای نوشتن‌اند تا انتخاب هر نمونه، درست بالای آن به‌عنوان پیام شما دیده شود.
 import { AlgoPattern } from "@/components/brand/algo-pattern";
 import Image from "next/image";
@@ -32,7 +32,7 @@ const phases = [
   { title: "مرتب‌سازی بر اساس درصد تطابق", icon: Chart },
 ];
 
-/** نشانه دستیار: گوی زنده با حلقه چرخان؛ هنگام فکر کردن تندتر می‌چرخد. */
+/** نشانه دستیار: گوی زنده با حلقه چرخان، هنگام فکر کردن تندتر می‌چرخد. */
 export function Orb({ size = 40, busy = false }: { size?: number; busy?: boolean }) {
   return (
     <span className="relative grid shrink-0 place-items-center rounded-full shadow-[0_14px_30px_-14px_rgb(20_30_45/0.6)]" style={{ width: size, height: size }}>
@@ -43,7 +43,7 @@ export function Orb({ size = 40, busy = false }: { size?: number; busy?: boolean
   );
 }
 
-/** متن پاسخ کلمه‌به‌کلمه نوشته می‌شود؛ با «کاهش حرکت» یک‌باره نمایش داده می‌شود. */
+/** متن پاسخ کلمه‌به‌کلمه نوشته می‌شود، با «کاهش حرکت» یک‌باره نمایش داده می‌شود. */
 export function Typed({ text, className }: { text: string; className?: string }) {
   const reduce = useReducedMotion();
   const words = useMemo(() => text.split(" "), [text]);
@@ -125,15 +125,15 @@ function nextAsk(c: SearchCriteria) {
 }
 
 function Bubble({ children }: { children: React.ReactNode }) {
-  // پیام کاربر سمت چپ، پاسخ دستیار سمت راست
+  // پیام کاربر سمت راست، پاسخ دستیار سمت چپ
   return (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex justify-end">
-      <p className="max-w-xl rounded-[1.5rem] rounded-tl-md bg-pine px-5 py-3 text-[15px] font-bold leading-8 text-white shadow-[0_18px_36px_-24px_var(--pine)]">{children}</p>
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex justify-start">
+      <p className="max-w-xl rounded-[1.5rem] rounded-tr-md bg-pine px-5 py-3 text-[15px] font-bold leading-8 text-white shadow-[0_18px_36px_-24px_var(--pine)]">{children}</p>
     </motion.div>
   );
 }
 
-/** گام‌های بررسی به‌صورت خط زمانی؛ هر گام پس از انجام، نتیجه کوتاه خودش را نشان می‌دهد. */
+/** گام‌های بررسی به‌صورت خط زمانی، هر گام پس از انجام، نتیجه کوتاه خودش را نشان می‌دهد. */
 function Steps({ phase, notes }: { phase: number; notes: string[] }) {
   return (
     <ol className="relative space-y-3">
@@ -178,13 +178,13 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave, onAdjust, onCom
   return (
     <div ref={ref} className="scroll-mt-28 space-y-5">
       <Bubble>{turn.q}</Bubble>
-      <div className="flex items-start gap-3">
+      <div className="flex flex-row-reverse items-start gap-3">
         <Orb busy={!done} />
         <div className="min-w-0 flex-1">
           <AnimatePresence mode="wait">
             {!done ? (
               <motion.div key="thinking" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-                <div className="surface inline-flex min-w-80 flex-col rounded-[1.5rem] rounded-tr-md px-5 py-4">
+                <div className="surface mr-auto flex w-fit min-w-80 flex-col rounded-[1.5rem] rounded-tl-md px-5 py-4">
                   <p className="mb-3 text-xs font-extrabold text-primary">در حال بررسی…</p>
                   <Steps phase={phase} notes={notes} />
                 </div>
@@ -199,8 +199,8 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave, onAdjust, onCom
               </motion.div>
             ) : (
               <motion.div key="answer" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                <div className="surface rounded-[1.5rem] rounded-tr-md p-5">
-                  {/* گام‌های بررسی، جمع‌شده؛ با یک ضربه دیده می‌شود چطور به این پیشنهادها رسیدیم */}
+                <div className="surface rounded-[1.5rem] rounded-tl-md p-5">
+                  {/* گام‌های بررسی، جمع‌شده، با یک ضربه دیده می‌شود چطور به این پیشنهادها رسیدیم */}
                   <Accordion type="single" collapsible>
                     <AccordionItem value="steps" className="border-0">
                       <AccordionTrigger className="w-fit flex-none gap-2 rounded-full bg-ink/[0.05] px-3 py-1.5 text-xs font-extrabold text-primary hover:no-underline">
@@ -211,7 +211,7 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave, onAdjust, onCom
                   </Accordion>
 
                   <p className="mt-4 flex items-center gap-2 text-[13px] font-extrabold text-ink"><MagicStar size={16} variant="Bulk" className="text-cobalt" />برداشت من از درخواست شما</p>
-                  <p className="mt-0.5 text-[12px] font-semibold text-muted-foreground">اگر چیزی را اشتباه فهمیده‌ام، همان را بردارید؛ لازم نیست دوباره بنویسید.</p>
+                  <p className="mt-0.5 text-[12px] font-semibold text-muted-foreground">اگر چیزی را اشتباه فهمیده‌ام، همان را بردارید، لازم نیست دوباره بنویسید.</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {routeName && <span className="flex items-center gap-1.5 rounded-xl bg-ink/[0.05] px-3 py-1.5 text-[13px] font-extrabold text-ink"><span className="text-xs font-semibold text-muted-foreground">مسیر</span>{routeName}</span>}
                     {chips.map((c, i) => (
@@ -220,7 +220,7 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave, onAdjust, onCom
                         {last && <Button type="button" variant="plain" size="auto" aria-label={`برداشتن ${c.label}`} title="برداشتن این شرط" onClick={() => onAdjust(`بدون «${c.label}»`, withoutChip(out.criteria, c))} className="grid size-6 place-items-center rounded-lg text-cobalt-deep/45 hover:bg-white hover:text-destructive"><CloseCircle size={15} variant="Bold" /></Button>}
                       </motion.span>
                     ))}
-                    {!chips.length && <span className="text-sm font-semibold text-muted-foreground">شرط مشخصی پیدا نکردم؛ پروژه‌های پرتطابق همه مسیرها را آورده‌ام.</span>}
+                    {!chips.length && <span className="text-sm font-semibold text-muted-foreground">شرط مشخصی پیدا نکردم، پروژه‌های پرتطابق همه مسیرها را آورده‌ام.</span>}
                   </div>
                   <div className="mt-4 flex items-center justify-between gap-3 border-t border-dashed border-border pt-4">
                     <div className="min-w-0">
@@ -248,15 +248,15 @@ function TurnView({ turn, last, onAsk, onEdit, onRefine, onSave, onAdjust, onCom
                           {ask.chips.map((c) => <Button key={c} type="button" variant="outline" onClick={() => onAsk(`${turn.q}، ${c}`)} className="h-9 gap-1.5 rounded-full bg-white px-4 text-[13px] font-bold shadow-none hover:border-ink/25 hover:text-ink"><MagicStar size={14} variant="Bulk" className="text-primary" />{c}</Button>)}
                         </div>
                       </div>
-                    ) : <div className="surface flex items-center gap-3 rounded-[1.5rem] p-5 text-sm font-bold text-ink/75"><TickCircle size={20} variant="Bulk" className="shrink-0 text-primary" />شرایط اصلی را گفته‌اید؛ اگر شرط دیگری دارید، پایین بنویسید.</div>}
+                    ) : <div className="surface flex items-center gap-3 rounded-[1.5rem] p-5 text-sm font-bold text-ink/75"><TickCircle size={20} variant="Bulk" className="shrink-0 text-primary" />شرایط اصلی را گفته‌اید، اگر شرط دیگری دارید، پایین بنویسید.</div>}
                     <div className={cn("relative overflow-hidden rounded-[1.5rem] p-5", saved ? "surface" : "bg-pine text-white")}>
                       {saved ? (
-                        <p className="flex items-center gap-2.5 text-sm font-extrabold text-primary"><ArchiveTick size={20} variant="Bulk" />این شرایط ذخیره شده است؛ دفعه بعد از همین‌جا ادامه می‌دهید.</p>
+                        <p className="flex items-center gap-2.5 text-sm font-extrabold text-primary"><ArchiveTick size={20} variant="Bulk" />این شرایط ذخیره شده است، دفعه بعد از همین‌جا ادامه می‌دهید.</p>
                       ) : (
                         <>
                           <span aria-hidden className="pointer-events-none absolute -left-10 -top-12 size-40 rounded-full bg-primary/40 blur-3xl" />
                           <p className="relative text-[15px] font-black">این شرایط را برایتان نگه دارم؟</p>
-                          <p className="relative mt-1 text-[13px] leading-6 text-white/70">دفعه بعد لازم نیست دوباره بنویسید؛ با یک ضربه برمی‌گردید و پروژه‌های تازه را جدا می‌بینید.</p>
+                          <p className="relative mt-1 text-[13px] leading-6 text-white/70">دفعه بعد لازم نیست دوباره بنویسید، با یک ضربه برمی‌گردید و پروژه‌های تازه را جدا می‌بینید.</p>
                           <Button type="button" onClick={() => onSave(out.criteria)} className="relative mt-3.5 h-10 gap-2 rounded-full bg-cobalt px-5 text-[13px] font-extrabold text-white shadow-[0_10px_22px_-10px_var(--cobalt)] hover:bg-cobalt-deep"><Save2 size={17} />ذخیره شرایط</Button>
                         </>
                       )}
@@ -308,7 +308,7 @@ export function Assistant() {
     <>
       <Header />
       <main className="relative mx-auto flex min-h-[calc(100dvh-6rem)] max-w-5xl flex-col px-6 pt-8">
-        {/* پس‌زمینه: ته‌رنگ سرد خاکستری–آبی و چند تکه از پترن هویت؛ بدون هاله سبز */}
+        {/* پس‌زمینه: ته‌رنگ سرد خاکستری–آبی و چند تکه از پترن هویت، بدون هاله سبز */}
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[radial-gradient(60%_50%_at_85%_10%,rgb(143_163_189/0.28),transparent_70%),radial-gradient(50%_45%_at_10%_70%,rgb(143_163_189/0.22),transparent_70%),linear-gradient(180deg,#e7ecf3_0%,#edf1f6_50%,#f1f4f8_100%)]">
           {/* پترن تکه‌تکه: چند قطعه‌ی پراکنده با شدت‌های مختلف، نه یک لایه یکنواخت */}
           <AlgoPattern animated className="-right-10 top-16 h-[26rem] w-[36rem] text-[#4a5a70]/[0.16]" fade="radial" scale={0.9} />
@@ -336,7 +336,7 @@ export function Assistant() {
           )}
         </div>
 
-        {/* جای نوشتن: همیشه پایین صفحه؛ نمونه‌ها درست بالای آن و پس از استفاده حذف می‌شوند */}
+        {/* جای نوشتن: همیشه پایین صفحه، نمونه‌ها درست بالای آن و پس از استفاده حذف می‌شوند */}
         <div className="sticky bottom-0 z-30 isolate -mx-6 px-6 pb-6 pt-10 before:pointer-events-none before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-gradient-to-t before:from-[#eff2f7] before:via-[#eff2f7]/80 before:via-55% before:to-transparent">
           <div className="mx-auto max-w-3xl">
             {left.length > 0 && (

@@ -203,7 +203,7 @@ function Intro() {
             {quickNav.map((q) => <li key={q.label} className="mb-1 break-inside-avoid"><Link href={q.href} className="group flex items-center gap-2.5 rounded-lg py-1.5 text-[13.5px] font-bold text-[#2f3533]/80 hover:text-[#1e3a8a]"><span className="size-3 rounded-full border-[3px] border-[#2f3533]/30 transition-colors group-hover:border-[#1e3a8a]" />{q.label}{q.saved && hydrated && saved.length > 0 && <span className="text-[11px] font-black text-[#1e3a8a]">({faNumber(saved.length)})</span>}</Link></li>)}
           </ul>
         </div>
-        {/* شاخه‌ها: از ایستگاه شروع تا سه نیت؛ هر شاخه به ایستگاهی کنار کارت می‌رسد */}
+        {/* شاخه‌ها: از ایستگاه شروع تا سه نیت، هر شاخه به ایستگاهی کنار کارت می‌رسد */}
         <div className="relative">
           <svg viewBox="0 0 600 420" className="absolute inset-0 size-full" preserveAspectRatio="none" aria-hidden>
             {[70, 210, 350].map((y, i) => (
@@ -526,7 +526,7 @@ function Detail({ l }: { l: Listing }) {
   const reduce = useReducedMotion();
   const steps = s.steps.length ? s.steps : s.checks;
   const lineNos = lineGoals.map((g, i) => (l.routes.includes(g.id) ? i + 1 : 0)).filter(Boolean);
-  const { first, rest } = arrange(chartList(s, { time: "زمان‌بندی سفر سرمایه", timeNote: "از امروز تا بازگشت سرمایه؛ نشانگر را روی نمودار ببرید.", ladder: "وضعیت خط" }));
+  const { first, rest } = arrange(chartList(s, { time: "زمان‌بندی سفر سرمایه", timeNote: "از امروز تا بازگشت سرمایه، نشانگر را روی نمودار ببرید.", ladder: "وضعیت خط" }));
   return (
     <main className="min-h-screen bg-[#f6f8fb] text-[#2f3533] selection:bg-[#1e3a8a] selection:text-white" style={vars}>
       <Nav />
@@ -565,7 +565,7 @@ function Detail({ l }: { l: Listing }) {
                 ))}
               </ol>
             </div>
-            {s.steps.length > 0 && s.checks.length > 0 && <p className="mt-6 border-t border-[#e1e6ee] pt-4 text-[13px] leading-7 text-[#2f3533]/70"><b className="font-extrabold text-[#2f3533]">موارد بررسی: </b>{s.checks.join("؛ ")}</p>}
+            {s.steps.length > 0 && s.checks.length > 0 && <p className="mt-6 border-t border-[#e1e6ee] pt-4 text-[13px] leading-7 text-[#2f3533]/70"><b className="font-extrabold text-[#2f3533]">موارد بررسی: </b>{s.checks.join("، ")}</p>}
           </div>
         </section>
       )}
@@ -576,7 +576,7 @@ function Detail({ l }: { l: Listing }) {
           <div className="flex flex-col gap-3 rounded-[1.4rem] bg-[#1d2430] p-6 text-white">
             {l.stats.map((x) => <div key={x.label} className="flex items-baseline justify-between border-b border-white/10 pb-2.5 last:border-0 last:pb-0"><span className="text-[12.5px] font-bold text-white/55">{x.label}</span><span className="text-[15px] font-black tabular-nums">{x.value}</span></div>)}
           </div>
-          {!s.lanes.length && <p className="rounded-xl bg-white px-4 py-3 text-[12.5px] leading-6 text-[#2f3533]/65 ring-1 ring-[#e1e6ee]">هیچ‌کدام از زمان‌های این مورد اعلام نشده است؛ برای همین نمودار زمانی ندارد.</p>}
+          {!s.lanes.length && <p className="rounded-xl bg-white px-4 py-3 text-[12.5px] leading-6 text-[#2f3533]/65 ring-1 ring-[#e1e6ee]">هیچ‌کدام از زمان‌های این مورد اعلام نشده است، برای همین نمودار زمانی ندارد.</p>}
           <div className="flex gap-2"><SaveButton id={l.id} label className="h-12 flex-1 rounded-full bg-[#0f766e] px-5 font-extrabold text-white hover:bg-[#0d5f59]" /><CompareToggle id={l.id} className="border-2 border-[#2f3533]/15 text-[#2f3533]" /></div>
           <Link href={`/opportunities/${encodeURIComponent(l.id)}`} className="block text-center text-[13px] font-bold text-[#2f3533]/60 underline underline-offset-4">صفحه جزئیات فعلی</Link>
         </div>
@@ -584,7 +584,7 @@ function Detail({ l }: { l: Listing }) {
 
         <Panel title="قرارداد و پول" className={l.province ? "col-span-8" : "col-span-12"}>
           <dl className="grid grid-cols-2 gap-x-10 gap-y-5 text-[14px] leading-7">
-            {[["مدل قرارداد", o.model], ["تأمین مالی", o.finance], ["شیوه بازپرداخت", o.repay], ["مالکیت و سهم", o.ownership], ["شرایط خروج", o.exit]].filter(([, v]) => v).map(([k, v]) => <div key={k}><dt className="text-[12px] font-bold text-[#2f3533]/55">{k}</dt><dd className="font-semibold text-[#2f3533]">{v}</dd></div>)}
+            {[["مدل قرارداد", o.model], ["تامین مالی", o.finance], ["شیوه بازپرداخت", o.repay], ["مالکیت و سهم", o.ownership], ["شرایط خروج", o.exit]].filter(([, v]) => v).map(([k, v]) => <div key={k}><dt className="text-[12px] font-bold text-[#2f3533]/55">{k}</dt><dd className="font-semibold text-[#2f3533]">{v}</dd></div>)}
           </dl>
           {o.caution && <p className="mt-6 rounded-xl bg-[#fcebe5] px-4 py-3 text-[13.5px] font-semibold leading-7 text-[#b8461f]">پیش از تصمیم: {o.caution}</p>}
         </Panel>

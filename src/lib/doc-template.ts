@@ -46,7 +46,7 @@ body{background:#f3f5f5!important;color:#083b37;font:15px/2 Vazirmatn,Tahoma,Ari
 const today = () => { try { return new Intl.DateTimeFormat("fa-IR-u-ca-persian", { day: "numeric", month: "long", year: "numeric" }).format(new Date()); } catch { return ""; } };
 
 /** سند کامل با سربرگ و پانویس ثابت */
-// sourceCss پیش از سبک قالب می‌آید (قالب بر آن غالب است)؛ css بعد از قالب (برای اجزای خاص همان سند)
+// sourceCss پیش از سبک قالب می‌آید (قالب بر آن غالب است)، css بعد از قالب (برای اجزای خاص همان سند)
 export function docShell({ kind, title, meta = [], body, css = "", sourceCss = "", note }: { kind: string; title: string; meta?: string[]; body: string; css?: string; sourceCss?: string; note?: string }) {
   const date = today();
   return `<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(kind)} | ${esc(title)}</title><style>${fontImport}${sourceCss.replace(/@import[^;]+;/g, "")}${docCss}${css}</style></head><body><div class="sheet">
@@ -57,7 +57,7 @@ export function docShell({ kind, title, meta = [], body, css = "", sourceCss = "
 </div></body></html>`;
 }
 
-/** خروجی HTML خدمات نسخه مرجع را در همین قالب می‌گذارد؛ متن و داده‌های سند دست نمی‌خورد */
+/** خروجی HTML خدمات نسخه مرجع را در همین قالب می‌گذارد، متن و داده‌های سند دست نمی‌خورد */
 export function wrapLegacyDoc(raw: string, fallbackTitle: string) {
   const doc = new DOMParser().parseFromString(raw, "text/html");
   doc.querySelectorAll("script, .letterhead, .letterhead-foot, header.letterhead").forEach((e) => e.remove());

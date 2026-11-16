@@ -1,5 +1,5 @@
 // منطق صفحه مقایسه: ردیف‌های مقایسه، بهترین مقدار هر ردیف و پاسخ‌های دستیار مقایسه.
-// پاسخ‌ها فقط از داده‌های همین پروژه‌ها ساخته می‌شوند؛ چیزی که در داده نیست، «اعلام نشده» گفته می‌شود.
+// پاسخ‌ها فقط از داده‌های همین پروژه‌ها ساخته می‌شوند، چیزی که در داده نیست، «اعلام نشده» گفته می‌شود.
 import { routes } from "@/data/routes";
 import { listings } from "@/lib/listings";
 import { legalLabel, faNumber, riskLabel } from "@/lib/utils";
@@ -9,7 +9,7 @@ import type { Listing, Opportunity } from "@/types";
 export const COMPARE_MAX = 4;
 export const COMPARE_MIN = 2;
 
-/** رنگ هویت هر پروژه در صفحه مقایسه (به ترتیب ثابت؛ با ابزار سنجش رنگ برای کوررنگی بررسی شده) */
+/** رنگ هویت هر پروژه در صفحه مقایسه (به ترتیب ثابت، با ابزار سنجش رنگ برای کوررنگی بررسی شده) */
 export const SERIES = ["#1e3a8a", "#0d9488", "#7c3aed", "#db2777"] as const;
 
 export const compareListings = listings.filter((l) => l.kind === "project");
@@ -67,7 +67,7 @@ export const rows: Row[] = [
   { id: "expert", group: "project", label: "کارشناس", better: null, num: () => null, text: (o) => (o.expert ? o.expert.name : o.guideFileUrl ? "فایل راهنما" : null) },
 ];
 
-/** اندیس پروژه‌هایی که در یک ردیف بهترین‌اند؛ اگر همه برابر باشند یا کمتر از دو مقدار باشد، هیچ */
+/** اندیس پروژه‌هایی که در یک ردیف بهترین‌اند، اگر همه برابر باشند یا کمتر از دو مقدار باشد، هیچ */
 export function bestOf(row: Row, items: Listing[]): number[] {
   if (!row.better) return [];
   const vals = items.map((l) => row.num(oppOf(l)));
@@ -105,7 +105,7 @@ export function completeness(l: Listing) {
 export type Cite = { i: number; note?: string };
 export interface Answer {
   text: string;
-  /** ردیف‌هایی از جدول که پاسخ به آن‌ها تکیه دارد؛ با کلیک در جدول برجسته می‌شوند */
+  /** ردیف‌هایی از جدول که پاسخ به آن‌ها تکیه دارد، با کلیک در جدول برجسته می‌شوند */
   rows: string[];
   /** پروژه‌هایی که پاسخ به نفعشان است یا به آن‌ها اشاره می‌کند */
   cites: Cite[];
@@ -131,7 +131,7 @@ const name = (items: Listing[], i: number) => `«${items[i].title}»`;
 const list = (xs: string[]) => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join("، ")} و ${xs.at(-1)}`);
 const faToEn = (s: string) => s.replace(/[۰-۹]/g, (d) => String("۰۱۲۳۴۵۶۷۸۹".indexOf(d))).replace(/[٠-٩]/g, (d) => String("٠١٢٣٤٥٦٧٨٩".indexOf(d)));
 
-/** ترتیب پروژه‌ها بر اساس یک ردیف عددی؛ نامعلوم‌ها آخر */
+/** ترتیب پروژه‌ها بر اساس یک ردیف عددی، نامعلوم‌ها آخر */
 function order(items: Listing[], id: string, dir: "low" | "high" = "low") {
   const r = rows.find((x) => x.id === id)!;
   const known = items.map((l, i) => ({ i, v: r.num(oppOf(l)) })).filter((x) => x.v != null) as { i: number; v: number }[];
@@ -142,7 +142,7 @@ function order(items: Listing[], id: string, dir: "low" | "high" = "low") {
 
 function unknownNote(items: Listing[], unknown: number[], what: string) {
   if (!unknown.length) return "";
-  return ` برای ${list(unknown.map((i) => name(items, i)))} ${what} اعلام نشده است؛ پیش از تصمیم از کارشناس پروژه بپرسید.`;
+  return ` برای ${list(unknown.map((i) => name(items, i)))} ${what} اعلام نشده است، پیش از تصمیم از کارشناس پروژه بپرسید.`;
 }
 
 function byRow(items: Listing[], id: string, what: string, fmt: (v: number) => string, intro: (best: string) => string, next: string[]): Answer {
@@ -162,7 +162,7 @@ function overview(items: Listing[]): Answer {
   const st = strengths(items);
   const parts = items.map((_, i) => (st[i].length ? `${name(items, i)}: ${st[i].slice(0, 2).join(" و ")}` : null)).filter(Boolean) as string[];
   const same = rows.filter((r) => !differs(r, items) && items.some((l) => r.text(oppOf(l), l))).map((r) => r.label);
-  let text = parts.length ? `خلاصه‌اش این است: ${parts.join("؛ ")}.` : "در داده‌های اعلام‌شده، هیچ‌کدام در ردیف‌های عددی برتری روشنی ندارند.";
+  let text = parts.length ? `خلاصه‌اش این است: ${parts.join("، ")}.` : "در داده‌های اعلام‌شده، هیچ‌کدام در ردیف‌های عددی برتری روشنی ندارند.";
   if (diff.length) text += ` بیشترین تفاوت در ${list(diff.slice(0, 3).map((r) => `«${r.label}»`))} است.`;
   if (same.length) text += ` در ${list(same.slice(0, 2).map((x) => `«${x}»`))} همه یکسان‌اند، پس این‌ها در انتخاب شما نقشی ندارند.`;
   return { text, rows: diff.slice(0, 3).map((r) => r.id), cites: st.flatMap((s, i) => (s.length ? [{ i }] : [])), next: ["کدام را پیشنهاد می‌کنی؟", "اگر کار بد پیش برود چه می‌شود؟"] };
@@ -191,9 +191,9 @@ function risk(items: Listing[]): Answer {
     if (rest.length) text += ` ریسک ${list(rest.map((k) => `${name(items, k.i)} ${riskLabel[oppOf(items[k.i]).risk]}`))} است.`;
   } else text = "سطح ریسک هیچ‌کدام از این پروژه‌ها هنوز ارزیابی نشده است.";
   if (unknown.length && known.length) text += ` ریسک ${list(unknown.map((i) => name(items, i)))} هنوز ارزیابی نشده است.`;
-  if (legal.size === 1) text += ` وضعیت حقوقی همه «${legalLabel[[...legal][0]] ?? [...legal][0]}» است؛ یعنی پیش از هر تعهدی سند، مجوز و قرارداد باید بررسی شود.`;
+  if (legal.size === 1) text += ` وضعیت حقوقی همه «${legalLabel[[...legal][0]] ?? [...legal][0]}» است، یعنی پیش از هر تعهدی سند، مجوز و قرارداد باید بررسی شود.`;
   const d = order(items, "downside").known;
-  if (d.length) text += ` در حالت بدبینانه، ${name(items, d[0].i)} با ${faNumber(d[0].v)} سال کمترین تأخیر را دارد.`;
+  if (d.length) text += ` در حالت بدبینانه، ${name(items, d[0].i)} با ${faNumber(d[0].v)} سال کمترین تاخیر را دارد.`;
   return { text, rows: ["risk", "legal", "downside"], cites: known.filter((k) => k.v === known[0]?.v).map((k) => ({ i: k.i })), next: ["اگر کار بد پیش برود چه می‌شود؟", "کدام را پیشنهاد می‌کنی؟"] };
 }
 
@@ -205,7 +205,7 @@ function downside(items: Listing[]): Answer {
     return `${name(items, i)} از ${faNumber(o.paybackYears)} به ${faNumber(o.paybackDownsideYears)} سال می‌رسد${gap > 0 ? ` (${faNumber(gap)} سال دیرتر)` : ""}`;
   });
   const cautions = [...new Set(items.map((l) => oppOf(l).caution).filter(Boolean))];
-  let text = `اگر درآمد یا اجرا عقب بیفتد، بازگشت سرمایه این‌طور جابه‌جا می‌شود: ${parts.join("؛ ")}.`;
+  let text = `اگر درآمد یا اجرا عقب بیفتد، بازگشت سرمایه این‌طور جابه‌جا می‌شود: ${parts.join("، ")}.`;
   if (cautions.length === 1) text += ` نکته احتیاطی که برای همه آمده: ${cautions[0]}`;
   const gaps = items.map((l) => { const o = oppOf(l); return o.paybackYears != null && o.paybackDownsideYears != null ? o.paybackDownsideYears - o.paybackYears : null; });
   const kg = gaps.filter((g): g is number => g != null);
@@ -223,7 +223,7 @@ function recommend(items: Listing[], priority?: string): Answer {
   const st = strengths(items)[top.i].filter((s) => s !== { payback: "زودترین بازگشت", risk: "ریسک کمتر", min: "کمترین مبلغ ورود", first: "زودترین درآمد" }[key]);
   let text = `با اولویت «${priority}»، ${name(items, top.i)} جلوتر است.`;
   if (st.length) text += ` این پروژه در ${list(st.map((s) => `«${s}»`))} هم بهترین است.`;
-  if (o.risk === "unknown") text += " اما ریسکش هنوز ارزیابی نشده؛ این را در اولین تماس با کارشناس بپرسید.";
+  if (o.risk === "unknown") text += " اما ریسکش هنوز ارزیابی نشده، این را در اولین تماس با کارشناس بپرسید.";
   if (known.length > 1) text += ` گزینه دوم ${name(items, known[1].i)} است.`;
   text += unknownNote(items, unknown, rows.find((r) => r.id === key)!.label);
   return { text, rows: [key], cites: [{ i: top.i }], next: ["اگر کار بد پیش برود چه می‌شود؟", "کدام ریسک کمتری دارد؟"], choices: priorities.filter((p) => p !== priority) };
@@ -240,14 +240,14 @@ export function answer(q: string, items: Listing[]): Answer {
     if (cap) return afford(items, +cap[1]);
     return byRow(items, "min", "حداقل مبلغ ورود", (v) => `${faNumber(v)} میلیارد تومان`, (b) => `کمترین مبلغ ورود را ${b} دارد،`, ["با ۳۰ میلیارد تومان کدام در دسترس است؟"]);
   }
-  if (/بدبینان|بد پیش|ضرر|شکست|تاخیر|تأخیر|خطر بد/.test(t)) return downside(items);
+  if (/بدبینان|بد پیش|ضرر|شکست|تاخیر|تاخیر|خطر بد/.test(t)) return downside(items);
   if (/ریسک|امن|مطمئن|خطر|حقوقی|مجوز|سند/.test(t)) return risk(items);
   if (/پیشنهاد|کدوم بهتر|کدام بهتر|بهترین|انتخاب کنم|توصیه/.test(t)) return recommend(items);
   if (/درآمد|سود|دریافت|ماهانه|اجاره/.test(t)) return byRow(items, "first", "زمان اولین درآمد", (v) => `${fmtM(v)} پس از ورود`, (b) => `زودترین درآمد را ${b} می‌دهد،`, ["کدام زودتر سرمایه‌ام را برمی‌گرداند؟", "کدام ریسک کمتری دارد؟"]);
   if (/قفل|بیرون بکشم|خارج|نقد/.test(t)) return byRow(items, "lock", "قفل سرمایه", (v) => months(v)!, (b) => `کوتاه‌ترین قفل سرمایه را ${b} دارد،`, ["کدام زودتر درآمد می‌دهد؟"]);
   if (/برمی ?گرد|بازگشت|زودتر|سریع/.test(t)) return byRow(items, "payback", "دوره بازگشت", fmtY, (b) => `زودتر از همه ${b} سرمایه را برمی‌گرداند،`, ["اگر کار بد پیش برود چه می‌شود؟", "کدام زودتر درآمد می‌دهد؟"]);
   if (/کجا|استان|شهر|محل/.test(t)) {
-    const text = items.map((l, i) => `${name(items, i)} در ${oppOf(l).province}، ${oppOf(l).city}`).join("؛ ") + ".";
+    const text = items.map((l, i) => `${name(items, i)} در ${oppOf(l).province}، ${oppOf(l).city}`).join("، ") + ".";
     return { text, rows: ["place"], cites: [], next: ["تفاوت اصلی این پروژه‌ها چیست؟"] };
   }
   if (/تفاوت|فرق|مقایسه|خلاصه/.test(t)) return overview(items);

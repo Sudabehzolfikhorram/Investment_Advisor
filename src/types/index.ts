@@ -64,7 +64,7 @@ export interface Opportunity {
   /** صاحب پروژه: public | private */
   owner?: string | null;
   metric: { label: string; unit: string; value: number } | null;
-  /** کارشناس پروژه؛ اگر نباشد فایل راهنما نمایش داده می‌شود */
+  /** کارشناس پروژه، اگر نباشد فایل راهنما نمایش داده می‌شود */
   expert: Expert | null;
   guideFileUrl: string | null;
   publishedAt: string;
@@ -130,7 +130,7 @@ export interface FieldDef {
 
 export type FilterValue = string | number | boolean | string[] | [number, number] | undefined;
 
-/** شرایط واردشده توسط کاربر؛ همان چیزی که به‌عنوان «شرایط ذخیره‌شده» نگه داشته می‌شود */
+/** شرایط واردشده توسط کاربر، همان چیزی که به‌عنوان «شرایط ذخیره‌شده» نگه داشته می‌شود */
 export interface SearchCriteria {
   route: RouteId;
   groups: string[];

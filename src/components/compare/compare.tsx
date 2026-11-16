@@ -58,7 +58,7 @@ function AddSlot({ onClick, big }: { onClick: () => void; big?: boolean }) {
   );
 }
 
-/** حالت خالی: بدون چهار کارت خالی؛ یک پیام کوتاه «تا چهار پروژه» با راه‌های سریع، و زیرش انتخاب پروژه روی همین صفحه */
+/** حالت خالی: بدون چهار کارت خالی، یک پیام کوتاه «تا چهار پروژه» با راه‌های سریع، و زیرش انتخاب پروژه روی همین صفحه */
 function EmptyHero({ items }: { items: Listing[] }) {
   const { saved, criteria, setCompare, toggleCompare } = useStore();
   const fav = compareListings.filter((l) => saved.includes(l.id)).map((l) => l.id);
@@ -83,7 +83,7 @@ function EmptyHero({ items }: { items: Listing[] }) {
         <div className="min-w-0 flex-1">
           <h2 className="text-[1.45rem] font-black leading-[1.6] text-ink">تا چهار پروژه را کنار هم مقایسه کنید</h2>
           <p className="mt-1 max-w-2xl text-[13.5px] font-semibold leading-7 text-muted-foreground">
-            {items.length === 1 ? <>«{items[0].title}» انتخاب شده؛ یک پروژه دیگر کافی است تا مقایسه شروع شود.</> : "دست‌کم دو پروژه انتخاب کنید؛ مبلغ ورود، بازده، زمان بازگشت و ریسکشان روی نمودار کنار هم می‌آید و دستیار کنار صفحه به پرسش‌هایتان جواب می‌دهد."}
+            {items.length === 1 ? <>«{items[0].title}» انتخاب شده، یک پروژه دیگر کافی است تا مقایسه شروع شود.</> : "دست‌کم دو پروژه انتخاب کنید، مبلغ ورود، بازده، زمان بازگشت و ریسکشان روی نمودار کنار هم می‌آید و دستیار کنار صفحه به پرسش‌هایتان جواب می‌دهد."}
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-2">
             <span className="ml-1 text-[12.5px] font-bold text-ink/70">شروع سریع:</span>
@@ -139,7 +139,7 @@ export function Compare() {
     requestAnimationFrame(() => ids.map((id) => document.getElementById(`row-${id}`)).find(Boolean)?.scrollIntoView({ behavior: "smooth", block: "center" }));
   };
 
-  // ردیفی که برای هیچ‌کدام اعلام نشده فقط شلوغی می‌سازد؛ نامش پایین جدول می‌آید
+  // ردیفی که برای هیچ‌کدام اعلام نشده فقط شلوغی می‌سازد، نامش پایین جدول می‌آید
   const known = rows.filter((r) => items.some((l) => r.text(oppOf(l), l)));
   const empty = rows.filter((r) => !known.includes(r));
   const visible = known.filter((r) => !onlyDiff || differs(r, items));
@@ -148,7 +148,7 @@ export function Compare() {
   return (
     <TooltipProvider delayDuration={150}>
       <Header />
-      <main className="mx-auto max-w-[90rem] px-6 pt-10">
+      <main className="focus-blur mx-auto max-w-[90rem] px-6 pt-10">
         <div className="flex items-end justify-between gap-6">
           <div>
             <p className="flex items-center gap-2 text-[13px] font-extrabold text-cobalt"><Convertshape2 size={17} variant="Bold" />مقایسه پروژه‌ها</p>
@@ -164,7 +164,7 @@ export function Compare() {
           )}
         </div>
 
-        {/* دو ستون: دستیار سمت راست، ثابت هنگام پیمایش؛ مقایسه در ستون اصلی */}
+        {/* دو ستون: دستیار سمت راست، ثابت هنگام پیمایش، مقایسه در ستون اصلی */}
         <div className="mt-7 grid grid-cols-[23rem_minmax(0,1fr)] items-start gap-7">
           <aside className="sticky top-24 h-[calc(100dvh-7.5rem)] min-h-[32rem]">
             {hydrated && <CompareChat items={items} onShowRows={showRows} className="h-full" />}
@@ -219,7 +219,7 @@ export function Compare() {
               <section className="surface mt-4 rounded-[1.75rem] p-6">
                 <div className="mb-5">
                   <h2 className="flex items-center gap-2 text-[1.15rem] font-black text-ink"><Chart size={20} variant="Bulk" className="text-cobalt" />مقایسه روی نمودار</h2>
-                  <p className="mt-1 text-[13px] font-semibold text-muted-foreground">هر رنگ یک پروژه است؛ نشان جایزه یعنی بهترین مقدار همان شاخص.</p>
+                  <p className="mt-1 text-[13px] font-semibold text-muted-foreground">هر رنگ یک پروژه است، نشان جایزه یعنی بهترین مقدار همان شاخص.</p>
                 </div>
                 <MetricCharts items={items} />
               </section>
@@ -228,7 +228,7 @@ export function Compare() {
               <section className="surface mt-4 rounded-[1.75rem] p-6">
                 <div className="mb-5">
                   <h2 className="flex items-center gap-2 text-[1.15rem] font-black text-ink"><Chart size={20} variant="Bulk" className="text-cobalt" />سرمایه شما کی برمی‌گردد؟</h2>
-                  <p className="mt-1 text-[13px] font-semibold text-muted-foreground">درصد سرمایه‌ای که در هر زمان به شما برگشته است؛ نشانگر را روی نمودار نگه دارید.</p>
+                  <p className="mt-1 text-[13px] font-semibold text-muted-foreground">درصد سرمایه‌ای که در هر زمان به شما برگشته است، نشانگر را روی نمودار نگه دارید.</p>
                 </div>
                 <ReturnTimeline items={items} />
               </section>

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
  * امضای تصویری ثابت روی همه عکس‌ها: عکس با رنگ طبیعی، سایه خنثی در پایین برای خوانایی،
  * تکه‌ای کم‌رنگ از پترن نود–خط–نقطه در گوشه و نشان الگونت در بالا.
  */
-// srcs: چند عکس روی هم؛ عکسِ شماره active با محو شدن نرم نمایش داده می‌شود (حالت چندعکسی)
+// srcs: چند عکس روی هم، عکسِ شماره active با محو شدن نرم نمایش داده می‌شود (حالت چندعکسی)
 export function SignaturePhoto({ src, srcs, active = 0, alt, className, priority, sizes = "33vw", mark = true, children }: { src: string; mark?: boolean; srcs?: string[]; active?: number; alt: string; className?: string; priority?: boolean; sizes?: string; children?: React.ReactNode }) {
   const layers = srcs?.length ? srcs : [src];
   return (

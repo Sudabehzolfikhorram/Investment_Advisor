@@ -1,7 +1,7 @@
 "use client";
-// سه ایده هیرو برای انتخاب. نقشه در هر سه ثابت می‌ماند؛ بخش محتوا هر بار یک ایده است:
-// ۱. قطب‌نما: یک جمله کوتاه و یک جای نوشتن، نقشه داخل حلقه قطب‌نما (هم‌ریشه با نام «سرمایه‌نما»)
-// ۲. جمله زنده: سه جای خالی بدون تایپ؛ نقشه و شمار پروژه‌ها همان لحظه به‌روز می‌شوند
+// سه ایده هیرو برای انتخاب. نقشه در هر سه ثابت می‌ماند، بخش محتوا هر بار یک ایده است:
+// ۱. قطب‌نما: یک جمله کوتاه و یک جای نوشتن، نقشه داخل حلقه قطب‌نما (هم‌ریشه با نام «سرمایه‌گزین»)
+// ۲. جمله زنده: سه جای خالی بدون تایپ، نقشه و شمار پروژه‌ها همان لحظه به‌روز می‌شوند
 // ۳. پرونده شفاف: کارت پروژه‌ها با ریسک، وضعیت حقوقی و کارشناس، هم‌گام با نقطه روی نقشه
 import Image from "next/image";
 import Link from "next/link";
@@ -30,7 +30,7 @@ import type { Opportunity } from "@/types";
 /* ───────── پوسته مشترک ───────── */
 function Shell({ children, map }: { children: React.ReactNode; map: React.ReactNode }) {
   return (
-    <section className="relative isolate overflow-hidden pb-6">
+    <section className="focus-blur relative isolate overflow-hidden pb-6">
       <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(45%_55%_at_88%_0%,rgb(59_110_180/0.07),transparent),linear-gradient(to_bottom,#ffffff,var(--background))]" />
       <AlgoPattern animated className="-top-10 right-0 -z-10 h-[30rem] w-[44rem] text-ink/[0.07]" fade="radial" />
       <Header />
@@ -104,7 +104,7 @@ export function HeroCompass() {
           </svg>
         </span>{" "}ببرید.
       </h1>
-      <p className="mt-5 max-w-lg text-[17px] leading-9 text-ink/65">بگویید چه می‌خواهید؛ پروژه‌های هم‌خوان را با درصد تطابق نشانتان می‌دهیم.</p>
+      <p className="mt-5 max-w-lg text-[17px] leading-9 text-ink/65">بگویید چه می‌خواهید، پروژه‌های هم‌خوان را با درصد تطابق نشانتان می‌دهیم.</p>
       <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) ask(prompt); }} className="surface mt-8 flex items-center gap-2 rounded-full p-2 pr-7 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.12),0_24px_50px_-30px_rgb(22_32_48/0.3)]">
         <span className="relative min-w-0 flex-1">
           <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} aria-label="شرایط شما برای دستیار" className="h-14 rounded-none border-0 !bg-transparent px-0 text-[15px] font-semibold text-ink shadow-none focus-visible:ring-0 md:text-[15px]" />

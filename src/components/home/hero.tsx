@@ -1,6 +1,6 @@
 "use client";
 // هیرو: پیش‌فرض «از دستیار بپرس». حالت دوم یک جمله است که فقط دسته‌بندی اصلی در آن انتخاب می‌شود.
-// نقشه نقطه‌ای ایران انتخاب‌گر نیست؛ کارت پروژه‌های تازه روی آن می‌آیند و می‌روند.
+// نقشه نقطه‌ای ایران انتخاب‌گر نیست، کارت پروژه‌های تازه روی آن می‌آیند و می‌روند.
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -97,7 +97,7 @@ function useFeed() {
   return items;
 }
 
-/** نقشه هیرو. active استان‌های انتخاب‌شده را پررنگ می‌کند؛ focus به‌جای کارت‌های چرخان فقط یک پروژه را نشان می‌دهد. */
+/** نقشه هیرو. active استان‌های انتخاب‌شده را پررنگ می‌کند، focus به‌جای کارت‌های چرخان فقط یک پروژه را نشان می‌دهد. */
 export function MapScene({ active = [], focus, caption = "تازه‌ترین پروژه‌ها از سراسر ایران" }: { active?: string[]; focus?: string; caption?: string }) {
   const points = useMemo(cityPoints, []);
   const all = useFeed();
@@ -162,7 +162,7 @@ export function Hero() {
             </div>
 
             <TabsContent value="assistant" className="space-y-6">
-              <h1 className="text-5xl font-black leading-[1.4] tracking-tight text-ink text-balance">بگویید چه می‌خواهید؛ <span className="text-primary">نزدیک‌ترین پروژه‌ها</span> را با درصد تطابق نشانتان می‌دهیم.</h1>
+              <h1 className="text-5xl font-black leading-[1.4] tracking-tight text-ink text-balance">بگویید چه می‌خواهید، <span className="text-primary">نزدیک‌ترین پروژه‌ها</span> را با درصد تطابق نشانتان می‌دهیم.</h1>
               <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) go(prompt); }} className="surface flex items-center gap-2 rounded-full p-2 pr-7 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.12),0_24px_50px_-30px_rgb(22_32_48/0.3)]">
                 <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="۳۰ میلیارد دارم، پروژه مسکونی در تهران می‌خواهم…" aria-label="توضیح شرایط برای دستیار" className="h-14 min-w-0 flex-1 rounded-none border-0 !bg-transparent px-0 text-base font-semibold text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
                 <Button type="submit" variant="plain" size="auto" className="group h-14 shrink-0 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_14px_30px_-14px_rgb(20_30_45/0.6)] hover:bg-deep">پیدا کن <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
@@ -179,7 +179,7 @@ export function Hero() {
                   دیدن {hydrated ? faNumber(count) : "…"} پروژه
                   <span className="grid size-11 place-items-center rounded-full bg-white/15 transition-transform group-hover:-translate-x-1"><ArrowLeft size={20} /></span>
                 </Button>
-                <p className="max-w-60 text-[13px] leading-6 text-muted-foreground">فقط محدوده و بودجه را می‌پرسیم؛ بعد پروژه‌ها جلوی شماست.</p>
+                <p className="max-w-60 text-[13px] leading-6 text-muted-foreground">فقط محدوده و بودجه را می‌پرسیم، بعد پروژه‌ها جلوی شماست.</p>
               </div>
             </TabsContent>
           </Tabs>

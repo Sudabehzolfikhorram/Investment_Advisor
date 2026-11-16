@@ -83,7 +83,7 @@ const isCheck = (n: N) => n.tag === "label" && (() => { const c = controlsIn(n);
 /** برچسب فیلد: واژه «اختیاری» و ستاره متن برداشته می‌شود و ضروری بودن جدا برمی‌گردد */
 function fieldLabel(raw: string, c: N) {
   const optional = /اختیاری/.test(raw) || /اختیاری|خالی بگذارید/.test(c.attr.placeholder ?? "");
-  const text = raw.replace(/[\s،,(]*اختیاری\)?/g, "").replace(/\s*\*\s*/g, "").trim().replace(/[؛;،,:]+$/u, "");
+  const text = raw.replace(/[\s،,(]*اختیاری\)?/g, "").replace(/\s*\*\s*/g, "").trim().replace(/[،;،,:]+$/u, "");
   const required = !optional && (c.attr.required != null || /\*/.test(raw) || (c.tag === "select" && !c.attr.multiple && !!c.options?.some((o) => !o.value)));
   return { text, required };
 }
@@ -113,7 +113,7 @@ const isQuestion = (t: string) => /^[۰-۹0-9]+[.)]\s*\S/u.test(t);
 const isControl = (n: N) => n.tag === "input" || n.tag === "select" || n.tag === "textarea";
 const clean = (s: string) => s.replace(/^\s*[←→↓↑]\s*/u, "").replace(/\s*[←→↓↑×]\s*$/u, "").replace(/\s*[—–]\s*/g, "، ").trim();
 
-/** بخش‌بندی فیلدهای یک فرم (فقط نمایش؛ فیلدها همان فیلدهای نسخه مرجع‌اند) */
+/** بخش‌بندی فیلدهای یک فرم (فقط نمایش، فیلدها همان فیلدهای نسخه مرجع‌اند) */
 export type ToolSection = { title: string; fields: string[]; optional?: boolean };
 
 export function LegacyTool({ opener, root, sections }: { opener: string; root: string; sections?: ToolSection[] }) {
@@ -203,13 +203,13 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
     return n.kids.map((k, i) => i === first ? <MultiDrop key={`${n.key}/multi`} items={checks.map((l) => { const c = controlsIn(l)[0]; const strong = find(l, (x) => x.tag === "strong"); const small = find(l, (x) => x.tag === "small");
       return { key: c.key, checked: !!c.checked, disabled: !!c.disabled, title: clean(strong ? textOf(strong) : textOf(l)), hint: small ? clean(textOf(small)) : undefined }; })} single={checks.every((l) => controlsIn(l)[0].attr.type === "radio")} onToggle={(key) => fire(key, "click")} /> : isCheck(k) ? null : render(k));
   };
-  // دو تکه متن کنار هم (مثل «<b>۱۰۸</b><span>رکورد</span>») در نسخه مرجع با CSS جدا می‌شدند؛ این‌جا یک فاصله می‌گیرند
+  // دو تکه متن کنار هم (مثل «<b>۱۰۸</b><span>رکورد</span>») در نسخه مرجع با CSS جدا می‌شدند، این‌جا یک فاصله می‌گیرند
   const gapBetween = (a: N, b: N) => {
     if (a.tag === "#text" && b.tag === "#text") return false;
     if (["small", "br", "input", "select", "button"].includes(a.tag) || ["small", "br", "input", "select", "button"].includes(b.tag)) return false;
     const at = a.tag === "#text" ? a.text ?? "" : textOf(a), bt = b.tag === "#text" ? b.text ?? "" : textOf(b);
     if (!at.trim() || !bt.trim()) return false;
-    return !/[\s\u200c(«[]$/.test(at) && !/^[\s\u200c،؛:.!؟?)»\]٪%]/.test(bt);
+    return !/[\s\u200c(«[]$/.test(at) && !/^[\s\u200c،،:.!؟?)»\]٪%]/.test(bt);
   };
   const inline = (n: N): React.ReactNode => n.kids.map((k, i) => <Fragment key={k.key}>{i > 0 && gapBetween(n.kids[i - 1], k) && " "}{inlineOne(k)}</Fragment>);
   const inlineOne = (k: N): React.ReactNode => (
@@ -253,10 +253,10 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
         </div>
         {groups.map((g, i) => { const list = infos[i].filter((x) => !req.length || x.f.required); const d = list.filter((x) => x.f.answered).length;
           return (
-            <section key={i} data-sec={`${key}|${i}`} className="scroll-mt-48 rounded-[1.75rem] border border-border/80 bg-[#f8faf9] p-6">
-              <header className="mb-5 flex items-center gap-3 border-b border-border/70 pb-4">
-                <span className="grid size-8 shrink-0 place-items-center rounded-full bg-pine text-[13px] font-black text-white">{faNumber(i + 1)}</span>
-                <h4 className="text-base font-extrabold text-ink">{g.title ?? `بخش ${faNumber(i + 1)} از ${faNumber(groups.length)}`}</h4>
+            // بخش‌ها بدون زمینه و شماره: فقط عنوان (اگر دارد) و یک خط جداکننده
+            <section key={i} data-sec={`${key}|${i}`} className={cn("scroll-mt-48", i > 0 && "border-t border-border pt-6")}>
+              <header className="mb-5 flex min-h-7 items-center gap-3">
+                {g.title && <h4 className="text-base font-extrabold text-ink">{g.title}</h4>}
                 {(g.optional || (req.length > 0 && !list.length)) && <span className="rounded-full bg-muted px-2.5 py-0.5 text-[11px] font-bold text-muted-foreground">اختیاری</span>}
                 {list.length > 0 && <span className={cn("mr-auto flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold", d === list.length ? "bg-ink/[0.06] text-primary" : "bg-white text-muted-foreground ring-1 ring-border")}>{d === list.length ? <><TickCircle size={13} variant="Bold" />کامل</> : `${faNumber(list.length - d)} پرسش مانده`}</span>}
               </header>
@@ -264,12 +264,12 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
             </section>); })}
       </div>);
   };
-  /** تقسیم فیلدها: با عنوان‌های میانی نسخه مرجع؛ اگر عنوانی نبود، هر چهار پرسش یک بخش */
+  /** تقسیم فیلدها: با عنوان‌های میانی نسخه مرجع، اگر عنوانی نبود، هر چهار پرسش یک بخش */
   const splitGroups = (items: N[]): Group[] => {
     const gs: Group[] = [{ items: [] }];
     for (const k of items) {
       const t = clean(textOf(k));
-      if ((k.tag === "h3" || k.tag === "h4" || k.tag === "legend" || has(k, "ma-section-title")) && t && !isQuestion(t)) { gs.push({ title: t.replace(/[؛;،,]?\s*اختیاری$/u, ""), optional: /اختیاری$/u.test(t), items: [] }); continue; }
+      if ((k.tag === "h3" || k.tag === "h4" || k.tag === "legend" || has(k, "ma-section-title")) && t && !isQuestion(t)) { gs.push({ title: t.replace(/[،;،,]?\s*اختیاری$/u, ""), optional: /اختیاری$/u.test(t), items: [] }); continue; }
       gs[gs.length - 1].items.push(k);
     }
     let out = gs.filter((g) => g.items.some(isFieldNode));
@@ -386,7 +386,7 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
         if (c) {
           const lab = n.kids.find((k) => (k.tag === "span" || k.tag === "#text" || k.tag === "label" || k.tag === "strong") && !find(k, isControl) && textOf(k).trim());
           const { text: labText, required } = fieldLabel(lab ? clean(textOf(lab)) : "", c);
-          // فیلد وابسته: تا فیلد قبلی انتخاب نشود گزینه‌ای ندارد؛ غیرفعال می‌ماند و راهنما می‌گیرد
+          // فیلد وابسته: تا فیلد قبلی انتخاب نشود گزینه‌ای ندارد، غیرفعال می‌ماند و راهنما می‌گیرد
           const waiting = c.tag === "select" && !c.attr.multiple && !c.options?.some((o) => o.value);
           const waitHint = waiting ? (() => { const ph = c.options?.find((o) => !o.value)?.label ?? ""; return /ابتدا/.test(ph) ? clean(ph) : lastSelect ? `ابتدا «${lastSelect}» را انتخاب کنید.` : "ابتدا فیلد قبلی را انتخاب کنید."; })() : "";
           if (c.tag === "select" && !waiting) lastSelect = labText;
@@ -406,7 +406,7 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
       }
       case "details": {
         const sum = n.kids.find((k) => k.tag === "summary");
-        // جزئیاتی که عنوانش در این مسیر پنهان است فقط پوشش است؛ محتوا مستقیم می‌آید (نه جعبه‌ای با عنوان «جزئیات»)
+        // جزئیاتی که عنوانش در این مسیر پنهان است فقط پوشش است، محتوا مستقیم می‌آید (نه جعبه‌ای با عنوان «جزئیات»)
         if (!sum) return <div key={n.key} className="flex min-w-0 flex-col gap-5">{kids({ ...n, kids: n.kids })}</div>;
         return (
           <Accordion key={n.key} type="single" collapsible value={n.open ? "x" : ""} onValueChange={(v) => { const el = refs.current.get(n.key) as HTMLDetailsElement | undefined; if (el) { el.open = v === "x"; sync(); } }} className="rounded-2xl border border-border bg-white px-5">
@@ -473,7 +473,7 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
         return <div key={n.key} className={cn(multi && "col-span-full",
           has(n, "actions") ? "col-span-full mt-2 flex flex-row-reverse items-center justify-between gap-3 border-t border-border pt-6" :
           has(n, "ext-actions") || has(n, "lp-order-actions") ? "flex flex-wrap items-center gap-2.5 [&>[data-text]:not([data-text]~[data-text])]:ms-auto" :
-          has(n, "ma-context-links") || has(n, "fi-library-filter") || has(n, "ma-source-links") ? "flex flex-wrap items-center gap-2.5" : grid && !multi ? cn("grid grid-cols-2 gap-x-5 gap-y-5", (has(n, "fi-families") || has(n, "fi-three-parts")) && "grid-cols-3", fields >= 2 && !card && "rounded-[1.75rem] border border-border/80 bg-[#f8faf9] p-6") : cards ? "grid grid-cols-2 gap-4" : "flex min-w-0 flex-col gap-4",
+          has(n, "ma-context-links") || has(n, "fi-library-filter") || has(n, "ma-source-links") ? "flex flex-wrap items-center gap-2.5" : grid && !multi ? cn("grid grid-cols-2 gap-x-5 gap-y-5", (has(n, "fi-families") || has(n, "fi-three-parts")) && "grid-cols-3", fields >= 2 && !card && "") : cards ? "grid grid-cols-2 gap-4" : "flex min-w-0 flex-col gap-4",
           (has(n, "ext-actions") || has(n, "lp-order-actions")) && find(n, (x) => x.tag === "button" && (has(x, "primary") || has(x, "jll-button"))) && "col-span-full mt-2 border-t border-border pt-6",
           card && "rounded-3xl border border-border bg-white p-5", has(n, "full") && "col-span-full", has(n, "ext-actions") && "pt-1", has(n, "lp-services") && "col-span-full")}>{kids(n)}</div>;
       }

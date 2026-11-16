@@ -1,4 +1,4 @@
-// طرح‌واره همه فیلدهای ورودی. هیچ فیلدی از نسخه مرجع حذف نشده؛
+// طرح‌واره همه فیلدهای ورودی. هیچ فیلدی از نسخه مرجع حذف نشده،
 // فقط جای نمایش (placement) و نوع کامپوننت (control) بهتر شده است.
 import type { FieldDef, FieldOption } from "@/types";
 import { usages } from "./provinces";
@@ -58,7 +58,7 @@ export const advancedFields: FieldDef[] = [
   { id: "fundType", label: "نوع صندوق", control: "multi-chips", placement: "advanced", section: "project", routes: ["fund"], hint: "گزینه‌ها از routeSubcategories.fund" },
   { id: "saleCategory", label: "دسته و نوع", control: "multi-chips", placement: "advanced", section: "project", routes: ["buyer"], hint: "گزینه‌ها از routeSubcategories.buyer" },
   { id: "right", label: "نوع حق مورد انتقال", control: "chips", options: rights, placement: "advanced", section: "project", routes: ["buyer", "lessee"] },
-  { id: "occupied", label: "ملک دارای متصرف یا مستأجر", control: "segmented", options: accept, placement: "advanced", section: "project", routes: ["buyer", "lessee"] },
+  { id: "occupied", label: "ملک دارای متصرف یا مستاجر", control: "segmented", options: accept, placement: "advanced", section: "project", routes: ["buyer", "lessee"] },
   { id: "thirdPartyRights", label: "وجود سرقفلی یا حق کسب شخص ثالث", control: "segmented", options: accept, placement: "advanced", section: "project", routes: ["buyer", "lessee"] },
   { id: "leaseType", label: "نوع اجاره", control: "chips", options: o(["any", "فرقی ندارد"], ["one", "کوتاه‌مدت (تا یک سال)"], ["medium", "بلندمدت"], ["rent_to_own", "اجاره به شرط تملیک"]), placement: "advanced", section: "project", routes: ["lessee"] },
   { id: "renewal", label: "شرط تمدید", control: "chips", options: o(["unknown", "نیازمند مذاکره"], ["defined", "شرط تمدید روشن باشد"], ["none", "شرط نیست"]), placement: "advanced", section: "project", routes: ["lessee"], showWhen: { field: "leaseType", in: ["one"] } },
@@ -78,7 +78,7 @@ export const advancedFields: FieldDef[] = [
   // ——— شرایط قرارداد (به‌طور پیش‌فرض بسته)
   { id: "intervention", label: "نوع آورده دولت", control: "chips", options: o(["land", "زمین یا ساختمان"], ["cash", "نقدی"], ["mixed", "نقدی و غیرنقدی"], ["concession", "حق بهره‌برداری"], ["purchase", "خرید خدمت"], ["infrastructure", "زیرساخت"], ["private", "بدون آورده دولت"]), placement: "advanced", section: "contract", routes: ["investor", "heritage"] },
   { id: "shareMin", label: "حداقل سهم شما از مشارکت", control: "slider", unit: "درصد", min: 0, max: 100, step: 5, placement: "advanced", section: "contract", routes: ["investor", "heritage"] },
-  { id: "governmentMin", label: "حداقل سهم دولت در تأمین منابع", control: "slider", unit: "درصد", min: 0, max: 100, step: 5, placement: "advanced", section: "contract", routes: ["contractor"] },
+  { id: "governmentMin", label: "حداقل سهم دولت در تامین منابع", control: "slider", unit: "درصد", min: 0, max: 100, step: 5, placement: "advanced", section: "contract", routes: ["contractor"] },
   { id: "workingCapital", label: "نقدینگی قابل تخصیص به اجرای پیمان", control: "slider", unit: "میلیارد تومان", min: 0, max: 500, step: 1, placement: "advanced", section: "contract", routes: ["contractor"] },
   { id: "executionMin", label: "حداقل مدت اجرا", control: "slider", unit: "ماه", min: 0, max: 120, step: 6, placement: "advanced", section: "contract", routes: ["investor", "heritage", "contractor"] },
   { id: "settlement", label: "نحوه تسویه", control: "chips", options: o(["cash", "نقدی"], ["same", "از همین پروژه"], ["other", "از پروژه دیگر"], ["mixed", "ترکیبی"], ["setoff", "تهاتر"], ["swap", "معاوضه"]), placement: "advanced", section: "contract", routes: ["investor", "heritage", "contractor"] },

@@ -16,7 +16,7 @@ export function matchListing(l: Listing, c: SearchCriteria): MatchResult {
   const arr = (k: string) => (Array.isArray(f[k]) ? (f[k] as string[]) : []);
   const num = (k: string) => (typeof f[k] === "number" ? (f[k] as number) : undefined);
   const str = (k: string) => (typeof f[k] === "string" && f[k] !== "any" && f[k] !== "" ? (f[k] as string) : undefined);
-  /** گزینه تکی؛ اگر چندتایی ذخیره شده باشد اولین مقدار */
+  /** گزینه تکی، اگر چندتایی ذخیره شده باشد اولین مقدار */
   const one = (k: string) => str(k) ?? (arr(k).filter((x) => x !== "any")[0] || undefined);
 
   if (c.amount) add("amount", "مبلغ در بازه شما", tri(l.amount != null, l.amount != null && l.amount >= c.amount[0] && l.amount <= c.amount[1]));

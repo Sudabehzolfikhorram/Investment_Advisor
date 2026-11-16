@@ -49,7 +49,7 @@ export const IranMap = memo(function IranMap({
   );
 });
 
-/** نقشه محل پروژه: کل استان در قاب کوچک؛ شهرستانِ شهر پروژه با رنگ اصلیِ کم‌رنگ پر می‌شود. */
+/** نقشه محل پروژه: کل استان در قاب کوچک، شهرستانِ شهر پروژه با رنگ اصلیِ کم‌رنگ پر می‌شود. */
 export function LocationMap({ city, province, className }: { city: string; province: string; className?: string }) {
   const b = provinceBox[province]; const { counties: all, outline } = useCounties(province); const shape = outline || provincePaths[province];
   if (!b) return null;

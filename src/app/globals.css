@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* سایت فقط حالت روشن دارد؛ حالت تیره سیستم کاربر نباید رنگ فیلدها را خاکستری کند */
+/* سایت فقط حالت روشن دارد، حالت تیره سیستم کاربر نباید رنگ فیلدها را خاکستری کند */
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
@@ -31,8 +31,8 @@
   --pine-soft: #e6ebf2;
   --pine-deep: #1d2228;
   /* رنگ دوم (دور ۲۱): کبالتِ هم‌خانواده سبز. فام ۲۶۱ (کمی سبزتر از اولترامارین)، یک پله تیره‌تر از سبز، اشباع نسبی ۹۳٪ مثل سبز.
-     برای انتخاب، حالت فعال، داده و تأکید. سبز فقط برای دکمه‌ی اصلی. کنتراست با سفید ۶٫۸ */
-  --cobalt: #1e3a8a; /* آبی سایت به خواست کاربر (۲۰۲۶-۱۱-۱۶)؛ تینت و شیدها از همین رنگ */
+     برای انتخاب، حالت فعال، داده و تاکید. سبز فقط برای دکمه‌ی اصلی. کنتراست با سفید ۶٫۸ */
+  --cobalt: #1e3a8a; /* آبی سایت به خواست کاربر (۲۰۲۶-۱۱-۱۶)، تینت و شیدها از همین رنگ */
   --cobalt-deep: #172a63;
   --cobalt-soft: #e8edf7;
   --cobalt-50: #f3f6fb; --cobalt-100: #e8edf7; --cobalt-200: #cdd7ec; --cobalt-300: #a3b4da; --cobalt-400: #6f86bf;
@@ -109,7 +109,7 @@
   * { border-color: var(--border); }
   html { scroll-behavior: smooth; overflow-x: clip; scrollbar-gutter: stable; }
   /* باز شدن دراپ‌داون و پنجره، صفحه را جابه‌جا نمی‌کند: جای اسکرول‌بار ثابت است و جبران حاشیه لازم نیست */
-  /* قفل اسکرول روی html می‌نشیند نه body؛ وگرنه سربرگ چسبان هنگام باز بودن دراپ‌داون از جایش می‌پرد */
+  /* قفل اسکرول روی html می‌نشیند نه body، وگرنه سربرگ چسبان هنگام باز بودن دراپ‌داون از جایش می‌پرد */
   html body[data-scroll-locked] { margin: 0 !important; padding: 0 !important; overflow: visible !important; --removed-body-scroll-bar-size: 0px !important; }
   html:has(body[data-scroll-locked]) { overflow: hidden; }
   * { overflow-anchor: auto; }
@@ -183,3 +183,13 @@
 @media (prefers-reduced-motion: reduce) { .girih-ray { animation: none !important; } }
 .slow-spin { animation: girih-spin 240s linear infinite; }
 @media (prefers-reduced-motion: reduce) { .slow-spin { animation: none !important; } }
+
+/* پشت هر بخش، پترن پس‌زمینه کمی بلر می‌شود تا چشم روی محتوا بماند، لبه‌ها نرم محو می‌شوند */
+.focus-blur { position: relative; }
+.focus-blur::before {
+  content: ""; position: absolute; inset: -2.5rem 0; z-index: -1; pointer-events: none;
+  -webkit-backdrop-filter: blur(2.5px); backdrop-filter: blur(2.5px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 2.5rem, #000 calc(100% - 2.5rem), transparent), linear-gradient(to right, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 2.5rem, #000 calc(100% - 2.5rem), transparent), linear-gradient(to right, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
+}

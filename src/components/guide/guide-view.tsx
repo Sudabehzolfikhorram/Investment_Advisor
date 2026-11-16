@@ -47,7 +47,7 @@ export function GuideView({ id }: { id: string }) {
   }, [hydrated, criteria, kind, checked, l, o]);
 
   const html = useMemo(() => guideHtml(l, ctx), [l, ctx]);
-  // تیک‌ها داخل خود سند زده می‌شوند؛ پیش از هر بازسازی یا دانلود از سند خوانده می‌شوند تا از بین نروند
+  // تیک‌ها داخل خود سند زده می‌شوند، پیش از هر بازسازی یا دانلود از سند خوانده می‌شوند تا از بین نروند
   const ticks = () => Array.from(frame.current?.contentDocument?.querySelectorAll<HTMLInputElement>("input[data-k]:checked") ?? []).map((i) => i.dataset.k!);
   const changeKind = (v: string | undefined) => { setChecked(ticks()); setKind(v); };
   const download = () => {
@@ -60,7 +60,7 @@ export function GuideView({ id }: { id: string }) {
   return (
     <>
       <Header />
-      <main className="mx-auto max-w-7xl px-6 pt-6">
+      <main className="focus-blur mx-auto max-w-7xl px-6 pt-6">
         <Link href={`/opportunities/${l.id}`} className="mb-4 inline-flex items-center gap-2 text-sm font-bold text-ink/70 hover:text-ink"><ArrowRight size={18} />بازگشت به پروژه</Link>
         <div className="grid grid-cols-[minmax(0,1fr)_21rem] items-start gap-5">
           <iframe ref={frame} title="راهنمای اقدام" srcDoc={html} onLoad={() => { const d = frame.current?.contentDocument; if (d) setHeight(d.documentElement.scrollHeight + 8); }}
@@ -85,7 +85,7 @@ export function GuideView({ id }: { id: string }) {
                 <p className="mb-2 text-[13px] font-bold text-ink/80">نوع پیگیری</p>
                 <Dropdown options={followUpKinds} value={kind} onChange={changeKind} />
               </div>
-              <p className="flex items-start gap-2 rounded-2xl bg-ink/[0.05] p-3.5 text-xs font-semibold leading-6 text-ink/80"><TickCircle size={17} variant="Bold" className="mt-0.5 shrink-0 text-primary" />موارد «پیش از اقدام» و «گام‌های اقدام» را در خود راهنما تیک بزنید؛ تیک‌ها در فایل دانلودی و چاپ می‌مانند.</p>
+              <p className="flex items-start gap-2 rounded-2xl bg-ink/[0.05] p-3.5 text-xs font-semibold leading-6 text-ink/80"><TickCircle size={17} variant="Bold" className="mt-0.5 shrink-0 text-primary" />موارد «پیش از اقدام» و «گام‌های اقدام» را در خود راهنما تیک بزنید، تیک‌ها در فایل دانلودی و چاپ می‌مانند.</p>
               <div className="rounded-2xl bg-muted p-3.5 text-xs font-semibold leading-6 text-ink/75">
                 {filled > 0
                   ? <>{faNumber(filled)} مورد از شرایط و پاسخ‌های شما در بخش «شرایط شما» و پرسش‌ها آمده است.</>

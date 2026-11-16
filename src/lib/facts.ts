@@ -1,4 +1,4 @@
-// داده‌های هر پروژه به شکل گروه‌بندی‌شده؛ هم صفحه جزئیات و هم فایل راهنما از همین استفاده می‌کنند.
+// داده‌های هر پروژه به شکل گروه‌بندی‌شده، هم صفحه جزئیات و هم فایل راهنما از همین استفاده می‌کنند.
 // هر مورد خالی با «ثبت نشده» نشان داده می‌شود تا هیچ فیلدی از نسخه مرجع پنهان نماند.
 import { projectGroups } from "@/data/taxonomy";
 import { routes, routeSubcategories } from "@/data/routes";
@@ -67,7 +67,7 @@ export function factGroups(l: Listing): FactGroup[] {
  * حقوق مالکیت و منافع، اعتبار اطلاعات) با همان متن جایگزین برای داده‌های ثبت‌نشده. */
 export interface DossierSection { id: string; title: string; note?: string; rows: [string, string][]; notes?: [string, string][] }
 const tr = (v: string[] | undefined, map: Record<string, string>) => v?.length ? v.map((x) => map[x] ?? x).join("، ") : null;
-const PENDING = "ثبت نشده؛ نیازمند بررسی اسناد";
+const PENDING = "ثبت نشده، نیازمند بررسی اسناد";
 const fill = (rows: [string, Val][], fb = PENDING): [string, string][] => rows.map(([k, v]) => [k, v || fb]);
 
 export function dossier(l: Listing): DossierSection[] {
@@ -78,22 +78,22 @@ export function dossier(l: Listing): DossierSection[] {
     const type = cat?.children?.find((c) => c.id === (s.buildingType ?? s.scrapType))?.name;
     const unit = s.category === "scrap" ? "میلیون تومان" : "میلیارد تومان";
     const common: [string, Val][] = [["دسته دارایی", cat?.name], ["عنوان / شناسه", `${l.title} / ${s.id}`], ["موقعیت", [s.province, s.city, s.neighborhood].filter(Boolean).join("، ")],
-      ["قیمت کل فروش", num(s.price, unit)], ["مبنای قیمت", "کل دارایی / محموله عرضه‌شده"], ["نشانی دقیق / مختصات", "ثبت نشده؛ موقعیت واقعی تأیید نشده است."]];
+      ["قیمت کل فروش", num(s.price, unit)], ["مبنای قیمت", "کل دارایی / محموله عرضه‌شده"], ["نشانی دقیق / مختصات", "ثبت نشده، موقعیت واقعی تایید نشده است."]];
     const rows: [string, Val][] = s.category === "scrap"
-      ? [...common, ["نوع کالا", type], ["مقدار و واحد محموله", s.quantity || "ثبت نشده؛ نیازمند فهرست و توزین"], ["فهرست اقلام و وضعیت فنی", "در شناسنامه تأییدشده و گزارش بازدید ثبت می‌شود."],
-        ["شرایط بازدید، بارگیری و تحویل", "ثبت نشده؛ مسئولیت و هزینه حمل باید مشخص شود."], ["مالک و مجوز فروش / فراخوان", "احراز نشده؛ اسناد عرضه و شرایط فروش دریافت شود."]]
+      ? [...common, ["نوع کالا", type], ["مقدار و واحد محموله", s.quantity || "ثبت نشده، نیازمند فهرست و توزین"], ["فهرست اقلام و وضعیت فنی", "در شناسنامه تاییدشده و گزارش بازدید ثبت می‌شود."],
+        ["شرایط بازدید، بارگیری و تحویل", "ثبت نشده، مسئولیت و هزینه حمل باید مشخص شود."], ["مالک و مجوز فروش / فراخوان", "احراز نشده، اسناد عرضه و شرایط فروش دریافت شود."]]
       : [...common, ...(s.category === "property" ? [["نوع ملک", type], ["موضوع عرضه", s.subject || "کل ملک یا واحد باید مشخص شود"]] as [string, Val][] : []),
         ["کاربری", usages.find((u) => u.value === s.usage)?.label], [`مساحت ${s.category === "land" ? "عرصه" : "بنا / واحد عرضه‌شده"}`, num(s.area, "مترمربع")],
-        ...(s.category === "property" ? [["مساحت عرصه", num(s.landArea, "مترمربع")], ["طبقه، تعداد واحد، پارکینگ و انباری", "در شناسنامه تأییدشده تکمیل می‌شود."]] as [string, Val][] : []),
-        ["پلاک ثبتی، سند و مالک / عرضه‌کننده", "احراز نشده؛ نیازمند اسناد معتبر"], ["حدود، دسترسی و انشعابات", "ثبت نشده؛ از پرونده و بازدید احراز شود."],
-        ["وضعیت تصرف و حقوق اشخاص ثالث", "احراز نشده؛ عین، منافع و حقوق مرتبط جدا بررسی شوند."], ["شرایط پرداخت، هزینه‌ها و زمان تحویل", "در اسناد عرضه مشخص می‌شود؛ این صفحه فقط جست‌وجوست."]];
+        ...(s.category === "property" ? [["مساحت عرصه", num(s.landArea, "مترمربع")], ["طبقه، تعداد واحد، پارکینگ و انباری", "در شناسنامه تاییدشده تکمیل می‌شود."]] as [string, Val][] : []),
+        ["پلاک ثبتی، سند و مالک / عرضه‌کننده", "احراز نشده، نیازمند اسناد معتبر"], ["حدود، دسترسی و انشعابات", "ثبت نشده، از پرونده و بازدید احراز شود."],
+        ["وضعیت تصرف و حقوق اشخاص ثالث", "احراز نشده، عین، منافع و حقوق مرتبط جدا بررسی شوند."], ["شرایط پرداخت، هزینه‌ها و زمان تحویل", "در اسناد عرضه مشخص می‌شود، این صفحه فقط جست‌وجوست."]];
     out.push({ id: "record", title: "شناسنامه مورد فروش", rows: fill(rows, NA) });
   } else {
     const x = l.raw as Opportunity & Fund;
     out.push({ id: "record", title: "مشخصات عمومی و موقعیت", rows: fill([
       ["عنوان / شناسه", `${l.title} / ${l.id}`], ["استان / شهر", l.province ? `${l.province} / ${l.city}` : null], ["محله", null],
       ["کاربری", x.usageLabel || "نیازمند احراز"], ["شرح عمومی", x.description || "شرح رسمی و مشخصات فنی باید از پرونده فرصت دریافت شود."],
-      ["مساحت عرصه / زیربنا", null], ["نشانی / مختصات", "نشانی و مختصات دقیق ثبت نشده؛ موقعیت نقشه‌ای تأیید نشده است."],
+      ["مساحت عرصه / زیربنا", null], ["نشانی / مختصات", "نشانی و مختصات دقیق ثبت نشده، موقعیت نقشه‌ای تایید نشده است."],
     ], NA) });
   }
   if (l.kind === "project") {
@@ -106,7 +106,7 @@ export function dossier(l: Listing): DossierSection[] {
       ["نحوه تسویه سهم", tr(t.partnershipSettlements, T.settlementLabel)], ["شرایط عمومی شریک", t.generalConditions], ["شرایط تخصصی شریک", t.specialConditions],
     ]) });
     if (has("contractor")) out.push({ id: "terms-contractor", title: "شرایط اختصاصی پیمانکاری", rows: fill([
-      ["سهم دولت از منابع تأمین", pct(t.governmentShare)], ["حداقل نقدینگی اجرای پیمان", num(t.workingCapitalMin, "میلیارد تومان")], ["مدت اجرا", num(t.executionMonths ?? o.executionMonths, "ماه")],
+      ["سهم دولت از منابع تامین", pct(t.governmentShare)], ["حداقل نقدینگی اجرای پیمان", num(t.workingCapitalMin, "میلیارد تومان")], ["مدت اجرا", num(t.executionMonths ?? o.executionMonths, "ماه")],
       ["تسویه صورت‌وضعیت", tr(t.contractorSettlements, T.contractorSettlementLabel)], ["تضمین‌های قابل پذیرش", tr(t.acceptedGuarantees, T.guaranteeLabel)],
       ["شرایط عمومی", t.generalConditions], ["شرایط تخصصی", t.specialConditions],
     ]) });
@@ -130,7 +130,7 @@ export function dossier(l: Listing): DossierSection[] {
       out.push({ id: "rights", title: "حقوق مالکیت، منافع و وضعیت کسب", note: T.rightsNote, rows: fill([
         ["موضوع حق واگذارشدنی", r.subject], ["مالک عرصه / مالک اعیان", r.titleParties], ["دارنده منافع / سرقفلی / حق کسب", r.holder],
         ["تاریخ شروع رابطه اولیه و زنجیره انتقال", r.originalLease], ["قانون حاکم و مستند تشخیص", r.regime],
-        ["وضعیت تصرف و زمان تحویل", r.occupancy === "vacant" ? "تخلیه‌شده فرض شده؛ نیازمند احراز" : r.occupancy === "occupied" ? "دارای متصرف؛ وضعیت تحویل نیازمند بررسی" : null],
+        ["وضعیت تصرف و زمان تحویل", r.occupancy === "vacant" ? "تخلیه‌شده فرض شده، نیازمند احراز" : r.occupancy === "occupied" ? "دارای متصرف، وضعیت تحویل نیازمند بررسی" : null],
         ["حق انتقال به غیر / رضایت یا مجوز", r.assignment], ["مبلغ و دلیل پرداخت سرقفلی", r.keyMoney], ["ارزش مستقل حقوق و نظر کارشناس", r.valuation],
         ["کاربری و شغل مجاز / تغییر شغل", r.permittedUse], ["شروط تمدید، افزایش اجاره و تخلیه", r.renewal], ["دعاوی، بازداشت، وثیقه و حقوق ثالث", r.claims],
         ["نوع سند، ثبت و شناسه قرارداد", r.registration], ["هزینه انتقال، بدهی و مسئول پرداخت", r.costs],

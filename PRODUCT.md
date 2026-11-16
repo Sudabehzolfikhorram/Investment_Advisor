@@ -14,7 +14,7 @@ Iranian individuals and organisations who have something to bring to a developme
 
 ## Product Purpose
 
-سرمایه‌نما is an investment advisor. The visitor states a goal, a budget and a few conditions, and the site shows matching projects with a match percentage, explains mismatches and unknowns, and shows the next step (contract model, money source, how returns are received). Success is a visitor who reaches a short, explained list of projects that fit them and knows how to enter one.
+سرمایه‌گزین is an investment advisor. The visitor states a goal, a budget and a few conditions, and the site shows matching projects with a match percentage, explains mismatches and unknowns, and shows the next step (contract model, money source, how returns are received). Success is a visitor who reaches a short, explained list of projects that fit them and knows how to enter one.
 
 ## Positioning
 
@@ -35,7 +35,7 @@ Visitors compare several projects before deciding; they save projects and condit
 
 ## Brand Commitments
 
-- Name «سرمایه‌نما». Persian, right to left. Light mode.
+- Name «سرمایه‌گزین». Persian, right to left. Light mode.
 - Primary #0F766E for main actions. A cobalt secondary carries selection, focus, data and accent.
 - The Algonet identity pattern (nodes, lines, dots; faint, fragmented, masked) and the NodeMark (dot, wave, A, line, ring) before section titles.
 - Real photographs with one consistent dark grey treatment. No gold. Orange only for warnings.

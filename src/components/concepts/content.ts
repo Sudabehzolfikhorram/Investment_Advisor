@@ -1,5 +1,5 @@
 // همه متن و داده لندینگ نسخه مرجع («ALGONET_Investment_Advisor_Demo 13.html») در یک جا.
-// هر سه کانسپت از همین فایل می‌خوانند تا هیچ داده‌ای جا نیفتد؛ فقط شکل نمایش فرق می‌کند.
+// هر سه کانسپت از همین فایل می‌خوانند تا هیچ داده‌ای جا نیفتد، فقط شکل نمایش فرق می‌کند.
 // متن‌ها عیناً از نسخه مرجع است، مگر جایی که نام سایت یا مسیر صفحه لازم بود.
 import type { RouteId } from "@/types";
 import { routes, routeSteps, routeSubcategories, standaloneFlows } from "@/data/routes";
@@ -12,12 +12,12 @@ import { forRoute } from "@/lib/match";
 export const brandLine = "سرمایه‌گذاری، مشارکت و توسعه دارایی";
 
 export const hero = {
-  kicker: "سرمایه، تخصص و دارایی؛ در مسیر خلق ارزش",
+  kicker: "سرمایه، تخصص و دارایی، در مسیر خلق ارزش",
   title: ["در ساختن آینده،", "شریک شوید."],
   sub: "فرصت‌های سرمایه‌گذاری، اجرای پروژه و توسعه دارایی را کشف کنید.",
   primary: { label: "کشف فرصت‌های همکاری", href: "#goals" },
   secondary: { label: "جست‌وجوی مستقیم فرصت‌ها", href: "/opportunities" },
-  imageNote: "تصویر مفهومی و الهام‌بخش؛ معرف پروژه قابل عرضه نیست.",
+  imageNote: "تصویر مفهومی و الهام‌بخش، معرف پروژه قابل عرضه نیست.",
 };
 
 export const heroStories = {
@@ -38,7 +38,7 @@ export const intro = {
 /** میان‌برهای نسخه مرجع (نوار زیر معرفی) */
 export const quickNav = [
   { label: "پرونده فرصت و خدمات تکمیلی", href: "/tools/ma-notice" },
-  { label: "سرمایه‌گذاری و تأمین مالی خارجی", href: "/tools/foreign-investment" },
+  { label: "سرمایه‌گذاری و تامین مالی خارجی", href: "/tools/foreign-investment" },
   { label: "جست‌وجوی مستقیم فرصت‌ها", href: "/opportunities" },
   { label: "راهنمای انتخاب", href: "/assistant" },
   { label: "معرفی طرح", href: "/tools/proposal" },
@@ -51,7 +51,7 @@ export const quickNav = [
 export const intents = [
   { id: "explore", en: "EXPLORE", title: "فرصت موردنظرم را جست‌وجو می‌کنم", text: "مستقیم به نمونه فرصت‌ها، فیلترها و شناسنامه‌ها بروید.", cta: "مشاهده فرصت‌ها", href: "/opportunities" },
   { id: "advise", en: "ADVISE", title: "برای انتخاب مسیر، راهنمایی می‌خواهم", text: "با پاسخ به پرسش‌های مرتبط، مسیر مناسب خود را بررسی کنید.", cta: "شروع راهنما", href: "/assistant" },
-  { id: "introduce", en: "INTRODUCE", title: "برای توسعه طرحم همراه می‌خواهم", text: "طرح خود را معرفی کنید و پیش‌نیازهای تأمین مالی یا همکاری را بشناسید.", cta: "معرفی طرح و نیاز مالی", href: "/tools/proposal" },
+  { id: "introduce", en: "INTRODUCE", title: "برای توسعه طرحم همراه می‌خواهم", text: "طرح خود را معرفی کنید و پیش‌نیازهای تامین مالی یا همکاری را بشناسید.", cta: "معرفی طرح و نیاز مالی", href: "/tools/proposal" },
 ];
 
 /** گام ۱ نسخه مرجع: «هدف ورود» با شرح اول‌شخص هر هدف */
@@ -95,13 +95,13 @@ export const goals: Goal[] = [
     subs: subsOf(r.id), steps: routeSteps[r.id] ?? [], brings: bringOf[r.id] ?? [],
   })),
   ...standaloneFlows.filter((f) => f.id !== "proposal").map((f) => ({
-    id: f.id, name: f.name, fullName: f.id === "foreign-investment" ? "سرمایه‌گذاری و تأمین مالی خارجی" : f.fullName, text: goalText[f.id], href: `/tools/${f.id}`,
+    id: f.id, name: f.name, fullName: f.id === "foreign-investment" ? "سرمایه‌گذاری و تامین مالی خارجی" : f.fullName, text: goalText[f.id], href: `/tools/${f.id}`,
     cta: f.id === "land-preparation" ? "ورود به بخش آماده‌سازی" : "شناخت مسیر و شرایط ورود", count: 0, subs: [], steps: [], brings: bringOf[f.id] ?? [],
   })),
 ];
 
-export const goalsHead = { title: "فرصت‌های سرمایه‌گذاری و همکاری", text: "سرمایه و تخصص شما؛ نقطه آغاز یک همکاری ارزش‌آفرین.", label: "هدف اصلی ورود" };
-export const proposalCta = { text: "طرح یا پروژه‌ای برای معرفی دارید؟ مسیر تأمین مالی و پیش‌نیازهای همکاری را بررسی کنید.", cta: "معرفی طرح", href: "/tools/proposal" };
+export const goalsHead = { title: "فرصت‌های سرمایه‌گذاری و همکاری", text: "سرمایه و تخصص شما، نقطه آغاز یک همکاری ارزش‌آفرین.", label: "هدف اصلی ورود" };
+export const proposalCta = { text: "طرح یا پروژه‌ای برای معرفی دارید؟ مسیر تامین مالی و پیش‌نیازهای همکاری را بررسی کنید.", cta: "معرفی طرح", href: "/tools/proposal" };
 export const noSignup = "بدون ثبت‌نام و اطلاعات تماس";
 /** چهار گام فلوی نسخه مرجع */
 export const flowSteps = ["هدف ورود", "پروژه و محل", "شرایط شما", "بررسی نتیجه"];
@@ -121,7 +121,7 @@ export const directSearch = {
 
 export const stories = [
   { id: "dossier", kicker: "از شناخت فرصت تا تصمیم ورود", title: ["پشت هر دارایی،", "ظرفیتی برای ارزش‌آفرینی است."], text: "موقعیت، کاربری، شرایط همکاری و پیش‌نیازهای هر فرصت را کنار هم ببینید. شناسنامه پروژه به شما کمک می‌کند پرسش‌های درست را پیش از ورود مطرح کنید.", cta: "بررسی شناسنامه فرصت‌ها", href: "/opportunities", image: "/images/hero/construction.jpg" },
-  { id: "heritage", kicker: "فرصتی برای ماندگاری", title: ["به یک بنای ارزشمند،", "فرصت زندگی دوباره بدهید."], text: "از مرمت و احیای خانه‌های تاریخی تا کاربری سازگار و بهره‌برداری مسئولانه؛ مسیر همکاری و شرایط موردنیاز خود را بررسی کنید.", cta: "آشنایی با مسیر مرمت و احیا", route: "heritage" as RouteId, image: "/images/hero/heritage.webp" },
+  { id: "heritage", kicker: "فرصتی برای ماندگاری", title: ["به یک بنای ارزشمند،", "فرصت زندگی دوباره بدهید."], text: "از مرمت و احیای خانه‌های تاریخی تا کاربری سازگار و بهره‌برداری مسئولانه، مسیر همکاری و شرایط موردنیاز خود را بررسی کنید.", cta: "آشنایی با مسیر مرمت و احیا", route: "heritage" as RouteId, image: "/images/hero/heritage.webp" },
 ];
 
 export const knowledge = {
@@ -132,7 +132,7 @@ export const knowledge = {
 
 export const method = [
   { en: "MATCH", title: "تطبیق با نیاز شما", text: "هدف، محل، سرمایه و نیاز زمانی با شرایط فرصت مقایسه می‌شود." },
-  { en: "EXPLAIN", title: "توضیح نتیجه", text: "ناسازگاری‌ها و اطلاعات نامعلوم جدا دیده می‌شوند؛ عدد مجهول به صفر تبدیل نمی‌شود." },
+  { en: "EXPLAIN", title: "توضیح نتیجه", text: "ناسازگاری‌ها و اطلاعات نامعلوم جدا دیده می‌شوند، عدد مجهول به صفر تبدیل نمی‌شود." },
   { en: "NEXT STEP", title: "مسیر ورود روشن", text: "مدل قرارداد، منبع پول و نحوه دریافت عایدی، همراه مراحل بعدی نمایش داده می‌شود." },
 ];
 

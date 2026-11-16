@@ -1,5 +1,5 @@
 // دستیار نمایشی: متن آزاد کاربر را با قواعد ساده به همان فیلدهای فرم تبدیل می‌کند.
-// در نسخه واقعی، یک مدل زبانی جای این تابع می‌نشیند؛ خروجی و امتیازدهی همان است.
+// در نسخه واقعی، یک مدل زبانی جای این تابع می‌نشیند، خروجی و امتیازدهی همان است.
 import { projectGroups } from "@/data/taxonomy";
 import { provinces } from "@/data/provinces";
 import { routes, routeSubcategories } from "@/data/routes";
@@ -26,8 +26,8 @@ export function readPrompt(text: string): AssistantReading {
   const understood: AssistantReading["understood"] = [];
   const filters: Record<string, FilterValue> = {};
   let route: RouteId = "investor";
-  if (/صندوق|سرمایه‌گذاری جمعی|تأمین مالی جمعی/.test(t)) route = "fund";
-  else if (/اجاره کنم|اجاره ملک|اجاره دفتر|اجاره فضا|مستأجر|اجاره‌ای برای/.test(t)) route = "lessee";
+  if (/صندوق|سرمایه‌گذاری جمعی|تامین مالی جمعی/.test(t)) route = "fund";
+  else if (/اجاره کنم|اجاره ملک|اجاره دفتر|اجاره فضا|مستاجر|اجاره‌ای برای/.test(t)) route = "lessee";
   else if (/بخرم|خرید|اسقاط/.test(t)) route = "buyer";
   else if (/پیمانکار/.test(t)) route = "contractor";
   else if (/مرمت|احیا|بنای تاریخی|خانه تاریخی/.test(t)) route = "heritage";

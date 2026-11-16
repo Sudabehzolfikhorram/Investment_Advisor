@@ -20,7 +20,7 @@ export function TopicBody({ t }: { t: LibraryTopic }) {
   );
 }
 
-/** فهرست بازشوی پرسش‌های راهنما؛ اولی باز است */
+/** فهرست بازشوی پرسش‌های راهنما، اولی باز است */
 export function TopicList({ topics, numbered, className, open = true, start = 0 }: { topics: LibraryTopic[]; numbered?: boolean; className?: string; open?: boolean; start?: number }) {
   return (
     <Accordion type="single" collapsible defaultValue={open ? topics[0]?.id : undefined} className={className}>
@@ -45,7 +45,7 @@ export function HelpSummary({ className }: { className?: string }) {
         <div>
           <span className="text-[13px] font-extrabold text-white/70">شناخت فرصت، پیش از تصمیم</span>
           <h3 className="mt-2 text-2xl font-black leading-[1.5]">راهنمای همکاری و مستندات</h3>
-          <p className="mt-3 text-sm leading-7 text-white/70">پرسش‌هایی که پیش از هر همکاری باید جوابشان روشن باشد؛ از مدل قرارداد تا تضمین و حقوق ملک.</p>
+          <p className="mt-3 text-sm leading-7 text-white/70">پرسش‌هایی که پیش از هر همکاری باید جوابشان روشن باشد، از مدل قرارداد تا تضمین و حقوق ملک.</p>
         </div>
         <Button asChild variant="plain" size="auto" className="group mt-8 h-12 w-fit gap-2 rounded-full bg-white px-5 text-sm font-extrabold text-ink hover:bg-white/90">
           <Link href="/tools/library">همه راهنماها و منابع<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></Link>

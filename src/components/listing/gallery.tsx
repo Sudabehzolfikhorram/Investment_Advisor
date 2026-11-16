@@ -1,5 +1,5 @@
 "use client";
-// حالت چندعکسی پروژه: در کارت با حرکت نشانگر عکس عوض می‌شود؛ در صفحه جزئیات بندانگشتی‌ها و نمای بزرگ.
+// حالت چندعکسی پروژه: در کارت با حرکت نشانگر عکس عوض می‌شود، در صفحه جزئیات بندانگشتی‌ها و نمای بزرگ.
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
@@ -10,7 +10,7 @@ import { galleryOf } from "@/lib/listings";
 import type { Listing } from "@/types";
 import { cn, faNumber } from "@/lib/utils";
 
-/** عکس‌های کارت: با هاور روی کارت، هر ۴ ثانیه عکس بعدی با محو شدن نرم می‌آید؛ نوار بالای عکس زمان را نشان می‌دهد */
+/** عکس‌های کارت: با هاور روی کارت، هر ۴ ثانیه عکس بعدی با محو شدن نرم می‌آید، نوار بالای عکس زمان را نشان می‌دهد */
 const STEP = 4000;
 export function useHoverGallery(l: Listing) {
   const pics = galleryOf(l);

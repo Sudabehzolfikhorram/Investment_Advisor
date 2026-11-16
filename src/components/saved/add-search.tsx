@@ -1,8 +1,8 @@
 "use client";
-// افزودن جست‌وجوی تازه از صفحه علاقه‌مندی‌ها: مسیر، حوزه، استان و بودجه در یک پنجره؛ فیلترهای صفحه پروژه‌ها دست نمی‌خورد.
+// افزودن جست‌وجوی تازه از صفحه علاقه‌مندی‌ها: مسیر، حوزه، استان و بودجه در یک پنجره، فیلترهای صفحه پروژه‌ها دست نمی‌خورد.
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { FilterAdd } from "@/components/iconsax";
+import { Add, FilterAdd } from "@/components/iconsax";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,23 +20,26 @@ import type { RouteId, SearchCriteria } from "@/types";
 import { cn } from "@/lib/utils";
 
 /** افزودن فیلتر تازه: آیکون کنار تیتر علاقه‌مندی‌ها و کارت خالی اول فهرست جست‌وجوها. بدون ورود، اول ورود می‌خواهد. */
-export function AddSearchButton({ variant = "icon" }: { variant?: "icon" | "tile" }) {
+export function AddSearchButton({ variant = "icon" }: { variant?: "icon" | "tile" | "plus" }) {
   const [open, setOpen] = useState(false);
   const { user, openLogin } = useStore();
   const start = () => (user ? setOpen(true) : openLogin());
   return (
     <>
-      {variant === "icon" ? (
+      {variant === "plus" ? (
+        <Button type="button" variant="plain" size="auto" onClick={start} aria-label="افزودن فیلتر تازه" title="افزودن و ذخیره فیلتر تازه"
+          className="grid size-9 shrink-0 place-items-center rounded-full bg-cobalt text-white shadow-[0_8px_18px_-10px_var(--cobalt)] transition-transform duration-300 hover:rotate-90 hover:bg-cobalt-deep"><Add size={20} /></Button>
+      ) : variant === "icon" ? (
         <Button type="button" variant="plain" size="auto" onClick={start} aria-label="افزودن فیلتر تازه" title="افزودن و ذخیره فیلتر تازه"
           className="group h-12 gap-2.5 rounded-full border border-border bg-white pl-5 pr-1.5 text-[13.5px] font-extrabold text-ink shadow-[0_10px_26px_-20px_rgb(20_30_45/0.5)] transition-colors hover:border-ink/30">
-          <span className="grid size-9 place-items-center rounded-full bg-cobalt text-white transition-transform duration-300 group-hover:rotate-90"><FilterAdd size={18} variant="Bold" /></span>فیلتر تازه
+          <span className="grid size-9 place-items-center rounded-full bg-cobalt text-white transition-transform duration-300 group-hover:rotate-90"><Add size={20} /></span>فیلتر تازه
         </Button>
       ) : (
         <button type="button" onClick={start} className="group grid min-h-[15rem] place-items-center rounded-[2rem] border-2 border-dashed border-border bg-white/50 p-6 text-center transition-colors hover:border-ink/30 hover:bg-white">
           <span>
             <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-ink text-white transition-transform duration-300 group-hover:scale-105"><FilterAdd size={26} variant="Bulk" /></span>
             <span className="mt-4 block text-[15px] font-extrabold text-ink">فیلتر تازه بسازید</span>
-            <span className="mt-1 block text-[12.5px] leading-6 text-muted-foreground">مسیر، حوزه، استان و بودجه را بگویید؛<br />پروژه‌های تازه‌اش همین‌جا می‌آید.</span>
+            <span className="mt-1 block text-[12.5px] leading-6 text-muted-foreground">مسیر، حوزه، استان و بودجه را بگویید،<br />پروژه‌های تازه‌اش همین‌جا می‌آید.</span>
           </span>
         </button>
       )}
@@ -56,7 +59,7 @@ function AddSearchDialog({ open, onOpenChange }: { open: boolean; onOpenChange: 
   const save = () => {
     addProfile(name.trim() || auto, c);
     onOpenChange(false); setName(""); setC({ route: "investor", groups: [], provinces: [], amount: null, filters: {} });
-    toast.success("جست‌وجو ذخیره شد؛ پروژه‌های تازه‌ی آن همین‌جا نشان داده می‌شود.");
+    toast.success("جست‌وجو ذخیره شد، پروژه‌های تازه‌ی آن همین‌جا نشان داده می‌شود.");
   };
   const setRoute = (id: RouteId) => setC({ route: id, groups: [], provinces: c.provinces, amount: null, filters: {} });
   return (

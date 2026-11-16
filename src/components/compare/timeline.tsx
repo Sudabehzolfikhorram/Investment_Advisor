@@ -1,6 +1,6 @@
 "use client";
 // نمودار «سرمایه شما کی برمی‌گردد؟»: درصد سرمایه برگشته در طول زمان برای هر پروژه.
-// خط تا زمان اولین درآمد روی صفر می‌ماند و در سال بازگشت به ۱۰۰٪ می‌رسد؛ خط‌چین همان مسیر در حالت بدبینانه است.
+// خط تا زمان اولین درآمد روی صفر می‌ماند و در سال بازگشت به ۱۰۰٪ می‌رسد، خط‌چین همان مسیر در حالت بدبینانه است.
 // زمان از راست به چپ جلو می‌رود (هم‌جهت با خواندن فارسی). پروژه‌ای که دوره بازگشتش اعلام نشده روی نمودار نمی‌آید.
 import { useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
@@ -12,7 +12,7 @@ const W = 880, H = 290, L = 28, R = 828, TOP = 24, BOT = 250;
 
 export type Marker = { at: number; label: string; value: string; warn?: boolean };
 
-/** ردیف برچسب‌های نقاط عطف زیر محور زمان؛ برچسب‌های نزدیک به هم در ردیف بعدی می‌نشینند تا روی هم نیفتند */
+/** ردیف برچسب‌های نقاط عطف زیر محور زمان، برچسب‌های نزدیک به هم در ردیف بعدی می‌نشینند تا روی هم نیفتند */
 function lanes(ms: Marker[], pos: (m: number) => number) {
   const last: number[] = [];
   return ms.map((m) => { const p = pos(m.at); let r = 0; while (last[r] != null && Math.abs(p - last[r]) < 13) r++; last[r] = p; return r; });
@@ -56,7 +56,7 @@ export function ReturnTimeline({ items, single = false, markers = [] }: { items:
   const missing = lines.filter((x) => x.pay == null);
   return (
     <div>
-      {/* راهنما: شماره و رنگ هر پروژه؛ با نگه داشتن نشانگر روی هر کدام خطش پررنگ می‌شود */}
+      {/* راهنما: شماره و رنگ هر پروژه، با نگه داشتن نشانگر روی هر کدام خطش پررنگ می‌شود */}
       <ul className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[12.5px] font-bold text-ink/80">
         {single && <li className="flex items-center gap-2"><svg width="26" height="6" aria-hidden><line x1="0" y1="3" x2="26" y2="3" stroke={SERIES[0]} strokeWidth="2.5" /></svg>حالت پایه</li>}
         {single && lines[0]?.l && (lines[0].l.raw as { lockupMonths?: number | null }).lockupMonths != null && <li className="flex items-center gap-2"><span className="h-3 w-6 rounded-[4px] bg-ink/[0.07]" />دوره قفل سرمایه</li>}

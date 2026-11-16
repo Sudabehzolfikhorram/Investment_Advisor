@@ -1,5 +1,5 @@
 "use client";
-// کنترل‌های ورودی ساده و کم‌کلیک؛ همه بر پایه کامپوننت‌های shadcn/ui.
+// کنترل‌های ورودی ساده و کم‌کلیک، همه بر پایه کامپوننت‌های shadcn/ui.
 import { useState } from "react";
 import { TickCircle, ArrowDown2 } from "@/components/iconsax";
 import { Button } from "@/components/ui/button";
@@ -88,7 +88,7 @@ export function SliderField({ min = 0, max = 100, step = 1, unit, value, onChang
   );
 }
 
-// group: عنوان گروه در فهرست (مثل نام استان برای شهرها)؛ short: متن کوتاه برچسب انتخاب‌شده
+// group: عنوان گروه در فهرست (مثل نام استان برای شهرها)، short: متن کوتاه برچسب انتخاب‌شده
 export type ComboOption = FieldOption & { group?: string; short?: string };
 export function MultiCombobox({ options, value, onChange, placeholder, empty = "موردی پیدا نشد", disabled, label, search = "جست‌وجو…" }: { options: ComboOption[]; value: string[]; onChange: (v: string[]) => void; placeholder: string; empty?: string; disabled?: boolean; label?: string; search?: string }) {
   const [open, setOpen] = useState(false);
@@ -138,7 +138,7 @@ export function ComboList({ options, value, onChange, placeholder, empty, classN
 export function FieldControl({ field, value, onChange, options, bare }: { field: FieldDef; value: FilterValue; onChange: (v: FilterValue) => void; options?: FieldOption[]; bare?: boolean }) {
   const opts = options ?? field.options ?? [];
   switch (field.control) {
-    // گزینه‌های زیاد یا بلند در نوار باریک روی هم می‌افتند؛ در آن حالت دراپ‌داون می‌شوند
+    // گزینه‌های زیاد یا بلند در نوار باریک روی هم می‌افتند، در آن حالت دراپ‌داون می‌شوند
     case "chips":
     case "segmented": return opts.length > 3 || opts.reduce((n, o) => n + o.label.length, 0) > 24 ? <Dropdown options={opts} value={value as string} onChange={onChange} /> : <Segmented options={opts} value={value as string} onChange={onChange} />;
     case "multi-chips": return opts.length > 8 ? <MultiCombobox options={opts} value={(value as string[]) ?? []} onChange={onChange} placeholder="انتخاب کنید" /> : <Chips options={opts} value={value as string[]} onChange={onChange} />;

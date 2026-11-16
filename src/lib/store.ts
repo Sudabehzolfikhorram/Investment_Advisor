@@ -21,11 +21,11 @@ interface State {
   /** جایگزینی کامل فهرست مقایسه (مثلاً «مقایسه علاقه‌مندی‌ها») */
   setCompare: (ids: string[]) => void;
   clearCompare: () => void;
-  /** پروژه‌هایی که از صفحه جزئیات («دیدن پروژه‌های پیشنهادی») به صفحه پروژه‌ها فرستاده شده‌اند؛ بالای نتایج سنجاق می‌شوند */
+  /** پروژه‌هایی که از صفحه جزئیات («دیدن پروژه‌های پیشنهادی») به صفحه پروژه‌ها فرستاده شده‌اند، بالای نتایج سنجاق می‌شوند */
   pinned: { from: string; ids: string[] } | null;
   setPinned: (p: { from: string; ids: string[] } | null) => void;
   setStarted: (v: boolean) => void;
-  /** شروع تازه از یک دسته اصلی یا گروه؛ گام اطلاعات پایه دوباره نمایش داده می‌شود */
+  /** شروع تازه از یک دسته اصلی یا گروه، گام اطلاعات پایه دوباره نمایش داده می‌شود */
   begin: (c: Partial<SearchCriteria>) => void;
   applyProfile: (id: string) => void;
   loginOpen: boolean;

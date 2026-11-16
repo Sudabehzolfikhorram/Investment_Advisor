@@ -1,5 +1,5 @@
 "use client";
-// صفحه جزئیات: روایت پروژه به‌جای متن پشت‌سرهم. همه فیلدهای داده نمایش داده می‌شوند؛
+// صفحه جزئیات: روایت پروژه به‌جای متن پشت‌سرهم. همه فیلدهای داده نمایش داده می‌شوند،
 // هر جا داده‌ای نیست «ثبت نشده» می‌آید تا ساختار صفحه برای همه پروژه‌ها یکسان بماند.
 import Image from "next/image";
 import Link from "next/link";
@@ -35,11 +35,7 @@ import { CompareTray } from "@/components/compare/tray";
 import type { Advisory, Fund, Listing, Opportunity, RouteId, SaleItem } from "@/types";
 import { routeSteps } from "@/data/routes";
 import { cn, faNumber, formatMobile, incomeLabel, legalLabel } from "@/lib/utils";
-import { chartList } from "@/components/concepts/charts";
-import { sheetOf } from "@/lib/sheet";
 
-/** رنگ‌های نمودارهای مقایسه‌ای در سایت فعلی: داده کبالت، متن خنثی */
-const cv = { "--cv-accent": "#1e3a8a", "--cv-soft": "#e8edf7", "--cv-ink": "#2f3533", "--cv-grid": "#e1e6ee", "--cv-surface": "#ffffff", "--cv-warn": "#e0603f" } as React.CSSProperties;
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const NA = "ثبت نشده";
@@ -70,7 +66,7 @@ function Tile({ I, label, value, sub }: { I: Icon; label: string; value: string;
   );
 }
 
-/** شناسنامه: بخش‌های تمام‌عرض بازشونده (فلش برای باز و بسته)، هر ردیف «عنوان | مقدار»؛ اولی پیش‌فرض باز است.
+/** شناسنامه: بخش‌های تمام‌عرض بازشونده (فلش برای باز و بسته)، هر ردیف «عنوان | مقدار»، اولی پیش‌فرض باز است.
  *  ارتفاع به متن وابسته نیست چون کارت‌ها کنار هم نیستند. */
 const groupIcon: Record<string, Icon> = { project: Building, money: WalletMoney, status: ShieldSearch };
 function Facts({ groups }: { groups: FactGroup[] }) {
@@ -122,7 +118,7 @@ function RiskMeter({ risk }: { risk: string }) {
 }
 
 /** عقربه نیم‌دایره: کم در راست، زیاد در چپ (هم‌جهت با خواندن راست‌به‌چپ). */
-/** گیج ریسک راست‌به‌چپ: مثل خواندن فارسی از راست (کم) شروع می‌شود و تا سطح پروژه پر می‌شود؛
+/** گیج ریسک راست‌به‌چپ: مثل خواندن فارسی از راست (کم) شروع می‌شود و تا سطح پروژه پر می‌شود،
  *  رنگ هر نقطه از کمان به جایگاهش بسته است، پس سطح بالاتر یعنی پیمودن رنگ‌های بیشتر. */
 const riskHex = ["#94a3a0", "#0f766e", "#d4532f", "#b4291c"];
 function RiskGauge({ risk }: { risk: string }) {
@@ -165,35 +161,6 @@ function RiskGauge({ risk }: { risk: string }) {
         <span className={cn("font-black leading-none", level ? "text-[1.65rem]" : "text-lg")} style={{ color: riskHex[level] }}>{level ? labels[level - 1] : "ارزیابی‌نشده"}</span>
         <span className="mt-1.5 text-[11px] font-semibold text-muted-foreground">{level ? `سطح ${faNumber(level)} از ${faNumber(3)}` : "سطح ریسک ثبت نشده است"}</span>
       </div>
-    </div>
-  );
-}
-
-/** زمان‌بندی پول: ایستگاه‌های ثابت به ترتیب زمان. نوار و دستگیره ندارد تا قابل تغییر به نظر نرسد. */
-function Milestones({ o }: { o: Opportunity }) {
-  const all = [
-    { at: 0, label: "ورود سرمایه", value: "شروع" as string | null },
-    { at: o.firstIncomeMonths ?? null, label: "اولین دریافت", value: o.firstIncomeMonths != null ? `ماه ${faNumber(o.firstIncomeMonths)}` : null },
-    { at: o.executionMonths ?? null, label: "پایان اجرا", value: o.executionMonths != null ? `ماه ${faNumber(o.executionMonths)}` : null },
-    { at: o.lockupMonths ?? null, label: "پایان قفل سرمایه", value: o.lockupMonths != null ? `ماه ${faNumber(o.lockupMonths)}` : null },
-    { at: o.paybackYears != null ? o.paybackYears * 12 : null, label: "بازگشت سرمایه", value: o.paybackYears != null ? `سال ${faNumber(o.paybackYears)}` : null },
-    { at: o.paybackDownsideYears != null ? o.paybackDownsideYears * 12 : null, label: "بازگشت در حالت بدبینانه", value: o.paybackDownsideYears != null ? `سال ${faNumber(o.paybackDownsideYears)}` : null },
-    { at: o.durationYears != null ? o.durationYears * 12 : null, label: "پایان طرح", value: o.durationYears != null ? `سال ${faNumber(o.durationYears)}` : null },
-  ];
-  const known = all.filter((m) => m.at != null).sort((a, b) => a.at! - b.at!);
-  if (known.length < 2) return null;
-  return (
-    <div>
-      <ol className="grid" style={{ gridTemplateColumns: `repeat(${known.length}, minmax(0, 1fr))` }}>
-        {known.map((m, i) => (
-          <li key={m.label} className="relative px-1 text-center">
-            {i > 0 && <span aria-hidden className="absolute left-1/2 top-[7px] w-full border-t-2 border-dotted border-pine/20" />}
-            <span className={cn("relative z-10 mx-auto block size-4 rounded-full ring-4 ring-white", i === 0 ? "bg-pine" : m.label.includes("بدبینانه") ? "bg-warn" : "bg-primary")} />
-            <span className="mt-3 block text-base font-black text-ink">{m.value}</span>
-            <span className="mt-0.5 block text-xs font-semibold leading-5 text-muted-foreground">{m.label}</span>
-          </li>
-        ))}
-      </ol>
     </div>
   );
 }
@@ -288,7 +255,7 @@ function Dossier({ sections }: { sections: DossierSection[] }) {
   );
 }
 
-/** پرسش‌های تخصصی نوع پروژه از نسخه مرجع؛ فقط برای خواندن */
+/** پرسش‌های تخصصی نوع پروژه از نسخه مرجع، فقط برای خواندن */
 function AdvisoryBlock({ a }: { a: Advisory }) {
   return (
     <div className="space-y-4">
@@ -362,7 +329,7 @@ function Contact({ l }: { l: Listing }) {
   );
 }
 
-/** پروژه‌های نزدیک: هم‌گروه و هم‌مسیر، با مبلغ نزدیک؛ اگر کاربر شرایطی وارد کرده، تطابق با آن هم وزن دارد */
+/** پروژه‌های نزدیک: هم‌گروه و هم‌مسیر، با مبلغ نزدیک، اگر کاربر شرایطی وارد کرده، تطابق با آن هم وزن دارد */
 function useNearby(l: Listing, needPayback = false) {
   const hydrated = useHydrated();
   const criteria = useStore((st) => st.criteria);
@@ -378,7 +345,7 @@ function useNearby(l: Listing, needPayback = false) {
   }, [l, needPayback, hydrated, criteria]);
 }
 
-/** کنار پروژه‌های نزدیک بسنجید: در ستون کناری و کم‌اولویت‌تر از تماس؛ هر پروژه جدا به مقایسه اضافه می‌شود */
+/** کنار پروژه‌های نزدیک بسنجید: در ستون کناری و کم‌اولویت‌تر از تماس، هر پروژه جدا به مقایسه اضافه می‌شود */
 function CompareCard({ l, near }: { l: Listing; near: Listing[] }) {
   const router = useRouter();
   const { compare, toggleCompare, setCompare, criteria } = useStore();
@@ -414,7 +381,7 @@ function CompareCard({ l, near }: { l: Listing; near: Listing[] }) {
   );
 }
 
-/** نمودار بازگشت این پروژه در برابر پروژه‌های مشابه؛ با دکمه دیدن همین پروژه‌ها در صفحه پروژه‌ها یا مقایسه کامل */
+/** نمودار بازگشت این پروژه در برابر پروژه‌های مشابه، با دکمه دیدن همین پروژه‌ها در صفحه پروژه‌ها یا مقایسه کامل */
 function PeerReturn({ l, peers }: { l: Listing; peers: Listing[] }) {
   const router = useRouter();
   const { setCompare, setPinned, begin, setStarted } = useStore();
@@ -449,6 +416,97 @@ function PeerReturn({ l, peers }: { l: Listing; peers: Listing[] }) {
   );
 }
 
+/** شناسه پروژه زیر عنوان: گروه، نوع، مدل همکاری و وضعیت در یک نوار، جای بج‌های روی عکس و جمله‌ی تکراری معرفی */
+function IdentityStrip({ items, note }: { items: [string, string][]; note?: React.ReactNode }) {
+  if (!items.length) return null;
+  return (
+    <div className="surface mt-5 overflow-hidden rounded-[1.5rem]">
+      <dl className="grid [&>div+div]:border-r [&>div+div]:border-border" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
+        {items.map(([k, v]) => (
+          <div key={k} className="min-w-0 px-5 py-4">
+            <dt className="text-[11.5px] font-semibold text-muted-foreground">{k}</dt>
+            <dd className="mt-1 text-[14.5px] font-extrabold leading-6 text-ink">{v}</dd>
+          </div>
+        ))}
+      </dl>
+      {note && <div className="flex items-start gap-2.5 border-t border-border bg-[#f8fafc] px-5 py-3 text-[13px] font-semibold leading-7 text-ink/75"><InfoCircle size={17} variant="Bulk" className="mt-1 shrink-0 text-ink/45" /><span>{note}</span></div>}
+    </div>
+  );
+}
+
+/** بازه‌های زمانی روی یک محور ماه: اجرا، قفل سرمایه و کل طرح، اولین دریافت به شکل نشانگر.
+ *  وقتی دوره بازگشت اعلام نشده، جای نمودار بازگشت را می‌گیرد تا زمان‌بندی با یک نگاه خوانده شود. */
+function PhaseTrack({ o }: { o: Opportunity }) {
+  const bars = [
+    { label: "اجرای پروژه", end: o.executionMonths, cls: "bg-ink/70" },
+    { label: "قفل سرمایه", end: o.lockupMonths, cls: "bg-cobalt/70" },
+    { label: "کل دوره طرح", end: o.durationYears != null ? o.durationYears * 12 : null, cls: "bg-ink/25" },
+  ].filter((b): b is { label: string; end: number; cls: string } => b.end != null && b.end > 0);
+  const first = o.firstIncomeMonths != null && o.firstIncomeMonths > 0 ? o.firstIncomeMonths : null;
+  if (!bars.length && first == null) return null;
+  // یک سال فضای خالی بعد از آخرین بازه، تا برچسب پایان بازه کنار نوار جا شود
+  const T = Math.ceil(Math.max(12, ...bars.map((b) => b.end), first ?? 0) / 12) * 12 + 12;
+  const pct = (m: number) => `${(m / T) * 100}%`;
+  const ticks = Array.from({ length: T / 12 + 1 }, (_, i) => i * 12);
+  return (
+    <div className="grid grid-cols-[8.5rem_minmax(0,1fr)] gap-x-4">
+      {bars.map((b, i) => (
+        <div key={b.label} className="contents">
+          <span className="flex h-11 items-center text-[13px] font-bold text-ink/75">{b.label}</span>
+          <span className="relative flex h-11 items-center">
+            <span className="absolute inset-x-0 h-2.5 rounded-full bg-ink/[0.05]" />
+            <motion.span initial={{ width: 0 }} whileInView={{ width: pct(b.end) }} viewport={{ once: true }} transition={{ duration: 0.8, delay: i * 0.12, ease }} className={cn("absolute right-0 h-2.5 rounded-full", b.cls)} />
+            <span className="absolute whitespace-nowrap rounded-full bg-white px-2.5 py-0.5 text-[12px] font-extrabold text-ink ring-1 ring-border" style={{ right: `calc(${pct(b.end)} + 0.5rem)` }}>{when(b.end)}</span>
+          </span>
+        </div>
+      ))}
+      <span />
+      <span className="relative mt-1 h-10 border-t border-border">
+        {ticks.map((t) => <span key={t} className="absolute top-0 whitespace-nowrap text-center text-[11px] font-semibold text-muted-foreground" style={{ right: pct(t), transform: "translateX(50%)" }}><span className="mx-auto block h-1.5 w-px bg-border" />{t === 0 ? "شروع" : `سال ${faNumber(t / 12)}`}</span>)}
+        {first != null && (
+          <span className="absolute -top-[4.6rem] flex flex-col items-center" style={{ right: pct(first), transform: "translateX(50%)" }}>
+            <span className="whitespace-nowrap rounded-full bg-primary px-2.5 py-0.5 text-[11.5px] font-extrabold text-white">اولین دریافت · {when(first)}</span>
+            <span className="h-14 border-r border-dashed border-primary/60" />
+          </span>
+        )}
+      </span>
+    </div>
+  );
+}
+
+/** «پول شما در طول زمان»: چهار عدد کلیدی، نمودار (بازگشت یا بازه‌ها) و سه کارت مسیر پول در یک کارت */
+function MoneyTime({ o, l, text }: { o: Opportunity; l: Listing; text: { finance?: string; repay?: string; ownership?: string | null } }) {
+  const stats: [Icon, string, string | null, string?][] = [
+    [Timer1, "اولین دریافت", o.firstIncomeMonths != null ? (o.firstIncomeMonths === 0 ? "از ابتدا" : when(o.firstIncomeMonths)) : null],
+    [Building, "مدت اجرا", o.executionMonths != null ? `${faNumber(o.executionMonths)} ماه` : null],
+    [Lock1, "قفل سرمایه", o.lockupMonths != null ? `${faNumber(o.lockupMonths)} ماه` : null],
+    [Chart, "بازگشت سرمایه", o.paybackYears != null ? `${faNumber(o.paybackYears)} سال` : null, o.paybackDownsideYears != null && o.paybackDownsideYears !== o.paybackYears ? `بدبینانه ${faNumber(o.paybackDownsideYears)} سال` : undefined],
+  ];
+  const flow: [Icon, string, string | null | undefined][] = [[WalletMoney, "پول از کجا می‌آید", text.finance], [MoneyRecive, "چطور برمی‌گردد", text.repay], [Key, "مالکیت و سهم", text.ownership]];
+  const chart = o.paybackYears != null ? <ReturnTimeline items={[l]} single markers={markersOf(o)} /> : <PhaseTrack o={o} />;
+  return (
+    <div className="surface overflow-hidden rounded-[1.75rem]">
+      <dl className="grid grid-cols-4 border-b border-border [&>div+div]:border-r [&>div+div]:border-border">
+        {stats.map(([I, k, v, sub]) => (
+          <div key={k} className="flex items-center gap-3 px-5 py-4">
+            <span className={cn("grid size-9 shrink-0 place-items-center rounded-xl", v ? "bg-ink/[0.05] text-ink/70" : "bg-ink/[0.03] text-ink/30")}><I size={18} variant="Bulk" /></span>
+            <span className="min-w-0"><dt className="text-[11.5px] font-semibold text-muted-foreground">{k}</dt><dd className={cn("text-[15px] font-black leading-6", v ? "text-ink" : "font-semibold text-ink/35")}>{v ?? "اعلام نشده"}</dd>{sub && <dd className="text-[11px] font-bold text-warn-deep">{sub}</dd>}</span>
+          </div>
+        ))}
+      </dl>
+      {chart && <div className={cn("px-8", o.paybackYears != null || o.firstIncomeMonths == null || o.firstIncomeMonths === 0 ? "pt-6" : "pt-24")}>{chart}</div>}
+      <div className="grid grid-cols-3 gap-3 p-6 pt-5">
+        {flow.map(([I, k, v]) => (
+          <div key={k} className={cn("rounded-2xl p-4", v ? "bg-[#f5f7fa]" : "border border-dashed border-border")}>
+            <p className="flex items-center gap-2 text-[12.5px] font-extrabold text-ink/70"><I size={16} variant="Bulk" className="text-ink/50" />{k}</p>
+            <p className={cn("mt-2 text-[13.5px] leading-7", v ? "font-semibold text-ink" : "font-semibold text-ink/35")}>{v || "اعلام نشده"}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function Detail({ id }: { id: string }) {
   const [photo, setPhoto] = useState(0);
   const l = listingById(id)!;
@@ -472,6 +530,13 @@ export function Detail({ id }: { id: string }) {
       ]
     : l.stats.map((s, i) => ({ I: [WalletMoney, Chart, ShieldSearch, Calendar][i], label: s.label, value: s.value }));
 
+  // گروه و نوع یک بار، همین‌جا، بج‌های روی عکس و جمله‌ی معرفی که همین‌ها را تکرار می‌کردند حذف شده‌اند
+  const identity = ([
+    o ? ["گروه", group?.name] : ["دسته", l.tags[0]],
+    o ? ["نوع پروژه", subtype?.name] : ["نوع", l.tags[1]],
+    [o ? "مدل همکاری" : "شیوه", (o ?? fund ?? sale)?.model],
+    ["وضعیت", (o ?? fund ?? sale)?.stage],
+  ] as [string, string | undefined][]).filter((x): x is [string, string] => !!x[1]);
   const groups = factGroups(l);
   const pics = galleryOf(l);
   const text = (o ?? fund ?? sale)!;
@@ -479,14 +544,12 @@ export function Detail({ id }: { id: string }) {
   const sections = dossier(l);
   const nextSteps = o?.steps.length ? o.steps : fund?.steps?.length ? fund.steps : routeSteps[l.routes[0] as RouteId];
   const hasTime = !!o && [o.firstIncomeMonths, o.executionMonths, o.lockupMonths, o.paybackYears, o.paybackDownsideYears, o.durationYears].some((x) => x != null);
-  const charts = chartList(sheetOf(l), { time: "", timeNote: "", ladder: "" });
-  const peerCharts = charts.filter((c) => c.size === "mid");
-  const shapeCharts = charts.filter((c) => ["known", "income", "payout"].includes(c.id));
+  const sameGroup = listings.filter((x) => x.kind === l.kind && (l.kind !== "project" || x.group === l.group) && x.routes.includes(l.routes[0])).length;
 
   return (
     <>
       <Header />
-      <main className="mx-auto max-w-7xl px-6 pt-6">
+      <main className="focus-blur mx-auto max-w-7xl px-6 pt-6">
         <Link href="/opportunities" className="mb-4 inline-flex items-center gap-2 text-sm font-bold text-ink/70 hover:text-ink"><ArrowRight size={18} />بازگشت به پروژه‌ها</Link>
 
         {/* پرده اول: تصویر و عنوان */}
@@ -494,65 +557,42 @@ export function Detail({ id }: { id: string }) {
           <SignaturePhoto src={l.image} srcs={pics.map((p) => p.src)} active={photo} alt={l.title} priority sizes="100vw" className="h-[27rem] rounded-[2.25rem]">
             <HeroGallery l={l} index={photo} onIndex={setPhoto} />
             <div className="absolute right-5 top-5 z-10"><SaveButton id={l.id} className="size-12" /></div>
-            <div className="absolute inset-x-10 bottom-9 text-white">
-              <div className="flex flex-wrap gap-2">
-                {l.tags.map((t) => <Badge key={t} variant="outline" className="border-white/30 bg-black/25 px-3.5 py-1.5 font-bold text-white">{t}</Badge>)}
-                {text.stage && <Badge className="bg-white px-3.5 py-1.5 font-extrabold text-ink">{text.stage}</Badge>}
-              </div>
-              <h1 className="mt-4 max-w-4xl text-4xl font-black leading-[1.3] text-balance">{l.title}</h1>
-              <p className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm font-semibold text-white/85">
-                {l.city && <span className="flex items-center gap-1.5"><Location size={17} variant="Bold" />{l.province}، {l.city}{sale?.neighborhood ? `، ${sale.neighborhood}` : ""}</span>}
-                {text.model && <span>{o ? "مدل همکاری" : "نوع"}: {text.model}</span>}
-                <span dir="ltr" className="text-white/60">{l.id}</span>
-              </p>
-            </div>
           </SignaturePhoto>
         </motion.div>
 
-        <div className="mt-6 grid grid-cols-[1fr_22rem] gap-8">
+        {/* عنوان و شناسه زیر عکس، نه روی آن */}
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.08, ease }} className="mt-7">
+          <h1 className="max-w-5xl text-[2.25rem] font-black leading-[1.35] text-ink text-balance">{l.title}</h1>
+          <p className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[14px] font-semibold text-muted-foreground">
+            {l.city && <span className="flex items-center gap-1.5 text-ink/75"><Location size={17} variant="Bulk" className="text-ink/45" />{l.province}، {l.city}{sale?.neighborhood ? `، ${sale.neighborhood}` : ""}</span>}
+            <span dir="ltr" className="text-ink/40">{l.id}</span>
+          </p>
+          <IdentityStrip items={identity} note={subtype?.examples ? <><b className="font-extrabold text-ink">{subtype.name} یعنی: </b>{subtype.examples}</> : undefined} />
+        </motion.div>
+
+        <div className="mt-8 grid grid-cols-[1fr_22rem] gap-8">
           <div className="min-w-0 space-y-14">
             <div className="grid grid-cols-4 gap-3">{tiles.map((t) => <Tile key={t.label} {...t} />)}</div>
 
-            {o && group && subtype && (
-              <p className="border-r-2 border-primary pr-5 text-lg font-semibold leading-9 text-ink/85">
-                این پروژه در گروه <b className="text-primary">{group.name}</b> و از نوع <b className="text-primary">{subtype.name}</b> است؛ با مدل «{o.model}» در {o.city} و در وضعیت «{o.stage}».
-              </p>
-            )}
-
-            {subtype?.examples && <p className="-mt-8 flex items-start gap-2.5 rounded-2xl bg-muted px-5 py-3.5 text-sm font-semibold leading-7 text-ink/75"><InfoCircle size={18} variant="Bulk" className="mt-1 shrink-0 text-primary" /><span><b className="text-ink">{subtype.name} یعنی: </b>{subtype.examples}</span></p>}
-
             <Chapter title="شناسنامه پروژه"><Facts groups={groups} /></Chapter>
 
-            {o && hasTime && (
-              <Chapter title="پول شما در طول زمان">
-                {/* نمودار و نقاط عطف در یک کارت؛ مسیر پول هم ردیف‌به‌ردیف زیر همان نمودار */}
-                <div className="surface rounded-[1.75rem] p-6">
-                  {o.paybackYears != null ? <ReturnTimeline items={[l]} single markers={markersOf(o)} /> : <Milestones o={o} />}
-                  {hasFlow && (
-                    <div className="mt-6 border-t border-border pt-5">
-                      <h3 className="text-[15px] font-extrabold text-ink">مسیر پول</h3>
-                      <MoneyFlow o={text} />
-                    </div>
-                  )}
-                </div>
-              </Chapter>
+            {o && (hasTime || hasFlow) && (
+              <Chapter title="پول شما در طول زمان"><MoneyTime o={o} l={l} text={text} /></Chapter>
             )}
             {o && o.paybackYears != null && peers.length > 0 && (
               <Chapter title="بازگشت سرمایه در برابر پروژه‌های مشابه"><PeerReturn l={l} peers={peers} /></Chapter>
             )}
-            {peerCharts.length > 0 && (
+            {similar.length > 0 && (
               <Chapter title="در کنار موارد مشابه">
-                <div style={cv} className={cn("grid gap-4", peerCharts.length > 1 && "grid-cols-2")}>
-                  {peerCharts.map((c) => <div key={c.id} className="surface rounded-[1.75rem] p-6"><h3 className="mb-5 text-sm font-extrabold text-ink">{c.title}</h3>{c.node}</div>)}
+                <div className="-mt-2 mb-4 flex items-center justify-between gap-4">
+                  <p className="text-[13.5px] font-semibold text-muted-foreground">{similar.length > 1 ? `${faNumber(similar.length)} پروژه‌ی نزدیک به این پروژه${group ? ` در گروه «${group.name}»` : ""}، با مبلغ ورود نزدیک.` : "نزدیک‌ترین پروژه به این پروژه."}</p>
+                  <Link href="/opportunities" onClick={() => { useStore.getState().begin({ route: l.routes[0] as never, ...(l.group ? { groups: [l.group] } : {}) }); useStore.getState().setStarted(true); }}
+                    className="group inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full border border-border bg-white px-4 text-[13px] font-extrabold text-ink hover:border-ink/30">مشاهده همه {faNumber(sameGroup)} پروژه<ArrowLeft size={15} className="transition-transform group-hover:-translate-x-0.5" /></Link>
                 </div>
+                <div className="grid grid-cols-3 gap-4">{similar.map((x, i) => <ListingCard key={x.id} listing={x} index={i} comparable />)}</div>
               </Chapter>
             )}
-            {hasFlow && !(o && hasTime) && <Chapter title="مسیر پول"><div className="surface rounded-[1.75rem] px-6 py-2"><MoneyFlow o={text} /></div></Chapter>}
-            <Chapter title="داده‌ها و الگوی دریافت">
-              <div style={cv} className={cn("grid gap-4", shapeCharts.length > 1 && "grid-cols-2", shapeCharts.length > 2 && "grid-cols-3")}>
-                {shapeCharts.map((c) => <div key={c.id} className="surface rounded-[1.75rem] p-6"><h3 className="mb-5 text-sm font-extrabold text-ink">{c.title}</h3>{c.node}</div>)}
-              </div>
-            </Chapter>
+            {hasFlow && !o && <Chapter title="مسیر پول"><div className="surface rounded-[1.75rem] px-6 py-2"><MoneyFlow o={text} /></div></Chapter>}
 
             {o && (
               <Chapter title="ریسک و نکته‌های مهم">
@@ -641,12 +681,6 @@ export function Detail({ id }: { id: string }) {
           </aside>
         </div>
 
-        {similar.length > 0 && (
-          <section className="mt-24">
-            <h2 className="mb-6 flex items-center gap-3 text-xl font-black text-ink"><NodeMark className="text-primary" />پروژه‌های مشابه</h2>
-            <div className="grid grid-cols-3 gap-5">{similar.map((s, i) => <ListingCard key={s.id} listing={s} index={i} comparable />)}</div>
-          </section>
-        )}
         <CompareTray />
       </main>
       <Footer />

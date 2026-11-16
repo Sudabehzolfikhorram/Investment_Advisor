@@ -1,6 +1,6 @@
 "use client";
 // انتخاب محدوده روی نقشه ایران با مرز استان‌ها.
-// یک یا چند استان انتخاب می‌شود؛ کنار نقشه کارت هر استان با همه شهرهایش می‌آید (شهرهای دارای پروژه اول، با تعداد)
+// یک یا چند استان انتخاب می‌شود، کنار نقشه کارت هر استان با همه شهرهایش می‌آید (شهرهای دارای پروژه اول، با تعداد)
 // و با «روی نقشه» همان استان زوم می‌شود تا شهرها روی مرز شهرستان‌ها هم انتخاب شوند.
 import { useEffect, useMemo, useState } from "react";
 import { ArrowDown2, ArrowLeft, ArrowRight, Maximize4, SearchNormal1, TickCircle } from "@/components/iconsax";
@@ -36,7 +36,7 @@ export function useRouteGeo(route: RouteId) {
   }, [route]);
 }
 
-/** انتخاب شهرها در فیلترها نگه داشته می‌شود؛ با حذف یک استان، شهرهایش هم حذف می‌شوند */
+/** انتخاب شهرها در فیلترها نگه داشته می‌شود، با حذف یک استان، شهرهایش هم حذف می‌شوند */
 function useCities(route: RouteId) {
   const { criteria, setFilter } = useStore();
   const geo = useRouteGeo(route);
@@ -108,10 +108,10 @@ export function ProvincePicker({ route, value, onChange, className }: { route: R
                 </g>
               ); })}
             {(focus ? [focus] : value).map((p) => <path key={p} d={provincePaths[p]} fill="none" strokeWidth={1.2 / k} strokeLinejoin="round" className="pointer-events-none stroke-ink" />)}
-            {/* نام همه استان‌ها؛ اندازه نام با وسعت استان تنظیم می‌شود */}
+            {/* نام همه استان‌ها، اندازه نام با وسعت استان تنظیم می‌شود */}
             {!focus && provinces.map((p) => { const [x, y] = provinceLabel[p]; const on = value.includes(p); const fs = Math.max(4.6, Math.min(6.8, Math.sqrt(provinceArea[p]) * 0.21));
               return <text key={p} x={x} y={y + fs * 0.35} textAnchor="middle" style={{ fontSize: fs }} strokeWidth={fs * 0.32} strokeLinejoin="round" className={cn("pointer-events-none font-extrabold [paint-order:stroke] stroke-white", on ? "fill-deep" : "fill-ink/75")}>{p}</text>; })}
-            {/* نمای استان: همه شهرستان‌ها با خط و نام؛ شهرستان‌هایی که پروژه دارند قابل انتخاب‌اند */}
+            {/* نمای استان: همه شهرستان‌ها با خط و نام، شهرستان‌هایی که پروژه دارند قابل انتخاب‌اند */}
             {focus && focusCounties.length > 0 && (
               <g style={{ animation: "fade-in 0.5s 0.35s ease-out both" }}>
                 <clipPath id="clip-focus"><path d={focusPath} /></clipPath>
@@ -192,7 +192,7 @@ export function CityPicker({ route, provinces: selected }: { route: RouteId; pro
   );
 }
 
-/** محدوده بدون نقشه: دو فیلد چندانتخابی؛ استان‌ها و بعد شهرهای همان استان‌ها (همه شهرها، دارای پروژه اول و با تعداد) */
+/** محدوده بدون نقشه: دو فیلد چندانتخابی، استان‌ها و بعد شهرهای همان استان‌ها (همه شهرها، دارای پروژه اول و با تعداد) */
 export function LocationFields({ route, value, onChange }: { route: RouteId; value: string[]; onChange: (v: string[]) => void }) {
   const city = useCities(route);
   const [, tick] = useState(0);
@@ -228,7 +228,7 @@ export function LocationFields({ route, value, onChange }: { route: RouteId; val
   );
 }
 
-/** فیلد شهر: ابتدا استان‌های انتخاب‌شده بسته نمایش داده می‌شوند؛ با کلیک روی هر استان، شهرهایش باز می‌شود */
+/** فیلد شهر: ابتدا استان‌های انتخاب‌شده بسته نمایش داده می‌شوند، با کلیک روی هر استان، شهرهایش باز می‌شود */
 function CityField({ provinces: provs, options, value, onChange }: { provinces: string[]; options: ComboOption[]; value: string[]; onChange: (v: string[]) => void }) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");

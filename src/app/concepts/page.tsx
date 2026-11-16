@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ConceptsIndex } from "@/components/concepts/index-view";
 
-export const metadata: Metadata = { title: "مقایسه کانسپت‌های لندینگ | سرمایه‌نما" };
+export const metadata: Metadata = { title: "مقایسه کانسپت‌های لندینگ | سرمایه‌گزین" };
 
 export default function Page() {
   return <ConceptsIndex />;

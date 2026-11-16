@@ -30,7 +30,7 @@ export function TimeBands({ s, className, dark }: { s: Sheet; className?: string
     if (ln.tone === "pay") return m >= (ln.to ?? ln.from) ? "در هر دو حالت برگشته" : m >= ln.from ? "در حالت پایه برگشته" : "هنوز برنگشته";
     return m <= (ln.to ?? 0) ? "در جریان" : "تمام شده";
   };
-  if (!s.lanes.length) return <p className={cn("rounded-2xl px-5 py-6 text-[13.5px] font-semibold leading-7", dark ? "bg-white/5 text-white/70" : "bg-[var(--cv-soft)] text-[var(--cv-ink)]/70", className)}>هیچ‌کدام از زمان‌های این پروژه اعلام نشده است؛ نمودار زمانی ساخته نمی‌شود.</p>;
+  if (!s.lanes.length) return <p className={cn("rounded-2xl px-5 py-6 text-[13.5px] font-semibold leading-7", dark ? "bg-white/5 text-white/70" : "bg-[var(--cv-soft)] text-[var(--cv-ink)]/70", className)}>هیچ‌کدام از زمان‌های این پروژه اعلام نشده است، نمودار زمانی ساخته نمی‌شود.</p>;
   return (
     <div className={cn("relative", className)}>
       <div className="grid grid-cols-[7.5rem_minmax(0,1fr)] gap-x-5">
@@ -139,7 +139,7 @@ export function Ladders({ items, className }: { items: Ladder[]; className?: str
               );
             })}
           </div>
-          {ld.at == null && <p className="mt-1 text-[11.5px] font-semibold text-[var(--cv-ink)]/55">{ld.note ? `${ld.note}؛ صفر یا کم فرض نمی‌شود.` : "اعلام نشده"}</p>}
+          {ld.at == null && <p className="mt-1 text-[11.5px] font-semibold text-[var(--cv-ink)]/55">{ld.note ? `${ld.note}، صفر یا کم فرض نمی‌شود.` : "اعلام نشده"}</p>}
         </li>
       ))}
     </ul>
@@ -162,7 +162,7 @@ export function IncomeShape({ s, className }: { s: Sheet; className?: string }) 
   return (
     <div className={className}>
       {s.income.id === "any" ? (
-        <p className="rounded-2xl bg-[var(--cv-soft)] px-4 py-5 text-[13px] font-semibold leading-7 text-[var(--cv-ink)]/70">نوع درآمد «بدون محدودیت» اعلام شده؛ زمان و شکل دریافت در قرارداد تعیین می‌شود.</p>
+        <p className="rounded-2xl bg-[var(--cv-soft)] px-4 py-5 text-[13px] font-semibold leading-7 text-[var(--cv-ink)]/70">نوع درآمد «بدون محدودیت» اعلام شده، زمان و شکل دریافت در قرارداد تعیین می‌شود.</p>
       ) : (
         <div className="flex h-24 items-end gap-[3px] border-b border-[var(--cv-grid)] [direction:rtl]">
           {cols.map((v, i) => (
@@ -208,7 +208,7 @@ export function PayoutCalendar({ s, className }: { s: Sheet; className?: string 
           </motion.div>
         ))}
       </div>
-      <p className="mt-2 text-[12px] font-semibold leading-6 text-[var(--cv-ink)]/60">ماه‌های پس از ورود. پرداخت سود: {s.fund.payoutLabel}{!months.size ? "؛ سود دوره‌ای پرداخت نمی‌شود" : ""}.</p>
+      <p className="mt-2 text-[12px] font-semibold leading-6 text-[var(--cv-ink)]/60">ماه‌های پس از ورود. پرداخت سود: {s.fund.payoutLabel}{!months.size ? "، سود دوره‌ای پرداخت نمی‌شود" : ""}.</p>
     </div>
   );
 }
@@ -246,7 +246,7 @@ export function chartList(s: Sheet, t: { time: string; timeNote: string; ladder:
   if (s.sale?.ppmPeers) c.push({ id: "ppm", size: "mid", title: "قیمت هر مترمربع در کنار آگهی‌های دیگر", node: <PeerStrip p={s.sale.ppmPeers} /> });
   return c;
 }
-/** ردیف اول: پهن‌ترین نمودار؛ بقیه به ترتیب: کوچک‌ها اول (ردیف‌های سه‌تایی) و نوارهای مقایسه آخر (ردیف دوتایی) */
+/** ردیف اول: پهن‌ترین نمودار، بقیه به ترتیب: کوچک‌ها اول (ردیف‌های سه‌تایی) و نوارهای مقایسه آخر (ردیف دوتایی) */
 export function arrange(list: ChartItem[]) {
   const first = list.find((c) => c.size === "wide") ?? list.find((c) => c.size === "mid") ?? list[0];
   const rest = list.filter((c) => c !== first);

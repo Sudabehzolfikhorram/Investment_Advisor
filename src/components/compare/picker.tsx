@@ -41,7 +41,7 @@ export function ProjectPicker({ open, onOpenChange }: { open: boolean; onOpenCha
     <CommandDialog open={open} onOpenChange={onOpenChange} title="افزودن پروژه به مقایسه" description="نام پروژه، استان یا شهر را بنویسید" className="rounded-[1.75rem] sm:max-w-xl" showCloseButton={false}>
       <div dir="rtl">
         <CommandInput placeholder="نام پروژه، استان یا شهر…" className="text-[14px] font-semibold" />
-        <p className="border-b border-border px-4 py-2 text-[12px] font-bold text-muted-foreground">{full ? "چهار پروژه انتخاب کرده‌اید؛ برای افزودن، یکی را بردارید." : `${faNumber(compare.length)} از ${faNumber(COMPARE_MAX)} پروژه انتخاب شده`}</p>
+        <p className="border-b border-border px-4 py-2 text-[12px] font-bold text-muted-foreground">{full ? "چهار پروژه انتخاب کرده‌اید، برای افزودن، یکی را بردارید." : `${faNumber(compare.length)} از ${faNumber(COMPARE_MAX)} پروژه انتخاب شده`}</p>
         <CommandList className="thin-scroll max-h-[26rem]">
           <CommandEmpty className="py-10 text-center text-sm font-semibold text-muted-foreground">پروژه‌ای با این نام پیدا نشد.</CommandEmpty>
           {fav.length > 0 && <CommandGroup heading="علاقه‌مندی‌های شما">{fav.map((l) => <Item key={l.id} l={l} on={compare.includes(l.id)} full={full} onPick={pick} />)}</CommandGroup>}
@@ -65,7 +65,7 @@ function PickCard({ l, idx, full, onPick }: { l: Listing; idx: number; full: boo
   const o = oppOf(l); const on = idx >= 0; const blocked = !on && full;
   const color = on ? SERIES[idx] : undefined;
   return (
-    <button type="button" aria-pressed={on} aria-disabled={blocked} onClick={() => onPick(l.id)} title={blocked ? "حداکثر چهار پروژه؛ برای افزودن یکی را بردارید" : undefined}
+    <button type="button" aria-pressed={on} aria-disabled={blocked} onClick={() => onPick(l.id)} title={blocked ? "حداکثر چهار پروژه، برای افزودن یکی را بردارید" : undefined}
       className={cn("group relative flex items-center gap-3 rounded-2xl border bg-white p-2.5 pl-3 text-right transition-all duration-200", on ? "shadow-[0_14px_30px_-22px_rgb(20_30_45/0.5)]" : "border-border hover:-translate-y-0.5 hover:border-ink/25", blocked && "cursor-not-allowed opacity-45 hover:translate-y-0 hover:border-border")}
       style={on ? { borderColor: color, boxShadow: `0 0 0 3px ${color}22` } : undefined}>
       <span className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-muted"><Image src={l.image} alt="" fill sizes="64px" className="object-cover" /></span>
@@ -120,14 +120,14 @@ export function ComparePicker({ className }: { className?: string }) {
       <div className="flex items-center gap-4">
         <div>
           <h2 className="text-[1.1rem] font-black text-ink">پروژه‌ها را انتخاب کنید</h2>
-          <p className="mt-0.5 text-[12.5px] font-semibold text-muted-foreground">روی هر کارت بزنید؛ حداکثر چهار پروژه کنار هم می‌آید.</p>
+          <p className="mt-0.5 text-[12.5px] font-semibold text-muted-foreground">روی هر کارت بزنید، حداکثر چهار پروژه کنار هم می‌آید.</p>
         </div>
         <div className="mr-auto flex items-center gap-2.5 rounded-full bg-[#f3f6fa] py-1.5 pl-1.5 pr-3.5">
           <span className="text-[12.5px] font-extrabold text-ink">{faNumber(compare.length)} از {faNumber(COMPARE_MAX)}</span>
           <span className="flex gap-1">{Array.from({ length: COMPARE_MAX }, (_, i) => <span key={i} className="h-2 w-5 rounded-full" style={{ background: i < compare.length ? SERIES[i] : "rgb(47 53 51 / 0.1)" }} />)}</span>
         </div>
       </div>
-      {full && <p className="mt-3 rounded-xl bg-cobalt-soft/70 px-3.5 py-2 text-[12.5px] font-bold text-cobalt-deep">چهار پروژه انتخاب شده؛ بیشتر از این نمی‌شود. برای افزودن، یکی را بردارید.</p>}
+      {full && <p className="mt-3 rounded-xl bg-cobalt-soft/70 px-3.5 py-2 text-[12.5px] font-bold text-cobalt-deep">چهار پروژه انتخاب شده، بیشتر از این نمی‌شود. برای افزودن، یکی را بردارید.</p>}
 
       <div className="mt-5 flex items-center gap-3">
         <ToggleGroup type="single" spacing={2} value={query ? "" : tab} onValueChange={(v) => { if (v) { setTab(v as typeof tab); setQ(""); setLimit(12); } }} className="flex">

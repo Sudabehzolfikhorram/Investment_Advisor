@@ -1,7 +1,7 @@
 "use client";
 // انتخاب حوزه و نوع دقیق پروژه به شکل «فهرست و جزئیات»:
 // سمت راست همه حوزه‌ها با شمار پروژه و شمار نوع‌های انتخاب‌شده، سمت چپ فقط نوع‌های حوزه‌ی در حال دیدن.
-// با انتخاب چند حوزه، فهرست بلند نمی‌شود؛ خلاصه انتخاب‌ها پایین پنل می‌آید و جست‌وجو در همه نوع‌ها کار می‌کند.
+// با انتخاب چند حوزه، فهرست بلند نمی‌شود، خلاصه انتخاب‌ها پایین پنل می‌آید و جست‌وجو در همه نوع‌ها کار می‌کند.
 import { useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
@@ -17,7 +17,7 @@ type Props = {
   types: string[];
   counts: Record<string, number>;
   onChange: (groups: string[], types: string[]) => void;
-  /** ارتفاع دو ستون؛ در پنل بالای نتایج کوتاه‌تر است */
+  /** ارتفاع دو ستون، در پنل بالای نتایج کوتاه‌تر است */
   height?: string;
   /** در پنل بالای نتایج، خلاصه انتخاب‌ها یک خط است (هر حوزه در فهرست خودش شمار نوع‌ها را دارد) */
   compact?: boolean;
@@ -30,7 +30,7 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
   const [q, setQ] = useState("");
   const query = q.trim();
   const g = projectGroups.find((x) => x.id === focus)!;
-  // با نگه داشتن نشانگر روی یک حوزه، نوع‌هایش کنار آن باز می‌شود؛ کلیک هم همین کار را می‌کند
+  // با نگه داشتن نشانگر روی یک حوزه، نوع‌هایش کنار آن باز می‌شود، کلیک هم همین کار را می‌کند
   const hoverT = useRef<number | undefined>(undefined);
   const peek = (gid: string) => { window.clearTimeout(hoverT.current); hoverT.current = window.setTimeout(() => { setFocus(gid); setQ(""); }, 140); };
 
@@ -81,7 +81,7 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
       <div className={cn("grid grid-cols-[17rem_minmax(0,1fr)] overflow-hidden rounded-3xl border border-border bg-white", height)}>
         {/* حوزه‌ها */}
         <div className="flex min-h-0 flex-col border-l border-border bg-[#f5f7fa]">
-        <p className="flex shrink-0 items-center gap-1.5 px-4 pb-2 pt-3.5 text-[11.5px] font-bold text-muted-foreground"><ArrowLeft2 size={13} />روی هر حوزه بروید؛ نوع‌هایش کنارش باز می‌شود</p>
+        <p className="flex shrink-0 items-center gap-1.5 px-4 pb-2 pt-3.5 text-[11.5px] font-bold text-muted-foreground"><ArrowLeft2 size={13} />روی هر حوزه بروید، نوع‌هایش کنارش باز می‌شود</p>
         <ul className="thin-scroll min-h-0 flex-1 space-y-1 overflow-y-auto p-2 pt-0" onMouseLeave={() => window.clearTimeout(hoverT.current)}>
           {projectGroups.map((x) => {
             const on = groups.includes(x.id); const active = !query && focus === x.id; const mc = matchCount(x.id);
@@ -151,7 +151,7 @@ export function GroupTypePicker({ groups, types, counts, onChange, height = "h-[
               </span>
             ); })}
           <Button variant="ghost" size="sm" onClick={() => onChange([], [])} className="h-8 rounded-full px-3 text-[12px] font-bold text-muted-foreground">پاک کردن همه</Button>
-        </> : <span className="text-[12px] font-semibold text-muted-foreground">هنوز حوزه‌ای انتخاب نشده؛ همه حوزه‌ها نمایش داده می‌شوند.</span>}
+        </> : <span className="text-[12px] font-semibold text-muted-foreground">هنوز حوزه‌ای انتخاب نشده، همه حوزه‌ها نمایش داده می‌شوند.</span>}
       </div>
     </div>
   );

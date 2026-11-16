@@ -2,7 +2,7 @@ import { useId } from "react";
 import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
-// نودهای متحرک: روی خط‌های پترن آرام جابه‌جا می‌شوند (فقط transform؛ سبک برای مرورگر)
+// نودهای متحرک: روی خط‌های پترن آرام جابه‌جا می‌شوند (فقط transform، سبک برای مرورگر)
 const movers = [
   { x: 160, y: 40, dx: 60, dy: 0, d: 11 }, { x: 30, y: 95, dx: 0, dy: 55, d: 14 }, { x: 245, y: 95, dx: 0, dy: 60, d: 12 },
   { x: 160, y: 180, dx: -70, dy: 0, d: 16 }, { x: 295, y: 180, dx: -45, dy: 0, d: 13 }, { x: 80, y: 235, dx: 0, dy: -50, d: 15 },
@@ -51,7 +51,7 @@ export function AlgoPattern({ className, fade = "radial", scale = 1, animated, s
   );
 }
 
-/** نشان الگونت: نقطه — موج — A — خط — حلقه؛ امضای ثابت روی عکس‌ها و کنار عنوان‌ها */
+/** نشان الگونت: نقطه — موج — A — خط — حلقه، امضای ثابت روی عکس‌ها و کنار عنوان‌ها */
 export function NodeMark({ className }: { className?: string }) {
   return (
     <svg viewBox="60 70 1090 350" aria-hidden className={cn("icon-size-prop !h-[18px] !w-14 shrink-0", className)} fill="none" stroke="currentColor" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round">

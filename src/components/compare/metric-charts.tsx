@@ -1,6 +1,6 @@
 "use client";
 // مقایسه روی نمودار: هر شاخص عددی یک نمودار میله‌ای کوچک (small multiples)، با رنگ ثابت هر پروژه.
-// بهترین مقدار هر شاخص نشان «بهترین» می‌گیرد؛ داده‌ی اعلام‌نشده با خط‌چین نشان داده می‌شود، نه با صفر.
+// بهترین مقدار هر شاخص نشان «بهترین» می‌گیرد، داده‌ی اعلام‌نشده با خط‌چین نشان داده می‌شود، نه با صفر.
 import { motion } from "motion/react";
 import { Award, Clock, Danger, MoneyRecive, Ranking } from "@/components/iconsax";
 import { bestOf, oppOf, rows, SERIES, type Row } from "@/lib/compare";
@@ -60,7 +60,7 @@ function MetricCard({ row, items }: { row: Row; items: Listing[] }) {
   );
 }
 
-/** ریسک سه‌سطحی است؛ به‌جای میله، سنجه‌ی سه‌خانه‌ای */
+/** ریسک سه‌سطحی است، به‌جای میله، سنجه‌ی سه‌خانه‌ای */
 function RiskCard({ items }: { items: Listing[] }) {
   const row = rows.find((r) => r.id === "risk")!;
   const best = bestOf(row, items);

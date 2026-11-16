@@ -2,13 +2,13 @@
 // صفحه پروژه‌ها: اول «اطلاعات پایه» (دسته اصلی، محدوده، بودجه) پرسیده می‌شود و بعد نتایج می‌آید.
 // در نتایج: دسته‌های اصلی (تک‌انتخابی) و فیلترهای اصلی بالای صفحه، فیلتر پیشرفته کنار نتایج.
 import { Fragment, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { motion } from "motion/react";
-import { ArrowDown2, ArrowLeft, Category2, CloseCircle, Convertshape2, Location, Save2, SearchNormal1, Sort, WalletMoney } from "@/components/iconsax";
+import { AnimatePresence, motion } from "motion/react";
+import Image from "next/image";
+import { ArrowDown2, ArrowLeft, Category2, CloseCircle, Convertshape2, Location, Routing2, Save2, SearchNormal1, Sort, WalletMoney } from "@/components/iconsax";
 import { Header, Footer } from "@/components/site/header";
 import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { ListingCard } from "@/components/listing/listing-card";
 import { CompareTray } from "@/components/compare/tray";
-import { SentenceIntake } from "./sentence-intake";
 import { QuickFilters } from "./quick-filters";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -52,7 +52,7 @@ function useRoute() {
 // با تغییر مسیر، استان‌ها و بودجه کاربر حفظ می‌شود (بودجه به واحد مسیر تازه تبدیل می‌شود)
 const changeRoute = (id: RouteId) => { const c = useStore.getState().criteria; if (id !== c.route) useStore.getState().setCriteria({ route: id, groups: [], amount: convertAmount(c.amount, c.route, id), filters: {} }); };
 
-/** مبلغ پروژه‌های مسیر در استان‌ها و حوزه‌های انتخاب‌شده؛ برای نمودار و شمار بازه‌های بودجه */
+/** مبلغ پروژه‌های مسیر در استان‌ها و حوزه‌های انتخاب‌شده، برای نمودار و شمار بازه‌های بودجه */
 function useBudgetAmounts() {
   const { route, provinces, groups } = useStore((s) => s.criteria);
   return useMemo(() => {
@@ -79,8 +79,8 @@ function TypePicker({ compact }: { compact?: boolean }) {
   const types = (criteria.filters.subtypes as string[] | undefined) ?? [];
   const provinces = criteria.provinces;
   const counts = useMemo(() => { const c: Record<string, number> = {}; for (const l of forRoute(listings, route.id)) { if (provinces.length && route.id !== "fund" && !provinces.includes(l.province!)) continue; if (l.group) c[l.group] = (c[l.group] ?? 0) + 1; const st = (l.raw as Opportunity).subtype; if (st) c[`s:${st}`] = (c[`s:${st}`] ?? 0) + 1; } return c; }, [route.id, provinces]);
-  if (!route.usesProjectGroups) {
-    if (!subs) return null;
+  // مسیرهایی که زیردسته‌ی خودشان را دارند (صندوق، خرید، خیریه) با همان، بقیه با حوزه‌های پروژه
+  if (!route.usesProjectGroups && subs) {
     return <div className="flex flex-wrap gap-2">{subs.map((s) => { const on = subValue.includes(s.id); return <Chip key={s.id} active={on} onClick={() => setFilter(sKey, on ? subValue.filter((x) => x !== s.id) : [...subValue, s.id])}>{s.name}</Chip>; })}</div>;
   }
   return <GroupTypePicker groups={criteria.groups} types={types} counts={counts} compact={compact}
@@ -88,17 +88,83 @@ function TypePicker({ compact }: { compact?: boolean }) {
 }
 
 /* ——— گام اول: اطلاعات پایه ——— */
-// عنوان و توضیح یک‌خطی هر بخش بالای همان بخش می‌آید تا محتوا تمام عرض را داشته باشد.
-function Step({ n, title, hint, children }: { n: number; title: string; hint?: string; children: React.ReactNode }) {
+// جریان گام‌به‌گام (حالت «یک جمله» حذف شد): چهار پرسش زیر هم در ستون اصلی، و کنارش خلاصه‌ی زنده
+// با شمار پروژه‌ها، سه پیشنهاد اول و دکمه‌ی دیدن نتایج که همیشه در دید است.
+function Step({ id, icon, title, hint, children }: { id: string; icon: React.ReactNode; title: string; hint?: string; children: React.ReactNode }) {
   return (
-    <section className="border-t border-border py-7 first:border-t-0 first:pt-0">
+    <section id={id} className="scroll-mt-28 border-t border-border py-8 first:border-t-0 first:pt-1">
       <div className="mb-5 flex items-center gap-3">
-        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-pine text-sm font-black text-white">{faNumber(n)}</span>
-        <h2 className="shrink-0 text-lg font-extrabold text-ink">{title}</h2>
-        {hint && <p className="truncate text-[13px] text-muted-foreground">{hint}</p>}
+        <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-ink/[0.05] text-ink/70">{icon}</span>
+        <div className="min-w-0">
+          <h2 className="text-[17px] font-extrabold text-ink">{title}</h2>
+          {hint && <p className="text-[13px] leading-6 text-muted-foreground">{hint}</p>}
+        </div>
       </div>
       {children}
     </section>
+  );
+}
+
+/** خلاصه‌ی زنده کنار پرسش‌ها: هر ردیف به پرسش خودش می‌پرد */
+function IntakeSummary({ count, onGo, onLater }: { count: number; onGo: () => void; onLater: () => void }) {
+  const { criteria } = useStore();
+  const route = useRoute();
+  const subs = routeSubcategories[route.id];
+  const sv = (criteria.filters[subKey[route.id]] as string[] | undefined) ?? [];
+  const scored = hasAnyCriteria(criteria);
+  const top = useMemo(() => rank(listings, criteria).filter((r) => r.score >= SUITABLE).slice(0, 3), [criteria]);
+  const rows: [string, string, string, boolean][] = [
+    ["q-route", "مسیر", route.name, true],
+    ["q-type", route.usesProjectGroups || !subs ? "حوزه" : "نوع", (route.usesProjectGroups || !subs) ? (criteria.groups.length ? criteria.groups.map((g) => projectGroups.find((x) => x.id === g)?.name).join("، ") : "همه حوزه‌ها") : sv.length ? sv.map((x) => subs.find((y) => y.id === x)?.name).join("، ") : "همه", (route.usesProjectGroups || !subs) ? criteria.groups.length > 0 : sv.length > 0],
+    ["q-where", "محدوده", route.id === "fund" ? "همه ایران" : criteria.provinces.length ? criteria.provinces.join("، ") : "همه ایران", route.id !== "fund" && criteria.provinces.length > 0],
+    ["q-budget", "بودجه", !route.amount ? "پرسیده نمی‌شود" : criteria.amount ? `${faNumber(criteria.amount[0])} تا ${faNumber(criteria.amount[1])} ${route.amount.unit}` : "هر مبلغی", !!route.amount && criteria.amount != null],
+  ];
+  return (
+    <aside className="sticky top-24 space-y-3">
+      <div className="surface rounded-[1.75rem] p-5">
+        <p className="text-[12.5px] font-extrabold text-muted-foreground">نتیجه تا این‌جا</p>
+        <div className="mt-1 flex items-baseline gap-2">
+          <span className="relative h-[3.2rem] overflow-hidden">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.span key={count} initial={{ y: 32, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -32, opacity: 0 }} transition={{ duration: 0.3 }} className="block text-[2.9rem] font-black leading-none tabular-nums text-ink">{faNumber(count)}</motion.span>
+            </AnimatePresence>
+          </span>
+          <span className="text-[14px] font-bold text-muted-foreground">پروژه با این شرایط</span>
+        </div>
+        <dl className="mt-4 divide-y divide-border/70 border-y border-border/70">
+          {rows.map(([id, k, v, on]) => (
+            <button key={id} type="button" onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })} className="group flex w-full items-center gap-3 py-2.5 text-right">
+              <dt className="w-14 shrink-0 text-[12px] font-semibold text-muted-foreground">{k}</dt>
+              <dd className={cn("min-w-0 flex-1 truncate text-[13px] font-extrabold", on ? "text-ink" : "text-ink/45")}>{v}</dd>
+              <ArrowLeft size={14} className="shrink-0 text-ink/25 transition-colors group-hover:text-ink" />
+            </button>
+          ))}
+        </dl>
+        <Button variant="plain" size="auto" onClick={onGo} className="group mt-4 h-13 w-full justify-between gap-3 rounded-full bg-primary pl-2 pr-6 text-[15px] font-extrabold text-white shadow-[0_18px_40px_-20px_var(--primary)] hover:bg-deep">
+          دیدن {faNumber(count)} پروژه<span className="grid size-9 place-items-center rounded-full bg-white/15 transition-transform group-hover:-translate-x-1"><ArrowLeft size={17} /></span>
+        </Button>
+        <Button variant="ghost" onClick={onLater} className="mt-1.5 h-10 w-full rounded-full text-[13px] font-bold text-ink/60">بعداً مشخص می‌کنم</Button>
+      </div>
+      {top.length > 0 && (
+        <div className="surface rounded-[1.75rem] p-3">
+          <p className="px-2 pb-2 pt-1 text-[12.5px] font-extrabold text-muted-foreground">{scored ? "بیشترین تطابق تا این‌جا" : "تازه‌ترین پروژه‌ها"}</p>
+          <ul className="space-y-1">
+            {top.map((r) => (
+              <li key={r.listing.id}>
+                <Link href={`/opportunities/${r.listing.id}`} target="_blank" className="group flex items-center gap-3 rounded-2xl p-2 transition-colors hover:bg-ink/[0.03]">
+                  <span className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-muted"><Image src={r.listing.image} alt="" fill sizes="48px" className="object-cover" /></span>
+                  <span className="min-w-0 flex-1">
+                    <span className="line-clamp-1 text-[13px] font-extrabold text-ink">{r.listing.title}</span>
+                    <span className="block truncate text-[11.5px] font-semibold text-muted-foreground">{r.listing.province ? `${r.listing.province}، ${r.listing.city}` : r.listing.tags.join(" · ")}</span>
+                  </span>
+                  {scored && <span className="shrink-0 text-[12px] font-black tabular-nums text-ink/70">{faNumber(r.score)}٪</span>}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </aside>
   );
 }
 
@@ -106,22 +172,15 @@ function Intake({ count }: { count: number }) {
   const { criteria, setCriteria, setStarted, profiles, applyProfile } = useStore();
   const stats = useProfileStats();
   const route = useRoute();
-  const hasTypes = route.usesProjectGroups || !!routeSubcategories[route.id];
-  // دو راه برای همان اطلاعات پایه: یک جمله (پیش‌فرض، سریع‌تر) یا همان چهار گام قبلی
-  const [mode, setMode] = useState<"sentence" | "steps">("sentence");
+  const subs = routeSubcategories[route.id];
+  const useGroups = route.usesProjectGroups || !subs;
   const go = () => { setStarted(true); requestAnimationFrame(() => window.scrollTo({ top: 0 })); };
   return (
-    <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mx-auto max-w-5xl">
-      <div className="flex items-end justify-between gap-6">
-        <div>
-          <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-cobalt"><NodeMark />گام ۱ از ۲</span>
-          <h1 className="mt-2 text-4xl font-black leading-[1.4] text-ink">{mode === "sentence" ? "در یک جمله بگویید چه می‌خواهید." : `${hasTypes ? "چهار" : "سه"} پرسش کوتاه، بعد پروژه‌های مناسب شما.`}</h1>
-          <p className="mt-2 text-[15px] leading-7 text-muted-foreground">{mode === "sentence" ? "روی بخش‌های آبی بزنید و عوضشان کنید؛ نتیجه همان لحظه به‌روز می‌شود." : "جزئیات بیشتر را بعداً کنار نتایج تنظیم می‌کنید."}</p>
-        </div>
-        <ToggleGroup type="single" value={mode} onValueChange={(v) => v && setMode(v as typeof mode)} className="shrink-0 rounded-full border border-border bg-white p-1">
-          <ToggleGroupItem value="sentence" className="h-9 rounded-full px-4 text-[13px] font-bold text-ink/65 data-[state=on]:bg-cobalt data-[state=on]:text-white">در یک جمله</ToggleGroupItem>
-          <ToggleGroupItem value="steps" className="h-9 rounded-full px-4 text-[13px] font-bold text-ink/65 data-[state=on]:bg-cobalt data-[state=on]:text-white">گام‌به‌گام</ToggleGroupItem>
-        </ToggleGroup>
+    <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mx-auto max-w-[78rem]">
+      <div>
+        <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-ink/55"><NodeMark className="text-primary" />شروع جست‌وجو</span>
+        <h1 className="mt-2 text-[2.1rem] font-black leading-[1.4] text-ink">چهار پرسش کوتاه، بعد پروژه‌های مناسب شما.</h1>
+        <p className="mt-1.5 text-[15px] leading-7 text-muted-foreground">هر پاسخ همان لحظه نتیجه را کنار صفحه به‌روز می‌کند، جزئیات بیشتر را بعداً کنار نتایج تنظیم می‌کنید.</p>
       </div>
 
       {profiles.length > 0 && (
@@ -137,9 +196,9 @@ function Intake({ count }: { count: number }) {
 
       <ProProfileBar className="mt-5" />
 
-      {mode === "sentence" ? <div className="mt-6"><SentenceIntake count={count} onGo={go} /></div> : (
-      <Card className="surface mt-6 block gap-0 rounded-[2rem] p-8 shadow-none">
-        <Step n={1} title="چطور وارد می‌شوید؟" hint="یک مسیر را انتخاب کنید؛ پروژه‌ها و فیلترهای هر مسیر فرق دارد.">
+      <div className="mt-6 grid grid-cols-[minmax(0,1fr)_21rem] items-start gap-6">
+      <Card className="surface block gap-0 rounded-[2rem] px-8 py-7 shadow-none">
+        <Step id="q-route" icon={<Routing2 size={19} variant="Bulk" />} title="چطور وارد می‌شوید؟" hint="یک مسیر را انتخاب کنید، پروژه‌ها و فیلترهای هر مسیر فرق دارد.">
           <ToggleGroup type="single" spacing={2} value={criteria.route} onValueChange={(v) => v && changeRoute(v as RouteId)} className="grid w-full grid-cols-4 items-stretch">
             {routes.map((r) => { const I = routeIcons[r.id];
               return (
@@ -154,31 +213,24 @@ function Intake({ count }: { count: number }) {
           </ToggleGroup>
         </Step>
 
-        {hasTypes && (
-          <Step n={2} title={route.usesProjectGroups ? "در چه حوزه‌ای؟" : "چه نوعی؟"} hint="اختیاری است؛ بدون انتخاب، همه نوع‌ها را می‌بینید.">
-            <TypePicker />
-          </Step>
-        )}
+        <Step id="q-type" icon={<Category2 size={19} variant="Bulk" />} title={useGroups ? "در چه حوزه‌ای؟" : "چه نوعی؟"} hint="اختیاری است، بدون انتخاب، همه را می‌بینید.">
+          <TypePicker />
+        </Step>
 
-        <Step n={hasTypes ? 3 : 2} title="کجا؟" hint={route.id === "fund" ? undefined : "روی نقشه یک یا چند استان را بزنید؛ بدون انتخاب، همه ایران را می‌بینید."}>
+        <Step id="q-where" icon={<Location size={19} variant="Bulk" />} title="کجا؟" hint={route.id === "fund" ? undefined : "روی نقشه یک یا چند استان را بزنید، با بردن نشانگر روی هر استان، عکس شاخص آن را می‌بینید."}>
           {route.id === "fund"
             ? <p className="rounded-2xl bg-muted p-4 text-sm font-semibold text-ink/75">صندوق‌ها و طرح‌های جمعی به استان خاصی وابسته نیستند.</p>
             : <ProvincePicker route={route.id} value={criteria.provinces} onChange={(v) => setCriteria({ provinces: v })} />}
         </Step>
 
-        <Step n={hasTypes ? 4 : 3} title="با چه بودجه‌ای؟" hint={route.amount ? `${route.amount.label} را مشخص کنید.` : undefined}>
+        <Step id="q-budget" icon={<WalletMoney size={19} variant="Bulk" />} title="با چه بودجه‌ای؟" hint={route.amount ? `${route.amount.label} را مشخص کنید.` : undefined}>
           {route.amount
-            ? <div className="max-w-3xl"><Budget /></div>
+            ? <Budget />
             : <p className="rounded-2xl bg-muted p-4 text-sm font-semibold text-ink/75">در این مسیر بودجه پرسیده نمی‌شود.</p>}
         </Step>
-
-        <div className="flex items-center gap-4 border-t border-border pt-7">
-          <Button variant="plain" size="auto" onClick={go} className="group h-14 gap-3 rounded-full bg-primary pl-2 pr-7 text-base font-extrabold text-white shadow-[0_18px_40px_-20px_var(--primary)] hover:bg-deep">
-            دیدن {faNumber(count)} پروژه<span className="grid size-10 place-items-center rounded-full bg-white/15 transition-transform group-hover:-translate-x-1"><ArrowLeft size={18} /></span>
-          </Button>
-          <Button variant="ghost" onClick={() => { setCriteria({ provinces: [], amount: null }); go(); }} className="h-12 rounded-full px-5 font-bold text-ink/70">بعداً مشخص می‌کنم</Button>
-        </div>
-      </Card>)}
+      </Card>
+      <IntakeSummary count={count} onGo={go} onLater={() => { setCriteria({ provinces: [], amount: null }); go(); }} />
+      </div>
     </motion.div>
   );
 }
@@ -206,28 +258,25 @@ function FilterBar() {
   const subs = routeSubcategories[route.id];
   const sKey = subKey[route.id];
   const subValue = (criteria.filters[sKey] as string[]) ?? [];
-  const groupText = route.usesProjectGroups
+  const useGroups = route.usesProjectGroups || !subs;
+  const groupText = useGroups
     ? criteria.groups.length ? (() => { const n = criteria.groups.map((g) => projectGroups.find((x) => x.id === g)?.name); return n.length > 2 ? `${n.slice(0, 2).join("، ")} و ${faNumber(n.length - 2)} حوزه دیگر` : n.join("، "); })() + ((criteria.filters.subtypes as string[] | undefined)?.length ? `، ${faNumber((criteria.filters.subtypes as string[]).length)} نوع` : "") : "همه حوزه‌ها"
-    : subs ? (subValue.length ? subValue.map((s) => subs.find((x) => x.id === s)?.name).join("، ") : "همه") : "";
+    : subValue.length ? subValue.map((s) => subs!.find((x) => x.id === s)?.name).join("، ") : "همه";
+  // سه فیلد همیشه دیده می‌شوند، جایی که در مسیری کاربرد ندارد، توضیحش در همان فیلد می‌آید
+  const note = (t: string) => <p className="rounded-2xl bg-muted p-4 text-sm font-semibold leading-7 text-ink/75">{t}</p>;
   return (
     <div className="surface flex items-center gap-1 rounded-full p-1">
-      {route.id !== "fund" && <>
-        <BarItem icon={<Location size={20} variant="Bulk" />} label="محدوده" value={criteria.provinces.length ? criteria.provinces.join("، ") + ((criteria.filters.cities as string[] | undefined)?.length ? `، ${faNumber(new Set(criteria.filters.cities as string[]).size)} شهر` : "") : "همه ایران"} active={criteria.provinces.length > 0} width="w-[28rem]">
-          <LocationFields route={route.id} value={criteria.provinces} onChange={(v) => setCriteria({ provinces: v })} />
-        </BarItem>
-        <span className="h-7 w-px shrink-0 bg-border" />
-      </>}
-      {route.amount && <>
-        <BarItem icon={<WalletMoney size={20} variant="Bulk" />} label="بودجه" value={criteria.amount ? `${faNumber(criteria.amount[0])} تا ${faNumber(criteria.amount[1])} ${route.amount.unit}` : "هر مبلغی"} active={criteria.amount != null} width="w-[34rem]">
-          <Budget />
-        </BarItem>
-        <span className="h-7 w-px shrink-0 bg-border" />
-      </>}
-      {(route.usesProjectGroups || subs) && (
-        <BarItem icon={<Category2 size={20} variant="Bulk" />} label={route.usesProjectGroups ? "حوزه و نوع" : "نوع"} value={groupText} active={route.usesProjectGroups ? criteria.groups.length > 0 : subValue.length > 0} width="w-[46rem]">
-          <TypePicker compact />
-        </BarItem>
-      )}
+      <BarItem icon={<Location size={20} variant="Bulk" />} label="محدوده" value={route.id === "fund" ? "همه ایران" : criteria.provinces.length ? criteria.provinces.join("، ") + ((criteria.filters.cities as string[] | undefined)?.length ? `، ${faNumber(new Set(criteria.filters.cities as string[]).size)} شهر` : "") : "همه ایران"} active={route.id !== "fund" && criteria.provinces.length > 0} width={route.id === "fund" ? "w-[22rem]" : "w-[28rem]"}>
+        {route.id === "fund" ? note("صندوق‌ها و طرح‌های جمعی به استان خاصی وابسته نیستند، از هر جای ایران می‌توانید وارد شوید.") : <LocationFields route={route.id} value={criteria.provinces} onChange={(v) => setCriteria({ provinces: v })} />}
+      </BarItem>
+      <span className="h-7 w-px shrink-0 bg-border" />
+      <BarItem icon={<WalletMoney size={20} variant="Bulk" />} label="بودجه" value={!route.amount ? "پرسیده نمی‌شود" : criteria.amount ? `${faNumber(criteria.amount[0])} تا ${faNumber(criteria.amount[1])} ${route.amount.unit}` : "هر مبلغی"} active={!!route.amount && criteria.amount != null} width={route.amount ? "w-[34rem]" : "w-[22rem]"}>
+        {route.amount ? <Budget /> : note("در مسیر بهره‌برداری، شما سرمایه نمی‌آورید و پروژه‌ها با توان اجرایی و تجربه‌تان سنجیده می‌شوند.")}
+      </BarItem>
+      <span className="h-7 w-px shrink-0 bg-border" />
+      <BarItem icon={<Category2 size={20} variant="Bulk" />} label={useGroups ? "حوزه و نوع" : "نوع"} value={groupText} active={useGroups ? criteria.groups.length > 0 : subValue.length > 0} width="w-[46rem]">
+        <TypePicker compact />
+      </BarItem>
     </div>
   );
 }
@@ -324,7 +373,7 @@ function RouteTabs({ routeCounts, active, onChange }: { routeCounts: Record<stri
   const ref = useRef<HTMLDivElement>(null);
   return (
     <div className="relative">
-      {/* هشت مسیر در دو ردیف چهارتایی؛ همه یک‌جا دیده می‌شوند و اسکرول افقی ندارند */}
+      {/* هشت مسیر در دو ردیف چهارتایی، همه یک‌جا دیده می‌شوند و اسکرول افقی ندارند */}
       <div ref={ref} role="tablist" aria-label="مسیر ورود" className="grid grid-cols-4 gap-2">
         {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === active;
           return (
@@ -365,7 +414,7 @@ export function Results() {
       payback: (a, b) => ((a.listing.raw as Opportunity).paybackYears ?? 99) - ((b.listing.raw as Opportunity).paybackYears ?? 99),
       newest: (a, b) => b.listing.publishedAt.localeCompare(a.listing.publishedAt),
     };
-    // پروژه‌های با تطابق کمتر بعد از پروژه‌های مناسب، هنگام اسکرول می‌آیند؛ درصد روی کارت کافی است و عنوان جدا ندارند
+    // پروژه‌های با تطابق کمتر بعد از پروژه‌های مناسب، هنگام اسکرول می‌آیند، درصد روی کارت کافی است و عنوان جدا ندارند
     const rest = hasCriteria ? list.filter((r) => r.score < SUITABLE && r.score > 0) : [];
     return { shown: [...ok].sort(by[sort]), far: [...rest].sort((a, b) => b.score - a.score || by[sort](a, b)) };
   }, [all, q, sort, hasCriteria]);
@@ -390,13 +439,13 @@ export function Results() {
   return (
     <>
       <Header />
-      <main className="relative mx-auto min-h-[70dvh] max-w-[90rem] px-6 pt-8">
+      <main className="focus-blur relative mx-auto min-h-[70dvh] max-w-[90rem] px-6 pt-8">
         {!hydrated ? null : !started ? <Intake count={suitable} /> : (
           <>
             {/* مسیرها: تک‌انتخابی، یک ردیف با اسکرول افقی */}
             <RouteTabs routeCounts={tabCounts} active={criteria.route} onChange={changeRoute} />
 
-            {/* نوار بالا: محدوده، بودجه و حوزه؛ کنارش ترتیب نمایش و فیلترهای ذخیره‌شده، همه ۵۶ پیکسل */}
+            {/* نوار بالا: محدوده، بودجه و حوزه، کنارش ترتیب نمایش و فیلترهای ذخیره‌شده، همه ۵۶ پیکسل */}
             <div className="relative z-30 mt-4 flex items-center gap-3">
               <div className="min-w-0 flex-1"><FilterBar /></div>
               <SortField value={sort} onChange={setSort} />
@@ -421,7 +470,7 @@ export function Results() {
                 </div>
                 {chips.length > 0 && <div className="mb-5"><ActiveChips chips={chips} suitable={suitable} /></div>}
 
-                {/* پروژه‌هایی که از نمودار «بازگشت در برابر مشابه‌ها» در صفحه جزئیات آمده‌اند؛ بالای نتایج سنجاق می‌شوند */}
+                {/* پروژه‌هایی که از نمودار «بازگشت در برابر مشابه‌ها» در صفحه جزئیات آمده‌اند، بالای نتایج سنجاق می‌شوند */}
                 {pinnedList.length > 0 && (
                   <section className="mb-7 rounded-[1.75rem] border border-cobalt/20 bg-[#eef1f8]/70 p-4">
                     <div className="mb-4 flex items-center gap-3 px-1">

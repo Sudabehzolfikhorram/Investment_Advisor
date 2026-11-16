@@ -24,7 +24,7 @@ function NumberBox({ label, value, onCommit }: { label: string; value: number; o
   );
 }
 
-// amounts: مبلغ پروژه‌های متناسب با محدوده و حوزه انتخاب‌شده؛ basis: همه پروژه‌های مسیر (برای ثابت ماندن بازه‌های آماده)
+// amounts: مبلغ پروژه‌های متناسب با محدوده و حوزه انتخاب‌شده، basis: همه پروژه‌های مسیر (برای ثابت ماندن بازه‌های آماده)
 export function BudgetField({ min, max, step = 1, unit, label, value, onChange, amounts, basis, compact }: {
   min: number; max: number; step?: number; unit: string; label?: string; value: [number, number] | null | undefined;
   onChange: (v: [number, number] | null) => void; amounts: number[]; basis?: number[]; compact?: boolean;
@@ -81,18 +81,18 @@ export function BudgetField({ min, max, step = 1, unit, label, value, onChange, 
       </div>
 
       <div className="flex min-h-7 items-center justify-between text-xs">
-        <span className="font-semibold text-muted-foreground">{label ? `${label}؛ ` : ""}<b className="text-ink">{faNumber(total)} پروژه</b> {wide ? "در کل ایران " : ""}با مبلغ اعلام‌شده در این بازه</span>
+        <span className="font-semibold text-muted-foreground">{label ? `${label}، ` : ""}<b className="text-ink">{faNumber(total)} پروژه</b> {wide ? "در کل ایران " : ""}با مبلغ اعلام‌شده در این بازه</span>
         {value && <Button type="button" variant="ghost" size="xs" onClick={() => onChange(null)} className="font-bold text-muted-foreground hover:text-destructive">پاک کردن بودجه</Button>}
       </div>
     </div>
   );
 }
 
-/** نمودار پُر پراکندگی مبلغ‌ها؛ راست‌به‌چپ مثل اسلایدر. بخش داخل بازه انتخابی پررنگ می‌شود. */
+/** نمودار پُر پراکندگی مبلغ‌ها، راست‌به‌چپ مثل اسلایدر. بخش داخل بازه انتخابی پررنگ می‌شود. */
 function BudgetArea({ bins, peak, lo, hi, last }: { bins: number[]; peak: number; lo: number; hi: number; last: number }) {
   const id = useId().replace(/:/g, "");
   const W = 1000, H = 100, n = bins.length;
-  // نقطه‌ها: وسط هر بازه، از راست به چپ؛ دو سر نمودار تا لبه‌ها ادامه پیدا می‌کند
+  // نقطه‌ها: وسط هر بازه، از راست به چپ، دو سر نمودار تا لبه‌ها ادامه پیدا می‌کند
   const pts = bins.map((v, i) => [W - ((i + 0.5) / n) * W, H - (v ? 10 + (v / peak) * 84 : 3)] as const);
   const all = [[W, pts[0]?.[1] ?? H] as const, ...pts, [0, pts.at(-1)?.[1] ?? H] as const];
   let d = `M${all[0][0]},${all[0][1]}`;
@@ -106,7 +106,7 @@ function BudgetArea({ bins, peak, lo, hi, last }: { bins: number[]; peak: number
   return (
     <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="block h-16 w-full px-2" aria-hidden>
       <defs>
-        {/* همان گرادیان سبز سایت (#0f766e → #14b8a6)؛ بیرون بازه کم‌رنگ */}
+        {/* همان گرادیان سبز سایت (#0f766e → #14b8a6)، بیرون بازه کم‌رنگ */}
         <linearGradient id={`g${id}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#0f766e" stopOpacity="0.5" /><stop offset="0.6" stopColor="#14b8a6" stopOpacity="0.18" /><stop offset="1" stopColor="#14b8a6" stopOpacity="0.03" /></linearGradient>
         <linearGradient id={`s${id}`} x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#14b8a6" /><stop offset="1" stopColor="#0f766e" /></linearGradient>
         <clipPath id={`c${id}`}><rect x={x1} y="0" width={Math.max(0, x2 - x1)} height={H} style={{ transition: "x 0.2s, width 0.2s" }} /></clipPath>

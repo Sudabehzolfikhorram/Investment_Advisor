@@ -30,7 +30,7 @@ const intents: Record<ToolDef["group"], { title: string; short: string; lead: st
 };
 const needBands = ["تا ۱۰ میلیارد", "۱۰ تا ۱۰۰ میلیارد", "بیش از ۱۰۰ میلیارد", "هنوز نمی‌دانم"];
 const readiness = ["فقط ایده", "طرح یا نقشه دارم", "زمین و مجوز دارم"];
-/** پیشنهاد خدمت از روی سه پاسخ؛ ساده و قابل پیش‌بینی */
+/** پیشنهاد خدمت از روی سه پاسخ، ساده و قابل پیش‌بینی */
 function recommend(group: ToolDef["group"], ready: number): ToolDef {
   if (group === "plan") return toolById(ready === 0 ? "ideas" : "proposal")!;
   if (group === "land") return toolById("land-preparation")!;
@@ -39,17 +39,17 @@ function recommend(group: ToolDef["group"], ready: number): ToolDef {
 }
 // مراحل از الگوی مشترک سکوهای جذب سرمایه: ارزیابی کوتاه، پرونده کامل، بازبینی، معرفی به سرمایه‌گذار
 const process = [
-  { t: "ارزیابی سریع", d: "سه پرسش؛ خدمت مناسب شما پیشنهاد می‌شود.", time: "۳۰ ثانیه", icon: Flash },
-  { t: "تکمیل پرونده", d: "فرم چندمرحله‌ای با نوار پیشرفت؛ روی همین دستگاه ذخیره می‌شود.", time: "حدود ۱۰ دقیقه", icon: DocumentText },
+  { t: "ارزیابی سریع", d: "سه پرسش، خدمت مناسب شما پیشنهاد می‌شود.", time: "۳۰ ثانیه", icon: Flash },
+  { t: "تکمیل پرونده", d: "فرم چندمرحله‌ای با نوار پیشرفت، روی همین دستگاه ذخیره می‌شود.", time: "حدود ۱۰ دقیقه", icon: DocumentText },
   { t: "گزارش و پیش‌نیازها", d: "خلاصه‌ی پرونده و کارهای مانده را همان لحظه می‌گیرید.", time: "همان لحظه", icon: TaskSquare },
   { t: "معرفی به سرمایه‌گذار", d: "پرونده‌ی کامل در مسیر سرمایه‌گذاران متناسب دیده می‌شود.", time: "پس از بازبینی", icon: People },
 ];
-// آنچه سرمایه‌گذار پیش از اولین تماس می‌پرسد؛ پرونده‌ی هر خدمت به همین‌ها جواب می‌دهد
+// آنچه سرمایه‌گذار پیش از اولین تماس می‌پرسد، پرونده‌ی هر خدمت به همین‌ها جواب می‌دهد
 const investorAsks = [
-  { t: "آورده‌ی شما چیست؟", d: "طرح، زمین، ملک، مجوز یا توان اجرایی؛ و سهم هر طرف از آن." },
+  { t: "آورده‌ی شما چیست؟", d: "طرح، زمین، ملک، مجوز یا توان اجرایی، و سهم هر طرف از آن." },
   { t: "چقدر پول و تا کی؟", d: "نیاز مالی، زمان‌بندی تزریق و دوره‌ی بازگشت سرمایه." },
   { t: "وضعیت حقوقی روشن است؟", d: "سند، کاربری، مجوزها و هر مانعی که پیش از شروع باید رفع شود." },
-  { t: "سود از کجا می‌آید؟", d: "فروش، اجاره یا درآمد بهره‌برداری؛ و ریسک‌هایی که می‌شناسید." },
+  { t: "سود از کجا می‌آید؟", d: "فروش، اجاره یا درآمد بهره‌برداری، و ریسک‌هایی که می‌شناسید." },
 ];
 
 function QuickCheck() {
@@ -108,6 +108,53 @@ function QuickCheck() {
   );
 }
 
+/** فهرست خدمات: هر خدمت یک کارت افقی با عکس، برای چه کسی است، توضیح کامل و دکمه‌ی شروع.
+ *  با دکمه‌های بالا فهرست به «آنچه دارید» محدود می‌شود، ستون نیمه‌خالی و متن بریده ندارد. */
+function ServiceCatalog() {
+  const [tab, setTab] = useState<"all" | ToolDef["group"]>("all");
+  const list = visibleTools.filter((t) => tab === "all" || t.group === tab);
+  const tabs: ["all" | ToolDef["group"], string, Icon, number][] = [
+    ["all", "همه خدمات", TaskSquare, visibleTools.length],
+    ...toolGroups.map((g) => [g.id, intents[g.id].title, intents[g.id].icon, visibleTools.filter((t) => t.group === g.id).length] as ["all" | ToolDef["group"], string, Icon, number]),
+  ];
+  return (
+    <section id="services" className="mt-24 scroll-mt-28">
+      <h2 className="text-[1.6rem] font-black text-ink">همه خدمات، بر اساس آنچه دارید</h2>
+      <p className="mt-1.5 text-[14px] text-muted-foreground">هر خدمت یک فرم کوتاه است که پرونده‌ی شما را برای همان نوع همکاری مرتب می‌کند.</p>
+      <div role="tablist" aria-label="آنچه دارید" className="mt-6 flex flex-wrap gap-2">
+        {tabs.map(([id, label, I, n]) => { const on = tab === id;
+          return (
+            <button key={id} type="button" role="tab" aria-selected={on} onClick={() => setTab(id)}
+              className={cn("inline-flex h-11 items-center gap-2 rounded-full border pl-2 pr-4 text-[13.5px] font-extrabold transition-colors", on ? "border-cobalt bg-cobalt text-white" : "border-border bg-white text-ink/75 hover:border-ink/25 hover:text-ink")}>
+              <I size={17} variant="Bulk" />{label}
+              <span className={cn("grid h-6 min-w-6 place-items-center rounded-full px-1.5 text-[11.5px] tabular-nums", on ? "bg-white/20" : "bg-muted text-ink/60")}>{faNumber(n)}</span>
+            </button>
+          ); })}
+      </div>
+      <motion.ul layout className="mt-6 grid grid-cols-2 gap-4">
+        <AnimatePresence mode="popLayout" initial={false}>
+          {list.map((t) => { const T = toolIcons[t.id]; const it = intents[t.group]; const Ii = it.icon;
+            return (
+              <motion.li key={t.id} layout initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} transition={{ duration: 0.25 }}>
+                <Link href={`/tools/${t.id}`} className="group grid h-full grid-cols-[9rem_minmax(0,1fr)] gap-5 rounded-[1.75rem] bg-white p-2.5 pl-6 ring-1 ring-border transition-[box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:shadow-[0_24px_48px_-32px_rgb(20_30_45/0.45)] hover:ring-ink/15">
+                  <SignaturePhoto src={t.image ?? "/images/hero/office.jpg"} alt="" mark={false} sizes="9rem" className="h-full min-h-[9.5rem] rounded-[1.35rem]">
+                    <span className="absolute bottom-2.5 right-2.5 grid size-9 place-items-center rounded-xl bg-white text-ink shadow-sm"><T size={18} variant="Bulk" /></span>
+                  </SignaturePhoto>
+                  <span className="flex min-w-0 flex-col py-2">
+                    <span className="flex items-center gap-1.5 text-[12px] font-bold text-muted-foreground"><Ii size={14} variant="Bulk" />{it.title}</span>
+                    <span className="mt-1.5 text-[16.5px] font-extrabold leading-7 text-ink">{t.name}</span>
+                    <span className="mt-1 text-[13.5px] leading-7 text-ink/65">{t.description}</span>
+                    <span className="mt-auto flex items-center gap-1.5 pt-3 text-[13px] font-extrabold text-primary">{t.id === "library" ? "مطالعه راهنما" : "شروع خدمت"}<ArrowLeft size={15} className="transition-transform group-hover:-translate-x-1" /></span>
+                  </span>
+                </Link>
+              </motion.li>
+            ); })}
+        </AnimatePresence>
+      </motion.ul>
+    </section>
+  );
+}
+
 export function ToolsIndex() {
   const investorRoutes = routes.length;
   const live = listings.length;
@@ -115,7 +162,7 @@ export function ToolsIndex() {
   return (
     <>
       <Header />
-      <main className="relative mx-auto max-w-7xl px-6 pt-10">
+      <main className="focus-blur relative mx-auto max-w-7xl px-6 pt-10">
         <AlgoPattern className="-right-24 top-0 -z-10 h-[30rem] w-[44rem] text-ink/[0.06]" fade="radial" />
         {/* بالای صفحه: پیام، اعداد و ارزیابی سریع کنار هم */}
         <section className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-center gap-14">
@@ -156,51 +203,14 @@ export function ToolsIndex() {
           </ol>
         </section>
 
-        {/* همه خدمات: چهار ستون بر اساس آنچه دارید */}
-        <section id="services" className="mt-24 scroll-mt-28">
-          <div className="flex items-end justify-between gap-6">
-            <div>
-              <h2 className="text-[1.6rem] font-black text-ink">همه خدمات، بر اساس آنچه دارید</h2>
-              <p className="mt-1.5 text-[14px] text-muted-foreground">هر خدمت یک فرم کوتاه است که پرونده‌ی شما را برای همان نوع همکاری مرتب می‌کند.</p>
-            </div>
-          </div>
-          <div className="mt-8 grid grid-cols-4 gap-4">
-            {toolGroups.map((g, gi) => { const x = intents[g.id]; const I = x.icon; const list = visibleTools.filter((t) => t.group === g.id);
-              return (
-                <motion.div key={g.id} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: gi * 0.08, duration: 0.5 }} className="flex flex-col rounded-[1.75rem] bg-white p-2 ring-1 ring-border">
-                  <div className="relative isolate h-28 overflow-hidden rounded-[1.35rem] p-4">
-                    <SignaturePhoto src={list[0]?.image ?? "/images/hero/office.jpg"} alt="" mark={false} sizes="20rem" className="absolute inset-0 -z-10" />
-                    <span className="absolute inset-0 -z-10 bg-gradient-to-t from-[#111315]/85 to-[#111315]/30" />
-                    <span className="flex h-full flex-col justify-between text-white">
-                      <span className="grid size-9 place-items-center rounded-xl bg-white/15 backdrop-blur-sm"><I size={18} variant="Bulk" /></span>
-                      <span><span className="block text-[15px] font-extrabold">{x.title}</span><span className="block text-[11.5px] text-white/70">{x.lead}</span></span>
-                    </span>
-                  </div>
-                  <ul className="mt-1 flex-1">
-                    {list.map((t) => { const T = toolIcons[t.id];
-                      return (
-                        <li key={t.id}>
-                          <Link href={`/tools/${t.id}`} className="group flex items-center gap-3 rounded-2xl px-3 py-3 transition-colors hover:bg-[#f3f6fa]">
-                            <T size={18} variant="Bulk" className="shrink-0 text-ink/55 transition-colors group-hover:text-ink" />
-                            <span className="min-w-0 flex-1">
-                              <span className="block truncate text-[13.5px] font-extrabold text-ink">{t.name}</span>
-                              <span className="block truncate text-[11.5px] text-muted-foreground">{t.description}</span>
-                            </span>
-                            <ArrowLeft size={15} className="shrink-0 text-ink/25 transition-all group-hover:-translate-x-0.5 group-hover:text-cobalt" />
-                          </Link>
-                        </li>
-                      ); })}
-                  </ul>
-                </motion.div>
-              ); })}
-          </div>
-        </section>
+        {/* همه خدمات: فیلتر «چه چیزی دارید؟» و کارت‌های هم‌اندازه، دوتایی کنار هم */}
+        <ServiceCatalog />
 
         {/* آنچه سرمایه‌گذار می‌پرسد */}
         <section className="mt-24 grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] items-start gap-14">
           <div className="sticky top-28">
             <h2 className="text-[1.6rem] font-black leading-[1.5] text-ink">سرمایه‌گذار پیش از اولین تماس<br />این چهار سؤال را می‌پرسد.</h2>
-            <p className="mt-3 text-[14px] leading-7 text-muted-foreground">پرونده‌ی هر خدمت دقیقاً برای جواب دادن به همین‌ها چیده شده؛ هرچه روشن‌تر، گفت‌وگو کوتاه‌تر.</p>
+            <p className="mt-3 text-[14px] leading-7 text-muted-foreground">پرونده‌ی هر خدمت دقیقاً برای جواب دادن به همین‌ها چیده شده، هرچه روشن‌تر، گفت‌وگو کوتاه‌تر.</p>
             <Link href="/tools/library" className="mt-6 inline-flex h-11 items-center gap-2 rounded-full border border-border bg-white px-5 text-[13px] font-extrabold text-ink hover:border-ink/30">راهنمای کامل همکاری<ArrowLeft size={15} /></Link>
           </div>
           <ol className="grid grid-cols-2 gap-4">
@@ -254,7 +264,7 @@ export function ToolView({ id }: { id: string }) {
   return (
     <>
       <Header />
-      <main className="relative mx-auto max-w-7xl px-6 pt-8">
+      <main className="focus-blur relative mx-auto max-w-7xl px-6 pt-8">
         <SignaturePhoto src={tool.image ?? "/images/hero/office.jpg"} alt="" priority sizes="90vw" className="h-56 rounded-[2rem]">
           <div className="absolute inset-0 flex flex-col justify-between p-7">
             <nav className="flex items-center gap-2 self-start text-[13px] font-bold text-white/80" aria-label="مسیر">

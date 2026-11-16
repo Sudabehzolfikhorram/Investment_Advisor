@@ -1,5 +1,5 @@
 "use client";
-// ایده ۱ «در یک جمله»: همه‌ی اطلاعات پایه در یک جمله‌ی فارسی؛ هر جای خالی یک انتخاب‌گر کوچک است و نتیجه زنده عوض می‌شود.
+// ایده ۱ «در یک جمله»: همه‌ی اطلاعات پایه در یک جمله‌ی فارسی، هر جای خالی یک انتخاب‌گر کوچک است و نتیجه زنده عوض می‌شود.
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";

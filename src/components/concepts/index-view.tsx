@@ -55,10 +55,10 @@ function Thumb({ id }: { id: ConceptId }) {
 }
 
 const table: { k: string; v: Record<ConceptId, string> }[] = [
-  { k: "ایده", v: { girih: "آورده شما تکه‌ای از ستاره هشت‌پر است و هر پره یک مسیر همکاری؛ با انتخاب آورده، پره‌های جور روشن می‌شوند.", metro: "نقشه خطوط شهری: یک ایستگاه «شما اینجا هستید» و هشت خط تا هشت مسیر؛ ایستگاه‌های هر خط همان گام‌های ورود است.", dossier: "شناسنامه رسمی که با پاسخ‌های شما پر می‌شود؛ هر بخش یک پیوست پرونده و مهر کبالت شمار فرصت‌های جور را نشان می‌دهد." } },
+  { k: "ایده", v: { girih: "آورده شما تکه‌ای از ستاره هشت‌پر است و هر پره یک مسیر همکاری، با انتخاب آورده، پره‌های جور روشن می‌شوند.", metro: "نقشه خطوط شهری: یک ایستگاه «شما اینجا هستید» و هشت خط تا هشت مسیر، ایستگاه‌های هر خط همان گام‌های ورود است.", dossier: "شناسنامه رسمی که با پاسخ‌های شما پر می‌شود، هر بخش یک پیوست پرونده و مهر کبالت شمار فرصت‌های جور را نشان می‌دهد." } },
   { k: "اولین تعامل", v: { girih: "انتخاب آورده و روشن شدن پره‌ها", metro: "انتخاب آورده و حرکت قطار روی خط‌های جور", dossier: "پر کردن مسیر، استان، مبلغ و گروه در خود سند" } },
-  { k: "قوت", v: { girih: "متمایزترین و ایرانی‌ترین؛ هیروی تیره و پرانرژی", metro: "خواناترین؛ گام‌های هر مسیر بدون کلیک دیده می‌شود", dossier: "سریع‌ترین راه تا نتیجه؛ حس اعتماد و رسمیت" } },
-  { k: "ریسک", v: { girih: "هیروی تیره با قاعده «حالت روشن» فاصله دارد؛ ستاره برای بعضی تزئینی به نظر برسد", metro: "استعاره مترو برای سرمایه‌گذار جدی کمی بازیگوش است", dossier: "اگر کم‌جان اجرا شود به فرم اداری خشک نزدیک می‌شود" } },
+  { k: "قوت", v: { girih: "متمایزترین و ایرانی‌ترین، هیروی تیره و پرانرژی", metro: "خواناترین، گام‌های هر مسیر بدون کلیک دیده می‌شود", dossier: "سریع‌ترین راه تا نتیجه، حس اعتماد و رسمیت" } },
+  { k: "ریسک", v: { girih: "هیروی تیره با قاعده «حالت روشن» فاصله دارد، ستاره برای بعضی تزئینی به نظر برسد", metro: "استعاره مترو برای سرمایه‌گذار جدی کمی بازیگوش است", dossier: "اگر کم‌جان اجرا شود به فرم اداری خشک نزدیک می‌شود" } },
   { k: "آزمون پیشنهادی", v: { girih: "پنج ثانیه: کاربر بگوید چند مسیر وجود دارد و کدام برای اوست", metro: "کاربر بدون کلیک گام سوم مسیر اجاره را پیدا کند", dossier: "زمان رسیدن به فهرست فرصت‌ها از ورود به صفحه" } },
 ];
 
@@ -69,7 +69,7 @@ export function ConceptsIndex() {
         <AlgoPattern className="inset-0 -z-10 size-full text-[#1e3a8a]/[0.07]" fade="left" />
         <div className="mx-auto max-w-[78rem] px-8 pb-12 pt-10">
           <Logo />
-          <MarkTitle as="h1" className="mt-10 text-[2.8rem] font-black leading-[1.35]" markClass="text-[#0f766e]">سه لندینگ برای سرمایه‌نما</MarkTitle>
+          <MarkTitle as="h1" className="mt-10 text-[2.8rem] font-black leading-[1.35]" markClass="text-[#0f766e]">سه لندینگ برای سرمایه‌گزین</MarkTitle>
           <p className="mt-3 max-w-[48rem] text-[16px] leading-8 text-[#2f3533]/70">هر سه همه مسیرها، گروه‌ها، پرسش‌ها، خدمات و متن‌های نسخه مرجع را دارند و به همان صفحه‌های سایت می‌رسند. تفاوتشان در زبان بصری و شیوه اولین تعامل است. صفحه جزئیات هر کانسپت هم با نمودار ساخته شده است.</p>
         </div>
       </header>
@@ -123,7 +123,7 @@ export function ConceptsIndex() {
               <span className="inline-flex h-11 items-center rounded-full px-4 text-[13.5px] font-bold ring-1 ring-[#d7dee9]">تخصص دارم</span>
               <span className="rounded-full bg-[#fcebe5] px-3 py-1.5 text-[12.5px] font-bold text-[#b8461f]">هشدار</span>
             </div>
-            <div className="mt-5 flex items-end gap-1.5">{[38, 52, 30, 64, 46, 72, 58].map((v, i) => <span key={i} className="w-6 rounded-t-[4px]" style={{ height: v, background: i === 5 ? "#1e3a8a" : "#c9dcfb" }} />)}<span className="mr-3 text-[12.5px] font-bold text-[#2f3533]/60">نمودارها با کبالت؛ متن هرگز به رنگ داده نیست</span></div>
+            <div className="mt-5 flex items-end gap-1.5">{[38, 52, 30, 64, 46, 72, 58].map((v, i) => <span key={i} className="w-6 rounded-t-[4px]" style={{ height: v, background: i === 5 ? "#1e3a8a" : "#c9dcfb" }} />)}<span className="mr-3 text-[12.5px] font-bold text-[#2f3533]/60">نمودارها با کبالت، متن هرگز به رنگ داده نیست</span></div>
           </div>
           <div className="rounded-[1.2rem] bg-white p-6 ring-1 ring-[#d7dee9]">
             <p className="text-[15px] font-black">ترکیب دو رنگ</p>

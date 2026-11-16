@@ -14,7 +14,7 @@ import { SeriesDot } from "./timeline";
 
 interface Turn { id: number; q: string; a: Answer; set: string }
 
-/** متن پاسخ کلمه‌به‌کلمه؛ پس از پایان، بقیه پاسخ (اشاره‌ها و پرسش‌های بعدی) نمایش داده می‌شود */
+/** متن پاسخ کلمه‌به‌کلمه، پس از پایان، بقیه پاسخ (اشاره‌ها و پرسش‌های بعدی) نمایش داده می‌شود */
 function Stream({ text, onDone }: { text: string; onDone: () => void }) {
   const reduce = useReducedMotion();
   const words = useMemo(() => text.split(" "), [text]);
@@ -34,12 +34,13 @@ function Reply({ turn, items, stale, onAsk, onShowRows }: { turn: Turn; items: L
   const a = turn.a;
   return (
     <div className="space-y-4">
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="flex justify-end">
-        <p className="max-w-[88%] rounded-[1.3rem] rounded-tl-md bg-ink px-4 py-2 text-[13px] font-bold leading-6 text-white">{turn.q}</p>
+      {/* پرسش شما سمت راست، پاسخ دستیار سمت چپ */}
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="flex justify-start">
+        <p className="max-w-[88%] rounded-[1.3rem] rounded-tr-md bg-ink px-4 py-2 text-[13px] font-bold leading-6 text-white">{turn.q}</p>
       </motion.div>
-      <div className="flex items-start gap-3">
+      <div className="flex flex-row-reverse items-start gap-3">
         <Orb size={28} busy={phase !== "done"} />
-        <div className="min-w-0 flex-1 pt-0.5">
+        <div className="mr-8 min-w-0 flex-1 rounded-[1.3rem] rounded-tl-md bg-[#f1f4f8] px-4 py-3">
           {stale && <p className="mb-1 text-[11.5px] font-bold text-muted-foreground">این پاسخ برای پروژه‌هایی بود که قبلاً انتخاب کرده بودید.</p>}
           {phase === "think" ? (
             <p className="text-[13.5px] font-bold text-muted-foreground"><span className="animate-pulse">در حال خواندن داده‌های پروژه‌ها…</span></p>
@@ -94,7 +95,7 @@ export function CompareChat({ items, onShowRows, className }: { items: Listing[]
   useEffect(() => { const el = log.current; if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" }); }, [turns.length]);
   const howMany = items.length === 4 ? "چهار" : items.length === 3 ? "سه" : "دو";
 
-  // ستون کناری صفحه مقایسه: هنگام پیمایش ثابت می‌ماند؛ گفت‌وگو وسط و نوشتن پایین
+  // ستون کناری صفحه مقایسه: هنگام پیمایش ثابت می‌ماند، گفت‌وگو وسط و نوشتن پایین
   return (
     <div className={cn("surface flex flex-col overflow-hidden rounded-[1.75rem]", className)}>
       <div className="border-b border-border px-5 pb-4 pt-5">
@@ -116,7 +117,7 @@ export function CompareChat({ items, onShowRows, className }: { items: Listing[]
         {!ready ? (
           <div className="flex h-full flex-col">
             <div className="rounded-2xl bg-[#f3f6fa] p-4 text-[13px] font-semibold leading-7 text-ink/75">
-              {items.length === 1 ? "یک پروژه دیگر انتخاب کنید" : "دست‌کم دو پروژه انتخاب کنید"} تا بتوانم آن‌ها را با هم مقایسه کنم؛ مثلاً بگویم کدام زودتر سرمایه را برمی‌گرداند یا با بودجه شما جور است.
+              {items.length === 1 ? "یک پروژه دیگر انتخاب کنید" : "دست‌کم دو پروژه انتخاب کنید"} تا بتوانم آن‌ها را با هم مقایسه کنم، مثلاً بگویم کدام زودتر سرمایه را برمی‌گرداند یا با بودجه شما جور است.
             </div>
             <p className="mb-2 mt-5 text-[11.5px] font-bold text-muted-foreground">بعد از انتخاب می‌توانید بپرسید:</p>
             <ul className="space-y-1.5">{starterQuestions.slice(0, 4).map((q) => <li key={q} className="rounded-xl border border-dashed border-border px-3.5 py-2.5 text-[12.5px] font-bold leading-6 text-ink/45">{q}</li>)}</ul>

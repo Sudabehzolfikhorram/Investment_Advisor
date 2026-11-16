@@ -7,6 +7,8 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SignaturePhoto } from "@/components/listing/signature-photo";
+import { Logo } from "@/components/brand/algo-pattern";
+import { site } from "@/data/site";
 import { useStore } from "@/lib/store";
 import { cn, faDigits } from "@/lib/utils";
 
@@ -18,7 +20,34 @@ const perks = [
   { I: Notification, t: "پروژه‌های تازه را زودتر می‌بینید", d: "پروژه‌های جدیدی که به شرایط شما می‌خورند جدا نشان داده می‌شوند." },
 ];
 
-/** ورود ساده: موبایل و کد یکبار مصرف؛ هر کد پنج‌رقمی پذیرفته می‌شود. */
+const photos = ["/images/hero/office.jpg", "/images/hero/towers.jpg", "/images/hero/heritage.webp", "/images/hero/construction.jpg", "/images/hero/field.jpg"];
+/** ستون تصویر پنجره ورود: عکس‌ها هر ۵ ثانیه عوض می‌شوند، معرفی کوتاه سایت و سه مزیت ورود روی لایه‌ی تیره‌ی خوانا */
+function LoginVisual() {
+  const [i, setI] = useState(0);
+  useEffect(() => { const t = window.setInterval(() => setI((k) => (k + 1) % photos.length), 5000); return () => window.clearInterval(t); }, []);
+  return (
+    <SignaturePhoto src={photos[0]} srcs={photos} active={i} alt="" mark={false} sizes="400px" className="h-full min-h-[36rem]">
+      <div aria-hidden className="absolute inset-0 bg-[linear-gradient(to_top,rgb(12_14_16/0.92)_0%,rgb(12_14_16/0.8)_45%,rgb(12_14_16/0.25)_75%,rgb(12_14_16/0.35)_100%)]" />
+      <div className="absolute inset-x-0 top-0 flex items-center justify-between p-7">
+        <Logo light />
+        <span className="flex gap-1">{photos.map((_, k) => <span key={k} className={cn("h-1 rounded-full transition-all duration-500", k === i ? "w-5 bg-white" : "w-2 bg-white/40")} />)}</span>
+      </div>
+      <div className="absolute inset-x-0 bottom-0 p-7">
+        <p className="text-[19px] font-black leading-8 text-white">{site.name}، فرصت‌های سرمایه‌گذاری ایران را یک‌جا جلوی شما می‌گذارد.</p>
+        <p className="mt-2 text-[13.5px] font-medium leading-7 text-white/80">شرایط و بودجه‌تان را می‌گویید، پروژه‌های سرمایه‌گذاری، مشارکت و اجرای سراسر کشور با درصد تطابق و دلیلش پیشنهاد می‌شوند.</p>
+        <ul className="mt-5 space-y-3 border-t border-white/15 pt-5">
+          {perks.map(({ I, t }) => (
+            <li key={t} className="flex items-center gap-3 text-[14px] font-bold leading-6 text-white">
+              <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-white/15 backdrop-blur"><I size={18} variant="Bulk" /></span>{t}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </SignaturePhoto>
+  );
+}
+
+/** ورود ساده: موبایل و کد یکبار مصرف، هر کد پنج‌رقمی پذیرفته می‌شود. */
 export function LoginDialog() {
   const { loginOpen, closeLogin, login, pending, saveProfile } = useStore();
   const [step, setStep] = useState<"mobile" | "code">("mobile");
@@ -43,21 +72,13 @@ export function LoginDialog() {
   return (
     <>
       <Dialog open={loginOpen} onOpenChange={(o) => { if (!o) { closeLogin(); setStep("mobile"); setCode(""); } }}>
-        <DialogContent className="grid grid-cols-[17rem_1fr] gap-0 overflow-hidden rounded-[2rem] bg-white p-0 sm:max-w-[46rem]">
-          <SignaturePhoto src="/images/hero/office.jpg" alt="" sizes="300px" className="h-full min-h-[27rem]">
-            <div className="absolute inset-x-0 bottom-0 space-y-4 p-6">
-              {perks.map(({ I, t }) => (
-                <p key={t} className="flex items-center gap-3 text-[13px] font-bold leading-6 text-white">
-                  <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-white/15 backdrop-blur"><I size={17} variant="Bulk" /></span>{t}
-                </p>
-              ))}
-            </div>
-          </SignaturePhoto>
-          <div className="flex flex-col p-8 pt-10">
+        <DialogContent className="grid grid-cols-[25rem_1fr] gap-0 overflow-hidden rounded-[2rem] bg-white p-0 sm:max-w-[60rem]">
+          <LoginVisual />
+          <div className="flex flex-col p-10 pt-12">
             <span className="grid size-12 place-items-center rounded-2xl bg-ink/[0.06] text-primary">{step === "mobile" ? <Mobile size={24} variant="Bulk" /> : <ShieldTick size={24} variant="Bulk" />}</span>
-            <DialogTitle className="mt-5 text-right text-[22px] font-black leading-9 text-ink">{step === "mobile" ? "ورود با شماره موبایل" : "کد تأیید را وارد کنید"}</DialogTitle>
-            <DialogDescription className="mt-1 text-right text-[13px] leading-7 text-muted-foreground">
-              {step === "mobile" ? `${reason} فقط شماره موبایل لازم است؛ نام و رمز نمی‌خواهیم.` : `کد پنج‌رقمی به ${faDigits(mobile)} فرستاده شد.`}
+            <DialogTitle className="mt-5 text-right text-[26px] font-black leading-10 text-ink">{step === "mobile" ? "ورود با شماره موبایل" : "کد تایید را وارد کنید"}</DialogTitle>
+            <DialogDescription className="mt-1.5 text-right text-[14px] leading-7 text-muted-foreground">
+              {step === "mobile" ? `${reason} فقط شماره موبایل لازم است، نام و رمز نمی‌خواهیم.` : `کد پنج‌رقمی به ${faDigits(mobile)} فرستاده شد.`}
             </DialogDescription>
             <form className="mt-7 space-y-3.5" onSubmit={(e) => { e.preventDefault(); if (step === "mobile") { if (validMobile) setStep("code"); } else if (code.length === 5) finish(); }}>
               {step === "mobile" ? (
@@ -83,7 +104,7 @@ export function LoginDialog() {
   );
 }
 
-/** پنج خانه کد؛ یک ورودی واقعی روی خانه‌ها قرار دارد تا تایپ، چسباندن و پاک کردن طبیعی بماند */
+/** پنج خانه کد، یک ورودی واقعی روی خانه‌ها قرار دارد تا تایپ، چسباندن و پاک کردن طبیعی بماند */
 function CodeBoxes({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const ref = useRef<HTMLInputElement>(null);
   const [focus, setFocus] = useState(true);
@@ -97,7 +118,7 @@ function CodeBoxes({ value, onChange }: { value: string; onChange: (v: string) =
         ))}
       </div>
       <Input ref={ref} inputMode="numeric" autoComplete="one-time-code" value={value} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}
-        onChange={(e) => onChange(toEn(e.target.value).slice(0, 5))} aria-label="کد تأیید"
+        onChange={(e) => onChange(toEn(e.target.value).slice(0, 5))} aria-label="کد تایید"
         className="absolute inset-0 h-full w-full cursor-text border-0 bg-transparent text-transparent caret-transparent opacity-0 shadow-none focus-visible:ring-0" />
     </div>
   );

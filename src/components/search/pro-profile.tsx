@@ -36,7 +36,7 @@ export function useProProfile() {
   return p;
 }
 
-/** شرایط جست‌وجو از روی پروفایل؛ سرمایه فقط در مسیر سرمایه‌گذاری جای بودجه می‌نشیند (مثل نسخه مرجع) */
+/** شرایط جست‌وجو از روی پروفایل، سرمایه فقط در مسیر سرمایه‌گذاری جای بودجه می‌نشیند (مثل نسخه مرجع) */
 export function profileCriteria(p: ProProfile, current: SearchCriteria): Partial<SearchCriteria> {
   const mapped = (p.roles ?? []).map((r) => roleRoute[r]).filter(Boolean) as RouteId[];
   const route = mapped.includes(current.route) ? current.route : mapped[0] ?? current.route;
@@ -69,7 +69,7 @@ export function writeProProfile(patch: Partial<ProProfile>) {
 }
 
 type Fact = { id: "route" | "province" | "amount"; label: string; value: string; on: boolean; patch: Partial<SearchCriteria> };
-/** هر بخش پروفایل یک فیلتر جدا؛ کاربر می‌بیند کدام روی نتایج نشسته و هر کدام را جدا روشن یا خاموش می‌کند */
+/** هر بخش پروفایل یک فیلتر جدا، کاربر می‌بیند کدام روی نتایج نشسته و هر کدام را جدا روشن یا خاموش می‌کند */
 function profileFacts(p: ProProfile, c: SearchCriteria): Fact[] {
   const next = profileCriteria(p, c); const out: Fact[] = [];
   const roles = (p.roles ?? []).map((r) => roleLabel[r]).filter(Boolean);
@@ -131,7 +131,7 @@ export function ProProfileCard({ className, onApplied }: { className?: string; o
     <div className={cn("rounded-2xl bg-[#f3f6fa] p-4", className)}>
       <div className="flex items-start gap-3">
         <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white text-ink shadow-[0_6px_16px_-10px_rgb(20_30_45/0.4)]"><UserEdit size={19} variant="Bulk" /></span>
-        <p className="min-w-0 flex-1 text-[12.5px] leading-6 text-muted-foreground"><b className="block text-[13.5px] font-extrabold text-ink">فیلترها را از پروفایلتان پر کنید</b>نقش، استان و سرمایه را یک‌بار بگویید؛ هر بار همین‌جا با یک کلیک روی نتایج می‌نشیند.</p>
+        <p className="min-w-0 flex-1 text-[12.5px] leading-6 text-muted-foreground"><b className="block text-[13.5px] font-extrabold text-ink">فیلترها را از پروفایلتان پر کنید</b>نقش، استان و سرمایه را یک‌بار بگویید، هر بار همین‌جا با یک کلیک روی نتایج می‌نشیند.</p>
       </div>
       <div className="mt-3 flex items-center gap-2">
         <Button type="button" variant="plain" size="auto" onClick={() => setQuick(true)} className="h-9 flex-1 rounded-full bg-ink text-[12.5px] font-extrabold text-white hover:bg-ink/90">ساخت سریع پروفایل</Button>

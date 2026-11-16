@@ -1,6 +1,6 @@
 "use client";
-// کانسپت ۱ «کاشی و گره»: پالت کاشی ایرانی؛ لاجوردی (کبالت) میدان‌های بزرگ را می‌گیرد و فیروزه‌ای (سبز اصلی) فقط اقدام است.
-// امضا: ستاره هشت‌پر. هر پر یک مسیر است؛ آورده‌ای که انتخاب می‌کنید پرهای جورشده را روشن می‌کند و مرکز ستاره شمار پروژه‌ها را می‌گوید.
+// کانسپت ۱ «کاشی و گره»: پالت کاشی ایرانی، لاجوردی (کبالت) میدان‌های بزرگ را می‌گیرد و فیروزه‌ای (سبز اصلی) فقط اقدام است.
+// امضا: ستاره هشت‌پر. هر پر یک مسیر است، آورده‌ای که انتخاب می‌کنید پرهای جورشده را روشن می‌کند و مرکز ستاره شمار پروژه‌ها را می‌گوید.
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState, type CSSProperties, type ReactNode } from "react";
@@ -264,7 +264,7 @@ function Goals({ state }: { state: ReturnType<typeof useBringState> }) {
             ))}
           </ol>
         </div>
-        {state.bring && <p className="mt-6 text-[13.5px] font-bold text-[#1e3a8a]">آورده «{brings.find((b) => b.id === state.bring)?.short}» انتخاب شده؛ هدف‌های جورشده پررنگ‌اند. <button type="button" className="underline underline-offset-4" onClick={() => state.setBring(null)}>همه را نشان بده</button></p>}
+        {state.bring && <p className="mt-6 text-[13.5px] font-bold text-[#1e3a8a]">آورده «{brings.find((b) => b.id === state.bring)?.short}» انتخاب شده، هدف‌های جورشده پررنگ‌اند. <button type="button" className="underline underline-offset-4" onClick={() => state.setBring(null)}>همه را نشان بده</button></p>}
         <p className="mt-8 text-[14px] font-extrabold text-[#2f3533]">{goalsHead.label}</p>
         <div className="mt-3 grid grid-cols-5 gap-3">
           {goals.map((g, i) => {
@@ -565,7 +565,7 @@ function Detail({ l }: { l: Listing }) {
   const o = l.raw as Opportunity & { exit?: string };
   const expert = (o as Opportunity).expert;
   const map = l.province ? [{ id: "map", size: "small" as const, title: "محل پروژه", node: <><ProvinceMap hot={l.province} base="fill-[#2f3533]/[0.08]" fill="fill-[#1e3a8a]" /><p className="mt-2 text-[13.5px] font-extrabold">{l.province}، {l.city}</p></> }] : [];
-  const { first, rest } = arrange(chartList(s, { time: "زمان‌بندی پول", timeNote: "هر نوار از امروز شروع می‌شود؛ نشانگر را روی نمودار ببرید.", ladder: "وضعیت پروژه" }, map));
+  const { first, rest } = arrange(chartList(s, { time: "زمان‌بندی پول", timeNote: "هر نوار از امروز شروع می‌شود، نشانگر را روی نمودار ببرید.", ladder: "وضعیت پروژه" }, map));
   const second = first?.size === "wide" ? rest.find((c) => c.id === "ladder") ?? rest.find((c) => c.size === "small") : undefined;
   const others = rest.filter((c) => c !== second);
   return (
@@ -582,7 +582,7 @@ function Detail({ l }: { l: Listing }) {
             <div className="mt-8 grid max-w-[40rem] grid-cols-3 overflow-hidden rounded-[1.4rem] ring-1 ring-white/15">
               {l.stats.slice(0, 3).map((x, i) => <div key={x.label} className={cn("p-5", i === 1 ? "bg-white/[0.08]" : "")}><p className="text-[12px] font-bold text-white/60">{x.label}</p><p className="mt-1 text-[1.25rem] font-black">{x.value}</p></div>)}
             </div>
-            {!s.lanes.length && <p className="mt-3 text-[12.5px] font-semibold text-white/60">هیچ‌کدام از زمان‌های این مورد اعلام نشده است؛ برای همین نمودار زمانی ندارد.</p>}
+            {!s.lanes.length && <p className="mt-3 text-[12.5px] font-semibold text-white/60">هیچ‌کدام از زمان‌های این مورد اعلام نشده است، برای همین نمودار زمانی ندارد.</p>}
             <div className="mt-8 flex items-center gap-3">
               <SaveButton id={l.id} label className="h-12 rounded-full bg-white px-6 font-extrabold text-[#08337d] hover:bg-white/90" />
               <CompareToggle id={l.id} className="bg-white/10 text-white hover:bg-white/20" onClass="bg-[#5cc4b8] text-[#042560]" />
@@ -606,7 +606,7 @@ function Detail({ l }: { l: Listing }) {
 
         <Tile title="قرارداد و پول" className={s.steps.length || s.checks.length ? "col-span-3" : "col-span-6"}>
           <dl className="space-y-4 text-[14px] leading-7">
-            {[["مدل قرارداد", o.model], ["تأمین مالی", o.finance], ["شیوه بازپرداخت", o.repay], ["مالکیت و سهم", o.ownership], ["شرایط خروج", o.exit]].filter(([, v]) => v).map(([k, v]) => <div key={k}><dt className="text-[12px] font-bold text-[#2f3533]/55">{k}</dt><dd className="font-semibold text-[#2f3533]">{v}</dd></div>)}
+            {[["مدل قرارداد", o.model], ["تامین مالی", o.finance], ["شیوه بازپرداخت", o.repay], ["مالکیت و سهم", o.ownership], ["شرایط خروج", o.exit]].filter(([, v]) => v).map(([k, v]) => <div key={k}><dt className="text-[12px] font-bold text-[#2f3533]/55">{k}</dt><dd className="font-semibold text-[#2f3533]">{v}</dd></div>)}
           </dl>
           {o.caution && <p className="mt-5 rounded-2xl bg-[#fcebe5] px-4 py-3 text-[13.5px] font-semibold leading-7 text-[#b8461f]">پیش از تصمیم: {o.caution}</p>}
         </Tile>

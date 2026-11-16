@@ -34,7 +34,7 @@ export function SaveCriteriaDialog({ open, onOpenChange }: { open: boolean; onOp
       <DialogContent className="rounded-3xl bg-white sm:max-w-lg">
         <DialogHeader className="pr-7 text-right">
           <DialogTitle className="flex items-center gap-2 text-xl font-extrabold"><Save2 size={22} variant="Bulk" className="text-primary" />ذخیره این جست‌وجو</DialogTitle>
-          <DialogDescription>دفعه بعد لازم نیست چیزی را دوباره وارد کنید؛ با یک کلیک به همین نتایج برمی‌گردید و پروژه‌های تازه را می‌بینید.</DialogDescription>
+          <DialogDescription>دفعه بعد لازم نیست چیزی را دوباره وارد کنید، با یک کلیک به همین نتایج برمی‌گردید و پروژه‌های تازه را می‌بینید.</DialogDescription>
         </DialogHeader>
         <form onSubmit={(e) => { e.preventDefault(); save(); }} className="space-y-5">
           <div className="space-y-2"><Label htmlFor="criteria-name" className="text-[13px] font-bold">یک نام برایش بگذارید</Label>
@@ -75,7 +75,7 @@ export function SavedCriteriaMenu({ onSave, saved }: { onSave: () => void; saved
   const fresh = list.reduce((n, p) => n + (stats[p.id]?.fresh ?? 0), 0);
   return (
     <DropdownMenu dir="rtl">
-      {/* هم‌قد نوار فیلترهای بالا (۵۶ پیکسل)؛ برچسب کوچک + مقدار، مثل همان نوار */}
+      {/* هم‌قد نوار فیلترهای بالا (۵۶ پیکسل)، برچسب کوچک + مقدار، مثل همان نوار */}
       <DropdownMenuTrigger asChild>
         <Button variant="plain" size="auto" className="surface group h-14 w-[13.5rem] shrink-0 justify-start gap-2.5 rounded-full px-4 text-right data-[state=open]:bg-muted">
           <ArchiveTick size={20} variant="Bulk" className={cn("shrink-0", list.length ? "text-primary" : "text-ink/45")} />
