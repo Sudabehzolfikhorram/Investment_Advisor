@@ -10,7 +10,7 @@ export const COMPARE_MAX = 4;
 export const COMPARE_MIN = 2;
 
 /** رنگ هویت هر پروژه در صفحه مقایسه (به ترتیب ثابت؛ با ابزار سنجش رنگ برای کوررنگی بررسی شده) */
-export const SERIES = ["#2152e0", "#0d9488", "#7c3aed", "#db2777"] as const;
+export const SERIES = ["#0e53c8", "#0d9488", "#7c3aed", "#db2777"] as const;
 
 export const compareListings = listings.filter((l) => l.kind === "project");
 export const oppOf = (l: Listing) => l.raw as Opportunity;

@@ -23,17 +23,22 @@
   --destructive: #c2410c;
   --border: #e1e7ef;
   --input: #e1e7ef;
-  --ring: #2152e0;
+  --ring: #0e53c8;
   --ink: #2f3533;
   --deep: #262c33;
   /* سطح‌های تیره: زغالی با ته‌مایه آبی (دور ۱۸: سبزِ تیره برداشته شد تا طرح تمیز و خنثی بماند) */
   --pine: #262c33;
   --pine-soft: #e6ebf2;
   --pine-deep: #1d2228;
-  /* رنگ دوم (دور ۲۰): آبی کبالتی زنده؛ برای انتخاب، حالت فعال، داده و تأکید. سبز فقط برای دکمه‌ی اصلی می‌ماند */
-  --cobalt: #2152e0;      /* کنتراست ۶٫۳ روی سفید */
-  --cobalt-deep: #1a40b5;
-  --cobalt-soft: #e9effd;
+  /* رنگ دوم (دور ۲۱): کبالتِ هم‌خانواده سبز. فام ۲۶۱ (کمی سبزتر از اولترامارین)، یک پله تیره‌تر از سبز، اشباع نسبی ۹۳٪ مثل سبز.
+     برای انتخاب، حالت فعال، داده و تأکید. سبز فقط برای دکمه‌ی اصلی. کنتراست با سفید ۶٫۸ */
+  --cobalt: #0e53c8;
+  --cobalt-deep: #0d429f;
+  --cobalt-soft: #e6eefc;
+  --cobalt-50: #f1f5fd; --cobalt-100: #e6eefc; --cobalt-200: #c9dcfb; --cobalt-300: #9dbff9; --cobalt-400: #669af5;
+  --cobalt-500: #2871f2; --cobalt-600: #0e53c8; --cobalt-700: #0d429f; --cobalt-800: #08337d; --cobalt-900: #042560; --cobalt-950: #021844;
+  --teal-50: #e9f8f5; --teal-100: #d0f1ec; --teal-200: #a7e0d8; --teal-300: #5cc4b8; --teal-400: #2a9f95; --teal-500: #158a80;
+  --teal-600: #0f766e; --teal-700: #0d5f59; --teal-800: #0a4a45; --teal-900: #063632; --teal-950: #03211e;
   /* نارنجی فقط برای هشدار: بیرون از بودجه، ریسک، نکته‌ی پیش از تصمیم */
   --warn: #e0603f;
   --warn-deep: #b8461f;
@@ -67,6 +72,29 @@
   --color-cobalt: var(--cobalt);
   --color-cobalt-deep: var(--cobalt-deep);
   --color-cobalt-soft: var(--cobalt-soft);
+  --color-cobalt-50: var(--cobalt-50);
+  --color-cobalt-100: var(--cobalt-100);
+  --color-cobalt-200: var(--cobalt-200);
+  --color-cobalt-300: var(--cobalt-300);
+  --color-cobalt-400: var(--cobalt-400);
+  --color-cobalt-500: var(--cobalt-500);
+  --color-cobalt-600: var(--cobalt-600);
+  --color-cobalt-700: var(--cobalt-700);
+  --color-cobalt-800: var(--cobalt-800);
+  --color-cobalt-900: var(--cobalt-900);
+  --color-cobalt-950: var(--cobalt-950);
+  --color-teal-50: var(--teal-50);
+  --color-teal-100: var(--teal-100);
+  --color-teal-200: var(--teal-200);
+  --color-teal-300: var(--teal-300);
+  --color-teal-400: var(--teal-400);
+  --color-teal-500: var(--teal-500);
+  --color-teal-600: var(--teal-600);
+  --color-teal-700: var(--teal-700);
+  --color-teal-800: var(--teal-800);
+  --color-teal-900: var(--teal-900);
+  --color-teal-950: var(--teal-950);
+
   --color-warn: var(--warn);
   --color-warn-deep: var(--warn-deep);
   --color-warn-soft: var(--warn-soft);
@@ -147,3 +175,11 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* کانسپت ۱: پرهای ستاره از مرکز ستاره باز می‌شوند (نه از گوشه خودشان) */
+.girih-ray { transform-box: view-box; transform-origin: center; }
+@keyframes girih-ray { from { opacity: 0; transform: scale(0.55) rotate(-30deg); } to { opacity: 1; transform: none; } }
+@keyframes girih-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .girih-ray { animation: none !important; } }
+.slow-spin { animation: girih-spin 240s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .slow-spin { animation: none !important; } }

@@ -32,6 +32,11 @@ import { CompareTray } from "@/components/compare/tray";
 import type { Advisory, Fund, Listing, Opportunity, RouteId, SaleItem } from "@/types";
 import { routeSteps } from "@/data/routes";
 import { cn, faNumber, formatMobile, incomeLabel, legalLabel, riskLabel } from "@/lib/utils";
+import { chartList } from "@/components/concepts/charts";
+import { sheetOf } from "@/lib/sheet";
+
+/** رنگ‌های نمودارهای مقایسه‌ای در سایت فعلی: داده کبالت، متن خنثی */
+const cv = { "--cv-accent": "#0e53c8", "--cv-soft": "#e6eefc", "--cv-ink": "#2f3533", "--cv-grid": "#e1e6ee", "--cv-surface": "#ffffff", "--cv-warn": "#e0603f" } as React.CSSProperties;
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const NA = "ثبت نشده";
@@ -401,6 +406,9 @@ export function Detail({ id }: { id: string }) {
   const sections = dossier(l);
   const nextSteps = o?.steps.length ? o.steps : fund?.steps?.length ? fund.steps : routeSteps[l.routes[0] as RouteId];
   const hasTime = !!o && [o.firstIncomeMonths, o.executionMonths, o.lockupMonths, o.paybackYears, o.paybackDownsideYears, o.durationYears].some((x) => x != null);
+  const charts = chartList(sheetOf(l), { time: "", timeNote: "", ladder: "" });
+  const peerCharts = charts.filter((c) => c.size === "mid");
+  const shapeCharts = charts.filter((c) => ["known", "income", "payout"].includes(c.id));
 
   return (
     <>
@@ -448,7 +456,19 @@ export function Detail({ id }: { id: string }) {
                 <Milestones o={o} />
               </Chapter>
             )}
+            {peerCharts.length > 0 && (
+              <Chapter n={++n} title="در کنار موارد مشابه" note="هر نقطه یک مورد است؛ نقطه پررنگ همین مورد">
+                <div style={cv} className={cn("grid gap-4", peerCharts.length > 1 && "grid-cols-2")}>
+                  {peerCharts.map((c) => <div key={c.id} className="surface rounded-[1.75rem] p-6"><h3 className="mb-5 text-sm font-extrabold text-ink">{c.title}</h3>{c.node}</div>)}
+                </div>
+              </Chapter>
+            )}
             {hasFlow && <Chapter n={++n} title="مسیر پول"><MoneyFlow o={text} /></Chapter>}
+            <Chapter n={++n} title="داده‌ها و الگوی دریافت" note="عدد نامعلوم صفر فرض نمی‌شود">
+              <div style={cv} className={cn("grid gap-4", shapeCharts.length > 1 && "grid-cols-2", shapeCharts.length > 2 && "grid-cols-3")}>
+                {shapeCharts.map((c) => <div key={c.id} className="surface rounded-[1.75rem] p-6"><h3 className="mb-5 text-sm font-extrabold text-ink">{c.title}</h3>{c.node}</div>)}
+              </div>
+            </Chapter>
 
             {o && (
               <Chapter n={++n} title="ریسک و نکته‌های مهم">
