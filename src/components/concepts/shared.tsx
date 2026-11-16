@@ -124,7 +124,7 @@ export function DirectSearch({ dark, className, field, button }: { dark?: boolea
         <Select value={group} onValueChange={setGroup} dir="rtl" disabled={!usesGroups}><SelectTrigger className={f}><SelectValue placeholder="برای این مسیر لازم نیست" /></SelectTrigger>
           <SelectContent><SelectItem value="all">همه گروه‌های پروژه</SelectItem>{projectGroups.map((g) => <SelectItem key={g.id} value={g.id}>{g.name}</SelectItem>)}</SelectContent></Select></label>
       <label><span className={lab}>{directSearch.fields.query}</span>
-        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="مثلاً نیروگاه یا DEMO-02" className={f} /></label>
+        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="مثلاً نیروگاه یا یزد" className={f} /></label>
       <button type="submit" className={cn("inline-flex h-12 items-center gap-2 rounded-xl bg-primary px-6 text-[14px] font-extrabold text-white transition-[transform,background-color] hover:bg-[#0d5f59] active:scale-[0.98]", button)}>
         <SearchNormal1 size={18} />{directSearch.submit}</button>
     </form>

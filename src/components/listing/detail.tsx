@@ -9,7 +9,7 @@ import { motion } from "motion/react";
 import { toast } from "sonner";
 import {
   ArrowLeft, ArrowRight, Call, Copy, CopySuccess, DocumentDownload, Location, Warning2, ShieldSearch, WalletMoney, MoneyRecive, Key,
-  Timer1, Lock1, Chart, Calendar, Building, TickCircle, InfoCircle, Danger, Convertshape2, AddCircle, type Icon,
+  Timer1, Lock1, Chart, Calendar, Building, TickCircle, InfoCircle, Danger, Convertshape2, AddCircle, DocumentText, type Icon,
 } from "@/components/iconsax";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -28,7 +28,8 @@ import { projectGroups } from "@/data/taxonomy";
 import { advisories } from "@/data/advisories";
 import { useHydrated, useStore } from "@/lib/store";
 import { ReturnTimeline, type Marker } from "@/components/compare/timeline";
-import { COMPARE_MAX, compareListings, oppOf } from "@/lib/compare";
+import { COMPARE_MAX, compareListings, oppOf, SERIES } from "@/lib/compare";
+import { sheetOf } from "@/lib/sheet";
 import { hasAnyCriteria } from "@/lib/criteria";
 import { rank } from "@/lib/match";
 import { CompareTray } from "@/components/compare/tray";
@@ -269,19 +270,23 @@ function AdvisoryBlock({ a }: { a: Advisory }) {
         {a.questions.map((q, i) => (
           <AccordionItem key={q.id} value={q.id} className="border-border">
             <AccordionTrigger className="py-4 text-right text-[15px] font-bold leading-7 text-ink hover:no-underline"><span className="flex items-start gap-3"><span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-muted text-[11px] font-black">{faNumber(i + 1)}</span>{q.label}</span></AccordionTrigger>
-            <AccordionContent className="space-y-2 pb-5 pr-9">
-              {q.options.map((op) => {
-                const block = q.block.includes(op.value), review = q.review.includes(op.value);
-                return (
-                  <div key={op.value} className="rounded-xl bg-muted/70 px-4 py-2.5">
-                    <p className="flex flex-wrap items-center gap-2 text-sm font-bold text-ink">{op.label}
-                      {block && <Badge variant="outline" className="gap-1 border-destructive/30 bg-destructive/5 text-[11px] text-destructive"><Danger size={12} variant="Bold" />مانع ادامه</Badge>}
-                      {review && <Badge variant="outline" className="bg-white text-[11px] text-ink/70">نیازمند بررسی</Badge>}
-                    </p>
-                    {q.actions[op.value] && <p className="mt-1 text-[13px] leading-6 text-muted-foreground">{q.actions[op.value]}</p>}
-                  </div>
-                );
-              })}
+            <AccordionContent className="pb-5 pr-9">
+              {/* گزینه‌ها بدون پس‌زمینه، عنوان هر گزینه با بولت */}
+              <ul className="space-y-3">
+                {q.options.map((op) => {
+                  const block = q.block.includes(op.value), review = q.review.includes(op.value);
+                  return (
+                    <li key={op.value} className="relative pr-4">
+                      <span aria-hidden className="absolute right-0 top-[0.7rem] size-1.5 rounded-full bg-ink/45" />
+                      <p className="flex flex-wrap items-center gap-2 text-sm font-bold leading-7 text-ink">{op.label}
+                        {block && <Badge variant="outline" className="gap-1 border-destructive/30 bg-destructive/5 text-[11px] text-destructive"><Danger size={12} variant="Bold" />مانع ادامه</Badge>}
+                        {review && <Badge variant="outline" className="bg-white text-[11px] text-ink/70">نیازمند بررسی</Badge>}
+                      </p>
+                      {q.actions[op.value] && <p className="text-[13px] leading-6 text-muted-foreground">{q.actions[op.value]}</p>}
+                    </li>
+                  );
+                })}
+              </ul>
             </AccordionContent>
           </AccordionItem>
         ))}
@@ -381,36 +386,156 @@ function CompareCard({ l, near }: { l: Listing; near: Listing[] }) {
   );
 }
 
-/** نمودار بازگشت این پروژه در برابر پروژه‌های مشابه، با دکمه دیدن همین پروژه‌ها در صفحه پروژه‌ها یا مقایسه کامل */
+/** یک برچسب زمان: زیر یک سال به ماه، بالاتر به سال و ماه (مثل «۸ سال و ۶ ماه») */
+const span = (m: number) => { const t = Math.round(m), y = Math.floor(t / 12), r = t % 12; return y === 0 ? `${faNumber(r)} ماه` : r === 0 ? `${faNumber(y)} سال` : `${faNumber(y)} سال و ${faNumber(r)} ماه`; };
+
+/** بازگشت سرمایه این پروژه کنار پروژه‌های مشابه: هر پروژه یک ردیف روی یک محور سال مشترک، همین پروژه همیشه ردیف اول.
+ *  خاکستری: پیش از اولین درآمد، رنگی: از اولین درآمد تا بازگشت کامل سرمایه، خط‌چین: حالت بدبینانه. خط‌ها هیچ‌وقت روی هم نمی‌افتند. */
 function PeerReturn({ l, peers }: { l: Listing; peers: Listing[] }) {
   const router = useRouter();
   const { setCompare, setPinned, begin, setStarted } = useStore();
-  const mine = oppOf(l).paybackYears;
-  const known = peers.map((p) => oppOf(p).paybackYears).filter((v): v is number => v != null);
-  const avg = known.length ? Math.round((known.reduce((a, b) => a + b, 0) / known.length) * 10) / 10 : null;
-  const diff = mine != null && avg != null ? Math.round((avg - mine) * 10) / 10 : null;
+  const rows = [l, ...peers].map((x, i) => { const ox = oppOf(x); return { x, i, first: ox.firstIncomeMonths, pay: ox.paybackYears != null ? ox.paybackYears * 12 : null, down: ox.paybackDownsideYears != null ? ox.paybackDownsideYears * 12 : null }; });
+  const mine = rows[0].pay;
+  const known = rows.slice(1).map((r) => r.pay).filter((v): v is number => v != null);
+  const avg = known.length ? known.reduce((a, b) => a + b, 0) / known.length : null;
+  const diff = mine != null && avg != null ? Math.round(avg - mine) : null; // به ماه
+  const same = peers.filter((p) => p.group === l.group).length;
+  const gName = projectGroups.find((g) => g.id === l.group)?.name;
+  const scope = same === peers.length ? `${faNumber(peers.length)} پروژه هم‌گروه${gName ? ` در «${gName}»` : ""} که دوره بازگشتشان اعلام شده، با مبلغ نزدیک.`
+    : same > 0 ? `${faNumber(same)} پروژه هم‌گروه و ${faNumber(peers.length - same)} پروژه نزدیک از گروه‌های دیگر، چون پروژه هم‌گروه دیگری با دوره بازگشت اعلام‌شده نبود.`
+    : `در گروه این پروژه، پروژه دیگری با دوره بازگشت اعلام‌شده نبود. نزدیک‌ترین پروژه‌ها از گروه‌های دیگر آمده‌اند.`;
+  const T = Math.max(36, Math.ceil(Math.max(...rows.map((r) => Math.max(r.pay ?? 0, r.down ?? 0, r.first ?? 0))) / 12) * 12 + 6);
+  const step = T > 192 ? 36 : T > 120 ? 24 : 12;
+  const ticks = Array.from({ length: Math.floor(T / step) + 1 }, (_, k) => k * step);
+  const pct = (m: number) => `${(m / T) * 100}%`;
   const showInList = () => {
     begin({ route: l.routes[0] as RouteId, groups: l.group ? [l.group] : [] });
     setStarted(true);
     setPinned({ from: l.title, ids: [l.id, ...peers.map((p) => p.id)] });
     router.push("/opportunities");
   };
+  const box = (label: string, value: string, tone = "bg-[#f5f7fa]", vTone = "text-ink") => (
+    <div className={cn("rounded-2xl p-4", tone)}><p className="text-[12px] font-bold text-ink/60">{label}</p><p className={cn("mt-1 text-[15px] font-black leading-7", vTone)}>{value}</p></div>
+  );
   return (
     <div className="surface rounded-[1.75rem] p-6">
-      {mine != null && avg != null && (
-        <div className="mb-5 grid grid-cols-3 gap-3">
-          <div className="rounded-2xl bg-[#eef1f8] p-4"><p className="text-[12px] font-bold text-cobalt-deep">همین پروژه</p><p className="mt-1 text-[1.4rem] font-black text-ink">{faNumber(mine)} <span className="text-[13px] font-bold text-ink/60">سال</span></p></div>
-          <div className="rounded-2xl bg-muted/70 p-4"><p className="text-[12px] font-bold text-ink/60">میانگین {faNumber(known.length)} پروژه مشابه</p><p className="mt-1 text-[1.4rem] font-black text-ink">{faNumber(avg)} <span className="text-[13px] font-bold text-ink/60">سال</span></p></div>
-          <div className={cn("rounded-2xl p-4", diff != null && diff > 0 ? "bg-primary/10" : diff != null && diff < 0 ? "bg-warn/10" : "bg-muted/70")}>
-            <p className="text-[12px] font-bold text-ink/60">نتیجه</p>
-            <p className={cn("mt-1 text-[15px] font-black leading-7", diff != null && diff > 0 ? "text-primary" : diff != null && diff < 0 ? "text-warn" : "text-ink")}>{diff == null || diff === 0 ? "هم‌اندازه مشابه‌ها" : diff > 0 ? `${faNumber(diff)} سال زودتر از میانگین` : `${faNumber(-diff)} سال دیرتر از میانگین`}</p>
-          </div>
-        </div>
-      )}
-      <ReturnTimeline items={[l, ...peers]} />
+      <div className="grid grid-cols-3 gap-3">
+        {box("همین پروژه", mine != null ? span(mine) : "اعلام نشده", "bg-cobalt-soft", mine != null ? "text-cobalt-deep" : "font-semibold text-ink/45")}
+        {box(`میانگین ${faNumber(known.length)} پروژه مشابه`, avg != null ? span(avg) : "اعلام نشده")}
+        {mine == null ? box("نتیجه", "مقایسه ممکن نیست، دوره بازگشت را از کارشناس بپرسید", "bg-[#f5f7fa]", "text-[13.5px] text-ink/70")
+          : box("نتیجه", diff == null || diff === 0 ? "هم‌اندازه مشابه‌ها" : diff > 0 ? `${span(diff)} زودتر از میانگین` : `${span(-diff)} دیرتر از میانگین`,
+            diff != null && diff > 0 ? "bg-primary/10" : diff != null && diff < 0 ? "bg-warn/10" : "bg-[#f5f7fa]", diff != null && diff > 0 ? "text-primary" : diff != null && diff < 0 ? "text-warn" : "text-ink")}
+      </div>
+      <p className="mt-4 text-[12.5px] font-semibold leading-6 text-muted-foreground">{scope}</p>
+
+      <ul className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[12px] font-bold text-ink/70">
+        <li className="flex items-center gap-2"><span className="h-2 w-6 rounded-full bg-ink/15" />پیش از اولین درآمد</li>
+        <li className="flex items-center gap-2"><span className="h-2 w-6 rounded-full bg-cobalt" />از اولین درآمد تا بازگشت کامل سرمایه</li>
+        <li className="flex items-center gap-2"><span className="w-6 border-t-2 border-dashed border-ink/40" />حالت بدبینانه</li>
+      </ul>
+
+      <div className="mt-4 grid grid-cols-[14rem_minmax(0,1fr)_7.5rem] gap-x-5">
+        {rows.map((r) => {
+          const c = SERIES[r.i]; const f = r.pay != null ? Math.min(r.first ?? 0, r.pay) : null;
+          return (
+            <div key={r.x.id} className={cn("contents")}>
+              <Link href={`/opportunities/${r.x.id}`} className={cn("flex min-w-0 items-center gap-2.5 rounded-2xl py-2 pl-2", r.i === 0 && "bg-cobalt-soft/60 pr-2")}>
+                <span className="relative size-9 shrink-0 overflow-hidden rounded-xl bg-muted"><Image src={r.x.image} alt="" fill sizes="36px" className="object-cover" /></span>
+                <span className="min-w-0">
+                  <span className="block truncate text-[12.5px] font-extrabold text-ink" title={r.x.title}>{r.x.title}</span>
+                  <span className="block truncate text-[11px] font-semibold text-muted-foreground">{r.i === 0 ? "همین پروژه" : projectGroups.find((g) => g.id === r.x.group)?.name}</span>
+                </span>
+              </Link>
+              <div className="relative flex h-[3.25rem] items-center">
+                <span className="absolute inset-x-0 h-2 rounded-full bg-ink/[0.04]" />
+                {r.pay == null ? (
+                  <span className="relative text-[12px] font-semibold text-ink/40">دوره بازگشت اعلام نشده</span>
+                ) : (
+                  <>
+                    {f! > 0 && <motion.span initial={{ width: 0 }} whileInView={{ width: pct(f!) }} viewport={{ once: true }} transition={{ duration: 0.6, delay: r.i * 0.08, ease }} className="absolute right-0 h-2 rounded-full bg-ink/15" />}
+                    <motion.span initial={{ width: 0 }} whileInView={{ width: pct(r.pay - f!) }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.3 + r.i * 0.08, ease }} className="absolute h-2 rounded-full" style={{ right: pct(f!), background: c }} />
+                    {r.down != null && r.down > r.pay && <span className="absolute border-t-2 border-dashed" style={{ right: pct(r.pay), width: pct(r.down - r.pay), borderColor: c, opacity: 0.6 }} />}
+                    <span className="absolute size-3.5 rounded-full border-2 border-white shadow" style={{ right: `calc(${pct(r.pay)} - 0.44rem)`, background: c }} />
+                  </>
+                )}
+              </div>
+              {/* عدد هر ردیف در ستون ثابت کنار نمودار، تا هیچ‌وقت از کارت بیرون نزند */}
+              <div className="flex flex-col justify-center text-left">
+                <span className={cn("text-[13.5px] font-black", r.pay != null ? "text-ink" : "font-semibold text-ink/35")}>{r.pay != null ? span(r.pay) : "اعلام نشده"}</span>
+                {r.down != null && r.pay != null && r.down > r.pay && <span className="text-[11px] font-semibold text-ink/50">بدبینانه {span(r.down)}</span>}
+              </div>
+            </div>
+          );
+        })}
+        <span />
+        <span className="relative mt-1 h-7 border-t border-border">
+          {ticks.map((t) => <span key={t} className="absolute top-0 whitespace-nowrap text-[11px] font-semibold text-muted-foreground" style={{ right: pct(t), transform: "translateX(50%)" }}><span className="mx-auto block h-1.5 w-px bg-border" />{t === 0 ? "امروز" : `سال ${faNumber(t / 12)}`}</span>)}
+        </span>
+        <span />
+      </div>
+
       <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-border pt-5">
         <Button type="button" onClick={showInList} className="group h-12 gap-2 rounded-full px-6 text-[14px] font-extrabold">پروژه‌های مشابه را در فهرست ببینید<ArrowLeft size={17} className="transition-transform group-hover:-translate-x-1" /></Button>
         <Button type="button" variant="outline" onClick={() => { setCompare([l.id, ...peers.map((p) => p.id)]); router.push("/compare"); }} className="h-12 gap-2 rounded-full bg-white px-5 text-[13.5px] font-extrabold shadow-none"><Convertshape2 size={18} />مقایسه کامل این {faNumber(peers.length + 1)} پروژه</Button>
+      </div>
+    </div>
+  );
+}
+
+/** داده‌ها و الگوی دریافت: درآمد کی و به چه شکلی به دست سرمایه‌گذار می‌رسد، و از داده‌های کلیدی چندتا اعلام شده */
+function DataPattern({ l, o }: { l: Listing; o: Opportunity }) {
+  const known = sheetOf(l).known;
+  const ok = known.filter((k) => k.ok), miss = known.filter((k) => !k.ok);
+  const first = o.firstIncomeMonths, term = o.durationYears != null ? o.durationYears * 12 : null;
+  const T = Math.max(36, Math.ceil(Math.max(first ?? 0, term ?? 0, o.executionMonths ?? 0, o.paybackYears != null ? o.paybackYears * 12 : 0) / 12) * 12 + 12);
+  const end = term ?? T - 12;
+  const pct = (m: number) => `${(m / T) * 100}%`;
+  const step = T > 192 ? 36 : T > 120 ? 24 : 12;
+  const ticks = Array.from({ length: Math.floor(T / step) + 1 }, (_, k) => k * step);
+  // هر ستون یک دوره دریافت است، هم‌قد، چون مبلغ هر دوره در داده‌ها نیست
+  const every = T > 180 ? 24 : 12;
+  const periodic = o.income === "periodic";
+  const start = first ?? o.executionMonths ?? null;
+  const pays = periodic && start != null ? Array.from({ length: Math.max(1, Math.floor((end - start) / every) + 1) }, (_, k) => start + k * every).filter((m) => m <= end) : o.income === "end" ? [end] : [];
+  const headline = periodic
+    ? start != null ? `از ${when(start)}${first == null ? " (پس از پایان اجرا)" : ""}${term ? ` تا پایان طرح در ${when(term)}` : ""}، درآمد به شکل دوره‌ای می‌رسد.` : "درآمد دوره‌ای است، اما زمان اولین دریافت اعلام نشده."
+    : o.income === "end" ? `سود یک‌جا در پایان طرح${term ? ` (${when(term)})` : ""} دریافت می‌شود.` : "شکل دریافت درآمد محدود نشده و در قرارداد تعیین می‌شود.";
+  return (
+    <div className="grid grid-cols-[minmax(0,7fr)_minmax(0,5fr)] gap-4">
+      <div className="surface rounded-[1.75rem] p-6">
+        <p className="flex items-center gap-2 text-[13px] font-extrabold text-ink/70"><MoneyRecive size={18} variant="Bulk" className="text-cobalt" />الگوی دریافت درآمد</p>
+        <p className="mt-2 text-[16px] font-black leading-8 text-ink">{headline}</p>
+        <ul className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1 text-[12px] font-bold text-ink/65">
+          {start != null && start > 0 && <li className="flex items-center gap-2"><span className="h-3 w-5 rounded-[5px] border border-dashed border-ink/25 bg-ink/[0.03]" />بدون درآمد (اجرا و راه‌اندازی)</li>}
+          {pays.length > 0 && <li className="flex items-center gap-2"><span className="h-3 w-1.5 rounded-sm bg-cobalt" />{o.income === "end" ? "دریافت یک‌جا" : "یک نوبت دریافت"}</li>}
+        </ul>
+        <div className="relative mt-5 h-28">
+          {/* پیش از اولین دریافت: بدون درآمد */}
+          {start != null && start > 0 && (
+            <span className="absolute bottom-0 right-0 h-9 rounded-xl border border-dashed border-ink/20 bg-ink/[0.03]" style={{ width: pct(start) }} />
+          )}
+          {pays.map((m, k) => (
+            <motion.span key={m} initial={{ height: 0 }} whileInView={{ height: o.income === "end" ? "100%" : "62%" }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 + k * 0.05, ease }}
+              className="absolute bottom-0 w-3 rounded-t-md bg-cobalt" style={{ right: `calc(${pct(m)} - 0.375rem)` }} />
+          ))}
+          {!pays.length && <span className="absolute inset-x-0 bottom-0 flex h-9 items-center justify-center rounded-xl border border-dashed border-ink/20 text-[12px] font-bold text-ink/45">زمان و شکل دریافت در قرارداد تعیین می‌شود</span>}
+        </div>
+        <div className="relative h-7 border-t border-border">
+          {ticks.map((t) => <span key={t} className="absolute top-0 whitespace-nowrap text-[11px] font-semibold text-muted-foreground" style={{ right: pct(t), transform: "translateX(50%)" }}><span className="mx-auto block h-1.5 w-px bg-border" />{t === 0 ? "امروز" : `سال ${faNumber(t / 12)}`}</span>)}
+        </div>
+        <p className="mt-3 flex items-start gap-2 text-[12px] font-semibold leading-6 text-muted-foreground"><InfoCircle size={15} variant="Bulk" className="mt-1 shrink-0" />هر ستون یک نوبت دریافت است. ستون‌ها هم‌قدند چون این نمودار زمان دریافت را نشان می‌دهد، نه مبلغ آن.</p>
+      </div>
+      <div className="surface rounded-[1.75rem] p-6">
+        <p className="flex items-center gap-2 text-[13px] font-extrabold text-ink/70"><DocumentText size={18} variant="Bulk" className="text-cobalt" />کامل بودن اطلاعات</p>
+        <p className="mt-2 text-[16px] font-black leading-8 text-ink">{faNumber(ok.length)} از {faNumber(known.length)} داده کلیدی اعلام شده</p>
+        <div className="mt-3 flex gap-1" aria-hidden>{known.map((k) => <span key={k.label} className={cn("h-2 flex-1 rounded-full", k.ok ? "bg-cobalt" : "bg-ink/10")} />)}</div>
+        <ul className="mt-4 flex flex-wrap gap-1.5">
+          {ok.map((k) => <li key={k.label} className="inline-flex items-center gap-1 rounded-full bg-cobalt-soft px-2.5 py-1 text-[11.5px] font-bold text-cobalt-deep"><TickCircle size={13} variant="Bold" />{k.label}</li>)}
+        </ul>
+        {miss.length > 0 && <>
+          <p className="mt-4 text-[12px] font-extrabold text-ink/70">اعلام نشده، پیش از تصمیم از کارشناس بپرسید:</p>
+          <ul className="mt-2 flex flex-wrap gap-1.5">{miss.map((k) => <li key={k.label} className="rounded-full border border-dashed border-ink/25 px-2.5 py-1 text-[11.5px] font-semibold text-ink/55">{k.label}</li>)}</ul>
+        </>}
       </div>
     </div>
   );
@@ -474,27 +599,40 @@ function PhaseTrack({ o }: { o: Opportunity }) {
   );
 }
 
-/** «پول شما در طول زمان»: چهار عدد کلیدی، نمودار (بازگشت یا بازه‌ها) و سه کارت مسیر پول در یک کارت */
-function MoneyTime({ o, l, text }: { o: Opportunity; l: Listing; text: { finance?: string; repay?: string; ownership?: string | null } }) {
-  const stats: [Icon, string, string | null, string?][] = [
-    [Timer1, "اولین دریافت", o.firstIncomeMonths != null ? (o.firstIncomeMonths === 0 ? "از ابتدا" : when(o.firstIncomeMonths)) : null],
+/** مسیر احتمالی بازگشت، وقتی دوره بازگشت پروژه اعلام نشده: از پروژه‌های مشابه ساخته می‌شود و همه‌جا «احتمالی» نوشته می‌شود */
+type Probable = { first: number; pay: number; n: number; firstKnown: boolean };
+
+/** «پول شما در طول زمان»: چهار عدد کلیدی، نمودار (بازگشت، مسیر احتمالی یا بازه‌ها) و سه کارت مسیر پول در یک کارت */
+function MoneyTime({ o, l, text, probable }: { o: Opportunity; l: Listing; text: { finance?: string; repay?: string; ownership?: string | null }; probable: Probable | null }) {
+  const stats: [Icon, string, string | null, string?, string?][] = [
+    [Timer1, "اولین دریافت", o.firstIncomeMonths != null ? (o.firstIncomeMonths === 0 ? "از ابتدا" : when(o.firstIncomeMonths)) : null, undefined, probable && !probable.firstKnown ? `احتمالی: ${when(probable.first)}` : undefined],
     [Building, "مدت اجرا", o.executionMonths != null ? `${faNumber(o.executionMonths)} ماه` : null],
     [Lock1, "قفل سرمایه", o.lockupMonths != null ? `${faNumber(o.lockupMonths)} ماه` : null],
-    [Chart, "بازگشت سرمایه", o.paybackYears != null ? `${faNumber(o.paybackYears)} سال` : null, o.paybackDownsideYears != null && o.paybackDownsideYears !== o.paybackYears ? `بدبینانه ${faNumber(o.paybackDownsideYears)} سال` : undefined],
+    [Chart, "بازگشت سرمایه", o.paybackYears != null ? `${faNumber(o.paybackYears)} سال` : null, o.paybackDownsideYears != null && o.paybackDownsideYears !== o.paybackYears ? `بدبینانه ${faNumber(o.paybackDownsideYears)} سال` : undefined, probable ? `احتمالی: ${span(probable.pay)}` : undefined],
   ];
   const flow: [Icon, string, string | null | undefined][] = [[WalletMoney, "پول از کجا می‌آید", text.finance], [MoneyRecive, "چطور برمی‌گردد", text.repay], [Key, "مالکیت و سهم", text.ownership]];
-  const chart = o.paybackYears != null ? <ReturnTimeline items={[l]} single markers={markersOf(o)} /> : <PhaseTrack o={o} />;
+  let chart: React.ReactNode;
+  if (o.paybackYears != null) chart = <ReturnTimeline items={[l]} single markers={markersOf(o)} />;
+  else if (probable) {
+    // همان نمودار بازگشت، با خط‌چین و برچسب «احتمالی»، روی داده‌های تخمینی
+    const est = { ...o, firstIncomeMonths: probable.first, paybackYears: probable.pay / 12, paybackDownsideYears: null };
+    const marks = markersOf(est).map((m) => m.label === "بازگشت سرمایه" ? { ...m, label: "بازگشت احتمالی", value: `حدود ${span(probable.pay)}` } : m.label === "اولین دریافت" && !probable.firstKnown ? { ...m, label: "اولین دریافت احتمالی", value: `حدود ${m.value}` } : m);
+    chart = <ReturnTimeline items={[{ ...l, raw: est }]} single probable markers={marks}
+      note={`این مسیر احتمالی است. دوره بازگشت این پروژه اعلام نشده و این مسیر از ${o.firstIncomeMonths != null ? "زمان اولین دریافت همین پروژه" : o.executionMonths != null ? "پایان اجرای همین پروژه" : "میانگین اولین دریافت پروژه‌های مشابه"} و فاصله اولین دریافت تا بازگشت سرمایه در ${faNumber(probable.n)} پروژه مشابه ساخته شده. عدد قطعی را از کارشناس بپرسید.`} />;
+  } else chart = <PhaseTrack o={o} />;
   return (
     <div className="surface overflow-hidden rounded-[1.75rem]">
       <dl className="grid grid-cols-4 border-b border-border [&>div+div]:border-r [&>div+div]:border-border">
-        {stats.map(([I, k, v, sub]) => (
+        {stats.map(([I, k, v, sub, guess]) => (
           <div key={k} className="flex items-center gap-3 px-5 py-4">
             <span className={cn("grid size-9 shrink-0 place-items-center rounded-xl", v ? "bg-ink/[0.05] text-ink/70" : "bg-ink/[0.03] text-ink/30")}><I size={18} variant="Bulk" /></span>
-            <span className="min-w-0"><dt className="text-[11.5px] font-semibold text-muted-foreground">{k}</dt><dd className={cn("text-[15px] font-black leading-6", v ? "text-ink" : "font-semibold text-ink/35")}>{v ?? "اعلام نشده"}</dd>{sub && <dd className="text-[11px] font-bold text-warn-deep">{sub}</dd>}</span>
+            <span className="min-w-0"><dt className="text-[11.5px] font-semibold text-muted-foreground">{k}</dt><dd className={cn("text-[15px] font-black leading-6", v ? "text-ink" : "font-semibold text-ink/35")}>{v ?? "اعلام نشده"}</dd>
+              {sub && <dd className="text-[11px] font-bold text-warn-deep">{sub}</dd>}
+              {!v && guess && <dd className="whitespace-nowrap text-[11px] font-bold text-cobalt">{guess}</dd>}</span>
           </div>
         ))}
       </dl>
-      {chart && <div className={cn("px-8", o.paybackYears != null || o.firstIncomeMonths == null || o.firstIncomeMonths === 0 ? "pt-6" : "pt-24")}>{chart}</div>}
+      {chart && <div className={cn("px-8", o.paybackYears != null || probable || o.firstIncomeMonths == null || o.firstIncomeMonths === 0 ? "pt-6" : "pt-24")}>{chart}</div>}
       <div className="grid grid-cols-3 gap-3 p-6 pt-5">
         {flow.map(([I, k, v]) => (
           <div key={k} className={cn("rounded-2xl p-4", v ? "bg-[#f5f7fa]" : "border border-dashed border-border")}>
@@ -520,6 +658,18 @@ export function Detail({ id }: { id: string }) {
     .sort((a, b) => Math.abs((a.amount ?? 1e9) - (l.amount ?? 0)) - Math.abs((b.amount ?? 1e9) - (l.amount ?? 0))).slice(0, 3);
   const near = useNearby(l);
   const peers = useNearby(l, true);
+  // اگر هم‌گروه کافی نبود، نزدیک‌ترین پروژه‌ها جای خالی را پر می‌کنند تا این بخش در همه پروژه‌ها سه کارت داشته باشد
+  const sameCount = similar.length;
+  const similarAll = o && similar.length < 3 ? [...similar, ...near.filter((x) => !similar.some((y) => y.id === x.id))].slice(0, 3) : similar;
+  const probable = useMemo<Probable | null>(() => {
+    if (!o || o.paybackYears != null || !peers.length) return null;
+    const ps = peers.map(oppOf).filter((p) => p.paybackYears != null);
+    if (!ps.length) return null;
+    const firsts = ps.map((p) => p.firstIncomeMonths).filter((v): v is number => v != null);
+    const first = o.firstIncomeMonths ?? o.executionMonths ?? (firsts.length ? Math.round(firsts.reduce((a, b) => a + b, 0) / firsts.length) : 12);
+    const gap = ps.reduce((a, p) => a + (p.paybackYears! * 12 - (p.firstIncomeMonths ?? 0)), 0) / ps.length;
+    return { first, pay: Math.max(first + 12, Math.round((first + gap) / 6) * 6), n: ps.length, firstKnown: o.firstIncomeMonths != null };
+  }, [o, peers]);
 
   const tiles: { I: Icon; label: string; value: string; sub?: string }[] = o
     ? [
@@ -543,7 +693,6 @@ export function Detail({ id }: { id: string }) {
   const hasFlow = !!(text.finance || text.repay || text.ownership);
   const sections = dossier(l);
   const nextSteps = o?.steps.length ? o.steps : fund?.steps?.length ? fund.steps : routeSteps[l.routes[0] as RouteId];
-  const hasTime = !!o && [o.firstIncomeMonths, o.executionMonths, o.lockupMonths, o.paybackYears, o.paybackDownsideYears, o.durationYears].some((x) => x != null);
   const sameGroup = listings.filter((x) => x.kind === l.kind && (l.kind !== "project" || x.group === l.group) && x.routes.includes(l.routes[0])).length;
 
   return (
@@ -565,7 +714,6 @@ export function Detail({ id }: { id: string }) {
           <h1 className="max-w-5xl text-[2.25rem] font-black leading-[1.35] text-ink text-balance">{l.title}</h1>
           <p className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[14px] font-semibold text-muted-foreground">
             {l.city && <span className="flex items-center gap-1.5 text-ink/75"><Location size={17} variant="Bulk" className="text-ink/45" />{l.province}، {l.city}{sale?.neighborhood ? `، ${sale.neighborhood}` : ""}</span>}
-            <span dir="ltr" className="text-ink/40">{l.id}</span>
           </p>
           <IdentityStrip items={identity} note={subtype?.examples ? <><b className="font-extrabold text-ink">{subtype.name} یعنی: </b>{subtype.examples}</> : undefined} />
         </motion.div>
@@ -576,20 +724,20 @@ export function Detail({ id }: { id: string }) {
 
             <Chapter title="شناسنامه پروژه"><Facts groups={groups} /></Chapter>
 
-            {o && (hasTime || hasFlow) && (
-              <Chapter title="پول شما در طول زمان"><MoneyTime o={o} l={l} text={text} /></Chapter>
-            )}
-            {o && o.paybackYears != null && peers.length > 0 && (
+            {/* ساختار یکسان همه پروژه‌ها: همین بخش‌ها با همین ترتیب، داده‌ای که نیست «اعلام نشده» نوشته می‌شود */}
+            {o && <Chapter title="پول شما در طول زمان"><MoneyTime o={o} l={l} text={text} probable={probable} /></Chapter>}
+            {o && <Chapter title="داده‌ها و الگوی دریافت"><DataPattern l={l} o={o} /></Chapter>}
+            {o && peers.length > 0 && (
               <Chapter title="بازگشت سرمایه در برابر پروژه‌های مشابه"><PeerReturn l={l} peers={peers} /></Chapter>
             )}
-            {similar.length > 0 && (
+            {similarAll.length > 0 && (
               <Chapter title="در کنار موارد مشابه">
                 <div className="-mt-2 mb-4 flex items-center justify-between gap-4">
-                  <p className="text-[13.5px] font-semibold text-muted-foreground">{similar.length > 1 ? `${faNumber(similar.length)} پروژه‌ی نزدیک به این پروژه${group ? ` در گروه «${group.name}»` : ""}، با مبلغ ورود نزدیک.` : "نزدیک‌ترین پروژه به این پروژه."}</p>
+                  <p className="text-[13.5px] font-semibold text-muted-foreground">{sameCount >= similarAll.length ? `${faNumber(similarAll.length)} پروژه نزدیک به این پروژه${group ? ` در گروه «${group.name}»` : ""}، با مبلغ ورود نزدیک.` : sameCount > 0 ? `${faNumber(sameCount)} پروژه هم‌گروه و ${faNumber(similarAll.length - sameCount)} پروژه نزدیک از گروه‌های دیگر.` : "پروژه هم‌گروهی نبود، نزدیک‌ترین پروژه‌ها از گروه‌های دیگر آمده‌اند."}</p>
                   <Link href="/opportunities" onClick={() => { useStore.getState().begin({ route: l.routes[0] as never, ...(l.group ? { groups: [l.group] } : {}) }); useStore.getState().setStarted(true); }}
                     className="group inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full border border-border bg-white px-4 text-[13px] font-extrabold text-ink hover:border-ink/30">مشاهده همه {faNumber(sameGroup)} پروژه<ArrowLeft size={15} className="transition-transform group-hover:-translate-x-0.5" /></Link>
                 </div>
-                <div className="grid grid-cols-3 gap-4">{similar.map((x, i) => <ListingCard key={x.id} listing={x} index={i} comparable />)}</div>
+                <div className="grid grid-cols-3 gap-4">{similarAll.map((x, i) => <ListingCard key={x.id} listing={x} index={i} comparable />)}</div>
               </Chapter>
             )}
             {hasFlow && !o && <Chapter title="مسیر پول"><div className="surface rounded-[1.75rem] px-6 py-2"><MoneyFlow o={text} /></div></Chapter>}

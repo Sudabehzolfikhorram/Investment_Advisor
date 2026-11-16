@@ -42,26 +42,26 @@ function CompareButton({ id }: { id: string }) {
         toggleCompare(id);
         const count = compare.length + (on ? -1 : 1);
         if (!on && count >= 2) toast(`${count === 4 ? "چهار" : count === 3 ? "سه" : "دو"} پروژه برای مقایسه آماده است.`, { action: { label: "مقایسه کنید", onClick: () => router.push("/compare") } }); }}
-      className={cn("inline-flex h-10 items-center gap-1.5 rounded-full px-3.5 text-[12.5px] font-extrabold text-white transition-all active:scale-95", on ? "bg-cobalt shadow-[0_8px_18px_-8px_var(--cobalt)]" : "bg-pine/55 backdrop-blur-sm hover:bg-pine/70")}>
-      {on ? <TickCircle size={17} variant="Bold" /> : <Convertshape2 size={17} />}{on ? "در مقایسه" : "مقایسه"}
+      aria-label={on ? "حذف از مقایسه" : "افزودن به مقایسه"}
+      className={cn("inline-flex h-10 items-center justify-center gap-1.5 rounded-full text-[12.5px] font-extrabold text-white transition-all active:scale-95", on ? "bg-cobalt px-3.5 shadow-[0_8px_18px_-8px_var(--cobalt)]" : "w-10 bg-pine/55 backdrop-blur-sm hover:bg-pine/70")}>
+      {/* پیش از انتخاب فقط آیکون، بعد از افزودن کلمه «در مقایسه» دیده می‌شود */}
+      {on ? <><TickCircle size={17} variant="Bold" />در مقایسه</> : <Convertshape2 size={18} />}
     </Button>
   );
 }
 
 /** بج درصد تطابق: هم‌قد دکمه ذخیره، در همان ردیف بالای کارت */
 function MatchBadge({ score }: { score: number }) {
-  const tone = score >= 75 ? "bg-[#5fd4c4]" : score >= 50 ? "bg-[#a3b4da]" : "bg-white/50";
   return (
-    <span title="تطابق با شرایط شما" className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-black/45 px-3 text-[12.5px] font-extrabold tabular-nums text-white backdrop-blur-sm">
-      <span className={cn("size-2 rounded-full", tone)} />{faNumber(score)}٪ تطابق
+    <span title="تطابق با شرایط شما" className="inline-flex h-10 shrink-0 items-center rounded-full bg-black/45 px-3.5 text-[12.5px] font-extrabold tabular-nums text-white backdrop-blur-sm">
+      {faNumber(score)}٪ تطابق
     </span>
   );
 }
 
 /** کارت پروژه: قابِ کارت خودِ عکس است، از پایین به بالا لایه‌ی مشکی و بلر می‌نشیند.
  *  بالای کارت: ذخیره، مقایسه و درصد تطابق در یک ردیف. پایین: عنوان و چهار داده (موقعیت یکی از آن‌هاست)، برچسب نوع حذف شده. */
-export function ListingCard({ listing: l, score, reasons, index = 0, comparable = false }: { listing: Listing; score?: number; reasons?: MatchReason[]; index?: number; comparable?: boolean }) {
-  const budget = reasons?.find((r) => r.label === "مبلغ در بازه شما")?.status;
+export function ListingCard({ listing: l, score, index = 0, comparable = false }: { listing: Listing; score?: number; reasons?: MatchReason[]; index?: number; comparable?: boolean }) {
   const gallery = useHoverGallery(l);
   // موقعیت جای «محدوده» (یا آخرین داده) می‌نشیند تا مکان هم یکی از چهار داده‌ی پایین کارت باشد
   const place = l.city ? `${l.province}، ${l.city}` : null;
@@ -87,15 +87,10 @@ export function ListingCard({ listing: l, score, reasons, index = 0, comparable 
         </div>
         <div className="mt-auto flex flex-col p-5 pt-0">
           <h3 className="line-clamp-2 text-[17px] font-extrabold leading-7 text-white [text-shadow:0_1px_12px_rgb(0_0_0/0.45)]">{l.title}</h3>
-          {budget && budget !== "unknown" && (
-            <span className={cn("mt-1.5 inline-flex items-center gap-1 text-[11.5px] font-extrabold", budget === "met" ? "text-[#7fe0d2]" : "text-[#ffb19c]")}>
-              {budget === "met" && <TickCircle size={14} variant="Bold" />}{budget === "met" ? "در بودجه شما" : "بیرون از بودجه شما"}
-            </span>
-          )}
           {stats.length > 0 && (
             <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-white/15 pt-3.5">
               {stats.map((s) => (
-                <div key={s.label} className="min-w-0"><dt className="text-[11px] font-semibold text-white/60">{s.label}</dt><dd className="truncate text-[14px] font-extrabold text-white">{s.value}</dd></div>
+                <div key={s.label} className="min-w-0"><dt className="text-[11px] font-semibold text-white/60">{s.label}</dt><dd className="truncate text-[14px] font-medium text-white">{s.value}</dd></div>
               ))}
             </dl>
           )}

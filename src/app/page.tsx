@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <main className="relative isolate">
       {/* پترن هویت ثابت پشت صفحه: یک طرح یکتا و بی‌تکرار، بسیار کم‌رنگ، محتوا رویش اسکرول می‌خورد */}
-      <AlgoField className="text-ink/[0.03]" />
+      <AlgoField className="text-ink/[0.04]" />
       <HeroCompass />
       <MainCategories />
       <Categories />

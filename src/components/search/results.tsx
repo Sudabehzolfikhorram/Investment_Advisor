@@ -266,16 +266,17 @@ function FilterBar() {
   const note = (t: string) => <p className="rounded-2xl bg-muted p-4 text-sm font-semibold leading-7 text-ink/75">{t}</p>;
   return (
     <div className="surface flex items-center gap-1 rounded-full p-1">
+      {/* حوزه و نوع اول، بعد محدوده و بودجه */}
+      <BarItem icon={<Category2 size={20} variant="Bulk" />} label={useGroups ? "حوزه و نوع" : "نوع"} value={groupText} active={useGroups ? criteria.groups.length > 0 : subValue.length > 0} width="w-[46rem]">
+        <TypePicker compact />
+      </BarItem>
+      <span className="h-7 w-px shrink-0 bg-border" />
       <BarItem icon={<Location size={20} variant="Bulk" />} label="محدوده" value={route.id === "fund" ? "همه ایران" : criteria.provinces.length ? criteria.provinces.join("، ") + ((criteria.filters.cities as string[] | undefined)?.length ? `، ${faNumber(new Set(criteria.filters.cities as string[]).size)} شهر` : "") : "همه ایران"} active={route.id !== "fund" && criteria.provinces.length > 0} width={route.id === "fund" ? "w-[22rem]" : "w-[28rem]"}>
         {route.id === "fund" ? note("صندوق‌ها و طرح‌های جمعی به استان خاصی وابسته نیستند، از هر جای ایران می‌توانید وارد شوید.") : <LocationFields route={route.id} value={criteria.provinces} onChange={(v) => setCriteria({ provinces: v })} />}
       </BarItem>
       <span className="h-7 w-px shrink-0 bg-border" />
       <BarItem icon={<WalletMoney size={20} variant="Bulk" />} label="بودجه" value={!route.amount ? "پرسیده نمی‌شود" : criteria.amount ? `${faNumber(criteria.amount[0])} تا ${faNumber(criteria.amount[1])} ${route.amount.unit}` : "هر مبلغی"} active={!!route.amount && criteria.amount != null} width={route.amount ? "w-[34rem]" : "w-[22rem]"}>
         {route.amount ? <Budget /> : note("در مسیر بهره‌برداری، شما سرمایه نمی‌آورید و پروژه‌ها با توان اجرایی و تجربه‌تان سنجیده می‌شوند.")}
-      </BarItem>
-      <span className="h-7 w-px shrink-0 bg-border" />
-      <BarItem icon={<Category2 size={20} variant="Bulk" />} label={useGroups ? "حوزه و نوع" : "نوع"} value={groupText} active={useGroups ? criteria.groups.length > 0 : subValue.length > 0} width="w-[46rem]">
-        <TypePicker compact />
       </BarItem>
     </div>
   );

@@ -8,6 +8,6 @@ export function SiteBackdrop() {
   const path = usePathname();
   if (path === "/" || path === "") return null;
   return (
-    <AlgoField className="-z-20 text-ink/[0.03]" />
+    <AlgoField className="-z-20 text-ink/[0.04]" />
   );
 }

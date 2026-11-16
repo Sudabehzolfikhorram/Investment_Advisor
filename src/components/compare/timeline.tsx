@@ -18,7 +18,8 @@ function lanes(ms: Marker[], pos: (m: number) => number) {
   return ms.map((m) => { const p = pos(m.at); let r = 0; while (last[r] != null && Math.abs(p - last[r]) < 13) r++; last[r] = p; return r; });
 }
 
-export function ReturnTimeline({ items, single = false, markers = [] }: { items: Listing[]; single?: boolean; markers?: Marker[] }) {
+// probable: مسیر تخمینی (خط‌چین با برچسب «مسیر احتمالی»)، note: توضیح زیر نمودار به‌جای متن پیش‌فرض
+export function ReturnTimeline({ items, single = false, markers = [], probable = false, note }: { items: Listing[]; single?: boolean; markers?: Marker[]; probable?: boolean; note?: string }) {
   const reduce = useReducedMotion();
   const box = useRef<SVGSVGElement>(null);
   const [hover, setHover] = useState<number | null>(null);
@@ -58,7 +59,7 @@ export function ReturnTimeline({ items, single = false, markers = [] }: { items:
     <div>
       {/* راهنما: شماره و رنگ هر پروژه، با نگه داشتن نشانگر روی هر کدام خطش پررنگ می‌شود */}
       <ul className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[12.5px] font-bold text-ink/80">
-        {single && <li className="flex items-center gap-2"><svg width="26" height="6" aria-hidden><line x1="0" y1="3" x2="26" y2="3" stroke={SERIES[0]} strokeWidth="2.5" /></svg>حالت پایه</li>}
+        {single && <li className="flex items-center gap-2"><svg width="26" height="6" aria-hidden><line x1="0" y1="3" x2="26" y2="3" stroke={SERIES[0]} strokeWidth="2.5" strokeDasharray={probable ? "5 4" : undefined} /></svg>{probable ? "مسیر احتمالی بازگشت سرمایه" : "حالت پایه"}</li>}
         {single && lines[0]?.l && (lines[0].l.raw as { lockupMonths?: number | null }).lockupMonths != null && <li className="flex items-center gap-2"><span className="h-3 w-6 rounded-[4px] bg-ink/[0.07]" />دوره قفل سرمایه</li>}
         {!single && lines.map((ln) => (
           <li key={ln.l.id} onPointerEnter={() => setFocus(ln.i)} onPointerLeave={() => setFocus(null)} className={cn("flex items-center gap-2 transition-opacity", focus != null && focus !== ln.i && "opacity-40", ln.pay == null && "text-muted-foreground")}>
@@ -67,7 +68,7 @@ export function ReturnTimeline({ items, single = false, markers = [] }: { items:
             {ln.pay == null && <span className="font-semibold">(دوره بازگشت اعلام نشده)</span>}
           </li>
         ))}
-        <li className="flex items-center gap-2 text-muted-foreground"><svg width="26" height="6" aria-hidden><line x1="0" y1="3" x2="26" y2="3" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" /></svg>حالت بدبینانه</li>
+        {!probable && <li className="flex items-center gap-2 text-muted-foreground"><svg width="26" height="6" aria-hidden><line x1="0" y1="3" x2="26" y2="3" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" /></svg>حالت بدبینانه</li>}
       </ul>
 
       {plotted.length === 0 ? (
@@ -92,8 +93,8 @@ export function ReturnTimeline({ items, single = false, markers = [] }: { items:
               return (
                 <g key={ln.l.id} style={{ opacity: dim ? 0.18 : 1, transition: "opacity .2s" }}>
                   {ln.down != null && ln.down !== ln.pay && <path d={path(ln, true)} fill="none" stroke={SERIES[ln.i]} strokeWidth={2} strokeDasharray="4 5" strokeLinejoin="round" opacity={0.55} />}
-                  <motion.path d={path(ln)} fill="none" stroke={SERIES[ln.i]} strokeWidth={focus === ln.i ? 3 : 2.25} strokeLinejoin="round" strokeLinecap="round"
-                    initial={reduce ? false : { pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: ln.i * 0.15, ease: "easeOut" }} />
+                  <motion.path d={path(ln)} fill="none" stroke={SERIES[ln.i]} strokeWidth={focus === ln.i ? 3 : 2.25} strokeLinejoin="round" strokeLinecap="round" strokeDasharray={probable ? "7 6" : undefined}
+                    initial={reduce || probable ? false : { pathLength: 0 }} whileInView={probable ? undefined : { pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: ln.i * 0.15, ease: "easeOut" }} />
                   {/* نقطه بازگشت کامل، با شماره پروژه */}
                   <g transform={`translate(${x(ln.pay!)},${y(100)})`}>
                     <circle r={10} fill="white" stroke={SERIES[ln.i]} strokeWidth={2} />
@@ -131,8 +132,8 @@ export function ReturnTimeline({ items, single = false, markers = [] }: { items:
               ))}
             </div>); })()}
           <p className="mt-1 text-[12px] font-semibold leading-6 text-muted-foreground">
-            نقطه کوچک روی خط صفر، زمان اولین درآمد است و دایره شماره‌دار، زمان بازگشت کامل سرمایه. سود پس از بازگشت سرمایه در داده‌ها اعلام نشده، پس خط پس از آن صاف می‌ماند.
-            {missing.length > 0 && ` ${missing.map((m) => `«${m.l.title}»`).join("، ")} به دلیل نبودن دوره بازگشت روی نمودار نیست.`}
+            {note ?? <>نقطه کوچک روی خط صفر، زمان اولین درآمد است و دایره شماره‌دار، زمان بازگشت کامل سرمایه. سود پس از بازگشت سرمایه در داده‌ها اعلام نشده، پس خط پس از آن صاف می‌ماند.
+            {missing.length > 0 && ` ${missing.map((m) => `«${m.l.title}»`).join("، ")} به دلیل نبودن دوره بازگشت روی نمودار نیست.`}</>}
           </p>
         </div>
       )}

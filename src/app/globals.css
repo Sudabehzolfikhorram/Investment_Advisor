@@ -184,12 +184,13 @@
 .slow-spin { animation: girih-spin 240s linear infinite; }
 @media (prefers-reduced-motion: reduce) { .slow-spin { animation: none !important; } }
 
-/* پشت هر بخش، پترن پس‌زمینه کمی بلر می‌شود تا چشم روی محتوا بماند، لبه‌ها نرم محو می‌شوند */
+/* پشت هر بخش پترن پس‌زمینه با گرادیان محو می‌شود تا چشم روی محتوا بماند */
 .focus-blur { position: relative; }
 .focus-blur::before {
-  content: ""; position: absolute; inset: -2.5rem 0; z-index: -1; pointer-events: none;
-  -webkit-backdrop-filter: blur(2.5px); backdrop-filter: blur(2.5px);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 2.5rem, #000 calc(100% - 2.5rem), transparent), linear-gradient(to right, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
-  mask-image: linear-gradient(to bottom, transparent, #000 2.5rem, #000 calc(100% - 2.5rem), transparent), linear-gradient(to right, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
+  /* زیر خود سکشن پترن دیده نمی‌شود، در فاصله بین سکشن‌ها و کناره‌ها دیده می‌شود و نزدیک سکشن با گرادیان محو می‌شود */
+  content: ""; position: absolute; inset: -3.5rem -3.5rem; z-index: -1; pointer-events: none;
+  background-color: var(--background);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 3.5rem, #000 calc(100% - 3.5rem), transparent), linear-gradient(to right, transparent, #000 3.5rem, #000 calc(100% - 3.5rem), transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 3.5rem, #000 calc(100% - 3.5rem), transparent), linear-gradient(to right, transparent, #000 3.5rem, #000 calc(100% - 3.5rem), transparent);
   -webkit-mask-composite: source-in; mask-composite: intersect;
 }

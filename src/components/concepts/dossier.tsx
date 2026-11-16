@@ -423,7 +423,7 @@ function Folders() {
           <motion.div key={l.id} initial={reduce ? false : { rotateX: 35, y: 30, opacity: 0 }} whileInView={{ rotateX: 0, y: 0, opacity: 1 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.8, delay: (i % 3) * 0.1, ease }} style={{ transformOrigin: "bottom" }}>
             <Link href={projectHref("dossier", l.id)} className="group relative block">
               {/* زبانه پوشه */}
-              <span className="relative z-10 mr-5 inline-flex h-8 items-center rounded-t-lg bg-white px-3 text-[12px] font-black tabular-nums text-[#2f3533]/60 ring-1 ring-[#d7dee9] [clip-path:inset(-2px_-2px_0_-2px)]" dir="ltr">{l.id}</span>
+              <span className="relative z-10 mr-5 inline-flex h-8 items-center rounded-t-lg bg-white px-3 text-[12px] font-black text-[#2f3533]/60 ring-1 ring-[#d7dee9] [clip-path:inset(-2px_-2px_0_-2px)]">{l.tags[0]}</span>
               <div className="relative overflow-hidden rounded-[14px] rounded-tr-none bg-white p-3 ring-1 ring-[#d7dee9] transition-shadow group-hover:shadow-[0_34px_60px_-40px_rgb(14_40_90/0.55)]">
                 <div className="relative h-44 overflow-hidden rounded-[9px]"><Image src={l.image} alt="" fill sizes="30vw" className="object-cover grayscale-[60%] transition-[filter,transform] duration-700 group-hover:scale-105 group-hover:grayscale-0" /><div className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent" /></div>
                 <div className="px-2 pb-2 pt-4">
@@ -595,7 +595,6 @@ function Detail({ l }: { l: Listing }) {
             <div>
               <div className="flex items-center justify-between text-[12.5px] font-bold text-[#2f3533]/55">
                 <span><Link href="/concepts/dossier" className="hover:text-[#1e3a8a]">صفحه نخست</Link> / {l.tags.join(" · ")}</span>
-                <span className="rounded border border-[#2f3533]/20 px-2 py-0.5 font-black tabular-nums" dir="ltr">{l.id}</span>
               </div>
               <motion.div initial={reduce ? false : { clipPath: "inset(0 0 0 100%)" }} animate={{ clipPath: "inset(0 0 0 0%)" }} transition={{ duration: 1.1, delay: 0.3, ease }}>
                 <MarkTitle as="h1" className="mt-4 text-[2.7rem] font-black leading-[1.35] text-[#2f3533]" markClass="text-[#1e3a8a] !w-16 !h-5">{l.title}</MarkTitle>
