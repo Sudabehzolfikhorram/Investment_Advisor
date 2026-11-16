@@ -423,7 +423,7 @@ export function Results() {
 
                 {/* پروژه‌هایی که از نمودار «بازگشت در برابر مشابه‌ها» در صفحه جزئیات آمده‌اند؛ بالای نتایج سنجاق می‌شوند */}
                 {pinnedList.length > 0 && (
-                  <section className="mb-7 rounded-[1.75rem] border border-cobalt/20 bg-[#eef3fc]/70 p-4">
+                  <section className="mb-7 rounded-[1.75rem] border border-cobalt/20 bg-[#eef1f8]/70 p-4">
                     <div className="mb-4 flex items-center gap-3 px-1">
                       <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white text-cobalt shadow-[0_6px_16px_-10px_rgb(20_30_45/0.4)]"><Convertshape2 size={20} variant="Bulk" /></span>
                       <div className="min-w-0 flex-1">

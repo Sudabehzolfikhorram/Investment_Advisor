@@ -370,7 +370,7 @@ export function MainCategories() {
             <Reveal key={r.id} delay={(i % 4) * 0.06} className="h-full">
               <Button variant="plain" size="auto" type="button" onClick={() => { begin({ route: r.id }); router.push("/opportunities"); }}
                 className={cn("group surface relative isolate flex h-full min-h-[15.5rem] !bg-[radial-gradient(90%_70%_at_100%_0%,rgb(15_118_110/0.10),transparent_60%),linear-gradient(#fff,#fff)] w-full flex-col items-stretch justify-start gap-0 overflow-hidden whitespace-normal rounded-[1.6rem] p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:!border-primary/40 hover:!bg-[radial-gradient(90%_70%_at_100%_0%,rgb(15_118_110/0.16),transparent_60%),linear-gradient(#fff,#fff)] hover:shadow-[0_26px_50px_-30px_rgb(15_118_110/0.45)]",
-                  fit && on && "border-cobalt/45 shadow-[0_0_0_3px_rgb(14_83_200/0.08),0_26px_50px_-34px_rgb(14_83_200/0.45)]", !on && "opacity-40 saturate-0 hover:opacity-100 hover:saturate-100")}>
+                  fit && on && "border-cobalt/45 shadow-[0_0_0_3px_rgb(30_58_138/0.08),0_26px_50px_-34px_rgb(30_58_138/0.45)]", !on && "opacity-40 saturate-0 hover:opacity-100 hover:saturate-100")}>
                 {/* سرِ کارت فقط آیکون؛ شمار پروژه به پاورقی رفت تا بالای کارت خلوت بماند */}
                 <span className={cn("grid size-12 shrink-0 place-items-center rounded-2xl bg-muted text-ink transition-colors duration-300 group-hover:bg-primary group-hover:text-white", fit && on && "bg-cobalt-soft text-cobalt-deep")}><I size={23} variant="Bulk" /></span>
                 <span title={r.name} className="mt-6 block truncate whitespace-nowrap text-[17px] font-extrabold leading-7 text-ink">{r.name}</span>

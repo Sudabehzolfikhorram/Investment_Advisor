@@ -142,7 +142,7 @@ export function CompareChat({ items, onShowRows, className }: { items: Listing[]
             {suggestions.map((q) => <Button key={q} type="button" variant="plain" size="auto" onClick={() => ask(q)} className="h-auto min-h-7 whitespace-normal rounded-full border border-border bg-white px-3 py-1 text-right text-[11.5px] font-bold leading-5 text-ink/75 hover:border-cobalt/35 hover:text-ink">{q}</Button>)}
           </div>
         )}
-        <form onSubmit={(e) => { e.preventDefault(); ask(text); }} className={cn("flex items-end gap-2 rounded-[1.4rem] border border-border bg-white p-1.5 pr-4 transition-[border-color,box-shadow] focus-within:border-cobalt/45 focus-within:shadow-[0_0_0_4px_rgb(14_83_200/0.1)]", !ready && "opacity-60")}>
+        <form onSubmit={(e) => { e.preventDefault(); ask(text); }} className={cn("flex items-end gap-2 rounded-[1.4rem] border border-border bg-white p-1.5 pr-4 transition-[border-color,box-shadow] focus-within:border-cobalt/45 focus-within:shadow-[0_0_0_4px_rgb(30_58_138/0.1)]", !ready && "opacity-60")}>
           <Textarea value={text} onChange={(e) => setText(e.target.value)} rows={1} aria-label="پرسش شما درباره این پروژه‌ها" disabled={!ready}
             placeholder={ready ? "مثلاً: با ۲۰ میلیارد کدام را شروع کنم؟" : "اول دو پروژه انتخاب کنید"}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(text); } }}

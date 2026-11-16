@@ -70,7 +70,7 @@ function EmptyHero({ items }: { items: Listing[] }) {
   ].filter(Boolean) as { title: string; icon: typeof Award; ids: string[] }[];
   return (
     <section className="surface relative isolate overflow-hidden rounded-[1.75rem] p-7">
-      <div aria-hidden className="absolute -left-24 -top-24 -z-10 size-72 rounded-full bg-[radial-gradient(circle,rgb(14_83_200/0.08),transparent_65%)]" />
+      <div aria-hidden className="absolute -left-24 -top-24 -z-10 size-72 rounded-full bg-[radial-gradient(circle,rgb(30_58_138/0.08),transparent_65%)]" />
       <div className="flex items-center gap-7">
         {/* چهار حلقه: هر پروژه انتخاب‌شده حلقه‌ی رنگ خودش را پر می‌کند */}
         <div className="flex shrink-0 items-center" aria-hidden>
@@ -197,7 +197,7 @@ export function Compare() {
                   {items.map((l, i) => { const c = completeness(l); const m = fits ? matchListing(l, criteria).score : null; return (
                     <div key={l.id} className="flex flex-col gap-3 rounded-2xl bg-muted/50 p-3.5">
                       <div className="flex flex-wrap gap-1.5">
-                        {st[i].length ? st[i].map((s) => <span key={s} className="rounded-full bg-white px-2.5 py-1 text-[11.5px] font-extrabold text-cobalt-deep shadow-[inset_0_0_0_1px_rgb(14_83_200/0.18)]">{s}</span>)
+                        {st[i].length ? st[i].map((s) => <span key={s} className="rounded-full bg-white px-2.5 py-1 text-[11.5px] font-extrabold text-cobalt-deep shadow-[inset_0_0_0_1px_rgb(30_58_138/0.18)]">{s}</span>)
                           : <span className="text-[12px] font-semibold leading-6 text-muted-foreground">در داده‌های اعلام‌شده برتری روشنی ندارد</span>}
                       </div>
                       <div className="mt-auto flex items-center justify-between gap-2">
@@ -249,7 +249,7 @@ export function Compare() {
                         const max = Math.max(0, ...items.map((l) => r.num(oppOf(l)) ?? 0));
                         const on = flash.includes(r.id);
                         return (
-                          <div key={r.id} id={`row-${r.id}`} className={cn("grid scroll-mt-48 items-start gap-3 rounded-2xl border-t border-border/70 py-1 transition-[background-color,box-shadow] duration-500 first-of-type:border-t-0", on && "bg-cobalt-soft shadow-[inset_0_0_0_2px_rgb(14_83_200/0.35)]")} style={grid}>
+                          <div key={r.id} id={`row-${r.id}`} className={cn("grid scroll-mt-48 items-start gap-3 rounded-2xl border-t border-border/70 py-1 transition-[background-color,box-shadow] duration-500 first-of-type:border-t-0", on && "bg-cobalt-soft shadow-[inset_0_0_0_2px_rgb(30_58_138/0.35)]")} style={grid}>
                             <div className="flex items-center gap-1.5 px-3 py-3">
                               <span className="text-[13px] font-bold text-ink/70">{r.label}</span>
                               {r.hint && (

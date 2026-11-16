@@ -134,12 +134,15 @@ export function AdvancedFilter({ className, quick, profileCard, onSave, saved }:
     }).join(" ");
   };
   // مقدار اسلایدر و بازه در انتهای ردیف عنوان؛ با × پاک می‌شود (ردیف جدای «حذف» برداشته شد)
+  // فقط عدد (یا درصد با ٪) تا عنوان یک‌خطی بماند؛ واحد کامل در راهنمای هاور پیل می‌آید
+  const num = (n: number, x: FieldDef) => (x.unit === "درصد" ? `${faNumber(n)}٪` : faNumber(n));
   const valueOf = (x: FieldDef) => {
     const v = f[x.id];
-    if (x.control === "slider" && typeof v === "number") return `${faNumber(v)} ${x.unit ?? ""}`.trim();
-    if (x.control === "range" && Array.isArray(v) && typeof v[0] === "number") return `${faNumber(v[0] as number)} تا ${faNumber(v[1] as number)} ${x.unit ?? ""}`.trim();
+    if (x.control === "slider" && typeof v === "number") return num(v, x);
+    if (x.control === "range" && Array.isArray(v) && typeof v[0] === "number") return `${num(v[0] as number, x)}–${num(v[1] as number, x)}`;
     return null;
   };
+  const fullValue = (x: FieldDef) => { const v = f[x.id]; return typeof v === "number" ? `${faNumber(v)} ${x.unit ?? ""}`.trim() : Array.isArray(v) && typeof v[0] === "number" ? `${faNumber(v[0] as number)} تا ${faNumber(v[1] as number)} ${x.unit ?? ""}`.trim() : undefined; };
 
   const profile = profileFields.filter((x) => !x.routes || x.routes.includes(route.id));
   const activeIn = (list: FieldDef[]) => list.filter((x) => f[x.id] != null).length;
@@ -154,10 +157,10 @@ export function AdvancedFilter({ className, quick, profileCard, onSave, saved }:
     return (
       <div key={x.id} className={cn(x.control === "switch" && "flex items-center justify-between gap-3")}>
         <div className={cn("flex min-h-6 items-center gap-1.5", x.control !== "switch" && (slide ? "mb-3.5" : "mb-2.5"))}>
-          <p className="text-[13.5px] font-bold leading-6 text-ink/85">{x.label}</p>
+          <p title={x.label} className={cn("text-[13.5px] font-bold leading-6 text-ink/85", x.control !== "switch" && "min-w-0 truncate")}>{x.label}</p>
           {hint && <InfoTip text={hint} />}
           {slide && (val
-            ? <span className="mr-auto inline-flex h-6 shrink-0 items-center gap-1 rounded-full bg-cobalt-soft pr-2.5 pl-1 text-[12px] font-extrabold tabular-nums text-cobalt-deep">{val}
+            ? <span title={fullValue(x)} className="mr-auto inline-flex h-6 shrink-0 items-center gap-1 rounded-full bg-cobalt-soft pr-2.5 pl-1 text-[12px] font-extrabold tabular-nums text-cobalt-deep">{val}
                 <button type="button" aria-label={`پاک کردن ${x.label}`} onClick={() => setFilter(x.id, undefined)} className="grid size-4 place-items-center rounded-full text-cobalt-deep/60 hover:bg-cobalt hover:text-white"><CloseCircle size={14} variant="Bold" /></button></span>
             : <span className="mr-auto shrink-0 text-[12px] font-semibold text-muted-foreground">همه</span>)}
         </div>

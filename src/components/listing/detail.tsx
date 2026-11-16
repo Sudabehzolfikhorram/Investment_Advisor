@@ -39,7 +39,7 @@ import { chartList } from "@/components/concepts/charts";
 import { sheetOf } from "@/lib/sheet";
 
 /** رنگ‌های نمودارهای مقایسه‌ای در سایت فعلی: داده کبالت، متن خنثی */
-const cv = { "--cv-accent": "#0e53c8", "--cv-soft": "#e6eefc", "--cv-ink": "#2f3533", "--cv-grid": "#e1e6ee", "--cv-surface": "#ffffff", "--cv-warn": "#e0603f" } as React.CSSProperties;
+const cv = { "--cv-accent": "#1e3a8a", "--cv-soft": "#e8edf7", "--cv-ink": "#2f3533", "--cv-grid": "#e1e6ee", "--cv-surface": "#ffffff", "--cv-warn": "#e0603f" } as React.CSSProperties;
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const NA = "ثبت نشده";
@@ -432,7 +432,7 @@ function PeerReturn({ l, peers }: { l: Listing; peers: Listing[] }) {
     <div className="surface rounded-[1.75rem] p-6">
       {mine != null && avg != null && (
         <div className="mb-5 grid grid-cols-3 gap-3">
-          <div className="rounded-2xl bg-[#eef3fc] p-4"><p className="text-[12px] font-bold text-cobalt-deep">همین پروژه</p><p className="mt-1 text-[1.4rem] font-black text-ink">{faNumber(mine)} <span className="text-[13px] font-bold text-ink/60">سال</span></p></div>
+          <div className="rounded-2xl bg-[#eef1f8] p-4"><p className="text-[12px] font-bold text-cobalt-deep">همین پروژه</p><p className="mt-1 text-[1.4rem] font-black text-ink">{faNumber(mine)} <span className="text-[13px] font-bold text-ink/60">سال</span></p></div>
           <div className="rounded-2xl bg-muted/70 p-4"><p className="text-[12px] font-bold text-ink/60">میانگین {faNumber(known.length)} پروژه مشابه</p><p className="mt-1 text-[1.4rem] font-black text-ink">{faNumber(avg)} <span className="text-[13px] font-bold text-ink/60">سال</span></p></div>
           <div className={cn("rounded-2xl p-4", diff != null && diff > 0 ? "bg-primary/10" : diff != null && diff < 0 ? "bg-warn/10" : "bg-muted/70")}>
             <p className="text-[12px] font-bold text-ink/60">نتیجه</p>

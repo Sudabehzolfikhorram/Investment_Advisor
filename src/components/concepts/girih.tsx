@@ -18,7 +18,7 @@ import { useHydrated, useStore } from "@/lib/store";
 import type { Listing, Opportunity, RouteId } from "@/types";
 import { cn, faNumber, formatMobile } from "@/lib/utils";
 
-const vars = { "--cv-accent": "#0e53c8", "--cv-soft": "#e6eefc", "--cv-ink": "#2f3533", "--cv-grid": "#dfe6f0", "--cv-surface": "#ffffff", "--cv-warn": "#e0603f" } as CSSProperties;
+const vars = { "--cv-accent": "#1e3a8a", "--cv-soft": "#e8edf7", "--cv-ink": "#2f3533", "--cv-grid": "#dfe6f0", "--cv-surface": "#ffffff", "--cv-warn": "#e0603f" } as CSSProperties;
 const ease = [0.16, 1, 0.3, 1] as const;
 const W = "mx-auto max-w-[84rem] px-8";
 
@@ -85,7 +85,7 @@ function Star({ bring, lit }: { bring: Bring | null; lit: (g: Pick<Goal, "brings
           return (
             <path key={ray.id} d={ray.d} strokeWidth="5" strokeLinejoin="round" stroke="#08337d" role="button" tabIndex={0} aria-label={`${g.name}، ${faNumber(g.count)} پروژه`}
               style={reduce ? undefined : { animation: `girih-ray 0.9s cubic-bezier(.16,1,.3,1) ${0.15 + k * 0.07}s both` }}
-              className={cn("girih-ray cursor-pointer outline-none transition-[fill] duration-500 focus-visible:fill-[#0f766e]", isHover ? "fill-[#0f766e]" : isOn ? "fill-white" : "fill-[#0d429f]")}
+              className={cn("girih-ray cursor-pointer outline-none transition-[fill] duration-500 focus-visible:fill-[#0f766e]", isHover ? "fill-[#0f766e]" : isOn ? "fill-white" : "fill-[#172a63]")}
               onPointerEnter={() => setHover(ray.id)} onPointerLeave={() => setHover(null)} onFocus={() => setHover(ray.id)} onBlur={() => setHover(null)}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go.route(ray.id); } }} onClick={() => go.route(ray.id)} />
           );
@@ -129,7 +129,7 @@ function Hero({ state }: { state: ReturnType<typeof useBringState> }) {
   return (
     <section className="relative isolate overflow-hidden bg-[#08337d] pb-16 pt-32 text-white">
       <AlgoPattern className="inset-0 -z-10 size-full text-white/[0.07]" fade="none" scale={0.9} animated />
-      <div aria-hidden className="absolute left-[8%] top-[18%] -z-10 size-[44rem] rounded-full bg-[#0e53c8] opacity-60 blur-[120px]" />
+      <div aria-hidden className="absolute left-[8%] top-[18%] -z-10 size-[44rem] rounded-full bg-[#1e3a8a] opacity-60 blur-[120px]" />
       <div className={cn(W, "grid grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] items-center gap-12")}>
         <div>
           <MarkTitle as="h1" markClass="text-[#5cc4b8] !w-20 !h-6" className="text-[4.6rem] font-black leading-[1.25] tracking-tight">{hero.title[0]}<br />{hero.title[1]}</MarkTitle>
@@ -179,7 +179,7 @@ function Stories() {
   const go = useGo();
   return (
     <section className={cn(W, "mt-24")}>
-      <MarkTitle className="text-[2.1rem] font-black text-[#2f3533]" markClass="text-[#0e53c8]">{heroStories.title}</MarkTitle>
+      <MarkTitle className="text-[2.1rem] font-black text-[#2f3533]" markClass="text-[#1e3a8a]">{heroStories.title}</MarkTitle>
       <div className="mt-8 grid grid-cols-3 gap-5">
         {heroStories.items.map((s, i) => (
           <motion.button key={s.n} type="button" onClick={() => go.route(s.routes[0])} initial="rest" whileHover="open" animate="rest" className="group relative isolate h-[26rem] overflow-hidden rounded-[2rem] bg-[#08337d] text-right">
@@ -208,9 +208,9 @@ function Intro() {
   return (
     <section className={cn(W, "mt-28")}>
       <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] items-end gap-16">
-        <MarkTitle className="text-[2.6rem] font-black leading-[1.45] text-[#2f3533]" markClass="text-[#0e53c8]">{intro.title[0]}<br />{intro.title[1]}</MarkTitle>
+        <MarkTitle className="text-[2.6rem] font-black leading-[1.45] text-[#2f3533]" markClass="text-[#1e3a8a]">{intro.title[0]}<br />{intro.title[1]}</MarkTitle>
         <div>
-          <p className="text-[1.15rem] font-extrabold text-[#0e53c8]">{intro.kicker}</p>
+          <p className="text-[1.15rem] font-extrabold text-[#1e3a8a]">{intro.kicker}</p>
           <p className="mt-2 max-w-[38rem] text-[15.5px] leading-8 text-[#2f3533]/75">{intro.text}</p>
         </div>
       </div>
@@ -218,7 +218,7 @@ function Intro() {
         {intents.map((it, i) => (
           <Link key={it.id} href={it.href} className={cn("group relative isolate flex min-h-[17rem] flex-col p-8 transition-[filter] hover:brightness-[1.06]", fills[i], i === 0 && "rounded-r-[2rem]")}>
             {i > 0 && <AlgoPattern className="inset-0 -z-10 size-full text-white/[0.08]" fade="left" scale={0.55} />}
-            <span className={cn("text-[11px] font-black tracking-[0.2em]", i ? "text-white/50" : "text-[#0e53c8]")} dir="ltr">{it.en}</span>
+            <span className={cn("text-[11px] font-black tracking-[0.2em]", i ? "text-white/50" : "text-[#1e3a8a]")} dir="ltr">{it.en}</span>
             <p className="mt-4 text-[1.4rem] font-black leading-9">{it.title}</p>
             <p className={cn("mt-2 text-[14px] leading-7", i ? "text-white/75" : "text-[#2f3533]/70")}>{it.text}</p>
             <span className="mt-auto inline-flex items-center gap-2 pt-6 text-[14px] font-extrabold">{it.cta}<ArrowLeft size={17} className="transition-transform group-hover:-translate-x-1" /></span>
@@ -235,8 +235,8 @@ function QuickNav() {
   return (
     <ul className="mt-5 flex flex-wrap gap-2">
       {quickNav.map((q) => (
-        <li key={q.href + q.label}><Link href={q.href} className="inline-flex h-10 items-center gap-2 rounded-xl border border-[#dfe6f0] bg-white px-4 text-[13px] font-bold text-[#2f3533]/80 transition-all hover:-translate-y-0.5 hover:border-[#0e53c8]/40 hover:text-[#0e53c8]">
-          <span className="size-1.5 rotate-45 bg-[#0e53c8]" />{q.label}{q.saved && <span className="rounded-md bg-[#e6eefc] px-1.5 text-[11px] font-black text-[#0e53c8]">{faNumber(hydrated ? saved.length : 0)}</span>}</Link></li>
+        <li key={q.href + q.label}><Link href={q.href} className="inline-flex h-10 items-center gap-2 rounded-xl border border-[#dfe6f0] bg-white px-4 text-[13px] font-bold text-[#2f3533]/80 transition-all hover:-translate-y-0.5 hover:border-[#1e3a8a]/40 hover:text-[#1e3a8a]">
+          <span className="size-1.5 rotate-45 bg-[#1e3a8a]" />{q.label}{q.saved && <span className="rounded-md bg-[#e8edf7] px-1.5 text-[11px] font-black text-[#1e3a8a]">{faNumber(hydrated ? saved.length : 0)}</span>}</Link></li>
       ))}
     </ul>
   );
@@ -247,24 +247,24 @@ function Goals({ state }: { state: ReturnType<typeof useBringState> }) {
   const go = useGo();
   return (
     <section id="goals" className="relative isolate mt-28 scroll-mt-10 overflow-hidden bg-[#eef3fb] py-20">
-      <AlgoPattern className="-left-20 top-0 -z-10 h-full w-1/2 text-[#0e53c8]/[0.09]" fade="left" />
+      <AlgoPattern className="-left-20 top-0 -z-10 h-full w-1/2 text-[#1e3a8a]/[0.09]" fade="left" />
       <div className={W}>
         <div className="flex items-end justify-between gap-10">
           <div>
-            <MarkTitle className="text-[2.3rem] font-black text-[#2f3533]" markClass="text-[#0e53c8]">{goalsHead.title}</MarkTitle>
+            <MarkTitle className="text-[2.3rem] font-black text-[#2f3533]" markClass="text-[#1e3a8a]">{goalsHead.title}</MarkTitle>
             <p className="mt-2 text-[15.5px] text-[#2f3533]/70">{goalsHead.text}</p>
           </div>
           {/* چهار گام فلوی جست‌وجو */}
           <ol className="flex items-center gap-1.5">
             {flowSteps.map((s, i) => (
               <li key={s} className="flex items-center gap-1.5">
-                <span className={cn("inline-flex h-9 items-center gap-2 rounded-full px-3.5 text-[12.5px] font-bold", i === 0 ? "bg-[#0e53c8] text-white" : "bg-white text-[#2f3533]/60")}><span className="tabular-nums">{faNumber(i + 1)}</span>{s}</span>
+                <span className={cn("inline-flex h-9 items-center gap-2 rounded-full px-3.5 text-[12.5px] font-bold", i === 0 ? "bg-[#1e3a8a] text-white" : "bg-white text-[#2f3533]/60")}><span className="tabular-nums">{faNumber(i + 1)}</span>{s}</span>
                 {i < flowSteps.length - 1 && <span className="h-px w-4 bg-[#2f3533]/20" />}
               </li>
             ))}
           </ol>
         </div>
-        {state.bring && <p className="mt-6 text-[13.5px] font-bold text-[#0e53c8]">آورده «{brings.find((b) => b.id === state.bring)?.short}» انتخاب شده؛ هدف‌های جورشده پررنگ‌اند. <button type="button" className="underline underline-offset-4" onClick={() => state.setBring(null)}>همه را نشان بده</button></p>}
+        {state.bring && <p className="mt-6 text-[13.5px] font-bold text-[#1e3a8a]">آورده «{brings.find((b) => b.id === state.bring)?.short}» انتخاب شده؛ هدف‌های جورشده پررنگ‌اند. <button type="button" className="underline underline-offset-4" onClick={() => state.setBring(null)}>همه را نشان بده</button></p>}
         <p className="mt-8 text-[14px] font-extrabold text-[#2f3533]">{goalsHead.label}</p>
         <div className="mt-3 grid grid-cols-5 gap-3">
           {goals.map((g, i) => {
@@ -274,8 +274,8 @@ function Goals({ state }: { state: ReturnType<typeof useBringState> }) {
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: (i % 5) * 0.06, duration: 0.7, ease }}
                 className={cn("group relative isolate flex min-h-[17.5rem] flex-col overflow-hidden rounded-[1.6rem] bg-white p-6 text-right ring-1 ring-[#dfe6f0] transition-[opacity,box-shadow,transform] duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-34px_rgb(8_51_125/0.55)]", !on && "opacity-35 saturate-0 hover:opacity-100 hover:saturate-100", !g.route && "bg-[#f7f9fd]")}>
                 {/* کاشی لاجوردی از گوشه بالا می‌آید */}
-                <span aria-hidden className="absolute -left-10 -top-10 -z-10 size-28 rotate-45 rounded-[1.2rem] bg-[#e6eefc] transition-all duration-700 group-hover:-left-6 group-hover:-top-6 group-hover:size-[200%] group-hover:rotate-0 group-hover:rounded-none group-hover:bg-[#08337d]" />
-                <span className={cn("relative grid size-12 place-items-center text-[#0e53c8] transition-[color,opacity] duration-500 group-hover:text-white", g.steps.length > 0 && "group-hover:opacity-0")}><StarBadge /><I size={21} variant="Bulk" className="relative" /></span>
+                <span aria-hidden className="absolute -left-10 -top-10 -z-10 size-28 rotate-45 rounded-[1.2rem] bg-[#e8edf7] transition-all duration-700 group-hover:-left-6 group-hover:-top-6 group-hover:size-[200%] group-hover:rotate-0 group-hover:rounded-none group-hover:bg-[#08337d]" />
+                <span className={cn("relative grid size-12 place-items-center text-[#1e3a8a] transition-[color,opacity] duration-500 group-hover:text-white", g.steps.length > 0 && "group-hover:opacity-0")}><StarBadge /><I size={21} variant="Bulk" className="relative" /></span>
                 <span className={cn("mt-5 text-[16px] font-black leading-7 text-[#2f3533] transition-[color,opacity] duration-500 group-hover:text-white", g.steps.length > 0 && "group-hover:opacity-0")}>{g.fullName}</span>
                 <span className={cn("mt-2 text-[12.5px] leading-6 text-[#2f3533]/65 transition-[color,opacity] duration-500 group-hover:text-white/75", g.steps.length > 0 && "group-hover:opacity-0")}>{g.text}</span>
                 {/* گام‌های ورود همین مسیر، روی کاشی لاجوردی */}
@@ -315,7 +315,7 @@ function Groups() {
   const big = new Set(["energy", "transport", "heritage"]);
   return (
     <section className={cn(W, "mt-28")}>
-      <MarkTitle className="text-[2.3rem] font-black text-[#2f3533]" markClass="text-[#0e53c8]">{groupsHead.title}</MarkTitle>
+      <MarkTitle className="text-[2.3rem] font-black text-[#2f3533]" markClass="text-[#1e3a8a]">{groupsHead.title}</MarkTitle>
       <p className="mt-2 max-w-[44rem] text-[15.5px] text-[#2f3533]/70">{groupsHead.text}</p>
       <div className="mt-9 grid grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)] gap-6">
         <div className="grid auto-rows-[9.5rem] grid-cols-4 gap-3">
@@ -345,14 +345,14 @@ function Groups() {
           <p className="mt-1 text-[12.5px] text-[#2f3533]/60">پررنگی هر استان، شمار پروژه‌های آن است. روی استان بزنید تا نتایج همان‌جا را ببینید.</p>
           <div className="relative mt-3" onPointerLeave={() => setProv(null)} onPointerOver={(e) => { const t = (e.target as SVGElement).closest("path")?.querySelector("title")?.textContent; if (t) setProv(t); }}
             onClick={(e) => { const t = (e.target as SVGElement).closest("path")?.querySelector("title")?.textContent; if (t) { useStore.getState().begin({ route: "investor", provinces: [t] }); window.location.assign(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/opportunities`); } }}>
-            <ProvinceMap hot={prov} weights={byProvince} base="fill-[#0e53c8] cursor-pointer" fill="fill-[#0f766e] cursor-pointer" />
+            <ProvinceMap hot={prov} weights={byProvince} base="fill-[#1e3a8a] cursor-pointer" fill="fill-[#0f766e] cursor-pointer" />
           </div>
           <p className="mt-2 h-6 text-[13px] font-extrabold text-[#2f3533]">{prov ? `${prov}: ${faNumber(byProvince[prov] ?? 0)} پروژه` : `${faNumber(Object.keys(byProvince).length)} استان، ${faNumber(totalCount)} فرصت`}</p>
           <ul className="mt-5 space-y-2.5 border-t border-[#dfe6f0] pt-5">
             {Object.entries(byProvince).sort((x, y) => y[1] - x[1]).slice(0, 6).map(([name, n], i, arr) => (
               <li key={name} onPointerEnter={() => setProv(name)} className="grid grid-cols-[6.5rem_minmax(0,1fr)_2rem] items-center gap-3 text-[12.5px] font-bold text-[#2f3533]/75">
                 <span className="truncate">{name}</span>
-                <span className="h-2.5 overflow-hidden rounded-full bg-[#eef3fb]"><motion.span initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.8, ease }} className={cn("block h-full rounded-full", prov === name ? "bg-[#0f766e]" : "bg-[#0e53c8]")} style={{ width: `${(n / arr[0][1]) * 100}%`, transformOrigin: "right" }} /></span>
+                <span className="h-2.5 overflow-hidden rounded-full bg-[#eef3fb]"><motion.span initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.8, ease }} className={cn("block h-full rounded-full", prov === name ? "bg-[#0f766e]" : "bg-[#1e3a8a]")} style={{ width: `${(n / arr[0][1]) * 100}%`, transformOrigin: "right" }} /></span>
                 <span className="text-left tabular-nums text-[#2f3533]">{faNumber(n)}</span>
               </li>
             ))}
@@ -387,8 +387,8 @@ function Featured() {
   return (
     <section className={cn(W, "mt-28")}>
       <div className="flex items-end justify-between">
-        <MarkTitle className="text-[2.3rem] font-black text-[#2f3533]" markClass="text-[#0e53c8]">پروژه‌هایی برای شروع</MarkTitle>
-        <Link href="/opportunities" className="inline-flex items-center gap-2 text-[14px] font-extrabold text-[#0e53c8]">همه {faNumber(totalCount)} فرصت<ArrowLeft size={17} /></Link>
+        <MarkTitle className="text-[2.3rem] font-black text-[#2f3533]" markClass="text-[#1e3a8a]">پروژه‌هایی برای شروع</MarkTitle>
+        <Link href="/opportunities" className="inline-flex items-center gap-2 text-[14px] font-extrabold text-[#1e3a8a]">همه {faNumber(totalCount)} فرصت<ArrowLeft size={17} /></Link>
       </div>
       <div className="mt-8 grid grid-cols-3 gap-5">
         {featured.map((l, i) => <GirihCard key={l.id} l={l} i={i} />)}
@@ -407,7 +407,7 @@ function GirihCard({ l, i }: { l: Listing; i: number }) {
           <span className="absolute bottom-4 right-5 flex items-center gap-1.5 text-[12.5px] font-bold text-white"><Location size={15} />{l.province ? `${l.province}، ${l.city}` : l.tags[0]}</span>
         </div>
         <div className="p-6">
-          <p className="text-[12px] font-bold text-[#0e53c8]">{l.tags.join(" · ")}</p>
+          <p className="text-[12px] font-bold text-[#1e3a8a]">{l.tags.join(" · ")}</p>
           <p className="mt-1.5 text-[17px] font-black leading-7 text-[#2f3533]">{l.title}</p>
           <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-[#dfe6f0] pt-4">
             {l.stats.slice(0, 4).map((s) => <div key={s.label}><dt className="text-[11.5px] font-bold text-[#2f3533]/55">{s.label}</dt><dd className="mt-0.5 text-[13.5px] font-extrabold text-[#2f3533]">{s.value}</dd></div>)}
@@ -433,8 +433,8 @@ function Narratives() {
             </motion.div>
           </div>
           <div>
-            <MarkTitle className={cn("text-[2.2rem] font-black leading-[1.5]", i ? "text-white" : "text-[#2f3533]")} markClass={i ? "text-[#5cc4b8]" : "text-[#0e53c8]"}>{s.title[0]}<br />{s.title[1]}</MarkTitle>
-            <p className={cn("mt-4 text-[15px] font-extrabold", i ? "text-[#9dbff9]" : "text-[#0e53c8]")}>{s.kicker}</p>
+            <MarkTitle className={cn("text-[2.2rem] font-black leading-[1.5]", i ? "text-white" : "text-[#2f3533]")} markClass={i ? "text-[#5cc4b8]" : "text-[#1e3a8a]"}>{s.title[0]}<br />{s.title[1]}</MarkTitle>
+            <p className={cn("mt-4 text-[15px] font-extrabold", i ? "text-[#9dbff9]" : "text-[#1e3a8a]")}>{s.kicker}</p>
             <p className={cn("mt-1 max-w-[34rem] text-[15px] leading-8", i ? "text-white/75" : "text-[#2f3533]/70")}>{s.text}</p>
             <button type="button" onClick={() => (s.route ? go.route(s.route) : go.href(s.href!))} className="mt-7 inline-flex h-12 items-center gap-2 rounded-full bg-[#0f766e] px-6 text-[14px] font-extrabold text-white transition-transform hover:-translate-y-0.5">{s.cta}<ArrowLeft size={17} /></button>
           </div>
@@ -449,19 +449,19 @@ function Method() {
   const reduce = useReducedMotion();
   return (
     <section className={cn(W, "mt-28")}>
-      <MarkTitle className="text-[2.3rem] font-black text-[#2f3533]" markClass="text-[#0e53c8]">سه کار که برایتان انجام می‌شود</MarkTitle>
+      <MarkTitle className="text-[2.3rem] font-black text-[#2f3533]" markClass="text-[#1e3a8a]">سه کار که برایتان انجام می‌شود</MarkTitle>
       <div className="mt-8 grid grid-cols-3 gap-5">
         {method.map((m, i) => (
           <div key={m.en} className="rounded-[1.8rem] bg-white p-8 ring-1 ring-[#dfe6f0]">
             <div className="relative h-28">
               {i === 0 && (<>
-                <motion.span initial={reduce ? false : { x: 40, rotate: -20 }} whileInView={{ x: 0, rotate: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease }} className="absolute right-12 top-6 size-16 rotate-45 rounded-md bg-[#0e53c8]" />
+                <motion.span initial={reduce ? false : { x: 40, rotate: -20 }} whileInView={{ x: 0, rotate: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease }} className="absolute right-12 top-6 size-16 rotate-45 rounded-md bg-[#1e3a8a]" />
                 <motion.span initial={reduce ? false : { x: -40, rotate: 20 }} whileInView={{ x: 0, rotate: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease }} className="absolute right-[5.4rem] top-6 size-16 rotate-45 rounded-md bg-[#0f766e]/85" />
               </>)}
-              {i === 1 && (<div className="absolute right-6 top-4 grid grid-cols-3 gap-1.5">{Array.from({ length: 9 }, (_, k) => <motion.span key={k} initial={reduce ? false : { opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: k * 0.08 }} className={cn("size-7 rounded-md", k === 4 || k === 7 ? "border-2 border-dashed border-[#0e53c8]/50" : "bg-[#0e53c8]")} />)}</div>)}
-              {i === 2 && (<div className="absolute right-6 top-10 flex items-center gap-1.5">{Array.from({ length: 5 }, (_, k) => <motion.span key={k} initial={reduce ? false : { scale: 0.4, opacity: 0.2 }} whileInView={{ scale: 1, opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 + k * 0.15 }} className={cn("size-8 rotate-45 rounded-[4px]", k === 4 ? "bg-[#0f766e]" : "bg-[#0e53c8]/25")} />)}</div>)}
+              {i === 1 && (<div className="absolute right-6 top-4 grid grid-cols-3 gap-1.5">{Array.from({ length: 9 }, (_, k) => <motion.span key={k} initial={reduce ? false : { opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: k * 0.08 }} className={cn("size-7 rounded-md", k === 4 || k === 7 ? "border-2 border-dashed border-[#1e3a8a]/50" : "bg-[#1e3a8a]")} />)}</div>)}
+              {i === 2 && (<div className="absolute right-6 top-10 flex items-center gap-1.5">{Array.from({ length: 5 }, (_, k) => <motion.span key={k} initial={reduce ? false : { scale: 0.4, opacity: 0.2 }} whileInView={{ scale: 1, opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 + k * 0.15 }} className={cn("size-8 rotate-45 rounded-[4px]", k === 4 ? "bg-[#0f766e]" : "bg-[#1e3a8a]/25")} />)}</div>)}
             </div>
-            <span className="text-[11px] font-black tracking-[0.2em] text-[#0e53c8]" dir="ltr">{m.en}</span>
+            <span className="text-[11px] font-black tracking-[0.2em] text-[#1e3a8a]" dir="ltr">{m.en}</span>
             <p className="mt-2 text-[1.3rem] font-black text-[#2f3533]">{m.title}</p>
             <p className="mt-2 text-[14px] leading-7 text-[#2f3533]/70">{m.text}</p>
           </div>
@@ -478,18 +478,18 @@ function Knowledge() {
   return (
     <section className={cn(W, "mt-28 grid grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] gap-14")}>
       <div>
-        <MarkTitle className="text-[2.2rem] font-black leading-[1.5] text-[#2f3533]" markClass="text-[#0e53c8]">{knowledge.title}</MarkTitle>
+        <MarkTitle className="text-[2.2rem] font-black leading-[1.5] text-[#2f3533]" markClass="text-[#1e3a8a]">{knowledge.title}</MarkTitle>
         <p className="mt-3 text-[15px] leading-8 text-[#2f3533]/70">{knowledge.text}</p>
         <Link href={knowledge.href} className="mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-[#0f766e] px-6 text-[14px] font-extrabold text-white">{knowledge.cta}<ArrowLeft size={17} /></Link>
         <div className="mt-10 rounded-[1.6rem] bg-[#eef3fb] p-6">
           <p className="text-[15px] font-black text-[#2f3533]">{knowledge.next.title}</p>
           <p className="mt-1 text-[13.5px] leading-7 text-[#2f3533]/70">{knowledge.next.text}</p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Link href={knowledge.href} className="rounded-full bg-white px-4 py-2 text-[13px] font-bold text-[#0e53c8] ring-1 ring-[#dfe6f0]">{knowledge.cta}</Link>
-            <Link href="/saved" className="rounded-full bg-white px-4 py-2 text-[13px] font-bold text-[#0e53c8] ring-1 ring-[#dfe6f0]">{knowledge.next.saved}{hydrated && saved.length ? ` (${faNumber(saved.length)})` : ""}</Link>
+            <Link href={knowledge.href} className="rounded-full bg-white px-4 py-2 text-[13px] font-bold text-[#1e3a8a] ring-1 ring-[#dfe6f0]">{knowledge.cta}</Link>
+            <Link href="/saved" className="rounded-full bg-white px-4 py-2 text-[13px] font-bold text-[#1e3a8a] ring-1 ring-[#dfe6f0]">{knowledge.next.saved}{hydrated && saved.length ? ` (${faNumber(saved.length)})` : ""}</Link>
           </div>
           <ul className="mt-5 grid grid-cols-2 gap-2">
-            {services.map((s) => { const I = toolIcons[s.id]; return <li key={s.id}><Link href={`/tools/${s.id}`} className="flex items-center gap-2 rounded-xl px-2 py-1.5 text-[12.5px] font-bold text-[#2f3533]/75 hover:bg-white hover:text-[#0e53c8]">{I && <I size={16} variant="Bulk" className="text-[#0e53c8]" />}{s.name}</Link></li>; })}
+            {services.map((s) => { const I = toolIcons[s.id]; return <li key={s.id}><Link href={`/tools/${s.id}`} className="flex items-center gap-2 rounded-xl px-2 py-1.5 text-[12.5px] font-bold text-[#2f3533]/75 hover:bg-white hover:text-[#1e3a8a]">{I && <I size={16} variant="Bulk" className="text-[#1e3a8a]" />}{s.name}</Link></li>; })}
           </ul>
         </div>
       </div>
@@ -498,7 +498,7 @@ function Knowledge() {
           return (
             <li key={t.id}>
               <button type="button" aria-expanded={on} onClick={() => setOpen(on ? "" : t.id)} className="flex w-full items-center gap-4 py-5 text-right">
-                <span className={cn("grid size-8 shrink-0 rotate-45 place-items-center rounded-lg transition-colors", on ? "bg-[#0e53c8]" : "bg-[#e6eefc]")}><span className={cn("size-2 -rotate-45 rounded-full", on ? "bg-white" : "bg-[#0e53c8]")} /></span>
+                <span className={cn("grid size-8 shrink-0 rotate-45 place-items-center rounded-lg transition-colors", on ? "bg-[#1e3a8a]" : "bg-[#e8edf7]")}><span className={cn("size-2 -rotate-45 rounded-full", on ? "bg-white" : "bg-[#1e3a8a]")} /></span>
                 <span className={cn("flex-1 text-[15px] leading-7", on ? "font-black text-[#2f3533]" : "font-bold text-[#2f3533]/75")}>{t.title}</span>
               </button>
               <AnimatePresence initial={false}>
@@ -529,7 +529,7 @@ function Footer() {
 export function GirihLanding() {
   const state = useBringState();
   return (
-    <main className="min-h-screen bg-[#f3f6fa] pb-0 text-[#2f3533] selection:bg-[#0e53c8] selection:text-white" style={vars}>
+    <main className="min-h-screen bg-[#f3f6fa] pb-0 text-[#2f3533] selection:bg-[#1e3a8a] selection:text-white" style={vars}>
       <Nav />
       <Hero state={state} />
       <Stories />
@@ -551,7 +551,7 @@ export function GirihLanding() {
 function Tile({ title, children, className, note }: { title: string; children: ReactNode; className?: string; note?: string }) {
   return (
     <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }} transition={{ duration: 0.7, ease }} className={cn("rounded-[1.8rem] bg-white p-7 ring-1 ring-[#dfe6f0]", className)}>
-      <MarkTitle as="h3" className="text-[17px] font-black text-[#2f3533]" markClass="text-[#0e53c8] !h-[14px] !w-11">{title}</MarkTitle>
+      <MarkTitle as="h3" className="text-[17px] font-black text-[#2f3533]" markClass="text-[#1e3a8a] !h-[14px] !w-11">{title}</MarkTitle>
       {note && <p className="mt-1 text-[12.5px] text-[#2f3533]/55">{note}</p>}
       <div className="mt-5">{children}</div>
     </motion.section>
@@ -564,12 +564,12 @@ function Detail({ l }: { l: Listing }) {
   const s = sheetOf(l);
   const o = l.raw as Opportunity & { exit?: string };
   const expert = (o as Opportunity).expert;
-  const map = l.province ? [{ id: "map", size: "small" as const, title: "محل پروژه", node: <><ProvinceMap hot={l.province} base="fill-[#2f3533]/[0.08]" fill="fill-[#0e53c8]" /><p className="mt-2 text-[13.5px] font-extrabold">{l.province}، {l.city}</p></> }] : [];
+  const map = l.province ? [{ id: "map", size: "small" as const, title: "محل پروژه", node: <><ProvinceMap hot={l.province} base="fill-[#2f3533]/[0.08]" fill="fill-[#1e3a8a]" /><p className="mt-2 text-[13.5px] font-extrabold">{l.province}، {l.city}</p></> }] : [];
   const { first, rest } = arrange(chartList(s, { time: "زمان‌بندی پول", timeNote: "هر نوار از امروز شروع می‌شود؛ نشانگر را روی نمودار ببرید.", ladder: "وضعیت پروژه" }, map));
   const second = first?.size === "wide" ? rest.find((c) => c.id === "ladder") ?? rest.find((c) => c.size === "small") : undefined;
   const others = rest.filter((c) => c !== second);
   return (
-    <main className="min-h-screen bg-[#f3f6fa] text-[#2f3533] selection:bg-[#0e53c8] selection:text-white" style={vars}>
+    <main className="min-h-screen bg-[#f3f6fa] text-[#2f3533] selection:bg-[#1e3a8a] selection:text-white" style={vars}>
       <Nav />
       <section className="relative isolate overflow-hidden bg-[#08337d] pb-14 pt-32 text-white">
         <AlgoPattern className="inset-0 -z-10 size-full text-white/[0.07]" fade="none" scale={0.9} animated />
@@ -615,12 +615,12 @@ function Detail({ l }: { l: Listing }) {
             <ol className="relative space-y-4 pr-2">
               {(s.steps.length ? s.steps : s.checks).map((st, i) => (
                 <motion.li key={i} initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.6, ease }} className="flex gap-4">
-                  <span className="relative grid size-9 shrink-0 place-items-center text-[12.5px] font-black text-[#0e53c8]"><StarBadge /><span className="relative tabular-nums">{faNumber(i + 1)}</span></span>
+                  <span className="relative grid size-9 shrink-0 place-items-center text-[12.5px] font-black text-[#1e3a8a]"><StarBadge /><span className="relative tabular-nums">{faNumber(i + 1)}</span></span>
                   <span className="pt-1.5 text-[14px] font-semibold leading-7">{st}</span>
                 </motion.li>
               ))}
             </ol>
-            {s.steps.length > 0 && s.checks.length > 0 && <><p className="mt-6 text-[12.5px] font-extrabold text-[#2f3533]/60">موارد بررسی</p><ul className="mt-2 space-y-1.5 text-[13px] leading-7 text-[#2f3533]/75">{s.checks.map((c) => <li key={c} className="flex gap-2"><span className="mt-3 size-1.5 shrink-0 rotate-45 bg-[#0e53c8]" />{c}</li>)}</ul></>}
+            {s.steps.length > 0 && s.checks.length > 0 && <><p className="mt-6 text-[12.5px] font-extrabold text-[#2f3533]/60">موارد بررسی</p><ul className="mt-2 space-y-1.5 text-[13px] leading-7 text-[#2f3533]/75">{s.checks.map((c) => <li key={c} className="flex gap-2"><span className="mt-3 size-1.5 shrink-0 rotate-45 bg-[#1e3a8a]" />{c}</li>)}</ul></>}
           </Tile>
         )}
 

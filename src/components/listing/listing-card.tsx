@@ -50,7 +50,7 @@ function CompareButton({ id }: { id: string }) {
 
 /** بج درصد تطابق: هم‌قد دکمه ذخیره، در همان ردیف بالای کارت */
 function MatchBadge({ score }: { score: number }) {
-  const tone = score >= 75 ? "bg-[#5fd4c4]" : score >= 50 ? "bg-[#9fb6f5]" : "bg-white/50";
+  const tone = score >= 75 ? "bg-[#5fd4c4]" : score >= 50 ? "bg-[#a3b4da]" : "bg-white/50";
   return (
     <span title="تطابق با شرایط شما" className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-black/45 px-3 text-[12.5px] font-extrabold tabular-nums text-white backdrop-blur-sm">
       <span className={cn("size-2 rounded-full", tone)} />{faNumber(score)}٪ تطابق
