@@ -312,7 +312,7 @@ function Contact({ l }: { l: Listing }) {
             <span><span className="block text-base font-extrabold">{expert.name}</span><span className="block text-xs text-white/65">کارشناس همین پروژه</span></span>
           </div>
           <div className="mt-5 flex h-14 items-center gap-1 rounded-full bg-white p-1.5 text-ink">
-            <Button asChild variant="plain" size="auto" className="size-11 shrink-0 rounded-full bg-cobalt text-white shadow-[0_8px_18px_-8px_var(--cobalt)] hover:bg-cobalt-deep"><a href={`tel:${expert.mobile}`} aria-label="تماس با کارشناس"><Call size={19} variant="Bold" /></a></Button>
+            <Button asChild variant="plain" size="auto" className="size-11 shrink-0 rounded-full bg-primary text-white shadow-[0_8px_18px_-8px_var(--primary)] hover:bg-teal-700"><a href={`tel:${expert.mobile}`} aria-label="تماس با کارشناس"><Call size={19} variant="Bold" /></a></Button>
             <span dir="ltr" className="flex-1 select-all text-center text-base font-black tracking-wide">{formatMobile(expert.mobile)}</span>
             <Button variant="plain" size="auto" type="button" onClick={copy} aria-label="کپی شماره" title="کپی شماره" className={cn("size-11 shrink-0 rounded-full hover:bg-muted", copied ? "text-primary-ink" : "text-ink/55 hover:text-ink")}>{copied ? <CopySuccess size={20} variant="Bold" /> : <Copy size={20} />}</Button>
           </div>

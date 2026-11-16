@@ -374,7 +374,7 @@ export function MainCategories() {
                 {/* پاورقی همیشه پایین کارت، چه کارت بج داشته باشد چه نه */}
                 <span className="mt-auto flex items-center justify-between pt-6">
                   <span className="text-[13px] font-bold text-muted-foreground">{n ? <><b className="font-black text-ink tabular-nums">{faNumber(n)}</b> پروژه</> : "به‌زودی"}</span>
-                  <span className="grid size-9 place-items-center rounded-full border border-border text-ink transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-white"><ArrowLeft size={16} className="transition-transform group-hover:-translate-x-0.5" /></span>
+                  <span className={cn("grid size-9 place-items-center rounded-full border border-border text-ink transition-all duration-300 group-hover:border-cobalt group-hover:bg-cobalt group-hover:text-white", fit && on && "border-cobalt bg-cobalt text-white")}><ArrowLeft size={16} className="transition-transform group-hover:-translate-x-0.5" /></span>
                 </span>
               </Button>
             </Reveal>

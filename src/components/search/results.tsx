@@ -367,7 +367,7 @@ export function Results() {
                       <Button type="button" variant="plain" size="auto" onClick={() => { setCompare(pinnedList.map((x) => x.id)); router.push("/compare"); }} className="h-10 shrink-0 gap-1.5 rounded-full bg-cobalt px-4 text-[13px] font-extrabold text-white hover:bg-cobalt-deep"><Convertshape2 size={16} />مقایسه همه</Button>
                       <Button type="button" variant="ghost" size="sm" onClick={() => setPinned(null)} className="h-10 shrink-0 rounded-full px-3 text-[12.5px] font-bold text-muted-foreground">بستن</Button>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 2xl:grid-cols-4">
+                    <div className="grid grid-cols-3 gap-4 2xl:grid-cols-4">
                       {pinnedList.map((x, i) => <ListingCard key={x.id} listing={x} index={i} comparable />)}
                     </div>
                   </section>
@@ -384,7 +384,7 @@ export function Results() {
                     {all.length === 0 && <Button onClick={() => setSaveOpen(true)} className="mt-6 h-12 gap-2 rounded-full px-6 font-bold"><Save2 size={18} />ذخیره جست‌وجو</Button>}
                   </Card>
                 ) : (
-                  <div className={cn("grid grid-cols-2 gap-5 transition-opacity 2xl:grid-cols-3", deferred !== criteria && "opacity-60")}>
+                  <div className={cn("grid grid-cols-3 gap-5 transition-opacity", deferred !== criteria && "opacity-60")}>
                     {feed.slice((cur - 1) * PAGE, cur * PAGE).map((r, i) => (
                       <Fragment key={r.listing.id}>
                         <ListingCard listing={r.listing} score={hasCriteria ? r.score : undefined} index={i} comparable />
