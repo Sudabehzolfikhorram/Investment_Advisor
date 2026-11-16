@@ -40,7 +40,7 @@ function RouteBlank() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="plain" size="auto" className={cn("mx-2 inline-flex h-auto max-w-full items-center gap-2 whitespace-normal rounded-2xl border-b-2 border-primary bg-white px-4 py-0.5 align-baseline text-[0.85em] font-black leading-[1.5] text-primary shadow-[0_18px_40px_-24px_rgb(22_32_48/0.35)] transition-all duration-300 hover:-translate-y-0.5", open && "ring-4 ring-ink/10")}>
+        <Button variant="plain" size="auto" className={cn("mx-2 inline-flex h-auto max-w-full items-center gap-2 whitespace-normal rounded-2xl border-b-2 border-primary bg-white px-4 py-0.5 align-baseline text-[0.85em] font-black leading-[1.5] text-primary-ink shadow-[0_18px_40px_-24px_rgb(22_32_48/0.35)] transition-all duration-300 hover:-translate-y-0.5", open && "ring-4 ring-ink/10")}>
           <span className="text-right">{current.name}</span>
           <ArrowDown2 size={20} className={cn("shrink-0 transition-transform", open && "rotate-180")} />
         </Button>
@@ -54,7 +54,7 @@ function RouteBlank() {
                 className={cn("h-auto justify-start gap-3 whitespace-normal rounded-2xl border p-3 text-right", on ? "border-primary bg-ink/[0.04]" : "border-transparent hover:bg-muted")}>
                 <span className={cn("grid size-9 shrink-0 place-items-center rounded-xl", on ? "bg-primary text-white" : "bg-muted text-ink/70")}><I size={18} variant="Bulk" /></span>
                 <span className="text-[13px] font-bold leading-5 text-ink">{r.name}</span>
-                {on && <TickCircle size={18} variant="Bold" className="mr-auto shrink-0 text-primary" />}
+                {on && <TickCircle size={18} variant="Bold" className="mr-auto shrink-0 text-primary-ink" />}
               </Button>
             ); })}
         </div>
@@ -120,7 +120,7 @@ export function MapScene({ active = [], focus, caption = "تازه‌ترین پ
               <Link href={`/opportunities/${l.id}`} className={cn("surface absolute right-1/2 flex w-60 translate-x-1/2 items-center gap-2.5 rounded-[1.25rem] p-2 pl-3 transition-shadow hover:shadow-xl", below ? "top-4" : "bottom-4")}>
                 <span className="relative size-12 shrink-0 overflow-hidden rounded-xl"><Image src={l.image} alt="" fill sizes="48px" className="object-cover" /></span>
                 <span className="min-w-0 flex-1">
-                  <span className="flex items-center gap-1.5 text-[11px] font-extrabold text-primary"><span className="size-1.5 rounded-full bg-primary" style={{ animation: "node-blink 1.4s ease-in-out infinite" }} />{l.province}، {l.city}</span>
+                  <span className="flex items-center gap-1.5 text-[11px] font-extrabold text-primary-ink"><span className="size-1.5 rounded-full bg-primary" style={{ animation: "node-blink 1.4s ease-in-out infinite" }} />{l.province}، {l.city}</span>
                   <span className="mt-0.5 block truncate text-[13px] font-extrabold text-ink">{l.title}</span>
                   <span className="block truncate text-[11px] text-muted-foreground">{l.stats[0].label}: {l.stats[0].value}</span>
                 </span>
@@ -145,7 +145,7 @@ export function Hero() {
 
   return (
     <section className="relative isolate overflow-hidden pb-6">
-      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(45%_55%_at_88%_0%,rgb(15_118_110/0.07),transparent),linear-gradient(to_bottom,#ffffff,var(--background))]" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(45%_55%_at_88%_0%,rgb(0_173_171/0.07),transparent),linear-gradient(to_bottom,#ffffff,var(--background))]" />
       <AlgoPattern animated className="-top-10 right-0 -z-10 h-[30rem] w-[44rem] text-ink/[0.07]" fade="radial" />
       <Header />
 
@@ -153,7 +153,7 @@ export function Hero() {
         <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease }}>
           <Tabs dir="rtl" defaultValue="assistant" className="gap-7">
             <div className="flex flex-wrap items-center gap-3">
-              <Badge variant="outline" className="gap-2.5 border-border bg-white px-4 py-2 text-[13px] font-bold text-ink"><span><NodeMark className="text-primary" /></span>مشاور سرمایه‌گذاری</Badge>
+              <Badge variant="outline" className="gap-2.5 border-border bg-white px-4 py-2 text-[13px] font-bold text-ink"><span><NodeMark className="text-primary-ink" /></span>مشاور سرمایه‌گذاری</Badge>
               <TabsList className="h-auto rounded-full bg-pine/[0.05] p-1 group-data-[orientation=horizontal]/tabs:h-auto">
                 {([["assistant", "از دستیار بپرس", MagicStar], ["form", "خودم انتخاب می‌کنم", Category2]] as const).map(([k, label, I]) => (
                   <TabsTrigger key={k} value={k} className="h-auto gap-1.5 rounded-full border-0 px-4 py-2 text-sm font-bold text-ink/65 data-[state=active]:bg-pine data-[state=active]:text-white data-[state=active]:shadow-none"><I size={16} variant="Bulk" />{label}</TabsTrigger>
@@ -162,8 +162,8 @@ export function Hero() {
             </div>
 
             <TabsContent value="assistant" className="space-y-6">
-              <h1 className="text-5xl font-black leading-[1.4] tracking-tight text-ink text-balance">بگویید چه می‌خواهید، <span className="text-primary">نزدیک‌ترین پروژه‌ها</span> را با درصد تطابق نشانتان می‌دهیم.</h1>
-              <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) go(prompt); }} className="surface flex items-center gap-2 rounded-full p-2 pr-7 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.12),0_24px_50px_-30px_rgb(22_32_48/0.3)]">
+              <h1 className="text-5xl font-black leading-[1.4] tracking-tight text-ink text-balance">بگویید چه می‌خواهید، <span className="text-primary-ink">نزدیک‌ترین پروژه‌ها</span> را با درصد تطابق نشانتان می‌دهیم.</h1>
+              <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) go(prompt); }} className="surface flex items-center gap-2 rounded-full p-2 pr-7 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(0_173_171/0.12),0_24px_50px_-30px_rgb(22_32_48/0.3)]">
                 <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="۳۰ میلیارد دارم، پروژه مسکونی در تهران می‌خواهم…" aria-label="توضیح شرایط برای دستیار" className="h-14 min-w-0 flex-1 rounded-none border-0 !bg-transparent px-0 text-base font-semibold text-ink shadow-none focus-visible:ring-0 placeholder:font-normal md:text-base" />
                 <Button type="submit" variant="plain" size="auto" className="group h-14 shrink-0 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_14px_30px_-14px_rgb(20_30_45/0.6)] hover:bg-deep">پیدا کن <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
               </form>

@@ -21,7 +21,7 @@ export const amountPresets = (min: number, max: number): [number, number][] => {
   return [[min, a], [a, b], [b, c], [c, max]];
 };
 
-const pill = "h-auto min-w-0 rounded-full border border-border bg-white px-3.5 py-1.5 text-[13px] font-semibold text-ink/75 shadow-none transition-all duration-200 hover:border-ink/25 hover:bg-white hover:text-ink data-[state=on]:border-cobalt data-[state=on]:bg-cobalt data-[state=on]:text-white data-[state=on]:shadow-[0_8px_20px_-10px_var(--cobalt)]";
+const pill = "h-auto min-w-0 rounded-full border border-border bg-white px-3.5 py-1.5 text-[13px] font-semibold text-ink/75 shadow-none transition-all duration-200 hover:border-ink/25 hover:bg-white hover:text-ink data-[state=on]:border-cobalt data-[state=on]:bg-cobalt data-[state=on]:font-bold data-[state=on]:text-white data-[state=on]:shadow-[0_8px_20px_-10px_var(--cobalt)] data-[state=on]:before:content-['✓'] data-[state=on]:before:ml-0.5 data-[state=on]:before:text-[11px]";
 
 export function Chip({ active, children, onClick, className }: { active?: boolean; children: React.ReactNode; onClick?: () => void; className?: string }) {
   return <Toggle pressed={!!active} onPressedChange={() => onClick?.()} className={cn(pill, "gap-1.5", className)}>{children}</Toggle>;
@@ -40,7 +40,7 @@ export function Chips({ options, value, onChange }: { options: FieldOption[]; va
 export function Segmented({ options, value, onChange }: { options: FieldOption[]; value: string | undefined; onChange: (v: string | undefined) => void }) {
   return (
     <ToggleGroup type="single" spacing={1} value={value ?? ""} onValueChange={(v) => onChange(v || undefined)} className="grid w-full auto-cols-fr grid-flow-col rounded-full bg-muted p-1">
-      {options.map((o) => <ToggleGroupItem key={o.value} value={o.value} className="h-auto min-w-0 whitespace-nowrap rounded-full px-2 py-1.5 text-[13px] font-semibold text-ink/70 hover:bg-transparent hover:text-ink data-[state=on]:bg-white data-[state=on]:text-ink data-[state=on]:shadow-sm">{o.label}</ToggleGroupItem>)}
+      {options.map((o) => <ToggleGroupItem key={o.value} value={o.value} className="h-auto min-w-0 whitespace-nowrap rounded-full px-2 py-1.5 text-[13px] font-semibold text-ink/70 hover:bg-transparent hover:text-ink data-[state=on]:bg-cobalt data-[state=on]:font-bold data-[state=on]:text-white data-[state=on]:shadow-[0_6px_16px_-8px_var(--cobalt)] data-[state=on]:hover:text-white">{o.label}</ToggleGroupItem>)}
     </ToggleGroup>
   );
 }
@@ -97,7 +97,7 @@ export function MultiCombobox({ options, value, onChange, placeholder, empty = "
       <PopoverTrigger asChild>
         <Button type="button" variant="outline" role="combobox" aria-expanded={open} aria-label={label} disabled={disabled} className="h-auto min-h-12 w-full justify-between gap-2 whitespace-normal rounded-2xl bg-white px-3.5 py-2 text-right font-normal shadow-none disabled:border-dashed disabled:bg-muted/40 disabled:opacity-100">
           <span className={cn("flex flex-wrap gap-1.5", !value.length && "text-muted-foreground")}>
-            {value.length ? value.map((v) => { const o = options.find((x) => x.value === v); return <Badge key={v} variant="secondary" className="bg-ink/[0.06] px-2.5 font-bold text-primary">{o?.short ?? o?.label ?? v}</Badge>; }) : placeholder}
+            {value.length ? value.map((v) => { const o = options.find((x) => x.value === v); return <Badge key={v} variant="secondary" className="bg-ink/[0.06] px-2.5 font-bold text-primary-ink">{o?.short ?? o?.label ?? v}</Badge>; }) : placeholder}
           </span>
           <ArrowDown2 size={16} className="shrink-0 text-muted-foreground" />
         </Button>
@@ -122,8 +122,8 @@ export function ComboList({ options, value, onChange, placeholder, empty, classN
               const on = value.includes(o.value);
               return (
                 <CommandItem key={o.value} value={`${o.label} ${g}`} onSelect={() => onChange(on ? value.filter((x) => x !== o.value) : [...value, o.value])} className="flex items-center justify-between rounded-xl">
-                  <span className={cn(on && "font-bold text-primary")}>{o.label}</span>
-                  {on && <TickCircle size={18} variant="Bold" className="text-primary" />}
+                  <span className={cn(on && "font-bold text-primary-ink")}>{o.label}</span>
+                  {on && <TickCircle size={18} variant="Bold" className="text-primary-ink" />}
                 </CommandItem>
               );
             })}

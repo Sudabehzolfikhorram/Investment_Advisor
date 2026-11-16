@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Add, ArchiveTick, ArrowDown2, Save2, Setting4, TickCircle } from "@/components/iconsax";
+import { Add, ArchiveTick, Save2, Setting4, TickCircle } from "@/components/iconsax";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -16,6 +16,7 @@ import { listings } from "@/lib/listings";
 import { rank } from "@/lib/match";
 import { useHydrated, useStore } from "@/lib/store";
 import { cn, faNumber } from "@/lib/utils";
+import { useHoverOpen } from "./hover-open";
 
 export function SaveCriteriaDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
   const { user, criteria, openLogin, saveProfile } = useStore();
@@ -33,7 +34,7 @@ export function SaveCriteriaDialog({ open, onOpenChange }: { open: boolean; onOp
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="rounded-3xl bg-white sm:max-w-lg">
         <DialogHeader className="pr-7 text-right">
-          <DialogTitle className="flex items-center gap-2 text-xl font-extrabold"><Save2 size={22} variant="Bulk" className="text-primary" />ذخیره این جست‌وجو</DialogTitle>
+          <DialogTitle className="flex items-center gap-2 text-xl font-extrabold"><Save2 size={22} variant="Bulk" className="text-primary-ink" />ذخیره این جست‌وجو</DialogTitle>
           <DialogDescription>دفعه بعد لازم نیست چیزی را دوباره وارد کنید، با یک کلیک به همین نتایج برمی‌گردید و پروژه‌های تازه را می‌بینید.</DialogDescription>
         </DialogHeader>
         <form onSubmit={(e) => { e.preventDefault(); save(); }} className="space-y-5">
@@ -73,20 +74,18 @@ export function SavedCriteriaMenu({ onSave, saved }: { onSave: () => void; saved
   const stats = useProfileStats();
   const list = hydrated ? profiles : [];
   const fresh = list.reduce((n, p) => n + (stats[p.id]?.fresh ?? 0), 0);
+  const h = useHoverOpen();
   return (
-    <DropdownMenu dir="rtl">
-      {/* هم‌قد نوار فیلترهای بالا (۵۶ پیکسل)، برچسب کوچک + مقدار، مثل همان نوار */}
-      <DropdownMenuTrigger asChild>
-        <Button variant="plain" size="auto" className="surface group h-14 w-[13.5rem] shrink-0 justify-start gap-2.5 rounded-full px-4 text-right data-[state=open]:bg-muted">
-          <ArchiveTick size={20} variant="Bulk" className={cn("shrink-0", list.length ? "text-primary" : "text-ink/45")} />
-          <span className="min-w-0 flex-1">
-            <span className="block text-[11px] font-semibold text-muted-foreground">فیلترهای ذخیره‌شده</span>
-            <span className="block truncate text-sm font-extrabold text-ink">{list.length ? `${faNumber(list.length)} جست‌وجو${fresh ? `، ${faNumber(fresh)} تازه` : ""}` : "هنوز ذخیره نکرده‌اید"}</span>
-          </span>
-          <ArrowDown2 size={15} className="shrink-0 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
+    <DropdownMenu dir="rtl" modal={false} open={h.open} onOpenChange={h.onOpenChange}>
+      {/* فقط آیکون، هم‌قد نوار فیلترها، با کلیک یا هاور باز می‌شود */}
+      <DropdownMenuTrigger asChild {...h.hover}>
+        <Button variant="plain" size="auto" aria-label="فیلترهای ذخیره‌شده" title="فیلترهای ذخیره‌شده" className="surface relative grid size-14 shrink-0 place-items-center rounded-full data-[state=open]:bg-muted">
+          <ArchiveTick size={22} variant="Bulk" className={list.length ? "text-cobalt" : "text-ink/45"} />
+          {list.length > 0 && <span className={cn("absolute -left-0.5 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full px-1 text-[10.5px] font-black text-white ring-2 ring-white", fresh ? "bg-cobalt" : "bg-ink/60")}>{faNumber(fresh || list.length)}</span>}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80 rounded-2xl p-1.5">
+      <DropdownMenuContent align="end" sideOffset={8} className="w-80 rounded-2xl p-1.5" {...h.hover}>
+        <p className="px-2 pb-1 pt-1.5 text-[13px] font-extrabold text-ink">فیلترهای ذخیره‌شده{list.length ? ` · ${faNumber(list.length)} جست‌وجو${fresh ? `، ${faNumber(fresh)} تازه` : ""}` : ""}</p>
         <DropdownMenuLabel className="text-xs text-muted-foreground">برگردید به جست‌وجوهایی که ذخیره کرده‌اید</DropdownMenuLabel>
         {list.map((p) => (
           <DropdownMenuItem key={p.id} onSelect={() => { applyProfile(p.id); toast(`«${p.name}» باز شد.`); }} className="flex items-center justify-between gap-3 rounded-xl py-2.5">
@@ -96,7 +95,7 @@ export function SavedCriteriaMenu({ onSave, saved }: { onSave: () => void; saved
         ))}
         {!list.length && <p className="px-2 py-3 text-[13px] leading-6 text-muted-foreground">هنوز چیزی ذخیره نکرده‌اید. جست‌وجوی فعلی را ذخیره کنید تا دفعه بعد از همین‌جا ادامه دهید.</p>}
         <DropdownMenuSeparator />
-        {saved ? <p className="flex items-center gap-2 px-2 py-2 text-[13px] font-bold text-primary"><TickCircle size={17} variant="Bold" />جست‌وجوی فعلی ذخیره شده است</p> : <DropdownMenuItem onSelect={onSave} className="rounded-xl font-bold text-primary focus:text-primary"><Add size={18} />ذخیره جست‌وجوی فعلی</DropdownMenuItem>}
+        {saved ? <p className="flex items-center gap-2 px-2 py-2 text-[13px] font-bold text-primary-ink"><TickCircle size={17} variant="Bold" />جست‌وجوی فعلی ذخیره شده است</p> : <DropdownMenuItem onSelect={onSave} className="rounded-xl font-bold text-primary-ink focus:text-primary-ink"><Add size={18} />ذخیره جست‌وجوی فعلی</DropdownMenuItem>}
         {list.length > 0 && <DropdownMenuItem asChild className="rounded-xl"><Link href="/saved"><Setting4 size={17} />مدیریت جست‌وجوها</Link></DropdownMenuItem>}
       </DropdownMenuContent>
     </DropdownMenu>

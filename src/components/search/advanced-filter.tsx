@@ -54,9 +54,10 @@ export function InfoTip({ text }: { text: string }) {
 
 function Section({ id, title, count, info, children }: { id: string; title: string; count: number; info?: string; children: React.ReactNode }) {
   return (
-    <AccordionItem value={id} className="border-border">
-      <AccordionTrigger className="items-center py-4 text-right text-[15px] font-extrabold text-ink hover:no-underline">
-        <span className="flex items-center gap-2">{title}{info && <InfoTip text={info} />}{count > 0 && <Badge className="h-5 min-w-5 px-1 text-[11px] font-bold">{faNumber(count)}</Badge>}</span>
+    // بخش باز با زمینه آبی کم‌رنگ و عنوان آبی مشخص می‌شود، شمار فیلترهای انتخاب‌شده هر بخش کنار عنوانش
+    <AccordionItem value={id} className="group/sec -mx-2 rounded-2xl border-border px-2 transition-colors data-[state=open]:border-transparent data-[state=open]:bg-cobalt-50 data-[state=open]:ring-1 data-[state=open]:ring-cobalt/15 data-[state=open]:[&_[data-slot=slider-track]]:bg-cobalt/15 [&+&]:mt-1">
+      <AccordionTrigger className="items-center rounded-xl py-4 text-right text-[15px] font-extrabold text-ink hover:no-underline focus-visible:ring-2 focus-visible:ring-cobalt/40 data-[state=open]:text-cobalt-deep">
+        <span className="flex items-center gap-2">{title}{info && <InfoTip text={info} />}{count > 0 && <Badge className="h-5 min-w-5 bg-cobalt px-1.5 text-[11px] font-bold text-white">{faNumber(count)} انتخاب</Badge>}</span>
       </AccordionTrigger>
       <AccordionContent className="space-y-7 px-0.5 pb-6 pt-1">{children}</AccordionContent>
     </AccordionItem>
@@ -75,14 +76,14 @@ function AdvisoryQuestions({ subtypes }: { subtypes: string[] }) {
       {withAdvisory.map((st) => { const a = advisories[st];
         return (
           <div key={st} className="space-y-4">
-            <p className="rounded-2xl bg-muted p-3 text-[13px] font-semibold leading-6 text-ink/80"><b className="text-primary">{names[st]}: </b>{a.context}</p>
+            <p className="rounded-2xl bg-muted p-3 text-[13px] font-semibold leading-6 text-ink/80"><b className="text-primary-ink">{names[st]}: </b>{a.context}</p>
             {a.questions.map((q) => { const key = `adv:${st}:${q.id}`; const v = criteria.filters[key] as string | undefined;
               return (
                 <div key={q.id}>
                   <p className="mb-2 text-[13px] font-bold leading-6 text-ink/80">{q.label}</p>
                   <Dropdown options={q.options} value={v} onChange={(x) => setFilter(key, x)} />
                   {v && q.block.includes(v) && <p className="mt-2 flex items-start gap-1.5 text-xs font-semibold leading-5 text-destructive"><Danger size={15} variant="Bold" className="mt-0.5 shrink-0" />{q.actions[v] ?? "با این پاسخ، ابتدا باید این مانع برطرف شود."}</p>}
-                  {v && !q.block.includes(v) && (q.review.includes(v) || q.actions[v]) && <p className="mt-2 flex items-start gap-1.5 text-xs font-semibold leading-5 text-ink/70"><InfoCircle size={15} variant="Bold" className="mt-0.5 shrink-0 text-primary" />{q.actions[v] ?? "این مورد را کارشناس باید بررسی کند."}</p>}
+                  {v && !q.block.includes(v) && (q.review.includes(v) || q.actions[v]) && <p className="mt-2 flex items-start gap-1.5 text-xs font-semibold leading-5 text-ink/70"><InfoCircle size={15} variant="Bold" className="mt-0.5 shrink-0 text-primary-ink" />{q.actions[v] ?? "این مورد را کارشناس باید بررسی کند."}</p>}
                 </div>
               ); })}
           </div>
@@ -94,7 +95,7 @@ function AdvisoryQuestions({ subtypes }: { subtypes: string[] }) {
 /** بج ذخیره جست‌وجو کنار «حذف همه» در سرِ فیلترها (جای نوار پیشنهاد ذخیره بالای نتایج) */
 /** ذخیره جست‌وجو فقط با آیکون، متن کامل در راهنمای شناور و برچسب دسترسی */
 function SaveBadge({ onSave, saved }: { onSave: () => void; saved?: boolean }) {
-  if (saved) return <span role="img" aria-label="این جست‌وجو ذخیره شده" title="این جست‌وجو ذخیره شده" className="grid size-8 shrink-0 place-items-center rounded-full bg-primary/10 text-primary"><TickCircle size={17} variant="Bold" /></span>;
+  if (saved) return <span role="img" aria-label="این جست‌وجو ذخیره شده" title="این جست‌وجو ذخیره شده" className="grid size-8 shrink-0 place-items-center rounded-full bg-primary/10 text-primary-ink"><TickCircle size={17} variant="Bold" /></span>;
   return (
     <Button type="button" variant="plain" size="auto" onClick={onSave} aria-label="ذخیره جست‌وجو" title="ذخیره جست‌وجو: دفعه بعد با یک کلیک برمی‌گردید و پروژه‌های تازه‌اش را می‌بینید."
       className="grid size-8 shrink-0 place-items-center rounded-full bg-cobalt-soft text-cobalt-deep ring-1 ring-cobalt/20 transition-colors hover:bg-cobalt hover:text-white">

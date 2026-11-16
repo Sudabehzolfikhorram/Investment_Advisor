@@ -12,7 +12,9 @@
   --card-foreground: #2f3533;
   --popover: #ffffff;
   --popover-foreground: #2f3533;
-  --primary: #0f766e; /* بازآفرینی */
+  --primary: #00adab; /* رنگ اصلی (دور ۲۶، ۲۰۲۶-۱۱-۱۶) */
+  --primary-ink: #007a78; /* همان رنگ اصلی، تیره‌تر برای متن روی زمینه روشن (کنتراست ۵ با سفید) */
+  --primary-deep: #008f8d;
   --primary-foreground: #ffffff;
   --secondary: #eef2f7;
   --secondary-foreground: #2f3533;
@@ -23,7 +25,7 @@
   --destructive: #c2410c;
   --border: #e1e7ef;
   --input: #e1e7ef;
-  --ring: #1e3a8a;
+  --ring: #1e40af;
   --ink: #2f3533;
   --deep: #262c33;
   /* سطح‌های تیره: زغالی با ته‌مایه آبی (دور ۱۸: سبزِ تیره برداشته شد تا طرح تمیز و خنثی بماند) */
@@ -32,13 +34,14 @@
   --pine-deep: #1d2228;
   /* رنگ دوم (دور ۲۱): کبالتِ هم‌خانواده سبز. فام ۲۶۱ (کمی سبزتر از اولترامارین)، یک پله تیره‌تر از سبز، اشباع نسبی ۹۳٪ مثل سبز.
      برای انتخاب، حالت فعال، داده و تاکید. سبز فقط برای دکمه‌ی اصلی. کنتراست با سفید ۶٫۸ */
-  --cobalt: #1e3a8a; /* آبی سایت به خواست کاربر (۲۰۲۶-۱۱-۱۶)، تینت و شیدها از همین رنگ */
-  --cobalt-deep: #172a63;
-  --cobalt-soft: #e8edf7;
-  --cobalt-50: #f3f6fb; --cobalt-100: #e8edf7; --cobalt-200: #cdd7ec; --cobalt-300: #a3b4da; --cobalt-400: #6f86bf;
-  --cobalt-500: #4560a3; --cobalt-600: #1e3a8a; --cobalt-700: #1a3278; --cobalt-800: #172a63; --cobalt-900: #12204c; --cobalt-950: #0c1533;
-  --teal-50: #e9f8f5; --teal-100: #d0f1ec; --teal-200: #a7e0d8; --teal-300: #5cc4b8; --teal-400: #2a9f95; --teal-500: #158a80;
-  --teal-600: #0f766e; --teal-700: #0d5f59; --teal-800: #0a4a45; --teal-900: #063632; --teal-950: #03211e;
+  /* رنگ دوم (دور ۲۶): #1E40AF، کنار سبزآبی روشن #00ADAB زنده‌تر از سرمه‌ای #1E3A8A است و کنار متن زغالی سیاه دیده نمی‌شود، کنتراست با سفید ۸٫۷ */
+  --cobalt: #1e40af;
+  --cobalt-deep: #1a2f7c;
+  --cobalt-soft: #e6edfb;
+  --cobalt-50: #f1f5fd; --cobalt-100: #e6edfb; --cobalt-200: #c6d4f4; --cobalt-300: #97b0e8; --cobalt-400: #5f84d6;
+  --cobalt-500: #3a62c4; --cobalt-600: #1e40af; --cobalt-700: #1c3797; --cobalt-800: #1a2f7c; --cobalt-900: #152461; --cobalt-950: #0e1840;
+  --teal-50: #e6f9f9; --teal-100: #c9f1f0; --teal-200: #97e3e2; --teal-300: #5dd0cf; --teal-400: #26bdbb; --teal-500: #00adab;
+  --teal-600: #008f8d; --teal-700: #007a78; --teal-800: #005d5c; --teal-900: #004645; --teal-950: #002d2c;
   /* نارنجی فقط برای هشدار: بیرون از بودجه، ریسک، نکته‌ی پیش از تصمیم */
   --warn: #e0603f;
   --warn-deep: #b8461f;
@@ -54,6 +57,8 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-ink: var(--primary-ink);
+  --color-primary-deep: var(--primary-deep);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);

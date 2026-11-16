@@ -128,7 +128,7 @@ export function Saved() {
       <main className="focus-blur relative mx-auto min-h-[70dvh] max-w-7xl px-4 pt-10 sm:px-6">
         <div className="flex items-end justify-between gap-6">
           <div>
-            <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-ink/55"><NodeMark className="text-primary" />حساب شما</span>
+            <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-ink/55"><NodeMark className="text-primary-ink" />حساب شما</span>
             <h1 className="mt-2 text-3xl font-black text-ink sm:text-4xl">علاقه‌مندی‌ها</h1>
             <p className="mt-2 text-[15px] text-muted-foreground">پروژه‌هایی که نشان کرده‌اید و فیلترهایی که پروژه‌های تازه‌شان را دنبال می‌کنید.</p>
           </div>

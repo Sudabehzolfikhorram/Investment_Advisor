@@ -43,7 +43,7 @@ function Shell({ children, map }: { children: React.ReactNode; map: React.ReactN
 }
 
 function Eyebrow({ children }: { children?: React.ReactNode }) {
-  return <Badge variant="outline" className="gap-2.5 border-border bg-white/80 px-4 py-2 text-[13px] font-bold text-ink backdrop-blur"><NodeMark className="text-primary" />{children ?? "مشاور سرمایه‌گذاری"}</Badge>;
+  return <Badge variant="outline" className="gap-2.5 border-border bg-white/80 px-4 py-2 text-[13px] font-bold text-ink backdrop-blur"><NodeMark className="text-primary-ink" />{children ?? "مشاور سرمایه‌گذاری"}</Badge>;
 }
 
 const useGo = () => {
@@ -105,7 +105,7 @@ export function HeroCompass() {
         </span>{" "}ببرید.
       </h1>
       <p className="mt-5 max-w-lg text-[17px] leading-9 text-ink/65">بگویید چه می‌خواهید، پروژه‌های هم‌خوان را با درصد تطابق نشانتان می‌دهیم.</p>
-      <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) ask(prompt); }} className="surface mt-8 flex items-center gap-2 rounded-full p-2 pr-7 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(15_118_110/0.12),0_24px_50px_-30px_rgb(22_32_48/0.3)]">
+      <form onSubmit={(e) => { e.preventDefault(); if (prompt.trim()) ask(prompt); }} className="surface mt-8 flex items-center gap-2 rounded-full p-2 pr-7 transition-shadow focus-within:shadow-[0_0_0_4px_rgb(0_173_171/0.12),0_24px_50px_-30px_rgb(22_32_48/0.3)]">
         <span className="relative min-w-0 flex-1">
           <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} aria-label="شرایط شما برای دستیار" className="h-14 rounded-none border-0 !bg-transparent px-0 text-[15px] font-semibold text-ink shadow-none focus-visible:ring-0 md:text-[15px]" />
           <TypingHint hidden={!!prompt} />
@@ -124,7 +124,7 @@ function Blank({ label, open, onOpenChange, children, wide }: { label: string; o
   return (
     <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
-        <Button variant="plain" size="auto" className={cn("mx-1.5 inline-flex h-auto items-center gap-1.5 whitespace-nowrap rounded-2xl border-b-[3px] border-primary bg-white px-3.5 py-0 align-baseline text-[0.92em] font-black leading-[1.55] text-primary shadow-[0_18px_40px_-26px_rgb(22_32_48/0.45)] transition-all duration-300 hover:-translate-y-0.5", open && "ring-4 ring-ink/10")}>
+        <Button variant="plain" size="auto" className={cn("mx-1.5 inline-flex h-auto items-center gap-1.5 whitespace-nowrap rounded-2xl border-b-[3px] border-primary bg-white px-3.5 py-0 align-baseline text-[0.92em] font-black leading-[1.55] text-primary-ink shadow-[0_18px_40px_-26px_rgb(22_32_48/0.45)] transition-all duration-300 hover:-translate-y-0.5", open && "ring-4 ring-ink/10")}>
           <motion.span key={label} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}>{label}</motion.span>
           <ArrowDown2 size={18} className={cn("shrink-0 transition-transform", open && "rotate-180")} />
         </Button>
@@ -135,7 +135,7 @@ function Blank({ label, open, onOpenChange, children, wide }: { label: string; o
 }
 
 function Opt({ on, onClick, children }: { on: boolean; onClick: () => void; children: React.ReactNode }) {
-  return <Button variant="plain" size="auto" onClick={onClick} className={cn("h-auto justify-between gap-2 rounded-xl border px-3 py-2 text-right text-[13px] font-bold", on ? "border-primary bg-ink/[0.04] text-primary" : "border-transparent text-ink/80 hover:bg-muted")}>{children}</Button>;
+  return <Button variant="plain" size="auto" onClick={onClick} className={cn("h-auto justify-between gap-2 rounded-xl border px-3 py-2 text-right text-[13px] font-bold", on ? "border-primary bg-ink/[0.04] text-primary-ink" : "border-transparent text-ink/80 hover:bg-muted")}>{children}</Button>;
 }
 
 export function HeroSentence() {
@@ -172,7 +172,7 @@ export function HeroSentence() {
         <Blank label={group ? projectGroups.find((g) => g.id === group)!.name : "هر حوزه‌ای"} open={open === "g"} onOpenChange={(v) => setOpen(v ? "g" : "")} wide>
           <div className="grid grid-cols-2 gap-1">
             <Opt on={!group} onClick={() => { setGroup(null); setOpen(""); }}>هر حوزه‌ای</Opt>
-            {projectGroups.map((g) => { const I = groupIcons[g.id]; return <Opt key={g.id} on={group === g.id} onClick={() => { setGroup(g.id); setOpen(""); }}><span className="flex items-center gap-2">{I && <I size={16} variant="Bulk" className="text-primary" />}{g.name}</span></Opt>; })}
+            {projectGroups.map((g) => { const I = groupIcons[g.id]; return <Opt key={g.id} on={group === g.id} onClick={() => { setGroup(g.id); setOpen(""); }}><span className="flex items-center gap-2">{I && <I size={16} variant="Bulk" className="text-primary-ink" />}{g.name}</span></Opt>; })}
           </div>
         </Blank>
         سرمایه‌گذاری کنم.
@@ -187,7 +187,7 @@ export function HeroSentence() {
         <Button variant="plain" size="auto" disabled={!matches.length} onClick={() => browse({ provinces: province ? [province] : [], groups: group ? [group] : [], amount: amount ? [a.min, amount] : null })}
           className="group h-14 gap-2 rounded-full bg-primary px-6 font-extrabold text-white shadow-[0_18px_36px_-18px_var(--primary)] hover:bg-deep disabled:bg-pine/15">دیدن پروژه‌ها<ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" /></Button>
       </div>
-      <Button variant="plain" size="auto" onClick={() => ask("")} className="group mt-4 gap-1.5 px-3 text-sm font-bold text-ink/60 hover:text-ink"><MagicStar size={16} variant="Bulk" className="text-primary" />ترجیح می‌دهم با دستیار بنویسم<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></Button>
+      <Button variant="plain" size="auto" onClick={() => ask("")} className="group mt-4 gap-1.5 px-3 text-sm font-bold text-ink/60 hover:text-ink"><MagicStar size={16} variant="Bulk" className="text-primary-ink" />ترجیح می‌دهم با دستیار بنویسم<ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /></Button>
     </Shell>
   );
 }
@@ -217,7 +217,7 @@ export function HeroDossier() {
   return (
     <Shell map={<MapScene focus={l.id} caption={`${l.province}، ${l.city}`} />}>
       <Eyebrow />
-      <h1 className="mt-7 text-[3.2rem] font-black leading-[1.4] tracking-tight text-ink text-balance">پیش از سرمایه‌گذاری، همه‌چیز را <span className="text-primary">روشن</span> ببینید.</h1>
+      <h1 className="mt-7 text-[3.2rem] font-black leading-[1.4] tracking-tight text-ink text-balance">پیش از سرمایه‌گذاری، همه‌چیز را <span className="text-primary-ink">روشن</span> ببینید.</h1>
       <p className="mt-4 max-w-lg text-[17px] leading-9 text-ink/65">برای هر پروژه، مبلغ، ریسک، وضعیت حقوقی و راه گفت‌وگو با کارشناس یک‌جا جلوی شماست.</p>
 
       <div className="relative mt-8 max-w-xl" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
@@ -230,7 +230,7 @@ export function HeroDossier() {
             <div className="flex gap-4">
               <span className="relative size-24 shrink-0 overflow-hidden rounded-2xl"><Image src={l.image} alt="" fill sizes="96px" className="object-cover" /></span>
               <span className="min-w-0 flex-1 py-0.5">
-                <span className="flex items-center gap-1 text-xs font-extrabold text-primary"><Location size={14} variant="Bold" />{l.province}، {l.city}</span>
+                <span className="flex items-center gap-1 text-xs font-extrabold text-primary-ink"><Location size={14} variant="Bold" />{l.province}، {l.city}</span>
                 <span className="mt-1 line-clamp-2 block text-[17px] font-black leading-7 text-ink">{l.title}</span>
                 <span className="mt-1 block truncate text-xs font-semibold text-muted-foreground">{l.stats[0]?.label}: <b className="text-ink/80">{l.stats[0]?.value}</b></span>
               </span>
@@ -248,7 +248,7 @@ export function HeroDossier() {
       <div className="mt-10 flex items-center gap-3">
         <Button variant="plain" size="auto" onClick={() => ask("")} className="group h-14 gap-2 rounded-full bg-primary px-7 font-extrabold text-white shadow-[0_18px_36px_-18px_var(--primary)] hover:bg-deep"><MagicStar size={20} variant="Bulk" />شرایطم را به دستیار می‌گویم</Button>
         <Button variant="plain" size="auto" onClick={() => browse()} className="group h-14 gap-2 rounded-full border border-border bg-white px-6 font-extrabold text-ink hover:border-ink/25 hover:text-ink">همه پروژه‌ها<ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" /></Button>
-        <span className="mr-2 flex items-center gap-1.5 text-xs font-bold text-ink/55"><ShieldTick size={16} variant="Bulk" className="text-primary" />بدون ثبت‌نام</span>
+        <span className="mr-2 flex items-center gap-1.5 text-xs font-bold text-ink/55"><ShieldTick size={16} variant="Bulk" className="text-primary-ink" />بدون ثبت‌نام</span>
       </div>
     </Shell>
   );

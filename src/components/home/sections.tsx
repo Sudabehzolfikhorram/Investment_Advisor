@@ -28,7 +28,7 @@ export function SectionHead({ kicker, title, text, aside, className, light }: { 
   return (
     <div className={cn("flex items-end justify-between gap-10", className)}>
       <Reveal className="min-w-0 max-w-[38rem]">
-        <span className={cn("inline-flex items-center gap-2 text-[13px] font-extrabold", light ? "text-white" : "text-ink/55")}><NodeMark className={light ? "" : "text-primary"} />{kicker}</span>
+        <span className={cn("inline-flex items-center gap-2 text-[13px] font-extrabold", light ? "text-white" : "text-ink/55")}><NodeMark className={light ? "" : "text-primary-ink"} />{kicker}</span>
         <h2 className={cn("mt-2.5 text-[1.85rem] font-black leading-[1.5] tracking-tight text-balance", light ? "text-white" : "text-ink")}>{title}</h2>
         <p className={cn("mt-1.5 text-[15px] leading-7", light ? "text-white/70" : "text-muted-foreground")}>{text}</p>
       </Reveal>
@@ -253,9 +253,6 @@ function GroupPanel({ g, routeName, counts, preview, setPreview, open }: { g: Gr
         <motion.div key={g.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35 }} className="absolute inset-0 flex flex-col justify-between p-8">
           <div className="flex items-center justify-between gap-4">
             <span className="glass-dark inline-flex h-9 items-center gap-2 rounded-full px-3.5 text-[13px] font-bold"><I size={17} variant="Bulk" />{routeName}<ArrowLeft size={13} />حوزه</span>
-            <Button variant="plain" size="auto" onClick={() => open(g.id)} className="group/all h-11 gap-2.5 rounded-full bg-white pl-1.5 pr-4 text-[13.5px] font-extrabold text-ink hover:bg-white/90">
-              همه پروژه‌ها<span className="grid size-8 place-items-center rounded-full bg-cobalt text-white transition-transform group-hover/all:-translate-x-1"><ArrowLeft size={16} /></span>
-            </Button>
           </div>
           <div className="min-w-0">
             {/* زیرعنوان (شمار پروژه‌ها) روبه‌روی عنوان، در همان سطر */}
@@ -367,10 +364,10 @@ export function MainCategories() {
           return (
             <Reveal key={r.id} delay={(i % 4) * 0.06} className="h-full">
               <Button variant="plain" size="auto" type="button" onClick={() => { begin({ route: r.id }); router.push("/opportunities"); }}
-                className={cn("group surface relative isolate flex h-full min-h-[15.5rem] !bg-[radial-gradient(90%_70%_at_100%_0%,rgb(15_118_110/0.10),transparent_60%),linear-gradient(#fff,#fff)] w-full flex-col items-stretch justify-start gap-0 overflow-hidden whitespace-normal rounded-[1.6rem] p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:!border-primary/40 hover:!bg-[radial-gradient(90%_70%_at_100%_0%,rgb(15_118_110/0.16),transparent_60%),linear-gradient(#fff,#fff)] hover:shadow-[0_26px_50px_-30px_rgb(15_118_110/0.45)]",
-                  fit && on && "border-cobalt/45 shadow-[0_0_0_3px_rgb(30_58_138/0.08),0_26px_50px_-34px_rgb(30_58_138/0.45)]", !on && "opacity-40 saturate-0 hover:opacity-100 hover:saturate-100")}>
+                className={cn("group surface relative isolate flex h-full min-h-[15.5rem] !bg-[radial-gradient(90%_70%_at_100%_0%,rgb(0_173_171/0.10),transparent_60%),linear-gradient(#fff,#fff)] w-full flex-col items-stretch justify-start gap-0 overflow-hidden whitespace-normal rounded-[1.6rem] p-6 text-right transition-all duration-300 hover:-translate-y-1 hover:!border-primary/40 hover:!bg-[radial-gradient(90%_70%_at_100%_0%,rgb(0_173_171/0.16),transparent_60%),linear-gradient(#fff,#fff)] hover:shadow-[0_26px_50px_-30px_rgb(0_173_171/0.45)]",
+                  fit && on && "border-cobalt/45 shadow-[0_0_0_3px_rgb(30_64_175/0.08),0_26px_50px_-34px_rgb(30_64_175/0.45)]", !on && "opacity-40 saturate-0 hover:opacity-100 hover:saturate-100")}>
                 {/* سرِ کارت فقط آیکون، شمار پروژه به پاورقی رفت تا بالای کارت خلوت بماند */}
-                <span className={cn("grid size-12 shrink-0 place-items-center rounded-2xl bg-muted text-ink transition-colors duration-300 group-hover:bg-primary group-hover:text-white", fit && on && "bg-cobalt-soft text-cobalt-deep")}><I size={23} variant="Bulk" /></span>
+                <span className={cn("grid size-12 shrink-0 place-items-center rounded-2xl bg-cobalt-soft text-cobalt transition-colors duration-300 group-hover:bg-cobalt group-hover:text-white", fit && on && "bg-cobalt text-white")}><I size={23} variant="Bulk" /></span>
                 <span title={r.name} className="mt-6 block truncate whitespace-nowrap text-[17px] font-extrabold leading-7 text-ink">{r.name}</span>
                 <span className="mt-1.5 block truncate text-[13.5px] leading-6 text-muted-foreground">{routeShort[r.id] ?? r.description}</span>
                 {subs.length > 0 && <span className="mt-5 block"><OneRowBadges items={subs} /></span>}
@@ -414,7 +411,7 @@ const steps = [
 const STEP_MS = 5200;
 const demoCriteria: SearchCriteria = { route: "investor", groups: ["energy"], provinces: ["یزد"], amount: [100, 150], filters: { horizon: 8 } };
 const reasonIcon = { met: TickCircle, unmet: CloseCircle, unknown: InfoCircle } as const;
-const statusCls = { met: "text-primary", unmet: "text-warn-deep", unknown: "text-ink/35" } as const;
+const statusCls = { met: "text-primary-ink", unmet: "text-warn-deep", unknown: "text-ink/35" } as const;
 
 /** قیف شرط‌ها: هر شرط یک ردیف، نوار طول تعداد پروژه‌هایی است که پس از آن شرط می‌مانند */
 function FunnelRow({ I, label, value, n, total, on, last }: { I: Icon; label: string; value: string; n: number; total: number; on: boolean; last?: boolean }) {
@@ -545,7 +542,7 @@ export function HowItWorks() {
                   </ul>
                   <p className="mt-auto flex items-center gap-4 text-[11.5px] font-bold text-muted-foreground">
                     <span>{faNumber(metN)} از {faNumber(demo.m.reasons.length)} شرط می‌خواند</span>
-                    <span className="mr-auto flex items-center gap-1"><TickCircle size={13} variant="Bold" className="text-primary" />می‌خواند</span>
+                    <span className="mr-auto flex items-center gap-1"><TickCircle size={13} variant="Bold" className="text-primary-ink" />می‌خواند</span>
                     <span className="flex items-center gap-1"><CloseCircle size={13} variant="Bold" className="text-warn-deep" />نمی‌خواند</span>
                     <span className="flex items-center gap-1"><InfoCircle size={13} variant="Bold" className="text-ink/35" />نامعلوم</span>
                   </p>

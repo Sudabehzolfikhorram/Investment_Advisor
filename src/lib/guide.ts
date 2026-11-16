@@ -12,29 +12,29 @@ import { splitPending } from "./facts";
 
 const css = `
 section{padding:26px 0;border-bottom:1px dashed #e4e9e8}section:last-child{border:0}
-.doc-body section h2{margin:0 0 14px}.doc-body .card h3{margin:0 0 8px;font-size:13px;color:#0f766e;font-weight:800}
+.doc-body section h2{margin:0 0 14px}.doc-body .card h3{margin:0 0 8px;font-size:13px;color:#007a78;font-weight:800}
 .doc-body h2 b{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#083b37;color:#fff;font-size:14px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{border:1px solid #e4e9e8;border-radius:18px;padding:16px 18px}
-.card h3{margin:0 0 8px;font-size:13px;color:#0f766e;font-weight:800}.row{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-top:1px solid #f2f4f4;font-size:13px}.row:first-of-type{border:0}
+.card h3{margin:0 0 8px;font-size:13px;color:#007a78;font-weight:800}.row{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-top:1px solid #f2f4f4;font-size:13px}.row:first-of-type{border:0}
 .row span{color:#667473;white-space:nowrap}.row strong{text-align:left;font-weight:800}
-.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch}.flow .arrow{align-self:center;color:#0f766e;font-size:22px;font-weight:900}
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch}.flow .arrow{align-self:center;color:#007a78;font-size:22px;font-weight:900}
 .flow .card p{margin:0;font-weight:700;line-height:1.9}
 .note{padding:16px 20px;border-radius:18px;background:#f3f9f8;border:1px solid #dcecea;font-weight:700}
 ul.check{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 input[type=checkbox]{position:absolute;opacity:0;pointer-events:none}label{cursor:pointer}
-ul.check li{border:1px solid #e4e9e8;border-radius:14px;font-size:13.5px;font-weight:600;line-height:1.9;transition:.2s}ul.check li:hover,ol.steps li:hover{border-color:#0f766e}
+ul.check li{border:1px solid #e4e9e8;border-radius:14px;font-size:13.5px;font-weight:600;line-height:1.9;transition:.2s}ul.check li:hover,ol.steps li:hover{border-color:#007a78}
 ul.check label{display:flex;align-items:flex-start;gap:10px;padding:10px 14px}
-ul.check i{flex:none;margin-top:5px;width:17px;height:17px;border:2px solid #0f766e;border-radius:5px;background:#fff center/11px no-repeat}
-ul.check li:has(input:checked){border-color:#0f766e;background:#f3f9f8}
-ul.check li:has(input:checked) i{background-color:#0f766e;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6.5l2.3 2.3 4.7-5.3'/%3E%3C/svg%3E")}
-label:has(input:focus-visible){outline:2px solid #0f766e;outline-offset:2px;border-radius:14px}
+ul.check i{flex:none;margin-top:5px;width:17px;height:17px;border:2px solid #007a78;border-radius:5px;background:#fff center/11px no-repeat}
+ul.check li:has(input:checked){border-color:#007a78;background:#f3f9f8}
+ul.check li:has(input:checked) i{background-color:#007a78;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6.5l2.3 2.3 4.7-5.3'/%3E%3C/svg%3E")}
+label:has(input:focus-visible){outline:2px solid #007a78;outline-offset:2px;border-radius:14px}
 ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}ol.steps li{counter-increment:s;position:relative;margin-bottom:10px;border:1px solid #e4e9e8;border-radius:16px;font-weight:700;transition:.2s}
 ol.steps label{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 56px 12px 14px}
-ol.steps li:before{content:counter(s,persian);position:absolute;right:14px;top:11px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#e7f1f0;color:#0f766e;font-weight:900}
+ol.steps li:before{content:counter(s,persian);position:absolute;right:14px;top:11px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#e7f1f0;color:#007a78;font-weight:900}
 .mine{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;border:1px solid #e4e9e8;border-radius:18px;padding:10px 18px;background:#f7faf9}.mine .row{border-top:0;border-bottom:1px solid #eaf0ee;padding:8px 0}
-.ans{margin-top:4px;display:inline-block;padding:2px 14px;border-radius:99px;background:#e7f1f0;color:#083b37;font-size:13.5px;font-weight:700}.ans b{color:#0f766e}
+.ans{margin-top:4px;display:inline-block;padding:2px 14px;border-radius:99px;background:#e7f1f0;color:#083b37;font-size:13.5px;font-weight:700}.ans b{color:#007a78}
 ol.steps em{flex:none;font-style:normal;font-size:12px;font-weight:800;padding:2px 12px;border-radius:99px;background:#f2f4f4;color:#667473;white-space:nowrap}ol.steps em:after{content:"بررسی نشده"}
-ol.steps li:has(input:checked){border-color:#0f766e;background:#f3f9f8}ol.steps li:has(input:checked) em{background:#0f766e;color:#fff}ol.steps li:has(input:checked) em:after{content:"بررسی شد"}
+ol.steps li:has(input:checked){border-color:#007a78;background:#f3f9f8}ol.steps li:has(input:checked) em{background:#007a78;color:#fff}ol.steps li:has(input:checked) em:after{content:"بررسی شد"}
 .q{padding:10px 0;border-top:1px solid #f2f4f4}.q:first-child{border:0}.q p{margin:0;font-weight:800}.q small{display:block;color:#667473;font-size:12.5px}
 @media(max-width:640px){.grid,.flow,ul.check,.mine{grid-template-columns:1fr}.flow .arrow{transform:rotate(-90deg);justify-self:center}}
 `;

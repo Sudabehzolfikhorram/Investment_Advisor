@@ -1,23 +1,21 @@
 "use client";
-// صفحه پروژه‌ها: اول «اطلاعات پایه» (دسته اصلی، محدوده، بودجه) پرسیده می‌شود و بعد نتایج می‌آید.
-// در نتایج: دسته‌های اصلی (تک‌انتخابی) و فیلترهای اصلی بالای صفحه، فیلتر پیشرفته کنار نتایج.
+// صفحه پروژه‌ها (دور ۲۶): صفحه پرسش‌ها حذف شد و کاربر مستقیم به نتایج می‌آید.
+// بالای صفحه چهار فیلتر اصلی (مسیر، حوزه و نوع، محدوده، بودجه) و دو آیکون ترتیب نمایش و فیلترهای ذخیره‌شده، فیلتر پیشرفته کنار نتایج، نتایج صفحه‌بندی‌شده.
 import { Fragment, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import Image from "next/image";
-import { ArrowDown2, ArrowLeft, Category2, CloseCircle, Convertshape2, Location, Routing2, Save2, SearchNormal1, Sort, WalletMoney } from "@/components/iconsax";
+import { ArrowDown2, ArrowLeft, ArrowRight, ArrowUp2, Category2, CloseCircle, Convertshape2, Location, Save2, SearchNormal1, Sort, WalletMoney } from "@/components/iconsax";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useHoverOpen } from "./hover-open";
 import { Header, Footer } from "@/components/site/header";
-import { AlgoPattern, NodeMark } from "@/components/brand/algo-pattern";
 import { ListingCard } from "@/components/listing/listing-card";
 import { CompareTray } from "@/components/compare/tray";
 import { QuickFilters } from "./quick-filters";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { groupIcons, routeIcons } from "@/components/icons";
+import { routeIcons } from "@/components/icons";
 import { sortOptions } from "@/data/fields";
 import { convertAmount, routes, routeSubcategories, routeTools } from "@/data/routes";
 import { LegacyTool } from "@/components/tools/engine";
@@ -35,9 +33,9 @@ import { AdvancedFilter } from "./advanced-filter";
 import { GroupTypePicker } from "./type-picker";
 import { Chip } from "./controls";
 import { BudgetField } from "./budget-field";
-import { LocationFields, ProvincePicker } from "./province-picker";
-import { ProProfileBar, ProProfileCard } from "./pro-profile";
-import { SaveCriteriaDialog, SavedCriteriaMenu, useProfileStats } from "./save-criteria";
+import { LocationFields } from "./province-picker";
+import { ProProfileCard } from "./pro-profile";
+import { SaveCriteriaDialog, SavedCriteriaMenu } from "./save-criteria";
 
 const PAGE = 12;
 const SUITABLE = 50;
@@ -87,172 +85,23 @@ function TypePicker({ compact }: { compact?: boolean }) {
     onChange={(groups, subtypes) => { setCriteria({ groups }); setFilter("subtypes", subtypes.length ? subtypes : undefined); }} />;
 }
 
-/* ——— گام اول: اطلاعات پایه ——— */
-// جریان گام‌به‌گام (حالت «یک جمله» حذف شد): چهار پرسش زیر هم در ستون اصلی، و کنارش خلاصه‌ی زنده
-// با شمار پروژه‌ها، سه پیشنهاد اول و دکمه‌ی دیدن نتایج که همیشه در دید است.
-function Step({ id, icon, title, hint, children }: { id: string; icon: React.ReactNode; title: string; hint?: string; children: React.ReactNode }) {
-  return (
-    <section id={id} className="scroll-mt-28 border-t border-border py-8 first:border-t-0 first:pt-1">
-      <div className="mb-5 flex items-center gap-3">
-        <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-ink/[0.05] text-ink/70">{icon}</span>
-        <div className="min-w-0">
-          <h2 className="text-[17px] font-extrabold text-ink">{title}</h2>
-          {hint && <p className="text-[13px] leading-6 text-muted-foreground">{hint}</p>}
-        </div>
-      </div>
-      {children}
-    </section>
-  );
-}
-
-/** خلاصه‌ی زنده کنار پرسش‌ها: هر ردیف به پرسش خودش می‌پرد */
-function IntakeSummary({ count, onGo, onLater }: { count: number; onGo: () => void; onLater: () => void }) {
-  const { criteria } = useStore();
-  const route = useRoute();
-  const subs = routeSubcategories[route.id];
-  const sv = (criteria.filters[subKey[route.id]] as string[] | undefined) ?? [];
-  const scored = hasAnyCriteria(criteria);
-  const top = useMemo(() => rank(listings, criteria).filter((r) => r.score >= SUITABLE).slice(0, 3), [criteria]);
-  const rows: [string, string, string, boolean][] = [
-    ["q-route", "مسیر", route.name, true],
-    ["q-type", route.usesProjectGroups || !subs ? "حوزه" : "نوع", (route.usesProjectGroups || !subs) ? (criteria.groups.length ? criteria.groups.map((g) => projectGroups.find((x) => x.id === g)?.name).join("، ") : "همه حوزه‌ها") : sv.length ? sv.map((x) => subs.find((y) => y.id === x)?.name).join("، ") : "همه", (route.usesProjectGroups || !subs) ? criteria.groups.length > 0 : sv.length > 0],
-    ["q-where", "محدوده", route.id === "fund" ? "همه ایران" : criteria.provinces.length ? criteria.provinces.join("، ") : "همه ایران", route.id !== "fund" && criteria.provinces.length > 0],
-    ["q-budget", "بودجه", !route.amount ? "پرسیده نمی‌شود" : criteria.amount ? `${faNumber(criteria.amount[0])} تا ${faNumber(criteria.amount[1])} ${route.amount.unit}` : "هر مبلغی", !!route.amount && criteria.amount != null],
-  ];
-  return (
-    <aside className="sticky top-24 space-y-3">
-      <div className="surface rounded-[1.75rem] p-5">
-        <p className="text-[12.5px] font-extrabold text-muted-foreground">نتیجه تا این‌جا</p>
-        <div className="mt-1 flex items-baseline gap-2">
-          <span className="relative h-[3.2rem] overflow-hidden">
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.span key={count} initial={{ y: 32, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -32, opacity: 0 }} transition={{ duration: 0.3 }} className="block text-[2.9rem] font-black leading-none tabular-nums text-ink">{faNumber(count)}</motion.span>
-            </AnimatePresence>
-          </span>
-          <span className="text-[14px] font-bold text-muted-foreground">پروژه با این شرایط</span>
-        </div>
-        <dl className="mt-4 divide-y divide-border/70 border-y border-border/70">
-          {rows.map(([id, k, v, on]) => (
-            <button key={id} type="button" onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })} className="group flex w-full items-center gap-3 py-2.5 text-right">
-              <dt className="w-14 shrink-0 text-[12px] font-semibold text-muted-foreground">{k}</dt>
-              <dd className={cn("min-w-0 flex-1 truncate text-[13px] font-extrabold", on ? "text-ink" : "text-ink/45")}>{v}</dd>
-              <ArrowLeft size={14} className="shrink-0 text-ink/25 transition-colors group-hover:text-ink" />
-            </button>
-          ))}
-        </dl>
-        <Button variant="plain" size="auto" onClick={onGo} className="group mt-4 h-13 w-full justify-between gap-3 rounded-full bg-primary pl-2 pr-6 text-[15px] font-extrabold text-white shadow-[0_18px_40px_-20px_var(--primary)] hover:bg-deep">
-          دیدن {faNumber(count)} پروژه<span className="grid size-9 place-items-center rounded-full bg-white/15 transition-transform group-hover:-translate-x-1"><ArrowLeft size={17} /></span>
-        </Button>
-        <Button variant="ghost" onClick={onLater} className="mt-1.5 h-10 w-full rounded-full text-[13px] font-bold text-ink/60">بعداً مشخص می‌کنم</Button>
-      </div>
-      {top.length > 0 && (
-        <div className="surface rounded-[1.75rem] p-3">
-          <p className="px-2 pb-2 pt-1 text-[12.5px] font-extrabold text-muted-foreground">{scored ? "بیشترین تطابق تا این‌جا" : "تازه‌ترین پروژه‌ها"}</p>
-          <ul className="space-y-1">
-            {top.map((r) => (
-              <li key={r.listing.id}>
-                <Link href={`/opportunities/${r.listing.id}`} target="_blank" className="group flex items-center gap-3 rounded-2xl p-2 transition-colors hover:bg-ink/[0.03]">
-                  <span className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-muted"><Image src={r.listing.image} alt="" fill sizes="48px" className="object-cover" /></span>
-                  <span className="min-w-0 flex-1">
-                    <span className="line-clamp-1 text-[13px] font-extrabold text-ink">{r.listing.title}</span>
-                    <span className="block truncate text-[11.5px] font-semibold text-muted-foreground">{r.listing.province ? `${r.listing.province}، ${r.listing.city}` : r.listing.tags.join(" · ")}</span>
-                  </span>
-                  {scored && <span className="shrink-0 text-[12px] font-black tabular-nums text-ink/70">{faNumber(r.score)}٪</span>}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </aside>
-  );
-}
-
-function Intake({ count }: { count: number }) {
-  const { criteria, setCriteria, setStarted, profiles, applyProfile } = useStore();
-  const stats = useProfileStats();
-  const route = useRoute();
-  const subs = routeSubcategories[route.id];
-  const useGroups = route.usesProjectGroups || !subs;
-  const go = () => { setStarted(true); requestAnimationFrame(() => window.scrollTo({ top: 0 })); };
-  return (
-    <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mx-auto max-w-[78rem]">
-      <div>
-        <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-ink/55"><NodeMark className="text-primary" />شروع جست‌وجو</span>
-        <h1 className="mt-2 text-[2.1rem] font-black leading-[1.4] text-ink">چهار پرسش کوتاه، بعد پروژه‌های مناسب شما.</h1>
-        <p className="mt-1.5 text-[15px] leading-7 text-muted-foreground">هر پاسخ همان لحظه نتیجه را کنار صفحه به‌روز می‌کند، جزئیات بیشتر را بعداً کنار نتایج تنظیم می‌کنید.</p>
-      </div>
-
-      {profiles.length > 0 && (
-        <div className="surface mt-6 flex flex-wrap items-center gap-2 rounded-3xl p-4">
-          <span className="ml-1 text-[13px] font-bold text-ink">از جست‌وجوهای ذخیره‌شده ادامه دهید:</span>
-          {profiles.map((p) => (
-            <Button key={p.id} variant="outline" onClick={() => applyProfile(p.id)} className="h-10 gap-2 rounded-full bg-white px-4 text-[13px] font-bold shadow-none hover:border-ink/25 hover:text-ink">
-              {p.name}{(stats[p.id]?.fresh ?? 0) > 0 && <Badge className="px-2 text-[11px]">{faNumber(stats[p.id].fresh)} تازه</Badge>}
-            </Button>
-          ))}
-        </div>
-      )}
-
-      <ProProfileBar className="mt-5" />
-
-      <div className="mt-6 grid grid-cols-[minmax(0,1fr)_21rem] items-start gap-6">
-      <Card className="surface block gap-0 rounded-[2rem] px-8 py-7 shadow-none">
-        <Step id="q-route" icon={<Routing2 size={19} variant="Bulk" />} title="چطور وارد می‌شوید؟" hint="یک مسیر را انتخاب کنید، پروژه‌ها و فیلترهای هر مسیر فرق دارد.">
-          <ToggleGroup type="single" spacing={2} value={criteria.route} onValueChange={(v) => v && changeRoute(v as RouteId)} className="grid w-full grid-cols-4 items-stretch">
-            {routes.map((r) => { const I = routeIcons[r.id];
-              return (
-                <ToggleGroupItem key={r.id} value={r.id} className="group/r h-full min-h-[6.5rem] min-w-0 flex-col items-start justify-between gap-2 whitespace-normal rounded-2xl border border-border bg-white p-3.5 text-right shadow-none hover:border-ink/25 hover:bg-white data-[state=on]:border-cobalt data-[state=on]:bg-cobalt-soft/50">
-                  <span className="flex w-full items-center justify-between">
-                    <span className="grid size-9 place-items-center rounded-xl bg-muted text-ink/70 group-data-[state=on]/r:bg-cobalt group-data-[state=on]/r:text-white"><I size={18} variant="Bulk" /></span>
-                    <span className="text-[11px] font-semibold text-muted-foreground">{faNumber(routeCounts[r.id])} پروژه</span>
-                  </span>
-                  <span className="text-[13px] font-extrabold leading-5 text-ink">{r.name}</span>
-                </ToggleGroupItem>
-              ); })}
-          </ToggleGroup>
-        </Step>
-
-        <Step id="q-type" icon={<Category2 size={19} variant="Bulk" />} title={useGroups ? "در چه حوزه‌ای؟" : "چه نوعی؟"} hint="اختیاری است، بدون انتخاب، همه را می‌بینید.">
-          <TypePicker />
-        </Step>
-
-        <Step id="q-where" icon={<Location size={19} variant="Bulk" />} title="کجا؟" hint={route.id === "fund" ? undefined : "روی نقشه یک یا چند استان را بزنید، با بردن نشانگر روی هر استان، عکس شاخص آن را می‌بینید."}>
-          {route.id === "fund"
-            ? <p className="rounded-2xl bg-muted p-4 text-sm font-semibold text-ink/75">صندوق‌ها و طرح‌های جمعی به استان خاصی وابسته نیستند.</p>
-            : <ProvincePicker route={route.id} value={criteria.provinces} onChange={(v) => setCriteria({ provinces: v })} />}
-        </Step>
-
-        <Step id="q-budget" icon={<WalletMoney size={19} variant="Bulk" />} title="با چه بودجه‌ای؟" hint={route.amount ? `${route.amount.label} را مشخص کنید.` : undefined}>
-          {route.amount
-            ? <Budget />
-            : <p className="rounded-2xl bg-muted p-4 text-sm font-semibold text-ink/75">در این مسیر بودجه پرسیده نمی‌شود.</p>}
-        </Step>
-      </Card>
-      <IntakeSummary count={count} onGo={go} onLater={() => { setCriteria({ provinces: [], amount: null }); go(); }} />
-      </div>
-    </motion.div>
-  );
-}
-
-/* ——— فیلترهای اصلی بالای نتایج ——— */
-function BarItem({ icon, label, value, active, width = "w-[22rem]", children }: { icon: React.ReactNode; label: string; value: string; active: boolean; width?: string; children: React.ReactNode }) {
+function BarItem({ icon, label, value, active, width = "w-[22rem]", children }: { icon: React.ReactNode; label: string; value: string; active: boolean; width?: string; children: React.ReactNode | ((close: () => void) => React.ReactNode) }) {
   const [open, setOpen] = useState(false);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="plain" size="auto" className={cn("h-12 min-w-0 flex-1 justify-start gap-2.5 rounded-full px-4 text-right hover:bg-muted", open && "bg-muted")}>
-          <span className={cn("shrink-0", active ? "text-primary" : "text-ink/45")}>{icon}</span>
+          <span className={cn("shrink-0", active ? "text-primary-ink" : "text-ink/45")}>{icon}</span>
           <span className="min-w-0 flex-1"><span className="block text-[11px] font-semibold text-muted-foreground">{label}</span><span className="block truncate text-sm font-extrabold text-ink">{value}</span></span>
           <ArrowDown2 size={15} className={cn("shrink-0 text-muted-foreground transition-transform", open && "rotate-180")} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" sideOffset={10} className={cn("rounded-3xl p-5 shadow-2xl", width)}>{children}</PopoverContent>
+      <PopoverContent align="start" sideOffset={10} className={cn("rounded-3xl p-5 shadow-2xl", width)}>{typeof children === "function" ? children(() => setOpen(false)) : children}</PopoverContent>
     </Popover>
   );
 }
 
-function FilterBar() {
+function FilterBar({ counts }: { counts: Record<RouteId, number> }) {
   const { criteria, setCriteria } = useStore();
   const route = useRoute();
   const subs = routeSubcategories[route.id];
@@ -266,7 +115,23 @@ function FilterBar() {
   const note = (t: string) => <p className="rounded-2xl bg-muted p-4 text-sm font-semibold leading-7 text-ink/75">{t}</p>;
   return (
     <div className="surface flex items-center gap-1 rounded-full p-1">
-      {/* حوزه و نوع اول، بعد محدوده و بودجه */}
+      {/* چهار فیلتر اصلی: مسیر، حوزه و نوع، محدوده و بودجه (ردیف مسیرها در همین نوار ادغام شد) */}
+      <BarItem icon={(() => { const I = routeIcons[route.id]; return <I size={20} variant="Bulk" />; })()} label="مسیر" value={route.name} active width="w-[40rem]">
+        {(close) => (
+          <div className="grid grid-cols-2 gap-2">
+            {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === route.id;
+              return (
+                <Button key={r.id} type="button" variant="plain" size="auto" aria-pressed={on} onClick={() => { changeRoute(r.id); close(); }}
+                  className={cn("h-12 min-w-0 justify-start gap-2.5 rounded-2xl border px-3.5 text-[13.5px] font-extrabold transition-colors", on ? "border-cobalt bg-cobalt text-white" : "border-border bg-white text-ink/75 hover:border-cobalt/40 hover:text-ink")}>
+                  <span className={cn("grid size-8 shrink-0 place-items-center rounded-xl", on ? "bg-white/15" : "bg-cobalt-soft text-cobalt")}><I size={17} variant="Bulk" /></span>
+                  <span className="min-w-0 truncate">{r.name}</span>
+                  <span className={cn("mr-auto shrink-0 rounded-full px-2 py-0.5 text-[11px] font-bold tabular-nums", on ? "bg-white/20 text-white" : "bg-muted text-ink/60")}>{faNumber(counts[r.id])}</span>
+                </Button>
+              ); })}
+          </div>
+        )}
+      </BarItem>
+      <span className="h-7 w-px shrink-0 bg-border" />
       <BarItem icon={<Category2 size={20} variant="Bulk" />} label={useGroups ? "حوزه و نوع" : "نوع"} value={groupText} active={useGroups ? criteria.groups.length > 0 : subValue.length > 0} width="w-[46rem]">
         <TypePicker compact />
       </BarItem>
@@ -352,52 +217,74 @@ function ChipRow({ chips, chip, onClear }: { chips: CriteriaChip[]; chip: (c: Cr
 
 
 /** ترتیب نمایش: هم‌شکل نوار فیلترهای بالا (برچسب کوچک + مقدار) */
-function SortField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+/** ترتیب نمایش: فقط آیکون، با کلیک یا هاور باز می‌شود، ترتیب انتخاب‌شده تیک می‌خورد */
+function SortMenu({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const h = useHoverOpen();
+  const label = sortOptions.find((o) => o.value === value)?.label;
   return (
-    <Select dir="rtl" value={value} onValueChange={onChange}>
-      <SelectTrigger aria-label="ترتیب نمایش" className="surface group h-14 w-[12.5rem] shrink-0 gap-2.5 rounded-full border-border bg-white px-4 text-right data-[size=default]:h-14 data-[state=open]:bg-muted [&>svg:last-child]:hidden">
-        <Sort size={20} variant="Bulk" className={cn("shrink-0", value !== "relevance" ? "text-primary" : "text-ink/45")} />
-        <span className="min-w-0 flex-1">
-          <span className="block text-[11px] font-semibold text-muted-foreground">ترتیب نمایش</span>
-          <span className="block truncate text-sm font-extrabold text-ink"><SelectValue /></span>
-        </span>
-        <ArrowDown2 size={15} className="shrink-0 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
-      </SelectTrigger>
-      <SelectContent align="end" className="rounded-2xl">
-        {sortOptions.map((o) => <SelectItem key={o.value} value={o.value} className="rounded-xl">{o.label}</SelectItem>)}
-      </SelectContent>
-    </Select>
+    <DropdownMenu dir="rtl" modal={false} open={h.open} onOpenChange={h.onOpenChange}>
+      <DropdownMenuTrigger asChild {...h.hover}>
+        <Button variant="plain" size="auto" aria-label={`ترتیب نمایش: ${label}`} title={`ترتیب نمایش: ${label}`} className="surface relative grid size-14 shrink-0 place-items-center rounded-full data-[state=open]:bg-muted">
+          <Sort size={22} variant="Bulk" className={value !== "relevance" ? "text-cobalt" : "text-ink/45"} />
+          {value !== "relevance" && <span className="absolute left-1 top-1 size-2.5 rounded-full bg-cobalt ring-2 ring-white" />}
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" sideOffset={8} className="w-60 rounded-2xl p-1.5" {...h.hover}>
+        <p className="px-2 pb-1 pt-1.5 text-[13px] font-extrabold text-ink">ترتیب نمایش</p>
+        <DropdownMenuRadioGroup value={value} onValueChange={onChange}>
+          {sortOptions.map((o) => <DropdownMenuRadioItem key={o.value} value={o.value} className="rounded-xl py-2.5 text-[13.5px] font-bold data-[state=checked]:bg-cobalt-soft data-[state=checked]:text-cobalt-deep">{o.label}</DropdownMenuRadioItem>)}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
-function RouteTabs({ routeCounts, active, onChange }: { routeCounts: Record<string, number>; active: RouteId; onChange: (r: RouteId) => void }) {
-  const ref = useRef<HTMLDivElement>(null);
+/** صفحه‌بندی نتایج: قبلی، شماره صفحه‌ها (با … برای صفحه‌های دور) و بعدی */
+function Pager({ page, pages, onPage }: { page: number; pages: number; onPage: (p: number) => void }) {
+  if (pages <= 1) return null;
+  const nums: (number | "…")[] = pages <= 7 ? Array.from({ length: pages }, (_, i) => i + 1)
+    : [1, ...(page > 3 ? ["…" as const] : []), ...[page - 1, page, page + 1].filter((n) => n > 1 && n < pages), ...(page < pages - 2 ? ["…" as const] : []), pages];
+  const btn = "h-11 min-w-11 rounded-full px-3 text-[14px] font-extrabold tabular-nums";
   return (
-    <div className="relative">
-      {/* هشت مسیر در دو ردیف چهارتایی، همه یک‌جا دیده می‌شوند و اسکرول افقی ندارند */}
-      <div ref={ref} role="tablist" aria-label="مسیر ورود" className="grid grid-cols-4 gap-2">
-        {routes.map((r) => { const I = routeIcons[r.id]; const on = r.id === active;
-          return (
-            <Button key={r.id} role="tab" aria-selected={on} type="button" variant="plain" size="auto" onClick={() => onChange(r.id)}
-              className={cn("h-12 min-w-0 justify-start gap-2.5 whitespace-nowrap rounded-2xl border px-4 text-[13.5px] font-extrabold transition-[background-color,border-color,color,box-shadow]", on ? "border-cobalt bg-cobalt text-white shadow-[0_8px_18px_-10px_var(--cobalt)]" : "border-border bg-white text-ink/70 hover:border-ink/25 hover:text-ink")}>
-              <I size={18} variant="Bulk" className="shrink-0" /><span className="min-w-0 truncate">{r.name}</span>
-              <span className={cn("mr-auto inline-block shrink-0 rounded-full px-2 py-0.5 text-center text-[11px] font-bold tabular-nums", on ? "bg-white/20 text-white" : "bg-muted text-ink/60")}>{faNumber(routeCounts[r.id])}</span>
-            </Button>
-          ); })}
-      </div>
-    </div>
+    <nav aria-label="صفحه‌های نتایج" className="mt-10 flex items-center justify-center gap-1.5">
+      <Button type="button" variant="plain" size="auto" disabled={page === 1} onClick={() => onPage(page - 1)} className={cn(btn, "gap-1.5 border border-border bg-white px-4 text-ink hover:border-ink/25 disabled:opacity-40")}><ArrowRight size={16} />قبلی</Button>
+      {nums.map((n, i) => n === "…" ? <span key={`e${i}`} className="px-1 text-ink/40">…</span> : (
+        <Button key={n} type="button" variant="plain" size="auto" aria-current={n === page ? "page" : undefined} onClick={() => onPage(n)}
+          className={cn(btn, n === page ? "bg-cobalt text-white shadow-[0_8px_18px_-10px_var(--cobalt)]" : "border border-border bg-white text-ink/75 hover:border-cobalt/40 hover:text-ink")}>{faNumber(n)}</Button>
+      ))}
+      <Button type="button" variant="plain" size="auto" disabled={page === pages} onClick={() => onPage(page + 1)} className={cn(btn, "gap-1.5 border border-border bg-white px-4 text-ink hover:border-ink/25 disabled:opacity-40")}>بعدی<ArrowLeft size={16} /></Button>
+    </nav>
+  );
+}
+
+/** دکمه برگشت به بالا، وقتی کاربر زیاد پایین رفته */
+function BackToTop() {
+  const [show, setShow] = useState(false);
+  useEffect(() => { const on = () => setShow(window.scrollY > 900); on(); window.addEventListener("scroll", on, { passive: true }); return () => window.removeEventListener("scroll", on); }, []);
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.button type="button" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 12 }} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          aria-label="برگشت به بالا" title="برگشت به بالا" className="fixed bottom-6 left-6 z-40 grid size-12 place-items-center rounded-full bg-cobalt text-white shadow-[0_14px_30px_-12px_var(--cobalt)] transition-colors hover:bg-cobalt-deep">
+          <ArrowUp2 size={20} />
+        </motion.button>
+      )}
+    </AnimatePresence>
   );
 }
 
 export function Results() {
   const hydrated = useHydrated();
-  const { criteria, started, profiles, pinned, setPinned, setCompare } = useStore();
+  const { criteria, profiles, pinned, setPinned, setCompare, started, setStarted } = useStore();
   const router = useRouter();
+  // صفحه پرسش‌های اولیه حذف شده، رسیدن به همین صفحه یعنی جست‌وجو شروع شده (برای مقایسه و علاقه‌مندی‌ها)
+  useEffect(() => { if (hydrated && !started) setStarted(true); }, [hydrated, started, setStarted]);
   const pinnedList = useMemo(() => (pinned ? pinned.ids.map((id) => listingById(id)).filter((x): x is NonNullable<typeof x> => !!x) : []), [pinned]);
   const deferred = useDeferredValue(criteria);
   const [sort, setSort] = useState("relevance");
   const [q, setQ] = useState("");
-  const [limit, setLimit] = useState(PAGE);
+  const [page, setPage] = useState(1);
+  const listTop = useRef<HTMLDivElement>(null);
   const [saveOpen, setSaveOpen] = useState(false);
   const route = useRoute();
   const hasCriteria = hydrated && hasAnyCriteria(deferred);
@@ -428,39 +315,36 @@ export function Results() {
   const related = (routeTools[route.id] ?? []).filter((id) => !(route.id === "charity" && id === "charity")).map((id) => toolById(id)!).filter(Boolean);
   const suitable = useMemo(() => (hasCriteria ? all.filter((r) => r.score >= SUITABLE).length : all.length), [all, hasCriteria]);
 
-  useEffect(() => setLimit(PAGE), [deferred, q, sort]);
-  // با رسیدن به انتهای فهرست، صفحه بعد خودکار اضافه می‌شود
-  const sentinel = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const el = sentinel.current; if (!el) return;
-    const io = new IntersectionObserver((e) => { if (e[0].isIntersecting) setLimit((l) => (l < feed.length ? l + PAGE : l)); }, { rootMargin: "600px 0px" });
-    io.observe(el); return () => io.disconnect();
-  }, [feed.length, limit]);
+  // صفحه‌بندی به‌جای بارگذاری خودکار: با تغییر فیلترها به صفحه اول برمی‌گردد
+  useEffect(() => setPage(1), [deferred, q, sort]);
+  const pages = Math.max(1, Math.ceil(feed.length / PAGE));
+  const cur = Math.min(page, pages);
+  const goPage = (p: number) => { setPage(p); listTop.current?.scrollIntoView({ behavior: "smooth", block: "start" }); };
 
   return (
     <>
       <Header />
       <main className="focus-blur relative mx-auto min-h-[70dvh] max-w-[90rem] px-6 pt-8">
-        {!hydrated ? null : !started ? <Intake count={suitable} /> : (
+        {!hydrated ? null : (
           <>
-            {/* مسیرها: تک‌انتخابی، یک ردیف با اسکرول افقی */}
-            <RouteTabs routeCounts={tabCounts} active={criteria.route} onChange={changeRoute} />
-
-            {/* نوار بالا: محدوده، بودجه و حوزه، کنارش ترتیب نمایش و فیلترهای ذخیره‌شده، همه ۵۶ پیکسل */}
-            <div className="relative z-30 mt-4 flex items-center gap-3">
-              <div className="min-w-0 flex-1"><FilterBar /></div>
-              <SortField value={sort} onChange={setSort} />
+            {/* نوار بالا: چهار فیلتر اصلی و دو آیکون ترتیب نمایش و فیلترهای ذخیره‌شده، همه ۵۶ پیکسل */}
+            <div className="relative z-30 flex items-center gap-3">
+              <div className="min-w-0 flex-1"><FilterBar counts={tabCounts} /></div>
+              <SortMenu value={sort} onChange={setSort} />
               <SavedCriteriaMenu onSave={() => setSaveOpen(true)} saved={isSaved} />
             </div>
 
             <div className="mt-7 grid grid-cols-[21rem_1fr] gap-7">
               <aside>
-                <Card className="surface thin-scroll sticky top-24 block max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[1.75rem] p-5 shadow-none">
-                  <AdvancedFilter quick={<QuickFilters />} profileCard={<ProProfileCard />} onSave={hasCriteria ? () => setSaveOpen(true) : undefined} saved={isSaved} />
+                {/* نوار اسکرول سمت راست ستون (جهت چپ‌به‌راست فقط برای جای اسکرول‌بار، محتوا راست‌به‌چپ) */}
+                <Card className="surface thin-scroll sticky top-24 block max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-[1.75rem] p-5 shadow-none [direction:ltr]">
+                  <div dir="rtl" className="[direction:rtl]">
+                    <AdvancedFilter quick={<QuickFilters />} profileCard={<ProProfileCard />} onSave={hasCriteria ? () => setSaveOpen(true) : undefined} saved={isSaved} />
+                  </div>
                 </Card>
               </aside>
 
-              <section className="min-w-0">
+              <section ref={listTop} className="min-w-0 scroll-mt-28">
                 <div className="mb-4 flex items-center justify-between gap-4">
                   <h1 className="shrink-0 text-xl font-black text-ink">{route.id === "charity" && all.length === 0 ? "همراهی در کار خیر" : <>{faNumber(shown.length)} پروژه <span className="text-sm font-semibold text-muted-foreground">{hasCriteria ? "نزدیک به خواسته شما" : `در ${route.name}`}</span></>}</h1>
                   <div className="flex items-center gap-2">
@@ -494,20 +378,21 @@ export function Results() {
                   <Card className="surface block rounded-[2rem] p-7 shadow-none"><LegacyTool opener={toolById("charity")!.opener} root={toolById("charity")!.root} /></Card>
                 ) : feed.length === 0 ? (
                   <Card className="surface grid place-items-center gap-0 rounded-[2rem] px-6 py-20 text-center shadow-none">
-                    <span className="grid size-16 place-items-center rounded-full bg-ink/[0.06] text-primary"><SearchNormal1 size={28} variant="Bulk" /></span>
+                    <span className="grid size-16 place-items-center rounded-full bg-ink/[0.06] text-primary-ink"><SearchNormal1 size={28} variant="Bulk" /></span>
                     <h2 className="mt-5 text-xl font-extrabold text-ink">{all.length === 0 ? "در این مسیر هنوز پروژه‌ای نیست." : "با این فیلترها پروژه‌ای پیدا نشد."}</h2>
                     <p className="mt-2 max-w-md text-sm leading-7 text-muted-foreground">{all.length === 0 ? "این جست‌وجو را ذخیره کنید تا پروژه‌های تازه را دفعه بعد همین‌جا ببینید." : "یکی دو فیلتر را بردارید تا نتایج بیشتری ببینید."}</p>
                     {all.length === 0 && <Button onClick={() => setSaveOpen(true)} className="mt-6 h-12 gap-2 rounded-full px-6 font-bold"><Save2 size={18} />ذخیره جست‌وجو</Button>}
                   </Card>
                 ) : (
                   <div className={cn("grid grid-cols-2 gap-5 transition-opacity 2xl:grid-cols-3", deferred !== criteria && "opacity-60")}>
-                    {feed.slice(0, limit).map((r, i) => (
+                    {feed.slice((cur - 1) * PAGE, cur * PAGE).map((r, i) => (
                       <Fragment key={r.listing.id}>
-                        <ListingCard listing={r.listing} score={hasCriteria ? r.score : undefined} reasons={hasCriteria ? r.reasons : undefined} index={i % PAGE} comparable />
+                        <ListingCard listing={r.listing} score={hasCriteria ? r.score : undefined} index={i} comparable />
                       </Fragment>))}
                   </div>
                 )}
-                {feed.length > limit && <div ref={sentinel} aria-hidden className="mt-8 flex justify-center"><span className="size-6 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>}
+                <Pager page={cur} pages={pages} onPage={goPage} />
+                {pages > 1 && <p className="mt-3 text-center text-[12.5px] font-semibold text-muted-foreground">صفحه {faNumber(cur)} از {faNumber(pages)}، {faNumber(feed.length)} پروژه</p>}
                 {related.length > 0 && (
                   <div className="mt-12 flex flex-wrap items-center gap-2.5 border-t border-border pt-6">
                     <span className="ml-1 text-[13px] font-extrabold text-ink">خدمات مرتبط با این مسیر</span>
@@ -517,6 +402,7 @@ export function Results() {
               </section>
             </div>
             <CompareTray />
+            <BackToTop />
           </>
         )}
         <SaveCriteriaDialog open={saveOpen} onOpenChange={setSaveOpen} />

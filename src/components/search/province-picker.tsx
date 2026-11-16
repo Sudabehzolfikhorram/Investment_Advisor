@@ -161,7 +161,7 @@ export function CityPicker({ route, provinces: selected }: { route: RouteId; pro
       <PopoverTrigger asChild>
         <Button type="button" variant="outline" role="combobox" aria-expanded={open} className="h-auto min-h-11 w-full justify-between gap-2 whitespace-normal rounded-2xl bg-white px-3.5 py-2 text-right font-normal shadow-none">
           <span className={cn("flex flex-wrap gap-1.5", !city.value.length && "text-muted-foreground")}>
-            {city.value.length ? city.value.map((v) => <Badge key={v} variant="secondary" className="bg-ink/[0.06] px-2.5 font-bold text-primary">{v}</Badge>) : "انتخاب کنید"}
+            {city.value.length ? city.value.map((v) => <Badge key={v} variant="secondary" className="bg-ink/[0.06] px-2.5 font-bold text-primary-ink">{v}</Badge>) : "انتخاب کنید"}
           </span>
           <ArrowDown2 size={16} className="shrink-0 text-muted-foreground" />
         </Button>
@@ -181,7 +181,7 @@ export function CityPicker({ route, provinces: selected }: { route: RouteId; pro
               {provs.map((p) => { const n = city.value.filter((c) => city.cities[p][c]).length;
                 return (
                   <Button key={p} type="button" variant="ghost" onClick={() => setLevel(p)} className="h-10 w-full justify-between rounded-xl px-2.5 text-[13px] font-bold text-ink">
-                    <span className="flex items-center gap-2">{p}{n > 0 && <span className="flex items-center gap-1 text-xs font-bold text-primary"><TickCircle size={14} variant="Bold" />{faNumber(n)} شهر</span>}</span>
+                    <span className="flex items-center gap-2">{p}{n > 0 && <span className="flex items-center gap-1 text-xs font-bold text-primary-ink"><TickCircle size={14} variant="Bold" />{faNumber(n)} شهر</span>}</span>
                     <ArrowLeft size={15} className="text-muted-foreground" />
                   </Button>
                 ); })}
@@ -222,7 +222,7 @@ export function LocationFields({ route, value, onChange }: { route: RouteId; val
       <div className="space-y-2">
         <span className="block text-[13px] font-bold text-ink">شهر</span>
         <CityField provinces={value} options={cityOptions} value={cityValue} onChange={setCities} />
-        {!value.length && <small className="block text-xs font-semibold text-primary">ابتدا «استان» را انتخاب کنید.</small>}
+        {!value.length && <small className="block text-xs font-semibold text-primary-ink">ابتدا «استان» را انتخاب کنید.</small>}
       </div>
     </div>
   );
@@ -245,7 +245,7 @@ function CityField({ provinces: provs, options, value, onChange }: { provinces: 
         <Button type="button" variant="outline" role="combobox" aria-expanded={open} aria-label="شهر" disabled={disabled}
           className="h-auto min-h-12 w-full justify-between gap-2 whitespace-normal rounded-2xl bg-white px-3.5 py-2 text-right font-normal shadow-none disabled:border-dashed disabled:bg-muted/40 disabled:opacity-100">
           <span className={cn("flex flex-wrap gap-1.5", !value.length && "text-muted-foreground")}>
-            {value.length ? value.map((v) => { const o = options.find((x) => x.value === v); return <Badge key={v} variant="secondary" className="bg-ink/[0.06] px-2.5 font-bold text-primary">{o?.short ?? v.split("/")[1]}</Badge>; }) : disabled ? "هنوز گزینه‌ای ندارد" : "همه شهرها"}
+            {value.length ? value.map((v) => { const o = options.find((x) => x.value === v); return <Badge key={v} variant="secondary" className="bg-ink/[0.06] px-2.5 font-bold text-primary-ink">{o?.short ?? v.split("/")[1]}</Badge>; }) : disabled ? "هنوز گزینه‌ای ندارد" : "همه شهرها"}
           </span>
           <ArrowDown2 size={16} className="shrink-0 text-muted-foreground" />
         </Button>
@@ -265,21 +265,21 @@ function CityField({ provinces: provs, options, value, onChange }: { provinces: 
                   <AccordionTrigger className="items-center rounded-xl px-2 py-3 text-right hover:bg-muted/60 hover:no-underline">
                     <span className="flex flex-1 items-center justify-between gap-2">
                       <span className="text-sm font-extrabold text-ink">{p}</span>
-                      <span className={cn("rounded-full px-2 py-0.5 text-[11px] font-bold", n ? "bg-ink/[0.06] text-primary" : "bg-muted text-muted-foreground")}>{n ? `${faNumber(n)} شهر` : "همه شهرها"}</span>
+                      <span className={cn("rounded-full px-2 py-0.5 text-[11px] font-bold", n ? "bg-ink/[0.06] text-primary-ink" : "bg-muted text-muted-foreground")}>{n ? `${faNumber(n)} شهر` : "همه شهرها"}</span>
                     </span>
                   </AccordionTrigger>
                   <AccordionContent className="pb-2">
                     {!query && (
                       <label className="flex cursor-pointer items-center gap-2.5 rounded-xl px-2 py-2 hover:bg-muted/60">
                         <Checkbox checked={!n} onCheckedChange={() => n && onChange(value.filter((k) => !k.startsWith(`${p}/`)))} />
-                        <span className={cn("text-sm", !n ? "font-bold text-primary" : "text-ink")}>همه شهرهای {p}</span>
+                        <span className={cn("text-sm", !n ? "font-bold text-primary-ink" : "text-ink")}>همه شهرهای {p}</span>
                       </label>
                     )}
                     {shown(p).map((o) => { const on = value.includes(o.value);
                       return (
                         <label key={o.value} className="flex cursor-pointer items-center gap-2.5 rounded-xl px-2 py-2 hover:bg-muted/60">
                           <Checkbox checked={on} onCheckedChange={() => toggle(o.value)} />
-                          <span className={cn("text-sm", on ? "font-bold text-primary" : "text-ink")}>{o.label}</span>
+                          <span className={cn("text-sm", on ? "font-bold text-primary-ink" : "text-ink")}>{o.label}</span>
                         </label>
                       ); })}
                   </AccordionContent>

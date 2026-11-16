@@ -14,13 +14,13 @@ export const docCss = `
 body{background:#f3f5f5!important;color:#083b37;font:15px/2 Vazirmatn,Tahoma,Arial,sans-serif;direction:rtl}
 .sheet{max-width:860px;margin:32px auto;background:#fff;border:1px solid #e4e9e8;border-radius:28px;overflow:hidden}
 .doc-head{position:relative;padding:28px 44px 30px;border-bottom:1px solid #e4e9e8;background:linear-gradient(135deg,#fff 55%,#eef6f4)}
-.doc-head:after{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(to left,#0f766e,#5aa79f 60%,transparent)}
+.doc-head:after{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(to left,#00adab,#5dd0cf 60%,transparent)}
 .doc-brand{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .doc-logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:16px;color:#083b37}
-.doc-logo i{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#0f766e;color:#fff;font-style:normal}
+.doc-logo i{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#00adab;color:#fff;font-style:normal}
 .doc-logo small{display:block;font-size:11.5px;font-weight:600;color:#667473;line-height:1.6}
-.doc-stamp{text-align:left;font-size:12px;color:#667473;line-height:1.8}.doc-stamp b{display:block;color:#0f766e;font-size:12.5px}
-.doc-kicker{display:flex;align-items:center;gap:8px;margin:26px 0 4px;font-size:13px;font-weight:800;color:#0f766e}
+.doc-stamp{text-align:left;font-size:12px;color:#667473;line-height:1.8}.doc-stamp b{display:block;color:#007a78;font-size:12.5px}
+.doc-kicker{display:flex;align-items:center;gap:8px;margin:26px 0 4px;font-size:13px;font-weight:800;color:#007a78}
 .doc-head h1{margin:0;font-size:29px;line-height:1.55;font-weight:900;color:#083b37}.doc-body h1,.doc-body h2,.doc-body h3{color:#083b37;background:none}
 .doc-meta{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}.pill{padding:2px 14px;border-radius:99px;background:#f2f4f4;font-size:12.5px;font-weight:700}
 .doc-body{padding:8px 44px 36px}
@@ -29,8 +29,8 @@ body{background:#f3f5f5!important;color:#083b37;font:15px/2 Vazirmatn,Tahoma,Ari
 /* نوشتار عمومی داخل سند */
 .doc-body h2{display:flex;align-items:center;gap:12px;margin:26px 0 12px;font-size:19px;font-weight:900}
 .doc-body h3{margin:20px 0 8px;font-size:15.5px;font-weight:900;color:#083b37}
-.doc-body h4{margin:14px 0 6px;font-size:14px;font-weight:800;color:#0f766e}
-.doc-body p{margin:8px 0;line-height:2}.doc-body p,.doc-body li,.doc-body td,.doc-body dd{color:#083b37}.doc-body a{color:#0f766e;font-weight:700}
+.doc-body h4{margin:14px 0 6px;font-size:14px;font-weight:800;color:#007a78}
+.doc-body p{margin:8px 0;line-height:2}.doc-body p,.doc-body li,.doc-body td,.doc-body dd{color:#083b37}.doc-body a{color:#007a78;font-weight:700}
 .doc-body ul:not(.check),.doc-body ol:not(.steps){margin:8px 0;padding:0 22px 0 0}.doc-body li{margin:3px 0}
 .doc-body table{width:100%;border-collapse:separate;border-spacing:0;margin:12px 0;font-size:13.5px;border:1px solid #e4e9e8;border-radius:16px;overflow:hidden}
 .doc-body th,.doc-body td{padding:10px 14px;text-align:right;vertical-align:top;border-bottom:1px solid #eef2f1}

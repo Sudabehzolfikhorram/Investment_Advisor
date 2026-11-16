@@ -27,7 +27,7 @@ export function TopicList({ topics, numbered, className, open = true, start = 0 
       {topics.map((t, i) => (
         <AccordionItem key={t.id} value={t.id} className="border-border">
           <AccordionTrigger className="items-start gap-3 py-3.5 text-right text-[13px] font-extrabold leading-6 text-ink hover:no-underline">
-            <span className="flex items-start gap-2.5">{numbered && <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-ink/[0.06] text-[11px] font-black text-primary">{faNumber(start + i + 1)}</span>}{t.title}</span>
+            <span className="flex items-start gap-2.5">{numbered && <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-ink/[0.06] text-[11px] font-black text-primary-ink">{faNumber(start + i + 1)}</span>}{t.title}</span>
           </AccordionTrigger>
           <AccordionContent className="pb-4"><TopicBody t={t} /></AccordionContent>
         </AccordionItem>

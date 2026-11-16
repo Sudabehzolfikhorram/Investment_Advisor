@@ -106,13 +106,13 @@ function BudgetArea({ bins, peak, lo, hi, last }: { bins: number[]; peak: number
   return (
     <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="block h-16 w-full px-2" aria-hidden>
       <defs>
-        {/* همان گرادیان سبز سایت (#0f766e → #14b8a6)، بیرون بازه کم‌رنگ */}
-        <linearGradient id={`g${id}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#0f766e" stopOpacity="0.5" /><stop offset="0.6" stopColor="#14b8a6" stopOpacity="0.18" /><stop offset="1" stopColor="#14b8a6" stopOpacity="0.03" /></linearGradient>
-        <linearGradient id={`s${id}`} x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#14b8a6" /><stop offset="1" stopColor="#0f766e" /></linearGradient>
+        {/* همان گرادیان سبز سایت (#00adab → #5dd0cf)، بیرون بازه کم‌رنگ */}
+        <linearGradient id={`g${id}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#00adab" stopOpacity="0.5" /><stop offset="0.6" stopColor="#5dd0cf" stopOpacity="0.18" /><stop offset="1" stopColor="#5dd0cf" stopOpacity="0.03" /></linearGradient>
+        <linearGradient id={`s${id}`} x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#5dd0cf" /><stop offset="1" stopColor="#00adab" /></linearGradient>
         <clipPath id={`c${id}`}><rect x={x1} y="0" width={Math.max(0, x2 - x1)} height={H} style={{ transition: "x 0.2s, width 0.2s" }} /></clipPath>
       </defs>
-      <path d={area} fill="rgb(15 118 110 / 0.06)" />
-      <path d={d} fill="none" stroke="rgb(15 118 110 / 0.2)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+      <path d={area} fill="rgb(0 173 171 / 0.07)" />
+      <path d={d} fill="none" stroke="rgb(0 173 171 / 0.25)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
       <g clipPath={`url(#c${id})`}>
         <path d={area} fill={`url(#g${id})`} />
         <path d={d} fill="none" stroke={`url(#s${id})`} strokeWidth="2" vectorEffect="non-scaling-stroke" />

@@ -79,7 +79,7 @@ export function ListingCard({ listing: l, score, index = 0, comparable = false }
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[82%] bg-[linear-gradient(to_top,rgb(18_20_23/0.8)_0%,rgb(18_20_23/0.62)_45%,rgb(18_20_23/0.25)_68%,rgb(18_20_23/0)_100%)]" />
         <div className="pointer-events-none absolute inset-x-4 top-4 z-20 flex items-center gap-2 [&>*]:pointer-events-auto">
           {score != null && <MatchBadge score={score} />}
-          {isNew(l) && <Badge className="h-7 bg-white px-2.5 text-[11px] font-extrabold text-primary">جدید</Badge>}
+          {isNew(l) && <Badge className="h-7 bg-white px-2.5 text-[11px] font-extrabold text-primary-ink">جدید</Badge>}
           <span className="pointer-events-none mr-auto flex items-center gap-2 [&>*]:pointer-events-auto">
             {comparable && l.kind === "project" && <CompareButton id={l.id} />}
             <SaveButton id={l.id} />

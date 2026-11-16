@@ -57,7 +57,7 @@ function Chapter({ title, children }: { title: string; children: React.ReactNode
 function Tile({ I, label, value, sub }: { I: Icon; label: string; value: string; sub?: string }) {
   return (
     <Card className="surface gap-3 rounded-[1.5rem] p-5 shadow-none">
-      <span className="grid size-10 place-items-center rounded-xl bg-ink/[0.06] text-primary"><I size={20} variant="Bulk" /></span>
+      <span className="grid size-10 place-items-center rounded-xl bg-ink/[0.06] text-primary-ink"><I size={20} variant="Bulk" /></span>
       <span>
         <span className="block text-xs font-semibold text-muted-foreground">{label}</span>
         <span className="mt-1 block text-xl font-black leading-8 text-ink">{value}</span>
@@ -78,7 +78,7 @@ function Facts({ groups }: { groups: FactGroup[] }) {
           <AccordionItem key={g.id} value={g.id} className="surface overflow-hidden rounded-[1.5rem] border-0 last:border-b-0">
             <AccordionTrigger className="items-center px-6 py-4 text-right hover:no-underline [&>svg]:size-5 [&>svg]:text-ink/50">
               <span className="flex items-center gap-3">
-                <span className="grid size-9 place-items-center rounded-xl bg-ink/[0.05] text-primary"><I size={18} variant="Bulk" /></span>
+                <span className="grid size-9 place-items-center rounded-xl bg-ink/[0.05] text-primary-ink"><I size={18} variant="Bulk" /></span>
                 <span className="text-[15px] font-extrabold text-ink">{g.title}</span>
                 <span className="text-[12px] font-semibold text-muted-foreground">{faNumber(known.length)} مورد</span>
               </span>
@@ -101,7 +101,7 @@ function Facts({ groups }: { groups: FactGroup[] }) {
 }
 
 const riskTone: Record<number, { text: string; stroke: string; soft: string; bar: string }> = {
-  1: { text: "text-primary", stroke: "stroke-primary", soft: "bg-ink/[0.06]", bar: "bg-primary" },
+  1: { text: "text-primary-ink", stroke: "stroke-primary", soft: "bg-ink/[0.06]", bar: "bg-primary" },
   2: { text: "text-warn", stroke: "stroke-warn", soft: "bg-warn/10", bar: "bg-warn" },
   3: { text: "text-destructive", stroke: "stroke-destructive", soft: "bg-destructive/10", bar: "bg-destructive" },
 };
@@ -121,7 +121,7 @@ function RiskMeter({ risk }: { risk: string }) {
 /** عقربه نیم‌دایره: کم در راست، زیاد در چپ (هم‌جهت با خواندن راست‌به‌چپ). */
 /** گیج ریسک راست‌به‌چپ: مثل خواندن فارسی از راست (کم) شروع می‌شود و تا سطح پروژه پر می‌شود،
  *  رنگ هر نقطه از کمان به جایگاهش بسته است، پس سطح بالاتر یعنی پیمودن رنگ‌های بیشتر. */
-const riskHex = ["#94a3a0", "#0f766e", "#d4532f", "#b4291c"];
+const riskHex = ["#94a3a0", "#00adab", "#d4532f", "#b4291c"];
 function RiskGauge({ risk }: { risk: string }) {
   const level = riskLevel(risk);
   const frac = level / 3;
@@ -135,7 +135,7 @@ function RiskGauge({ risk }: { risk: string }) {
         <defs>
           {/* گرادیان از راست به چپ: x1 سمت راست کمان است */}
           <linearGradient id="risk-rtl" gradientUnits="userSpaceOnUse" x1="180" y1="0" x2="20" y2="0">
-            <stop offset="0" stopColor="#0f766e" /><stop offset="0.3" stopColor="#2a9d8f" />
+            <stop offset="0" stopColor="#00adab" /><stop offset="0.3" stopColor="#5dd0cf" />
             <stop offset="0.46" stopColor="#ec8f5e" /><stop offset="0.72" stopColor="#d4532f" /><stop offset="1" stopColor="#b4291c" />
           </linearGradient>
           <filter id="risk-soft" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="3" /></filter>
@@ -177,7 +177,7 @@ function MoneyFlow({ o }: { o: { finance?: string; repay?: string; ownership?: s
     <dl className="divide-y divide-border/70">
       {nodes.map((x) => (
         <div key={x.t} className="grid grid-cols-[13rem_minmax(0,1fr)] items-start gap-6 py-3.5">
-          <dt className="flex items-center gap-2.5 text-[13px] font-bold text-ink/70"><span className="grid size-8 shrink-0 place-items-center rounded-lg bg-ink/[0.05] text-primary"><x.I size={17} variant="Bulk" /></span>{x.t}</dt>
+          <dt className="flex items-center gap-2.5 text-[13px] font-bold text-ink/70"><span className="grid size-8 shrink-0 place-items-center rounded-lg bg-ink/[0.05] text-primary-ink"><x.I size={17} variant="Bulk" /></span>{x.t}</dt>
           <dd className="pt-1 text-[14.5px] font-semibold leading-7 text-ink">{x.d}</dd>
         </div>
       ))}
@@ -207,9 +207,9 @@ function Steps({ steps }: { steps: string[] }) {
       {steps.map((s, i) => (
         <li key={s} className="relative flex gap-4 pb-3 last:pb-0">
           {i < steps.length - 1 && <span aria-hidden className="absolute bottom-0 right-[1.375rem] top-11 border-r-2 border-dashed border-ink/15" />}
-          <span className={cn("relative z-10 grid size-11 shrink-0 place-items-center rounded-full text-base font-black", i === 0 ? "bg-primary text-white shadow-[0_10px_24px_-12px_var(--primary)]" : "bg-white text-primary ring-1 ring-border")}>{faNumber(i + 1)}</span>
+          <span className={cn("relative z-10 grid size-11 shrink-0 place-items-center rounded-full text-base font-black", i === 0 ? "bg-primary text-white shadow-[0_10px_24px_-12px_var(--primary)]" : "bg-white text-primary-ink ring-1 ring-border")}>{faNumber(i + 1)}</span>
           <div className="surface min-w-0 flex-1 rounded-2xl px-5 py-3.5">
-            <p className="text-[12px] font-extrabold text-primary">گام {ordinal[i] ?? faNumber(i + 1)}</p>
+            <p className="text-[12px] font-extrabold text-primary-ink">گام {ordinal[i] ?? faNumber(i + 1)}</p>
             <p className="mt-0.5 text-[15px] font-bold leading-7 text-ink">{s}</p>
           </div>
         </li>
@@ -263,7 +263,7 @@ function AdvisoryBlock({ a }: { a: Advisory }) {
       <p className="border-r-2 border-primary pr-4 text-[15px] font-semibold leading-8 text-ink/85">{a.context}</p>
       {a.baseChecks.length > 0 && (
         <ul className="grid grid-cols-2 gap-2">
-          {a.baseChecks.map((c) => <li key={c} className="surface flex items-start gap-2.5 rounded-2xl px-4 py-3 text-sm font-semibold leading-7 text-ink/85"><TickCircle size={18} variant="Bulk" className="mt-1 shrink-0 text-primary" />{c}</li>)}
+          {a.baseChecks.map((c) => <li key={c} className="surface flex items-start gap-2.5 rounded-2xl px-4 py-3 text-sm font-semibold leading-7 text-ink/85"><TickCircle size={18} variant="Bulk" className="mt-1 shrink-0 text-primary-ink" />{c}</li>)}
         </ul>
       )}
       <Accordion type="multiple" className="surface rounded-[1.75rem] px-5">
@@ -314,7 +314,7 @@ function Contact({ l }: { l: Listing }) {
           <div className="mt-5 flex h-14 items-center gap-1 rounded-full bg-white p-1.5 text-ink">
             <Button asChild variant="plain" size="auto" className="size-11 shrink-0 rounded-full bg-cobalt text-white shadow-[0_8px_18px_-8px_var(--cobalt)] hover:bg-cobalt-deep"><a href={`tel:${expert.mobile}`} aria-label="تماس با کارشناس"><Call size={19} variant="Bold" /></a></Button>
             <span dir="ltr" className="flex-1 select-all text-center text-base font-black tracking-wide">{formatMobile(expert.mobile)}</span>
-            <Button variant="plain" size="auto" type="button" onClick={copy} aria-label="کپی شماره" title="کپی شماره" className={cn("size-11 shrink-0 rounded-full hover:bg-muted", copied ? "text-primary" : "text-ink/55 hover:text-ink")}>{copied ? <CopySuccess size={20} variant="Bold" /> : <Copy size={20} />}</Button>
+            <Button variant="plain" size="auto" type="button" onClick={copy} aria-label="کپی شماره" title="کپی شماره" className={cn("size-11 shrink-0 rounded-full hover:bg-muted", copied ? "text-primary-ink" : "text-ink/55 hover:text-ink")}>{copied ? <CopySuccess size={20} variant="Bold" /> : <Copy size={20} />}</Button>
           </div>
         </>
       ) : (
@@ -424,7 +424,7 @@ function PeerReturn({ l, peers }: { l: Listing; peers: Listing[] }) {
         {box(`میانگین ${faNumber(known.length)} پروژه مشابه`, avg != null ? span(avg) : "اعلام نشده")}
         {mine == null ? box("نتیجه", "مقایسه ممکن نیست، دوره بازگشت را از کارشناس بپرسید", "bg-[#f5f7fa]", "text-[13.5px] text-ink/70")
           : box("نتیجه", diff == null || diff === 0 ? "هم‌اندازه مشابه‌ها" : diff > 0 ? `${span(diff)} زودتر از میانگین` : `${span(-diff)} دیرتر از میانگین`,
-            diff != null && diff > 0 ? "bg-primary/10" : diff != null && diff < 0 ? "bg-warn/10" : "bg-[#f5f7fa]", diff != null && diff > 0 ? "text-primary" : diff != null && diff < 0 ? "text-warn" : "text-ink")}
+            diff != null && diff > 0 ? "bg-primary/10" : diff != null && diff < 0 ? "bg-warn/10" : "bg-[#f5f7fa]", diff != null && diff > 0 ? "text-primary-ink" : diff != null && diff < 0 ? "text-warn" : "text-ink")}
       </div>
       <p className="mt-4 text-[12.5px] font-semibold leading-6 text-muted-foreground">{scope}</p>
 
@@ -482,60 +482,36 @@ function PeerReturn({ l, peers }: { l: Listing; peers: Listing[] }) {
   );
 }
 
-/** داده‌ها و الگوی دریافت: درآمد کی و به چه شکلی به دست سرمایه‌گذار می‌رسد، و از داده‌های کلیدی چندتا اعلام شده */
-function DataPattern({ l, o }: { l: Listing; o: Opportunity }) {
+/** الگوی دریافت درآمد در یک جمله، داخل «سرمایه شما در طول زمان» (نمودار جدای الگوی دریافت حذف شد) */
+function incomeSentence(o: Opportunity) {
+  const first = o.firstIncomeMonths, term = o.durationYears != null ? o.durationYears * 12 : null;
+  const start = first ?? o.executionMonths ?? null;
+  if (o.income === "periodic") return start != null ? `درآمد دوره‌ای، از ${when(start)}${first == null ? " (پس از پایان اجرا)" : ""}${term ? ` تا پایان طرح در ${when(term)}` : ""}.` : "درآمد دوره‌ای، زمان اولین دریافت اعلام نشده.";
+  if (o.income === "end") return `سود یک‌جا در پایان طرح${term ? ` (${when(term)})` : ""}.`;
+  return "شکل دریافت درآمد محدود نشده و در قرارداد تعیین می‌شود.";
+}
+
+/** اطلاعات تکمیلی: از داده‌های کلیدی چندتا اعلام شده و کدام‌ها را باید پرسید */
+function InfoCompleteness({ l }: { l: Listing }) {
   const known = sheetOf(l).known;
   const ok = known.filter((k) => k.ok), miss = known.filter((k) => !k.ok);
-  const first = o.firstIncomeMonths, term = o.durationYears != null ? o.durationYears * 12 : null;
-  const T = Math.max(36, Math.ceil(Math.max(first ?? 0, term ?? 0, o.executionMonths ?? 0, o.paybackYears != null ? o.paybackYears * 12 : 0) / 12) * 12 + 12);
-  const end = term ?? T - 12;
-  const pct = (m: number) => `${(m / T) * 100}%`;
-  const step = T > 192 ? 36 : T > 120 ? 24 : 12;
-  const ticks = Array.from({ length: Math.floor(T / step) + 1 }, (_, k) => k * step);
-  // هر ستون یک دوره دریافت است، هم‌قد، چون مبلغ هر دوره در داده‌ها نیست
-  const every = T > 180 ? 24 : 12;
-  const periodic = o.income === "periodic";
-  const start = first ?? o.executionMonths ?? null;
-  const pays = periodic && start != null ? Array.from({ length: Math.max(1, Math.floor((end - start) / every) + 1) }, (_, k) => start + k * every).filter((m) => m <= end) : o.income === "end" ? [end] : [];
-  const headline = periodic
-    ? start != null ? `از ${when(start)}${first == null ? " (پس از پایان اجرا)" : ""}${term ? ` تا پایان طرح در ${when(term)}` : ""}، درآمد به شکل دوره‌ای می‌رسد.` : "درآمد دوره‌ای است، اما زمان اولین دریافت اعلام نشده."
-    : o.income === "end" ? `سود یک‌جا در پایان طرح${term ? ` (${when(term)})` : ""} دریافت می‌شود.` : "شکل دریافت درآمد محدود نشده و در قرارداد تعیین می‌شود.";
   return (
-    <div className="grid grid-cols-[minmax(0,7fr)_minmax(0,5fr)] gap-4">
-      <div className="surface rounded-[1.75rem] p-6">
-        <p className="flex items-center gap-2 text-[13px] font-extrabold text-ink/70"><MoneyRecive size={18} variant="Bulk" className="text-cobalt" />الگوی دریافت درآمد</p>
-        <p className="mt-2 text-[16px] font-black leading-8 text-ink">{headline}</p>
-        <ul className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1 text-[12px] font-bold text-ink/65">
-          {start != null && start > 0 && <li className="flex items-center gap-2"><span className="h-3 w-5 rounded-[5px] border border-dashed border-ink/25 bg-ink/[0.03]" />بدون درآمد (اجرا و راه‌اندازی)</li>}
-          {pays.length > 0 && <li className="flex items-center gap-2"><span className="h-3 w-1.5 rounded-sm bg-cobalt" />{o.income === "end" ? "دریافت یک‌جا" : "یک نوبت دریافت"}</li>}
-        </ul>
-        <div className="relative mt-5 h-28">
-          {/* پیش از اولین دریافت: بدون درآمد */}
-          {start != null && start > 0 && (
-            <span className="absolute bottom-0 right-0 h-9 rounded-xl border border-dashed border-ink/20 bg-ink/[0.03]" style={{ width: pct(start) }} />
-          )}
-          {pays.map((m, k) => (
-            <motion.span key={m} initial={{ height: 0 }} whileInView={{ height: o.income === "end" ? "100%" : "62%" }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 + k * 0.05, ease }}
-              className="absolute bottom-0 w-3 rounded-t-md bg-cobalt" style={{ right: `calc(${pct(m)} - 0.375rem)` }} />
-          ))}
-          {!pays.length && <span className="absolute inset-x-0 bottom-0 flex h-9 items-center justify-center rounded-xl border border-dashed border-ink/20 text-[12px] font-bold text-ink/45">زمان و شکل دریافت در قرارداد تعیین می‌شود</span>}
-        </div>
-        <div className="relative h-7 border-t border-border">
-          {ticks.map((t) => <span key={t} className="absolute top-0 whitespace-nowrap text-[11px] font-semibold text-muted-foreground" style={{ right: pct(t), transform: "translateX(50%)" }}><span className="mx-auto block h-1.5 w-px bg-border" />{t === 0 ? "امروز" : `سال ${faNumber(t / 12)}`}</span>)}
-        </div>
-        <p className="mt-3 flex items-start gap-2 text-[12px] font-semibold leading-6 text-muted-foreground"><InfoCircle size={15} variant="Bulk" className="mt-1 shrink-0" />هر ستون یک نوبت دریافت است. ستون‌ها هم‌قدند چون این نمودار زمان دریافت را نشان می‌دهد، نه مبلغ آن.</p>
-      </div>
-      <div className="surface rounded-[1.75rem] p-6">
+    <div className="surface grid grid-cols-[17rem_minmax(0,1fr)] gap-8 rounded-[1.75rem] p-6">
+      <div>
         <p className="flex items-center gap-2 text-[13px] font-extrabold text-ink/70"><DocumentText size={18} variant="Bulk" className="text-cobalt" />کامل بودن اطلاعات</p>
-        <p className="mt-2 text-[16px] font-black leading-8 text-ink">{faNumber(ok.length)} از {faNumber(known.length)} داده کلیدی اعلام شده</p>
+        <p className="mt-2 text-[1.6rem] font-black leading-10 text-ink">{faNumber(ok.length)} <span className="text-[15px] font-bold text-ink/60">از {faNumber(known.length)} داده کلیدی</span></p>
         <div className="mt-3 flex gap-1" aria-hidden>{known.map((k) => <span key={k.label} className={cn("h-2 flex-1 rounded-full", k.ok ? "bg-cobalt" : "bg-ink/10")} />)}</div>
-        <ul className="mt-4 flex flex-wrap gap-1.5">
-          {ok.map((k) => <li key={k.label} className="inline-flex items-center gap-1 rounded-full bg-cobalt-soft px-2.5 py-1 text-[11.5px] font-bold text-cobalt-deep"><TickCircle size={13} variant="Bold" />{k.label}</li>)}
-        </ul>
-        {miss.length > 0 && <>
-          <p className="mt-4 text-[12px] font-extrabold text-ink/70">اعلام نشده، پیش از تصمیم از کارشناس بپرسید:</p>
-          <ul className="mt-2 flex flex-wrap gap-1.5">{miss.map((k) => <li key={k.label} className="rounded-full border border-dashed border-ink/25 px-2.5 py-1 text-[11.5px] font-semibold text-ink/55">{k.label}</li>)}</ul>
-        </>}
+        <p className="mt-3 text-[12px] font-semibold leading-6 text-muted-foreground">هرچه داده‌های اعلام‌شده کمتر باشد، پیش از تصمیم پرسش بیشتری باید بپرسید.</p>
+      </div>
+      <div className="space-y-4">
+        <div>
+          <p className="text-[12px] font-extrabold text-ink/70">اعلام شده</p>
+          <ul className="mt-2 flex flex-wrap gap-1.5">{ok.map((k) => <li key={k.label} className="inline-flex items-center gap-1 rounded-full bg-cobalt-soft px-2.5 py-1 text-[12px] font-bold text-cobalt-deep"><TickCircle size={13} variant="Bold" />{k.label}</li>)}</ul>
+        </div>
+        {miss.length > 0 && <div>
+          <p className="text-[12px] font-extrabold text-ink/70">اعلام نشده، پیش از تصمیم از کارشناس بپرسید</p>
+          <ul className="mt-2 flex flex-wrap gap-1.5">{miss.map((k) => <li key={k.label} className="rounded-full border border-dashed border-ink/25 px-2.5 py-1 text-[12px] font-semibold text-ink/55">{k.label}</li>)}</ul>
+        </div>}
       </div>
     </div>
   );
@@ -602,7 +578,7 @@ function PhaseTrack({ o }: { o: Opportunity }) {
 /** مسیر احتمالی بازگشت، وقتی دوره بازگشت پروژه اعلام نشده: از پروژه‌های مشابه ساخته می‌شود و همه‌جا «احتمالی» نوشته می‌شود */
 type Probable = { first: number; pay: number; n: number; firstKnown: boolean };
 
-/** «پول شما در طول زمان»: چهار عدد کلیدی، نمودار (بازگشت، مسیر احتمالی یا بازه‌ها) و سه کارت مسیر پول در یک کارت */
+/** «سرمایه شما در طول زمان»: چهار عدد کلیدی، الگوی دریافت، نمودار (بازگشت، مسیر احتمالی یا بازه‌ها) و سه کارت مسیر پول در یک کارت */
 function MoneyTime({ o, l, text, probable }: { o: Opportunity; l: Listing; text: { finance?: string; repay?: string; ownership?: string | null }; probable: Probable | null }) {
   const stats: [Icon, string, string | null, string?, string?][] = [
     [Timer1, "اولین دریافت", o.firstIncomeMonths != null ? (o.firstIncomeMonths === 0 ? "از ابتدا" : when(o.firstIncomeMonths)) : null, undefined, probable && !probable.firstKnown ? `احتمالی: ${when(probable.first)}` : undefined],
@@ -632,6 +608,8 @@ function MoneyTime({ o, l, text, probable }: { o: Opportunity; l: Listing; text:
           </div>
         ))}
       </dl>
+      {/* الگوی دریافت درآمد، ادغام‌شده در همین کارت */}
+      <p className="flex items-center gap-2.5 border-b border-border bg-[#f8fafc] px-6 py-3 text-[13.5px] font-semibold text-ink/80"><MoneyRecive size={18} variant="Bulk" className="shrink-0 text-cobalt" /><b className="font-extrabold text-ink">الگوی دریافت:</b>{incomeSentence(o)}</p>
       {chart && <div className={cn("px-8", o.paybackYears != null || probable || o.firstIncomeMonths == null || o.firstIncomeMonths === 0 ? "pt-6" : "pt-24")}>{chart}</div>}
       <div className="grid grid-cols-3 gap-3 p-6 pt-5">
         {flow.map(([I, k, v]) => (
@@ -725,20 +703,9 @@ export function Detail({ id }: { id: string }) {
             <Chapter title="شناسنامه پروژه"><Facts groups={groups} /></Chapter>
 
             {/* ساختار یکسان همه پروژه‌ها: همین بخش‌ها با همین ترتیب، داده‌ای که نیست «اعلام نشده» نوشته می‌شود */}
-            {o && <Chapter title="پول شما در طول زمان"><MoneyTime o={o} l={l} text={text} probable={probable} /></Chapter>}
-            {o && <Chapter title="داده‌ها و الگوی دریافت"><DataPattern l={l} o={o} /></Chapter>}
+            {o && <Chapter title="سرمایه شما در طول زمان"><MoneyTime o={o} l={l} text={text} probable={probable} /></Chapter>}
             {o && peers.length > 0 && (
               <Chapter title="بازگشت سرمایه در برابر پروژه‌های مشابه"><PeerReturn l={l} peers={peers} /></Chapter>
-            )}
-            {similarAll.length > 0 && (
-              <Chapter title="در کنار موارد مشابه">
-                <div className="-mt-2 mb-4 flex items-center justify-between gap-4">
-                  <p className="text-[13.5px] font-semibold text-muted-foreground">{sameCount >= similarAll.length ? `${faNumber(similarAll.length)} پروژه نزدیک به این پروژه${group ? ` در گروه «${group.name}»` : ""}، با مبلغ ورود نزدیک.` : sameCount > 0 ? `${faNumber(sameCount)} پروژه هم‌گروه و ${faNumber(similarAll.length - sameCount)} پروژه نزدیک از گروه‌های دیگر.` : "پروژه هم‌گروهی نبود، نزدیک‌ترین پروژه‌ها از گروه‌های دیگر آمده‌اند."}</p>
-                  <Link href="/opportunities" onClick={() => { useStore.getState().begin({ route: l.routes[0] as never, ...(l.group ? { groups: [l.group] } : {}) }); useStore.getState().setStarted(true); }}
-                    className="group inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full border border-border bg-white px-4 text-[13px] font-extrabold text-ink hover:border-ink/30">مشاهده همه {faNumber(sameGroup)} پروژه<ArrowLeft size={15} className="transition-transform group-hover:-translate-x-0.5" /></Link>
-                </div>
-                <div className="grid grid-cols-3 gap-4">{similarAll.map((x, i) => <ListingCard key={x.id} listing={x} index={i} comparable />)}</div>
-              </Chapter>
             )}
             {hasFlow && !o && <Chapter title="مسیر پول"><div className="surface rounded-[1.75rem] px-6 py-2"><MoneyFlow o={text} /></div></Chapter>}
 
@@ -751,7 +718,7 @@ export function Detail({ id }: { id: string }) {
                   </div>
                   <div className="flex flex-col gap-4">
                     <div className="surface flex items-center gap-4 rounded-[1.75rem] p-5">
-                      <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-ink/[0.06] text-primary"><ShieldSearch size={22} variant="Bulk" /></span>
+                      <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-ink/[0.06] text-primary-ink"><ShieldSearch size={22} variant="Bulk" /></span>
                       <span className="min-w-0 flex-1"><span className="block text-xs font-bold text-muted-foreground">وضعیت حقوقی</span><span className="mt-0.5 block text-base font-extrabold text-ink">{legalLabel[o.legalStatus] ?? o.legalStatus}</span></span>
                     </div>
                     {o.caution && <div className="flex flex-1 items-start gap-4 rounded-[1.75rem] bg-white p-5 ring-1 ring-border">
@@ -762,7 +729,7 @@ export function Detail({ id }: { id: string }) {
                 </div>
                 {!!o.checks?.length && <>
                   <h3 className="mb-2 mt-6 text-sm font-extrabold text-ink">این موارد را بررسی کنید</h3>
-                  <ul className="grid grid-cols-2 gap-2">{o.checks.map((c) => <li key={c} className="surface flex items-start gap-2.5 rounded-2xl px-4 py-3 text-sm font-semibold leading-7 text-ink/85"><InfoCircle size={18} variant="Bulk" className="mt-1 shrink-0 text-primary" />{c}</li>)}</ul>
+                  <ul className="grid grid-cols-2 gap-2">{o.checks.map((c) => <li key={c} className="surface flex items-start gap-2.5 rounded-2xl px-4 py-3 text-sm font-semibold leading-7 text-ink/85"><InfoCircle size={18} variant="Bulk" className="mt-1 shrink-0 text-primary-ink" />{c}</li>)}</ul>
                 </>}
               </Chapter>
             )}
@@ -777,6 +744,8 @@ export function Detail({ id }: { id: string }) {
             )}
 
             <Chapter title="پرونده کامل"><Dossier sections={sections} /></Chapter>
+
+            {o && <Chapter title="اطلاعات تکمیلی"><InfoCompleteness l={l} /></Chapter>}
 
             {nextSteps && nextSteps.length > 0 && (
               <Chapter title="گام‌های ورود و مدارک لازم">
@@ -803,12 +772,24 @@ export function Detail({ id }: { id: string }) {
                 </Chapter>
                 <Chapter title="دریافت سود و خروج">
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="surface rounded-[1.75rem] p-6"><h3 className="text-sm font-extrabold text-primary">پرداخت سود</h3><p className="mt-2 text-xl font-black text-ink">{payoutLabel[fund.payout] ?? fund.payout}</p><p className="mt-1 text-sm text-muted-foreground">مدت: {fund.durationMonths != null ? `${faNumber(fund.durationMonths)} ماه` : NA}</p>
+                    <div className="surface rounded-[1.75rem] p-6"><h3 className="text-sm font-extrabold text-primary-ink">پرداخت سود</h3><p className="mt-2 text-xl font-black text-ink">{payoutLabel[fund.payout] ?? fund.payout}</p><p className="mt-1 text-sm text-muted-foreground">مدت: {fund.durationMonths != null ? `${faNumber(fund.durationMonths)} ماه` : NA}</p>
                       <div className="mt-5"><RiskMeter risk={fund.risk} /></div></div>
                     <div className="rounded-[1.75rem] bg-white p-6 ring-1 ring-border"><span className="grid size-11 place-items-center rounded-2xl bg-warn/10 text-warn"><Warning2 size={22} variant="Bulk" /></span><h3 className="mt-3 text-sm font-extrabold text-ink">شرایط خروج</h3><p className="mt-2 text-[15px] font-semibold leading-8 text-ink/85">{fund.exit || NA}</p></div>
                   </div>
                 </Chapter>
               </>
+            )}
+
+            {/* پروژه‌های مشابه، پایین صفحه */}
+            {similarAll.length > 0 && (
+              <Chapter title="در کنار موارد مشابه">
+                <div className="-mt-2 mb-4 flex items-center justify-between gap-4">
+                  <p className="text-[13.5px] font-semibold text-muted-foreground">{sameCount >= similarAll.length ? `${faNumber(similarAll.length)} پروژه نزدیک به این پروژه${group ? ` در گروه «${group.name}»` : ""}، با مبلغ ورود نزدیک.` : sameCount > 0 ? `${faNumber(sameCount)} پروژه هم‌گروه و ${faNumber(similarAll.length - sameCount)} پروژه نزدیک از گروه‌های دیگر.` : "پروژه هم‌گروهی نبود، نزدیک‌ترین پروژه‌ها از گروه‌های دیگر آمده‌اند."}</p>
+                  <Link href="/opportunities" onClick={() => { useStore.getState().begin({ route: l.routes[0] as never, ...(l.group ? { groups: [l.group] } : {}) }); useStore.getState().setStarted(true); }}
+                    className="group inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full border border-border bg-white px-4 text-[13px] font-extrabold text-ink hover:border-ink/30">مشاهده همه {faNumber(sameGroup)} پروژه<ArrowLeft size={15} className="transition-transform group-hover:-translate-x-0.5" /></Link>
+                </div>
+                <div className="grid grid-cols-3 gap-4">{similarAll.map((x, i) => <ListingCard key={x.id} listing={x} index={i} comparable />)}</div>
+              </Chapter>
             )}
           </div>
 
@@ -818,12 +799,12 @@ export function Detail({ id }: { id: string }) {
             {l.city && (
               <div className="surface overflow-hidden rounded-[1.75rem]">
                 <div className="flex items-center gap-3 p-4">
-                  <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-ink/[0.06] text-primary"><Location size={22} variant="Bulk" /></span>
+                  <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-ink/[0.06] text-primary-ink"><Location size={22} variant="Bulk" /></span>
                   <p className="min-w-0 flex-1 text-base font-extrabold leading-6 text-ink">{l.city}<span className="block text-xs font-semibold text-muted-foreground">استان {l.province}{sale?.neighborhood ? `، ${sale.neighborhood}` : ""}</span></p>
                 </div>
                 <LocationMap city={l.city} province={l.province!} className="h-40 border-t border-border" />
                 <Link href="/opportunities" onClick={() => { useStore.getState().begin({ route: l.routes[0] as never, provinces: [l.province!] }); useStore.getState().setStarted(true); }}
-                  className="flex items-center justify-between border-t border-border px-5 py-3 text-[13px] font-bold text-primary hover:bg-ink/[0.03]">پروژه‌های دیگر در {l.province}<ArrowLeft size={16} /></Link>
+                  className="flex items-center justify-between border-t border-border px-5 py-3 text-[13px] font-bold text-primary-ink hover:bg-ink/[0.03]">پروژه‌های دیگر در {l.province}<ArrowLeft size={16} /></Link>
               </div>
             )}
           </aside>

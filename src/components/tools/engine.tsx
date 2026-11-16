@@ -215,7 +215,7 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
   const inlineOne = (k: N): React.ReactNode => (
     k.tag === "#text" ? <Fragment key={k.key}>{k.text}</Fragment>
     : k.tag === "strong" || k.tag === "b" ? <strong key={k.key} className="font-extrabold text-ink">{inline(k)}</strong>
-    : k.tag === "a" ? <a key={k.key} href={k.attr.href} target="_blank" rel="noreferrer" className="font-bold text-primary underline-offset-4 hover:underline">{inline(k)}</a>
+    : k.tag === "a" ? <a key={k.key} href={k.attr.href} target="_blank" rel="noreferrer" className="font-bold text-primary-ink underline-offset-4 hover:underline">{inline(k)}</a>
     : k.tag === "small" ? <small key={k.key} className="block text-xs font-normal leading-6 text-muted-foreground">{inline(k)}</small>
     : find(k, (x) => isControl(x) || x.tag === "button") ? render(k) : <span key={k.key}>{inline(k)}</span>);
 
@@ -232,7 +232,7 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
       <div key={key} className="col-span-full flex flex-col gap-5">
         <div className="sticky top-24 z-20 rounded-[1.5rem] border border-border bg-white/95 p-4 shadow-[0_18px_40px_-30px_rgb(22_32_48/0.45)] backdrop-blur">
           <div className="flex items-center gap-4">
-            <span className={cn("grid size-12 shrink-0 place-items-center rounded-full text-[13px] font-black tabular-nums", left ? "bg-ink/[0.06] text-primary" : "bg-primary text-white")}>{left ? `${faNumber(pct)}٪` : <TickCircle size={24} variant="Bold" />}</span>
+            <span className={cn("grid size-12 shrink-0 place-items-center rounded-full text-[13px] font-black tabular-nums", left ? "bg-ink/[0.06] text-primary-ink" : "bg-primary text-white")}>{left ? `${faNumber(pct)}٪` : <TickCircle size={24} variant="Bold" />}</span>
             <div className="min-w-0 flex-1">
               <p className="text-sm font-extrabold text-ink">{left ? `${faNumber(done)} از ${faNumber(total)} ${req.length ? "پرسش ضروری" : "پرسش"} پاسخ داده شده` : `همه ${req.length ? "پرسش‌های ضروری" : "پرسش‌ها"} پاسخ داده شده‌اند`}</p>
               <p className="mt-0.5 text-xs font-semibold text-muted-foreground">{left ? `${faNumber(left)} پرسش مانده تا ادامه` : "می‌توانید به مرحله بعد بروید."}</p>
@@ -244,7 +244,7 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
             <div className="mt-3 flex flex-wrap gap-1.5 border-t border-border/70 pt-3">
               {groups.map((g, i) => { const list = infos[i].filter((x) => !req.length || x.f.required); const d = list.filter((x) => x.f.answered).length; const ok = list.length > 0 && d === list.length;
                 return (
-                  <button key={i} type="button" onClick={() => scrollToEl(secEl(i))} className={cn("flex items-center gap-1.5 rounded-full border px-3 py-1 text-[12px] font-bold transition-colors", ok ? "border-ink/25 bg-ink/[0.04] text-primary" : "border-border bg-white text-ink/70 hover:border-ink/25")}>
+                  <button key={i} type="button" onClick={() => scrollToEl(secEl(i))} className={cn("flex items-center gap-1.5 rounded-full border px-3 py-1 text-[12px] font-bold transition-colors", ok ? "border-ink/25 bg-ink/[0.04] text-primary-ink" : "border-border bg-white text-ink/70 hover:border-ink/25")}>
                     {ok && <TickCircle size={14} variant="Bold" />}{g.title ?? `بخش ${faNumber(i + 1)}`}
                     {!ok && <span className="text-[11px] font-semibold text-muted-foreground tabular-nums">{list.length ? `${faNumber(d)} از ${faNumber(list.length)}` : "اختیاری"}</span>}
                   </button>); })}
@@ -258,7 +258,7 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
               <header className="mb-5 flex min-h-7 items-center gap-3">
                 {g.title && <h4 className="text-base font-extrabold text-ink">{g.title}</h4>}
                 {(g.optional || (req.length > 0 && !list.length)) && <span className="rounded-full bg-muted px-2.5 py-0.5 text-[11px] font-bold text-muted-foreground">اختیاری</span>}
-                {list.length > 0 && <span className={cn("mr-auto flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold", d === list.length ? "bg-ink/[0.06] text-primary" : "bg-white text-muted-foreground ring-1 ring-border")}>{d === list.length ? <><TickCircle size={13} variant="Bold" />کامل</> : `${faNumber(list.length - d)} پرسش مانده`}</span>}
+                {list.length > 0 && <span className={cn("mr-auto flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold", d === list.length ? "bg-ink/[0.06] text-primary-ink" : "bg-white text-muted-foreground ring-1 ring-border")}>{d === list.length ? <><TickCircle size={13} variant="Bold" />کامل</> : `${faNumber(list.length - d)} پرسش مانده`}</span>}
               </header>
               <div className="grid grid-cols-2 items-start gap-x-5 gap-y-5">{g.items.map((k) => <div key={k.key} data-q={k.key} className="contents">{render(k)}</div>)}</div>
             </section>); })}
@@ -300,14 +300,14 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
         if (m) { const toN = (x: string) => Number(x.replace(/[۰-۹]/g, (d) => String("۰۱۲۳۴۵۶۷۸۹".indexOf(d)))); const a = toN(m[1]), b = toN(m[2]);
           return (
             <div key={n.key} className="col-span-full flex items-center gap-4 rounded-2xl bg-ink/[0.03] px-4 py-3">
-              <span className="shrink-0 text-[13px] font-black text-primary">مرحله {faNumber(a)} از {faNumber(b)}</span>
+              <span className="shrink-0 text-[13px] font-black text-primary-ink">مرحله {faNumber(a)} از {faNumber(b)}</span>
               <span className="flex flex-1 gap-1.5">{Array.from({ length: b }, (_, i) => <span key={i} className={cn("h-1.5 flex-1 rounded-full transition-colors duration-500", i < a ? "bg-primary" : "bg-ink/[0.08]")} />)}</span>
               {m[3] && <span className="shrink-0 text-[13px] font-extrabold text-ink">{m[3]}</span>}
             </div>);
         }
       }
       // falls through
-      case "p_": return text ? <p key={n.key} className={cn("col-span-full text-sm leading-7 text-ink/75", has(n, "ext-desc") && "text-muted-foreground", has(n, "ext-step-label") && "text-[13px] font-extrabold text-primary", (has(n, "error") || has(n, "fi-error")) && "rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 font-bold text-destructive", (has(n, "ext-note") || has(n, "source-note") || has(n, "ext-status") || has(n, "field-note") || has(n, "results-note")) && "rounded-2xl bg-muted px-4 py-3 font-semibold", has(n, "ext-empty") && "col-span-full rounded-2xl border border-dashed border-border px-4 py-8 text-center")}>{inline(n)}</p> : null;
+      case "p_": return text ? <p key={n.key} className={cn("col-span-full text-sm leading-7 text-ink/75", has(n, "ext-desc") && "text-muted-foreground", has(n, "ext-step-label") && "text-[13px] font-extrabold text-primary-ink", (has(n, "error") || has(n, "fi-error")) && "rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 font-bold text-destructive", (has(n, "ext-note") || has(n, "source-note") || has(n, "ext-status") || has(n, "field-note") || has(n, "results-note")) && "rounded-2xl bg-muted px-4 py-3 font-semibold", has(n, "ext-empty") && "col-span-full rounded-2xl border border-dashed border-border px-4 py-8 text-center")}>{inline(n)}</p> : null;
       case "ul": case "ol": {
         // گام‌های «عنوان پررنگ + توضیح» (مثل charity-timeline): عنوان در خط خودش، توضیح زیرش، با خط زمانی
         const lis = n.kids.filter((k) => k.tag === "li");
@@ -318,7 +318,7 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
             <li key={li.key} className="relative flex gap-4 pb-5 last:pb-0">
               {i < lis.length - 1 && <span aria-hidden className={cn("absolute bottom-0 w-px bg-ink/10", n.tag === "ol" ? "start-[15.5px] top-9" : "start-[5.5px] top-5")} />}
               {n.tag === "ol"
-                ? <span className="relative grid size-8 shrink-0 place-items-center rounded-full bg-white text-[13px] font-black text-primary shadow-sm ring-1 ring-ink/10">{faNumber(i + 1)}</span>
+                ? <span className="relative grid size-8 shrink-0 place-items-center rounded-full bg-white text-[13px] font-black text-primary-ink shadow-sm ring-1 ring-ink/10">{faNumber(i + 1)}</span>
                 : <span className="relative mt-2 size-3 shrink-0 rounded-full border-2 border-primary bg-white" />}
               <div className={cn("min-w-0 flex-1", n.tag === "ol" && "pt-0.5")}>
                 <p className="text-[15px] font-extrabold leading-7 text-ink">{inline(h)}</p>
@@ -328,17 +328,17 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
         return <ul key={n.key} className="space-y-2">{lis.map((li, i) => {
         const interactive = !!find(li, (x) => x.tag === "button" || isControl(x));
         return <li key={li.key} className={cn("flex gap-2.5 text-sm leading-7 text-ink/80", interactive && "items-center rounded-2xl border border-border bg-white px-4 py-2")}>
-          {!interactive && (n.tag === "ol" ? <span className="mt-1 grid size-5 shrink-0 place-items-center rounded-full bg-ink/[0.06] text-[11px] font-extrabold text-primary">{faNumber(i + 1)}</span> : <span className="mt-3 size-1.5 shrink-0 rounded-full bg-primary" />)}
+          {!interactive && (n.tag === "ol" ? <span className="mt-1 grid size-5 shrink-0 place-items-center rounded-full bg-ink/[0.06] text-[11px] font-extrabold text-primary-ink">{faNumber(i + 1)}</span> : <span className="mt-3 size-1.5 shrink-0 rounded-full bg-primary" />)}
           <div className={cn("min-w-0 flex-1", interactive && "flex items-center justify-between gap-3")}>{interactive ? kids(li) : inline(li)}</div></li>; })}</ul>; }
       case "dl": return <dl key={n.key} className="grid grid-cols-2 gap-3 xl:grid-cols-3">{n.kids.map((row) => row.tag === "div" ? (
         <div key={row.key} className="rounded-2xl border border-border bg-white px-4 py-3">{row.kids.map((c) => c.tag === "dt" ? <dt key={c.key} className="text-xs font-semibold text-muted-foreground">{clean(textOf(c))}</dt> : <dd key={c.key} className="mt-1 text-sm font-extrabold leading-7 text-ink">{inline(c)}</dd>)}</div>) : render(row))}</dl>;
       case "dt": return <dt key={n.key} className="text-xs font-semibold text-muted-foreground">{text}</dt>;
       case "dd": return <dd key={n.key} className="text-sm font-extrabold leading-7 text-ink">{inline(n)}</dd>;
       case "table": return <div key={n.key} className="overflow-x-auto rounded-2xl border border-border bg-white"><table className="w-full text-sm">{n.kids.map((sec) => <tbody key={sec.key}>{(sec.tag === "tr" ? [sec] : sec.kids).map((tr) => <tr key={tr.key} className="border-b border-border last:border-0">{tr.kids.map((c) => c.tag === "th" ? <th key={c.key} colSpan={Number(c.attr.colspan ?? 1)} className="bg-muted/60 px-4 py-3 text-right text-[13px] font-extrabold text-ink">{inline(c)}</th> : <td key={c.key} colSpan={Number(c.attr.colspan ?? 1)} className="px-4 py-3 align-top leading-7 text-ink/80">{find(c, (x) => x.tag === "button" || x.tag === "ul") ? kids(c) : inline(c)}</td>)}</tr>)}</tbody>)}</table></div>;
-      case "a": return <a key={n.key} href={n.attr.href} target="_blank" rel="noreferrer" className={cn("font-bold text-primary underline-offset-4 hover:underline", (has(n, "fi-source") || has(n, "ext-link")) && "inline-flex w-fit items-center gap-1.5 rounded-full border border-border bg-white px-3 py-1.5 text-[13px] no-underline hover:border-ink/25")}>{text}</a>;
+      case "a": return <a key={n.key} href={n.attr.href} target="_blank" rel="noreferrer" className={cn("font-bold text-primary-ink underline-offset-4 hover:underline", (has(n, "fi-source") || has(n, "ext-link")) && "inline-flex w-fit items-center gap-1.5 rounded-full border border-border bg-white px-3 py-1.5 text-[13px] no-underline hover:border-ink/25")}>{text}</a>;
       case "strong": case "b": return <strong key={n.key} className="block font-extrabold text-ink">{text}</strong>;
       case "small": return <small key={n.key} className="block text-xs leading-6 text-muted-foreground">{text}</small>;
-      case "span": case "em": case "i": case "time": case "output": return find(n, (x) => isControl(x) || x.tag === "button") ? <span key={n.key} className="flex items-center gap-2">{kids(n)}</span> : text ? <span key={n.key} className={cn(has(n, "ext-badge") || has(n, "fi-status") ? "inline-block w-fit rounded-full bg-ink/[0.06] px-3 py-1 text-[12px] font-extrabold text-primary" : undefined)}>{inline(n)}</span> : null;
+      case "span": case "em": case "i": case "time": case "output": return find(n, (x) => isControl(x) || x.tag === "button") ? <span key={n.key} className="flex items-center gap-2">{kids(n)}</span> : text ? <span key={n.key} className={cn(has(n, "ext-badge") || has(n, "fi-status") ? "inline-block w-fit rounded-full bg-ink/[0.06] px-3 py-1 text-[12px] font-extrabold text-primary-ink" : undefined)}>{inline(n)}</span> : null;
       case "button": {
         const to = navTarget(n.ds);
         const press = n.attr["aria-pressed"] === "true" || n.attr["aria-current"] != null || n.attr["aria-selected"] === "true";
@@ -346,7 +346,7 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
         if (rich || has(n, "fi-family")) return (
           <Button key={n.key} type="button" variant="plain" size="auto" disabled={n.disabled} aria-pressed={press} onClick={() => (to ? router.push(to) : fire(n.key, "click"))}
             className={cn("h-auto flex-col items-start justify-start gap-1 whitespace-normal rounded-2xl border p-4 text-right", press ? "border-primary bg-ink/[0.04] ring-1 ring-primary" : "border-border bg-white hover:border-ink/25")}>
-            {has(n, "fi-family") && (() => { const I = ({ commercial: TrendUp, finance: Bank, development: Global } as const)[n.ds.fiFamily as "commercial"]; return I ? <span className={cn("mb-2 grid size-10 place-items-center rounded-xl", press ? "bg-primary text-white" : "bg-ink/[0.06] text-primary")}><I size={20} variant="Bulk" /></span> : null; })()}
+            {has(n, "fi-family") && (() => { const I = ({ commercial: TrendUp, finance: Bank, development: Global } as const)[n.ds.fiFamily as "commercial"]; return I ? <span className={cn("mb-2 grid size-10 place-items-center rounded-xl", press ? "bg-primary text-white" : "bg-ink/[0.06] text-primary-ink")}><I size={20} variant="Bulk" /></span> : null; })()}
             {n.kids.filter((k) => k.tag === "strong" || /[\p{L}\p{N}]/u.test(textOf(k))).map((k) => k.tag === "strong" ? <strong key={k.key} className="text-[15px] font-extrabold text-ink">{clean(textOf(k))}</strong> : <span key={k.key} className="text-[13px] font-normal leading-6 text-muted-foreground">{clean(textOf(k))}</span>)}
           </Button>);
         // دکمه‌های ترتیب و حذف در فهرست خدمات بسته: آیکون روشن به جای نماد متنی
@@ -396,7 +396,7 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
               {waiting ? (
                 <>
                   <Select dir="rtl" disabled><SelectTrigger aria-label={labText} className="h-12 w-full rounded-2xl border-dashed bg-muted/40 px-4 text-sm font-semibold shadow-none data-[size=default]:h-12"><SelectValue placeholder="هنوز گزینه‌ای ندارد" /></SelectTrigger><SelectContent /></Select>
-                  <small className="flex items-center gap-1.5 text-xs font-semibold leading-6 text-primary"><InfoCircle size={14} variant="Bold" className="shrink-0" />{waitHint}</small>
+                  <small className="flex items-center gap-1.5 text-xs font-semibold leading-6 text-primary-ink"><InfoCircle size={14} variant="Bold" className="shrink-0" />{waitHint}</small>
                 </>
               ) : control(c, labText)}
               {n.kids.filter((k) => k !== lab && k !== c).map((k) => k.tag === "small" || k.tag === "#text" ? <small key={k.key} className="text-xs leading-6 text-muted-foreground">{clean(textOf(k))}</small> : render(k))}
@@ -422,7 +422,7 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
         if (has(n, "charity-hero")) { const eb = find(n, (x) => has(x, "eyebrow")); const h = find(n, (x) => x.tag === "h3"); const para = n.kids.find((k) => k.tag === "p");
           return (
             <div key={n.key} className="relative col-span-full overflow-hidden rounded-[1.75rem] bg-gradient-to-l from-ink/[0.04] to-transparent px-6 py-5">
-              {eb && <span className="text-[12px] font-extrabold text-primary">{clean(textOf(eb))}</span>}
+              {eb && <span className="text-[12px] font-extrabold text-primary-ink">{clean(textOf(eb))}</span>}
               {h && <p className="mt-1 text-[17px] font-black leading-8 text-ink">{clean(textOf(h))}</p>}
               {para && <p className="mt-1 text-[13px] leading-7 text-ink/70">{clean(textOf(para))}</p>}
             </div>); }
@@ -445,16 +445,16 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
             </article>);
         }
         // فهرست پیوندهای منبع: هر پیوند یک برچسب جدا، نه یک خط پیوسته
-        if (has(n, "ma-source-links")) return <div key={n.key} className="flex flex-wrap items-center gap-2">{n.kids.filter((k) => k.tag !== "#text" || k.text?.trim()).map((k) => k.tag === "a" ? <a key={k.key} href={k.attr.href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-border bg-white px-3 py-1.5 text-[13px] font-bold text-primary hover:border-ink/25">{clean(textOf(k))}</a> : <span key={k.key} className="w-full text-[13px] font-extrabold text-ink">{inline({ ...n, kids: [k] })}</span>)}</div>;
+        if (has(n, "ma-source-links")) return <div key={n.key} className="flex flex-wrap items-center gap-2">{n.kids.filter((k) => k.tag !== "#text" || k.text?.trim()).map((k) => k.tag === "a" ? <a key={k.key} href={k.attr.href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full border border-border bg-white px-3 py-1.5 text-[13px] font-bold text-primary-ink hover:border-ink/25">{clean(textOf(k))}</a> : <span key={k.key} className="w-full text-[13px] font-extrabold text-ink">{inline({ ...n, kids: [k] })}</span>)}</div>;
         // بخش «شفافیت اطلاعات این نسخه» فقط درباره نمونه بودن داده‌هاست و طبق قاعده پروژه نمایش داده نمی‌شود
         if (has(n, "dialog-section") && /شفافیت اطلاعات این نسخه/.test(textOf(n.kids.find((k) => k.tag === "h3") ?? n))) return null;
         if (has(n, "charity-line")) return text ? <p key={n.key} className="col-span-full -mt-1 border-r-2 border-primary/40 pr-4 text-[13px] font-semibold leading-7 text-ink/70">{text}</p> : null;
-        if (has(n, "eyebrow")) return <span key={n.key} className="text-[13px] font-extrabold text-primary">{text}</span>;
+        if (has(n, "eyebrow")) return <span key={n.key} className="text-[13px] font-extrabold text-primary-ink">{text}</span>;
         const allText = n.kids.every((k) => k.tag === "#text" || k.tag === "strong" || k.tag === "small" || k.tag === "a" || k.tag === "span" || k.tag === "b") && !find(n, (x) => isControl(x) || x.tag === "button");
         const note = has(n, "ext-note") || has(n, "fi-plain-note") || has(n, "fi-assumption") || has(n, "vivid-privacy-note") || has(n, "vivid-mini-note") || has(n, "charity-data-note") || has(n, "source-note") || has(n, "ext-status") || has(n, "field-note");
-        if (note) { const warn = has(n, "warn"); return <div key={n.key} className={cn("col-span-full flex gap-3 rounded-2xl px-4 py-3.5 text-sm leading-7", warn ? "bg-white text-ink/85 ring-1 ring-border [&>svg]:text-warn" : "bg-muted text-ink/80")}>{warn ? <Warning2 size={20} variant="Bulk" className="mt-1 shrink-0" /> : <InfoCircle size={20} variant="Bulk" className="mt-1 shrink-0 text-primary" />}<div className="min-w-0 flex-1 space-y-2">{allText ? inline(n) : kids(n)}</div></div>; }
+        if (note) { const warn = has(n, "warn"); return <div key={n.key} className={cn("col-span-full flex gap-3 rounded-2xl px-4 py-3.5 text-sm leading-7", warn ? "bg-white text-ink/85 ring-1 ring-border [&>svg]:text-warn" : "bg-muted text-ink/80")}>{warn ? <Warning2 size={20} variant="Bulk" className="mt-1 shrink-0" /> : <InfoCircle size={20} variant="Bulk" className="mt-1 shrink-0 text-primary-ink" />}<div className="min-w-0 flex-1 space-y-2">{allText ? inline(n) : kids(n)}</div></div>; }
         if (has(n, "error") || has(n, "fi-error")) return text ? <p key={n.key} role="alert" className="col-span-full flex items-center gap-2 rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-bold text-destructive"><Warning2 size={18} variant="Bulk" />{text}</p> : null;
-        if (allText) return text ? <div key={n.key} className={cn("text-sm leading-7 text-ink/80", n.attr["aria-current"] && "font-extrabold text-primary")}>{inline(n)}</div> : null;
+        if (allText) return text ? <div key={n.key} className={cn("text-sm leading-7 text-ink/80", n.attr["aria-current"] && "font-extrabold text-primary-ink")}>{inline(n)}</div> : null;
         if (sections && n.id === "ma-fields") {
           // بخش‌های تعریف‌شده برای این فرم (فیلدها همان فیلدهای نسخه مرجع‌اند)
           const fieldOf = (k: N) => find(k, (x) => !!x.ds?.maField)?.ds.maField;
@@ -499,7 +499,7 @@ export function LegacyTool({ opener, root, sections }: { opener: string; root: s
 }
 
 function Head({ eyebrow, title }: { eyebrow: string; title: string }) {
-  return <div>{eyebrow && <span className="text-[13px] font-extrabold text-primary">{eyebrow}</span>}<h1 className="mt-1 text-3xl font-black leading-[1.5] text-ink">{title}</h1></div>;
+  return <div>{eyebrow && <span className="text-[13px] font-extrabold text-primary-ink">{eyebrow}</span>}<h1 className="mt-1 text-3xl font-black leading-[1.5] text-ink">{title}</h1></div>;
 }
 
 function Steps({ items }: { items: N[] }) {
@@ -511,7 +511,7 @@ function Steps({ items }: { items: N[] }) {
         return (
           <li key={s.key} className="relative flex flex-1 flex-col items-center px-2 text-center">
             {i < flat.length - 1 && <span aria-hidden className={cn("absolute right-1/2 top-[1.125rem] h-0.5 w-full -translate-x-0", done ? "bg-primary" : "bg-border")} style={{ right: "calc(50% + 1.5rem)", width: "calc(100% - 3rem)" }} />}
-            <span className={cn("relative grid size-9 place-items-center rounded-full text-sm font-black transition-colors", on ? "bg-primary text-white shadow-[0_10px_24px_-10px_var(--primary)] ring-4 ring-ink/10" : done ? "bg-ink/[0.08] text-primary" : "border border-border bg-white text-ink/50")}>{done ? <TickCircle size={20} variant="Bold" /> : faNumber(i + 1)}</span>
+            <span className={cn("relative grid size-9 place-items-center rounded-full text-sm font-black transition-colors", on ? "bg-primary text-white shadow-[0_10px_24px_-10px_var(--primary)] ring-4 ring-ink/10" : done ? "bg-ink/[0.08] text-primary-ink" : "border border-border bg-white text-ink/50")}>{done ? <TickCircle size={20} variant="Bold" /> : faNumber(i + 1)}</span>
             <span className={cn("mt-2.5 block text-[13px] font-extrabold leading-6", on ? "text-ink" : "text-ink/55")}>{label}</span>
             {small && <span className="block text-xs leading-5 text-muted-foreground">{clean(textOf(small))}</span>}
           </li>); })}
@@ -539,7 +539,7 @@ function MultiDrop({ items, onToggle, single }: { items: { key: string; checked:
       <PopoverTrigger asChild>
         <Button type="button" variant="outline" role="combobox" aria-expanded={open} className="h-auto min-h-12 w-full justify-between gap-3 whitespace-normal rounded-2xl bg-white px-4 py-2 text-right shadow-none hover:bg-white">
           <span className={cn("flex min-w-0 flex-wrap gap-1.5 text-sm", on.length ? "font-bold text-ink" : "font-semibold text-muted-foreground")}>
-            {on.length ? on.map((i) => <span key={i.key} className="rounded-full bg-ink/[0.06] px-2.5 py-0.5 text-[12px] font-extrabold text-primary">{i.title}</span>) : "انتخاب کنید"}
+            {on.length ? on.map((i) => <span key={i.key} className="rounded-full bg-ink/[0.06] px-2.5 py-0.5 text-[12px] font-extrabold text-primary-ink">{i.title}</span>) : "انتخاب کنید"}
           </span>
           <span className="flex shrink-0 items-center gap-2 text-xs font-bold text-muted-foreground">{!single && on.length > 0 && `${faNumber(on.length)} از ${faNumber(items.length)}`}<ArrowDown2 size={16} className={cn("transition-transform", open && "rotate-180")} /></span>
         </Button>

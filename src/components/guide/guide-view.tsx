@@ -68,7 +68,7 @@ export function GuideView({ id }: { id: string }) {
 
           <aside className="sticky top-24 space-y-4">
             <div className="surface rounded-[1.75rem] p-5">
-              <p className="flex items-center gap-2 text-[13px] font-extrabold text-primary"><NodeMark />راهنمای اقدام</p>
+              <p className="flex items-center gap-2 text-[13px] font-extrabold text-primary-ink"><NodeMark />راهنمای اقدام</p>
               <h1 className="mt-2 text-lg font-black leading-8 text-ink">{l.title}</h1>
               <div className="mt-4 space-y-2">
                 <Button onClick={download} className="h-12 w-full gap-2 rounded-full font-extrabold"><DocumentDownload size={18} variant="Bold" />دانلود فایل راهنما</Button>
@@ -78,19 +78,19 @@ export function GuideView({ id }: { id: string }) {
 
             <div className="surface space-y-5 rounded-[1.75rem] p-5">
               <div>
-                <h2 className="flex items-center gap-2 text-[15px] font-extrabold text-ink"><Edit2 size={18} variant="Bulk" className="text-primary" />راهنما را با اطلاعات خودتان کامل کنید</h2>
+                <h2 className="flex items-center gap-2 text-[15px] font-extrabold text-ink"><Edit2 size={18} variant="Bulk" className="text-primary-ink" />راهنما را با اطلاعات خودتان کامل کنید</h2>
                 <p className="mt-1.5 text-xs leading-6 text-muted-foreground">هرچه این‌جا مشخص کنید همان لحظه در فایل می‌آید.</p>
               </div>
               <div>
                 <p className="mb-2 text-[13px] font-bold text-ink/80">نوع پیگیری</p>
                 <Dropdown options={followUpKinds} value={kind} onChange={changeKind} />
               </div>
-              <p className="flex items-start gap-2 rounded-2xl bg-ink/[0.05] p-3.5 text-xs font-semibold leading-6 text-ink/80"><TickCircle size={17} variant="Bold" className="mt-0.5 shrink-0 text-primary" />موارد «پیش از اقدام» و «گام‌های اقدام» را در خود راهنما تیک بزنید، تیک‌ها در فایل دانلودی و چاپ می‌مانند.</p>
+              <p className="flex items-start gap-2 rounded-2xl bg-ink/[0.05] p-3.5 text-xs font-semibold leading-6 text-ink/80"><TickCircle size={17} variant="Bold" className="mt-0.5 shrink-0 text-primary-ink" />موارد «پیش از اقدام» و «گام‌های اقدام» را در خود راهنما تیک بزنید، تیک‌ها در فایل دانلودی و چاپ می‌مانند.</p>
               <div className="rounded-2xl bg-muted p-3.5 text-xs font-semibold leading-6 text-ink/75">
                 {filled > 0
                   ? <>{faNumber(filled)} مورد از شرایط و پاسخ‌های شما در بخش «شرایط شما» و پرسش‌ها آمده است.</>
                   : <>شرایط جست‌وجو و پاسخ پرسش‌های تخصصی شما، اگر در صفحه پروژه‌ها وارد کرده باشید، خودکار در فایل می‌آید.</>}
-                <Link href="/opportunities" className="mt-1 block font-extrabold text-primary hover:underline">ویرایش شرایط در صفحه پروژه‌ها</Link>
+                <Link href="/opportunities" className="mt-1 block font-extrabold text-primary-ink hover:underline">ویرایش شرایط در صفحه پروژه‌ها</Link>
               </div>
             </div>
           </aside>

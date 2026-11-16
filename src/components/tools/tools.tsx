@@ -144,7 +144,7 @@ function ServiceCatalog() {
                     <span className="flex items-center gap-1.5 text-[12px] font-bold text-muted-foreground"><Ii size={14} variant="Bulk" />{it.title}</span>
                     <span className="mt-1.5 text-[16.5px] font-extrabold leading-7 text-ink">{t.name}</span>
                     <span className="mt-1 text-[13.5px] leading-7 text-ink/65">{t.description}</span>
-                    <span className="mt-auto flex items-center gap-1.5 pt-3 text-[13px] font-extrabold text-primary">{t.id === "library" ? "مطالعه راهنما" : "شروع خدمت"}<ArrowLeft size={15} className="transition-transform group-hover:-translate-x-1" /></span>
+                    <span className="mt-auto flex items-center gap-1.5 pt-3 text-[13px] font-extrabold text-primary-ink">{t.id === "library" ? "مطالعه راهنما" : "شروع خدمت"}<ArrowLeft size={15} className="transition-transform group-hover:-translate-x-1" /></span>
                   </span>
                 </Link>
               </motion.li>
@@ -167,7 +167,7 @@ export function ToolsIndex() {
         {/* بالای صفحه: پیام، اعداد و ارزیابی سریع کنار هم */}
         <section className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-center gap-14">
           <div>
-            <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-ink/55"><NodeMark className="text-primary" />جذب سرمایه · برای صاحبان طرح، زمین و ملک</span>
+            <span className="inline-flex items-center gap-2 text-[13px] font-extrabold text-ink/55"><NodeMark className="text-primary-ink" />جذب سرمایه · برای صاحبان طرح، زمین و ملک</span>
             <h1 className="mt-4 text-[2.75rem] font-black leading-[1.45] tracking-tight text-ink">پروژه‌تان را جلوی چشم<br /><span className="relative inline-block">سرمایه‌گذار<svg aria-hidden viewBox="0 0 300 20" preserveAspectRatio="none" className="absolute -bottom-1.5 left-0 h-3.5 w-full"><motion.path d="M4 14 C 80 4, 200 4, 296 12" fill="none" strokeWidth="5" strokeLinecap="round" className="stroke-cobalt/70" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1, delay: 0.5 }} /></svg></span> بگذارید.</h1>
             <p className="mt-5 max-w-xl text-[16px] leading-8 text-muted-foreground">سرمایه‌گذار پیش از هر تماسی چند چیز را می‌پرسد: آورده، نیاز مالی، وضعیت حقوقی و بازگشت سرمایه. پرونده‌ای که به همین‌ها جواب بدهد، اینجا در چند پرسش کوتاه آماده می‌شود.</p>
             <div className="mt-8 flex items-center gap-3">
@@ -236,11 +236,11 @@ function GuideSheet({ toolId }: { toolId: string }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button type="button" variant="plain" size="auto" className="h-11 gap-2 rounded-full bg-white/95 px-5 text-sm font-extrabold text-ink shadow-lg hover:bg-white"><Lifebuoy size={18} variant="Bulk" className="text-primary" />راهنمای این خدمت</Button>
+        <Button type="button" variant="plain" size="auto" className="h-11 gap-2 rounded-full bg-white/95 px-5 text-sm font-extrabold text-ink shadow-lg hover:bg-white"><Lifebuoy size={18} variant="Bulk" className="text-primary-ink" />راهنمای این خدمت</Button>
       </SheetTrigger>
       <SheetContent side="left" className="thin-scroll w-[30rem] overflow-y-auto p-0 sm:max-w-[30rem]">
         <SheetHeader className="border-b border-border p-6 text-right">
-          <span className="text-[13px] font-extrabold text-primary">شناخت فرصت، پیش از تصمیم</span>
+          <span className="text-[13px] font-extrabold text-primary-ink">شناخت فرصت، پیش از تصمیم</span>
           <SheetTitle className="text-xl font-black text-ink">راهنمای همکاری و مستندات</SheetTitle>
           <SheetDescription className="text-[13px] leading-6">{libraryIntro}</SheetDescription>
         </SheetHeader>
@@ -273,7 +273,7 @@ export function ToolView({ id }: { id: string }) {
             </nav>
             <div className="flex items-end justify-between gap-6">
               <div className="flex items-center gap-4">
-                <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white text-primary shadow-xl"><I size={28} variant="Bulk" /></span>
+                <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white text-primary-ink shadow-xl"><I size={28} variant="Bulk" /></span>
                 <div>
                   <h1 className="text-3xl font-black leading-[1.4] text-white">{tool.name}</h1>
                   <p className="mt-1 max-w-2xl text-sm leading-7 text-white/80">{tool.description}</p>
@@ -293,7 +293,7 @@ export function ToolView({ id }: { id: string }) {
             <aside className="sticky top-24 space-y-5">
               {related.length > 0 && (
                 <Card className="surface gap-0 rounded-[1.75rem] px-5 pb-2 pt-5 shadow-none">
-                  <h2 className="flex items-center gap-2 text-[15px] font-black text-ink"><MessageQuestion size={19} variant="Bulk" className="text-primary" />پیش از شروع بدانید</h2>
+                  <h2 className="flex items-center gap-2 text-[15px] font-black text-ink"><MessageQuestion size={19} variant="Bulk" className="text-primary-ink" />پیش از شروع بدانید</h2>
                   <TopicList topics={related.slice(0, 3)} />
                 </Card>
               )}
